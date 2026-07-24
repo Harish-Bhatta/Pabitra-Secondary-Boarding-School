@@ -4702,15 +4702,9 @@ body.dark .hero-calendar-btn:hover {
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT — COMPLETE WORKING VERSION with Gallery Pagination
+    JAVASCRIPT
     ============================================================ -->
     <script>
-        /* ============================================================
-           PSBS PORTAL — COMPLETE FIXED VERSION
-           All modals centered, edit icon next to name, badge with localStorage,
-           smooth scrolling, all sections rendering, year counter fixed.
-           Gallery now uses local img (1).jpg to img (24).jpg with Next/Prev pagination.
-           ============================================================ */
 
         // -------------------- CONFIG --------------------
         const CONFIG = {
@@ -5335,7 +5329,7 @@ body.dark .hero-calendar-btn:hover {
         };
 
         // ============================================================
-        // NOTICE MANAGER — with localStorage badge tracking
+        // NOTICE MANAGER
         // ============================================================
         const NoticeManager = {
             getNotices: function () {
@@ -5859,7 +5853,7 @@ body.dark .hero-calendar-btn:hover {
         });
 
         // ============================================================
-        // CALENDAR LINK — profile dropdown
+        // CALENDAR LINK
         // ============================================================
         DOM.ddCalendarBtn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -5868,7 +5862,7 @@ body.dark .hero-calendar-btn:hover {
         });
 
         // ============================================================
-        // SIDEBAR: Share & Feedback
+        // SIDEBAR:
         // ============================================================
         DOM.sidebarShareBtn.addEventListener('click', function () {
             Helpers.sharePage();
@@ -6280,13 +6274,12 @@ body.dark .hero-calendar-btn:hover {
         });
 
         // ============================================================
-        // GALLERY — Pagination with Next/Prev
+        // GALLERY
         // ============================================================
         const GALLERY_IMAGES = [];
-        for (let i = 1; i <= 24; i++) {
+        for (let i = 1; i <= 20; i++) {
             GALLERY_IMAGES.push(`img (${i}).jpg`);
         }
-        // 3 rows × 4 columns = 12 images per page
         const BATCH_SIZE = 4;
         const totalPages = Math.ceil(GALLERY_IMAGES.length / BATCH_SIZE);
 

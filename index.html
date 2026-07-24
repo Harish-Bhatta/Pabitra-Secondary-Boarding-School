@@ -8,14 +8,13 @@
         content="Pabitra Secondary Boarding School - Quality Education since 2040 B.S. Official portal with immersive features." />
     <meta name="theme-color" content="#1E3A8A" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords"
-        content="Pabitra Secondary Boarding School, Pabitra Secondary School, Pabitra Boarding School, Pabitra School, boarding school, Pabitra, Doti, Nepal, education, secondary school, PSBS, portal" />
+    <meta name="keywords" content="boarding school, Pabitra, Doti, Nepal, education, secondary school, PSBS, portal" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://psbs.edu.np/" />
     <meta property="og:title" content="PSBS Portal | Pabitra Secondary Boarding School" />
     <meta property="og:description"
         content="Quality Education since 2040 B.S. - Immersive school portal with smart features." />
-    <meta property="og:image" content="banner.jpg" />
+    <meta property="og:image" content="og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://psbs.edu.np/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -2635,6 +2634,7 @@
 
         .hero-overlay {
             position: absolute;
+            margin-top: 40px;
             inset: 0;
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
@@ -2655,7 +2655,7 @@
             height: 140px;
             object-fit: cover;
             border-radius: var(--radius-full);
-            margin: 0 auto 12px;
+            margin: 16px auto 12px;
             animation: float 4s ease-in-out infinite;
         }
 
@@ -2723,8 +2723,115 @@
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
         }
 
+/* ===== GLOSSY YELLOW CALENDAR BUTTON ===== */
+
+.hero-calendar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px 10px 20px;
+    margin: 12px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(145deg, #FFB700, #F4C100);
+    color: #fff;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(244, 161, 0, 0.35);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.hero-calendar-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0) 50%
+    );
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.hero-calendar-btn i {
+    color: #fff;
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-calendar-btn i:last-child {
+    font-size: 0.8rem;
+}
+
+/* ===== Text sits above shine ===== */
+.hero-calendar-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== Hover — deeper gold + lift ===== */
+.hero-calendar-btn:hover {
+    background: linear-gradient(145deg, #FFC107, #E69100);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 24px rgba(244, 161, 0, 0.45);
+}
+
+.hero-calendar-btn:hover i:last-child {
+    transform: translateX(4px);
+}
+
+/* ===== Active press ===== */
+.hero-calendar-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(244, 161, 0, 0.3);
+}
+
+/* ===== Dark mode — keeps same glossy yellow ===== */
+body.dark .hero-calendar-btn {
+    box-shadow: 0 4px 20px rgba(244, 161, 0, 0.25);
+}
+
+body.dark .hero-calendar-btn:hover {
+    box-shadow: 0 6px 28px rgba(244, 161, 0, 0.35);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+    .hero-calendar-btn {
+        padding: 8px 16px 8px 14px;
+        font-size: 0.95rem;
+        gap: 6px;
+        margin: 8px auto 0;
+    }
+    .hero-calendar-btn i {
+        font-size: 0.9rem;
+    }
+    .hero-calendar-btn i:last-child {
+        font-size: 0.7rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-calendar-btn {
+        padding: 12px 32px 12px 26px;
+        font-size: 0.95rem;
+        gap: 12px;
+        margin: 16px auto 0;
+    }
+}
+
         .scroll-indicator {
-            margin-top: 20px;
+            margin-top: 30px;
             display: flex;
             justify-content: center;
             color: #fff;
@@ -2732,7 +2839,7 @@
         }
 
         .scroll-arrow {
-            font-size: 27px;
+            font-size: 30px;
             line-height: 1;
             animation: float 3s ease-in-out infinite;
         }
@@ -2742,6 +2849,7 @@
             justify-content: center;
             gap: 24px;
             margin-top: 16px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
@@ -4292,8 +4400,7 @@
                         <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.<span class="type-cursor"
                                 aria-hidden="true"></span></h2>
                         <p class="hero-description">
-                            Welcome to our global learning campus. Access notices, explore student-teacher resources,
-                            and
+                            Welcome to our global learning campus. Access notices, explore student-teacher resources, and
                             connect with modern academic excellence.
                         </p>
                         <div class="hero-stats-mini">
@@ -4304,6 +4411,15 @@
                             <div class="hero-stat-mini"><span class="num" id="heroYears">40+</span><span
                                     class="label">Years</span></div>
                         </div>
+
+                      <!-- ===== HERO CALENDAR BUTTON ===== -->
+
+<a href="calendar.html" class="hero-calendar-btn" aria-label="View school calendar">
+    <i class="ri-calendar-2-line" aria-hidden="true"></i>
+    <span>School Calendar</span>
+    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+</a>
+                      
                         <div class="scroll-indicator" aria-hidden="true">
                             <div class="scroll-arrow">↓</div>
                         </div>

@@ -10,7 +10,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* ===== ROOT VARIABLES (matches main portal) ===== */
+    /* ===== ROOT VARIABLES ===== */
     :root {
       --primary: #1E3A8A;
       --primary-dark: #172554;
@@ -49,7 +49,6 @@
       --nebula-color-1: #1E3A8A;
       --nebula-color-2: #3B82F6;
       --nebula-color-3: #F59E0B;
-      /* Calendar specific */
       --holiday-red: #dc2626;
       --holiday-bg: #fef2f2;
       --today-border: #2563eb;
@@ -61,7 +60,6 @@
       --text-muted: #64748b;
     }
 
-    /* ===== THEME VARIANT SUPPORT ===== */
     body.theme-purple {
       --primary: #7C3AED;
       --primary-dark: #5B21B6;
@@ -132,7 +130,6 @@
       --nebula-color-3: #F5B7B1;
     }
 
-    /* ===== DARK MODE ===== */
     body.dark {
       --background: #0F172A;
       --surface: rgba(30, 41, 59, 0.8);
@@ -156,7 +153,6 @@
       --holiday-bg: #2D1B1B;
     }
 
-    /* ===== GLOBAL RESET ===== */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -171,11 +167,9 @@
       line-height: 1.6;
       min-height: 100vh;
       min-height: 100dvh;
-      transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-        color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ===== NEBULA BG ===== */
     .nebula-bg {
       position: fixed;
       inset: 0;
@@ -248,7 +242,6 @@
       }
     }
 
-    /* ===== GLASS ===== */
     .glass {
       background: var(--glass-bg);
       backdrop-filter: blur(20px) saturate(180%);
@@ -257,7 +250,6 @@
       box-shadow: var(--glass-shadow);
     }
 
-    /* ===== SCROLLBAR ===== */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -276,7 +268,6 @@
       background: var(--primary);
     }
 
-    /* ===== APP LAYOUT ===== */
     .app-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -288,7 +279,6 @@
       gap: 10px;
     }
 
-    /* ===== HEADER (matches main portal) ===== */
     .header {
       position: fixed;
       top: 0;
@@ -384,28 +374,6 @@
       border-color: transparent;
     }
 
-    .header-btn .badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: #EF4444;
-      color: #fff;
-      font-size: 0.5rem;
-      font-weight: 700;
-      width: 18px;
-      height: 18px;
-      border-radius: var(--radius-full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-    }
-
-    .header-btn .badge.hidden {
-      display: none;
-    }
-
-    /* ===== CALENDAR CARD ===== */
     .calendar-wrapper {
       background: var(--surface);
       backdrop-filter: blur(20px) saturate(180%);
@@ -417,7 +385,6 @@
       transition: background var(--transition), border var(--transition);
     }
 
-    /* School Header inside calendar */
     .school-header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
@@ -462,7 +429,6 @@
       gap: 10px;
     }
 
-    /* Controls */
     .controls-card {
       background: var(--surface-solid);
       border-radius: var(--radius-md);
@@ -570,7 +536,6 @@
       border-color: var(--secondary);
     }
 
-    /* Calendar Grid */
     .month-header-details {
       display: flex;
       justify-content: space-between;
@@ -741,7 +706,6 @@
       background: var(--prog-green);
     }
 
-    /* Legend */
     .legend-bar {
       display: flex;
       justify-content: space-around;
@@ -759,7 +723,6 @@
       gap: 4px;
     }
 
-    /* Detail Panel */
     .detail-panel {
       background: var(--surface-solid);
       border-radius: var(--radius-md);
@@ -830,7 +793,6 @@
       color: var(--holiday-red);
     }
 
-    /* Programs Card */
     .programs-card {
       background: var(--surface-solid);
       border-radius: var(--radius-md);
@@ -902,7 +864,6 @@
       color: #f472b6;
     }
 
-    /* ===== FOOTER QUOTE ===== */
     .footer-quote {
       background: #fef3c7;
       border-top: 4px solid var(--accent);
@@ -925,7 +886,6 @@
       color: #fbbf24;
     }
 
-    /* ===== MODAL ===== */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -1012,7 +972,47 @@
       color: #60A5FA;
     }
 
-    /* ===== RESPONSIVE ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99999;
+      padding: 12px 24px;
+      background: var(--surface-solid);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      opacity: 0;
+      transform: translateX(-50%) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast-container.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-container.success {
+      border-left-color: #10B981;
+    }
+
+    .toast-container.error {
+      border-left-color: #EF4444;
+    }
+
+    .toast-container.info {
+      border-left-color: #3B82F6;
+    }
+
     @media (min-width: 640px) {
       .app-container {
         padding: 16px;
@@ -1114,64 +1114,19 @@
         grid-template-columns: 1fr;
       }
     }
-
-    /* ===== TOAST (simple version) ===== */
-    .toast-container {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 99999;
-      padding: 12px 24px;
-      background: var(--surface-solid);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-xl);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--secondary);
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text);
-      opacity: 0;
-      transform: translateX(-50%) translateY(20px);
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      pointer-events: none;
-      max-width: 90%;
-      text-align: center;
-    }
-
-    .toast-container.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: auto;
-    }
-
-    .toast-container.success {
-      border-left-color: #10B981;
-    }
-
-    .toast-container.error {
-      border-left-color: #EF4444;
-    }
-
-    .toast-container.info {
-      border-left-color: #3B82F6;
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- ===== NEBULA BG ===== -->
   <div class="nebula-bg" aria-hidden="true">
     <div class="orb"></div>
     <div class="orb"></div>
     <div class="orb"></div>
   </div>
 
-  <!-- ===== TOAST ===== -->
   <div class="toast-container" id="toast"></div>
 
-  <!-- ===== HEADER ===== -->
   <header class="header" id="mainHeader" role="banner">
     <nav class="navbar" role="navigation" aria-label="Main navigation">
       <div class="nav-left">
@@ -1192,13 +1147,10 @@
     </nav>
   </header>
 
-  <!-- ===== MAIN APP ===== -->
   <div class="app-container">
 
-    <!-- Calendar Wrapper -->
     <div class="calendar-wrapper">
 
-      <!-- School Header -->
       <header class="school-header">
         <div class="header-top">
           <div>
@@ -1213,7 +1165,6 @@
         </div>
       </header>
 
-      <!-- Controls -->
       <div class="controls-card">
         <div class="nav-row">
           <button class="month-btn" id="prevMonthBtn" title="Previous Month"><i
@@ -1245,10 +1196,9 @@
         </div>
       </div>
 
-      <!-- Calendar Grid -->
       <div class="month-header-details">
-        <div class="month-title-bs" id="monthTitleBS">श्रावण २०८३</div>
-        <div class="month-title-ad" id="monthTitleAD">July / Aug 2026</div>
+        <div class="month-title-bs" id="monthTitleBS"></div>
+        <div class="month-title-ad" id="monthTitleAD"></div>
       </div>
       <div class="calendar-grid" id="calendarGrid"></div>
       <div class="legend-bar">
@@ -1258,65 +1208,61 @@
       </div>
     </div>
 
-    <!-- Detail Panel -->
     <div class="detail-panel" id="detailPanel">
       <div class="detail-header">
         <div>
-          <div class="detail-date-bs" id="detailDateBS">२०८३ श्रावण ७ गते, बिहीबार</div>
-          <div class="detail-date-ad" id="detailDateAD">July 23, 2026 AD</div>
+          <div class="detail-date-bs" id="detailDateBS"></div>
+          <div class="detail-date-ad" id="detailDateAD"></div>
         </div>
       </div>
       <div class="detail-grid">
         <div class="detail-box">
-          <div class="detail-box-title"><i class="fa-solid fa-moon"></i> Tithi / तिथि</div>
-          <div class="detail-box-content" id="detailTithi">नवमी</div>
+          <div class="detail-box-title"><i class="fa-solid fa-moon"></i> </div>
+          <div class="detail-box-content" id="detailTithi"></div>
         </div>
         <div class="detail-box">
-          <div class="detail-box-title"><i class="fa-solid fa-flag"></i> Holiday / Event (बिदा / पर्व)</div>
-          <div class="detail-box-content" id="detailEvent">पुष्पलाल स्मृति दिवस</div>
+          <div class="detail-box-title"><i class="fa-solid fa-flag"></i> </div>
+          <div class="detail-box-content" id="detailEvent"></div>
         </div>
         <div class="detail-box">
-          <div class="detail-box-title"><i class="fa-solid fa-graduation-cap"></i> School Program / कार्यक्रम</div>
-          <div class="detail-box-content" id="detailProgram">सञ्चालित छैन (Regular Class)</div>
+          <div class="detail-box-title"><i class="fa-solid fa-graduation-cap"></i> </div>
+          <div class="detail-box-content" id="detailProgram"></div>
         </div>
       </div>
     </div>
 
-    <!-- Programs Card -->
     <div class="programs-card">
       <div class="programs-header">
         <i class="fa-solid fa-calendar-day"></i>
-        <h3 id="programsCardTitle">श्रावण महिनाका कार्यक्रमहरू तथा बैठक</h3>
+        <h3 id="programsCardTitle"></h3>
       </div>
       <ul class="program-list" id="programList"></ul>
       <div class="muhurta-box" id="muhurtaBox"></div>
     </div>
 
-    <!-- Footer Quote -->
     <footer class="footer-quote">
       <i class="fa-solid fa-quote-left" style="color: var(--accent);"></i>
-      <span id="quoteText">छोराछोरी नपढाउने आमाबुवा शत्रु समान हुन्छन् । - नीतिशतक</span>
+      <span id="quoteText"></span>
     </footer>
 
   </div>
 
-  <!-- ===== SEARCH MODAL ===== -->
   <div class="modal-overlay" id="searchModal">
     <div class="modal-card">
       <button class="modal-close" id="closeSearchModal"><i class="fa-solid fa-xmark"></i></button>
-      <h4 style="margin-bottom: 12px; color: var(--primary);"><i class="fa-solid fa-magnifying-glass"></i> Search
+      <h4 style="margin-bottom:12px;color:var(--primary);"><i class="fa-solid fa-magnifying-glass"></i> Search
         Calendar</h4>
       <input type="text" id="searchInput" class="form-control" placeholder="Search events, exams, holidays..."
         onkeyup="searchCalendar()">
       <div id="searchResults"
-        style="margin-top: 10px; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;">
+        style="margin-top:10px;max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;">
       </div>
     </div>
   </div>
 
   <script>
     // ============================================================
-    // THEME & PROFILE HELPERS (matches main portal)
+    // HELPERS
     // ============================================================
     const Helpers = {
       getTheme: function () { return localStorage.getItem('psbs_theme') || 'light'; },
@@ -1333,7 +1279,6 @@
           const icon = document.getElementById('themeIcon');
           if (icon) icon.className = 'fa-solid fa-moon';
         }
-        // Apply preset
         document.body.className = document.body.className.split(' ').filter(function (c) {
           return !c.startsWith('theme-');
         }).join(' ');
@@ -1366,113 +1311,424 @@
     };
 
     // ============================================================
-    // CALENDAR DATA (full 2083 BS)
+    // FULL CALENDAR DATA 2083 BS — with all Parva & Divas merged
     // ============================================================
-    const MONTHS = [
-      {
-        nameBS: "वैशाख २०८३", nameAD: "Apr / May 2026", daysCount: 31, startDayOfWeek: 2, adStartDate: new Date(2026, 3, 14),
-        quote: "छोराछोरी नपढाउने आमाबुवा शत्रु समान हुन्छन् । - नीतिशतक",
-        programs: [{ day: 6, title: "६ गतेबाट नियमित पठनपाठन सुरु" }, { day: 11, title: "११ गते शुक्रबार सरसफाई कार्यक्रम" }, { day: 25, title: "२५ गते शिक्षक स्टाफ बैठक" }],
-        muhurta: "विवाहः ७, ८, २२, २३, २४, २५, ३०, ३१ | व्रतबन्धः २०, २१, २३",
-        tithis: ["द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी/षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी"],
-        events: { 1: { title: "नयाँवर्षारम्भ", isHoliday: true }, 18: { title: "विश्व मजदुर दिवस / बुद्ध जयन्ती", isHoliday: true } }
-      },
-      {
-        nameBS: "जेठ २०८३", nameAD: "May / Jun 2026", daysCount: 31, startDayOfWeek: 5, adStartDate: new Date(2026, 4, 15),
-        quote: "स्वाभिमानका साथ बाच्चको लागि अध्ययन गर, शिक्षा नै मानिसको गहना हो ।",
-        programs: [{ day: 8, title: "८ गते शुक्रबार नयाँ भर्ना भएका विद्यार्थीहरूको स्वागत" }, { day: 22, title: "२२ गते शुक्रबार House Division" }, { day: 29, title: "२९ गते शिक्षक स्टाफ बैठक" }],
-        muhurta: "पास्नी मुहूर्तः ४, ७, २२",
-        tithis: ["औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी/पूर्णिमा", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा"],
-        events: { 15: { title: "गणतन्त्र दिवस", isHoliday: true } }
-      },
-      {
-        nameBS: "असार २०८३", nameAD: "June / July 2026", daysCount: 32, startDayOfWeek: 1, adStartDate: new Date(2026, 5, 15),
-        quote: "शिक्षा त्यही चीज हो जसले व्यक्तिलाई आत्मविश्वासी बनाउँछ ।",
-        programs: [{ day: 24, title: "२४ देखि ३२ प्रथम त्रैमासिक परीक्षा सञ्चालन" }, { day: 26, title: "२६ गते शिक्षक स्टाफ बैठक" }],
-        muhurta: "विवाहः ९, १३, १४, १५, १७, १८, २३",
-        tithis: ["औंशी", "प्रतिपदा/द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया"],
-        events: { 15: { title: "धान दिवस / दही चिउरा खाने दिन", isHoliday: false } }
-      },
-      {
-        nameBS: "श्रावण २०८३", nameAD: "July / Aug 2026", daysCount: 31, startDayOfWeek: 5, adStartDate: new Date(2026, 6, 17),
-        quote: "शिक्षा सबैभन्दा शक्तिशाली हतियार हो । - नेल्सन मण्डेला",
-        programs: [
-          { day: 8, title: "८ गते शुक्रबार प्रथम त्रैमासिक परीक्षाको नतिजा" },
-          { day: 15, title: "१५ गते शुक्रबार अनुलेखन प्रतियोगिता" },
-          { day: 22, title: "२२ गते शुक्रबार फुलबारी तथा करेसाबारी निर्माण" },
-          { day: 29, title: "२९ गते शुक्रबार शिक्षक स्टाफ बैठक" }
-        ],
-        muhurta: "पास्नी मुहूर्तः ४, ८, १५, १८, २०",
-        tithis: ["तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी/त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी"],
-        events: { 1: { title: "साउने संक्रान्ति", isHoliday: false }, 7: { title: "पुष्पलाल स्मृति दिवस", isHoliday: false }, 8: { title: "हरिशयनी एकादशी", isHoliday: false }, 15: { title: "खीर खाने दिन", isHoliday: false } }
-      },
-      {
-        nameBS: "भदौ २०८३", nameAD: "Aug / Sept 2026", daysCount: 31, startDayOfWeek: 1, adStartDate: new Date(2026, 7, 17),
-        quote: "श्रद्धा बिना ज्ञान लंगडो हुन्छ । - महात्मा गान्धी",
-        programs: [{ day: 25, title: "२५ गते शिक्षक तथा स्टाफ बैठक" }, { day: 26, title: "२६ गते शुक्रबार दर खाने कार्यक्रम" }],
-        muhurta: "पास्नी मुहूर्तः १, ३, १०, २९",
-        tithis: ["पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी/पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी"],
-        events: { 11: { title: "जनैपूर्णिमा / रक्षाबन्धन", isHoliday: true }, 18: { title: "श्रीकृष्णजन्माष्टमी / गौरा पर्व", isHoliday: true }, 29: { title: "हरितालिका (तीज) व्रत", isHoliday: true } }
-      },
-      {
-        nameBS: "असोज २०८३", nameAD: "Sept / Oct 2026", daysCount: 31, startDayOfWeek: 3, adStartDate: new Date(2026, 8, 17),
-        quote: "सुख चाहनेले विद्या त्याग्नुपर्छ । - चाणक्य नीति",
-        programs: [{ day: 2, title: "२ गते चित्रकला प्रतियोगिता" }, { day: 9, title: "९ गते गणित हाजिरी जवाफ" }, { day: 16, title: "१६ गते निबन्ध लेखन" }, { day: 18, title: "१८ देखि २७ दोस्रो त्रैमासिक परीक्षा" }, { day: 23, title: "२३ गते शिक्षक बैठक" }],
-        muhurta: "पास्नी मुहूर्तः ५, २६",
-        tithis: ["षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी/पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी/नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी"],
-        events: { 3: { title: "संविधान दिवस", isHoliday: true }, 25: { title: "घटस्थापना", isHoliday: true }, 31: { title: "फूलपाती (दशैं बिदा)", isHoliday: true } }
-      },
-      {
-        nameBS: "कार्तिक २०८३", nameAD: "Oct / Nov 2026", daysCount: 30, startDayOfWeek: 0, adStartDate: new Date(2026, 9, 18),
-        quote: "विद्या नै मानिसको अमूल्य धन हो ।",
-        programs: [{ day: 29, title: "२९ गते देखि नियमित पठन पाठन" }],
-        muhurta: "पास्नी मुहूर्तः १३, ३०",
-        tithis: ["अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया/तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "षष्ठी", "षष्ठी"],
-        events: { 1: { title: "महा अष्टमी", isHoliday: true }, 2: { title: "महानवमी", isHoliday: true }, 3: { title: "विजयादशमी", isHoliday: true }, 15: { title: "लक्ष्मी पूजा", isHoliday: true }, 18: { title: "भाइटीका", isHoliday: true }, 22: { title: "छठ पर्व", isHoliday: true } }
-      },
-      {
-        nameBS: "मंसिर २०८३", nameAD: "Nov / Dec 2026", daysCount: 29, startDayOfWeek: 2, adStartDate: new Date(2026, 10, 17),
-        quote: "शिक्षा नै सभ्यताको मूल हो । - राजा वीरेन्द्र",
-        programs: [{ day: 7, title: "७ गते परीक्षा नतिजा प्रकाशन" }, { day: 11, title: "११ गते वादविवाद प्रतियोगिता" }, { day: 18, title: "१८ गते हाजिरी जवाफ" }, { day: 25, title: "२५ गते शिक्षक बैठक" }],
-        muhurta: "विवाहः ९, १०, १६, १७, १९, २४, २५, २६",
-        tithis: ["अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी/सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी", "षष्ठी"],
-        events: { 28: { title: "विवाह पञ्चमी", isHoliday: false } }
-      },
-      {
-        nameBS: "पुस २०८३", nameAD: "Dec / Jan 2026/27", daysCount: 30, startDayOfWeek: 3, adStartDate: new Date(2026, 11, 16),
-        quote: "ज्ञान नै शक्ति हो ।",
-        programs: [{ day: 3, title: "३ गते कबड्डी प्रतियोगिता" }, { day: 17, title: "१७ गते कबड्डी फाइनल" }, { day: 24, title: "२४ गते शिक्षक बैठक" }, { day: 28, title: "२८-२९ तेस्रो त्रैमासिक परीक्षा" }],
-        muhurta: "पास्नी मुहूर्तः १, १५",
-        tithis: ["षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी"],
-        events: { 10: { title: "क्रिसमस डे", isHoliday: true }, 15: { title: "तमु ल्होसार", isHoliday: true } }
-      },
-      {
-        nameBS: "माघ २०८३", nameAD: "Jan / Feb 2027", daysCount: 29, startDayOfWeek: 5, adStartDate: new Date(2027, 0, 15),
-        quote: "चारित्रिक मान्यता राख्नु नै शिक्षा हो ।",
-        programs: [{ day: 8, title: "८ गते सरसफाई" }, { day: 10, title: "१० गते परीक्षा नतिजा" }, { day: 15, title: "१५ गते श्रुति लेखन" }, { day: 20, title: "२०-२७ खेलकुद सप्ताह" }, { day: 29, title: "२9 गते शिक्षक बैठक" }],
-        muhurta: "व्रतबन्धः ५, १२, १५, १६, २०, २७",
-        tithis: ["माघे संक्रान्ति", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी"],
-        events: { 1: { title: "माघे संक्रान्ति", isHoliday: true }, 16: { title: "सोनाम ल्होसार", isHoliday: true }, 20: { title: "सरस्वती पूजा", isHoliday: true } }
-      },
-      {
-        nameBS: "फागुन २०८३", nameAD: "Feb / Mar 2027", daysCount: 30, startDayOfWeek: 6, adStartDate: new Date(2027, 1, 13),
-        quote: "मानव जीवन समृद्ध बनाउन शिक्षा अपरिहार्य छ ।",
-        programs: [{ day: 12, title: "१२ गते विषयगत हाजिरी जवाफ" }, { day: 19, title: "१९ गते मन्दिर सरसफाई" }, { day: 26, title: "२६ गते शिक्षक बैठक" }],
-        muhurta: "विवाहः १९, २०, २६, २७, २८",
-        tithis: ["चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी"],
-        events: { 5: { title: "प्रजातन्त्र दिवस", isHoliday: true }, 7: { title: "ग्याल्पो ल्होसार", isHoliday: true }, 15: { title: "महाशिवरात्रि", isHoliday: true }, 24: { title: "फागु पूर्णिमा (होली)", isHoliday: true } }
-      },
-      {
-        nameBS: "चैत्र २०८३", nameAD: "Mar / Apr 2027", daysCount: 30, startDayOfWeek: 1, adStartDate: new Date(2027, 2, 15),
-        quote: "पुर्ण मानवताको विकास बिनाको जीवन व्यर्थ छ ।",
-        programs: [{ day: 11, title: "११ देखि १९ वार्षिक परीक्षा" }, { day: 26, title: "२६ गते नतिजा प्रकाशन" }, { day: 28, title: "२८ गते शिक्षक बैठक" }],
-        muhurta: "पास्नी मुहूर्तः २, ३, १०, १८",
-        tithis: ["नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी"],
-        events: { 22: { title: "चैते दशैं", isHoliday: true }, 23: { title: "श्री राम नवमी", isHoliday: true } }
+    const MONTHS = [{
+      // 0: वैशाख २०८३ (Apr–May 2026)
+      nameBS: "वैशाख २०८३",
+      nameAD: "Apr / May 2026",
+      daysCount: 31,
+      startDayOfWeek: 2,
+      adStartDate: new Date(2026, 3, 14),
+      quote: "छोराछोरी नपढाउने आमाबुवा शत्रु समान हुन्छन् । - नीतिशतक",
+      programs: [{ day: 6, title: "६ गतेबाट नियमित पठनपाठन सुरु" }, { day: 11, title: "११ गते शुक्रबार सरसफाई कार्यक्रम" },
+      { day: 25, title: "२५ गते शिक्षक स्टाफ बैठक" }],
+      muhurta: "विवाहः ७, ८, २२, २३, २४, २५, ३०, ३१ | व्रतबन्धः २०, २१, २३",
+      tithis: ["द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "अक्षयतृतीया", "चतुर्थी", "पञ्चमी/षष्ठी",
+        "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "चण्डी पूर्णिमा", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
+        "द्वादशी"
+      ],
+      events: {
+        1: {
+          title: "नयाँवर्षारम्भ / नेपाली नयाँ वर्ष २०८३ (Nawa Barsha / Biska Jatra / Mesh Sankranti / Siruwa Pawani)",
+          isHoliday: true
+        },
+        4: { title: "माता तीर्थ औंशी (Aama Ko Mukh Herne / Mother's Day)", isHoliday: true },
+        6: { title: "परशुराम जयन्ती (Parashuram Jayanti)", isHoliday: false },
+        7: { title: "अक्षय तृतीया (Akshaya Tritiya)", isHoliday: false },
+        8: {
+          title: "रातो मच्छिन्द्रनाथ रथयात्रा सुरु (Rato Machhindranath Rath Yatra Starts) / छन्द दिवस (Chhanda Diwas)",
+          isHoliday: false
+        },
+        11: { title: "लोकतन्त्र दिवस (Loktantra Diwas / National Democracy Day)", isHoliday: true },
+        12: { title: "सीता जयन्ती (Sita Jayanti)", isHoliday: false },
+        13: { title: "राष्ट्रिय फोटो पत्रकारिता दिवस (Rashtriya Photo Patrakarita Diwas)", isHoliday: false },
+        18: {
+          title: "बुद्ध जयन्ती (Buddha Jayanti) / अन्तर्राष्ट्रिय श्रमिक दिवस (International Labour Day) / उभौली पर्व / चण्डी पूर्णिमा / गोरखनाथ जयन्ती",
+          isHoliday: true
+        },
+        20: { title: "राष्ट्रिय सूचना तथा सञ्चार प्रविधि दिवस (ICT Day)", isHoliday: false },
+        24: { title: "किरात समाज सुधार दिवस (Kirat Samaj Sudhar Diwas)", isHoliday: false },
+        26: { title: "राष्ट्रिय कानुन दिवस (Rashtriya Kanun Diwas / Law Day)", isHoliday: false }
       }
-    ];
+    }, {
+      // 1: जेठ २०८३ (May–Jun 2026)
+      nameBS: "जेठ २०८३",
+      nameAD: "May / Jun 2026",
+      daysCount: 31,
+      startDayOfWeek: 5,
+      adStartDate: new Date(2026, 4, 15),
+      quote: "स्वाभिमानका साथ बाच्चको लागि अध्ययन गर, शिक्षा नै मानिसको गहना हो ।",
+      programs: [{ day: 8, title: "८ गते शुक्रबार नयाँ भर्ना भएका विद्यार्थीहरूको स्वागत" }, {
+        day: 22,
+        title: "२२ गते शुक्रबार House Division"
+      }, { day: 29, title: "२९ गते शिक्षक स्टाफ बैठक" }],
+      muhurta: "पास्नी मुहूर्तः ४, ७, २२",
+      tithis: ["त्रयोदशी/चतुर्दशी","औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा"
+      ],
+      events: {
+        11: { title: "स्वतन्त्रता दिवस / विशेष जयन्ती (Swatantrata Diwas / Special Jayantis)", isHoliday: false },
+        14: { title: "बकरा ईद (Bakra Eid / Eid al-Adha)", isHoliday: true },
+        15: {
+          title: "गणतन्त्र दिवस (Ganatantra Diwas / Republic Day) / अन्तर्राष्ट्रिय सगरमाथा दिवस (International Everest Day)",
+          isHoliday: true
+        },
+        22: { title: "विश्व वातावरण दिवस (Bishwa Batabaran Diwas / World Environment Day)", isHoliday: false },
+        23: { title: "गंगा दशमी / निर्जला एकादशी (Ganga Dashami / Nirjala Ekadashi)", isHoliday: false }
+      }
+    }, {
+      // 2: असार २०८३ (Jun–Jul 2026)
+      nameBS: "असार २०८३",
+      nameAD: "June / July 2026",
+      daysCount: 32,
+      startDayOfWeek: 1,
+      adStartDate: new Date(2026, 5, 15),
+      quote: "शिक्षा त्यही चीज हो जसले व्यक्तिलाई आत्मविश्वासी बनाउँछ ।",
+      programs: [{ day: 24, title: "२४ देखि ३२ प्रथम त्रैमासिक परीक्षा सञ्चालन" }, {
+        day: 26,
+        title: "२६ गते शिक्षक स्टाफ बैठक"
+      }],
+      muhurta: "विवाहः ९, १३, १४, १५, १७, १८, २३",
+      tithis: ["औंशी", "प्रतिपदा/द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा",
+        "द्वितीया"
+      ],
+      events: {
+        6: {
+          title: "सिठी नखः / कुमारषष्ठी / भोटो जात्रा (Sithi Nakha / Kumarsasthi / Bhoto Jatra) / विश्व शरणार्थी दिवस (World Refugee Day)",
+          isHoliday: false
+        },
+        15: {
+          title: "दही चिउरा खाने दिन / धान दिवस (Dahi Chiura Khane Din / Ashadh 15 / National Paddy Day)",
+          isHoliday: false
+        },
+        22: { title: "गुरु पूर्णिमा / व्यास जयन्ती / असार पूर्णिमा (Guru Purnima / Vyasa Jayanti)", isHoliday: false }
+      }
+    }, {
+      // 3: श्रावण २०८३ (Jul–Aug 2026)
+      nameBS: "श्रावण २०८३",
+      nameAD: "July / Aug 2026",
+      daysCount: 31,
+      startDayOfWeek: 5,
+      adStartDate: new Date(2026, 6, 17),
+      quote: "शिक्षा सबैभन्दा शक्तिशाली हतियार हो । - नेल्सन मण्डेला",
+      programs: [
+        { day: 8, title: "८ गते शुक्रबार प्रथम त्रैमासिक परीक्षाको नतिजा" },
+        { day: 15, title: "१५ गते शुक्रबार अनुलेखन प्रतियोगिता" },
+        { day: 22, title: "२२ गते शुक्रबार फुलबारी तथा करेसाबारी निर्माण" },
+        { day: 29, title: "२९ गते शुक्रबार शिक्षक स्टाफ बैठक" }
+      ],
+      muhurta: "पास्नी मुहूर्तः ४, ८, १५, १८, २०",
+      tithis: ["तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी",
+        "चतुर्दशी", "गुरुपूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी",
+        "दशमी", "एकादशी", "द्वादशी/त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी"
+      ],
+      events: {
+        1: {
+          title: "साउने संक्रान्ति / लुतो फाल्ने दिन / गुरिया पर्व (Shrawane Sankranti / Luto Phalne Din / Guriya Parva) / थारू गुरिया दिवस (Tharu Guriya Diwas)",
+          isHoliday: false
+        },
+        7: { title: "पुष्पलाल स्मृति दिवस (Pushpalal Smriti Diwas)", isHoliday: false },
+        9: { title: "हरिशयनी एकादशी / तुलसी रोप्ने दिन (Harishayani Ekadashi / Tulsi Ropne Din)", isHoliday: false },
+        13: { title: "गुरु पूर्णिमा (स्थानीय) / दिला पुन्ही (Guru Purnima Local / Dila Punhi)", isHoliday: false },
+        15: { title: "खीर खाने दिन (Khir Khane Din)", isHoliday: false },
+        26: { title: "घण्टाकर्ण चतुर्दशी / गठम्मुग (Ghantakarna Chaturdashi / Gathammuga)", isHoliday: false },
+        28: { title: "गुन्ला धर्म आरम्भ (Gunla Dharma Arambha) / युवा/समुदाय स्थानीय कार्यक्रम", isHoliday: false }
+      }
+    }, {
+      // 4: भदौ २०८३ (Aug–Sep 2026)
+      nameBS: "भदौ २०८३",
+      nameAD: "Aug / Sept 2026",
+      daysCount: 31,
+      startDayOfWeek: 1,
+      adStartDate: new Date(2026, 7, 17),
+      quote: "श्रद्धा बिना ज्ञान लंगडो हुन्छ । - महात्मा गान्धी",
+      programs: [{ day: 25, title: "२५ गते शिक्षक तथा स्टाफ बैठक" }, {
+        day: 26,
+        title: "२६ गते शुक्रबार दर खाने कार्यक्रम"
+      }],
+      muhurta: "पास्नी मुहूर्तः १, ३, १०, २९",
+      tithis: ["नागपञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "जनैपूर्णिमा",
+        "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी/पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
+        "द्वादशी", "त्रयोदशी", "चतुर्दशी", "कुशे औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी"
+      ],
+      events: {
+        1: { title: "नाग पञ्चमी (Nag Panchami)", isHoliday: true },
+        3: { title: "राष्ट्रिय सूचना दिवस (Rashtriya Suchana Diwas)", isHoliday: false },
+        11: {
+          title: "जनैपूर्णिमा / रक्षाबन्धन / क्वाँटी खाने दिन (Janai Purnima / Rakshya Bandhan / Kwati Khane Din)",
+          isHoliday: true
+        },
+        12: {
+          title: "गाई जात्रा (सापारु) / मात्या जात्रा (Gai Jatra / Matya Jatra) / राष्ट्रिय संस्कृत दिवस (Rashtriya Sanskrit Diwas)",
+          isHoliday: true
+        },
+        18: { title: "श्रीकृष्ण जन्माष्टमी / गौरा पर्व (Shree Krishna Janmashtami / Gaura Parva)", isHoliday: true },
+        19: { title: "श्रीकृष्ण जन्माष्टमी (मनाउने) / गौरा पर्व (continued)", isHoliday: true },
+        20: { title: "मानव बेचबिखन विरुद्धको राष्ट्रिय दिवस (Anti-Human Trafficking Day)", isHoliday: false },
+        22: { title: "निजामती सेवा दिवस (Nijamati Sewa Diwas / Civil Service Day)", isHoliday: false },
+        26: { title: "कुशे औंशी (बुबा को मुख हेर्ने / Father's Day)", isHoliday: true },
+        28: { title: "दर खाने दिन (Dar Khane Din)", isHoliday: false },
+        29: {
+          title: "हरितालिका तीज (Haritalika Teej) / गणेश चतुर्थी (Ganesh Chaturthi) / राष्ट्रिय बाल दिवस (National Children's Day) / राष्ट्रिय धर्मसभा दिवस",
+          isHoliday: true
+        },
+        30: { title: "ऋषि पञ्चमी (Rishi Panchami)", isHoliday: false }
+      }
+    }, {
+      // 5: असोज २०८३ (Sep–Oct 2026)
+      nameBS: "असोज २०८३",
+      nameAD: "Sept / Oct 2026",
+      daysCount: 31,
+      startDayOfWeek: 4,
+      adStartDate: new Date(2026, 8, 17),
+      quote: "सुख चाहनेले विद्या त्याग्नुपर्छ । - चाणक्य नीति",
+      programs: [{ day: 2, title: "२ गते चित्रकला प्रतियोगिता" }, { day: 9, title: "९ गते गणित हाजिरी जवाफ" }, {
+        day: 16,
+        title: "१६ गते निबन्ध लेखन"
+      }, { day: 18, title: "१८ देखि २७ दोस्रो त्रैमासिक परीक्षा" }, {
+        day: 23,
+        title: "२३ गते शिक्षक बैठक"
+      }],
+      muhurta: "पास्नी मुहूर्तः ५, २६",
+      tithis: ["षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी/नवमी", "दशमी", "एकादशी", "द्वादशी",
+        "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी"
+      ],
+      events: {
+        3: { title: "संविधान दिवस (Sambidhan Diwas / Constitution Day)", isHoliday: true },
+        9: {
+          title: "इन्द्र जात्रा / अनन्त चतुर्दशी (Indra Jatra / Ananta Chaturdashi) / विश्व फार्मासिस्ट दिवस (World Pharmacists Day)",
+          isHoliday: true
+        },
+        18: {
+          title: "जितिया पर्व / सोह्र श्राद्ध सुरु (Jitiya Parva / Sohra Shraddha Starts) / विश्व प्राणी दिवस (World Animal Day)",
+          isHoliday: false
+        },
+        25: { title: "घटस्थापना (Ghatasthapana — Dashain Begins)", isHoliday: true },
+        31: {
+          title: "फूलपाती (Fulpati — Dashain Holiday Starts) / अन्तर्राष्ट्रिय गरिबी निवारण दिवस (International Day for the Eradication of Poverty)",
+          isHoliday: true
+        }
+      }
+    }, {
+      // 6: कार्तिक २०८३ (Oct–Nov 2026)
+      nameBS: "कार्तिक २०८३",
+      nameAD: "Oct / Nov 2026",
+      daysCount: 30,
+      startDayOfWeek: 0,
+      adStartDate: new Date(2026, 9, 18),
+      quote: "विद्या नै मानिसको अमूल्य धन हो ।",
+      programs: [{ day: 29, title: "२९ गते देखि नियमित पठन पाठन" }],
+      muhurta: "पास्नी मुहूर्तः १३, ३०",
+      tithis: ["महाअष्टमी", "अष्टमी", "महानवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया/तृतीया",
+        "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "नरक चतुर्दशी",
+        "औंशी", "प्रतिपदा", "यमद्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "षष्ठी", "षष्ठी"
+      ],
+      events: {
+        1: { title: "महा अष्टमी / कालरात्रि (Maha Ashtami / Kalratri)", isHoliday: true },
+        2: { title: "अष्टमी (Ashtami), दशैं बिदा", isHoliday: true },
+        3: { title: "महानवमी (Maha Nawami)", isHoliday: true },
+        4: { title: "विजयादशमी (Vijaya Dashami — Tika Day)", isHoliday: true },
+        9: { title: "कोजाग्रत पूर्णिमा (Kojagrat Purnima — Dashain Ends)", isHoliday: true },
+        22: {
+          title: "लक्ष्मी पूजा / कुकुर तिहार (Laxmi Puja / Kukur Tihar) / लक्ष्मी प्रसाद देवकोटा जयन्ती (Laxmi Prasad Devkota Jayanti)",
+          isHoliday: true
+        },
+        23: { title: "गाई पूजा / तिहार बिदा (Gai Puja / Tihar Holiday)", isHoliday: true },
+        24: {
+          title: "गोवर्धन पूजा / म्ह पूजा / नेपाल सम्बत ११४७ नयाँ वर्ष (Govardhan Puja / Mha Puja / Nepal Sambat 1147 New Year) / विश्व विज्ञान दिवस (World Science Day)",
+          isHoliday: true
+        },
+        25: {
+          title: "भाइटीका / किजा पूजा / फाल्गुनन्द जयन्ती (Bhai Tika / Kija Puja / Falgunanda Jayanti) / राष्ट्रिय विभूति फाल्गुनन्द जयन्ती",
+          isHoliday: true
+        },
+        26: { title: "विश्व निमोनिया दिवस (Bishwa Pneumonia Diwas)", isHoliday: false },
+        29: { title: "छठ पर्व (Chhath Parva)", isHoliday: true }
+      }
+    }, {
+      // 7: मंसिर २०८३ (Nov–Dec 2026)
+      nameBS: "मंसिर २०८३",
+      nameAD: "Nov / Dec 2026",
+      daysCount: 29,
+      startDayOfWeek: 2,
+      adStartDate: new Date(2026, 10, 17),
+      quote: "शिक्षा नै सभ्यताको मूल हो । - राजा वीरेन्द्र",
+      programs: [{ day: 7, title: "७ गते परीक्षा नतिजा प्रकाशन" }, { day: 11, title: "११ गते वादविवाद प्रतियोगिता" },
+      { day: 18, title: "१८ गते हाजिरी जवाफ" }, { day: 25, title: "२५ गते शिक्षक बैठक" }],
+      muhurta: "विवाहः ९, १०, १६, १७, १९, २४, २५, २६",
+      tithis: ["अष्टमी", "कुस्माण्ड नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया",
+        "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी/सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी",
+        "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "विवाह पञ्चमी", "षष्ठी"
+      ],
+      events: {
+        8: {
+          title: "शैलेश्वरी जाँत (Shaileshwari Jaat)",
+          isHoliday: true
+        },
+        17: { title: "अन्तर्राष्ट्रिय अपाङ्ग दिवस (International Day of Persons with Disabilities)", isHoliday: false },
+        20: { title: "बाला चतुर्दशी / सातबिज छर्ने दिन (Bala Chaturdashi / Satbij Chharne Din)", isHoliday: false },
+        23: { title: "विवाह पञ्चमी (Vivaha Panchami)", isHoliday: false },
+        24: { title: "अन्तर्राष्ट्रिय मानव अधिकार दिवस (International Human Rights Day)", isHoliday: false },
+        28: { title: "विवाह पञ्चमी (Vivaha Panchami — local)", isHoliday: false }
+      }
+    }, {
+      // 8: पुस २०८३ (Dec 2026 – Jan 2027)
+      nameBS: "पुस २०८३",
+      nameAD: "Dec / Jan 2026/27",
+      daysCount: 30,
+      startDayOfWeek: 3,
+      adStartDate: new Date(2026, 11, 16),
+      quote: "ज्ञान नै शक्ति हो ।",
+      programs: [{ day: 3, title: "३ गते कबड्डी प्रतियोगिता" }, { day: 17, title: "१७ गते कबड्डी फाइनल" }, {
+        day: 24,
+        title: "२४ गते शिक्षक बैठक"
+      }, { day: 28, title: "२८-२९ तेस्रो त्रैमासिक परीक्षा" }],
+      muhurta: "पास्नी मुहूर्तः १, १५",
+      tithis: ["सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा/प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी",
+        "त्रयोदशी", "चतुर्दशी", "गयामौनी औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी"
+      ],
+      events: {
+        9: {
+          title: "उधौली पर्व / योमरी पुन्ही / धान्य पूर्णिमा (Udhauli Parva / Yomari Punhi / Dhanya Purnima) / ज्यापु दिवस (Jyapu Diwas)",
+          isHoliday: true
+        },
+        10: { title: "क्रिसमस (Christmas Day)", isHoliday: true },
+        15: {
+          title: "तमु ल्होसार (Tamu Lhosar) / कवि शिरोमणि लेखनाथ पौड्याल जयन्ती (Kavi Shiromani Lekhnath Paudyal Jayanti)",
+          isHoliday: true
+        },
+                17: {
+          title: "सन् २०२७ प्रारम्भ (New Year 2027 AD)", 
+          isHoliday: false
+                },
+        27: {
+          title: "पृथ्वी जयन्ती (Prithvi Jayanti) / राष्ट्रिय एकता दिवस (Rashtriya Ekata Diwas / National Unity Day)",
+          isHoliday: false
+        }
+      }
+    }, {
+      // 9: माघ २०८३ (Jan–Feb 2027)
+      nameBS: "माघ २०८३",
+      nameAD: "Jan / Feb 2027",
+      daysCount: 29,
+      startDayOfWeek: 5,
+      adStartDate: new Date(2027, 0, 15),
+      quote: "चारित्रिक मान्यता राख्नु नै शिक्षा हो ।",
+      programs: [{ day: 8, title: "८ गते सरसफाई" }, { day: 10, title: "१० गते परीक्षा नतिजा" }, {
+        day: 15,
+        title: "१५ गते श्रुति लेखन"
+      }, { day: 20, title: "२०-२७ खेलकुद सप्ताह" }, {
+        day: 29,
+        title: "२९ गते शिक्षक बैठक"
+      }],
+      muhurta: "व्रतबन्धः ५, १२, १५, १६, २०, २७",
+      tithis: ["सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "श्रीपञ्चमी", "षष्ठी"
+
+      ],
+      events: {
+        1: {
+          title: "माघे संक्रान्ति / माघी पर्व / मकर स्नान / घिउ चाकु खाने दिन (Maghe Sankranti / Maghi Parva / Makar Snan / Ghiu Chaku Khane Din)",
+          isHoliday: true
+        },
+        16: { title: "सोनाम ल्होसार (Sonam Lhosar) / शहीद दिवस (Sahid Diwas / Martyrs' Day)", isHoliday: true },
+        24: { title: "सोनाम ल्होसार / Rose Day", isHoliday: true },
+        25: {
+          title: "Propose Day",
+          isHoliday: false
+        },
+        26: {
+          title: "Chocolate Day",
+          isHoliday: false
+        },
+        27: {
+          title: "सरस्वती पूजा / वसन्त पञ्चमी (Saraswati Puja / Basanta Panchami) / Teddy Day",
+          isHoliday: true
+        },
+        28: {
+          title: "Promise Day",
+          isHoliday: false
+        },
+        29: {
+          title: "Hug Day",
+          isHoliday: false
+        }
+      }
+    }, {
+      // 10: फागुन २०८३ (Feb–Mar 2027)
+      nameBS: "फागुन २०८३",
+      nameAD: "Feb / Mar 2027",
+      daysCount: 30,
+      startDayOfWeek: 6,
+      adStartDate: new Date(2027, 1, 13),
+      quote: "मानव जीवन समृद्ध बनाउन शिक्षा अपरिहार्य छ ।",
+      programs: [{ day: 12, title: "१२ गते विषयगत हाजिरी जवाफ" }, { day: 19, title: "१९ गते मन्दिर सरसफाई" }, {
+        day: 26,
+        title: "२६ गते शिक्षक बैठक"
+      }],
+      muhurta: "विवाहः १९, २०, २६, २७, २८",
+      tithis: ["सप्तमी", "अष्टमी", "नवमी",
+        "दशमी", "एकादशी", "भीष्मद्वादशी", "त्रयोदशी", "चतुर्दशी/पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी"
+      ],
+      events: {
+         1 : { title: "Kiss Day", isHoliday: false },
+        2 : { title: "भ्यालेन्टाइन डे (Valentine Day)", isHoliday: false },
+        7 : {
+          title: "प्रजातन्त्र दिवस (Prajatantra Diwas / Democracy Day)",
+          isHoliday: true
+        },
+        22 : {
+          title: "महाशिवरात्रि / सिलाचह्रे (Maha Shivaratri / Silachahre) / नेपाली सेना दिवस (Nepali Army Day / Sena Diwas)",
+          isHoliday: true
+        },
+        24 : { title: "अन्तर्राष्ट्रिय नारी दिवस (Antarrashtriya Nari Diwas / International Women's Day)", isHoliday: true }, 
+        25 : { title: "ग्याल्पो ल्होसार (Gyalpo Lhosar)", isHoliday: false }
+      }
+    }, {
+      // 11: चैत्र २०८३ (Mar–Apr 2027)
+      nameBS: "चैत्र २०८३",
+      nameAD: "Mar / Apr 2027",
+      daysCount: 30,
+      startDayOfWeek: 1,
+      adStartDate: new Date(2027, 2, 15),
+      quote: "पुर्ण मानवताको विकास बिनाको जीवन व्यर्थ छ ।",
+      programs: [{ day: 11, title: "११ देखि १९ वार्षिक परीक्षा" }, { day: 26, title: "२६ गते नतिजा प्रकाशन" }, {
+        day: 28,
+        title: "२८ गते शिक्षक बैठक"
+      }],
+      muhurta: "पास्नी मुहूर्तः २, ३, १०, १८",
+      tithis: ["सप्तमी", "अष्टमी/नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "फागुपूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी"
+      ],
+      events: {
+        7: {
+          title: "होली — पहाडी क्षेत्र (Holi — Hilly Region)",
+          isHoliday: true
+        },
+        8: {
+          title: "फागु पूर्णिमा (होली — तराई क्षेत्र) (Fagu Purnima / Holi — Terai Region)",
+          isHoliday: false
+        },
+      18: {
+          title: "विश्व मूर्ख दिवस (April Fools Day)",
+          isHoliday: false
+        },
+        23: { title: "घोडे जात्रा (Ghode Jatra) / घोडे जात्रा दिवस (Ghode Jatra Diwas — Kathmandu Valley)", isHoliday: true },
+        24: { title: "चैते दशैं (Chaite Dashain)", isHoliday: true },
+        25: { title: "श्री राम नवमी (Shree Ram Navami)", isHoliday: true }
+      }
+    }];
 
     const nepaliNumbers = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+
     function toNepaliDigits(num) {
       return num.toString().split('').map(d => nepaliNumbers[d] || d).join('');
     }
@@ -1500,7 +1756,6 @@
     function calculateTodayBS() {
       const now = new Date();
       const todayAD = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      let found = false;
       for (let m = 0; m < 12; m++) {
         const mStart = new Date(MONTHS[m].adStartDate);
         const mEnd = new Date(mStart);
@@ -1509,11 +1764,10 @@
           const diffTime = todayAD - mStart;
           const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
           TODAY = { monthIdx: m, dayBS: diffDays, yearBS: 2083 };
-          found = true;
-          break;
+          return;
         }
       }
-      if (!found) TODAY = { monthIdx: 3, dayBS: 8, yearBS: 2083 };
+      TODAY = { monthIdx: 3, dayBS: 8, yearBS: 2083 };
     }
 
     function renderCalendar(monthIdx) {
@@ -1528,7 +1782,7 @@
       const grid = document.getElementById('calendarGrid');
       grid.innerHTML = '';
 
-      // Week Headers
+      // Week headers
       dayHeaders.forEach((dh, idx) => {
         const header = document.createElement('div');
         header.className = `day-header ${idx === 0 || idx === 6 ? 'saturday' : ''}`;
@@ -1536,14 +1790,14 @@
         grid.appendChild(header);
       });
 
-      // Empty Cells
+      // Empty cells
       for (let i = 0; i < monthData.startDayOfWeek; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-cell empty';
         grid.appendChild(emptyCell);
       }
 
-      // Day Cells
+      // Day cells
       for (let day = 1; day <= monthData.daysCount; day++) {
         const dayCell = document.createElement('div');
         const dayOfWeek = (monthData.startDayOfWeek + day - 1) % 7;
@@ -1559,7 +1813,8 @@
 
         const programOnDay = monthData.programs.find(p => p.day === day);
 
-        dayCell.className = `calendar-cell ${isHoliday ? 'holiday' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`;
+        dayCell.className =
+          `calendar-cell ${isHoliday ? 'holiday' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`;
         dayCell.onclick = () => selectDate(monthIdx, day);
 
         let dotsHTML = '';
@@ -1570,13 +1825,13 @@
         const tithiText = monthData.tithis[day - 1] || "";
 
         dayCell.innerHTML = `
-          <div class="cell-top">
-            <span class="bs-day">${toNepaliDigits(day)}</span>
-            <span class="ad-day">${adStr}</span>
-          </div>
-          <div class="tithi-text">${tithiText}</div>
-          <div class="indicator-dots">${dotsHTML}</div>
-        `;
+              <div class="cell-top">
+                <span class="bs-day">${toNepaliDigits(day)}</span>
+                <span class="ad-day">${adStr}</span>
+              </div>
+              <div class="tithi-text">${tithiText}</div>
+              <div class="indicator-dots">${dotsHTML}</div>
+            `;
 
         grid.appendChild(dayCell);
       }
@@ -1597,7 +1852,8 @@
           progList.appendChild(li);
         });
       } else {
-        progList.innerHTML = `<li class="program-item"><i class="fa-solid fa-info-circle"></i> <span>यस महिना विशेष कार्यक्रम तोकिएको छैन।</span></li>`;
+        progList.innerHTML =
+          `<li class="program-item"><i class="fa-solid fa-info-circle"></i> <span>यस महिना विशेष कार्यक्रम तोकिएको छैन।</span></li>`;
       }
 
       const muhurtaBox = document.getElementById('muhurtaBox');
@@ -1625,21 +1881,23 @@
       const isSunOrSat = (dayOfWeekIdx === 0 || dayOfWeekIdx === 6);
       const isHoliday = isSunOrSat || (eventInfo && eventInfo.isHoliday);
 
-      document.getElementById('detailDateBS').innerText = `२०८३ ${monthNamesBS[monthIdx]} ${toNepaliDigits(dayBS)} गते, ${dayNamesFullBS[dayOfWeekIdx]}`;
+      document.getElementById('detailDateBS').innerText =
+        `२०८३ ${monthNamesBS[monthIdx]} ${toNepaliDigits(dayBS)} गते, ${dayNamesFullBS[dayOfWeekIdx]}`;
       document.getElementById('detailDateAD').innerText = `${adFullStr} (${dayHeaders[dayOfWeekIdx].en})`;
       document.getElementById('detailTithi').innerText = tithi;
 
-      let eventTxt = "कुनै बिदा वा पर्व छैन (Regular Working Day)";
+      let eventTxt = "Regular Working Day";
       if (eventInfo) {
-        eventTxt = `${eventInfo.title} ${eventInfo.isHoliday ? '(सार्वजनिक बिदा / Holiday)' : ''}`;
+        eventTxt = `${eventInfo.title} ${eventInfo.isHoliday ? 'Holiday' : ''}`;
       } else if (isSunOrSat) {
-        eventTxt = "साप्ताहिक बिदा (Weekly Holiday)";
+        eventTxt = "Weekly Holiday";
       }
-      document.getElementById('detailEvent').innerHTML = (eventTxt.includes('Holiday') || eventTxt.includes('बिदा')) ? `<span class="holiday-text">${eventTxt}</span>` : eventTxt;
+      document.getElementById('detailEvent').innerHTML = (eventTxt.includes('Holiday') || eventTxt.includes('बिदा')) ?
+        `<span class="holiday-text">${eventTxt}</span>` : eventTxt;
 
-      let progTxt = "सञ्चालित छैन (Regular Class)";
+      let progTxt = "Regular Class";
       if (isHoliday) {
-        progTxt = `<span class="holiday-text">सार्वजनिक बिदा (Holiday - No Classes)</span>`;
+        progTxt = `<span class="holiday-text">Holiday</span>`;
       } else if (progInfo) {
         progTxt = progInfo.title;
       } else if (dayOfWeekIdx === 5) {
@@ -1669,7 +1927,8 @@
             count++;
             const div = document.createElement('div');
             div.className = 'search-result-item';
-            div.innerHTML = `<strong>२०८३ ${monthNamesBS[mIdx]} ${toNepaliDigits(d)}:</strong> ${ev.title}`;
+            div.innerHTML =
+              `<strong>२०८३ ${monthNamesBS[mIdx]} ${toNepaliDigits(d)}:</strong> ${ev.title}`;
             div.onclick = () => {
               document.getElementById('searchModal').style.display = 'none';
               selectDate(mIdx, parseInt(d));
@@ -1678,15 +1937,15 @@
           }
         });
       });
-      if (count === 0) container.innerHTML = `<div style="color: var(--text-muted); font-size: 0.8rem;">No results found.</div>`;
+      if (count === 0) container.innerHTML =
+        `<div style="color: var(--text-muted); font-size: 0.8rem;">No results found.</div>`;
     }
 
     // ============================================================
-    // THEME + HEADER CONTROLS
+    // THEME + HEADER
     // ============================================================
     function initTheme() {
       Helpers.applyTheme();
-      // If dark mode, update icon
       if (document.body.classList.contains('dark')) {
         const icon = document.getElementById('themeIcon');
         if (icon) icon.className = 'fa-solid fa-sun';
@@ -1702,7 +1961,7 @@
     });
 
     // ============================================================
-    // AUTO-REFRESH AT MIDNIGHT
+    // MIDNIGHT REFRESH
     // ============================================================
     function scheduleMidnightRefresh() {
       const now = new Date();

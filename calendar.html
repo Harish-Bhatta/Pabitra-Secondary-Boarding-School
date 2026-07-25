@@ -2,157 +2,231 @@
 <html lang="ne">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pabitra Secondary Boarding School - Calendar 2083</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Pabitra S.B.S. — क्यालेन्डर २०८३</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* ===== ROOT VARIABLES ===== */
+    /* ============================================================
+               CUSTOM PALETTE — User specified colors
+               ============================================================ */
     :root {
-      --primary: #1E3A8A;
-      --primary-dark: #172554;
-      --primary-light: #3B82F6;
-      --secondary: #3B82F6;
-      --accent: #F59E0B;
-      --accent-dark: #D97706;
+      --primary: #f39c12;
+      --primary-dark: #d68910;
+      --primary-light: #f5b041;
+      --primary-gradient: linear-gradient(135deg, #f39c12, #f5b041);
+      --secondary: #06b6d4;
+      --secondary-light: #67e8f9;
+      --accent: #f39c12;
+      --accent-dark: #d68910;
+      --accent-gradient: linear-gradient(135deg, #f39c12, #f5b041);
+
       --background: #F8FAFC;
-      --surface: rgba(255, 255, 255, 0.72);
+      --surface: rgba(255, 255, 255, 0.78);
       --surface-solid: #FFFFFF;
       --surface-hover: #F1F5F9;
-      --text: #1F2937;
-      --text-light: #6B7280;
+      --text: #1E293B;
+      --text-light: #64748B;
+      --text-muted: #94A3B8;
       --text-inverse: #FFFFFF;
-      --border: rgba(229, 231, 235, 0.5);
-      --border-light: #F3F4F6;
+      --border: rgba(203, 213, 225, 0.5);
+      --border-light: #F1F5F9;
+
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
-      --radius-xl: 28px;
-      --radius-full: 50%;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.12);
-      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
-      --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
-      --transition: 0.3s ease;
-      --transition-smooth: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      --radius-xl: 26px;
+      --radius-full: 9999px;
+
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.09);
+      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
+      --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.10);
+
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
       --font-family: 'Poppins', 'Mukta', sans-serif;
-      --header-height: 54px;
+      --header-height: 60px;
       --z-header: 1000;
       --z-modal: 10000;
-      --glass-bg: rgba(255, 255, 255, 0.15);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-      --nebula-color-1: #1E3A8A;
-      --nebula-color-2: #3B82F6;
-      --nebula-color-3: #F59E0B;
-      --holiday-red: #dc2626;
-      --holiday-bg: #fef2f2;
-      --today-border: #2563eb;
-      --today-bg: #eff6ff;
-      --prog-green: #059669;
-      --event-blue: #0284c7;
-      --card-bg: #ffffff;
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
+      --glass-bg: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+
+      --nebula-color-1: #f39c12;
+      --nebula-color-2: #06b6d4;
+      --nebula-color-3: #f1c40f;
+
+      --holiday-red: #DC2626;
+      --holiday-bg: #FEF2F2;
+      --today-border: #f39c12;
+      --today-bg: #FFFBEB;
+      --prog-green: #0B7E4B;
+      --event-blue: #1A6B8A;
+      --tag-bg: #FFFBEB;
+      --ghost-opacity: 0.4;
+      --controls-bg: #FFFFFF;
+      --controls-border: rgba(243, 156, 18, 0.15);
     }
 
-    body.theme-purple {
-      --primary: #7C3AED;
-      --primary-dark: #5B21B6;
-      --primary-light: #8B5CF6;
-      --secondary: #8B5CF6;
-      --nebula-color-1: #7C3AED;
-      --nebula-color-2: #8B5CF6;
-      --nebula-color-3: #C084FC;
+    /* ---------- Dark theme ---------- */
+    body.dark {
+      --background: #0F172A;
+      --surface: rgba(30, 41, 59, 0.82);
+      --surface-solid: #1E293B;
+      --surface-hover: #2D3A52;
+      --text: #F1F5F9;
+      --text-light: #94A3B8;
+      --text-muted: #6A7F9E;
+      --text-inverse: #0F172A;
+      --border: rgba(51, 65, 85, 0.5);
+      --border-light: #1E293B;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.06);
+      --glass-bg: rgba(30, 41, 59, 0.35);
+      --glass-border: rgba(255, 255, 255, 0.03);
+      --holiday-bg: #281A1A;
+      --today-bg: rgba(243, 156, 18, 0.10);
+      --tag-bg: #2D2A1A;
+      --controls-bg: #1E293B;
+      --controls-border: rgba(243, 156, 18, 0.15);
+      --ghost-opacity: 0.5;
     }
 
-    body.theme-emerald {
-      --primary: #059669;
-      --primary-dark: #047857;
-      --primary-light: #34D399;
-      --secondary: #059669;
-      --nebula-color-1: #059669;
-      --nebula-color-2: #34D399;
-      --nebula-color-3: #6EE7B7;
+    /* ---------- Theme presets ---------- */
+    body.theme-gold {
+      --primary: #f39c12;
+      --primary-dark: #d68910;
+      --primary-light: #f5b041;
+      --primary-gradient: linear-gradient(135deg, #f39c12, #f5b041);
+      --secondary: #f39c12;
+      --nebula-color-1: #f39c12;
+      --nebula-color-2: #f5b041;
+      --nebula-color-3: #f1c40f;
+      --today-border: #f39c12;
+      --today-bg: #FFFBEB;
+      --controls-border: rgba(243, 156, 18, 0.15);
+      --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.10);
     }
 
-    body.theme-rose {
-      --primary: #E11D48;
-      --primary-dark: #BE123C;
-      --primary-light: #FB7185;
-      --secondary: #E11D48;
-      --nebula-color-1: #E11D48;
-      --nebula-color-2: #FB7185;
-      --nebula-color-3: #FDA4AF;
-    }
-
-    body.theme-amber {
-      --primary: #D97706;
-      --primary-dark: #B45309;
-      --primary-light: #F59E0B;
-      --secondary: #D97706;
-      --nebula-color-1: #D97706;
-      --nebula-color-2: #F59E0B;
-      --nebula-color-3: #FCD34D;
-    }
-
-    body.theme-teal {
-      --primary: #0D9488;
-      --primary-dark: #0F766E;
-      --primary-light: #2DD4BF;
-      --secondary: #0D9488;
-      --nebula-color-1: #0D9488;
-      --nebula-color-2: #2DD4BF;
-      --nebula-color-3: #5EEAD4;
-    }
-
-    body.theme-indigo {
-      --primary: #4F46E5;
-      --primary-dark: #4338CA;
-      --primary-light: #818CF8;
-      --secondary: #4F46E5;
-      --nebula-color-1: #4F46E5;
-      --nebula-color-2: #818CF8;
-      --nebula-color-3: #A5B4FC;
+    body.theme-cyan {
+      --primary: #06b6d4;
+      --primary-dark: #0891b2;
+      --primary-light: #67e8f9;
+      --primary-gradient: linear-gradient(135deg, #06b6d4, #67e8f9);
+      --secondary: #06b6d4;
+      --nebula-color-1: #06b6d4;
+      --nebula-color-2: #67e8f9;
+      --nebula-color-3: #0891b2;
+      --today-border: #06b6d4;
+      --today-bg: #ECFDFF;
+      --controls-border: rgba(6, 182, 212, 0.15);
+      --shadow-glow: 0 0 40px rgba(6, 182, 212, 0.10);
     }
 
     body.theme-coral {
-      --primary: #E85D75;
-      --primary-dark: #C0394A;
-      --primary-light: #F1948A;
-      --secondary: #E85D75;
-      --nebula-color-1: #E85D75;
-      --nebula-color-2: #F1948A;
-      --nebula-color-3: #F5B7B1;
+      --primary: #e85d75;
+      --primary-dark: #c0394b;
+      --primary-light: #f1948a;
+      --primary-gradient: linear-gradient(135deg, #e85d75, #f1948a);
+      --secondary: #e85d75;
+      --nebula-color-1: #e85d75;
+      --nebula-color-2: #f1948a;
+      --nebula-color-3: #f5b7b1;
+      --today-border: #e85d75;
+      --today-bg: #FDF2F2;
+      --controls-border: rgba(232, 93, 117, 0.15);
+      --shadow-glow: 0 0 40px rgba(232, 93, 117, 0.10);
     }
 
-    body.dark {
-      --background: #0F172A;
-      --surface: rgba(30, 41, 59, 0.8);
-      --surface-solid: #1E293B;
-      --surface-hover: #2D3A52;
-      --text: #F8FAFC;
-      --text-light: #94A3B8;
-      --text-inverse: #1F2937;
-      --border: rgba(51, 65, 85, 0.6);
-      --border-light: #1E293B;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.5);
-      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
-      --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.08);
-      --glass-bg: rgba(30, 41, 59, 0.4);
-      --glass-border: rgba(255, 255, 255, 0.04);
-      --card-bg: #1E293B;
-      --text-dark: #F8FAFC;
-      --text-muted: #94A3B8;
-      --holiday-bg: #2D1B1B;
+    body.theme-indigo {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --primary-light: #818cf8;
+      --primary-gradient: linear-gradient(135deg, #4f46e5, #818cf8);
+      --secondary: #4f46e5;
+      --nebula-color-1: #4f46e5;
+      --nebula-color-2: #818cf8;
+      --nebula-color-3: #a5b4fc;
+      --today-border: #4f46e5;
+      --today-bg: #EEF2FF;
+      --controls-border: rgba(79, 70, 229, 0.15);
+      --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.10);
     }
 
+    body.theme-red {
+      --primary: #e74c3c;
+      --primary-dark: #c0392b;
+      --primary-light: #f1948a;
+      --primary-gradient: linear-gradient(135deg, #e74c3c, #f1948a);
+      --secondary: #e74c3c;
+      --nebula-color-1: #e74c3c;
+      --nebula-color-2: #f1948a;
+      --nebula-color-3: #f5b7b1;
+      --today-border: #e74c3c;
+      --today-bg: #FDF2F2;
+      --controls-border: rgba(231, 76, 60, 0.15);
+      --shadow-glow: 0 0 40px rgba(231, 76, 60, 0.10);
+    }
+
+    body.theme-rose {
+      --primary: #e11d48;
+      --primary-dark: #be123c;
+      --primary-light: #fb7185;
+      --primary-gradient: linear-gradient(135deg, #e11d48, #fb7185);
+      --secondary: #e11d48;
+      --nebula-color-1: #e11d48;
+      --nebula-color-2: #fb7185;
+      --nebula-color-3: #fda4af;
+      --today-border: #e11d48;
+      --today-bg: #FFF1F2;
+      --controls-border: rgba(225, 29, 72, 0.15);
+      --shadow-glow: 0 0 40px rgba(225, 29, 72, 0.10);
+    }
+
+    body.theme-teal {
+      --primary: #27ae9e;
+      --primary-dark: #1f8a7a;
+      --primary-light: #48c9b0;
+      --primary-gradient: linear-gradient(135deg, #27ae9e, #48c9b0);
+      --secondary: #27ae9e;
+      --nebula-color-1: #27ae9e;
+      --nebula-color-2: #48c9b0;
+      --nebula-color-3: #a3e4d7;
+      --today-border: #27ae9e;
+      --today-bg: #F0FDFA;
+      --controls-border: rgba(39, 174, 158, 0.15);
+      --shadow-glow: 0 0 40px rgba(39, 174, 158, 0.10);
+    }
+
+    body.theme-yellow {
+      --primary: #f1c40f;
+      --primary-dark: #d4ac0d;
+      --primary-light: #f7dc6f;
+      --primary-gradient: linear-gradient(135deg, #f1c40f, #f7dc6f);
+      --secondary: #f1c40f;
+      --nebula-color-1: #f1c40f;
+      --nebula-color-2: #f7dc6f;
+      --nebula-color-3: #f9e79f;
+      --today-border: #f1c40f;
+      --today-bg: #FFFDE7;
+      --controls-border: rgba(241, 196, 15, 0.15);
+      --shadow-glow: 0 0 40px rgba(241, 196, 15, 0.10);
+    }
+
+    /* ============================================================
+               RESET & BASE
+               ============================================================ */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -167,61 +241,74 @@
       line-height: 1.6;
       min-height: 100vh;
       min-height: 100dvh;
-      transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background 0.4s ease, color 0.4s ease;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ----- Scroll lock (applied by JS) ----- */
+    body.body-scroll-locked {
+      overflow: hidden !important;
+      position: fixed !important;
+      width: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+    }
+
+    /* ----- nebula ----- */
     .nebula-bg {
       position: fixed;
       inset: 0;
       z-index: -1;
       pointer-events: none;
       overflow: hidden;
-      opacity: 0.6;
+      opacity: 0.35;
       transition: opacity 0.8s ease;
     }
 
     body.dark .nebula-bg {
-      opacity: 0.8;
+      opacity: 0.50;
     }
 
     .nebula-bg .orb {
       position: absolute;
-      border-radius: var(--radius-full);
-      filter: blur(80px);
+      border-radius: 50%;
+      filter: blur(90px);
       will-change: transform;
-      animation: nebulaFloat 20s ease-in-out infinite alternate;
+      animation: nebulaFloat 28s ease-in-out infinite alternate;
     }
 
     .nebula-bg .orb:nth-child(1) {
-      width: 600px;
-      height: 600px;
+      width: 550px;
+      height: 550px;
       top: -200px;
       left: -200px;
       background: radial-gradient(circle, var(--nebula-color-1), transparent 70%);
-      animation-duration: 22s;
-      animation-delay: -2s;
+      animation-duration: 24s;
+      animation-delay: -3s;
     }
 
     .nebula-bg .orb:nth-child(2) {
-      width: 500px;
-      height: 500px;
+      width: 450px;
+      height: 450px;
       bottom: -150px;
       right: -150px;
       background: radial-gradient(circle, var(--nebula-color-2), transparent 70%);
-      animation-duration: 26s;
-      animation-delay: -5s;
+      animation-duration: 28s;
+      animation-delay: -6s;
     }
 
     .nebula-bg .orb:nth-child(3) {
-      width: 400px;
-      height: 400px;
+      width: 350px;
+      height: 350px;
       top: 40%;
       left: 50%;
       transform: translateX(-50%);
       background: radial-gradient(circle, var(--nebula-color-3), transparent 70%);
-      animation-duration: 30s;
+      animation-duration: 32s;
       animation-delay: -10s;
-      opacity: 0.4;
+      opacity: 0.30;
     }
 
     @keyframes nebulaFloat {
@@ -230,29 +317,22 @@
       }
 
       33% {
-        transform: translate(40px, -30px) scale(1.1) rotate(5deg);
+        transform: translate(30px, -20px) scale(1.08) rotate(4deg);
       }
 
       66% {
-        transform: translate(-20px, 40px) scale(0.95) rotate(-3deg);
+        transform: translate(-15px, 30px) scale(0.94) rotate(-3deg);
       }
 
       100% {
-        transform: translate(30px, -10px) scale(1.05) rotate(2deg);
+        transform: translate(20px, -8px) scale(1.04) rotate(2deg);
       }
     }
 
-    .glass {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-    }
-
+    /* scrollbar */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
 
     ::-webkit-scrollbar-track {
@@ -260,7 +340,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: var(--secondary);
+      background: var(--primary-light);
       border-radius: 999px;
     }
 
@@ -268,17 +348,23 @@
       background: var(--primary);
     }
 
+    /* ============================================================
+               APP LAYOUT
+               ============================================================ */
     .app-container {
-      max-width: 1000px;
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 8px;
-      padding-top: calc(var(--header-height) + 8px);
+      padding: 12px;
+      padding-top: calc(var(--header-height) + 12px);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 14px;
     }
 
+    /* ============================================================
+               HEADER — matches main portal
+               ============================================================ */
     .header {
       position: fixed;
       top: 0;
@@ -289,64 +375,64 @@
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       border-bottom: 1px solid var(--glass-border);
-      box-shadow: 0 2px 30px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.02);
       height: var(--header-height);
       transition: background var(--transition), border var(--transition);
-    }
-
-    .header.header-hidden {
-      transform: translateY(-100%);
     }
 
     .navbar {
       width: 100%;
       height: 100%;
-      padding: 0 16px;
+      padding: 0 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 10px;
     }
 
     .nav-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
       flex: 1;
     }
 
     .nav-left .logo {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-full);
       object-fit: cover;
       flex-shrink: 0;
+      border: 2px solid var(--primary-light);
+      background: var(--surface-solid);
     }
 
     .nav-left .brand-text {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--text);
       line-height: 1.2;
+      letter-spacing: -0.01em;
     }
 
     .nav-left .brand-text span {
       display: block;
-      font-size: 0.55rem;
+      font-size: 0.58rem;
       font-weight: 500;
       color: var(--text-light);
+      letter-spacing: 0.02em;
     }
 
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       flex-shrink: 0;
     }
 
     .header-btn {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       display: grid;
       place-items: center;
       border-radius: var(--radius-full);
@@ -355,25 +441,88 @@
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--glass-border);
       color: var(--text);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s ease;
       font-size: 16px;
       flex-shrink: 0;
       cursor: pointer;
     }
 
     .header-btn:hover {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: var(--primary);
       color: #fff;
-      border-color: transparent;
-      transform: translateY(-1px) scale(1.05);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
 
-    .header-btn.active {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
-      border-color: transparent;
+    /* ============================================================
+               SCHOOL HEADER
+               ============================================================ */
+    .school-header {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-md);
+      border-bottom: 3px solid var(--accent);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      animation: fadeDown 0.6s ease;
     }
 
+    @keyframes fadeDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.98);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .school-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #F7EA11;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .school-title small {
+      display: block;
+      font-size: 0.7rem;
+      color: #CBD5E1;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .school-contacts {
+      font-size: 0.7rem;
+      color: #E2E8F0;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .school-contacts i {
+      margin-right: 4px;
+      color: #FCD34D;
+    }
+
+    /* ============================================================
+               CALENDAR WRAPPER
+               ============================================================ */
     .calendar-wrapper {
       background: var(--surface);
       backdrop-filter: blur(20px) saturate(180%);
@@ -381,84 +530,166 @@
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
-      padding: 12px 10px;
-      transition: background var(--transition), border var(--transition);
+      padding: 16px 14px 14px;
+      transition: background var(--transition), border var(--transition), box-shadow var(--transition);
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
+      position: relative;
+      animation: fadeUp 0.5s ease 0.1s both;
     }
 
-    .school-header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 10px;
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .calendar-wrapper:hover {
       box-shadow: var(--shadow-md);
-      border-bottom: 3px solid var(--accent);
     }
 
-    .header-top {
+    /* ===== SWIPE INDICATOR ===== */
+    .swipe-hint {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.4rem;
+      color: var(--text-muted);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 5;
+    }
+
+    .swipe-hint.left {
+      left: 6px;
+    }
+
+    .swipe-hint.right {
+      right: 6px;
+    }
+
+    .swipe-hint.show {
+      opacity: 0.25;
+    }
+
+    body.dark .swipe-hint.show {
+      opacity: 0.35;
+    }
+
+    /* ===== GRID CONTAINER ===== */
+    .grid-swipe-container {
+      position: relative;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+      will-change: transform, opacity;
+    }
+
+    .calendar-grid.swipe-out-left {
+      transform: translateX(-40px);
+      opacity: 0;
+    }
+
+    .calendar-grid.swipe-out-right {
+      transform: translateX(40px);
+      opacity: 0;
+    }
+
+    .calendar-grid.swipe-in-left {
+      animation: slideInLeft 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .calendar-grid.swipe-in-right {
+      animation: slideInRight 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .calendar-grid.swipe-in-none {
+      animation: fadeIn 0.25s ease forwards;
+    }
+
+    @keyframes slideInLeft {
+      0% {
+        transform: translateX(40px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInRight {
+      0% {
+        transform: translateX(-40px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ===== CONTROLS ===== */
+    .controls-card {
+      background: var(--controls-bg);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm), 0 0 0 1px var(--controls-border);
+      border: 1px solid var(--border);
+      transition: background var(--transition), border var(--transition), box-shadow var(--transition);
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .school-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #fbbf24;
-      line-height: 1.2;
-    }
-
-    .school-title span {
-      display: block;
-      font-size: 0.75rem;
-      color: #cbd5e1;
-      font-weight: 500;
-    }
-
-    .school-contacts {
-      font-size: 0.72rem;
-      color: #e2e8f0;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 6px 10px;
-      border-radius: 8px;
-      margin-top: 8px;
-      display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 10px;
     }
 
-    .controls-card {
-      background: var(--surface-solid);
-      border-radius: var(--radius-md);
-      padding: 8px 10px;
-      margin-bottom: 10px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      border: 1px solid var(--border);
-      transition: background var(--transition), border var(--transition);
-    }
-
-    body.dark .controls-card {
-      background: var(--surface-solid);
+    .controls-card:hover {
+      box-shadow: var(--shadow-md), 0 0 0 1px var(--primary-light);
     }
 
     .nav-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .month-btn {
       background: var(--background);
       border: 1px solid var(--border);
       color: var(--text);
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
@@ -466,63 +697,372 @@
       cursor: pointer;
       font-size: 0.9rem;
       transition: all var(--transition);
+      flex-shrink: 0;
     }
 
     .month-btn:hover {
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
+      box-shadow: var(--shadow-sm);
+      transform: scale(1.05);
     }
 
-    .month-select {
+    .month-btn:active {
+      transform: scale(0.92);
+    }
+
+    .month-dropdown-wrapper {
       flex: 1;
-      font-size: 0.9rem;
-      font-weight: 700;
-      padding: 6px 8px;
+      min-width: 140px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .month-dropdown-btn {
+      width: 100%;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 30px 6px 14px;
       border-radius: var(--radius-sm);
       border: 1.5px solid var(--border);
       background: var(--background);
       color: var(--text);
       outline: none;
-      text-align: center;
       cursor: pointer;
-      transition: border var(--transition);
+      transition: border var(--transition), box-shadow var(--transition), background var(--transition);
+      font-family: var(--font-family);
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .month-select:focus {
-      border-color: var(--secondary);
+    .month-dropdown-btn:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.10);
+    }
+
+    .month-dropdown-btn:hover {
+      border-color: var(--primary-light);
+      background: var(--surface-hover);
+    }
+
+    /* ----- Dropdown panel (portal) ----- */
+    .month-dropdown-panel-portal {
+      position: fixed;
+      z-index: 10002;
+      background: var(--surface-solid);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl), var(--shadow-glow);
+      border: 1px solid var(--border);
+      padding: 8px;
+      max-height: 260px;
+      overflow-y: auto;
+      width: 220px;
+      display: none;
+      animation: dropDown 0.2s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      min-width: 180px;
+    }
+
+    .month-dropdown-panel-portal.open {
+      display: block;
+    }
+
+    @keyframes dropDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .month-dropdown-panel-portal .month-option {
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .month-dropdown-panel-portal .month-option:last-child {
+      border-bottom: none;
+    }
+
+    .month-dropdown-panel-portal .month-option:hover {
+      background: var(--surface-hover);
+      color: var(--primary);
+    }
+
+    .month-dropdown-panel-portal .month-option.active-option {
+      background: rgba(243, 156, 18, 0.08);
+      color: var(--primary);
+      font-weight: 700;
+      border-left: 3px solid var(--primary);
+    }
+
+    .month-dropdown-panel-portal .month-option .month-label {
+      font-weight: 600;
+    }
+
+    .month-dropdown-panel-portal .month-option .month-sub {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* ----- Dropdown backdrop (blocks interactions) ----- */
+    .dropdown-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.15);
+      z-index: 10001;
+      display: none;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      transition: opacity 0.25s ease;
+    }
+
+    body.dark .dropdown-backdrop {
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .dropdown-backdrop.show {
+      display: block;
+    }
+
+    /* ----- Modal backdrop (already exists) ----- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(11, 20, 36, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: var(--z-modal);
+      padding: 16px;
+      animation: modalFade 0.25s ease;
+    }
+
+    @keyframes modalFade {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .modal-card {
+      background: var(--surface-solid);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--shadow-xl), var(--shadow-glow);
+      position: relative;
+      border: 1px solid var(--glass-border);
+      animation: modalSlide 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @keyframes modalSlide {
+      0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--background);
+      border: 1px solid var(--border);
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      display: grid;
+      place-items: center;
+    }
+
+    .modal-close:hover {
+      background: rgba(239, 68, 68, 0.08);
+      color: #EF4444;
+      border-color: #EF4444;
+      transform: rotate(90deg);
+    }
+
+    .modal-card h4 {
+      color: var(--primary);
+      margin-bottom: 14px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--border);
+      background: var(--background);
+      color: var(--text);
+      font-size: 0.88rem;
+      outline: none;
+      transition: all var(--transition);
+      font-family: var(--font-family);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.10);
+    }
+
+    #searchResults {
+      margin-top: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .search-result-item {
+      padding: 8px 12px;
+      background: var(--background);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.8rem;
+      border: 1px solid transparent;
+      transition: all var(--transition);
+      color: var(--text);
+    }
+
+    .search-result-item:hover {
+      border-color: var(--primary-light);
+      background: var(--surface-hover);
+      transform: translateX(4px);
+    }
+
+    .search-result-item strong {
+      color: var(--primary);
+    }
+
+    body.dark .search-result-item strong {
+      color: #f5b041;
+    }
+
+    /* ============================================================
+               ACTION ROW
+               ============================================================ */
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .live-clock {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-light);
+      background: var(--background);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+      transition: all var(--transition);
+    }
+
+    .live-clock i {
+      color: var(--primary-light);
+      font-size: 0.7rem;
+    }
+
+    .live-clock:hover {
+      border-color: var(--primary-light);
+      background: var(--surface-hover);
     }
 
     .btn-group {
       display: flex;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .btn {
-      flex: 1;
-      padding: 8px 6px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 10px;
       min-height: 38px;
       transition: all var(--transition);
+      font-family: var(--font-family);
+      letter-spacing: 0.01em;
     }
 
     .btn-today {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: var(--primary-gradient);
       color: #fff;
-      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+      box-shadow: 0 4px 14px rgba(243, 156, 18, 0.25);
     }
 
     .btn-today:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(59, 130, 246, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(243, 156, 18, 0.35);
+    }
+
+    .btn-today:active {
+      transform: scale(0.95);
     }
 
     .btn-tool {
@@ -533,76 +1073,86 @@
 
     .btn-tool:hover {
       background: var(--surface-hover);
-      border-color: var(--secondary);
+      border-color: var(--primary-light);
+      transform: translateY(-1px);
     }
 
+    .btn-tool:active {
+      transform: scale(0.95);
+    }
+
+    /* ============================================================
+               MONTH HEADER
+               ============================================================ */
     .month-header-details {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      padding: 0 4px 6px 4px;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 10px;
+      padding: 0 2px 8px 2px;
+      border-bottom: 2px solid var(--border-light);
     }
 
     .month-title-bs {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       font-weight: 800;
       color: var(--primary);
+      letter-spacing: -0.01em;
     }
 
     .month-title-ad {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-muted);
       background: var(--background);
-      padding: 2px 12px;
-      border-radius: 999px;
+      padding: 2px 14px;
+      border-radius: var(--radius-full);
       border: 1px solid var(--border);
     }
 
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 3px;
-    }
-
+    /* ===== DAY HEADERS ===== */
     .day-header {
       text-align: center;
       font-weight: 700;
-      padding: 4px 2px;
-      font-size: 0.7rem;
+      padding: 6px 2px 4px;
+      font-size: 0.72rem;
       background: var(--background);
       border-radius: 4px;
       color: var(--text);
       line-height: 1.1;
+      border-bottom: 2px solid transparent;
+      transition: background var(--transition);
     }
 
     .day-header span {
       display: block;
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       color: var(--text-muted);
       font-weight: 500;
+      letter-spacing: 0.04em;
     }
 
     .day-header.saturday,
     .day-header.sunday {
       color: var(--holiday-red);
       background: var(--holiday-bg);
+      border-bottom-color: var(--holiday-red);
     }
 
     body.dark .day-header.saturday,
     body.dark .day-header.sunday {
-      color: #f87171;
-      background: rgba(220, 38, 38, 0.15);
+      color: #F87171;
+      background: rgba(185, 28, 28, 0.12);
+      border-bottom-color: #F87171;
     }
 
+    /* ===== CELLS ===== */
     .calendar-cell {
-      min-height: 52px;
+      min-height: 58px;
       background: var(--surface-solid);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 3px;
+      padding: 4px 5px 3px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -612,10 +1162,14 @@
     }
 
     .calendar-cell:hover {
-      border-color: var(--secondary);
-      transform: scale(1.02);
+      border-color: var(--primary-light);
+      transform: scale(1.03);
       z-index: 2;
       box-shadow: var(--shadow-md);
+    }
+
+    .calendar-cell:active {
+      transform: scale(0.96);
     }
 
     .calendar-cell.empty {
@@ -623,11 +1177,34 @@
       border: 1px dashed var(--border);
       cursor: default;
       pointer-events: none;
+      opacity: 1;
+    }
+
+    .calendar-cell.empty.ghost {
+      opacity: var(--ghost-opacity);
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .calendar-cell.empty.ghost:hover {
+      opacity: 0.8;
+      border-color: var(--primary-light);
+      transform: scale(1.03);
+      background: var(--surface-hover);
+    }
+
+    .calendar-cell.empty.ghost .bs-day {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .calendar-cell.empty.ghost .ad-day {
+      background: transparent;
     }
 
     .calendar-cell.holiday {
       background: var(--holiday-bg);
-      border-color: #fca5a5;
+      border-color: #FCA5A5;
     }
 
     .calendar-cell.holiday .bs-day {
@@ -637,19 +1214,36 @@
     .calendar-cell.today {
       border: 2px solid var(--today-border);
       background: var(--today-bg);
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.10);
+      animation: todayPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes todayPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.10);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px rgba(243, 156, 18, 0.04);
+      }
     }
 
     body.dark .calendar-cell.today {
-      background: rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.15);
     }
 
     .calendar-cell.selected {
       border: 2px solid var(--accent);
-      background: #fffbeb;
+      background: #FFFBEB;
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.12);
+      transform: scale(1.02);
     }
 
     body.dark .calendar-cell.selected {
-      background: rgba(245, 158, 11, 0.12);
+      background: rgba(243, 156, 18, 0.08);
+      box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.10);
     }
 
     .cell-top {
@@ -660,38 +1254,48 @@
     }
 
     .bs-day {
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 800;
-      color: var(--text-dark);
+      color: var(--text);
     }
 
     .ad-day {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 600;
       color: var(--text-muted);
+      background: var(--background);
+      padding: 0 5px;
+      border-radius: 3px;
     }
 
     .tithi-text {
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       color: var(--text-muted);
       font-weight: 500;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       margin-top: 1px;
+      line-height: 1.2;
     }
 
     .indicator-dots {
       display: flex;
-      gap: 2px;
+      gap: 3px;
       justify-content: flex-end;
       margin-top: 2px;
     }
 
     .dot {
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .calendar-cell:hover .dot {
+      transform: scale(1.3);
     }
 
     .dot-holiday {
@@ -708,11 +1312,13 @@
 
     .legend-bar {
       display: flex;
-      justify-content: space-around;
-      padding: 6px 4px 0 4px;
-      margin-top: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 8px 4px 0;
+      margin-top: 8px;
       border-top: 1px solid var(--border);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       color: var(--text-muted);
       font-weight: 600;
     }
@@ -720,17 +1326,43 @@
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      transition: all 0.2s ease;
     }
 
+    .legend-item:hover {
+      color: var(--text);
+    }
+
+    .legend-item .dot {
+      width: 8px;
+      height: 8px;
+    }
+
+    /* ============================================================
+               DETAIL PANEL
+               ============================================================ */
     .detail-panel {
       background: var(--surface-solid);
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 16px 18px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--primary-light);
-      transition: background var(--transition), border var(--transition);
+      border-left: 4px solid var(--primary);
+      transition: background var(--transition), border var(--transition), transform 0.3s ease;
+      animation: slideUp 0.4s ease 0.2s both;
+    }
+
+    @keyframes slideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     body.dark .detail-panel {
@@ -741,66 +1373,119 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 6px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .detail-date-bs {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--primary);
+      letter-spacing: -0.01em;
     }
 
     .detail-date-ad {
       font-size: 0.78rem;
       color: var(--text-muted);
       font-weight: 600;
+      background: var(--background);
+      padding: 2px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+    }
+
+    .days-diff {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-light);
+      background: var(--background);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .days-diff i {
+      margin-right: 4px;
+      color: var(--primary-light);
     }
 
     .detail-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
 
     .detail-box {
       background: var(--background);
-      padding: 8px 10px;
+      padding: 10px 12px;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-light);
+      transition: background var(--transition), transform 0.2s ease;
+    }
+
+    .detail-box:hover {
+      transform: translateY(-2px);
     }
 
     .detail-box-title {
-      font-size: 0.7rem;
+      font-size: 0.62rem;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.5px;
       color: var(--text-muted);
       font-weight: 700;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+    }
+
+    .detail-box-title i {
+      font-size: 0.7rem;
     }
 
     .detail-box-content {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      color: var(--text-dark);
+      color: var(--text);
+      line-height: 1.3;
     }
 
-    .holiday-text {
+    .detail-box-content .holiday-text {
       color: var(--holiday-red);
     }
 
+    .detail-box-content .program-text {
+      color: var(--prog-green);
+    }
+
+    .detail-box-content .event-text {
+      color: var(--event-blue);
+    }
+
+    .detail-box-content .empty-text {
+      color: var(--text-muted);
+      font-weight: 400;
+      font-size: 0.8rem;
+    }
+
+    /* ============================================================
+               PROGRAMS CARD
+               ============================================================ */
     .programs-card {
       background: var(--surface-solid);
       border-radius: var(--radius-md);
-      padding: 12px;
+      padding: 14px 16px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border);
       border-top: 4px solid var(--accent);
-      transition: background var(--transition), border var(--transition);
+      transition: background var(--transition), border var(--transition), transform 0.3s ease;
+      animation: slideUp 0.4s ease 0.3s both;
     }
 
     body.dark .programs-card {
@@ -810,13 +1495,13 @@
     .programs-header {
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
+      gap: 8px;
+      margin-bottom: 10px;
       color: var(--accent-dark);
     }
 
     body.dark .programs-header {
-      color: #fbbf24;
+      color: #FBBF24;
     }
 
     .programs-header h3 {
@@ -832,159 +1517,109 @@
     }
 
     .program-item {
-      background: #fffbeb;
-      border-left: 3px solid #f59e0b;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 0.82rem;
+      background: #FFFBEB;
+      border-left: 3px solid var(--accent);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       gap: 8px;
+      color: var(--text);
+      transition: all 0.2s ease;
     }
 
     body.dark .program-item {
-      background: rgba(245, 158, 11, 0.08);
-      border-left-color: #f59e0b;
+      background: rgba(243, 156, 18, 0.06);
+      border-left-color: var(--accent);
+    }
+
+    .program-item:hover {
+      transform: translateX(4px);
+      background: rgba(243, 156, 18, 0.08);
+    }
+
+    .program-item i {
+      color: var(--accent);
+      font-size: 0.7rem;
     }
 
     .muhurta-box {
-      margin-top: 8px;
-      padding: 6px 10px;
-      background: #fdf2f8;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #FDF2F8;
       border-radius: 6px;
-      border: 1px solid #fbcfe8;
+      border: 1px solid #FBCFE8;
       font-size: 0.78rem;
       color: #831843;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
     }
 
     body.dark .muhurta-box {
-      background: rgba(236, 72, 153, 0.08);
+      background: rgba(236, 72, 153, 0.06);
       border-color: #831843;
-      color: #f472b6;
+      color: #F472B6;
     }
 
+    .muhurta-box strong {
+      font-weight: 700;
+    }
+
+    /* ============================================================
+               FOOTER QUOTE
+               ============================================================ */
     .footer-quote {
-      background: #fef3c7;
+      background: #FEF3C7;
       border-top: 4px solid var(--accent);
-      color: #78350f;
-      padding: 14px 16px;
+      color: #78350F;
+      padding: 14px 18px;
       border-radius: var(--radius-md);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       box-shadow: var(--shadow-sm);
       text-align: center;
       margin-top: auto;
+      transition: background var(--transition), color var(--transition);
+      animation: fadeUp 0.5s ease 0.4s both;
     }
 
     body.dark .footer-quote {
-      background: rgba(245, 158, 11, 0.08);
-      color: #fbbf24;
+      background: rgba(243, 156, 18, 0.06);
+      color: #FBBF24;
+      border-top-color: var(--accent);
     }
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(3px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: var(--z-modal);
-      padding: 12px;
+    .footer-quote i {
+      color: var(--accent);
+      font-size: 1.1rem;
+      opacity: 0.7;
     }
 
-    .modal-card {
-      background: var(--surface-solid);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: var(--shadow-xl), var(--shadow-glow);
-      position: relative;
-      border: 1px solid var(--glass-border);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: var(--background);
-      border: 1px solid var(--border);
-      width: 28px;
-      height: 28px;
-      border-radius: var(--radius-full);
-      cursor: pointer;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      transition: all var(--transition);
-    }
-
-    .modal-close:hover {
-      background: rgba(239, 68, 68, 0.1);
-      color: #EF4444;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      border: 2px solid var(--border);
-      background: var(--background);
-      color: var(--text);
-      font-size: 0.88rem;
-      outline: none;
-      transition: all var(--transition);
-    }
-
-    .form-control:focus {
-      border-color: var(--secondary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-    }
-
-    .search-result-item {
-      padding: 6px 10px;
-      background: var(--background);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-size: 0.82rem;
-      border: 1px solid transparent;
-      transition: all var(--transition);
-    }
-
-    .search-result-item:hover {
-      border-color: var(--secondary);
-      background: var(--surface-hover);
-    }
-
-    .search-result-item strong {
-      color: var(--primary);
-    }
-
-    body.dark .search-result-item strong {
-      color: #60A5FA;
-    }
-
+    /* ============================================================
+               TOAST
+               ============================================================ */
     .toast-container {
       position: fixed;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 99999;
-      padding: 12px 24px;
+      padding: 12px 28px;
       background: var(--surface-solid);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-xl);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--secondary);
-      font-size: 0.85rem;
+      border-left: 4px solid var(--primary);
+      font-size: 0.82rem;
       font-weight: 500;
       color: var(--text);
       opacity: 0;
@@ -1010,40 +1645,51 @@
     }
 
     .toast-container.info {
-      border-left-color: #3B82F6;
+      border-left-color: var(--primary);
     }
 
+    /* ============================================================
+               RESPONSIVE
+               ============================================================ */
     @media (min-width: 640px) {
       .app-container {
-        padding: 16px;
-        padding-top: calc(var(--header-height) + 16px);
+        padding: 20px;
+        padding-top: calc(var(--header-height) + 20px);
+        gap: 18px;
       }
 
       .calendar-wrapper {
-        padding: 16px 14px;
+        padding: 20px 18px 16px;
       }
 
       .controls-card {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        padding: 14px 20px;
+        flex-direction: column;
+      }
+
+      .nav-row {
+        flex-wrap: nowrap;
+      }
+
+      .action-row {
+        flex-wrap: nowrap;
       }
 
       .calendar-cell {
-        min-height: 75px;
-        padding: 6px;
+        min-height: 78px;
+        padding: 6px 8px 4px;
       }
 
       .bs-day {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
       }
 
       .ad-day {
-        font-size: 0.72rem;
+        font-size: 0.62rem;
       }
 
       .tithi-text {
-        font-size: 0.65rem;
+        font-size: 0.58rem;
       }
 
       .detail-grid {
@@ -1051,7 +1697,7 @@
       }
 
       .school-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
 
       .nav-left .brand-text {
@@ -1061,6 +1707,38 @@
       .nav-left .brand-text span {
         font-size: 0.6rem;
       }
+
+      .month-dropdown-btn {
+        font-size: 0.9rem;
+        padding: 6px 30px 6px 14px;
+      }
+
+      .btn {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+      }
+
+      .live-clock {
+        font-size: 0.85rem;
+        padding: 4px 14px;
+      }
+
+      .swipe-hint {
+        font-size: 1.8rem;
+      }
+
+      .swipe-hint.left {
+        left: 10px;
+      }
+
+      .swipe-hint.right {
+        right: 10px;
+      }
+
+      .month-dropdown-panel-portal {
+        width: 260px;
+        min-width: 220px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1069,36 +1747,43 @@
       }
 
       .school-contacts {
-        font-size: 0.65rem;
-        padding: 4px 8px;
-        gap: 6px;
+        font-size: 0.6rem;
+        padding: 4px 10px;
+        gap: 8px;
+        flex-wrap: wrap;
       }
 
-      .month-select {
-        font-size: 0.78rem;
+      .month-dropdown-btn {
+        font-size: 0.72rem;
+        padding: 4px 26px 4px 8px;
       }
 
       .btn {
-        font-size: 0.7rem;
-        padding: 6px 4px;
+        font-size: 0.65rem;
+        padding: 4px 8px;
         min-height: 32px;
       }
 
+      .btn-group {
+        gap: 4px;
+      }
+
       .calendar-cell {
-        min-height: 44px;
-        padding: 2px;
+        min-height: 46px;
+        padding: 3px 3px 2px;
       }
 
       .bs-day {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
       }
 
       .ad-day {
-        font-size: 0.5rem;
+        font-size: 0.48rem;
+        padding: 0 3px;
       }
 
       .tithi-text {
-        font-size: 0.45rem;
+        font-size: 0.42rem;
       }
 
       .dot {
@@ -1112,6 +1797,184 @@
 
       .detail-grid {
         grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .detail-panel {
+        padding: 12px;
+      }
+
+      .detail-box {
+        padding: 6px 10px;
+      }
+
+      .detail-box-content {
+        font-size: 0.8rem;
+      }
+
+      .programs-card {
+        padding: 10px 12px;
+      }
+
+      .program-item {
+        font-size: 0.72rem;
+        padding: 4px 10px;
+      }
+
+      .footer-quote {
+        font-size: 0.75rem;
+        padding: 10px 14px;
+      }
+
+      .month-header-details {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .month-title-bs {
+        font-size: 1rem;
+      }
+
+      .month-title-ad {
+        font-size: 0.7rem;
+      }
+
+      .legend-bar {
+        gap: 8px;
+        font-size: 0.55rem;
+      }
+
+      .legend-item .dot {
+        width: 6px;
+        height: 6px;
+      }
+
+      .controls-card {
+        padding: 8px 10px;
+        gap: 6px;
+      }
+
+      .nav-row {
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+
+      .month-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+      }
+
+      .nav-left .logo {
+        width: 30px;
+        height: 30px;
+      }
+
+      .nav-left .brand-text {
+        font-size: 0.75rem;
+      }
+
+      .nav-left .brand-text span {
+        font-size: 0.5rem;
+      }
+
+      .header-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+      }
+
+      .school-header {
+        padding: 12px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .school-contacts {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .live-clock {
+        font-size: 0.65rem;
+        padding: 2px 8px;
+      }
+
+      .action-row {
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .live-clock {
+        order: 1;
+      }
+
+      .btn-group {
+        order: 2;
+      }
+
+      .swipe-hint {
+        font-size: 1rem;
+      }
+
+      .swipe-hint.left {
+        left: 4px;
+      }
+
+      .swipe-hint.right {
+        right: 4px;
+      }
+
+      .month-dropdown-panel-portal {
+        width: 180px;
+        min-width: 150px;
+        max-height: 200px;
+      }
+
+      .month-dropdown-panel-portal .month-option {
+        font-size: 0.72rem;
+        padding: 6px 10px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .btn {
+        font-size: 0.6rem;
+        padding: 4px 6px;
+        min-height: 28px;
+      }
+
+      .month-dropdown-btn {
+        font-size: 0.65rem;
+        padding: 4px 22px 4px 6px;
+      }
+
+      .calendar-cell {
+        min-height: 38px;
+        padding: 2px 2px 1px;
+      }
+
+      .bs-day {
+        font-size: 0.65rem;
+      }
+
+      .ad-day {
+        font-size: 0.4rem;
+      }
+
+      .tithi-text {
+        font-size: 0.35rem;
+      }
+
+      .month-dropdown-panel-portal {
+        width: 160px;
+        min-width: 130px;
+        max-height: 170px;
+      }
+
+      .month-dropdown-panel-portal .month-option {
+        font-size: 0.65rem;
+        padding: 4px 8px;
       }
     }
   </style>
@@ -1119,21 +1982,24 @@
 
 <body>
 
+  <!-- ===== NEBULA ===== -->
   <div class="nebula-bg" aria-hidden="true">
     <div class="orb"></div>
     <div class="orb"></div>
     <div class="orb"></div>
   </div>
 
+  <!-- ===== TOAST ===== -->
   <div class="toast-container" id="toast"></div>
 
+  <!-- ===== HEADER ===== -->
   <header class="header" id="mainHeader" role="banner">
     <nav class="navbar" role="navigation" aria-label="Main navigation">
       <div class="nav-left">
-        <img src="logo.png" alt="PSBS Logo" class="logo" width="36" height="36" id="headerLogo">
+        <img src="logo.png" alt="PSBS Logo" class="logo" width="38" height="38" id="headerLogo" />
         <div class="brand-text">
-          PSBS Portal
-          <span>📅 Calendar 2083</span>
+          Pabitra S.B.S.
+          <span>📅 क्यालेन्डर २०८३</span>
         </div>
       </div>
       <div class="nav-right">
@@ -1147,116 +2013,142 @@
     </nav>
   </header>
 
+  <!-- ===== DROPDOWN BACKDROP (blocks interactions) ===== -->
+  <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
+
+  <!-- ===== MONTH DROPDOWN PORTAL (rendered on body) ===== -->
+  <div class="month-dropdown-panel-portal" id="monthDropdownPortal" role="listbox">
+    <!-- populated dynamically -->
+  </div>
+
+  <!-- ===== APP ===== -->
   <div class="app-container">
 
-    <div class="calendar-wrapper">
+    <!-- ===== CALENDAR WRAPPER ===== -->
+    <div class="calendar-wrapper" id="calendarWrapper">
 
+      <!-- Swipe hints -->
+      <div class="swipe-hint left" id="swipeHintLeft"><i class="fa-solid fa-chevron-left"></i></div>
+      <div class="swipe-hint right" id="swipeHintRight"><i class="fa-solid fa-chevron-right"></i></div>
+
+      <!-- School Header -->
       <header class="school-header">
-        <div class="header-top">
-          <div>
-            <div class="school-title">PABITRA SECONDARY BOARDING SCHOOL
-            </div>
+        <div>
+          <div class="school-title">
+            PABITRA SECONDARY BOARDING SCHOOL
+            <small>सिलगढी-६, डोटी · Est. 2040 BS</small>
           </div>
         </div>
         <div class="school-contacts">
-          <span><i class="fa-solid fa-location-dot"></i> सिलगढी-६, डोटी (Estd. 2040 BS)</span>
+          <span><i class="fa-solid fa-location-dot"></i> सिलगढी-६</span>
           <span><i class="fa-solid fa-phone"></i> 094-411035</span>
           <span><i class="fa-solid fa-bed"></i> 9766425777</span>
         </div>
       </header>
 
+      <!-- Controls -->
       <div class="controls-card">
         <div class="nav-row">
-          <button class="month-btn" id="prevMonthBtn" title="Previous Month"><i
-              class="fa-solid fa-chevron-left"></i></button>
-          <select id="monthSelect" class="month-select">
-            <option value="0">वैशाख २०८३ (Apr/May 2026)</option>
-            <option value="1">जेठ २०८३ (May/Jun 2026)</option>
-            <option value="2">असार २०८३ (Jun/Jul 2026)</option>
-            <option value="3">श्रावण २०८३ (Jul/Aug 2026)</option>
-            <option value="4">भदौ २०८३ (Aug/Sep 2026)</option>
-            <option value="5">असोज २०८३ (Sep/Oct 2026)</option>
-            <option value="6">कार्तिक २०८३ (Oct/Nov 2026)</option>
-            <option value="7">मंसिर २०८३ (Nov/Dec 2026)</option>
-            <option value="8">पुस २०८३ (Dec/Jan 2026/27)</option>
-            <option value="9">माघ २०८३ (Jan/Feb 2027)</option>
-            <option value="10">फागुन २०८३ (Feb/Mar 2027)</option>
-            <option value="11">चैत्र २०८३ (Mar/Apr 2027)</option>
-          </select>
-          <button class="month-btn" id="nextMonthBtn" title="Next Month"><i
-              class="fa-solid fa-chevron-right"></i></button>
+          <button class="month-btn" id="prevMonthBtn" title="Previous Month">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="month-dropdown-wrapper" id="monthDropdownWrapper">
+            <button class="month-dropdown-btn" id="monthDropdownBtn" aria-haspopup="true" aria-expanded="false">
+              वैशाख २०८३
+            </button>
+          </div>
+          <button class="month-btn" id="nextMonthBtn" title="Next Month">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
-        <div class="btn-group">
-          <button class="btn btn-today" id="todayBtn">
-            <i class="fa-solid fa-crosshairs"></i> आज (Today)
-          </button>
-          <button class="btn btn-tool" id="searchModalBtn">
-            <i class="fa-solid fa-magnifying-glass"></i> Search
-          </button>
+        <div class="action-row">
+          <div class="live-clock" id="liveClock">
+            <i class="fa-regular fa-clock"></i> <span id="clockDisplay">--:--:--</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-today" id="todayBtn">
+              <i class="fa-solid fa-crosshairs"></i> आज
+            </button>
+            <button class="btn btn-tool" id="searchModalBtn">
+              <i class="fa-solid fa-magnifying-glass"></i> खोज
+            </button>
+          </div>
         </div>
       </div>
 
+      <!-- Month Title -->
       <div class="month-header-details">
         <div class="month-title-bs" id="monthTitleBS"></div>
         <div class="month-title-ad" id="monthTitleAD"></div>
       </div>
-      <div class="calendar-grid" id="calendarGrid"></div>
+
+      <!-- Grid Container for Swipe Animation -->
+      <div class="grid-swipe-container" id="gridSwipeContainer">
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <!-- Legend -->
       <div class="legend-bar">
-        <div class="legend-item"><span class="dot dot-holiday"></span> Holiday / बिदा</div>
-        <div class="legend-item"><span class="dot dot-program"></span> Program / कार्यक्रम</div>
-        <div class="legend-item"><span class="dot dot-event"></span> Event / पर्व</div>
+        <span class="legend-item"><span class="dot dot-holiday"></span> बिदा / पर्व</span>
+        <span class="legend-item"><span class="dot dot-program"></span> कार्यक्रम</span>
+        <span class="legend-item"><span class="dot dot-event"></span> विशेष</span>
       </div>
     </div>
 
+    <!-- ===== DETAIL PANEL ===== -->
     <div class="detail-panel" id="detailPanel">
       <div class="detail-header">
         <div>
           <div class="detail-date-bs" id="detailDateBS"></div>
           <div class="detail-date-ad" id="detailDateAD"></div>
         </div>
+        <div class="days-diff" id="daysDiff">
+          <i class="fa-regular fa-clock"></i> <span id="daysDiffText">—</span>
+        </div>
       </div>
+
       <div class="detail-grid">
         <div class="detail-box">
-          <div class="detail-box-title"><i class="fa-solid fa-moon"></i> </div>
-          <div class="detail-box-content" id="detailTithi"></div>
+          <div class="detail-box-title"><i class="fa-regular fa-moon"></i> तिथि</div>
+          <div class="detail-box-content" id="detailTithi">—</div>
         </div>
         <div class="detail-box">
-          <div class="detail-box-title"><i class="fa-solid fa-flag"></i> </div>
-          <div class="detail-box-content" id="detailEvent"></div>
+          <div class="detail-box-title"><i class="fa-regular fa-flag"></i> बिदा / पर्व</div>
+          <div class="detail-box-content" id="detailEvent">—</div>
         </div>
         <div class="detail-box">
-          <div class="detail-box-title"><i class="fa-solid fa-graduation-cap"></i> </div>
-          <div class="detail-box-content" id="detailProgram"></div>
+          <div class="detail-box-title"><i class="fa-regular fa-calendar"></i> विद्यालय कार्यक्रम</div>
+          <div class="detail-box-content" id="detailProgram">—</div>
         </div>
       </div>
     </div>
 
+    <!-- ===== PROGRAMS CARD ===== -->
     <div class="programs-card">
       <div class="programs-header">
         <i class="fa-solid fa-calendar-day"></i>
-        <h3 id="programsCardTitle"></h3>
+        <h3 id="programsCardTitle">मासिक कार्यक्रम</h3>
       </div>
       <ul class="program-list" id="programList"></ul>
       <div class="muhurta-box" id="muhurtaBox"></div>
     </div>
 
+    <!-- ===== FOOTER QUOTE ===== -->
     <footer class="footer-quote">
-      <i class="fa-solid fa-quote-left" style="color: var(--accent);"></i>
+      <i class="fa-solid fa-quote-left"></i>
       <span id="quoteText"></span>
     </footer>
 
   </div>
 
+  <!-- ===== SEARCH MODAL ===== -->
   <div class="modal-overlay" id="searchModal">
     <div class="modal-card">
       <button class="modal-close" id="closeSearchModal"><i class="fa-solid fa-xmark"></i></button>
-      <h4 style="margin-bottom:12px;color:var(--primary);"><i class="fa-solid fa-magnifying-glass"></i> Search
-        Calendar</h4>
-      <input type="text" id="searchInput" class="form-control" placeholder="Search events, exams, holidays..."
-        onkeyup="searchCalendar()">
-      <div id="searchResults"
-        style="margin-top:10px;max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;">
-      </div>
+      <h4><i class="fa-solid fa-magnifying-glass"></i> क्यालेन्डर खोज्नुहोस्</h4>
+      <input type="text" id="searchInput" class="form-control" placeholder="पर्व, बिदा, कार्यक्रम..."
+        onkeyup="searchCalendar()" />
+      <div id="searchResults"></div>
     </div>
   </div>
 
@@ -1266,23 +2158,24 @@
     // ============================================================
     const Helpers = {
       getTheme: function () { return localStorage.getItem('psbs_theme') || 'light'; },
-      getThemePreset: function () { return localStorage.getItem('psbs_theme_preset') || 'default'; },
+      getThemePreset: function () { return localStorage.getItem('psbs_theme_preset') || 'gold'; },
       applyTheme: function () {
         const theme = this.getTheme();
         const preset = this.getThemePreset();
+        const body = document.body;
         if (theme === 'dark') {
-          document.body.classList.add('dark');
+          body.classList.add('dark');
           const icon = document.getElementById('themeIcon');
           if (icon) icon.className = 'fa-solid fa-sun';
         } else {
-          document.body.classList.remove('dark');
+          body.classList.remove('dark');
           const icon = document.getElementById('themeIcon');
           if (icon) icon.className = 'fa-solid fa-moon';
         }
-        document.body.className = document.body.className.split(' ').filter(function (c) {
+        body.className = body.className.split(' ').filter(function (c) {
           return !c.startsWith('theme-');
         }).join(' ');
-        if (preset !== 'default') { document.body.classList.add('theme-' + preset); }
+        if (preset !== 'default') { body.classList.add('theme-' + preset); }
       },
       toggleTheme: function () {
         const isDark = document.body.classList.contains('dark');
@@ -1291,13 +2184,13 @@
           localStorage.setItem('psbs_theme', 'light');
           const icon = document.getElementById('themeIcon');
           if (icon) icon.className = 'fa-solid fa-moon';
-          this.showToast('☀️ Light mode enabled', 'info');
+          this.showToast('☀️ लाइट मोड', 'info');
         } else {
           document.body.classList.add('dark');
           localStorage.setItem('psbs_theme', 'dark');
           const icon = document.getElementById('themeIcon');
           if (icon) icon.className = 'fa-solid fa-sun';
-          this.showToast('🌙 Dark mode enabled', 'info');
+          this.showToast('🌙 डार्क मोड', 'info');
         }
       },
       showToast: function (message, type) {
@@ -1306,433 +2199,393 @@
         el.textContent = message;
         el.className = 'toast-container show ' + (type || 'info');
         clearTimeout(el._timeout);
-        el._timeout = setTimeout(function () { el.classList.remove('show'); }, 3000);
+        el._timeout = setTimeout(function () { el.classList.remove('show'); }, 2800);
       }
     };
 
     // ============================================================
-    // FULL CALENDAR DATA 2083 BS — with all Parva & Divas merged
+    // SCROLL LOCK — robust for mobile
+    // ============================================================
+    const ScrollLock = {
+      _scrollY: 0,
+      _locked: false,
+
+      lock: function () {
+        if (this._locked) return;
+        this._scrollY = window.scrollY;
+        document.body.classList.add('body-scroll-locked');
+        document.body.style.top = '-' + this._scrollY + 'px';
+        this._locked = true;
+      },
+
+      unlock: function () {
+        if (!this._locked) return;
+        document.body.classList.remove('body-scroll-locked');
+        document.body.style.top = '';
+        window.scrollTo(0, this._scrollY);
+        this._locked = false;
+      },
+
+      isLocked: function () {
+        return this._locked;
+      }
+    };
+
+    // ============================================================
+    // DATA — 2083 BS
     // ============================================================
     const MONTHS = [{
-      // 0: वैशाख २०८३ (Apr–May 2026)
+      // 0: वैशाख
       nameBS: "वैशाख २०८३",
       nameAD: "Apr / May 2026",
       daysCount: 31,
       startDayOfWeek: 2,
       adStartDate: new Date(2026, 3, 14),
-      quote: "छोराछोरी नपढाउने आमाबुवा शत्रु समान हुन्छन् । - नीतिशतक",
-      programs: [{ day: 6, title: "६ गतेबाट नियमित पठनपाठन सुरु" }, { day: 11, title: "११ गते शुक्रबार सरसफाई कार्यक्रम" },
-      { day: 25, title: "२५ गते शिक्षक स्टाफ बैठक" }],
+      quote: "छोराछोरी नपढाउने आमाबुवा शत्रु समान हुन्छन् । — नीतिशतक",
+      programs: [
+        { day: 6, title: "६ गतेबाट नियमित पठनपाठन सुरु" },
+        { day: 11, title: "११ गते सरसफाई कार्यक्रम" },
+        { day: 25, title: "२५ गते शिक्षक स्टाफ बैठक" }
+      ],
       muhurta: "विवाहः ७, ८, २२, २३, २४, २५, ३०, ३१ | व्रतबन्धः २०, २१, २३",
       tithis: ["द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "अक्षयतृतीया", "चतुर्थी", "पञ्चमी/षष्ठी",
-        "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "चण्डी पूर्णिमा", "प्रतिपदा",
-        "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
-        "द्वादशी"
+        "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "चण्डी पूर्णिमा",
+        "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी",
+        "दशमी", "एकादशी", "द्वादशी"
       ],
       events: {
-        1: {
-          title: "नयाँवर्षारम्भ / नेपाली नयाँ वर्ष २०८३ (Nawa Barsha / Biska Jatra / Mesh Sankranti / Siruwa Pawani)",
-          isHoliday: true
-        },
-        4: { title: "माता तीर्थ औंशी (Aama Ko Mukh Herne / Mother's Day)", isHoliday: true },
-        6: { title: "परशुराम जयन्ती (Parashuram Jayanti)", isHoliday: false },
-        7: { title: "अक्षय तृतीया (Akshaya Tritiya)", isHoliday: false },
-        8: {
-          title: "रातो मच्छिन्द्रनाथ रथयात्रा सुरु (Rato Machhindranath Rath Yatra Starts) / छन्द दिवस (Chhanda Diwas)",
-          isHoliday: false
-        },
-        11: { title: "लोकतन्त्र दिवस (Loktantra Diwas / National Democracy Day)", isHoliday: true },
-        12: { title: "सीता जयन्ती (Sita Jayanti)", isHoliday: false },
-        13: { title: "राष्ट्रिय फोटो पत्रकारिता दिवस (Rashtriya Photo Patrakarita Diwas)", isHoliday: false },
-        18: {
-          title: "बुद्ध जयन्ती (Buddha Jayanti) / अन्तर्राष्ट्रिय श्रमिक दिवस (International Labour Day) / उभौली पर्व / चण्डी पूर्णिमा / गोरखनाथ जयन्ती",
-          isHoliday: true
-        },
-        20: { title: "राष्ट्रिय सूचना तथा सञ्चार प्रविधि दिवस (ICT Day)", isHoliday: false },
-        24: { title: "किरात समाज सुधार दिवस (Kirat Samaj Sudhar Diwas)", isHoliday: false },
-        26: { title: "राष्ट्रिय कानुन दिवस (Rashtriya Kanun Diwas / Law Day)", isHoliday: false }
+        1: { title: "नेपाली नयाँ वर्ष २०८३ · नववर्ष", isHoliday: true },
+        4: { title: "माता तीर्थ औंशी · आमा को मुख हेर्ने", isHoliday: true },
+        6: { title: "परशुराम जयन्ती", isHoliday: false },
+        7: { title: "अक्षय तृतीया", isHoliday: false },
+        8: { title: "रातो मच्छिन्द्रनाथ रथयात्रा सुरु", isHoliday: false },
+        11: { title: "लोकतन्त्र दिवस", isHoliday: true },
+        12: { title: "सीता जयन्ती", isHoliday: false },
+        13: { title: "राष्ट्रिय फोटो पत्रकारिता दिवस", isHoliday: false },
+        18: { title: "बुद्ध जयन्ती · अन्तर्राष्ट्रिय श्रमिक दिवस · उभौली", isHoliday: true },
+        20: { title: "राष्ट्रिय सूचना तथा सञ्चार प्रविधि दिवस", isHoliday: false },
+        24: { title: "किरात समाज सुधार दिवस", isHoliday: false },
+        26: { title: "राष्ट्रिय कानुन दिवस", isHoliday: false }
       }
     }, {
-      // 1: जेठ २०८३ (May–Jun 2026)
+      // 1: जेठ
       nameBS: "जेठ २०८३",
       nameAD: "May / Jun 2026",
       daysCount: 31,
       startDayOfWeek: 5,
       adStartDate: new Date(2026, 4, 15),
-      quote: "स्वाभिमानका साथ बाच्चको लागि अध्ययन गर, शिक्षा नै मानिसको गहना हो ।",
-      programs: [{ day: 8, title: "८ गते शुक्रबार नयाँ भर्ना भएका विद्यार्थीहरूको स्वागत" }, {
-        day: 22,
-        title: "२२ गते शुक्रबार House Division"
-      }, { day: 29, title: "२९ गते शिक्षक स्टाफ बैठक" }],
+      quote: "स्वाभिमानका साथ बाँच्न शिक्षा नै गहना हो ।",
+      programs: [
+        { day: 8, title: "८ गते नयाँ विद्यार्थी स्वागत" },
+        { day: 22, title: "२२ गते House Division" },
+        { day: 29, title: "२९ गते शिक्षक स्टाफ बैठक" }
+      ],
       muhurta: "पास्नी मुहूर्तः ४, ७, २२",
-      tithis: ["त्रयोदशी/चतुर्दशी","औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
-        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
-        "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा"
+      tithis: ["त्रयोदशी/चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी",
+        "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
+        "द्वादशी", "त्रयोदशी", "चतुर्दशी"
       ],
       events: {
-        11: { title: "स्वतन्त्रता दिवस / विशेष जयन्ती (Swatantrata Diwas / Special Jayantis)", isHoliday: false },
-        14: { title: "बकरा ईद (Bakra Eid / Eid al-Adha)", isHoliday: true },
-        15: {
-          title: "गणतन्त्र दिवस (Ganatantra Diwas / Republic Day) / अन्तर्राष्ट्रिय सगरमाथा दिवस (International Everest Day)",
-          isHoliday: true
-        },
-        22: { title: "विश्व वातावरण दिवस (Bishwa Batabaran Diwas / World Environment Day)", isHoliday: false },
-        23: { title: "गंगा दशमी / निर्जला एकादशी (Ganga Dashami / Nirjala Ekadashi)", isHoliday: false }
+        11: { title: "स्वतन्त्रता दिवस", isHoliday: false },
+        14: { title: "बकरा ईद · Eid al-Adha", isHoliday: true },
+        15: { title: "गणतन्त्र दिवस · अन्तर्राष्ट्रिय सगरमाथा दिवस", isHoliday: true },
+        22: { title: "विश्व वातावरण दिवस", isHoliday: false },
+        23: { title: "गंगा दशमी · निर्जला एकादशी", isHoliday: false }
       }
     }, {
-      // 2: असार २०८३ (Jun–Jul 2026)
+      // 2: असार
       nameBS: "असार २०८३",
       nameAD: "June / July 2026",
       daysCount: 32,
       startDayOfWeek: 1,
       adStartDate: new Date(2026, 5, 15),
-      quote: "शिक्षा त्यही चीज हो जसले व्यक्तिलाई आत्मविश्वासी बनाउँछ ।",
-      programs: [{ day: 24, title: "२४ देखि ३२ प्रथम त्रैमासिक परीक्षा सञ्चालन" }, {
-        day: 26,
-        title: "२६ गते शिक्षक स्टाफ बैठक"
-      }],
+      quote: "शिक्षा त्यही चीज हो जसले आत्मविश्वास दिन्छ ।",
+      programs: [
+        { day: 24, title: "२४–३२ प्रथम त्रैमासिक परीक्षा" },
+        { day: 26, title: "२६ गते शिक्षक स्टाफ बैठक" }
+      ],
       muhurta: "विवाहः ९, १३, १४, १५, १७, १८, २३",
       tithis: ["औंशी", "प्रतिपदा/द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
-        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
-        "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा",
-        "द्वितीया"
+        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "प्रतिपदा", "द्वितीया", "तृतीया",
+        "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी",
+        "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया"
       ],
       events: {
-        6: {
-          title: "सिठी नखः / कुमारषष्ठी / भोटो जात्रा (Sithi Nakha / Kumarsasthi / Bhoto Jatra) / विश्व शरणार्थी दिवस (World Refugee Day)",
-          isHoliday: false
-        },
-        15: {
-          title: "दही चिउरा खाने दिन / धान दिवस (Dahi Chiura Khane Din / Ashadh 15 / National Paddy Day)",
-          isHoliday: false
-        },
-        22: { title: "गुरु पूर्णिमा / व्यास जयन्ती / असार पूर्णिमा (Guru Purnima / Vyasa Jayanti)", isHoliday: false }
+        6: { title: "सिठी नखः · कुमारषष्ठी · विश्व शरणार्थी दिवस", isHoliday: false },
+        15: { title: "दही चिउरा · धान दिवस", isHoliday: false },
+        22: { title: "गुरु पूर्णिमा · व्यास जयन्ती", isHoliday: false }
       }
     }, {
-      // 3: श्रावण २०८३ (Jul–Aug 2026)
+      // 3: श्रावण
       nameBS: "श्रावण २०८३",
       nameAD: "July / Aug 2026",
       daysCount: 31,
       startDayOfWeek: 5,
       adStartDate: new Date(2026, 6, 17),
-      quote: "शिक्षा सबैभन्दा शक्तिशाली हतियार हो । - नेल्सन मण्डेला",
+      quote: "शिक्षा सबैभन्दा शक्तिशाली हतियार हो । — नेल्सन मण्डेला",
       programs: [
-        { day: 8, title: "८ गते शुक्रबार प्रथम त्रैमासिक परीक्षाको नतिजा" },
-        { day: 15, title: "१५ गते शुक्रबार अनुलेखन प्रतियोगिता" },
-        { day: 22, title: "२२ गते शुक्रबार फुलबारी तथा करेसाबारी निर्माण" },
-        { day: 29, title: "२९ गते शुक्रबार शिक्षक स्टाफ बैठक" }
+        { day: 8, title: "८ गते प्रथम त्रैमासिक नतिजा" },
+        { day: 15, title: "१५ गते अनुलेखन प्रतियोगिता" },
+        { day: 22, title: "२२ गते फुलबारी तथा करेसाबारी" },
+        { day: 29, title: "२९ गते शिक्षक स्टाफ बैठक" }
       ],
       muhurta: "पास्नी मुहूर्तः ४, ८, १५, १८, २०",
-      tithis: ["तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी",
-        "चतुर्दशी", "गुरुपूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी",
-        "दशमी", "एकादशी", "द्वादशी/त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी"
+      tithis: ["तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी",
+        "त्रयोदशी", "चतुर्दशी", "गुरुपूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी",
+        "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी/त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी"
       ],
       events: {
-        1: {
-          title: "साउने संक्रान्ति / लुतो फाल्ने दिन / गुरिया पर्व (Shrawane Sankranti / Luto Phalne Din / Guriya Parva) / थारू गुरिया दिवस (Tharu Guriya Diwas)",
-          isHoliday: false
-        },
-        7: { title: "पुष्पलाल स्मृति दिवस (Pushpalal Smriti Diwas)", isHoliday: false },
-        9: { title: "हरिशयनी एकादशी / तुलसी रोप्ने दिन (Harishayani Ekadashi / Tulsi Ropne Din)", isHoliday: false },
-        13: { title: "गुरु पूर्णिमा (स्थानीय) / दिला पुन्ही (Guru Purnima Local / Dila Punhi)", isHoliday: false },
-        15: { title: "खीर खाने दिन (Khir Khane Din)", isHoliday: false },
-        26: { title: "घण्टाकर्ण चतुर्दशी / गठम्मुग (Ghantakarna Chaturdashi / Gathammuga)", isHoliday: false },
-        28: { title: "गुन्ला धर्म आरम्भ (Gunla Dharma Arambha) / युवा/समुदाय स्थानीय कार्यक्रम", isHoliday: false }
+        1: { title: "साउने संक्रान्ति · लुतो फाल्ने · गुरिया पर्व", isHoliday: false },
+        7: { title: "पुष्पलाल स्मृति दिवस", isHoliday: false },
+        9: { title: "हरिशयनी एकादशी · तुलसी रोप्ने", isHoliday: false },
+        13: { title: "गुरु पूर्णिमा (स्थानीय) · दिला पुन्ही", isHoliday: false },
+        15: { title: "खीर खाने दिन", isHoliday: false },
+        26: { title: "घण्टाकर्ण चतुर्दशी · गठम्मुग", isHoliday: false },
+        28: { title: "गुन्ला धर्म आरम्भ", isHoliday: false }
       }
     }, {
-      // 4: भदौ २०८३ (Aug–Sep 2026)
+      // 4: भदौ
       nameBS: "भदौ २०८३",
       nameAD: "Aug / Sept 2026",
       daysCount: 31,
       startDayOfWeek: 1,
       adStartDate: new Date(2026, 7, 17),
-      quote: "श्रद्धा बिना ज्ञान लंगडो हुन्छ । - महात्मा गान्धी",
-      programs: [{ day: 25, title: "२५ गते शिक्षक तथा स्टाफ बैठक" }, {
-        day: 26,
-        title: "२६ गते शुक्रबार दर खाने कार्यक्रम"
-      }],
+      quote: "श्रद्धा बिना ज्ञान लंगडो हुन्छ । — महात्मा गान्धी",
+      programs: [
+        { day: 25, title: "२५ गते शिक्षक तथा स्टाफ बैठक" },
+        { day: 26, title: "२६ गते दर खाने कार्यक्रम" }
+      ],
       muhurta: "पास्नी मुहूर्तः १, ३, १०, २९",
-      tithis: ["नागपञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "जनैपूर्णिमा",
-        "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी/पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
-        "द्वादशी", "त्रयोदशी", "चतुर्दशी", "कुशे औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "पञ्चमी"
+      tithis: ["नागपञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "द्वादशी", "त्रयोदशी",
+        "चतुर्दशी", "जनैपूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी/पञ्चमी", "षष्ठी", "सप्तमी",
+        "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "कुशे औंशी", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी"
       ],
       events: {
-        1: { title: "नाग पञ्चमी (Nag Panchami)", isHoliday: true },
-        3: { title: "राष्ट्रिय सूचना दिवस (Rashtriya Suchana Diwas)", isHoliday: false },
-        11: {
-          title: "जनैपूर्णिमा / रक्षाबन्धन / क्वाँटी खाने दिन (Janai Purnima / Rakshya Bandhan / Kwati Khane Din)",
-          isHoliday: true
-        },
-        12: {
-          title: "गाई जात्रा (सापारु) / मात्या जात्रा (Gai Jatra / Matya Jatra) / राष्ट्रिय संस्कृत दिवस (Rashtriya Sanskrit Diwas)",
-          isHoliday: true
-        },
-        18: { title: "श्रीकृष्ण जन्माष्टमी / गौरा पर्व (Shree Krishna Janmashtami / Gaura Parva)", isHoliday: true },
-        19: { title: "श्रीकृष्ण जन्माष्टमी (मनाउने) / गौरा पर्व (continued)", isHoliday: true },
-        20: { title: "मानव बेचबिखन विरुद्धको राष्ट्रिय दिवस (Anti-Human Trafficking Day)", isHoliday: false },
-        22: { title: "निजामती सेवा दिवस (Nijamati Sewa Diwas / Civil Service Day)", isHoliday: false },
-        26: { title: "कुशे औंशी (बुबा को मुख हेर्ने / Father's Day)", isHoliday: true },
-        28: { title: "दर खाने दिन (Dar Khane Din)", isHoliday: false },
-        29: {
-          title: "हरितालिका तीज (Haritalika Teej) / गणेश चतुर्थी (Ganesh Chaturthi) / राष्ट्रिय बाल दिवस (National Children's Day) / राष्ट्रिय धर्मसभा दिवस",
-          isHoliday: true
-        },
-        30: { title: "ऋषि पञ्चमी (Rishi Panchami)", isHoliday: false }
+        1: { title: "नाग पञ्चमी", isHoliday: true },
+        3: { title: "राष्ट्रिय सूचना दिवस", isHoliday: false },
+        11: { title: "जनैपूर्णिमा · रक्षाबन्धन · क्वाँटी", isHoliday: true },
+        12: { title: "गाई जात्रा · मात्या जात्रा · संस्कृत दिवस", isHoliday: true },
+        18: { title: "श्रीकृष्ण जन्माष्टमी · गौरा पर्व", isHoliday: true },
+        19: { title: "श्रीकृष्ण जन्माष्टमी (मनाउने)", isHoliday: true },
+        20: { title: "मानव बेचबिखन विरुद्धको राष्ट्रिय दिवस", isHoliday: false },
+        22: { title: "निजामती सेवा दिवस", isHoliday: false },
+        26: { title: "कुशे औंशी · बुबा को मुख हेर्ने", isHoliday: true },
+        28: { title: "दर खाने दिन", isHoliday: false },
+        29: { title: "हरितालिका तीज · गणेश चतुर्थी · बाल दिवस", isHoliday: true },
+        30: { title: "ऋषि पञ्चमी", isHoliday: false }
       }
     }, {
-      // 5: असोज २०८३ (Sep–Oct 2026)
+      // 5: असोज
       nameBS: "असोज २०८३",
       nameAD: "Sept / Oct 2026",
       daysCount: 31,
       startDayOfWeek: 4,
       adStartDate: new Date(2026, 8, 17),
-      quote: "सुख चाहनेले विद्या त्याग्नुपर्छ । - चाणक्य नीति",
-      programs: [{ day: 2, title: "२ गते चित्रकला प्रतियोगिता" }, { day: 9, title: "९ गते गणित हाजिरी जवाफ" }, {
-        day: 16,
-        title: "१६ गते निबन्ध लेखन"
-      }, { day: 18, title: "१८ देखि २७ दोस्रो त्रैमासिक परीक्षा" }, {
-        day: 23,
-        title: "२३ गते शिक्षक बैठक"
-      }],
+      quote: "सुख चाहनेले विद्या त्याग्नुपर्छ । — चाणक्य नीति",
+      programs: [
+        { day: 2, title: "२ गते चित्रकला प्रतियोगिता" },
+        { day: 9, title: "९ गते गणित हाजिरी जवाफ" },
+        { day: 16, title: "१६ गते निबन्ध लेखन" },
+        { day: 18, title: "१८–२७ दोस्रो त्रैमासिक परीक्षा" },
+        { day: 23, title: "२३ गते शिक्षक बैठक" }
+      ],
       muhurta: "पास्नी मुहूर्तः ५, २६",
-      tithis: ["षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा",
-        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी/नवमी", "दशमी", "एकादशी", "द्वादशी",
-        "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी"
+      tithis: ["षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा",
+        "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी/नवमी", "दशमी",
+        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी", "सप्तमी"
       ],
       events: {
-        3: { title: "संविधान दिवस (Sambidhan Diwas / Constitution Day)", isHoliday: true },
-        9: {
-          title: "इन्द्र जात्रा / अनन्त चतुर्दशी (Indra Jatra / Ananta Chaturdashi) / विश्व फार्मासिस्ट दिवस (World Pharmacists Day)",
-          isHoliday: true
-        },
-        18: {
-          title: "जितिया पर्व / सोह्र श्राद्ध सुरु (Jitiya Parva / Sohra Shraddha Starts) / विश्व प्राणी दिवस (World Animal Day)",
-          isHoliday: false
-        },
-        25: { title: "घटस्थापना (Ghatasthapana — Dashain Begins)", isHoliday: true },
-        31: {
-          title: "फूलपाती (Fulpati — Dashain Holiday Starts) / अन्तर्राष्ट्रिय गरिबी निवारण दिवस (International Day for the Eradication of Poverty)",
-          isHoliday: true
-        }
+        3: { title: "संविधान दिवस", isHoliday: true },
+        9: { title: "इन्द्र जात्रा · अनन्त चतुर्दशी · विश्व फार्मासिस्ट", isHoliday: true },
+        18: { title: "जितिया पर्व · सोह्र श्राद्ध सुरु", isHoliday: false },
+        25: { title: "घटस्थापना — दशैं आरम्भ", isHoliday: true },
+        31: { title: "फूलपाती — दशैं बिदा", isHoliday: true }
       }
     }, {
-      // 6: कार्तिक २०८३ (Oct–Nov 2026)
+      // 6: कार्तिक
       nameBS: "कार्तिक २०८३",
       nameAD: "Oct / Nov 2026",
       daysCount: 30,
       startDayOfWeek: 0,
       adStartDate: new Date(2026, 9, 18),
       quote: "विद्या नै मानिसको अमूल्य धन हो ।",
-      programs: [{ day: 29, title: "२९ गते देखि नियमित पठन पाठन" }],
+      programs: [
+        { day: 30, title: "३० गतेदेखि नियमित पठनपाठन" }
+      ],
       muhurta: "पास्नी मुहूर्तः १३, ३०",
-      tithis: ["महाअष्टमी", "अष्टमी", "महानवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया/तृतीया",
-        "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "नरक चतुर्दशी",
-        "औंशी", "प्रतिपदा", "यमद्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "षष्ठी", "षष्ठी"
+      tithis: ["महाअष्टमी", "अष्टमी", "महानवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा",
+        "प्रतिपदा", "द्वितीया/तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+        "एकादशी", "द्वादशी", "त्रयोदशी", "नरक चतुर्दशी", "औंशी", "प्रतिपदा", "यमद्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी", "षष्ठी"
       ],
       events: {
-        1: { title: "महा अष्टमी / कालरात्रि (Maha Ashtami / Kalratri)", isHoliday: true },
-        2: { title: "अष्टमी (Ashtami), दशैं बिदा", isHoliday: true },
-        3: { title: "महानवमी (Maha Nawami)", isHoliday: true },
-        4: { title: "विजयादशमी (Vijaya Dashami — Tika Day)", isHoliday: true },
-        9: { title: "कोजाग्रत पूर्णिमा (Kojagrat Purnima — Dashain Ends)", isHoliday: true },
-        22: {
-          title: "लक्ष्मी पूजा / कुकुर तिहार (Laxmi Puja / Kukur Tihar) / लक्ष्मी प्रसाद देवकोटा जयन्ती (Laxmi Prasad Devkota Jayanti)",
-          isHoliday: true
-        },
-        23: { title: "गाई पूजा / तिहार बिदा (Gai Puja / Tihar Holiday)", isHoliday: true },
-        24: {
-          title: "गोवर्धन पूजा / म्ह पूजा / नेपाल सम्बत ११४७ नयाँ वर्ष (Govardhan Puja / Mha Puja / Nepal Sambat 1147 New Year) / विश्व विज्ञान दिवस (World Science Day)",
-          isHoliday: true
-        },
-        25: {
-          title: "भाइटीका / किजा पूजा / फाल्गुनन्द जयन्ती (Bhai Tika / Kija Puja / Falgunanda Jayanti) / राष्ट्रिय विभूति फाल्गुनन्द जयन्ती",
-          isHoliday: true
-        },
-        26: { title: "विश्व निमोनिया दिवस (Bishwa Pneumonia Diwas)", isHoliday: false },
-        29: { title: "छठ पर्व (Chhath Parva)", isHoliday: true }
+        1: { title: "महा अष्टमी · कालरात्रि", isHoliday: true },
+        2: { title: "अष्टमी (दशैं बिदा)", isHoliday: true },
+        3: { title: "महानवमी", isHoliday: true },
+        4: { title: "विजयादशमी — टीका दिन", isHoliday: true },
+        9: { title: "कोजाग्रत पूर्णिमा — दशैं समापन", isHoliday: true },
+        22: { title: "लक्ष्मी पूजा · कुकुर तिहार · देवकोटा जयन्ती", isHoliday: true },
+        23: { title: "गाई पूजा · तिहार बिदा", isHoliday: true },
+        24: { title: "गोवर्धन पूजा · म्ह पूजा · नेपाल सम्बत ११४७", isHoliday: true },
+        25: { title: "भाइटीका · किजा पूजा · फाल्गुनन्द जयन्ती", isHoliday: true },
+        26: { title: "विश्व निमोनिया दिवस", isHoliday: false },
+        29: { title: "छठ पर्व", isHoliday: true }
       }
     }, {
-      // 7: मंसिर २०८३ (Nov–Dec 2026)
+      // 7: मंसिर
       nameBS: "मंसिर २०८३",
       nameAD: "Nov / Dec 2026",
       daysCount: 29,
       startDayOfWeek: 2,
       adStartDate: new Date(2026, 10, 17),
-      quote: "शिक्षा नै सभ्यताको मूल हो । - राजा वीरेन्द्र",
-      programs: [{ day: 7, title: "७ गते परीक्षा नतिजा प्रकाशन" }, { day: 11, title: "११ गते वादविवाद प्रतियोगिता" },
-      { day: 18, title: "१८ गते हाजिरी जवाफ" }, { day: 25, title: "२५ गते शिक्षक बैठक" }],
+      quote: "शिक्षा नै सभ्यताको मूल हो । — राजा वीरेन्द्र",
+      programs: [
+        { day: 7, title: "७ गते परीक्षा नतिजा" },
+        { day: 11, title: "११ गते वादविवाद" },
+        { day: 18, title: "१८ गते हाजिरी जवाफ" },
+        { day: 25, title: "२५ गते शिक्षक बैठक" }
+      ],
       muhurta: "विवाहः ९, १०, १६, १७, १९, २४, २५, २६",
-      tithis: ["अष्टमी", "कुस्माण्ड नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया",
-        "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी/सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी",
-        "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी", "विवाह पञ्चमी", "षष्ठी"
+      tithis: ["अष्टमी", "कुस्माण्ड नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी/सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
+        "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "चतुर्थी",
+        "विवाह पञ्चमी", "षष्ठी"
       ],
       events: {
-        8: {
-          title: "शैलेश्वरी जाँत (Shaileshwari Jaat)",
-          isHoliday: true
-        },
-        17: { title: "अन्तर्राष्ट्रिय अपाङ्ग दिवस (International Day of Persons with Disabilities)", isHoliday: false },
-        20: { title: "बाला चतुर्दशी / सातबिज छर्ने दिन (Bala Chaturdashi / Satbij Chharne Din)", isHoliday: false },
-        23: { title: "विवाह पञ्चमी (Vivaha Panchami)", isHoliday: false },
-        24: { title: "अन्तर्राष्ट्रिय मानव अधिकार दिवस (International Human Rights Day)", isHoliday: false },
-        28: { title: "विवाह पञ्चमी (Vivaha Panchami — local)", isHoliday: false }
+        4: { title: "तुलसी बिवाह", isHoliday: false },
+        8: { title: "शैलेश्वरी जाँत", isHoliday: true },
+        17: { title: "अन्तर्राष्ट्रिय अपाङ्ग दिवस", isHoliday: false },
+        20: { title: "बाला चतुर्दशी · सातबिज", isHoliday: false },
+        23: { title: "विवाह पञ्चमी", isHoliday: false },
+        24: { title: "अन्तर्राष्ट्रिय मानव अधिकार दिवस", isHoliday: false },
+        28: { title: "विवाह पञ्चमी (स्थानीय)", isHoliday: false }
       }
     }, {
-      // 8: पुस २०८३ (Dec 2026 – Jan 2027)
+      // 8: पुस
       nameBS: "पुस २०८३",
       nameAD: "Dec / Jan 2026/27",
       daysCount: 30,
       startDayOfWeek: 3,
       adStartDate: new Date(2026, 11, 16),
       quote: "ज्ञान नै शक्ति हो ।",
-      programs: [{ day: 3, title: "३ गते कबड्डी प्रतियोगिता" }, { day: 17, title: "१७ गते कबड्डी फाइनल" }, {
-        day: 24,
-        title: "२४ गते शिक्षक बैठक"
-      }, { day: 28, title: "२८-२९ तेस्रो त्रैमासिक परीक्षा" }],
+      programs: [
+        { day: 3, title: "३ गते कबड्डी प्रतियोगिता" },
+        { day: 17, title: "१७ गते कबड्डी फाइनल" },
+        { day: 24, title: "२४ गते शिक्षक बैठक" },
+        { day: 28, title: "२८–२९ तेस्रो त्रैमासिक परीक्षा" }
+      ],
       muhurta: "पास्नी मुहूर्तः १, १५",
       tithis: ["सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा/प्रतिपदा",
-        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी",
-        "त्रयोदशी", "चतुर्दशी", "गयामौनी औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी"
+        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
+        "द्वादशी", "त्रयोदशी", "चतुर्दशी", "गयामौनी औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी"
       ],
       events: {
-        9: {
-          title: "उधौली पर्व / योमरी पुन्ही / धान्य पूर्णिमा (Udhauli Parva / Yomari Punhi / Dhanya Purnima) / ज्यापु दिवस (Jyapu Diwas)",
-          isHoliday: true
-        },
-        10: { title: "क्रिसमस (Christmas Day)", isHoliday: true },
-        15: {
-          title: "तमु ल्होसार (Tamu Lhosar) / कवि शिरोमणि लेखनाथ पौड्याल जयन्ती (Kavi Shiromani Lekhnath Paudyal Jayanti)",
-          isHoliday: true
-        },
-                17: {
-          title: "सन् २०२७ प्रारम्भ (New Year 2027 AD)", 
-          isHoliday: false
-                },
-        27: {
-          title: "पृथ्वी जयन्ती (Prithvi Jayanti) / राष्ट्रिय एकता दिवस (Rashtriya Ekata Diwas / National Unity Day)",
-          isHoliday: false
-        }
+        9: { title: "उधौली पर्व · योमरी पुन्ही · धान्य पूर्णिमा", isHoliday: true },
+        10: { title: "क्रिसमस · Christmas Day", isHoliday: true },
+        15: { title: "तमु ल्होसार · लेखनाथ पौड्याल जयन्ती", isHoliday: true },
+        17: { title: "सन् २०२७ प्रारम्भ", isHoliday: false },
+        27: { title: "पृथ्वी जयन्ती · राष्ट्रिय एकता दिवस", isHoliday: false }
       }
     }, {
-      // 9: माघ २०८३ (Jan–Feb 2027)
+      // 9: माघ
       nameBS: "माघ २०८३",
       nameAD: "Jan / Feb 2027",
       daysCount: 29,
       startDayOfWeek: 5,
       adStartDate: new Date(2027, 0, 15),
       quote: "चारित्रिक मान्यता राख्नु नै शिक्षा हो ।",
-      programs: [{ day: 8, title: "८ गते सरसफाई" }, { day: 10, title: "१० गते परीक्षा नतिजा" }, {
-        day: 15,
-        title: "१५ गते श्रुति लेखन"
-      }, { day: 20, title: "२०-२७ खेलकुद सप्ताह" }, {
-        day: 29,
-        title: "२९ गते शिक्षक बैठक"
-      }],
+      programs: [
+        { day: 8, title: "८ गते सरसफाई" },
+        { day: 10, title: "१० गते परीक्षा नतिजा" },
+        { day: 15, title: "१५ गते श्रुति लेखन" },
+        { day: 20, title: "२०–२७ खेलकुद सप्ताह" },
+        { day: 29, title: "२९ गते शिक्षक बैठक" }
+      ],
       muhurta: "व्रतबन्धः ५, १२, १५, १६, २०, २७",
-      tithis: ["सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
-        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "श्रीपञ्चमी", "षष्ठी"
-
+      tithis: ["सप्तमी", "अष्टमी", "नवमी/दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "पूर्णिमा", "प्रतिपदा",
+        "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी",
+        "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "श्रीपञ्चमी",
+        "षष्ठी"
       ],
       events: {
-        1: {
-          title: "माघे संक्रान्ति / माघी पर्व / मकर स्नान / घिउ चाकु खाने दिन (Maghe Sankranti / Maghi Parva / Makar Snan / Ghiu Chaku Khane Din)",
-          isHoliday: true
-        },
-        16: { title: "सोनाम ल्होसार (Sonam Lhosar) / शहीद दिवस (Sahid Diwas / Martyrs' Day)", isHoliday: true },
-        24: { title: "सोनाम ल्होसार / Rose Day", isHoliday: true },
-        25: {
-          title: "Propose Day",
-          isHoliday: false
-        },
-        26: {
-          title: "Chocolate Day",
-          isHoliday: false
-        },
-        27: {
-          title: "सरस्वती पूजा / वसन्त पञ्चमी (Saraswati Puja / Basanta Panchami) / Teddy Day",
-          isHoliday: true
-        },
-        28: {
-          title: "Promise Day",
-          isHoliday: false
-        },
-        29: {
-          title: "Hug Day",
-          isHoliday: false
-        }
+        1: { title: "माघे संक्रान्ति · माघी · घिउ चाकु", isHoliday: true },
+        16: { title: "सोनाम ल्होसार · शहीद दिवस", isHoliday: true },
+        24: { title: "सोनाम ल्होसार · Rose Day", isHoliday: true },
+        25: { title: "Propose Day", isHoliday: false },
+        26: { title: "Chocolate Day", isHoliday: false },
+        27: { title: "सरस्वती पूजा · वसन्त पञ्चमी · Teddy Day", isHoliday: true },
+        28: { title: "Promise Day", isHoliday: false },
+        29: { title: "Hug Day", isHoliday: false }
       }
     }, {
-      // 10: फागुन २०८३ (Feb–Mar 2027)
+      // 10: फागुन
       nameBS: "फागुन २०८३",
       nameAD: "Feb / Mar 2027",
       daysCount: 30,
       startDayOfWeek: 6,
       adStartDate: new Date(2027, 1, 13),
       quote: "मानव जीवन समृद्ध बनाउन शिक्षा अपरिहार्य छ ।",
-      programs: [{ day: 12, title: "१२ गते विषयगत हाजिरी जवाफ" }, { day: 19, title: "१९ गते मन्दिर सरसफाई" }, {
-        day: 26,
-        title: "२६ गते शिक्षक बैठक"
-      }],
+      programs: [
+        { day: 12, title: "१२ गते विषयगत हाजिरी जवाफ" },
+        { day: 19, title: "१९ गते मन्दिर सरसफाई" },
+        { day: 26, title: "२६ गते शिक्षक बैठक" }
+      ],
       muhurta: "विवाहः १९, २०, २६, २७, २८",
-      tithis: ["सप्तमी", "अष्टमी", "नवमी",
-        "दशमी", "एकादशी", "भीष्मद्वादशी", "त्रयोदशी", "चतुर्दशी/पूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
-        "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
-        "पञ्चमी", "षष्ठी"
+      tithis: ["सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "भीष्मद्वादशी", "त्रयोदशी", "चतुर्दशी/पूर्णिमा",
+        "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+        "एकादशी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया",
+        "चतुर्थी", "पञ्चमी", "षष्ठी"
       ],
       events: {
-         1 : { title: "Kiss Day", isHoliday: false },
-        2 : { title: "भ्यालेन्टाइन डे (Valentine Day)", isHoliday: false },
-        7 : {
-          title: "प्रजातन्त्र दिवस (Prajatantra Diwas / Democracy Day)",
-          isHoliday: true
-        },
-        22 : {
-          title: "महाशिवरात्रि / सिलाचह्रे (Maha Shivaratri / Silachahre) / नेपाली सेना दिवस (Nepali Army Day / Sena Diwas)",
-          isHoliday: true
-        },
-        24 : { title: "अन्तर्राष्ट्रिय नारी दिवस (Antarrashtriya Nari Diwas / International Women's Day)", isHoliday: true }, 
-        25 : { title: "ग्याल्पो ल्होसार (Gyalpo Lhosar)", isHoliday: false }
+        1: { title: "Kiss Day", isHoliday: false },
+        2: { title: "भ्यालेन्टाइन डे · Valentine Day", isHoliday: false },
+        7: { title: "प्रजातन्त्र दिवस", isHoliday: true },
+        22: { title: "महाशिवरात्रि · सिलाचह्रे · सेना दिवस", isHoliday: true },
+        24: { title: "अन्तर्राष्ट्रिय नारी दिवस", isHoliday: true },
+        25: { title: "ग्याल्पो ल्होसार", isHoliday: false }
       }
     }, {
-      // 11: चैत्र २०८३ (Mar–Apr 2027)
+      // 11: चैत्र
       nameBS: "चैत्र २०८३",
       nameAD: "Mar / Apr 2027",
       daysCount: 30,
       startDayOfWeek: 1,
       adStartDate: new Date(2027, 2, 15),
-      quote: "पुर्ण मानवताको विकास बिनाको जीवन व्यर्थ छ ।",
-      programs: [{ day: 11, title: "११ देखि १९ वार्षिक परीक्षा" }, { day: 26, title: "२६ गते नतिजा प्रकाशन" }, {
-        day: 28,
-        title: "२८ गते शिक्षक बैठक"
-      }],
+      quote: "पूर्ण मानवताको विकास बिनाको जीवन व्यर्थ छ ।",
+      programs: [
+        { day: 11, title: "११–१९ वार्षिक परीक्षा" },
+        { day: 26, title: "२६ गते नतिजा प्रकाशन" },
+        { day: 28, title: "२८ गते शिक्षक बैठक" }
+      ],
       muhurta: "पास्नी मुहूर्तः २, ३, १०, १८",
-      tithis: ["सप्तमी", "अष्टमी/नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "फागुपूर्णिमा", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी"
+      tithis: ["सप्तमी", "अष्टमी/नवमी", "दशमी", "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "फागुपूर्णिमा",
+        "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी", "पञ्चमी", "षष्ठी", "सप्तमी", "अष्टमी", "नवमी", "दशमी",
+        "एकादशी", "द्वादशी", "त्रयोदशी", "चतुर्दशी", "औंशी", "प्रतिपदा", "द्वितीया", "तृतीया", "चतुर्थी",
+        "पञ्चमी", "षष्ठी", "सप्तमी"
       ],
       events: {
-        7: {
-          title: "होली — पहाडी क्षेत्र (Holi — Hilly Region)",
-          isHoliday: true
-        },
-        8: {
-          title: "फागु पूर्णिमा (होली — तराई क्षेत्र) (Fagu Purnima / Holi — Terai Region)",
-          isHoliday: false
-        },
-      18: {
-          title: "विश्व मूर्ख दिवस (April Fools Day)",
-          isHoliday: false
-        },
-        23: { title: "घोडे जात्रा (Ghode Jatra) / घोडे जात्रा दिवस (Ghode Jatra Diwas — Kathmandu Valley)", isHoliday: true },
-        24: { title: "चैते दशैं (Chaite Dashain)", isHoliday: true },
-        25: { title: "श्री राम नवमी (Shree Ram Navami)", isHoliday: true }
+        7: { title: "होली — पहाडी क्षेत्र", isHoliday: true },
+        8: { title: "फागु पूर्णिमा · होली — तराई", isHoliday: false },
+        18: { title: "विश्व मूर्ख दिवस · April Fools", isHoliday: false },
+        23: { title: "घोडे जात्रा", isHoliday: true },
+        24: { title: "चैते दशैं", isHoliday: true },
+        25: { title: "श्री राम नवमी", isHoliday: true }
       }
     }];
 
+    // ============================================================
+    // HELPERS — Nepali digits & names
+    // ============================================================
     const nepaliNumbers = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
 
     function toNepaliDigits(num) {
       return num.toString().split('').map(d => nepaliNumbers[d] || d).join('');
     }
-
     const dayHeaders = [
       { bs: "आइत", en: "SUN" },
       { bs: "सोम", en: "MON" },
@@ -1742,16 +2595,18 @@
       { bs: "शुक्र", en: "FRI" },
       { bs: "शनि", en: "SAT" }
     ];
-
     const dayNamesFullBS = ["आइतबार", "सोमबार", "मङ्गलबार", "बुधबार", "बिहीबार", "शुक्रबार", "शनिबार"];
-    const monthNamesBS = ["वैशाख", "जेठ", "असार", "श्रावण", "भदौ", "असोज", "कार्तिक", "मंसिर", "पुस", "माघ", "फागुन", "चैत्र"];
+    const monthNamesBS = ["वैशाख", "जेठ", "असार", "श्रावण", "भदौ", "असोज", "कार्तिक", "मंसिर", "पुस", "माघ", "फागुन",
+      "चैत्र"
+    ];
 
     let currentMonthIdx = 3;
-    let selectedDayBS = 8;
+    let selectedMonthIdx = -1;
+    let selectedDayBS = -1;
     let TODAY = { monthIdx: 3, dayBS: 8, yearBS: 2083 };
 
     // ============================================================
-    // CALENDAR FUNCTIONS
+    // CALCULATE TODAY
     // ============================================================
     function calculateTodayBS() {
       const now = new Date();
@@ -1761,201 +2616,710 @@
         const mEnd = new Date(mStart);
         mEnd.setDate(mEnd.getDate() + MONTHS[m].daysCount - 1);
         if (todayAD >= mStart && todayAD <= mEnd) {
-          const diffTime = todayAD - mStart;
-          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
-          TODAY = { monthIdx: m, dayBS: diffDays, yearBS: 2083 };
+          const diff = Math.round((todayAD - mStart) / (1000 * 60 * 60 * 24)) + 1;
+          TODAY = { monthIdx: m, dayBS: diff, yearBS: 2083 };
           return;
         }
       }
       TODAY = { monthIdx: 3, dayBS: 8, yearBS: 2083 };
     }
 
+    // ============================================================
+    // LIVE CLOCK
+    // ============================================================
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clockDisplay').textContent = h + ':' + m + ':' + s;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ============================================================
+    // MONTH DROPDOWN — portal + backdrop
+    // ============================================================
+    const dropdownBtn = document.getElementById('monthDropdownBtn');
+    const dropdownPortal = document.getElementById('monthDropdownPortal');
+    const dropdownBackdrop = document.getElementById('dropdownBackdrop');
+
+    let dropdownOpen = false;
+
+    function populateDropdownPortal(selectedIdx) {
+      let html = '';
+      MONTHS.forEach((m, idx) => {
+        const active = (idx === selectedIdx) ? 'active-option' : '';
+        html += `<div class="month-option ${active}" data-index="${idx}" role="option" aria-selected="${idx === selectedIdx}">
+                    <span class="month-label">${m.nameBS}</span>
+                    <span class="month-sub">${m.nameAD}</span>
+                </div>`;
+      });
+      dropdownPortal.innerHTML = html;
+      dropdownBtn.textContent = MONTHS[selectedIdx].nameBS;
+      dropdownPortal.querySelectorAll('.month-option').forEach(el => {
+        el.addEventListener('click', function () {
+          const idx = parseInt(this.getAttribute('data-index'));
+          changeMonth(idx);
+          closeDropdown();
+        });
+      });
+    }
+
+    function openDropdown() {
+      if (dropdownOpen) return;
+      dropdownOpen = true;
+
+      // Position the portal relative to the button
+      const rect = dropdownBtn.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      let left = rect.left;
+      let top = rect.bottom + 6;
+      let width = Math.min(rect.width, 260);
+
+      // Ensure it fits horizontally
+      if (left + width > viewportWidth - 10) {
+        left = viewportWidth - width - 10;
+      }
+      if (left < 10) left = 10;
+
+      // Ensure it fits vertically — if not enough space below, show above
+      const panelHeight = Math.min(260, MONTHS.length * 44 + 16);
+      if (top + panelHeight > viewportHeight - 10) {
+        top = rect.top - panelHeight - 6;
+        if (top < 10) top = 10;
+      }
+
+      dropdownPortal.style.left = left + 'px';
+      dropdownPortal.style.top = top + 'px';
+      dropdownPortal.style.width = width + 'px';
+      dropdownPortal.style.maxHeight = Math.min(260, viewportHeight - top - 20) + 'px';
+
+      // Show backdrop + portal
+      dropdownBackdrop.classList.add('show');
+      dropdownPortal.classList.add('open');
+      dropdownBtn.setAttribute('aria-expanded', 'true');
+
+      // Lock scroll
+      ScrollLock.lock();
+
+      // Highlight active option
+      dropdownPortal.querySelectorAll('.month-option').forEach(el => {
+        const idx = parseInt(el.getAttribute('data-index'));
+        el.classList.toggle('active-option', idx === currentMonthIdx);
+        el.setAttribute('aria-selected', idx === currentMonthIdx ? 'true' : 'false');
+      });
+    }
+
+    function closeDropdown() {
+      if (!dropdownOpen) return;
+      dropdownOpen = false;
+      dropdownBackdrop.classList.remove('show');
+      dropdownPortal.classList.remove('open');
+      dropdownBtn.setAttribute('aria-expanded', 'false');
+      ScrollLock.unlock();
+    }
+
+    function toggleDropdown(e) {
+      e.stopPropagation();
+      if (dropdownOpen) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    }
+
+    dropdownBtn.addEventListener('click', toggleDropdown);
+
+    // Backdrop click → close
+    dropdownBackdrop.addEventListener('click', function (e) {
+      e.stopPropagation();
+      closeDropdown();
+    });
+
+    // ESC key → close
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        if (dropdownOpen) closeDropdown();
+        if (document.getElementById('searchModal').style.display === 'flex') {
+          document.getElementById('searchModal').style.display = 'none';
+          ScrollLock.unlock();
+        }
+      }
+    });
+
+    // Window resize → reposition dropdown
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        if (dropdownOpen) {
+          // Re-position
+          const rect = dropdownBtn.getBoundingClientRect();
+          const viewportWidth = window.innerWidth;
+          let left = rect.left;
+          let top = rect.bottom + 6;
+          let width = Math.min(rect.width, 260);
+          if (left + width > viewportWidth - 10) left = viewportWidth - width - 10;
+          if (left < 10) left = 10;
+          dropdownPortal.style.left = left + 'px';
+          dropdownPortal.style.top = top + 'px';
+          dropdownPortal.style.width = width + 'px';
+        }
+      }, 150);
+    });
+
+    // ============================================================
+    // SWIPE HANDLING
+    // ============================================================
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+    let isAnimatingSwipe = false;
+    const SWIPE_THRESHOLD = 50;
+
+    const wrapper = document.getElementById('calendarWrapper');
+    const swipeHintLeft = document.getElementById('swipeHintLeft');
+    const swipeHintRight = document.getElementById('swipeHintRight');
+
+    function showSwipeHint(direction) {
+      if (direction === 'left') {
+        swipeHintLeft.classList.add('show');
+        clearTimeout(swipeHintLeft._hideTimer);
+        swipeHintLeft._hideTimer = setTimeout(() => swipeHintLeft.classList.remove('show'), 500);
+      } else if (direction === 'right') {
+        swipeHintRight.classList.add('show');
+        clearTimeout(swipeHintRight._hideTimer);
+        swipeHintRight._hideTimer = setTimeout(() => swipeHintRight.classList.remove('show'), 500);
+      }
+    }
+
+    function handleSwipeStart(e) {
+      if (dropdownOpen || ScrollLock.isLocked()) return;
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      isSwiping = false;
+    }
+
+    function handleSwipeMove(e) {
+      if (dropdownOpen || ScrollLock.isLocked() || isAnimatingSwipe || isSwiping) return;
+      const touch = e.touches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 0.8) {
+        isSwiping = true;
+        const grid = document.getElementById('calendarGrid');
+        const percent = Math.min(Math.abs(dx) / 200, 1);
+        const translate = dx * 0.3;
+        grid.style.transition = 'none';
+        grid.style.transform = 'translateX(' + translate + 'px)';
+        grid.style.opacity = 1 - percent * 0.2;
+
+        if (dx < -20) {
+          showSwipeHint('left');
+        } else if (dx > 20) {
+          showSwipeHint('right');
+        }
+        e.preventDefault();
+      }
+    }
+
+    function handleSwipeEnd(e) {
+      if (dropdownOpen || ScrollLock.isLocked() || isAnimatingSwipe) return;
+      const grid = document.getElementById('calendarGrid');
+      grid.style.transition = '';
+      grid.style.transform = '';
+      grid.style.opacity = '';
+
+      if (!isSwiping) return;
+      isSwiping = false;
+
+      const dx = (e.changedTouches && e.changedTouches[0]) ?
+        e.changedTouches[0].clientX - touchStartX :
+        0;
+
+      if (Math.abs(dx) > SWIPE_THRESHOLD) {
+        if (dx < 0) {
+          changeMonthWithSwipe(currentMonthIdx + 1, 'left');
+        } else {
+          changeMonthWithSwipe(currentMonthIdx - 1, 'right');
+        }
+      } else {
+        grid.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        grid.style.transform = 'translateX(0)';
+        grid.style.opacity = '1';
+        setTimeout(() => {
+          grid.style.transition = '';
+          grid.style.transform = '';
+          grid.style.opacity = '';
+        }, 300);
+      }
+    }
+
+    function changeMonthWithSwipe(newIdx, direction) {
+      if (isAnimatingSwipe) return;
+      if (newIdx < 0 || newIdx > 11) {
+        Helpers.showToast(newIdx < 0 ? '📅 पहिलो महिना' : '📅 अन्तिम महिना', 'info');
+        const grid = document.getElementById('calendarGrid');
+        grid.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        grid.style.transform = 'translateX(0)';
+        grid.style.opacity = '1';
+        setTimeout(() => {
+          grid.style.transition = '';
+          grid.style.transform = '';
+          grid.style.opacity = '';
+        }, 300);
+        return;
+      }
+
+      isAnimatingSwipe = true;
+      const grid = document.getElementById('calendarGrid');
+
+      const outDir = direction === 'left' ? '-40px' : '40px';
+      grid.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
+      grid.style.transform = 'translateX(' + outDir + ')';
+      grid.style.opacity = '0';
+
+      setTimeout(() => {
+        renderCalendar(newIdx);
+        const newGrid = document.getElementById('calendarGrid');
+        const inDir = direction === 'left' ? '40px' : '-40px';
+        newGrid.style.transition = 'none';
+        newGrid.style.transform = 'translateX(' + inDir + ')';
+        newGrid.style.opacity = '0';
+        void newGrid.offsetHeight;
+        newGrid.style.transition = 'transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease';
+        newGrid.style.transform = 'translateX(0)';
+        newGrid.style.opacity = '1';
+
+        setTimeout(() => {
+          newGrid.style.transition = '';
+          newGrid.style.transform = '';
+          newGrid.style.opacity = '';
+          isAnimatingSwipe = false;
+          updateDaysDifference();
+        }, 350);
+      }, 260);
+    }
+
+    wrapper.addEventListener('touchstart', handleSwipeStart, { passive: true });
+    wrapper.addEventListener('touchmove', handleSwipeMove, { passive: false });
+    wrapper.addEventListener('touchend', handleSwipeEnd, { passive: true });
+
+    let mouseDown = false;
+    let mouseStartX = 0;
+    let mouseStartY = 0;
+
+    wrapper.addEventListener('mousedown', function (e) {
+      if (e.button !== 0 || dropdownOpen || ScrollLock.isLocked()) return;
+      mouseDown = true;
+      mouseStartX = e.clientX;
+      mouseStartY = e.clientY;
+      isSwiping = false;
+    });
+
+    document.addEventListener('mousemove', function (e) {
+      if (!mouseDown || dropdownOpen || ScrollLock.isLocked() || isAnimatingSwipe) return;
+      const dx = e.clientX - mouseStartX;
+      const dy = e.clientY - mouseStartY;
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 0.8) {
+        isSwiping = true;
+        const grid = document.getElementById('calendarGrid');
+        const percent = Math.min(Math.abs(dx) / 200, 1);
+        const translate = dx * 0.3;
+        grid.style.transition = 'none';
+        grid.style.transform = 'translateX(' + translate + 'px)';
+        grid.style.opacity = 1 - percent * 0.2;
+        if (dx < -20) showSwipeHint('left');
+        else if (dx > 20) showSwipeHint('right');
+      }
+    });
+
+    document.addEventListener('mouseup', function (e) {
+      if (!mouseDown) return;
+      mouseDown = false;
+      const grid = document.getElementById('calendarGrid');
+      grid.style.transition = '';
+      grid.style.transform = '';
+      grid.style.opacity = '';
+
+      if (!isSwiping || dropdownOpen || ScrollLock.isLocked()) { isSwiping = false; return; }
+      const dx = e.clientX - mouseStartX;
+      isSwiping = false;
+
+      if (Math.abs(dx) > SWIPE_THRESHOLD) {
+        if (dx < 0) {
+          changeMonthWithSwipe(currentMonthIdx + 1, 'left');
+        } else {
+          changeMonthWithSwipe(currentMonthIdx - 1, 'right');
+        }
+      } else {
+        grid.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        grid.style.transform = 'translateX(0)';
+        grid.style.opacity = '1';
+        setTimeout(() => {
+          grid.style.transition = '';
+          grid.style.transform = '';
+          grid.style.opacity = '';
+        }, 300);
+      }
+    });
+
+    // ============================================================
+    // UPDATE DAYS DIFFERENCE
+    // ============================================================
+    function updateDaysDifference() {
+      const diffEl = document.getElementById('daysDiffText');
+      if (selectedMonthIdx === -1 || selectedDayBS === -1) {
+        diffEl.textContent = '—';
+        return;
+      }
+      const monthData = MONTHS[selectedMonthIdx];
+      const selDate = new Date(monthData.adStartDate);
+      selDate.setDate(selDate.getDate() + (selectedDayBS - 1));
+
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+      const diffTime = selDate.getTime() - today.getTime();
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+      let text = '';
+      if (diffDays === 0) {
+        text = 'आज';
+      } else if (diffDays > 0) {
+        text = toNepaliDigits(diffDays) + ' दिन पछि';
+      } else {
+        text = toNepaliDigits(Math.abs(diffDays)) + ' दिन अगाडि';
+      }
+      diffEl.textContent = text;
+    }
+
+    // ============================================================
+    // RENDER CALENDAR
+    // ============================================================
     function renderCalendar(monthIdx) {
       currentMonthIdx = monthIdx;
       const monthData = MONTHS[monthIdx];
 
       document.getElementById('monthTitleBS').innerText = monthData.nameBS;
       document.getElementById('monthTitleAD').innerText = monthData.nameAD;
-      document.getElementById('monthSelect').value = monthIdx;
       document.getElementById('quoteText').innerText = monthData.quote;
+      dropdownBtn.textContent = monthData.nameBS;
 
       const grid = document.getElementById('calendarGrid');
       grid.innerHTML = '';
 
-      // Week headers
       dayHeaders.forEach((dh, idx) => {
         const header = document.createElement('div');
-        header.className = `day-header ${idx === 0 || idx === 6 ? 'saturday' : ''}`;
-        header.innerHTML = `${dh.bs}<span>${dh.en}</span>`;
+        header.className = 'day-header ' + (idx === 0 || idx === 6 ? 'saturday' : '');
+        header.innerHTML = dh.bs + '<span>' + dh.en + '</span>';
         grid.appendChild(header);
       });
 
-      // Empty cells
-      for (let i = 0; i < monthData.startDayOfWeek; i++) {
-        const emptyCell = document.createElement('div');
-        emptyCell.className = 'calendar-cell empty';
-        grid.appendChild(emptyCell);
+      const prevIdx = (monthIdx - 1 + 12) % 12;
+      const prevMonth = MONTHS[prevIdx];
+      const prevDays = prevMonth.daysCount;
+      const startEmpty = monthData.startDayOfWeek;
+
+      for (let i = 0; i < startEmpty; i++) {
+        const cell = document.createElement('div');
+        if (monthIdx === 0) {
+          cell.className = 'calendar-cell empty';
+          cell.innerHTML = '';
+          cell.style.cursor = 'default';
+          cell.style.pointerEvents = 'none';
+        } else {
+          const dayPrev = prevDays - startEmpty + i + 1;
+          cell.className = 'calendar-cell empty ghost';
+          const adDatePrev = new Date(prevMonth.adStartDate);
+          adDatePrev.setDate(adDatePrev.getDate() + (dayPrev - 1));
+          const adStrPrev = adDatePrev.getDate();
+          const tithiPrev = prevMonth.tithis[dayPrev - 1] || '';
+          cell.innerHTML =
+            '<div class="cell-top"><span class="bs-day">' + toNepaliDigits(dayPrev) +
+            '</span><span class="ad-day">' + adStrPrev + '</span></div>' +
+            '<div class="tithi-text">' + tithiPrev + '</div>' +
+            '<div class="indicator-dots"></div>';
+          cell.onclick = (function (m, d) { return function () { selectDate(m, d); }; })(prevIdx,
+            dayPrev);
+        }
+        grid.appendChild(cell);
       }
 
-      // Day cells
       for (let day = 1; day <= monthData.daysCount; day++) {
-        const dayCell = document.createElement('div');
         const dayOfWeek = (monthData.startDayOfWeek + day - 1) % 7;
         const isSunOrSat = (dayOfWeek === 0 || dayOfWeek === 6);
         const eventData = monthData.events[day];
         const isHoliday = isSunOrSat || (eventData && eventData.isHoliday);
         const isToday = (monthIdx === TODAY.monthIdx && day === TODAY.dayBS);
-        const isSelected = (monthIdx === currentMonthIdx && day === selectedDayBS);
+        const isSelected = (selectedMonthIdx === monthIdx && selectedDayBS === day);
 
         const adDate = new Date(monthData.adStartDate);
         adDate.setDate(adDate.getDate() + (day - 1));
-        const adStr = `${adDate.getDate()}`;
+        const adStr = '' + adDate.getDate();
 
-        const programOnDay = monthData.programs.find(p => p.day === day);
+        const programOnDay = monthData.programs.find(function (p) { return p.day === day; });
 
-        dayCell.className =
-          `calendar-cell ${isHoliday ? 'holiday' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`;
-        dayCell.onclick = () => selectDate(monthIdx, day);
+        const cell = document.createElement('div');
+        var cls = 'calendar-cell';
+        if (isHoliday) cls += ' holiday';
+        if (isToday) cls += ' today';
+        if (isSelected) cls += ' selected';
+        cell.className = cls;
+        cell.onclick = function () { selectDate(monthIdx, day); };
 
-        let dotsHTML = '';
-        if (isHoliday) dotsHTML += `<span class="dot dot-holiday"></span>`;
-        if (programOnDay) dotsHTML += `<span class="dot dot-program"></span>`;
-        if (eventData && !eventData.isHoliday) dotsHTML += `<span class="dot dot-event"></span>`;
+        var dots = '';
+        if (isHoliday) dots += '<span class="dot dot-holiday"></span>';
+        if (programOnDay) dots += '<span class="dot dot-program"></span>';
+        if (eventData && !eventData.isHoliday) dots += '<span class="dot dot-event"></span>';
 
-        const tithiText = monthData.tithis[day - 1] || "";
+        var tithi = monthData.tithis[day - 1] || '';
 
-        dayCell.innerHTML = `
-              <div class="cell-top">
-                <span class="bs-day">${toNepaliDigits(day)}</span>
-                <span class="ad-day">${adStr}</span>
-              </div>
-              <div class="tithi-text">${tithiText}</div>
-              <div class="indicator-dots">${dotsHTML}</div>
-            `;
+        cell.innerHTML =
+          '<div class="cell-top"><span class="bs-day">' + toNepaliDigits(day) +
+          '</span><span class="ad-day">' + adStr + '</span></div>' +
+          '<div class="tithi-text">' + tithi + '</div>' +
+          '<div class="indicator-dots">' + dots + '</div>';
+        grid.appendChild(cell);
+      }
 
-        grid.appendChild(dayCell);
+      const nextIdx = (monthIdx + 1) % 12;
+      const nextMonth = MONTHS[nextIdx];
+      const totalCells = startEmpty + monthData.daysCount;
+      const remainder = totalCells % 7;
+      const endEmpty = remainder === 0 ? 0 : 7 - remainder;
+
+      for (let i = 0; i < endEmpty; i++) {
+        const cell = document.createElement('div');
+        if (monthIdx === 11) {
+          cell.className = 'calendar-cell empty';
+          cell.innerHTML = '';
+          cell.style.cursor = 'default';
+          cell.style.pointerEvents = 'none';
+        } else {
+          const dayNext = i + 1;
+          cell.className = 'calendar-cell empty ghost';
+          const adDateNext = new Date(nextMonth.adStartDate);
+          adDateNext.setDate(adDateNext.getDate() + (dayNext - 1));
+          const adStrNext = adDateNext.getDate();
+          const tithiNext = nextMonth.tithis[dayNext - 1] || '';
+          cell.innerHTML =
+            '<div class="cell-top"><span class="bs-day">' + toNepaliDigits(dayNext) +
+            '</span><span class="ad-day">' + adStrNext + '</span></div>' +
+            '<div class="tithi-text">' + tithiNext + '</div>' +
+            '<div class="indicator-dots"></div>';
+          cell.onclick = (function (m, d) { return function () { selectDate(m, d); }; })(nextIdx,
+            dayNext);
+        }
+        grid.appendChild(cell);
       }
 
       renderPrograms(monthData);
+      populateDropdownPortal(monthIdx);
+      updateDaysDifference();
     }
 
+    // ============================================================
+    // RENDER PROGRAMS
+    // ============================================================
     function renderPrograms(monthData) {
-      document.getElementById('programsCardTitle').innerText = `${monthData.nameBS.split(' ')[0]} महिनाका कार्यक्रमहरू तथा बैठक`;
-      const progList = document.getElementById('programList');
-      progList.innerHTML = '';
-
+      document.getElementById('programsCardTitle').innerText =
+        monthData.nameBS.split(' ')[0] + ' महिनाका कार्यक्रमहरू';
+      var list = document.getElementById('programList');
+      list.innerHTML = '';
       if (monthData.programs && monthData.programs.length > 0) {
-        monthData.programs.forEach(p => {
-          const li = document.createElement('li');
+        monthData.programs.forEach(function (p) {
+          var li = document.createElement('li');
           li.className = 'program-item';
-          li.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--accent);"></i> <span>${p.title}</span>`;
-          progList.appendChild(li);
+          li.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>' + p.title + '</span>';
+          list.appendChild(li);
         });
       } else {
-        progList.innerHTML =
-          `<li class="program-item"><i class="fa-solid fa-info-circle"></i> <span>यस महिना विशेष कार्यक्रम तोकिएको छैन।</span></li>`;
+        list.innerHTML =
+          '<li class="program-item"><i class="fa-regular fa-circle"></i> <span>यस महिना विशेष कार्यक्रम तोकिएको छैन।</span></li>';
       }
-
-      const muhurtaBox = document.getElementById('muhurtaBox');
+      var mBox = document.getElementById('muhurtaBox');
       if (monthData.muhurta) {
-        muhurtaBox.style.display = 'block';
-        muhurtaBox.innerHTML = `<strong><i class="fa-solid fa-heart"></i> साइत/मुहूर्तः</strong> ${monthData.muhurta}`;
+        mBox.style.display = 'flex';
+        mBox.innerHTML = '<strong><i class="fa-solid fa-heart"></i> साइत / मुहूर्तः</strong> ' + monthData
+          .muhurta;
       } else {
-        muhurtaBox.style.display = 'none';
+        mBox.style.display = 'none';
       }
     }
 
+    // ============================================================
+    // SELECT DATE
+    // ============================================================
     function selectDate(monthIdx, dayBS) {
+      if (ScrollLock.isLocked()) return;
+      selectedMonthIdx = monthIdx;
       selectedDayBS = dayBS;
-      const monthData = MONTHS[monthIdx];
-      const dayOfWeekIdx = (monthData.startDayOfWeek + dayBS - 1) % 7;
+      var monthData = MONTHS[monthIdx];
+      var dayOfWeekIdx = (monthData.startDayOfWeek + dayBS - 1) % 7;
 
-      const adDate = new Date(monthData.adStartDate);
+      var adDate = new Date(monthData.adStartDate);
       adDate.setDate(adDate.getDate() + (dayBS - 1));
-      const adFullStr = adDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      var adFull = adDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
-      const tithi = monthData.tithis[dayBS - 1] || "सामान्य";
-      const eventInfo = monthData.events[dayBS];
-      const progInfo = monthData.programs.find(p => p.day === dayBS);
-
-      const isSunOrSat = (dayOfWeekIdx === 0 || dayOfWeekIdx === 6);
-      const isHoliday = isSunOrSat || (eventInfo && eventInfo.isHoliday);
+      var tithi = monthData.tithis[dayBS - 1] || '—';
+      var eventInfo = monthData.events[dayBS];
+      var progInfo = monthData.programs.find(function (p) { return p.day === dayBS; });
+      var isSunOrSat = (dayOfWeekIdx === 0 || dayOfWeekIdx === 6);
+      var isHoliday = isSunOrSat || (eventInfo && eventInfo.isHoliday);
 
       document.getElementById('detailDateBS').innerText =
-        `२०८३ ${monthNamesBS[monthIdx]} ${toNepaliDigits(dayBS)} गते, ${dayNamesFullBS[dayOfWeekIdx]}`;
-      document.getElementById('detailDateAD').innerText = `${adFullStr} (${dayHeaders[dayOfWeekIdx].en})`;
+        '२०८३ ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[
+        dayOfWeekIdx];
+      document.getElementById('detailDateAD').innerText = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
       document.getElementById('detailTithi').innerText = tithi;
 
-      let eventTxt = "Regular Working Day";
+      var evtTxt = '—';
+      var evtClass = 'empty-text';
       if (eventInfo) {
-        eventTxt = `${eventInfo.title} ${eventInfo.isHoliday ? 'Holiday' : ''}`;
+        evtTxt = eventInfo.title;
+        evtClass = eventInfo.isHoliday ? 'holiday-text' : 'event-text';
       } else if (isSunOrSat) {
-        eventTxt = "Weekly Holiday";
+        evtTxt = 'साप्ताहिक बिदा (Weekly Holiday)';
+        evtClass = 'holiday-text';
       }
-      document.getElementById('detailEvent').innerHTML = (eventTxt.includes('Holiday') || eventTxt.includes('बिदा')) ?
-        `<span class="holiday-text">${eventTxt}</span>` : eventTxt;
+      document.getElementById('detailEvent').innerHTML = '<span class="' + evtClass + '">' + evtTxt + '</span>';
 
-      let progTxt = "Regular Class";
+      var progTxt = '—';
+      var progClass = 'empty-text';
       if (isHoliday) {
-        progTxt = `<span class="holiday-text">Holiday</span>`;
+        progTxt = 'बिदा · कुनै कार्यक्रम छैन';
+        progClass = 'holiday-text';
       } else if (progInfo) {
         progTxt = progInfo.title;
+        progClass = 'program-text';
       } else if (dayOfWeekIdx === 5) {
-        progTxt = "नियमित शुक्रबारीय क्रियाकलाप (Regular Friday Activity)";
+        progTxt = 'शुक्रबारीय नियमित क्रियाकलाप';
+        progClass = 'program-text';
+      } else {
+        progTxt = 'नियमित पठनपाठन';
+        progClass = 'empty-text';
       }
-      document.getElementById('detailProgram').innerHTML = progTxt;
+      document.getElementById('detailProgram').innerHTML = '<span class="' + progClass + '">' + progTxt + '</span>';
 
       renderCalendar(monthIdx);
+      updateDaysDifference();
     }
 
+    // ============================================================
+    // CHANGE MONTH (button / dropdown)
+    // ============================================================
+    function changeMonth(newIdx) {
+      if (newIdx < 0 || newIdx > 11) return;
+      if (isAnimatingSwipe) return;
+      closeDropdown();
+
+      var grid = document.getElementById('calendarGrid');
+      grid.style.transition = 'opacity 0.2s ease';
+      grid.style.opacity = '0';
+      setTimeout(function () {
+        renderCalendar(newIdx);
+        var newGrid = document.getElementById('calendarGrid');
+        newGrid.style.transition = 'opacity 0.25s ease';
+        newGrid.style.opacity = '1';
+        setTimeout(function () {
+          newGrid.style.transition = '';
+          newGrid.style.opacity = '';
+          updateDaysDifference();
+        }, 300);
+      }, 200);
+    }
+
+    // ============================================================
+    // GO TO TODAY
+    // ============================================================
     function goToToday() {
+      if (isAnimatingSwipe || ScrollLock.isLocked()) return;
       selectDate(TODAY.monthIdx, TODAY.dayBS);
-      Helpers.showToast('📅 Today: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
+      Helpers.showToast('📅 आज: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
     }
 
+    // ============================================================
+    // SEARCH
+    // ============================================================
     function searchCalendar() {
-      const q = document.getElementById('searchInput').value.toLowerCase().trim();
-      const container = document.getElementById('searchResults');
+      var q = document.getElementById('searchInput').value.toLowerCase().trim();
+      var container = document.getElementById('searchResults');
       container.innerHTML = '';
       if (!q) return;
-
-      let count = 0;
-      MONTHS.forEach((m, mIdx) => {
-        Object.keys(m.events).forEach(d => {
-          const ev = m.events[d];
-          if (ev.title.toLowerCase().includes(q)) {
+      var count = 0;
+      MONTHS.forEach(function (m, mIdx) {
+        Object.keys(m.events).forEach(function (d) {
+          var ev = m.events[d];
+          if (ev.title.toLowerCase().indexOf(q) !== -1) {
             count++;
-            const div = document.createElement('div');
+            var div = document.createElement('div');
             div.className = 'search-result-item';
             div.innerHTML =
-              `<strong>२०८३ ${monthNamesBS[mIdx]} ${toNepaliDigits(d)}:</strong> ${ev.title}`;
-            div.onclick = () => {
+              '<strong>२०८३ ' + monthNamesBS[mIdx] + ' ' + toNepaliDigits(parseInt(d)) +
+              ':</strong> ' + ev.title;
+            div.onclick = function () {
               document.getElementById('searchModal').style.display = 'none';
+              ScrollLock.unlock();
               selectDate(mIdx, parseInt(d));
             };
             container.appendChild(div);
           }
         });
       });
-      if (count === 0) container.innerHTML =
-        `<div style="color: var(--text-muted); font-size: 0.8rem;">No results found.</div>`;
+      if (count === 0) {
+        container.innerHTML =
+          '<div style="color:var(--text-muted);font-size:0.8rem;padding:8px;text-align:center;">कुनै परिणाम भेटिएन।</div>';
+      }
     }
 
     // ============================================================
-    // THEME + HEADER
+    // SEARCH MODAL — with scroll lock
+    // ============================================================
+    const searchModal = document.getElementById('searchModal');
+    const searchInput = document.getElementById('searchInput');
+
+    document.getElementById('searchModalBtn').onclick = function () {
+      if (dropdownOpen) closeDropdown();
+      searchModal.style.display = 'flex';
+      ScrollLock.lock();
+      setTimeout(function () { searchInput.focus(); }, 100);
+    };
+
+    document.getElementById('closeSearchModal').onclick = function () {
+      searchModal.style.display = 'none';
+      ScrollLock.unlock();
+      document.getElementById('searchResults').innerHTML = '';
+      searchInput.value = '';
+    };
+
+    searchModal.addEventListener('click', function (e) {
+      if (e.target === searchModal) {
+        searchModal.style.display = 'none';
+        ScrollLock.unlock();
+        document.getElementById('searchResults').innerHTML = '';
+        searchInput.value = '';
+      }
+    });
+
+    // ============================================================
+    // THEME
     // ============================================================
     function initTheme() {
       Helpers.applyTheme();
       if (document.body.classList.contains('dark')) {
-        const icon = document.getElementById('themeIcon');
+        var icon = document.getElementById('themeIcon');
         if (icon) icon.className = 'fa-solid fa-sun';
       }
     }
-
     document.getElementById('themeToggleBtn').addEventListener('click', function () {
       Helpers.toggleTheme();
     });
-
     document.getElementById('homeBtn').addEventListener('click', function () {
       window.location.href = 'index.html';
     });
@@ -1964,39 +3328,38 @@
     // MIDNIGHT REFRESH
     // ============================================================
     function scheduleMidnightRefresh() {
-      const now = new Date();
-      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1, 0);
-      const timeUntilMidnight = tomorrow - now;
-      setTimeout(() => {
+      var now = new Date();
+      var tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1);
+      var delay = tomorrow - now;
+      setTimeout(function () {
         calculateTodayBS();
-        selectDate(TODAY.monthIdx, TODAY.dayBS);
+        if (selectedMonthIdx !== -1 && selectedDayBS !== -1) {
+          selectDate(selectedMonthIdx, selectedDayBS);
+        } else {
+          renderCalendar(currentMonthIdx);
+        }
         scheduleMidnightRefresh();
-      }, timeUntilMidnight);
+      }, delay);
     }
+
+    setInterval(function () {
+      updateDaysDifference();
+    }, 60000);
 
     // ============================================================
     // EVENT LISTENERS
     // ============================================================
-    document.getElementById('prevMonthBtn').onclick = () => { if (currentMonthIdx > 0) renderCalendar(currentMonthIdx - 1); };
-    document.getElementById('nextMonthBtn').onclick = () => { if (currentMonthIdx < 11) renderCalendar(currentMonthIdx + 1); };
-    document.getElementById('monthSelect').onchange = (e) => renderCalendar(parseInt(e.target.value));
+    document.getElementById('prevMonthBtn').onclick = function () { changeMonth(currentMonthIdx - 1); };
+    document.getElementById('nextMonthBtn').onclick = function () { changeMonth(currentMonthIdx + 1); };
     document.getElementById('todayBtn').onclick = goToToday;
-
-    document.getElementById('searchModalBtn').onclick = () => {
-      document.getElementById('searchModal').style.display = 'flex';
-      document.getElementById('searchInput').focus();
-    };
-    document.getElementById('closeSearchModal').onclick = () => document.getElementById('searchModal').style.display = 'none';
-    window.onclick = (e) => {
-      if (e.target.classList.contains('modal-overlay')) e.target.style.display = 'none';
-    };
 
     // ============================================================
     // INIT
     // ============================================================
-    window.onload = () => {
+    window.onload = function () {
       initTheme();
       calculateTodayBS();
+      populateDropdownPortal(TODAY.monthIdx);
       selectDate(TODAY.monthIdx, TODAY.dayBS);
       scheduleMidnightRefresh();
     };

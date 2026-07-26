@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login – PSBS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #F8FAFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #e9edf2;
+        }
+
+        .login-card h1 {
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+            color: #1E293B;
+        }
+
+        .login-card p {
+            color: #64748B;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1E293B;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: #F8FAFC;
+        }
+
+        .input-group input:focus {
+            border-color: #f39c12;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #f39c12, #f5b041);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-msg {
+            color: #EF4444;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            text-align: center;
+            min-height: 24px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+        <h1>🔐 Admin Login</h1>
+        <p>Enter your credentials to manage the school website.</p>
+
+        <form id="loginForm" novalidate>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="admin@psbs.edu.np" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button class="btn" id="loginBtn" type="submit">Log In</button>
+            <div class="error-msg" id="loginError"></div>
+        </form>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // 🔁 Your actual keys
+        const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
+
+        // Create the client
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Make it globally accessible (and keep the same name 'supabase')
+        window.supabase = supabaseClient;
+
+        // ---------- DOM refs ----------
+        const form = document.getElementById('loginForm');
+        const emailEl = document.getElementById('email');
+        const passwordEl = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorEl = document.getElementById('loginError');
+
+        // ---------- If already logged in, redirect to dashboard ----------
+        (async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'admin-dashboard.html';
+            }
+        })();
+
+        // ---------- Login handler ----------
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorEl.textContent = '';
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in…';
+
+            const email = emailEl.value.trim();
+            const password = passwordEl.value;
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) throw error;
+
+                // After sign in, verify the user is an admin (by checking the admins table)
+                const { data: adminCheck, error: adminError } = await supabase
+                    .from('admins')
+                    .select('email')
+                    .eq('email', data.user.email)
+                    .maybeSingle();
+
+                if (adminError || !adminCheck) {
+                    // Not an admin – sign out immediately
+                    await supabase.auth.signOut();
+                    throw new Error('You are not authorized as an admin.');
+                }
+
+                // Success – redirect to dashboard
+                window.location.href = 'admin-dashboard.html';
+
+            } catch (err) {
+                errorEl.textContent = err.message || 'Login failed. Please try again.';
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Log In';
+            }
+        });
+    </script>
+</body>
+
+</html>

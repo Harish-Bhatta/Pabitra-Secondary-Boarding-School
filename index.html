@@ -2700,6 +2700,14 @@
             width: 100%;
             max-width: 600px;
             animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            /* ✅ FIX: centers content on desktop */
+        }
+
+        @media (min-width: 1024px) {
+            .hero-content {
+                max-width: 800px;
+            }
         }
 
         .hero-logo {
@@ -2828,7 +2836,7 @@
 
         .hero-calendar-btn:hover {
             transform: translateY(-2px);
-          transform: scale(1.);
+            transform: scale(1.);
             box-shadow: 0 6px 28px rgba(243, 156, 18, 0.35);
         }
 
@@ -3310,127 +3318,129 @@
             box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.06);
         }
 
-.contact-btn {
-    display: block !important;
-    width: 100%;
-    max-width: 200px;
-    margin: 8px auto 0;
-    padding: 10px 8px;
-    font-size: 1rem;
-    font-weight: 700;
-    border: none;
-    border-radius: 60px;
-    background: var(--primary);
-    color: #fff;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 6px 28px rgba(99, 102, 241, 0.35);
-    letter-spacing: 0.3px;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
+        .contact-btn {
+            display: block !important;
+            width: 100%;
+            max-width: 200px;
+            margin: 8px auto 0;
+            padding: 10px 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 60px;
+            background: var(--primary);
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 6px 28px rgba(99, 102, 241, 0.35);
+            letter-spacing: 0.3px;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.contact-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--primary);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    border-radius: 60px;
-}
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border-radius: 60px;
+        }
 
-.contact-btn:hover {
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.45);
-}
+        .contact-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.45);
+        }
 
-.contact-btn:hover::before {
-    opacity: 1;
-}
+        .contact-btn:hover::before {
+            opacity: 1;
+        }
 
-.contact-btn:active {
-    transform: scale(0.96);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
-}
+        .contact-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+        }
 
-.contact-btn .btn-text {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        .contact-btn .btn-text {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.contact-btn .btn-icon {
-    position: relative;
-    z-index: 1;
-    font-size: 1.2rem;
-    transition: transform 0.3s ease;
-}
+        .contact-btn .btn-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
 
-.contact-btn:hover .btn-icon {
-    transform: translateX(4px) scale(1.1);
-}
+        .contact-btn:hover .btn-icon {
+            transform: translateX(4px) scale(1.1);
+        }
 
-.contact-btn .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(0);
-    animation: ripple-anim 0.7s ease-out forwards;
-    pointer-events: none;
-    z-index: 0;
-}
+        .contact-btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(0);
+            animation: ripple-anim 0.7s ease-out forwards;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-@keyframes ripple-anim {
-    to {
-        transform: scale(4);
-        opacity: 0;
-    }
-}
+        @keyframes ripple-anim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
 
-/* Pulse glow behind button */
-.contact-btn::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 64px;
-    background: var(--primary);
-    background-size: 300% 300%;
-    z-index: -1;
-    filter: blur(12px);
-    opacity: 0.5;
-    animation: glow-pulse-btn 3s ease-in-out infinite;
-}
+        /* Pulse glow behind button */
+        .contact-btn::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 64px;
+            background: var(--primary);
+            background-size: 300% 300%;
+            z-index: -1;
+            filter: blur(12px);
+            opacity: 0.5;
+            animation: glow-pulse-btn 3s ease-in-out infinite;
+        }
 
-@keyframes glow-pulse-btn {
-    0%,
-    100% {
-        background-position: 0% 50%;
-        opacity: 0.3;
-    }
-    50% {
-        background-position: 100% 50%;
-        opacity: 0.6;
-    }
-}
+        @keyframes glow-pulse-btn {
 
-/* Disabled state */
-.contact-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
-}
+            0%,
+            100% {
+                background-position: 0% 50%;
+                opacity: 0.3;
+            }
 
-.contact-btn:disabled .btn-icon {
-    animation: spin 1s linear infinite;
-}
+            50% {
+                background-position: 100% 50%;
+                opacity: 0.6;
+            }
+        }
+
+        /* Disabled state */
+        .contact-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+        }
+
+        .contact-btn:disabled .btn-icon {
+            animation: spin 1s linear infinite;
+        }
 
         .contact-success {
             display: none;
@@ -4808,10 +4818,10 @@
                                     <div class="input-error" role="alert"></div>
                                 </div>
                                 <button class="contact-btn" type="submit">
-    <span class="btn-text">
-        <span class="btn-icon">✉️</span>
-        Send Message
-    </span>
+                                    <span class="btn-text">
+                                        <span class="btn-icon">✉️</span>
+                                        Send Message
+                                    </span>
                                 </button>
                                 <div id="contactSuccess" class="contact-success" role="alert">✅ Message sent
                                     successfully!</div>
@@ -4882,7 +4892,23 @@
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT — REFINED & OPTIMIZED
+    SUPABASE SETUP (placeholders – replace with your actual keys)
+    ============================================================ -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // 🔁 Your actual keys
+        const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
+
+        // Create the client
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Make it globally accessible (and keep the same name 'supabase')
+        window.supabase = supabaseClient;
+    </script>
+
+    <!-- ============================================================
+    JAVASCRIPT — REFINED & OPTIMIZED + SUPABASE INTEGRATION
     ============================================================ -->
     <script>
         // -------------------- CONFIG --------------------
@@ -4906,7 +4932,10 @@
             CALENDAR_PAGE: 'calendar.html',
         };
 
-        // -------------------- HELPERS --------------------
+        // Current Nepal Sambat year (2083 as per your calendar)
+        const CURRENT_BS_YEAR = 2083;
+
+        // -------------------- HELPERS (keep existing) --------------------
         const Helpers = {
             sanitize: function (input) {
                 const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' };
@@ -4926,7 +4955,9 @@
                 for (let i = 0; i < str.length; i++) { sum += str.charCodeAt(i); }
                 return colors[sum % colors.length];
             },
-            schoolAge: function () { return new Date().getFullYear() - 1983; },
+            schoolAge: function () {
+                return CURRENT_BS_YEAR - 2040; // 2083 - 2040 = 43
+            },
             debounce: function (func, wait) {
                 let timeout;
                 return function () {
@@ -4995,7 +5026,6 @@
                 return false;
             },
             getThemePreset: function () {
-                // Default to 'gold' (which is #f39c12)
                 return localStorage.getItem(CONFIG.THEME_PRESET_KEY) || 'gold';
             },
             setThemePreset: function (preset) {
@@ -5020,6 +5050,7 @@
                 }
                 return preset;
             },
+            // AI response kept as-is
             getAIResponse: function (query) {
                 const q = query.toLowerCase().trim();
                 if (q.includes('school name') || q.includes('what is the name') || q.includes('your name')) {
@@ -5167,7 +5198,7 @@
             log: function (msg) { console.log('[' + CONFIG.APP_NAME + '] ' + msg); },
         };
 
-        // -------------------- TOAST --------------------
+        // -------------------- TOAST (unchanged) --------------------
         const Toast = {
             _timeout: null,
             _queue: [],
@@ -5235,7 +5266,7 @@
             rainbow: function (msg) { this.show(msg, 'rainbow'); }
         };
 
-        // ===== 5‑TAP TOAST =====
+        // ===== 5‑TAP TOAST (unchanged) =====
         (function initTapDetection() {
             let tapCount = 0,
                 tapTimer = null,
@@ -5331,9 +5362,16 @@
             lightboxIsTransitioning: false,
             openCount: 0,
             galleryCurrentPage: 0,
+            // Supabase data
+            notices: [],
+            faculty: [],
+            alumni: [],
+            testimonials: [],
+            galleryImages: [],
+            schoolInfo: null,
         };
 
-        // -------------------- DOM REFS --------------------
+        // -------------------- DOM REFS (unchanged) --------------------
         const $ = function (selector) { return document.querySelector(selector); };
         const $$ = function (selector) { return document.querySelectorAll(selector); };
 
@@ -5433,7 +5471,352 @@
         };
 
         // ============================================================
-        // PROFILE
+        // SUPABASE DATA FUNCTIONS
+        // ============================================================
+        async function fetchSchoolInfo() {
+            const { data, error } = await supabase
+                .from('school_info')
+                .select('*')
+                .eq('id', 1)
+                .maybeSingle();
+            if (!error && data) {
+                State.schoolInfo = data;
+                updateHeroStats(data);
+            } else {
+                console.warn('School info fetch error:', error);
+            }
+        }
+
+        function updateHeroStats(data) {
+            if (DOM.heroStudents) {
+                const val = data.students_count || 1050;
+                DOM.heroStudents.textContent = val + '+';
+            }
+            if (DOM.heroTeachers) {
+                const val = data.teachers_count || 38;
+                DOM.heroTeachers.textContent = val + '+';
+            }
+            if (DOM.heroYears) {
+                const establishedBS = data.established_year || 2040;
+                const age = CURRENT_BS_YEAR - establishedBS; // 2083 - 2040 = 43
+                DOM.heroYears.textContent = age + '+';
+            }
+        }
+
+        async function fetchNotices() {
+            const { data, error } = await supabase
+                .from('notices')
+                .select('*')
+                .order('date', { ascending: false });
+            if (!error) {
+                State.notices = data;
+                renderNotices(data);
+                updateNoticeBadge(data);
+            } else {
+                console.warn('Notices fetch error:', error);
+            }
+        }
+
+        function renderNotices(notices) {
+            const container = DOM.noticeContainer;
+            if (!notices || notices.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>📭 No notices available.</p></div>';
+                return;
+            }
+            let html = '';
+            const labelMap = {
+                urgent: '🔴 URGENT',
+                event: '🎉 EVENT',
+                announcement: '📢 ANNOUNCEMENT',
+                achievement: '🏆 ACHIEVEMENT',
+                exam: '📝 EXAM',
+                holiday: '🎊 HOLIDAY'
+            };
+            for (let i = 0; i < notices.length; i++) {
+                const n = notices[i];
+                const labelText = labelMap[n.label] || n.label.toUpperCase();
+                html += '<div class="update-card glossy-card">';
+                html += '<span class="update-label ' + n.label + '">' + labelText + '</span>';
+                html += '<h3>' + Helpers.sanitize(n.title) + '</h3>';
+                html += '<p>' + Helpers.sanitize(n.description) + '</p>';
+                html += '<div class="update-date">📅 ' + Helpers.formatDate(n.date) + ' • ' + Helpers.timeAgo(n
+                    .date) + '</div>';
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        function updateNoticeBadge(notices) {
+            const badge = DOM.noticeBadge;
+            const count = notices ? notices.length : 0;
+            // We can implement unread tracking later – for now just show total count
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden-badge');
+            } else {
+                badge.classList.add('hidden-badge');
+            }
+        }
+
+        async function fetchFaculty() {
+            const { data, error } = await supabase
+                .from('faculty')
+                .select('*')
+                .order('order', { ascending: true });
+            if (!error) {
+                State.faculty = data;
+                renderFaculty(data);
+            } else {
+                console.warn('Faculty fetch error:', error);
+            }
+        }
+
+        function renderFaculty(data) {
+            const container = DOM.facultyContainer;
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-light);">No faculty members yet.</p>';
+                return;
+            }
+            let html = '';
+            for (let i = 0; i < data.length; i++) {
+                const d = data[i];
+                html += '<div class="faculty-card">';
+                html += '<div class="faculty-avatar">' + (d.emoji || '👨‍🏫') + '</div>';
+                html += '<h4>' + Helpers.sanitize(d.name) + '</h4>';
+                html += '<p>' + Helpers.sanitize(d.subject) + '</p>';
+                html += '<span class="faculty-subject">' + (d.subject ? d.subject.split(' ').pop() : '') + '</span>';
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        async function fetchAlumni() {
+            const { data, error } = await supabase
+                .from('alumni')
+                .select('*')
+                .order('year', { ascending: false });
+            if (!error) {
+                State.alumni = data;
+                renderAlumni(data);
+            } else {
+                console.warn('Alumni fetch error:', error);
+            }
+        }
+
+        function renderAlumni(data) {
+            const container = DOM.alumniContainer;
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-light);">No alumni records yet.</p>';
+                return;
+            }
+            let html = '';
+            for (let i = 0; i < data.length; i++) {
+                const d = data[i];
+                html += '<div class="alumni-card">';
+                html += '<div class="alumni-avatar">' + (d.emoji || '🎓') + '</div>';
+                html += '<h4>' + Helpers.sanitize(d.name) + '</h4>';
+                html += '<p>' + Helpers.sanitize(d.achievement) + '</p>';
+                html += '<span class="alumni-year">🎓 ' + (d.year || '') + '</span>';
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        async function fetchTestimonials() {
+            const { data, error } = await supabase
+                .from('testimonials')
+                .select('*');
+            if (!error) {
+                State.testimonials = data;
+                renderTestimonials(data);
+            } else {
+                console.warn('Testimonials fetch error:', error);
+            }
+        }
+
+        function renderTestimonials(data) {
+            const container = DOM.testimonialsContainer;
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-light);">No testimonials yet.</p>';
+                return;
+            }
+            let html = '';
+            for (let i = 0; i < data.length; i++) {
+                const d = data[i];
+                html += '<div class="testimonial-card">';
+                html += '<div class="testimonial-quote" aria-hidden="true">"</div>';
+                html += '<p>' + Helpers.sanitize(d.text) + '</p>';
+                html += '<div class="testimonial-author">';
+                html += '<div class="testimonial-avatar" aria-hidden="true">' + (d.emoji || '👤') + '</div>';
+                html += '<div><strong>' + Helpers.sanitize(d.name) + '</strong><span>' + Helpers.sanitize(d.role) +
+                    '</span></div>';
+                html += '</div>';
+                html += '</div>';
+            }
+            container.innerHTML = html;
+        }
+
+        async function fetchGallery() {
+            const { data, error } = await supabase
+                .from('gallery')
+                .select('*')
+                .order('order', { ascending: true });
+            if (!error) {
+                State.galleryImages = data.map(item => item.image_url);
+                // Re-render gallery with new data
+                if (State.galleryCurrentPage !== undefined) {
+                    // reset to first page when data changes
+                    State.galleryCurrentPage = 0;
+                }
+                renderGalleryPage(State.galleryCurrentPage || 0);
+            } else {
+                console.warn('Gallery fetch error:', error);
+            }
+        }
+
+       // ============================================================
+// GALLERY — Fully corrected pagination
+// ============================================================
+const BATCH_SIZE = 4;
+
+function totalPages() {
+    return Math.ceil(State.galleryImages.length / BATCH_SIZE);
+}
+
+function renderGalleryPage(page) {
+    const grid = DOM.galleryGrid;
+    const images = State.galleryImages;
+    if (!images || images.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px 0;">No images in gallery.</p>';
+        DOM.galleryPrev.disabled = true;
+        DOM.galleryNext.disabled = true;
+        DOM.galleryPageIndicator.textContent = 'Page 0 / 0';
+        return;
+    }
+    const start = page * BATCH_SIZE;
+    const end = Math.min(start + BATCH_SIZE, images.length);
+    let html = '';
+    for (let i = start; i < end; i++) {
+        const img = images[i];
+        const idx = i + 1;
+        html += '<div class="gallery-item" data-src="' + img + '">';
+        html += '<img src="' + img + '" alt="PSBS campus scene ' + idx +
+            '" loading="lazy" decoding="async" width="300" height="400" onerror="this.onerror=null;this.parentElement.querySelector(\'.gallery-loader\').style.display=\'none\';">';
+        html += '<div class="gallery-loader" aria-hidden="true"></div>';
+        html += '</div>';
+    }
+    grid.innerHTML = html;
+    const imgs = grid.querySelectorAll('.gallery-item img');
+    imgs.forEach(function (img) {
+        if (img.complete) img.classList.add('loaded');
+        else {
+            img.addEventListener('load', function () { img.classList.add('loaded'); });
+            img.addEventListener('error', function () { img.classList.add('loaded'); });
+        }
+    });
+    grid.querySelectorAll('.gallery-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+            const src = item.getAttribute('data-src') || item.querySelector('img')?.src;
+            if (src) {
+                const allItems = grid.querySelectorAll('.gallery-item');
+                const imagesUrls = [];
+                allItems.forEach(function (el) {
+                    const s = el.getAttribute('data-src') || el.querySelector('img')?.src;
+                    if (s) imagesUrls.push(s);
+                });
+                const idx = imagesUrls.indexOf(src);
+                openLightbox(imagesUrls, idx >= 0 ? idx : 0);
+            }
+        });
+    });
+    const total = totalPages();
+    DOM.galleryPrev.disabled = (page === 0);
+    DOM.galleryNext.disabled = (page >= total - 1);
+    DOM.galleryPageIndicator.textContent = 'Page ' + (page + 1) + ' / ' + (total || 1);
+    State.galleryCurrentPage = page;
+}
+
+// Gallery event listeners (FIXED)
+DOM.galleryPrev.addEventListener('click', function () {
+    if (State.galleryCurrentPage > 0) {
+        State.galleryCurrentPage--;
+        renderGalleryPage(State.galleryCurrentPage);
+    }
+});
+
+DOM.galleryNext.addEventListener('click', function () {
+    const total = totalPages(); // ✅ call the function
+    if (State.galleryCurrentPage < total - 1) {
+        State.galleryCurrentPage++;
+        renderGalleryPage(State.galleryCurrentPage);
+    }
+});
+
+// Fetch gallery from Supabase
+async function fetchGallery() {
+    const { data, error } = await supabase
+        .from('gallery')
+        .select('*')
+        .order('order', { ascending: true });
+    if (!error) {
+        State.galleryImages = data.map(item => item.image_url);
+        // Reset to first page when new data arrives
+        State.galleryCurrentPage = 0;
+        renderGalleryPage(0);
+    } else {
+        console.warn('Gallery fetch error:', error);
+    }
+}
+
+        // ============================================================
+        // REALTIME SUBSCRIPTIONS
+        // ============================================================
+        function setupRealtime() {
+            // Notices
+            supabase.channel('notices_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'notices' }, () => {
+                    fetchNotices();
+                })
+                .subscribe();
+
+            // Faculty
+            supabase.channel('faculty_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'faculty' }, () => {
+                    fetchFaculty();
+                })
+                .subscribe();
+
+            // Alumni
+            supabase.channel('alumni_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'alumni' }, () => {
+                    fetchAlumni();
+                })
+                .subscribe();
+
+            // Testimonials
+            supabase.channel('testimonials_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, () => {
+                    fetchTestimonials();
+                })
+                .subscribe();
+
+            // Gallery
+            supabase.channel('gallery_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery' }, () => {
+                    fetchGallery();
+                })
+                .subscribe();
+
+            // School info
+            supabase.channel('school_info_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'school_info' }, () => {
+                    fetchSchoolInfo();
+                })
+                .subscribe();
+        }
+
+        // ============================================================
+        // PROFILE (unchanged, kept as before)
         // ============================================================
         const Profile = {
             get: function () {
@@ -5525,41 +5908,13 @@
         };
 
         // ============================================================
-        // NOTICE MANAGER
+        // NOTICE MANAGER (now just uses the fetched data)
         // ============================================================
         const NoticeManager = {
+            // This is essentially replaced by fetchNotices() and realtime
+            // Keeping the interface for compatibility
             getNotices: function () {
-                return [
-                    {
-                        id: 1, label: 'urgent', title: 'First Term Exam Schedule',
-                        description: 'Examinations begin next week. Collect admit cards from administration.',
-                        date: '2026-07-17'
-                    },
-                    {
-                        id: 2, label: 'event', title: 'Annual Sports Meet 2026',
-                        description: 'Registration open for track and field events. Contact house captains.',
-                        date: '2026-07-15'
-                    },
-                    {
-                        id: 3, label: 'announcement', title: 'New Library Hours',
-                        description: 'Library now open 7:00 AM – 6:00 PM on all weekdays.', date: '2026-07-14'
-                    },
-                    {
-                        id: 4, label: 'achievement', title: 'Science Fair Winners 2026',
-                        description: 'Congratulations to our students for top positions at District Level.',
-                        date: '2026-07-12'
-                    },
-                    {
-                        id: 5, label: 'exam', title: 'SEE Preparation Workshop',
-                        description: 'Special workshop for Grade 10 students starting next Monday.',
-                        date: '2026-07-10'
-                    },
-                    {
-                        id: 6, label: 'holiday', title: 'Dashain Holiday Notice',
-                        description: 'School will remain closed from Oct 1 to Oct 15 for Dashain festival.',
-                        date: '2026-09-28'
-                    },
-                ];
+                return State.notices || [];
             },
             getLastReadCount: function () {
                 const count = localStorage.getItem(CONFIG.NOTICE_COUNT_KEY);
@@ -5595,40 +5950,13 @@
                 }
             },
             render: function () {
-                const notices = this.getNotices();
-                const container = DOM.noticeContainer;
-                if (!notices || notices.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><p>📭 No notices available.</p></div>';
-                    return;
-                }
-                let html = '';
-                const labelMap = {
-                    urgent: '🔴 URGENT',
-                    event: '🎉 EVENT',
-                    announcement: '📢 ANNOUNCEMENT',
-                    achievement: '🏆 ACHIEVEMENT',
-                    exam: '📝 EXAM',
-                    holiday: '🎊 HOLIDAY'
-                };
-                for (let i = 0; i < notices.length; i++) {
-                    const n = notices[i];
-                    const labelText = labelMap[n.label] || n.label.toUpperCase();
-                    html += '<div class="update-card glossy-card">';
-                    html += '<span class="update-label ' + n.label + '">' + labelText + '</span>';
-                    html += '<h3>' + Helpers.sanitize(n.title) + '</h3>';
-                    html += '<p>' + Helpers.sanitize(n.description) + '</p>';
-                    html += '<div class="update-date">📅 ' + Helpers.formatDate(n.date) + ' • ' + Helpers.timeAgo(n
-                        .date) + '</div>';
-                    html += '</div>';
-                }
-                container.innerHTML = html;
-                this.updateBadge();
+                // Already rendered via fetchNotices
             },
-            refresh: function () { this.render(); }
+            refresh: function () { fetchNotices(); }
         };
 
         // ============================================================
-        // NAME MODAL
+        // NAME MODAL (unchanged)
         // ============================================================
         function openNameModal() {
             DOM.nameModal.classList.add('active');
@@ -5669,7 +5997,7 @@
         });
 
         // ============================================================
-        // WELCOME CARD
+        // WELCOME CARD (unchanged)
         // ============================================================
         function showWelcomeCard(name) {
             const greeting = Helpers.getGreeting();
@@ -5707,7 +6035,7 @@
         DOM.welcomeCloseBtn.addEventListener('click', closeWelcomeCard);
 
         // ============================================================
-        // EDIT NAME MODAL
+        // EDIT NAME MODAL (unchanged)
         // ============================================================
         function openEditNameModal() {
             const p = Profile.get();
@@ -5765,7 +6093,7 @@
         });
 
         // ============================================================
-        // VALIDATORS
+        // VALIDATORS (unchanged)
         // ============================================================
         const Validators = {
             name: function (value) {
@@ -5792,7 +6120,7 @@
         };
 
         // ============================================================
-        // SEARCH
+        // SEARCH (unchanged)
         // ============================================================
         function openSearch() {
             DOM.searchOverlay.classList.add('active');
@@ -5870,7 +6198,7 @@
         });
 
         // ============================================================
-        // SIDEBAR
+        // SIDEBAR (unchanged)
         // ============================================================
         function openSidebar() {
             if (State.panelOpen && !State.isSidebarOpen) return;
@@ -5906,7 +6234,7 @@
         DOM.sidebarOverlay.addEventListener('click', closeAllPanels);
 
         // ============================================================
-        // NOTICE PANEL
+        // NOTICE PANEL (uses updated notice data)
         // ============================================================
         function openNoticePanel() {
             if (State.panelOpen && !State.isNoticeOpen) return;
@@ -5919,8 +6247,9 @@
             State.panelOpen = true;
             State.openCount++;
             document.body.classList.add('notice-active');
+            // Mark as read logic can be added if needed
             NoticeManager.markAsRead();
-            NoticeManager.render();
+            // render is already done via fetchNotices
         }
 
         function closeNoticePanel() {
@@ -5945,7 +6274,7 @@
         DOM.noticeClose.addEventListener('click', closeNoticePanel);
 
         // ============================================================
-        // PROFILE DROPDOWN
+        // PROFILE DROPDOWN (unchanged)
         // ============================================================
         function toggleProfileDropdown(e) {
             e.stopPropagation();
@@ -5985,7 +6314,7 @@
         });
 
         // ============================================================
-        // PROFILE ACTIONS
+        // PROFILE ACTIONS (unchanged)
         // ============================================================
         DOM.ddAvatarWrap.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -6027,7 +6356,7 @@
         });
 
         // ============================================================
-        // LOGIN HANDLERS
+        // LOGIN HANDLERS (unchanged)
         // ============================================================
         function navigateLogin(page) {
             closeProfileDropdown();
@@ -6048,7 +6377,7 @@
         });
 
         // ============================================================
-        // CALENDAR LINK
+        // CALENDAR LINK (unchanged)
         // ============================================================
         DOM.ddCalendarBtn.addEventListener('click', function (e) {
             e.preventDefault();
@@ -6057,7 +6386,7 @@
         });
 
         // ============================================================
-        // SIDEBAR ACTIONS
+        // SIDEBAR ACTIONS (unchanged)
         // ============================================================
         DOM.sidebarShareBtn.addEventListener('click', function () {
             Helpers.sharePage();
@@ -6069,7 +6398,7 @@
         });
 
         // ============================================================
-        // HEADER: Theme Controls
+        // HEADER: Theme Controls (unchanged)
         // ============================================================
         DOM.headerThemePresetsBtn.addEventListener('click', function () { openThemePresets(); });
         DOM.headerThemeToggleBtn.addEventListener('click', function () {
@@ -6078,7 +6407,7 @@
         });
 
         // ============================================================
-        // THEME PRESETS — User specified colors
+        // THEME PRESETS (unchanged)
         // ============================================================
         const themePresets = [
             { id: 'gold', label: 'Gold', color: '#f39c12' },
@@ -6155,12 +6484,12 @@
             }
         });
 
-        // Apply default (gold / #f39c12)
+        // Apply default (gold)
         const savedPreset = Helpers.getThemePreset();
         Helpers.setThemePreset(savedPreset);
 
         // ============================================================
-        // AI CHAT
+        // AI CHAT (unchanged)
         // ============================================================
         function openChat() {
             if (State.panelOpen && !State.isChatOpen) return;
@@ -6263,7 +6592,7 @@
         initChat();
 
         // ============================================================
-        // VOICE SEARCH
+        // VOICE SEARCH (unchanged)
         // ============================================================
         function initVoiceSearch() {
             const hasRecognition = ('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window);
@@ -6360,7 +6689,7 @@
         }
 
         // ============================================================
-        // FAB
+        // FAB (unchanged)
         // ============================================================
         DOM.fabToggle.addEventListener('click', function () {
             State.isFabOpen = !State.isFabOpen;
@@ -6409,7 +6738,7 @@
         });
 
         // ============================================================
-        // CONTACT FORM
+        // CONTACT FORM (unchanged)
         // ============================================================
         function validateContactField(input, validator) {
             const error = validator(input.value);
@@ -6473,79 +6802,7 @@
         });
 
         // ============================================================
-        // GALLERY
-        // ============================================================
-        const GALLERY_IMAGES = [];
-        for (let i = 1; i <= 20; i++) {
-            GALLERY_IMAGES.push(`img (${i}).jpg`);
-        }
-        const BATCH_SIZE = 4;
-        const totalPages = Math.ceil(GALLERY_IMAGES.length / BATCH_SIZE);
-
-        function renderGalleryPage(page) {
-            const grid = DOM.galleryGrid;
-            const start = page * BATCH_SIZE;
-            const end = Math.min(start + BATCH_SIZE, GALLERY_IMAGES.length);
-            let html = '';
-            for (let i = start; i < end; i++) {
-                const img = GALLERY_IMAGES[i];
-                const idx = i + 1;
-                html += '<div class="gallery-item" data-src="' + img + '">';
-                html += '<img src="' + img + '" alt="PSBS campus scene ' + idx +
-                    '" loading="lazy" decoding="async" width="300" height="400" onerror="this.onerror=null;this.parentElement.querySelector(\'.gallery-loader\').style.display=\'none\';">';
-                html += '<div class="gallery-loader" aria-hidden="true"></div>';
-                html += '</div>';
-            }
-            grid.innerHTML = html;
-            const imgs = grid.querySelectorAll('.gallery-item img');
-            imgs.forEach(function (img) {
-                if (img.complete) img.classList.add('loaded');
-                else {
-                    img.addEventListener('load', function () { img.classList.add('loaded'); });
-                    img.addEventListener('error', function () { img.classList.add('loaded'); });
-                }
-            });
-            grid.querySelectorAll('.gallery-item').forEach(function (item) {
-                item.addEventListener('click', function () {
-                    const src = item.getAttribute('data-src') || item.querySelector('img')?.src;
-                    if (src) {
-                        const allItems = grid.querySelectorAll('.gallery-item');
-                        const images = [];
-                        allItems.forEach(function (el) {
-                            const s = el.getAttribute('data-src') || el.querySelector('img')?.src;
-                            if (s) images.push(s);
-                        });
-                        const idx = images.indexOf(src);
-                        openLightbox(images, idx >= 0 ? idx : 0);
-                    }
-                });
-            });
-            DOM.galleryPrev.disabled = (page === 0);
-            DOM.galleryNext.disabled = (page === totalPages - 1);
-            DOM.galleryPageIndicator.textContent = 'Page ' + (page + 1) + ' / ' + totalPages;
-        }
-
-        function initGallery() {
-            State.galleryCurrentPage = 0;
-            renderGalleryPage(0);
-        }
-
-        DOM.galleryPrev.addEventListener('click', function () {
-            if (State.galleryCurrentPage > 0) {
-                State.galleryCurrentPage--;
-                renderGalleryPage(State.galleryCurrentPage);
-            }
-        });
-
-        DOM.galleryNext.addEventListener('click', function () {
-            if (State.galleryCurrentPage < totalPages - 1) {
-                State.galleryCurrentPage++;
-                renderGalleryPage(State.galleryCurrentPage);
-            }
-        });
-
-        // ============================================================
-        // LIGHTBOX
+        // LIGHTBOX (unchanged)
         // ============================================================
         function openLightbox(images, index) {
             if (!images || images.length === 0) return;
@@ -6686,94 +6943,7 @@
         });
 
         // ============================================================
-        // RENDER FUNCTIONS
-        // ============================================================
-        function renderFaculty() {
-            const data = [
-                { name: 'Binod Mishra', subject: 'Principal / Science', emoji: '🧪' },
-                { name: 'Ramesh Pant', subject: 'English Literature', emoji: '👨‍🏫' },
-                { name: 'Arjun BK', subject: 'Mathematics', emoji: '📊' },
-                { name: 'Tilak Pandey', subject: 'Social Studies', emoji: '📜' },
-                { name: 'Suresh Raneni', subject: 'Computer Science', emoji: '💻' },
-                { name: 'Devi Khadka', subject: 'Nepali Language', emoji: '📖' },
-                { name: 'Deepak Malashi', subject: 'Physical Education', emoji: '⚽' },
-                { name: 'Deepak Pathak', subject: 'Health & Environment', emoji: '🌿' },
-            ];
-            let html = '';
-            for (let i = 0; i < data.length; i++) {
-                const d = data[i];
-                html += '<div class="faculty-card">';
-                html += '<div class="faculty-avatar">' + d.emoji + '</div>';
-                html += '<h4>' + Helpers.sanitize(d.name) + '</h4>';
-                html += '<p>' + Helpers.sanitize(d.subject) + '</p>';
-                html += '<span class="faculty-subject">' + d.subject.split(' ').pop() + '</span>';
-                html += '</div>';
-            }
-            DOM.facultyContainer.innerHTML = html;
-        }
-
-        function renderAlumni() {
-            const data = [
-                { name: 'Rajesh Thapa', year: '2018', achievement: 'Software Engineer at Google', emoji: '👨‍💻' },
-                { name: 'Sita Sharma', year: '2019', achievement: 'Medical Student, TU', emoji: '👩‍⚕️' },
-                { name: 'Kumar Adhikari', year: '2017', achievement: 'Civil Engineer', emoji: '👷' },
-                { name: 'Nisha Karki', year: '2020', achievement: 'Banking Officer', emoji: '👩‍💼' },
-                { name: 'Prabin Rana', year: '2016', achievement: 'Entrepreneur', emoji: '👨‍🎨' },
-                { name: 'Sunita Joshi', year: '2018', achievement: 'Teacher at PSBS', emoji: '👩‍🏫' },
-            ];
-            let html = '';
-            for (let i = 0; i < data.length; i++) {
-                const d = data[i];
-                html += '<div class="alumni-card">';
-                html += '<div class="alumni-avatar">' + d.emoji + '</div>';
-                html += '<h4>' + Helpers.sanitize(d.name) + '</h4>';
-                html += '<p>' + Helpers.sanitize(d.achievement) + '</p>';
-                html += '<span class="alumni-year">🎓 ' + d.year + '</span>';
-                html += '</div>';
-            }
-            DOM.alumniContainer.innerHTML = html;
-        }
-
-        function renderTestimonials() {
-            const data = [{
-                name: 'Mrs. Sunita Sharma',
-                role: 'Parent of Grade 8 Student',
-                text: 'PSBS has transformed my child\'s confidence and academic performance. The teachers are incredibly dedicated and caring.',
-                emoji: '👩'
-            }, {
-                name: 'Rajesh Thapa',
-                role: 'Alumnus, Class of 2018',
-                text: 'I graduated from PSBS and it prepared me for the world. The values and education I received are invaluable.',
-                emoji: '👨'
-            }, {
-                name: 'Mr. Kedar Ghimire',
-                role: 'Parent of Grade 10 Student',
-                text: 'The school\'s focus on both academics and extracurricular activities has helped my daughter excel in every area.',
-                emoji: '👨'
-            }, {
-                name: 'Ms. Laxmi Shah',
-                role: 'Teacher, PSBS',
-                text: 'Working at PSBS has been a fulfilling journey. The students are eager to learn and the environment is inspiring.',
-                emoji: '👩‍🏫'
-            },];
-            let html = '';
-            for (let i = 0; i < data.length; i++) {
-                const d = data[i];
-                html += '<div class="testimonial-card">';
-                html += '<div class="testimonial-quote" aria-hidden="true">"</div>';
-                html += '<p>' + Helpers.sanitize(d.text) + '</p>';
-                html += '<div class="testimonial-author">';
-                html += '<div class="testimonial-avatar" aria-hidden="true">' + d.emoji + '</div>';
-                html += '<div><strong>' + Helpers.sanitize(d.name) + '</strong><span>' + Helpers.sanitize(d.role) +
-                    '</span></div>';
-                html += '</div>';
-                html += '</div>';
-            }
-            DOM.testimonialsContainer.innerHTML = html;
-        }
-
-        // ============================================================
-        // HEADER SCROLL — optimized
+        // HEADER SCROLL (unchanged)
         // ============================================================
         let lastScrollTop = 0;
         let scrollTimeoutId = null;
@@ -6792,7 +6962,7 @@
         window.addEventListener('scroll', handleScroll, { passive: true });
 
         // ============================================================
-        // CLOSE ALL PANELS
+        // CLOSE ALL PANELS (unchanged)
         // ============================================================
         function closeAllPanels(exclude) {
             exclude = exclude || [];
@@ -6818,7 +6988,7 @@
         }
 
         // ============================================================
-        // BACK BUTTON
+        // BACK BUTTON (unchanged)
         // ============================================================
         window.addEventListener('popstate', function (e) {
             if (State.openCount <= 0) {
@@ -6840,7 +7010,7 @@
         history.pushState({}, '');
 
         // ============================================================
-        // SWIPE GESTURES
+        // SWIPE GESTURES (unchanged)
         // ============================================================
         const Gestures = {
             init: function () {
@@ -6981,7 +7151,7 @@
         Gestures.init();
 
         // ============================================================
-        // KEYBOARD SHORTCUTS
+        // KEYBOARD SHORTCUTS (unchanged)
         // ============================================================
         document.addEventListener('keydown', function (e) {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -7023,7 +7193,7 @@
         });
 
         // ============================================================
-        // HERO TYPING EFFECT & PARTICLES
+        // HERO TYPING EFFECT & PARTICLES (unchanged)
         // ============================================================
         function typeMotto() {
             const el = DOM.heroMotto;
@@ -7064,7 +7234,7 @@
         }
 
         // ============================================================
-        // STAT COUNTERS
+        // STAT COUNTERS (unchanged)
         // ============================================================
         function animateCounter(el) {
             const raw = el.textContent.trim();
@@ -7101,11 +7271,12 @@
         }
 
         // ============================================================
-        // HERO STATS — with year counter fix
+        // HERO STATS ANIMATION (FIXED)
         // ============================================================
         function animateHeroStats() {
+            // Students
             if (DOM.heroStudents) {
-                const target = 1050;
+                const target = State.schoolInfo?.students_count || 1050;
                 let current = 0;
                 const step = Math.ceil(target / 60);
                 const interval = setInterval(function () {
@@ -7117,8 +7288,10 @@
                     DOM.heroStudents.textContent = current + '+';
                 }, 25);
             }
+
+            // Teachers
             if (DOM.heroTeachers) {
-                const target = 38;
+                const target = State.schoolInfo?.teachers_count || 38;
                 let current = 0;
                 const step = Math.ceil(target / 30);
                 const interval = setInterval(function () {
@@ -7130,9 +7303,11 @@
                     DOM.heroTeachers.textContent = current + '+';
                 }, 30);
             }
+
+            // Years (FIXED using B.S. year)
             if (DOM.heroYears) {
-                const age = Helpers.schoolAge();
-                const target = age;
+                const establishedBS = State.schoolInfo?.established_year || 2040;
+                const target = CURRENT_BS_YEAR - establishedBS; // 2083 - 2040 = 43
                 let current = 0;
                 const step = Math.ceil(target / 40);
                 const interval = setInterval(function () {
@@ -7145,10 +7320,9 @@
                 }, 30);
             }
         }
-        setTimeout(animateHeroStats, 500);
 
         // ============================================================
-        // SECTION ANIMATIONS
+        // SECTION ANIMATIONS (unchanged)
         // ============================================================
         if ('IntersectionObserver' in window) {
             const sectionObserver = new IntersectionObserver(function (entries) {
@@ -7161,7 +7335,7 @@
         }
 
         // ============================================================
-        // SCROLL SPY
+        // SCROLL SPY (unchanged)
         // ============================================================
         const navLinks = $$('.sidebar-links a[data-section]');
         const sections = [];
@@ -7192,32 +7366,46 @@
         setTimeout(updateActiveSection, 100);
 
         // ============================================================
-        // FOOTER YEAR
+        // FOOTER YEAR (unchanged)
         // ============================================================
         if (DOM.footerYear) DOM.footerYear.textContent = new Date().getFullYear();
 
         // ============================================================
         // INIT
         // ============================================================
-        function init() {
+        async function init() {
             Helpers.applyTheme();
-            // Apply default preset (gold)
             const preset = Helpers.getThemePreset();
             Helpers.setThemePreset(preset);
             Profile.updateUI();
-            renderFaculty();
-            renderAlumni();
-            renderTestimonials();
-            initGallery();
+
+            // Fetch all data from Supabase
+            await Promise.all([
+                fetchSchoolInfo(),
+                fetchNotices(),
+                fetchFaculty(),
+                fetchAlumni(),
+                fetchTestimonials(),
+                fetchGallery()
+            ]);
+
+            // ✅ Now animate the hero stats (data is ready)
+            animateHeroStats();
+
+            // Init other features
             initVoiceSearch();
-            NoticeManager.render();
+
             const profile = Profile.get();
             if (!profile || !profile.name) {
                 setTimeout(openNameModal, 600);
             } else {
                 setTimeout(function () { Toast.info('👋 Welcome back, ' + profile.name + '!'); }, 1000);
             }
-            Helpers.log('🌸 Radhe Radhe! PSBS Portal — Custom palette loaded (Gold default).');
+
+            // Setup realtime subscriptions after initial load
+            setupRealtime();
+
+            Helpers.log('🌸 Radhe Radhe! PSBS Portal — Supabase connected. All content is now dynamic.');
         }
 
         if (document.readyState === 'loading') {

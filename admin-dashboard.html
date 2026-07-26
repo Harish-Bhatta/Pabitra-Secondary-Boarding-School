@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard – PSBS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & basic */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #F8FAFC;
+      padding: 20px;
+    }
+
+    .dashboard {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 16px 24px;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      color: #1E293B;
+    }
+
+    .logout-btn {
+      background: #EF4444;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: #DC2626;
+    }
+
+    .section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: #1E293B;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .notice-item {
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notice-item strong {
+      color: #1E293B;
+    }
+
+    .notice-item small {
+      color: #64748B;
+    }
+
+    .notice-item .actions button {
+      margin-left: 8px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .edit-btn {
+      background: #f39c12;
+      color: white;
+    }
+
+    .delete-btn {
+      background: #EF4444;
+      color: white;
+    }
+
+    .add-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .add-form input,
+    .add-form select,
+    .add-form textarea {
+      padding: 8px 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .add-form button {
+      padding: 8px 20px;
+      background: #f39c12;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .add-form button:hover {
+      background: #d68910;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="header">
+      <h1>⚙️ Admin Dashboard</h1>
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Notice Editor -->
+    <div class="section" id="noticesSection">
+      <h2>📢 Manage Notices</h2>
+      <div id="noticeList"></div>
+      <div class="add-form" id="addNoticeForm">
+        <input type="text" id="noticeTitle" placeholder="Title" required>
+        <textarea id="noticeDesc" placeholder="Description" rows="1"></textarea>
+        <input type="date" id="noticeDate">
+        <select id="noticeLabel">
+          <option value="urgent">Urgent</option>
+          <option value="event">Event</option>
+          <option value="announcement">Announcement</option>
+          <option value="achievement">Achievement</option>
+          <option value="exam">Exam</option>
+          <option value="holiday">Holiday</option>
+        </select>
+        <button id="addNoticeBtn">+ Add</button>
+      </div>
+    </div>
+
+    <!-- More sections (Faculty, Gallery, Calendar etc.) can be added later -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // 🔁 Your actual keys
+    const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
+
+    // Create the client
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Make it globally accessible (and keep the same name 'supabase')
+    window.supabase = supabaseClient;
+
+    // ---------- Check authentication & admin status ----------
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        window.location.href = 'admin-login.html';
+        return;
+      }
+      // Verify admin (in case user manually typed URL)
+      const { data: admin, error } = await supabase
+        .from('admins')
+        .select('email')
+        .eq('email', session.user.email)
+        .maybeSingle();
+      if (!admin) {
+        await supabase.auth.signOut();
+        window.location.href = 'admin-login.html';
+      }
+    })();
+
+    // ---------- DOM refs ----------
+    const noticeList = document.getElementById('noticeList');
+    const addBtn = document.getElementById('addNoticeBtn');
+
+    // ---------- Fetch and render notices ----------
+    async function loadNotices() {
+      const { data, error } = await supabase
+        .from('notices')
+        .select('*')
+        .order('date', { ascending: false });
+      if (error) return console.error(error);
+      renderNotices(data);
+    }
+
+    function renderNotices(notices) {
+      if (!notices || notices.length === 0) {
+        noticeList.innerHTML = '<p style="color:#94a3b8;">No notices yet.</p>';
+        return;
+      }
+      let html = '';
+      notices.forEach(n => {
+        html += `
+        <div class="notice-item" data-id="${n.id}">
+          <div>
+            <strong>${escapeHtml(n.title)}</strong>
+            <small>${n.label} • ${new Date(n.date).toLocaleDateString()}</small>
+            <p style="font-size:0.85rem;color:#475569;">${escapeHtml(n.description || '')}</p>
+          </div>
+          <div class="actions">
+            <button class="edit-btn" data-id="${n.id}">✏️ Edit</button>
+            <button class="delete-btn" data-id="${n.id}">🗑️ Delete</button>
+          </div>
+        </div>
+      `;
+      });
+      noticeList.innerHTML = html;
+
+      // Attach delete handlers
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = btn.dataset.id;
+          if (!confirm('Delete this notice?')) return;
+          const { error } = await supabase.from('notices').delete().eq('id', id);
+          if (error) alert('Delete failed: ' + error.message);
+          else loadNotices();
+        });
+      });
+
+      // Edit handlers (simple example – you can make a modal for editing)
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = btn.dataset.id;
+          const { data, error } = await supabase.from('notices').select('*').eq('id', id).single();
+          if (error) return alert('Could not load notice');
+          // Fill form with current data (here we just prompt)
+          const newTitle = prompt('Edit title:', data.title);
+          if (newTitle === null) return;
+          const newDesc = prompt('Edit description:', data.description);
+          const { error: updateError } = await supabase
+            .from('notices')
+            .update({ title: newTitle, description: newDesc })
+            .eq('id', id);
+          if (updateError) alert('Update failed');
+          else loadNotices();
+        });
+      });
+    }
+
+    // ---------- Add new notice ----------
+    addBtn.addEventListener('click', async () => {
+      const title = document.getElementById('noticeTitle').value.trim();
+      const desc = document.getElementById('noticeDesc').value.trim();
+      const date = document.getElementById('noticeDate').value;
+      const label = document.getElementById('noticeLabel').value;
+      if (!title) return alert('Title is required');
+      const { error } = await supabase.from('notices').insert({
+        title,
+        description: desc,
+        date: date || new Date().toISOString().slice(0, 10),
+        label
+      });
+      if (error) alert('Add failed: ' + error.message);
+      else {
+        // Clear form
+        document.getElementById('noticeTitle').value = '';
+        document.getElementById('noticeDesc').value = '';
+        document.getElementById('noticeDate').value = '';
+        loadNotices();
+      }
+    });
+
+    // ---------- Logout ----------
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'admin-login.html';
+    });
+
+    // ---------- Helper ----------
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---------- Initial load ----------
+    loadNotices();
+  </script>
+</body>
+
+</html>

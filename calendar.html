@@ -1760,7 +1760,7 @@
 
       .btn {
         font-size: 0.65rem;
-        padding: 4px 8px;
+        padding: 4px 25px;
         min-height: 32px;
       }
 
@@ -3290,7 +3290,7 @@ if (monthIdx === 6 && dayBS >= 10 && dayBS <= 27) {
     function goToToday() {
       if (isAnimatingSwipe || ScrollLock.isLocked()) return;
       selectDate(TODAY.monthIdx, TODAY.dayBS);
-      Helpers.showToast('📅 आज: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
+      Helpers.showToast('आज: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
     }
 
     // ============================================================

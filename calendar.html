@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>Pabitra S.B.S. — क्यालेन्डर २०८३</title>
+  <title>PSBS Calendar - 2083</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
@@ -1276,14 +1276,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
       margin-top: 1px;
-      line-height: 1.2;
+      line-height: 1.5;
     }
 
     .indicator-dots {
       display: flex;
       gap: 3px;
       justify-content: flex-end;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .dot {
@@ -2366,16 +2366,16 @@
       events: {
         1: { title: "नाग पञ्चमी", isHoliday: true },
         3: { title: "राष्ट्रिय सूचना दिवस", isHoliday: false },
-        11: { title: "जनैपूर्णिमा · रक्षाबन्धन · क्वाँटी", isHoliday: true },
-        12: { title: "गाई जात्रा · मात्या जात्रा · संस्कृत दिवस", isHoliday: true },
-        18: { title: "श्रीकृष्ण जन्माष्टमी · गौरा पर्व", isHoliday: true },
-        19: { title: "श्रीकृष्ण जन्माष्टमी (मनाउने)", isHoliday: true },
+        12: { title: "जनैपूर्णिमा · रक्षाबन्धन · क्वाँटी · संस्कृत दिवस", isHoliday: true },
+        13: { title: "गाई जात्रा", isHoliday: true },
+        18: { title: "गौरा पर्व", isHoliday: false },
+        19: { title: "श्रीकृष्ण जन्माष्टमी", isHoliday: true },
         20: { title: "मानव बेचबिखन विरुद्धको राष्ट्रिय दिवस", isHoliday: false },
         22: { title: "निजामती सेवा दिवस", isHoliday: false },
+        23: { title: "जेनजी शहीद दिवस · अन्तर्राष्ट्रिय साक्षरता दिवस", isHoliday: false },
         26: { title: "कुशे औंशी · बुबा को मुख हेर्ने", isHoliday: true },
         28: { title: "दर खाने दिन", isHoliday: false },
-        29: { title: "हरितालिका तीज · गणेश चतुर्थी · बाल दिवस", isHoliday: true },
-        30: { title: "ऋषि पञ्चमी", isHoliday: false }
+        29: { title: "हरितालिका तीज · गणेश चतुर्थी · बाल दिवस", isHoliday: true }
       }
     }, {
       // 5: असोज
@@ -2400,7 +2400,8 @@
       ],
       events: {
         3: { title: "संविधान दिवस", isHoliday: true },
-        9: { title: "इन्द्र जात्रा · अनन्त चतुर्दशी · विश्व फार्मासिस्ट", isHoliday: true },
+        5: { title: "विश्व शान्ति दिवस", isHoliday: false },
+        9: { title: "इन्द्र जात्रा · अनन्त चतुर्दशी · विश्व फार्मासिस्ट", isHoliday: false },
         18: { title: "जितिया पर्व · सोह्र श्राद्ध सुरु", isHoliday: false },
         25: { title: "घटस्थापना — दशैं आरम्भ", isHoliday: true },
         31: { title: "फूलपाती — दशैं बिदा", isHoliday: true }
@@ -2651,9 +2652,9 @@
       MONTHS.forEach((m, idx) => {
         const active = (idx === selectedIdx) ? 'active-option' : '';
         html += `<div class="month-option ${active}" data-index="${idx}" role="option" aria-selected="${idx === selectedIdx}">
-                    <span class="month-label">${m.nameBS}</span>
-                    <span class="month-sub">${m.nameAD}</span>
-                </div>`;
+                            <span class="month-label">${m.nameBS}</span>
+                            <span class="month-sub">${m.nameAD}</span>
+                        </div>`;
       });
       dropdownPortal.innerHTML = html;
       dropdownBtn.textContent = MONTHS[selectedIdx].nameBS;
@@ -2670,7 +2671,6 @@
       if (dropdownOpen) return;
       dropdownOpen = true;
 
-      // Position the portal relative to the button
       const rect = dropdownBtn.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
@@ -2679,13 +2679,11 @@
       let top = rect.bottom + 6;
       let width = Math.min(rect.width, 260);
 
-      // Ensure it fits horizontally
       if (left + width > viewportWidth - 10) {
         left = viewportWidth - width - 10;
       }
       if (left < 10) left = 10;
 
-      // Ensure it fits vertically — if not enough space below, show above
       const panelHeight = Math.min(260, MONTHS.length * 44 + 16);
       if (top + panelHeight > viewportHeight - 10) {
         top = rect.top - panelHeight - 6;
@@ -2697,15 +2695,12 @@
       dropdownPortal.style.width = width + 'px';
       dropdownPortal.style.maxHeight = Math.min(260, viewportHeight - top - 20) + 'px';
 
-      // Show backdrop + portal
       dropdownBackdrop.classList.add('show');
       dropdownPortal.classList.add('open');
       dropdownBtn.setAttribute('aria-expanded', 'true');
 
-      // Lock scroll
       ScrollLock.lock();
 
-      // Highlight active option
       dropdownPortal.querySelectorAll('.month-option').forEach(el => {
         const idx = parseInt(el.getAttribute('data-index'));
         el.classList.toggle('active-option', idx === currentMonthIdx);
@@ -2733,13 +2728,11 @@
 
     dropdownBtn.addEventListener('click', toggleDropdown);
 
-    // Backdrop click → close
     dropdownBackdrop.addEventListener('click', function (e) {
       e.stopPropagation();
       closeDropdown();
     });
 
-    // ESC key → close
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         if (dropdownOpen) closeDropdown();
@@ -2750,13 +2743,11 @@
       }
     });
 
-    // Window resize → reposition dropdown
     let resizeTimer;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function () {
         if (dropdownOpen) {
-          // Re-position
           const rect = dropdownBtn.getBoundingClientRect();
           const viewportWidth = window.innerWidth;
           let left = rect.left;
@@ -2885,7 +2876,9 @@
       grid.style.opacity = '0';
 
       setTimeout(() => {
-        renderCalendar(newIdx);
+        const dayToSelect = (newIdx === TODAY.monthIdx) ? TODAY.dayBS : 1;
+        selectDate(newIdx, dayToSelect);
+
         const newGrid = document.getElementById('calendarGrid');
         const inDir = direction === 'left' ? '40px' : '-40px';
         newGrid.style.transition = 'none';
@@ -3000,6 +2993,55 @@
     }
 
     // ============================================================
+    // getDateInfo — central holiday & event logic (CUSTOM RULES)
+    // ============================================================
+    function getDateInfo(monthIdx, dayBS) {
+      const monthData = MONTHS[monthIdx];
+      const dayOfWeekIdx = (monthData.startDayOfWeek + dayBS - 1) % 7;
+      const eventData = monthData.events[dayBS];
+      const isSunOrSat = (dayOfWeekIdx === 0 || dayOfWeekIdx === 6);
+
+      // ----- CUSTOM RULE 1: Ashoj 18 is NOT a holiday (exam starts) -----
+      if (monthIdx === 5 && dayBS === 18) {
+        return {
+          isHoliday: false,
+          eventTitle: eventData ? eventData.title : null,
+          isSunOrSat: isSunOrSat,
+          dayOfWeekIdx: dayOfWeekIdx
+        };
+      }
+
+      // ----- CUSTOM RULE 2: Ashoj 28 – Kartik 29 are ALL holidays (red) -----
+      if ((monthIdx === 5 && dayBS >= 28) || (monthIdx === 6 && dayBS <= 9)) {
+        return {
+          isHoliday: true,
+          eventTitle: eventData ? eventData.title : "दशैं बिदा",
+          isSunOrSat: isSunOrSat,
+          dayOfWeekIdx: dayOfWeekIdx
+        };
+      }
+
+if (monthIdx === 6 && dayBS >= 10 && dayBS <= 27) {
+  return {
+    isHoliday: true,
+    eventTitle: eventData ? eventData.title : "तिहार बिदा",
+    isSunOrSat: isSunOrSat,
+    dayOfWeekIdx: dayOfWeekIdx
+  };
+}
+
+      
+      // ----- DEFAULT: Saturday/Sunday OR event holiday -----
+      const isHoliday = isSunOrSat || (eventData && eventData.isHoliday);
+      return {
+        isHoliday: isHoliday,
+        eventTitle: eventData ? eventData.title : null,
+        isSunOrSat: isSunOrSat,
+        dayOfWeekIdx: dayOfWeekIdx
+      };
+    }
+
+    // ============================================================
     // RENDER CALENDAR
     // ============================================================
     function renderCalendar(monthIdx) {
@@ -3052,10 +3094,11 @@
       }
 
       for (let day = 1; day <= monthData.daysCount; day++) {
-        const dayOfWeek = (monthData.startDayOfWeek + day - 1) % 7;
-        const isSunOrSat = (dayOfWeek === 0 || dayOfWeek === 6);
+        const info = getDateInfo(monthIdx, day);
+        const isHoliday = info.isHoliday;
+        const dayOfWeekIdx = info.dayOfWeekIdx;
+        const isSunOrSat = info.isSunOrSat;
         const eventData = monthData.events[day];
-        const isHoliday = isSunOrSat || (eventData && eventData.isHoliday);
         const isToday = (monthIdx === TODAY.monthIdx && day === TODAY.dayBS);
         const isSelected = (selectedMonthIdx === monthIdx && selectedDayBS === day);
 
@@ -3076,7 +3119,7 @@
         var dots = '';
         if (isHoliday) dots += '<span class="dot dot-holiday"></span>';
         if (programOnDay) dots += '<span class="dot dot-program"></span>';
-        if (eventData && !eventData.isHoliday) dots += '<span class="dot dot-event"></span>';
+        if (eventData && !eventData.isHoliday && !isSunOrSat) dots += '<span class="dot dot-event"></span>';
 
         var tithi = monthData.tithis[day - 1] || '';
 
@@ -3161,17 +3204,18 @@
       selectedMonthIdx = monthIdx;
       selectedDayBS = dayBS;
       var monthData = MONTHS[monthIdx];
-      var dayOfWeekIdx = (monthData.startDayOfWeek + dayBS - 1) % 7;
+      const info = getDateInfo(monthIdx, dayBS);
+      const dayOfWeekIdx = info.dayOfWeekIdx;
+      const isHoliday = info.isHoliday;
+      const eventTitle = info.eventTitle;
 
       var adDate = new Date(monthData.adStartDate);
       adDate.setDate(adDate.getDate() + (dayBS - 1));
       var adFull = adDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
       var tithi = monthData.tithis[dayBS - 1] || '—';
-      var eventInfo = monthData.events[dayBS];
+      var eventData = monthData.events[dayBS];
       var progInfo = monthData.programs.find(function (p) { return p.day === dayBS; });
-      var isSunOrSat = (dayOfWeekIdx === 0 || dayOfWeekIdx === 6);
-      var isHoliday = isSunOrSat || (eventInfo && eventInfo.isHoliday);
 
       document.getElementById('detailDateBS').innerText =
         '२०८३ ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[
@@ -3179,17 +3223,22 @@
       document.getElementById('detailDateAD').innerText = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
       document.getElementById('detailTithi').innerText = tithi;
 
+      // ---- Event display ----
       var evtTxt = '—';
       var evtClass = 'empty-text';
-      if (eventInfo) {
-        evtTxt = eventInfo.title;
-        evtClass = eventInfo.isHoliday ? 'holiday-text' : 'event-text';
-      } else if (isSunOrSat) {
+      if (eventTitle) {
+        evtTxt = eventTitle;
+        evtClass = isHoliday ? 'holiday-text' : 'event-text';
+      } else if (info.isSunOrSat && isHoliday) {
         evtTxt = 'साप्ताहिक बिदा (Weekly Holiday)';
+        evtClass = 'holiday-text';
+      } else if (isHoliday) {
+        evtTxt = 'विदा';
         evtClass = 'holiday-text';
       }
       document.getElementById('detailEvent').innerHTML = '<span class="' + evtClass + '">' + evtTxt + '</span>';
 
+      // ---- Program display ----
       var progTxt = '—';
       var progClass = 'empty-text';
       if (isHoliday) {
@@ -3223,14 +3272,14 @@
       grid.style.transition = 'opacity 0.2s ease';
       grid.style.opacity = '0';
       setTimeout(function () {
-        renderCalendar(newIdx);
+        var dayToSelect = (newIdx === TODAY.monthIdx) ? TODAY.dayBS : 1;
+        selectDate(newIdx, dayToSelect);
         var newGrid = document.getElementById('calendarGrid');
         newGrid.style.transition = 'opacity 0.25s ease';
         newGrid.style.opacity = '1';
         setTimeout(function () {
           newGrid.style.transition = '';
           newGrid.style.opacity = '';
-          updateDaysDifference();
         }, 300);
       }, 200);
     }
@@ -3334,7 +3383,11 @@
       setTimeout(function () {
         calculateTodayBS();
         if (selectedMonthIdx !== -1 && selectedDayBS !== -1) {
-          selectDate(selectedMonthIdx, selectedDayBS);
+          if (selectedMonthIdx === TODAY.monthIdx) {
+            selectDate(selectedMonthIdx, TODAY.dayBS);
+          } else {
+            renderCalendar(selectedMonthIdx);
+          }
         } else {
           renderCalendar(currentMonthIdx);
         }

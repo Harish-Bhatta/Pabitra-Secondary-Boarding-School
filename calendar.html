@@ -530,7 +530,7 @@
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
-      padding: 16px 14px 14px;
+      padding: 16px 8px 14px;
       transition: background var(--transition), border var(--transition), box-shadow var(--transition);
       touch-action: pan-y;
       user-select: none;
@@ -1613,12 +1613,13 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 99999;
-      padding: 12px 28px;
+      padding: 12px 20px;
       background: var(--surface-solid);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-xl);
       border: 1px solid var(--border);
       border-left: 4px solid var(--primary);
+      border-right: 4px solid var(--primary);
       font-size: 0.82rem;
       font-weight: 500;
       color: var(--text);
@@ -3290,7 +3291,7 @@ if (monthIdx === 6 && dayBS >= 10 && dayBS <= 27) {
     function goToToday() {
       if (isAnimatingSwipe || ScrollLock.isLocked()) return;
       selectDate(TODAY.monthIdx, TODAY.dayBS);
-      Helpers.showToast('आज: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
+      Helpers.showToast('📅 आज: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
     }
 
     // ============================================================

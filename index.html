@@ -1880,9 +1880,7 @@
             border-bottom: 1px solid var(--glass-border);
             box-shadow: 0 2px 30px rgba(0, 0, 0, 0.02);
             transform: translateY(0);
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-                background var(--transition),
-                border var(--transition);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             height: var(--header-height);
         }
 
@@ -1890,6 +1888,39 @@
             transform: translateY(-100%);
         }
 
+        /* -------- NOTICE UNREAD HIGHLIGHT -------- */
+        .update-card.notice-unread {
+            border-left-color: var(--primary);
+            background: rgba(243, 156, 18, 0.04);
+            border-left-width: 4px;
+            position: relative;
+        }
+
+        .update-card.notice-unread::before {
+            content: '●';
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            font-size: 0.6rem;
+            color: var(--primary);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        body.dark .update-card.notice-unread {
+            background: rgba(243, 156, 18, 0.08);
+        }
+
+        .update-card.notice-unread:hover {
+            background: var(--surface-hover);
+        }
+
+        body.dark .update-card.notice-unread:hover {
+            background: rgba(243, 156, 18, 0.12);
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
         .navbar {
             width: 100%;
             height: 100%;
@@ -2568,6 +2599,7 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(8px);
+            cursor: default;
         }
 
         .update-card:hover {
@@ -2701,7 +2733,6 @@
             max-width: 600px;
             animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: center;
-            /* ✅ FIX: centers content on desktop */
         }
 
         @media (min-width: 1024px) {
@@ -3402,7 +3433,6 @@
             }
         }
 
-        /* Pulse glow behind button */
         .contact-btn::after {
             content: '';
             position: absolute;
@@ -3430,7 +3460,6 @@
             }
         }
 
-        /* Disabled state */
         .contact-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -4318,7 +4347,7 @@
                 <div class="chat-avatar">🤖</div>
                 <div class="chat-title">
                     <h3 id="chatTitle">PSBS AI Assistant</h3>
-                    <p>Ask me anything about the school</p>
+                    <p>Ask me anything you need or want!</p>
                 </div>
                 <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close chat">
                     <i class="ri-close-large-line" aria-hidden="true"></i>
@@ -4382,7 +4411,7 @@
                     </button>
                     <button class="notice-btn" aria-label="Open notices" aria-expanded="false">
                         <i class="ri-notification-3-line" aria-hidden="true"></i>
-                        <span class="notice-badge" id="noticeBadge">3</span>
+                        <span class="notice-badge hidden-badge" id="noticeBadge">0</span>
                     </button>
                     <div class="profile-container">
                         <button class="profile-btn" id="headerProfileBtn" aria-label="Open profile menu"
@@ -4894,23 +4923,73 @@
     <!-- ============================================================
     SUPABASE SETUP (placeholders – replace with your actual keys)
     ============================================================ -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
     <script>
         // 🔁 Your actual keys
         const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
+        const SUPABASE_ANON_KEY =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
 
         // Create the client
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Make it globally accessible (and keep the same name 'supabase')
         window.supabase = supabaseClient;
     </script>
 
     <!-- ============================================================
-    JAVASCRIPT — REFINED & OPTIMIZED + SUPABASE INTEGRATION
+    JAVASCRIPT — GROQ-POWERED AI ASSISTANT
     ============================================================ -->
     <script>
+        // -------------------- GROQ CONFIG --------------------
+        const GROQ_CONFIG = {
+            apiKey: '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',
+            model: 'llama-3.3-70b-versatile', // or 'mixtral-8x7b-32768', 'llama-3.1-8b-instant'
+            endpoint: 'https://api.groq.com/openai/v1/chat/completions',
+            temperature: 0.7,
+            maxTokens: 600,
+            systemPrompt: `You are the official friendly AI assistant of Pabitra Secondary School, Doti, Nepal.
+            School facts you must know:
+            - Your name: PAI 
+            - Full name: Pabitra Secondary Boarding School (PSBS)
+            - Established: 2040 B.S. (1983 A.D.)
+            - Location: DSM-6, Doti, Nepal
+            - Principal: Mr. Binod Kumar Mishra
+            - Contact: 094-411035 | info@psbs.edu.np
+            - Motto: Quality Education is our Motto
+            Always answer in a warm, respectful and family-friendly tone suitable for students and parents.
+            Keep answers clear, helpful and not too long.
+            If the question is about the school, use the facts above. For general knowledge questions, answer accurately.
+
+            Office Hours: Mon–Fri 10:00 AM – 4:00 PM
+
+            Curriculum: Play Group to Grade 10 (SEE preparation)
+            Facilities: Science labs, computer lab with 30 workstations, library, sports ground, hostel.
+            Annual Events: Sports Day (2081-12-15), Science Exhibition (2082-02-15), Parent-Teacher Meeting (2082-02-01).
+
+            If asked about admissions, mention that they are open for 2082 B.S. with online application via eSewa, Khalti, ConnectIPS, or bank transfer.
+            If asked about results, direct to the Results section.
+            If asked about fees, mention flexible payment options and scholarships.
+            If asked about faculty, direct to the Faculty section.
+            If asked about alumni, direct to the Alumni section.
+            If asked about the calendar, direct to the Calendar page.
+            If asked about homework, mention the Homework section.
+            If asked about sports, mention the annual Sports Day and district-level participation.
+            If asked about the library, mention the timings and resources.
+
+            End responses with a warm, encouraging note (e.g., "🌸 Radhe Radhe! 💝" and similar ones) on friendly talks (not every).
+            Keep responses concise (under 100 words) and easy to read.
+            Keep responses as short as possible unless said by user to give detailed (few long).
+            If the user greets you (hello, hi, hey), greet them warmly and ask how you can help.
+            If the user says thank you or thanks, respond warmly and offer further assistance.
+            If the user says goodbye, bid them a kind farewell.
+            If the user mentions "Radhe" or "Krishna" or spiritual topics, respond with a blessing.
+            For any other topic, provide a thoughtful, helpful answer based on general knowledge and school context.
+            Always be polite, respectful, and professional.
+            Your and the school website's developer is Harish Bhatta.
+            Don't say Namaste in every response; use it only when appropriate.
+            If you don't know something, politely say so and suggest they contact the school office directly.`
+        };
+
         // -------------------- CONFIG --------------------
         const CONFIG = {
             APP_NAME: 'PSBS Portal',
@@ -4923,8 +5002,7 @@
             THEME_KEY: 'psbs_theme',
             PROFILE_KEY: 'psbs_profile',
             THEME_PRESET_KEY: 'psbs_theme_preset',
-            NOTICE_READ_KEY: 'psbs_notice_read',
-            NOTICE_COUNT_KEY: 'psbs_notice_count',
+            NOTICE_READ_IDS_KEY: 'psbs_notice_read_ids',
             LOGIN_BASE: './',
             LOGIN_STUDENT: 'student-login.html',
             LOGIN_TEACHER: 'teacher-login.html',
@@ -4932,10 +5010,10 @@
             CALENDAR_PAGE: 'calendar.html',
         };
 
-        // Current Nepal Sambat year (2083 as per your calendar)
+        // Current Nepal Sambat year
         const CURRENT_BS_YEAR = 2083;
 
-        // -------------------- HELPERS (keep existing) --------------------
+        // -------------------- HELPERS --------------------
         const Helpers = {
             sanitize: function (input) {
                 const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' };
@@ -4956,7 +5034,7 @@
                 return colors[sum % colors.length];
             },
             schoolAge: function () {
-                return CURRENT_BS_YEAR - 2040; // 2083 - 2040 = 43
+                return CURRENT_BS_YEAR - 2040;
             },
             debounce: function (func, wait) {
                 let timeout;
@@ -5050,20 +5128,20 @@
                 }
                 return preset;
             },
-            // AI response kept as-is
-            getAIResponse: function (query) {
+            // ----- FALLBACK RESPONSES (used if Groq API fails) -----
+            fallbackResponse: function (query) {
                 const q = query.toLowerCase().trim();
                 if (q.includes('school name') || q.includes('what is the name') || q.includes('your name')) {
                     return '🏫 Pabitra Secondary Boarding School (PSBS) — established in 2040 B.S. in Doti, Nepal. 🌸 Radhe Radhe!';
                 }
                 if (q.includes('contact') || q.includes('phone') || q.includes('number') || q.includes('call')) {
-                    return '📞 You can reach us at: <strong>094-411035</strong> or email <strong>info@psbs.edu.np</strong>. Office hours: Mon–Fri 7:00 AM – 5:00 PM.';
+                    return '📞 Reach us at: <strong>094-411035</strong> or email <strong>info@psbs.edu.np</strong>. Office hours: Mon–Fri 10:00 AM – 4:00 PM.';
                 }
                 if (q.includes('address') || q.includes('where') || q.includes('location')) {
-                    return '📍 PSBS is located at <strong>DSM – 6, Doti, Nepal</strong>. We are situated in a peaceful, green campus ideal for learning.';
+                    return '📍 PSBS is at <strong>DSM – 6, Doti, Nepal</strong>. A peaceful campus ideal for learning.';
                 }
                 if (q.includes('principal') || q.includes('headmaster') || q.includes('head teacher')) {
-                    return '👨‍🏫 Our Principal is <strong>Mr. Binod Kumar Mishra</strong>, a visionary leader dedicated to nurturing academic excellence and strong moral values.';
+                    return '👨‍🏫 Our Principal is <strong>Mr. Binod Kumar Mishra</strong>, a visionary leader dedicated to academic excellence and moral values.';
                 }
                 if (q.includes('established') || q.includes('founded') || q.includes('started') || q.includes('since')) {
                     return '🏛️ PSBS was established in <strong>2040 B.S.</strong> (1983 A.D.) and has been serving the community for over <strong>' +
@@ -5073,31 +5151,31 @@
                     return 'Hello! 🌸 How can I assist you today? Ask me about admissions, results, fees, events, faculty, or the school.';
                 }
                 if (q.includes('admission') || q.includes('admit') || q.includes('enroll') || q.includes('join')) {
-                    return '📝 Admissions are open for <strong>2082 B.S.</strong>! Apply online via the Admissions section. Required: birth certificate, photos, previous marksheets. Fees can be paid via eSewa, Khalti, ConnectIPS, or bank transfer.';
+                    return '📝 Admissions are open for <strong>2082 B.S.</strong>! Apply online. Required: birth certificate, photos, previous marksheets. Fees via eSewa, Khalti, ConnectIPS, or bank transfer.';
                 }
                 if (q.includes('result') || q.includes('exam') || q.includes('grade') || q.includes('marks')) {
-                    return '📊 Check your exam results in the Results section. We publish term results and SEE results online. Contact the admin office for any discrepancies.';
+                    return '📊 Check exam results in the Results section. We publish term and SEE results online. Contact the admin office for discrepancies.';
                 }
                 if (q.includes('fee') || q.includes('payment') || q.includes('cost') || q.includes('tuition')) {
-                    return '💰 Fee payments can be made via <strong>eSewa, Khalti, ConnectIPS, or bank transfer</strong>. Contact the accounts office for detailed fee structures and scholarships.';
+                    return '💰 Fees via <strong>eSewa, Khalti, ConnectIPS, or bank transfer</strong>. Contact accounts for detailed structures and scholarships.';
                 }
                 if (q.includes('sports') || q.includes('sport') || q.includes('athletic')) {
-                    return '🏆 Annual Sports Day is on <strong>2081-12-15</strong>! Register with your house captain. PSBS also participates in district-level athletics, football, and volleyball tournaments.';
+                    return '🏆 Annual Sports Day is on <strong>2081-12-15</strong>! Register with your house captain. PSBS also participates in district-level tournaments.';
                 }
                 if (q.includes('library') || q.includes('book')) {
-                    return '📚 PSBS Library is open <strong>7:00 AM – 6:00 PM</strong> on all weekdays. We have a rich collection of textbooks, reference books, and digital resources.';
+                    return '📚 PSBS Library is open <strong>7:00 AM – 6:00 PM</strong> on all weekdays. Rich collection of textbooks, reference books, and digital resources.';
                 }
                 if (q.includes('teacher') || q.includes('faculty') || q.includes('staff')) {
-                    return '👨‍🏫 Meet our dedicated faculty in the Faculty section. Our teachers are highly qualified and experienced, with expertise across all subjects from science to humanities.';
+                    return '👨‍🏫 Meet our dedicated faculty in the Faculty section. Highly qualified and experienced across all subjects.';
                 }
                 if (q.includes('calendar') || q.includes('event') || q.includes('date') || q.includes('schedule')) {
-                    return '📅 Check the Calendar section for upcoming events like Sports Day, Alumni Meet, Parent-Teacher Meetings, and Science Exhibition. Stay updated!';
+                    return '📅 Check the Calendar section for upcoming events like Sports Day, Alumni Meet, Parent-Teacher Meetings, and Science Exhibition.';
                 }
                 if (q.includes('alumni') || q.includes('graduate') || q.includes('passed out')) {
-                    return '🎓 Our distinguished alumni are making a difference worldwide — from software engineers to doctors, entrepreneurs, and teachers. Check the Alumni section!';
+                    return '🎓 Our distinguished alumni are making a difference worldwide — software engineers, doctors, entrepreneurs, teachers. Check the Alumni section!';
                 }
                 if (q.includes('homework') || q.includes('assignment') || q.includes('task')) {
-                    return '📝 Track your daily assignments in the Homework section. Submit your work on time and check status updates from your teachers.';
+                    return '📝 Track daily assignments in the Homework section. Submit on time and check teacher updates.';
                 }
                 if (q.includes('thank') || q.includes('thanks')) {
                     return 'You\'re welcome! 🌟 Have a great day at PSBS. Keep learning and growing! 💪';
@@ -5108,50 +5186,65 @@
                 if (q.includes('radhe') || q.includes('krishna') || q.includes('spiritual')) {
                     return '🌸 Radhe Radhe! 💝 May you always be blessed with wisdom, strength, and peace. 🙏';
                 }
-                if (q.includes('sports day')) {
-                    return '🏆 Annual Sports Day is on <strong>2081-12-15</strong>! All students are encouraged to participate in track, field, and team events.';
-                }
-                if (q.includes('science fair') || q.includes('exhibition') || q.includes('science project')) {
-                    return '🔬 PSBS students won <strong>1st position</strong> in the District Science Fair 2081! The annual Science Exhibition is on 2082-02-15.';
-                }
-                if (q.includes('computer lab') || q.includes('technology') || q.includes('digital')) {
-                    return '💻 PSBS has a state-of-the-art computer lab with 30 workstations, high-speed internet, and modern software for students.';
-                }
-                if (q.includes('pta') || q.includes('parent teacher') || q.includes('meeting')) {
-                    return '👨‍👩‍👧‍👦 The next Parent-Teacher Meeting is on <strong>2082-02-01</strong>. Quarterly progress reviews and student development discussions.';
-                }
-                if (q.includes('scholarship') || q.includes('financial aid')) {
-                    return '🎓 PSBS offers merit-based and need-based scholarships. Contact the administration for eligibility criteria and application forms.';
-                }
-                if (q.includes('hostel') || q.includes('boarding') || q.includes('dormitory')) {
-                    return '🏠 PSBS offers safe and comfortable hostel facilities for outstation students with nutritious meals and 24/7 supervision.';
-                }
-                if (q.includes('transport') || q.includes('bus') || q.includes('pickup')) {
-                    return '🚌 School bus service is available for students within Doti and nearby areas. Contact the transport office for routes and schedules.';
-                }
                 return '🤖 I\'m your PSBS AI Assistant. Try asking about: <strong>school name, contact, address, principal, admissions, results, fees, sports, library, faculty, events, alumni, or homework</strong>. 🌸';
             },
-            confetti: function (count) {
-                count = count || 80;
-                const container = document.createElement('div');
-                container.className = 'confetti-container';
-                document.body.appendChild(container);
-                const colors = ['#f39c12', '#06b6d4', '#e85d75', '#4f46e5', '#e74c3c', '#e11d48', '#27ae9e', '#f1c40f'];
-                for (let i = 0; i < count; i++) {
-                    const piece = document.createElement('div');
-                    piece.className = 'confetti-piece';
-                    piece.style.left = Math.random() * 100 + '%';
-                    piece.style.top = '-10px';
-                    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    piece.style.width = (4 + Math.random() * 6) + 'px';
-                    piece.style.height = (4 + Math.random() * 6) + 'px';
-                    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-                    piece.style.setProperty('--duration', (2 + Math.random() * 3) + 's');
-                    piece.style.animationDelay = (Math.random() * 2) + 's';
-                    container.appendChild(piece);
+            // ----- GROQ AI CALL -----
+            getAIResponse: async function (query) {
+                // If no API key is set, use fallback
+                if (!GROQ_CONFIG.apiKey || GROQ_CONFIG.apiKey === 'YOUR_GROQ_API_KEY') {
+                    console.warn('⚠️ Groq API key not set. Using fallback responses.');
+                    return this.fallbackResponse(query);
                 }
-                setTimeout(function () { container.remove(); }, 5000);
+
+                try {
+                    const response = await fetch(GROQ_CONFIG.endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + GROQ_CONFIG.apiKey
+                        },
+                        body: JSON.stringify({
+                            model: GROQ_CONFIG.model,
+                            messages: [
+                                { role: 'system', content: GROQ_CONFIG.systemPrompt },
+                                { role: 'user', content: query }
+                            ],
+                            temperature: GROQ_CONFIG.temperature,
+                            max_tokens: GROQ_CONFIG.maxTokens
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(function () { return {}; });
+                        console.error('Groq API error:', response.status, errorData);
+                        if (response.status === 401) {
+                            Toast.error('🔑 Invalid Groq API key. Please check your configuration.');
+                        } else if (response.status === 429) {
+                            Toast.warning('⏳ Rate limit exceeded. Please wait a moment.');
+                        } else {
+                            Toast.warning('🤖 AI service temporarily unavailable. Using fallback.');
+                        }
+                        return this.fallbackResponse(query);
+                    }
+
+                    const data = await response.json();
+                    if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+                        return data.choices[0].message.content;
+                    } else {
+                        console.warn('Unexpected Groq response structure:', data);
+                        return this.fallbackResponse(query);
+                    }
+                } catch (error) {
+                    console.error('Groq API fetch error:', error);
+                    if (error.name === 'TypeError' || error.message.includes('fetch')) {
+                        Toast.warning('🌐 Network error. Please check your internet connection.');
+                    } else {
+                        Toast.warning('🤖 AI service error. Using fallback.');
+                    }
+                    return this.fallbackResponse(query);
+                }
             },
+            // ----- SHARE -----
             sharePage: function () {
                 if (navigator.share) {
                     navigator.share({
@@ -5171,6 +5264,7 @@
                     }
                 }
             },
+            // ----- SEARCH DATA -----
             getSearchData: function () {
                 return [
                     { id: 'hero', title: 'Home', desc: 'Welcome to PSBS Portal', icon: '🏠' },
@@ -5195,10 +5289,31 @@
                 if (h < 17) return 'Good Afternoon';
                 return 'Good Evening';
             },
+            confetti: function (count) {
+                count = count || 80;
+                const container = document.createElement('div');
+                container.className = 'confetti-container';
+                document.body.appendChild(container);
+                const colors = ['#f39c12', '#06b6d4', '#e85d75', '#4f46e5', '#e74c3c', '#e11d48', '#27ae9e', '#f1c40f'];
+                for (let i = 0; i < count; i++) {
+                    const piece = document.createElement('div');
+                    piece.className = 'confetti-piece';
+                    piece.style.left = Math.random() * 100 + '%';
+                    piece.style.top = '-10px';
+                    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.width = (4 + Math.random() * 6) + 'px';
+                    piece.style.height = (4 + Math.random() * 6) + 'px';
+                    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                    piece.style.setProperty('--duration', (2 + Math.random() * 3) + 's');
+                    piece.style.animationDelay = (Math.random() * 2) + 's';
+                    container.appendChild(piece);
+                }
+                setTimeout(function () { container.remove(); }, 5000);
+            },
             log: function (msg) { console.log('[' + CONFIG.APP_NAME + '] ' + msg); },
         };
 
-        // -------------------- TOAST (unchanged) --------------------
+        // ===== TOAST =====
         const Toast = {
             _timeout: null,
             _queue: [],
@@ -5266,7 +5381,7 @@
             rainbow: function (msg) { this.show(msg, 'rainbow'); }
         };
 
-        // ===== 5‑TAP TOAST (unchanged) =====
+        // ===== 5‑TAP TOAST =====
         (function initTapDetection() {
             let tapCount = 0,
                 tapTimer = null,
@@ -5326,7 +5441,7 @@
             }, { passive: true });
         })();
 
-        // -------------------- STATE --------------------
+        // ===== STATE =====
         const State = {
             isSidebarOpen: false,
             isNoticeOpen: false,
@@ -5362,7 +5477,6 @@
             lightboxIsTransitioning: false,
             openCount: 0,
             galleryCurrentPage: 0,
-            // Supabase data
             notices: [],
             faculty: [],
             alumni: [],
@@ -5371,7 +5485,7 @@
             schoolInfo: null,
         };
 
-        // -------------------- DOM REFS (unchanged) --------------------
+        // ===== DOM REFS =====
         const $ = function (selector) { return document.querySelector(selector); };
         const $$ = function (selector) { return document.querySelectorAll(selector); };
 
@@ -5470,9 +5584,65 @@
             voiceBtn: $('#ddVoiceBtn'),
         };
 
-        // ============================================================
-        // SUPABASE DATA FUNCTIONS
-        // ============================================================
+        // ===== NOTICE MANAGER =====
+        const NoticeManager = {
+            getReadIds: function () {
+                try {
+                    const data = localStorage.getItem(CONFIG.NOTICE_READ_IDS_KEY);
+                    return data ? JSON.parse(data) : [];
+                } catch { return []; }
+            },
+            saveReadIds: function (ids) {
+                localStorage.setItem(CONFIG.NOTICE_READ_IDS_KEY, JSON.stringify(ids));
+            },
+            getUnreadIds: function () {
+                const readIds = this.getReadIds();
+                const notices = State.notices || [];
+                return notices.filter(function (n) { return !readIds.includes(String(n.id)); }).map(function (n) {
+                    return String(n.id);
+                });
+            },
+            getUnreadCount: function () {
+                return this.getUnreadIds().length;
+            },
+            markAllAsRead: function () {
+                const notices = State.notices || [];
+                const ids = notices.map(function (n) { return String(n.id); });
+                this.saveReadIds(ids);
+                this.updateBadge();
+                document.querySelectorAll('.update-card.notice-unread').forEach(function (el) {
+                    el.classList.remove('notice-unread');
+                });
+            },
+            markNoticeAsRead: function (noticeId) {
+                const id = String(noticeId);
+                const readIds = this.getReadIds();
+                if (!readIds.includes(id)) {
+                    readIds.push(id);
+                    this.saveReadIds(readIds);
+                    this.updateBadge();
+                    const card = document.querySelector('.update-card[data-notice-id="' + id + '"]');
+                    if (card) card.classList.remove('notice-unread');
+                }
+            },
+            updateBadge: function () {
+                const badge = DOM.noticeBadge;
+                const count = this.getUnreadCount();
+                if (count > 0) {
+                    badge.textContent = count;
+                    badge.classList.remove('hidden-badge');
+                    badge.classList.add('pop');
+                    setTimeout(function () { badge.classList.remove('pop'); }, 400);
+                } else {
+                    badge.classList.add('hidden-badge');
+                }
+            },
+            refresh: function () {
+                fetchNotices();
+            }
+        };
+
+        // ===== SUPABASE DATA FUNCTIONS =====
         async function fetchSchoolInfo() {
             const { data, error } = await supabase
                 .from('school_info')
@@ -5498,7 +5668,7 @@
             }
             if (DOM.heroYears) {
                 const establishedBS = data.established_year || 2040;
-                const age = CURRENT_BS_YEAR - establishedBS; // 2083 - 2040 = 43
+                const age = CURRENT_BS_YEAR - establishedBS;
                 DOM.heroYears.textContent = age + '+';
             }
         }
@@ -5511,7 +5681,7 @@
             if (!error) {
                 State.notices = data;
                 renderNotices(data);
-                updateNoticeBadge(data);
+                NoticeManager.updateBadge();
             } else {
                 console.warn('Notices fetch error:', error);
             }
@@ -5523,6 +5693,7 @@
                 container.innerHTML = '<div class="empty-state"><p>📭 No notices available.</p></div>';
                 return;
             }
+            const readIds = NoticeManager.getReadIds();
             let html = '';
             const labelMap = {
                 urgent: '🔴 URGENT',
@@ -5534,8 +5705,11 @@
             };
             for (let i = 0; i < notices.length; i++) {
                 const n = notices[i];
+                const id = String(n.id);
+                const isUnread = !readIds.includes(id);
+                const highlightClass = isUnread ? 'notice-unread' : '';
                 const labelText = labelMap[n.label] || n.label.toUpperCase();
-                html += '<div class="update-card glossy-card">';
+                html += '<div class="update-card glossy-card ' + highlightClass + '" data-notice-id="' + id + '">';
                 html += '<span class="update-label ' + n.label + '">' + labelText + '</span>';
                 html += '<h3>' + Helpers.sanitize(n.title) + '</h3>';
                 html += '<p>' + Helpers.sanitize(n.description) + '</p>';
@@ -5544,18 +5718,15 @@
                 html += '</div>';
             }
             container.innerHTML = html;
-        }
 
-        function updateNoticeBadge(notices) {
-            const badge = DOM.noticeBadge;
-            const count = notices ? notices.length : 0;
-            // We can implement unread tracking later – for now just show total count
-            if (count > 0) {
-                badge.textContent = count;
-                badge.classList.remove('hidden-badge');
-            } else {
-                badge.classList.add('hidden-badge');
-            }
+            container.querySelectorAll('.update-card').forEach(function (card) {
+                card.addEventListener('click', function () {
+                    const id = this.getAttribute('data-notice-id');
+                    if (id) {
+                        NoticeManager.markNoticeAsRead(id);
+                    }
+                });
+            });
         }
 
         async function fetchFaculty() {
@@ -5662,162 +5833,130 @@
                 .select('*')
                 .order('order', { ascending: true });
             if (!error) {
-                State.galleryImages = data.map(item => item.image_url);
-                // Re-render gallery with new data
-                if (State.galleryCurrentPage !== undefined) {
-                    // reset to first page when data changes
-                    State.galleryCurrentPage = 0;
-                }
-                renderGalleryPage(State.galleryCurrentPage || 0);
+                State.galleryImages = data.map(function (item) { return item.image_url; });
+                State.galleryCurrentPage = 0;
+                renderGalleryPage(0);
             } else {
                 console.warn('Gallery fetch error:', error);
             }
         }
 
-       // ============================================================
-// GALLERY — Fully corrected pagination
-// ============================================================
-const BATCH_SIZE = 4;
+        // ===== GALLERY PAGINATION =====
+        const BATCH_SIZE = 4;
 
-function totalPages() {
-    return Math.ceil(State.galleryImages.length / BATCH_SIZE);
-}
-
-function renderGalleryPage(page) {
-    const grid = DOM.galleryGrid;
-    const images = State.galleryImages;
-    if (!images || images.length === 0) {
-        grid.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px 0;">No images in gallery.</p>';
-        DOM.galleryPrev.disabled = true;
-        DOM.galleryNext.disabled = true;
-        DOM.galleryPageIndicator.textContent = 'Page 0 / 0';
-        return;
-    }
-    const start = page * BATCH_SIZE;
-    const end = Math.min(start + BATCH_SIZE, images.length);
-    let html = '';
-    for (let i = start; i < end; i++) {
-        const img = images[i];
-        const idx = i + 1;
-        html += '<div class="gallery-item" data-src="' + img + '">';
-        html += '<img src="' + img + '" alt="PSBS campus scene ' + idx +
-            '" loading="lazy" decoding="async" width="300" height="400" onerror="this.onerror=null;this.parentElement.querySelector(\'.gallery-loader\').style.display=\'none\';">';
-        html += '<div class="gallery-loader" aria-hidden="true"></div>';
-        html += '</div>';
-    }
-    grid.innerHTML = html;
-    const imgs = grid.querySelectorAll('.gallery-item img');
-    imgs.forEach(function (img) {
-        if (img.complete) img.classList.add('loaded');
-        else {
-            img.addEventListener('load', function () { img.classList.add('loaded'); });
-            img.addEventListener('error', function () { img.classList.add('loaded'); });
+        function totalPages() {
+            return Math.ceil(State.galleryImages.length / BATCH_SIZE);
         }
-    });
-    grid.querySelectorAll('.gallery-item').forEach(function (item) {
-        item.addEventListener('click', function () {
-            const src = item.getAttribute('data-src') || item.querySelector('img')?.src;
-            if (src) {
-                const allItems = grid.querySelectorAll('.gallery-item');
-                const imagesUrls = [];
-                allItems.forEach(function (el) {
-                    const s = el.getAttribute('data-src') || el.querySelector('img')?.src;
-                    if (s) imagesUrls.push(s);
+
+        function renderGalleryPage(page) {
+            const grid = DOM.galleryGrid;
+            const images = State.galleryImages;
+            if (!images || images.length === 0) {
+                grid.innerHTML =
+                    '<p style="text-align:center;color:var(--text-light);padding:40px 0;">No images in gallery.</p>';
+                DOM.galleryPrev.disabled = true;
+                DOM.galleryNext.disabled = true;
+                DOM.galleryPageIndicator.textContent = 'Page 0 / 0';
+                return;
+            }
+            const start = page * BATCH_SIZE;
+            const end = Math.min(start + BATCH_SIZE, images.length);
+            let html = '';
+            for (let i = start; i < end; i++) {
+                const img = images[i];
+                const idx = i + 1;
+                html += '<div class="gallery-item" data-src="' + img + '">';
+                html += '<img src="' + img + '" alt="PSBS campus scene ' + idx +
+                    '" loading="lazy" decoding="async" width="300" height="400" onerror="this.onerror=null;this.parentElement.querySelector(\'.gallery-loader\').style.display=\'none\';">';
+                html += '<div class="gallery-loader" aria-hidden="true"></div>';
+                html += '</div>';
+            }
+            grid.innerHTML = html;
+            const imgs = grid.querySelectorAll('.gallery-item img');
+            imgs.forEach(function (img) {
+                if (img.complete) img.classList.add('loaded');
+                else {
+                    img.addEventListener('load', function () { img.classList.add('loaded'); });
+                    img.addEventListener('error', function () { img.classList.add('loaded'); });
+                }
+            });
+            grid.querySelectorAll('.gallery-item').forEach(function (item) {
+                item.addEventListener('click', function () {
+                    const src = item.getAttribute('data-src') || item.querySelector('img')?.src;
+                    if (src) {
+                        const allItems = grid.querySelectorAll('.gallery-item');
+                        const imagesUrls = [];
+                        allItems.forEach(function (el) {
+                            const s = el.getAttribute('data-src') || el.querySelector('img')?.src;
+                            if (s) imagesUrls.push(s);
+                        });
+                        const idx = imagesUrls.indexOf(src);
+                        openLightbox(imagesUrls, idx >= 0 ? idx : 0);
+                    }
                 });
-                const idx = imagesUrls.indexOf(src);
-                openLightbox(imagesUrls, idx >= 0 ? idx : 0);
+            });
+            const total = totalPages();
+            DOM.galleryPrev.disabled = (page === 0);
+            DOM.galleryNext.disabled = (page >= total - 1);
+            DOM.galleryPageIndicator.textContent = 'Page ' + (page + 1) + ' / ' + (total || 1);
+            State.galleryCurrentPage = page;
+        }
+
+        DOM.galleryPrev.addEventListener('click', function () {
+            if (State.galleryCurrentPage > 0) {
+                State.galleryCurrentPage--;
+                renderGalleryPage(State.galleryCurrentPage);
             }
         });
-    });
-    const total = totalPages();
-    DOM.galleryPrev.disabled = (page === 0);
-    DOM.galleryNext.disabled = (page >= total - 1);
-    DOM.galleryPageIndicator.textContent = 'Page ' + (page + 1) + ' / ' + (total || 1);
-    State.galleryCurrentPage = page;
-}
 
-// Gallery event listeners (FIXED)
-DOM.galleryPrev.addEventListener('click', function () {
-    if (State.galleryCurrentPage > 0) {
-        State.galleryCurrentPage--;
-        renderGalleryPage(State.galleryCurrentPage);
-    }
-});
+        DOM.galleryNext.addEventListener('click', function () {
+            const total = totalPages();
+            if (State.galleryCurrentPage < total - 1) {
+                State.galleryCurrentPage++;
+                renderGalleryPage(State.galleryCurrentPage);
+            }
+        });
 
-DOM.galleryNext.addEventListener('click', function () {
-    const total = totalPages(); // ✅ call the function
-    if (State.galleryCurrentPage < total - 1) {
-        State.galleryCurrentPage++;
-        renderGalleryPage(State.galleryCurrentPage);
-    }
-});
-
-// Fetch gallery from Supabase
-async function fetchGallery() {
-    const { data, error } = await supabase
-        .from('gallery')
-        .select('*')
-        .order('order', { ascending: true });
-    if (!error) {
-        State.galleryImages = data.map(item => item.image_url);
-        // Reset to first page when new data arrives
-        State.galleryCurrentPage = 0;
-        renderGalleryPage(0);
-    } else {
-        console.warn('Gallery fetch error:', error);
-    }
-}
-
-        // ============================================================
-        // REALTIME SUBSCRIPTIONS
-        // ============================================================
+        // ===== REALTIME SUBSCRIPTIONS =====
         function setupRealtime() {
-            // Notices
             supabase.channel('notices_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'notices' }, () => {
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'notices' }, function () {
                     fetchNotices();
                 })
                 .subscribe();
 
-            // Faculty
             supabase.channel('faculty_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'faculty' }, () => {
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'faculty' }, function () {
                     fetchFaculty();
                 })
                 .subscribe();
 
-            // Alumni
             supabase.channel('alumni_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'alumni' }, () => {
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'alumni' }, function () {
                     fetchAlumni();
                 })
                 .subscribe();
 
-            // Testimonials
             supabase.channel('testimonials_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, () => {
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, function () {
                     fetchTestimonials();
                 })
                 .subscribe();
 
-            // Gallery
             supabase.channel('gallery_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery' }, () => {
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery' }, function () {
                     fetchGallery();
                 })
                 .subscribe();
 
-            // School info
             supabase.channel('school_info_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'school_info' }, () => {
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'school_info' }, function () {
                     fetchSchoolInfo();
                 })
                 .subscribe();
         }
 
-        // ============================================================
-        // PROFILE (unchanged, kept as before)
-        // ============================================================
+        // ===== PROFILE =====
         const Profile = {
             get: function () {
                 if (State.profile) return State.profile;
@@ -5907,57 +6046,7 @@ async function fetchGallery() {
             getColor: function () { return Helpers.colorFromName(this.getDisplayName()); },
         };
 
-        // ============================================================
-        // NOTICE MANAGER (now just uses the fetched data)
-        // ============================================================
-        const NoticeManager = {
-            // This is essentially replaced by fetchNotices() and realtime
-            // Keeping the interface for compatibility
-            getNotices: function () {
-                return State.notices || [];
-            },
-            getLastReadCount: function () {
-                const count = localStorage.getItem(CONFIG.NOTICE_COUNT_KEY);
-                return count ? parseInt(count, 10) : 0;
-            },
-            getLastReadTime: function () {
-                return localStorage.getItem(CONFIG.NOTICE_READ_KEY) || null;
-            },
-            markAsRead: function () {
-                const notices = this.getNotices();
-                localStorage.setItem(CONFIG.NOTICE_COUNT_KEY, String(notices.length));
-                localStorage.setItem(CONFIG.NOTICE_READ_KEY, Date.now().toString());
-                this.updateBadge();
-            },
-            getUnreadCount: function () {
-                const notices = this.getNotices();
-                const total = notices.length;
-                const readCount = this.getLastReadCount();
-                if (readCount === 0) return total;
-                if (total > readCount) return total - readCount;
-                return 0;
-            },
-            updateBadge: function () {
-                const badge = DOM.noticeBadge;
-                const count = this.getUnreadCount();
-                if (count > 0) {
-                    badge.textContent = count;
-                    badge.classList.remove('hidden-badge');
-                    badge.classList.add('pop');
-                    setTimeout(function () { badge.classList.remove('pop'); }, 400);
-                } else {
-                    badge.classList.add('hidden-badge');
-                }
-            },
-            render: function () {
-                // Already rendered via fetchNotices
-            },
-            refresh: function () { fetchNotices(); }
-        };
-
-        // ============================================================
-        // NAME MODAL (unchanged)
-        // ============================================================
+        // ===== NAME MODAL =====
         function openNameModal() {
             DOM.nameModal.classList.add('active');
             State.isNameModalOpen = true;
@@ -5996,9 +6085,7 @@ async function fetchGallery() {
             DOM.userNameInput.setAttribute('aria-invalid', 'false');
         });
 
-        // ============================================================
-        // WELCOME CARD (unchanged)
-        // ============================================================
+        // ===== WELCOME CARD =====
         function showWelcomeCard(name) {
             const greeting = Helpers.getGreeting();
             DOM.welcomeTitle.textContent = greeting + ', ' + Helpers.sanitize(name) + '! 👋';
@@ -6034,9 +6121,7 @@ async function fetchGallery() {
         }
         DOM.welcomeCloseBtn.addEventListener('click', closeWelcomeCard);
 
-        // ============================================================
-        // EDIT NAME MODAL (unchanged)
-        // ============================================================
+        // ===== EDIT NAME MODAL =====
         function openEditNameModal() {
             const p = Profile.get();
             DOM.editNameInput.value = p ? p.name || '' : '';
@@ -6092,9 +6177,7 @@ async function fetchGallery() {
             openEditNameModal();
         });
 
-        // ============================================================
-        // VALIDATORS (unchanged)
-        // ============================================================
+        // ===== VALIDATORS =====
         const Validators = {
             name: function (value) {
                 const trimmed = value.trim();
@@ -6119,9 +6202,7 @@ async function fetchGallery() {
             }
         };
 
-        // ============================================================
-        // SEARCH (unchanged)
-        // ============================================================
+        // ===== SEARCH =====
         function openSearch() {
             DOM.searchOverlay.classList.add('active');
             State.isSearchOpen = true;
@@ -6197,9 +6278,7 @@ async function fetchGallery() {
             DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
         });
 
-        // ============================================================
-        // SIDEBAR (unchanged)
-        // ============================================================
+        // ===== SIDEBAR =====
         function openSidebar() {
             if (State.panelOpen && !State.isSidebarOpen) return;
             closeAllPanels(['sidebar']);
@@ -6233,9 +6312,18 @@ async function fetchGallery() {
         DOM.sidebarClose.addEventListener('click', closeSidebar);
         DOM.sidebarOverlay.addEventListener('click', closeAllPanels);
 
-        // ============================================================
-        // NOTICE PANEL (uses updated notice data)
-        // ============================================================
+        document.querySelectorAll('.sidebar-links a[data-section]').forEach(function (link) {
+            link.addEventListener('click', function () {
+                setTimeout(closeSidebar, 80);
+            });
+        });
+        document.querySelectorAll('.sidebar .social-link, .sidebar .action-pill-btn').forEach(function (link) {
+            link.addEventListener('click', function () {
+                setTimeout(closeSidebar, 100);
+            });
+        });
+
+        // ===== NOTICE PANEL =====
         function openNoticePanel() {
             if (State.panelOpen && !State.isNoticeOpen) return;
             closeAllPanels(['notice']);
@@ -6247,9 +6335,7 @@ async function fetchGallery() {
             State.panelOpen = true;
             State.openCount++;
             document.body.classList.add('notice-active');
-            // Mark as read logic can be added if needed
-            NoticeManager.markAsRead();
-            // render is already done via fetchNotices
+            NoticeManager.markAllAsRead();
         }
 
         function closeNoticePanel() {
@@ -6273,9 +6359,7 @@ async function fetchGallery() {
         });
         DOM.noticeClose.addEventListener('click', closeNoticePanel);
 
-        // ============================================================
-        // PROFILE DROPDOWN (unchanged)
-        // ============================================================
+        // ===== PROFILE DROPDOWN =====
         function toggleProfileDropdown(e) {
             e.stopPropagation();
             if (State.panelOpen && !State.isDropdownOpen) return;
@@ -6313,9 +6397,7 @@ async function fetchGallery() {
             }
         });
 
-        // ============================================================
-        // PROFILE ACTIONS (unchanged)
-        // ============================================================
+        // ===== PROFILE ACTIONS =====
         DOM.ddAvatarWrap.addEventListener('click', function (e) {
             e.stopPropagation();
             DOM.avatarUploader.click();
@@ -6355,9 +6437,7 @@ async function fetchGallery() {
             setTimeout(openNameModal, 500);
         });
 
-        // ============================================================
-        // LOGIN HANDLERS (unchanged)
-        // ============================================================
+        // ===== LOGIN HANDLERS =====
         function navigateLogin(page) {
             closeProfileDropdown();
             window.location.href = CONFIG.LOGIN_BASE + page;
@@ -6376,18 +6456,14 @@ async function fetchGallery() {
             navigateLogin(CONFIG.LOGIN_ADMIN);
         });
 
-        // ============================================================
-        // CALENDAR LINK (unchanged)
-        // ============================================================
+        // ===== CALENDAR LINK =====
         DOM.ddCalendarBtn.addEventListener('click', function (e) {
             e.preventDefault();
             closeProfileDropdown();
             window.location.href = CONFIG.CALENDAR_PAGE;
         });
 
-        // ============================================================
-        // SIDEBAR ACTIONS (unchanged)
-        // ============================================================
+        // ===== SIDEBAR ACTIONS =====
         DOM.sidebarShareBtn.addEventListener('click', function () {
             Helpers.sharePage();
             closeSidebar();
@@ -6397,18 +6473,14 @@ async function fetchGallery() {
             closeSidebar();
         });
 
-        // ============================================================
-        // HEADER: Theme Controls (unchanged)
-        // ============================================================
+        // ===== HEADER: Theme Controls =====
         DOM.headerThemePresetsBtn.addEventListener('click', function () { openThemePresets(); });
         DOM.headerThemeToggleBtn.addEventListener('click', function () {
             const isDark = Helpers.toggleDark();
             Toast.info(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
         });
 
-        // ============================================================
-        // THEME PRESETS (unchanged)
-        // ============================================================
+        // ===== THEME PRESETS =====
         const themePresets = [
             { id: 'gold', label: 'Gold', color: '#f39c12' },
             { id: 'cyan', label: 'Cyan', color: '#06b6d4' },
@@ -6484,13 +6556,10 @@ async function fetchGallery() {
             }
         });
 
-        // Apply default (gold)
         const savedPreset = Helpers.getThemePreset();
         Helpers.setThemePreset(savedPreset);
 
-        // ============================================================
-        // AI CHAT (unchanged)
-        // ============================================================
+        // ===== AI CHAT =====
         function openChat() {
             if (State.panelOpen && !State.isChatOpen) return;
             closeAllPanels(['chat']);
@@ -6538,6 +6607,9 @@ async function fetchGallery() {
 
         function showTypingIndicator() {
             const container = DOM.chatMessages;
+            // Remove any existing typing indicator
+            const existing = document.getElementById('typingIndicator');
+            if (existing) existing.remove();
             const div = document.createElement('div');
             div.className = 'chat-typing message-animate';
             div.id = 'typingIndicator';
@@ -6551,7 +6623,7 @@ async function fetchGallery() {
             if (el) el.remove();
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = DOM.chatInput;
             const text = input.value.trim();
             if (!text) return;
@@ -6561,13 +6633,22 @@ async function fetchGallery() {
             showTypingIndicator();
             const sendBtn = DOM.chatSendBtn;
             sendBtn.disabled = true;
-            setTimeout(function () {
+
+            try {
+                // Call Groq via our helper
+                const response = await Helpers.getAIResponse(text);
                 removeTypingIndicator();
-                const response = Helpers.getAIResponse(text);
                 addChatMessage(response, 'ai');
+            } catch (error) {
+                removeTypingIndicator();
+                // Fallback: use the hardcoded fallback
+                const fallback = Helpers.fallbackResponse(text);
+                addChatMessage(fallback, 'ai');
+                Toast.warning('🤖 AI service issue. Using fallback response.');
+            } finally {
                 sendBtn.disabled = false;
                 DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
-            }, 600 + Math.random() * 600);
+            }
         }
 
         DOM.chatSendBtn.addEventListener('click', sendChatMessage);
@@ -6582,7 +6663,7 @@ async function fetchGallery() {
             const container = DOM.chatMessages;
             container.innerHTML = '';
             const welcome =
-                'Hello! 👋 I\'m your PSBS AI Assistant. Ask me about <strong>school name, contact, address, principal, admissions, results, fees, sports, library, faculty, events, alumni, or homework</strong>! 🌸';
+                'Hello! 👋 I\'m PAI. How can I help you today! 🌸';
             const div = document.createElement('div');
             div.className = 'chat-msg ai message-animate';
             const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
@@ -6591,9 +6672,7 @@ async function fetchGallery() {
         }
         initChat();
 
-        // ============================================================
-        // VOICE SEARCH (unchanged)
-        // ============================================================
+        // ===== VOICE SEARCH =====
         function initVoiceSearch() {
             const hasRecognition = ('webkitSpeechRecognition' in window) || ('SpeechRecognition' in window);
             if (!hasRecognition) {
@@ -6688,9 +6767,7 @@ async function fetchGallery() {
             }
         }
 
-        // ============================================================
-        // FAB (unchanged)
-        // ============================================================
+        // ===== FAB =====
         DOM.fabToggle.addEventListener('click', function () {
             State.isFabOpen = !State.isFabOpen;
             DOM.fabMenu.classList.toggle('open');
@@ -6737,9 +6814,7 @@ async function fetchGallery() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // ============================================================
-        // CONTACT FORM (unchanged)
-        // ============================================================
+        // ===== CONTACT FORM =====
         function validateContactField(input, validator) {
             const error = validator(input.value);
             const errorEl = input.closest('.input-group').querySelector('.input-error');
@@ -6801,9 +6876,7 @@ async function fetchGallery() {
             }
         });
 
-        // ============================================================
-        // LIGHTBOX (unchanged)
-        // ============================================================
+        // ===== LIGHTBOX =====
         function openLightbox(images, index) {
             if (!images || images.length === 0) return;
             State.lightboxImages = images;
@@ -6942,28 +7015,35 @@ async function fetchGallery() {
             }
         });
 
-        // ============================================================
-        // HEADER SCROLL (unchanged)
-        // ============================================================
-        let lastScrollTop = 0;
-        let scrollTimeoutId = null;
-        const handleScroll = Helpers.throttle(function () {
+        // ===== HEADER SCROLL =====
+        let headerScrollTimer = null;
+        let headerLastScrollTop = 0;
+
+        const handleHeaderScroll = function () {
             const current = window.pageYOffset || document.documentElement.scrollTop;
             State.isScrolling = true;
-            clearTimeout(scrollTimeoutId);
-            scrollTimeoutId = setTimeout(function () { State.isScrolling = false; }, 200);
-            if (current <= 0) { DOM.header.classList.remove('header-hidden'); return; }
-            if (current > 80) {
-                if (current > lastScrollTop + 10) DOM.header.classList.add('header-hidden');
-                else if (current < lastScrollTop - 10) DOM.header.classList.remove('header-hidden');
-            } else DOM.header.classList.remove('header-hidden');
-            lastScrollTop = current;
-        }, 80);
-        window.addEventListener('scroll', handleScroll, { passive: true });
+            clearTimeout(headerScrollTimer);
 
-        // ============================================================
-        // CLOSE ALL PANELS (unchanged)
-        // ============================================================
+            headerScrollTimer = setTimeout(function () {
+                State.isScrolling = false;
+                if (current <= 0) {
+                    DOM.header.classList.remove('header-hidden');
+                } else if (current > 80) {
+                    if (current > headerLastScrollTop + 10) {
+                        DOM.header.classList.add('header-hidden');
+                    } else if (current < headerLastScrollTop - 10) {
+                        DOM.header.classList.remove('header-hidden');
+                    }
+                } else {
+                    DOM.header.classList.remove('header-hidden');
+                }
+                headerLastScrollTop = current;
+            }, 120);
+        };
+
+        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+
+        // ===== CLOSE ALL PANELS =====
         function closeAllPanels(exclude) {
             exclude = exclude || [];
             if (exclude.indexOf('dropdown') === -1) closeProfileDropdown();
@@ -6987,9 +7067,7 @@ async function fetchGallery() {
             }
         }
 
-        // ============================================================
-        // BACK BUTTON (unchanged)
-        // ============================================================
+        // ===== BACK BUTTON =====
         window.addEventListener('popstate', function (e) {
             if (State.openCount <= 0) {
                 history.pushState({}, '');
@@ -7009,9 +7087,7 @@ async function fetchGallery() {
         });
         history.pushState({}, '');
 
-        // ============================================================
-        // SWIPE GESTURES (unchanged)
-        // ============================================================
+        // ===== SWIPE GESTURES =====
         const Gestures = {
             init: function () {
                 document.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: true });
@@ -7150,9 +7226,7 @@ async function fetchGallery() {
         };
         Gestures.init();
 
-        // ============================================================
-        // KEYBOARD SHORTCUTS (unchanged)
-        // ============================================================
+        // ===== KEYBOARD SHORTCUTS =====
         document.addEventListener('keydown', function (e) {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
@@ -7192,9 +7266,7 @@ async function fetchGallery() {
             }
         });
 
-        // ============================================================
-        // HERO TYPING EFFECT & PARTICLES (unchanged)
-        // ============================================================
+        // ===== HERO TYPING EFFECT & PARTICLES =====
         function typeMotto() {
             const el = DOM.heroMotto;
             if (!el) return;
@@ -7233,9 +7305,7 @@ async function fetchGallery() {
             }
         }
 
-        // ============================================================
-        // STAT COUNTERS (unchanged)
-        // ============================================================
+        // ===== STAT COUNTERS =====
         function animateCounter(el) {
             const raw = el.textContent.trim();
             const target = parseInt(raw.replace(/[^0-9]/g, ''));
@@ -7270,11 +7340,8 @@ async function fetchGallery() {
             for (let i = 0; i < counters.length; i++) { observer.observe(counters[i]); }
         }
 
-        // ============================================================
-        // HERO STATS ANIMATION (FIXED)
-        // ============================================================
+        // ===== HERO STATS ANIMATION =====
         function animateHeroStats() {
-            // Students
             if (DOM.heroStudents) {
                 const target = State.schoolInfo?.students_count || 1050;
                 let current = 0;
@@ -7289,7 +7356,6 @@ async function fetchGallery() {
                 }, 25);
             }
 
-            // Teachers
             if (DOM.heroTeachers) {
                 const target = State.schoolInfo?.teachers_count || 38;
                 let current = 0;
@@ -7304,10 +7370,9 @@ async function fetchGallery() {
                 }, 30);
             }
 
-            // Years (FIXED using B.S. year)
             if (DOM.heroYears) {
                 const establishedBS = State.schoolInfo?.established_year || 2040;
-                const target = CURRENT_BS_YEAR - establishedBS; // 2083 - 2040 = 43
+                const target = CURRENT_BS_YEAR - establishedBS;
                 let current = 0;
                 const step = Math.ceil(target / 40);
                 const interval = setInterval(function () {
@@ -7321,9 +7386,7 @@ async function fetchGallery() {
             }
         }
 
-        // ============================================================
-        // SECTION ANIMATIONS (unchanged)
-        // ============================================================
+        // ===== SECTION ANIMATIONS =====
         if ('IntersectionObserver' in window) {
             const sectionObserver = new IntersectionObserver(function (entries) {
                 for (let i = 0; i < entries.length; i++) {
@@ -7334,9 +7397,7 @@ async function fetchGallery() {
             for (let i = 0; i < allSections.length; i++) { sectionObserver.observe(allSections[i]); }
         }
 
-        // ============================================================
-        // SCROLL SPY (unchanged)
-        // ============================================================
+        // ===== SCROLL SPY =====
         const navLinks = $$('.sidebar-links a[data-section]');
         const sections = [];
         for (let i = 0; i < navLinks.length; i++) {
@@ -7365,21 +7426,23 @@ async function fetchGallery() {
         window.addEventListener('resize', Helpers.debounce(updateActiveSection, 100), { passive: true });
         setTimeout(updateActiveSection, 100);
 
-        // ============================================================
-        // FOOTER YEAR (unchanged)
-        // ============================================================
+        // ===== FOOTER YEAR =====
         if (DOM.footerYear) DOM.footerYear.textContent = new Date().getFullYear();
 
-        // ============================================================
-        // INIT
-        // ============================================================
+        // ===== INIT =====
         async function init() {
             Helpers.applyTheme();
             const preset = Helpers.getThemePreset();
             Helpers.setThemePreset(preset);
             Profile.updateUI();
 
-            // Fetch all data from Supabase
+            // Check if Groq API key is set
+            if (!GROQ_CONFIG.apiKey || GROQ_CONFIG.apiKey === 'YOUR_GROQ_API_KEY') {
+                Toast.warning('🔑 Groq API key not set. The AI will use fallback responses. Get your free key at https://console.groq.com');
+            } else {
+                Toast.info('🤖 Groq AI is ready! Ask me anything.');
+            }
+
             await Promise.all([
                 fetchSchoolInfo(),
                 fetchNotices(),
@@ -7389,10 +7452,7 @@ async function fetchGallery() {
                 fetchGallery()
             ]);
 
-            // ✅ Now animate the hero stats (data is ready)
             animateHeroStats();
-
-            // Init other features
             initVoiceSearch();
 
             const profile = Profile.get();
@@ -7402,10 +7462,10 @@ async function fetchGallery() {
                 setTimeout(function () { Toast.info('👋 Welcome back, ' + profile.name + '!'); }, 1000);
             }
 
-            // Setup realtime subscriptions after initial load
             setupRealtime();
+            NoticeManager.updateBadge();
 
-            Helpers.log('🌸 Radhe Radhe! PSBS Portal — Supabase connected. All content is now dynamic.');
+            Helpers.log('🌸 Radhe Radhe! PSBS Portal — Groq AI integrated. All content is now dynamic.');
         }
 
         if (document.readyState === 'loading') {

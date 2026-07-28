@@ -4830,30 +4830,41 @@
                             </div>
                         </div>
                         <div class="contact-form">
+                            <!-- Success & error message containers (required by Formspree) -->
+                            <div data-fs-success></div>
+                            <div data-fs-error></div>
+
                             <form id="contactForm" novalidate>
-                                <div class="input-group"><span aria-hidden="true">👤</span><label for="contactName"
-                                        class="sr-only">Your Full Name</label><input type="text" id="contactName"
-                                        placeholder="Your Full Name" required>
-                                    <div class="input-error" role="alert"></div>
+                                <div class="input-group">
+                                    <span aria-hidden="true">👤</span>
+                                    <label for="contactName" class="sr-only">Your Full Name</label>
+                                    <input type="text" id="contactName" name="name" placeholder="Your Full Name"
+                                        data-fs-field required>
+                                    <span data-fs-error="name" class="input-error" role="alert"></span>
                                 </div>
-                                <div class="input-group"><span aria-hidden="true">📧</span><label for="contactEmail"
-                                        class="sr-only">Email Address</label><input type="email" id="contactEmail"
-                                        placeholder="Email Address" required>
-                                    <div class="input-error" role="alert"></div>
+
+                                <div class="input-group">
+                                    <span aria-hidden="true">📧</span>
+                                    <label for="contactEmail" class="sr-only">Email Address</label>
+                                    <input type="email" id="contactEmail" name="email" placeholder="Email Address"
+                                        data-fs-field required>
+                                    <span data-fs-error="email" class="input-error" role="alert"></span>
                                 </div>
-                                <div class="input-group textarea-group"><span aria-hidden="true">💬</span><label
-                                        for="contactMessage" class="sr-only">Your message</label><textarea
-                                        id="contactMessage" placeholder="Write your message..." required></textarea>
-                                    <div class="input-error" role="alert"></div>
+
+                                <div class="input-group textarea-group">
+                                    <span aria-hidden="true">💬</span>
+                                    <label for="contactMessage" class="sr-only">Your message</label>
+                                    <textarea id="contactMessage" name="message" placeholder="Write your message..."
+                                        data-fs-field required></textarea>
+                                    <span data-fs-error="message" class="input-error" role="alert"></span>
                                 </div>
-                                <button class="contact-btn" type="submit">
+
+                                <button class="contact-btn" type="submit" data-fs-submit-btn>
                                     <span class="btn-text">
                                         <span class="btn-icon">✉️</span>
                                         Send Message
                                     </span>
                                 </button>
-                                <div id="contactSuccess" class="contact-success" role="alert">✅ Message sent
-                                    successfully!</div>
                             </form>
                         </div>
                     </div>
@@ -7436,13 +7447,6 @@
             Helpers.setThemePreset(preset);
             Profile.updateUI();
 
-            // Check if Groq API key is set
-            if (!GROQ_CONFIG.apiKey || GROQ_CONFIG.apiKey === 'YOUR_GROQ_API_KEY') {
-                Toast.warning('🔑 Groq API key not set. The AI will use fallback responses. Get your free key at https://console.groq.com');
-            } else {
-                Toast.info('🤖 Groq AI is ready! Ask me anything.');
-            }
-
             await Promise.all([
                 fetchSchoolInfo(),
                 fetchNotices(),
@@ -7465,7 +7469,7 @@
             setupRealtime();
             NoticeManager.updateBadge();
 
-            Helpers.log('🌸 Radhe Radhe! PSBS Portal — Groq AI integrated. All content is now dynamic.');
+            Helpers.log('🌸 Radhe Radhe! PSBS Portal. All content is now dynamic.');
         }
 
         if (document.readyState === 'loading') {
@@ -7474,6 +7478,17 @@
             init();
         }
     </script>
+
+    <script>
+        window.formspree = window.formspree || function () {
+            (formspree.q = formspree.q || []).push(arguments);
+        };
+        formspree('initForm', {
+            formElement: '#contactForm',
+            formId: 'mrenjbra'   // your Formspree form ID
+        });
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 

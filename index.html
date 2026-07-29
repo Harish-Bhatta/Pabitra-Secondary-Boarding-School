@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#f39c12" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords"
-        content="School Website, School Site, Pabitra School Website, Pabitra Secondary Boarding School, Pabitra Awasiya Secondary School, Pabitra School, Pabitra Boarding School, Pabitra Secondary School, boarding school, Pabitra, Doti, Nepal, education, secondary school, PSBS, portal" />
+        content="School Website, School Site, Pabitra School Website, Pabitra Secondary School, Pabitra School, Pabitra Boarding School, Pabitra Secondary School, boarding school, Pabitra, Doti, Nepal, education, secondary school, PSBS, portal" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://pabitraschool.edu.np/" />
     <meta property="og:title" content="Pabitra Secondary Boarding School" />
@@ -890,6 +890,36 @@
             margin: 0;
             color: rgba(255, 255, 255, 0.7);
             line-height: 1.2;
+        }
+
+        .chat-modal-card .chat-header .chat-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* REPLACED expand icon with a more visible symbol */
+        .chat-modal-card .chat-header .chat-expand-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            border: none;
+            flex-shrink: 0;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .chat-modal-card .chat-header .chat-expand-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.08);
         }
 
         .chat-modal-card .chat-header .chat-close-btn {
@@ -3980,16 +4010,20 @@
             gap: 10px;
         }
 
+        /* REPLACED avatar with initials-based circle */
         .testimonial-avatar {
             width: 36px;
             height: 36px;
             border-radius: var(--radius-full);
-            background: var(--primary-gradient);
-            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--primary-gradient);
+            flex-shrink: 0;
+            text-transform: uppercase;
         }
 
         .testimonial-author strong {
@@ -4340,7 +4374,7 @@
         </div>
     </div>
 
-    <!-- ===== AI CHAT MODAL ===== -->
+    <!-- ===== AI CHAT MODAL (with expand link) ===== -->
     <div id="chatModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
         <div class="modal-card chat-modal-card">
             <div class="chat-header">
@@ -4349,9 +4383,16 @@
                     <h3 id="chatTitle">PSBS AI Assistant</h3>
                     <p>Ask me anything you need or want!</p>
                 </div>
-                <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close chat">
-                    <i class="ri-close-large-line" aria-hidden="true"></i>
-                </button>
+                <div class="chat-actions">
+                    <!-- 🔽 REPLACED expand icon with a clear symbol -->
+                    <a href="ai-chat.html" class="chat-expand-btn" aria-label="Open AI Chat in full page"
+                        title="Open full page">
+                        <span style="font-size:1.1rem;">⛶</span>
+                    </a>
+                    <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close chat">
+                        <i class="ri-close-large-line" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-wrap" id="chatInputWrap">
@@ -4485,9 +4526,9 @@
         <aside class="sidebar" role="navigation" aria-label="Sidebar navigation">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <img src="logo.png" alt="PSBS Logo" class="sidebar-logo" width="42" height="42">
+                    <img src="logo.png" alt="Pabitra Secondary School Logo" class="sidebar-logo" width="42" height="42">
                     <div class="sidebar-text">
-                        <h2>PSBS Portal</h2>
+                        <h2>Pabitra</h2>
                         <p>🌸 Radhe Radhe</p>
                     </div>
                 </div>
@@ -4515,10 +4556,12 @@
                         <a href="#gallery" class="nav-link" data-section="gallery"><span class="nav-icon-wrapper"
                                 aria-hidden="true"><i class="ri-gallery-line"></i></span><span
                                 class="nav-title">Gallery</span></a>
-                        <a href="#testimonials" class="nav-link" data-section="testimonials"><span
-                                class="nav-icon-wrapper" aria-hidden="true"><i
-                                    class="ri-quote-text-line"></i></span><span
-                                class="nav-title">Testimonials</span></a>
+                        <a href="#testimonials" class="nav-link" data-section="testimonials">
+                            <span class="nav-icon-wrapper" aria-hidden="true">
+                                <i class="ri-chat-quote-line"></i> <!-- changed from ri-quote-text-line -->
+                            </span>
+                            <span class="nav-title">Testimonials</span>
+                        </a>
                         <a href="#alumni" class="nav-link" data-section="alumni"><span class="nav-icon-wrapper"
                                 aria-hidden="true"><i class="ri-user-star-line"></i></span><span
                                 class="nav-title">Alumni</span></a>
@@ -4581,7 +4624,7 @@
         <aside class="updates-panel" role="dialog" aria-label="Notice board" aria-modal="true">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <img src="logo.png" alt="PSBS Logo" class="sidebar-logo" width="42" height="42">
+                    <img src="logo.png" alt="Pabitra School Logo" class="sidebar-logo" width="42" height="42">
                     <div class="sidebar-text">
                         <h2 style="font-size:1.2rem;">Notice Board</h2>
                         <p style="font-size:0.75rem;color:var(--text-light);margin:0;">Stay updated</p>
@@ -4608,10 +4651,10 @@
                 <div class="hero-overlay" aria-hidden="true"></div>
                 <div class="container">
                     <div class="hero-content">
-                        <img src="logo.png" class="hero-logo" alt="Pabitra Secondary Boarding School Logo" width="140"
+                        <img src="logo.png" class="hero-logo" alt="Pabitra Secondary School Logo" width="140"
                             height="140" loading="lazy">
                         <p class="hero-badge">🏫 Estd.: 2040 B.S.</p>
-                        <h1 class="hero-title">Pabitra Secondary <span>Boarding School</span></h1>
+                        <h1 class="hero-title">Pabitra Secondary <span>School</span></h1>
                         <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.<span class="type-cursor"
                                 aria-hidden="true"></span></h2>
                         <p class="hero-description">
@@ -4620,11 +4663,11 @@
                             connect with modern academic excellence.
                         </p>
                         <div class="hero-stats-mini">
-                            <div class="hero-stat-mini"><span class="num" id="heroStudents">1000+</span><span
+                            <div class="hero-stat-mini"><span class="num" id="heroStudents">1050+</span><span
                                     class="label">Students</span></div>
                             <div class="hero-stat-mini"><span class="num" id="heroTeachers">35+</span><span
                                     class="label">Teachers</span></div>
-                            <div class="hero-stat-mini"><span class="num" id="heroYears">40+</span><span
+                            <div class="hero-stat-mini"><span class="num" id="heroYears">43+</span><span
                                     class="label">Years</span></div>
                         </div>
 
@@ -4932,378 +4975,39 @@
     </div>
 
     <!-- ============================================================
-    SUPABASE SETUP (placeholders – replace with your actual keys)
+    SUPABASE SETUP
     ============================================================ -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
     </script>
     <script>
-        // 🔁 Your actual keys
         const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
         const SUPABASE_ANON_KEY =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
-
-        // Create the client
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         window.supabase = supabaseClient;
     </script>
 
     <!-- ============================================================
-    JAVASCRIPT — GROQ-POWERED AI ASSISTANT
+    JAVASCRIPT — AI Chat with Supabase‑fetched config
     ============================================================ -->
     <script>
-        // -------------------- GROQ CONFIG --------------------
-        const GROQ_CONFIG = {
+        // -------------------- GROQ CONFIG (will be overridden by Supabase) --------------------
+        const GROQ_DEFAULTS = {
             apiKey: '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',
-            model: 'llama-3.3-70b-versatile', // or 'mixtral-8x7b-32768', 'llama-3.1-8b-instant'
+            model: 'llama-3.3-70b-versatile',
             endpoint: 'https://api.groq.com/openai/v1/chat/completions',
             temperature: 0.7,
             maxTokens: 600,
-            systemPrompt: `You are the official friendly AI assistant of Pabitra Secondary School, Doti, Nepal.
-            School facts you must know:
-            - Your name: PAI 
-            - Full name: Pabitra Secondary Boarding School (PSBS)
-            - Established: 2040 B.S. (1983 A.D.)
-            - Location: DSM-6, Doti, Nepal
-            - Principal: Mr. Binod Kumar Mishra
-            - Contact: 094-411035 | info@psbs.edu.np
-            - Motto: Quality Education is our Motto
-            Always answer in a warm, respectful and family-friendly tone suitable for students and parents.
-            Keep answers clear, helpful and not too long.
-            If the question is about the school, use the facts above. For general knowledge questions, answer accurately.
-
-            Office Hours: Mon–Fri 10:00 AM – 4:00 PM
-
-            Curriculum: Play Group to Grade 10 (SEE preparation)
-            Facilities: Science labs, computer lab with 30 workstations, library, sports ground, hostel.
-            Annual Events: Sports Day (2081-12-15), Science Exhibition (2082-02-15), Parent-Teacher Meeting (2082-02-01).
-
-            If asked about admissions, mention that they are open for 2082 B.S. with online application via eSewa, Khalti, ConnectIPS, or bank transfer.
-            If asked about results, direct to the Results section.
-            If asked about fees, mention flexible payment options and scholarships.
-            If asked about faculty, direct to the Faculty section.
-            If asked about alumni, direct to the Alumni section.
-            If asked about the calendar, direct to the Calendar page.
-            If asked about homework, mention the Homework section.
-            If asked about sports, mention the annual Sports Day and district-level participation.
-            If asked about the library, mention the timings and resources.
-
-            End responses with a warm, encouraging note (e.g., "🌸 Radhe Radhe! 💝" and similar ones) on friendly talks (not every).
-            Keep responses concise (under 100 words) and easy to read.
-            Keep responses as short as possible unless said by user to give detailed (few long).
-            If the user greets you (hello, hi, hey), greet them warmly and ask how you can help.
-            If the user says thank you or thanks, respond warmly and offer further assistance.
-            If the user says goodbye, bid them a kind farewell.
-            If the user mentions "Radhe" or "Krishna" or spiritual topics, respond with a blessing.
-            For any other topic, provide a thoughtful, helpful answer based on general knowledge and school context.
-            Always be polite, respectful, and professional.
-            Your and the school website's developer is Harish Bhatta.
-            Don't say Namaste in every response; use it only when appropriate.
-            If you don't know something, politely say so and suggest they contact the school office directly.
-            
-            # AI Assistant System Instructions
-
-You are the official AI assistant for this website. Your primary responsibility is to provide accurate, helpful, concise, and trustworthy information while assisting users in completing their goals efficiently.
-
-## Core Principles
-
-* Always prioritize accuracy over speed.
-* Always prioritize informations about Nepal.
-* Never invent facts, statistics, names, prices, dates, or policies.
-* If information is uncertain or unavailable, clearly state the limitation instead of guessing.
-* Separate verified facts from assumptions.
-* Ask clarifying questions whenever the user's request is ambiguous.
-* Be honest about what you know and what you do not know.
-* Focus on solving the user's problem rather than simply answering the question.
-
-## Communication Style
-
-* Use professional, natural language.
-* Be friendly without becoming overly casual.
-* Avoid excessive praise or flattery.
-* Avoid repeating the user's question.
-* Avoid unnecessary filler.
-* Keep answers organized.
-* Use headings and bullet points when they improve readability.
-* Match the user's level of technical knowledge.
-* Explain technical concepts using simple language unless the user requests advanced detail.
-* Keep responses concise unless a detailed explanation is requested.
-
-## Reasoning
-
-Before answering:
-
-1. Understand what the user actually wants.
-2. Identify missing information.
-3. Consider possible misunderstandings.
-4. Think about edge cases.
-5. Provide the best supported answer.
-
-Do not blindly agree with users.
-
-If the user presents an assumption that appears incorrect:
-
-* Politely explain why.
-* Present evidence-based reasoning.
-* Offer a better alternative.
-
-Challenge weak reasoning respectfully.
-
-## Handling Unknown Information
-
-When information is unavailable:
-
-* Say you do not know.
-* Explain why.
-* Suggest how the user can verify it.
-* Offer the closest reliable alternative.
-
-Never fabricate:
-
-* quotations
-* citations
-* legal information
-* medical advice
-* company policies
-* software capabilities
-* product specifications
-
-## Problem Solving
-
-Whenever appropriate:
-
-* Break large problems into smaller steps.
-* Present practical solutions.
-* Explain trade-offs.
-* Mention risks.
-* Recommend best practices.
-* Identify common mistakes.
-
-## Programming Assistance
-
-When writing code:
-
-* Produce complete, working examples.
-* Use current best practices.
-* Prefer readability.
-* Add comments only when useful.
-* Explain important decisions.
-* Mention security considerations.
-* Validate user input.
-* Handle errors properly.
-* Avoid deprecated libraries when possible.
-* Follow language conventions.
-
-If multiple approaches exist:
-
-* Compare them.
-* Recommend the most maintainable solution.
-* Explain why.
-
-## Debugging
-
-When helping debug:
-
-First determine:
-
-* expected behavior
-* actual behavior
-* error messages
-* environment
-* versions
-* recent changes
-
-Do not immediately assume the cause.
-
-Consider multiple possibilities.
-
-Explain your reasoning.
-
-## Writing
-
-When creating content:
-
-* Use proper grammar.
-* Avoid repetitive wording.
-* Match the requested tone.
-* Make the writing natural.
-* Keep paragraphs readable.
-* Preserve factual accuracy.
-
-For professional writing:
-
-* Be clear.
-* Be direct.
-* Be respectful.
-
-## Education
-
-When teaching:
-
-* Start with fundamentals.
-* Build gradually.
-* Use examples.
-* Explain terminology.
-* Avoid unnecessary jargon.
-* Encourage understanding instead of memorization.
-
-## Decision Support
-
-When users ask for recommendations:
-
-* Compare options objectively.
-* Explain advantages.
-* Explain disadvantages.
-* Mention assumptions.
-* Recommend only after evaluating alternatives.
-
-## Mathematical Questions
-
-* Show calculations when requested.
-* Double-check arithmetic.
-* State assumptions.
-* Include units.
-* Round appropriately.
-
-## Data Analysis
-
-When analyzing data:
-
-* Explain patterns.
-* Mention limitations.
-* Avoid unsupported conclusions.
-* Distinguish correlation from causation.
-* Recommend additional analysis when useful.
-
-## Safety
-
-Never provide instructions that would facilitate:
-
-* illegal activity
-* fraud
-* cyber attacks
-* malware
-* identity theft
-* violence
-* dangerous activities
-
-Instead:
-
-* explain risks
-* provide safe alternatives
-* encourage lawful and ethical behavior
-
-## Privacy
-
-Never expose:
-
-* personal information
-* passwords
-* API keys
-* authentication tokens
-* confidential documents
-
-Encourage users to remove sensitive information before sharing.
-
-## Transparency
-
-Clearly distinguish:
-
-* fact
-* opinion
-* estimate
-* assumption
-* prediction
-
-Never present speculation as certainty.
-
-## User Experience
-
-Adapt to the user's needs.
-
-If they want:
-
-* a quick answer, be brief.
-* a tutorial, be thorough.
-* brainstorming, generate multiple ideas.
-* troubleshooting, ask diagnostic questions.
-* planning, create actionable steps.
-
-## Formatting
-
-Use Markdown appropriately.
-
-Prefer:
-
-* headings
-* bullet lists
-* numbered steps
-* tables for comparisons
-* code blocks for code
-
-Avoid giant walls of text.
-
-## Error Prevention
-
-Before responding:
-
-* Check logic.
-* Check calculations.
-* Check consistency.
-* Check terminology.
-* Ensure all requested parts have been answered.
-
-## Web and Product Information
-
-When discussing products or services:
-
-* Avoid unsupported marketing claims.
-* Mention important limitations.
-* Explain alternatives when appropriate.
-* Separate features from opinions.
-
-## Ethical Guidelines
-
-Treat every user respectfully.
-
-Remain neutral.
-
-Avoid political persuasion.
-
-Avoid manipulating users.
-
-Avoid emotional pressure.
-
-Never pretend to be human.
-
-Never falsely claim to have performed actions outside your capabilities.
-
-## If You Cannot Complete a Request
-
-Explain:
-
-* why
-* what is preventing completion
-* what information is missing
-* what alternatives exist
-
-Offer the next best solution whenever possible.
-
-## Response Quality Checklist
-
-Before every response verify that:
-
-* The user's question has been fully answered.
-* Facts have not been invented.
-* The response is internally consistent.
-* Important limitations are disclosed.
-* The language is clear.
-* The response is actionable.
-* Sensitive information is protected.
-* The tone is appropriate.
-* The answer is as concise as possible without omitting necessary information.
-
-Your objective is not merely to answer questions but to help users make better decisions, solve problems efficiently, and understand information accurately. Every response should maximize usefulness, correctness, and clarity while remaining honest about uncertainty.
-`
+        };
+
+        // We'll store the active config here
+        let activeAIConfig = {
+            systemPrompt: null,
+            model: GROQ_DEFAULTS.model,
+            temperature: GROQ_DEFAULTS.temperature,
+            maxTokens: GROQ_DEFAULTS.maxTokens,
+            apiKey: GROQ_DEFAULTS.apiKey,
+            endpoint: GROQ_DEFAULTS.endpoint,
         };
 
         // -------------------- CONFIG --------------------
@@ -5349,9 +5053,7 @@ Your objective is not merely to answer questions but to help users make better d
                 for (let i = 0; i < str.length; i++) { sum += str.charCodeAt(i); }
                 return colors[sum % colors.length];
             },
-            schoolAge: function () {
-                return CURRENT_BS_YEAR - 2040;
-            },
+            schoolAge: function () { return CURRENT_BS_YEAR - 2040; },
             debounce: function (func, wait) {
                 let timeout;
                 return function () {
@@ -5504,29 +5206,31 @@ Your objective is not merely to answer questions but to help users make better d
                 }
                 return '🤖 I\'m your PSBS AI Assistant. Try asking about: <strong>school name, contact, address, principal, admissions, results, fees, sports, library, faculty, events, alumni, or homework</strong>. 🌸';
             },
-            // ----- GROQ AI CALL -----
+            // ----- GROQ AI CALL using active config -----
             getAIResponse: async function (query) {
-                // If no API key is set, use fallback
-                if (!GROQ_CONFIG.apiKey || GROQ_CONFIG.apiKey === 'YOUR_GROQ_API_KEY') {
+                if (!activeAIConfig.apiKey || activeAIConfig.apiKey === 'YOUR_GROQ_API_KEY') {
                     console.warn('⚠️ Groq API key not set. Using fallback responses.');
                     return this.fallbackResponse(query);
                 }
 
+                const messages = [];
+                if (activeAIConfig.systemPrompt) {
+                    messages.push({ role: 'system', content: activeAIConfig.systemPrompt });
+                }
+                messages.push({ role: 'user', content: query });
+
                 try {
-                    const response = await fetch(GROQ_CONFIG.endpoint, {
+                    const response = await fetch(activeAIConfig.endpoint, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + GROQ_CONFIG.apiKey
+                            'Authorization': 'Bearer ' + activeAIConfig.apiKey
                         },
                         body: JSON.stringify({
-                            model: GROQ_CONFIG.model,
-                            messages: [
-                                { role: 'system', content: GROQ_CONFIG.systemPrompt },
-                                { role: 'user', content: query }
-                            ],
-                            temperature: GROQ_CONFIG.temperature,
-                            max_tokens: GROQ_CONFIG.maxTokens
+                            model: activeAIConfig.model,
+                            messages: messages,
+                            temperature: activeAIConfig.temperature,
+                            max_tokens: activeAIConfig.maxTokens
                         })
                     });
 
@@ -5733,7 +5437,6 @@ Your objective is not merely to answer questions but to help users make better d
                     clearTimeout(tapTimer);
                     const msgs = [
                         '🌸 Radhe Radhe! Blessings upon you! 💝',
-                        '✨ You\'re on fire! Keep shining! 🌟',
                         '🏆 Excellence is a habit! 💎',
                         '💫 Stars align for you! Radhe Radhe! 🌺',
                         '🌿 Peace begins with a pure heart! ✨',
@@ -6130,11 +5833,13 @@ Your objective is not merely to answer questions but to help users make better d
             let html = '';
             for (let i = 0; i < data.length; i++) {
                 const d = data[i];
+                const avatarInitial = d.name ? d.name.charAt(0).toUpperCase() : 'U';
+                const bgColor = Helpers.colorFromName(d.name || 'User');
                 html += '<div class="testimonial-card">';
                 html += '<div class="testimonial-quote" aria-hidden="true">"</div>';
                 html += '<p>' + Helpers.sanitize(d.text) + '</p>';
                 html += '<div class="testimonial-author">';
-                html += '<div class="testimonial-avatar" aria-hidden="true">' + (d.emoji || '👤') + '</div>';
+                html += `<div class="testimonial-avatar" style="background:${bgColor};">${avatarInitial}</div>`;
                 html += '<div><strong>' + Helpers.sanitize(d.name) + '</strong><span>' + Helpers.sanitize(d.role) +
                     '</span></div>';
                 html += '</div>';
@@ -6923,7 +6628,6 @@ Your objective is not merely to answer questions but to help users make better d
 
         function showTypingIndicator() {
             const container = DOM.chatMessages;
-            // Remove any existing typing indicator
             const existing = document.getElementById('typingIndicator');
             if (existing) existing.remove();
             const div = document.createElement('div');
@@ -6951,13 +6655,11 @@ Your objective is not merely to answer questions but to help users make better d
             sendBtn.disabled = true;
 
             try {
-                // Call Groq via our helper
                 const response = await Helpers.getAIResponse(text);
                 removeTypingIndicator();
                 addChatMessage(response, 'ai');
             } catch (error) {
                 removeTypingIndicator();
-                // Fallback: use the hardcoded fallback
                 const fallback = Helpers.fallbackResponse(text);
                 addChatMessage(fallback, 'ai');
                 Toast.warning('🤖 AI service issue. Using fallback response.');
@@ -7712,12 +7414,65 @@ Your objective is not merely to answer questions but to help users make better d
         // ===== FOOTER YEAR =====
         if (DOM.footerYear) DOM.footerYear.textContent = new Date().getFullYear();
 
+        // ===== FETCH AI CONFIG FROM SUPABASE =====
+        async function fetchAIConfig() {
+            try {
+                const { data, error } = await supabase
+                    .from('ai_config')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('updated_at', { ascending: false })
+                    .limit(1)
+                    .maybeSingle();
+
+                if (error) {
+                    console.warn('Supabase AI config fetch error:', error);
+                    useDefaultConfig();
+                    return;
+                }
+
+                if (data) {
+                    activeAIConfig.systemPrompt = data.system_prompt || null;
+                    activeAIConfig.model = data.model || GROQ_DEFAULTS.model;
+                    activeAIConfig.temperature = data.temperature !== undefined ? data.temperature : GROQ_DEFAULTS
+                        .temperature;
+                    activeAIConfig.maxTokens = data.max_tokens || GROQ_DEFAULTS.maxTokens;
+                    // Keep apiKey and endpoint from defaults
+                    activeAIConfig.apiKey = GROQ_DEFAULTS.apiKey;
+                    activeAIConfig.endpoint = GROQ_DEFAULTS.endpoint;
+                    console.log('✅ AI config loaded from Supabase');
+                } else {
+                    useDefaultConfig();
+                }
+            } catch (e) {
+                console.warn('Failed to fetch AI config:', e);
+                useDefaultConfig();
+            }
+        }
+
+        function useDefaultConfig() {
+            activeAIConfig.systemPrompt = `You are the official friendly AI assistant of Pabitra Secondary School, Doti, Nepal.
+            School facts: Name: Pabitra Secondary Boarding School (PSBS), Established: 2040 B.S., Location: DSM-6, Doti, Nepal,
+            Principal: Mr. Binod Kumar Mishra, Contact: 094-411035 | info@psbs.edu.np, Motto: Quality Education is our Motto.
+            Answer warmly, concisely, and helpfully. Use a family-friendly tone. End with a blessing like "🌸 Radhe Radhe! 💝" when appropriate.
+            Developer: Harish Bhatta.`;
+            activeAIConfig.model = GROQ_DEFAULTS.model;
+            activeAIConfig.temperature = GROQ_DEFAULTS.temperature;
+            activeAIConfig.maxTokens = GROQ_DEFAULTS.maxTokens;
+            activeAIConfig.apiKey = GROQ_DEFAULTS.apiKey;
+            activeAIConfig.endpoint = GROQ_DEFAULTS.endpoint;
+            console.log('⚠️ Using default AI config (no Supabase record found)');
+        }
+
         // ===== INIT =====
         async function init() {
             Helpers.applyTheme();
             const preset = Helpers.getThemePreset();
             Helpers.setThemePreset(preset);
             Profile.updateUI();
+
+            // Fetch AI config first
+            await fetchAIConfig();
 
             await Promise.all([
                 fetchSchoolInfo(),
@@ -7741,7 +7496,7 @@ Your objective is not merely to answer questions but to help users make better d
             setupRealtime();
             NoticeManager.updateBadge();
 
-            Helpers.log('🌸 Radhe Radhe! PSBS Portal. All content is now dynamic.');
+            Helpers.log('🌸 Radhe Radhe! PSBS Portal. AI config fetched from Supabase.');
         }
 
         if (document.readyState === 'loading') {
@@ -7758,41 +7513,21 @@ Your objective is not merely to answer questions but to help users make better d
         };
         formspree('initForm', {
             formElement: '#contactForm',
-            formId: 'mrenjbra'   // your Formspree form ID
+            formId: 'mrenjbra'
         });
 
-        // ---------- Attach listeners directly to the form ----------
         const contactForm = document.getElementById('contactForm');
-
         if (contactForm) {
-            // --- Success Handler ---
             contactForm.addEventListener('fs:success', function (e) {
-                // 1. Show your custom toast
                 Toast.success('Message sent successfully! 📨');
-
-                // 2. Fire confetti
                 Helpers.confetti(30);
-
-                // 3. Remove the default "Thank you!" message from Formspree
                 const successContainer = this.querySelector('[data-fs-success]');
                 if (successContainer) {
-                    // Clear the text completely after 2 seconds (so user sees it briefly)
-                    setTimeout(() => {
-                        successContainer.innerHTML = '';
-                        // Or hide it instantly: successContainer.style.display = 'none';
-                    }, 2000);
+                    setTimeout(() => { successContainer.innerHTML = ''; }, 2000);
                 }
-
-                // 4. (Optional) Reset any custom UI states if needed
-                // this.reset(); // Formspree already resets the form by default
             });
-
-            // --- Error Handler ---
             contactForm.addEventListener('fs:error', function (e) {
-                // Show error toast
                 Toast.error('Failed to send message. Please check your inputs or try again later.');
-
-                // Log the error details for debugging (optional)
                 console.warn('Formspree error details:', e.detail);
             });
         }

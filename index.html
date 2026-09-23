@@ -148,7 +148,6 @@
         body.welcome-active,
         body.lightbox-open { overflow: hidden !important; }
 
-        /* Hide scrollbars while user is actively touching/scrolling */
         body.touching ::-webkit-scrollbar { display: none !important; }
         body.touching * { scrollbar-width: none !important; }
 
@@ -694,7 +693,6 @@
             border-radius: var(--radius-full);
             color: var(--text);
             font-size: 17px; flex-shrink: 0; cursor: pointer;
-            /* glossy floating */
             position: relative; overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.4);
             background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.1));
@@ -880,7 +878,6 @@
             transform-origin: right center;
         }
         .right-panel.active { transform: translateX(0); }
-        /* Dragging state — realistic lift + tilt */
         .right-panel.dragging {
             transition: none;
             box-shadow: -30px 0 80px rgba(15, 23, 42, 0.18);
@@ -927,32 +924,30 @@
         }
 
         /* ============================================================
-           BOTTOM TAB BAR — small glossy floating buttons
+           BOTTOM TAB BAR — truly floating pills (no white box)
            ============================================================ */
         .panel-tabbar {
             flex-shrink: 0;
             display: flex;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
-            padding: 10px 14px calc(12px + env(safe-area-inset-bottom, 0px));
-            border-top: 1px solid var(--glass-border);
-            background: linear-gradient(180deg, rgba(255,255,255,0.4), rgba(255,255,255,0.72));
-            backdrop-filter: blur(22px) saturate(180%);
-            -webkit-backdrop-filter: blur(22px) saturate(180%);
+            align-items: center;
+            padding: 14px 14px calc(18px + env(safe-area-inset-bottom, 0px));
+            background: transparent;
+            border-top: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
             position: relative;
             z-index: 2;
-        }
-        body.dark .panel-tabbar {
-            background: linear-gradient(180deg, rgba(15,23,42,0.4), rgba(30,41,59,0.75));
         }
         .panel-tab {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 999px;
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             font-weight: 700;
             letter-spacing: 0.02em;
             color: var(--text);
@@ -1200,21 +1195,18 @@
         .update-date { font-size: 0.6rem; color: var(--text-light); margin-top: 4px; opacity: 0.6; }
 
         /* ============================================================
-           DOCUMENTS — single horizontal scroll toolbar
+           DOCUMENTS — floating horizontal scroll toolbar (NO WHITE BOX)
            ============================================================ */
         .doc-toolbar {
             flex-shrink: 0;
             position: relative;
-            background: var(--surface);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-            transition: box-shadow 0.3s ease;
+            z-index: 3;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-bottom: none;
+            box-shadow: none;
         }
-        .doc-toolbar.scrolled {
-            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-        }
-        body.dark .doc-toolbar.scrolled { box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
 
         .doc-toolbar-scroll {
             overflow-x: auto;
@@ -1222,10 +1214,10 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             scroll-behavior: smooth;
-            padding: 10px 0;
+            padding: 12px 0 10px;
             position: relative;
-            mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%);
-            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 calc(100% - 12px), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
         }
         .doc-toolbar-scroll::-webkit-scrollbar { display: none; }
 
@@ -1255,20 +1247,22 @@
         }
         .doc-search-wrap:focus-within i { color: var(--primary); }
         .doc-search-wrap input {
-            width: 100%; padding: 8px 12px 8px 34px;
+            width: 100%; padding: 9px 12px 9px 34px;
             border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.4));
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.42));
             color: var(--text);
             font-size: 0.78rem; outline: none;
             box-shadow:
-                0 4px 12px rgba(15, 23, 42, 0.06),
-                inset 0 1px 0 rgba(255, 255, 255, 0.85);
+                0 4px 12px rgba(15, 23, 42, 0.07),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
             transition: all 0.35s var(--snap);
+            backdrop-filter: blur(10px) saturate(160%);
+            -webkit-backdrop-filter: blur(10px) saturate(160%);
         }
         body.dark .doc-search-wrap input {
             border-color: rgba(255,255,255,0.08);
-            background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+            background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
         }
         .doc-search-wrap input:focus {
             border-color: var(--primary);
@@ -1286,7 +1280,7 @@
         }
         .doc-filter {
             flex-shrink: 0;
-            padding: 7px 14px;
+            padding: 8px 15px;
             border-radius: 999px;
             font-size: 0.68rem;
             font-weight: 700;
@@ -1978,7 +1972,7 @@
         body.touching .sidebar-body::-webkit-scrollbar { display: none; width: 0; height: 0; }
 
         /* ============================================================
-           PANEL DRAG EDGE INDICATOR (hand-following hint)
+           PANEL DRAG EDGE INDICATOR
            ============================================================ */
         .edge-hint {
             position: fixed;
@@ -2000,7 +1994,6 @@
             .edge-hint.show { opacity: 0.9; }
         }
 
-        /* Floating finger trail dot during drag */
         .drag-trail {
             position: fixed;
             width: 44px; height: 44px;
@@ -2393,7 +2386,7 @@
                 </div>
             </div>
 
-            <!-- TABS AT BOTTOM (glossy floating) -->
+            <!-- TABS AT BOTTOM (floating pills only) -->
             <div class="panel-tabbar" role="tablist" aria-label="Panel switcher">
                 <button class="panel-tab active ripple-host" type="button" role="tab" data-panel-tab="notice" aria-selected="true">
                     <i class="ri-notification-3-line" aria-hidden="true"></i>
@@ -2967,6 +2960,7 @@
             rightPanelIcon: $('#rightPanelIcon'), rightPanelTitle: $('#rightPanelTitle'),
             rightPanelSubtitle: $('#rightPanelSubtitle'),
             panelSlider: $('#panelSlider'),
+            panelViewport: document.querySelector('.panel-viewport'),
             noticeContainer: $('#noticeContainer'),
             documentsContainer: $('#documentsContainer'),
             docSearchInput: $('#docSearchInput'), docFilters: $('#docFilters'),
@@ -3073,6 +3067,8 @@
                     slider.style.transition = 'none';
                 }
 
+                // Clear any inline transform left by the drag gesture
+                slider.style.transform = '';
                 slider.setAttribute('data-active', which);
                 DOM.rightPanel.setAttribute('data-active-tab', which);
 
@@ -3179,6 +3175,9 @@
                 e.stopPropagation();
                 const target = btn.getAttribute('data-panel-tab');
                 RightPanel.setTab(target, true);
+                // The viewport can be nudged by an overflow scroll; lock it back
+                setTimeout(lockPanelViewport, 0);
+                setTimeout(lockPanelViewport, 480);
             });
             btn.addEventListener('keydown', function (e) {
                 if (e.key === 'ArrowLeft') {
@@ -3210,48 +3209,148 @@
             setTimeout(function () { RightPanel.open('documents'); }, 120);
         });
 
-        /* ============================================================
-           PANEL INTERNAL SWIPE with real-world drag physics
-           ============================================================ */
+        // ============================================================
+        // PANEL VIEWPORT LOCK — prevents the "half-way left" bug
+        // ============================================================
+        function lockPanelViewport() {
+            const vp = DOM.panelViewport;
+            if (!vp) return;
+            if (vp.scrollLeft !== 0) vp.scrollLeft = 0;
+            if (vp.scrollTop !== 0) vp.scrollTop = 0;
+        }
+        if (DOM.panelViewport) {
+            DOM.panelViewport.addEventListener('scroll', lockPanelViewport, { passive: true });
+        }
+
+        // ============================================================
+        // PANEL SWIPE — same finger-following physics as the edge menus
+        // ============================================================
         (function setupPanelSwipe() {
             const el = DOM.rightPanel;
-            let sx = 0, sy = 0, tracking = false, lock = false;
+            const slider = DOM.panelSlider;
+            if (!el || !slider) return;
+
+            let sx = 0, sy = 0, dx = 0;
+            let tracking = false, decided = false, horizontal = false;
+            let settleTimer = null;
+
+            function basePercent(which) {
+                return which === 'documents' ? '-50%' : '0%';
+            }
+
+            function clearSettle() {
+                if (settleTimer) { clearTimeout(settleTimer); settleTimer = null; }
+            }
+
+            function resetSlider() {
+                clearSettle();
+                slider.style.transition = '';
+                slider.style.transform = '';
+                void slider.offsetWidth;
+                slider.style.transition = '';
+                lockPanelViewport();
+            }
 
             el.addEventListener('touchstart', function (e) {
                 if (!RightPanel._isOpen || e.touches.length !== 1) { tracking = false; return; }
-                if (e.target.closest('input, textarea, .doc-menu, .doc-menu-btn, .doc-filter, .doc-toolbar-scroll')) {
-                    tracking = false; return;
+                // Skip interactive elements so taps and scroll focus keep working
+                if (e.target.closest('input, textarea, .doc-menu, .doc-menu-btn, .doc-filter, .doc-search-wrap, .doc-toolbar-scroll, .panel-tab')) {
+                    tracking = false;
+                    return;
                 }
+                clearSettle();
                 sx = e.touches[0].clientX;
                 sy = e.touches[0].clientY;
+                dx = 0;
                 tracking = true;
-                lock = false;
+                decided = false;
+                horizontal = false;
             }, { passive: true });
 
             el.addEventListener('touchmove', function (e) {
                 if (!tracking) return;
                 const t = e.touches[0];
-                const dx = t.clientX - sx;
+                dx = t.clientX - sx;
                 const dy = t.clientY - sy;
-                if (Math.abs(dy) > Math.abs(dx) * 1.2) lock = true;
+
+                if (!decided) {
+                    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+                    decided = true;
+                    horizontal = Math.abs(dx) > Math.abs(dy) * 1.15;
+                    if (horizontal) slider.style.transition = 'none';
+                }
+                if (!horizontal) return;
+
+                // Lock the viewport so no stray scroll leaks in
+                e.preventDefault();
+
+                const cur = RightPanel.current || 'notice';
+
+                // Rubber-band when pushing beyond the first / last pane
+                let d = dx;
+                if (cur === 'notice' && d > 0) d *= 0.3;
+                if (cur === 'documents' && d < 0) d *= 0.3;
+
+                const limit = el.offsetWidth || 360;
+                d = Helpers.clamp(d, -limit, limit);
+
+                // Use calc() so the base % stays correct
+                slider.style.transform = 'translateX(calc(' + basePercent(cur) + ' + ' + d.toFixed(1) + 'px))';
+                DragTrail.show(t.clientX, t.clientY);
+            }, { passive: false });
+
+            function finishDrag() {
+                tracking = false;
+                decided = false;
+                horizontal = false;
+                dx = 0;
+                DragTrail.hide();
+            }
+
+            el.addEventListener('touchend', function () {
+                if (!tracking) return;
+                const wasHorizontal = horizontal;
+                const totalDx = dx;
+                finishDrag();
+
+                if (!wasHorizontal) return;
+
+                const cur = RightPanel.current || 'notice';
+                let target = null;
+
+                if (totalDx < 0 && Math.abs(totalDx) >= CONFIG.PANEL_SWIPE_THRESHOLD && cur === 'notice') {
+                    target = 'documents';
+                } else if (totalDx > 0 && totalDx >= CONFIG.PANEL_SWIPE_THRESHOLD && cur === 'documents') {
+                    target = 'notice';
+                }
+
+                if (target && target !== cur) {
+                    // Release inline transform → CSS transition animates smoothly
+                    slider.style.transition = '';
+                    slider.style.transform = '';
+                    RightPanel.setTab(target, true);
+                    lockPanelViewport();
+                    // Safety net: force reset after animation completes
+                    clearSettle();
+                    settleTimer = setTimeout(function () {
+                        slider.style.transition = '';
+                        slider.style.transform = '';
+                        lockPanelViewport();
+                        settleTimer = null;
+                    }, 500);
+                } else if (cur === 'notice' && totalDx > CONFIG.PANEL_SWIPE_THRESHOLD * 1.5) {
+                    // Big right swipe on Notices → close panel
+                    resetSlider();
+                    RightPanel.close();
+                } else {
+                    resetSlider();
+                }
             }, { passive: true });
 
-            el.addEventListener('touchend', function (e) {
+            el.addEventListener('touchcancel', function () {
                 if (!tracking) return;
-                tracking = false;
-                if (lock) return;
-                const t = e.changedTouches[0];
-                const dx = t.clientX - sx;
-                const dy = t.clientY - sy;
-                if (Math.abs(dx) < CONFIG.PANEL_SWIPE_THRESHOLD) return;
-                if (Math.abs(dx) < Math.abs(dy) * 1.3) return;
-
-                if (dx < 0) {
-                    if (RightPanel.current === 'notice') RightPanel.setTab('documents', true);
-                } else {
-                    if (RightPanel.current === 'documents') RightPanel.setTab('notice', true);
-                    else RightPanel.close();
-                }
+                finishDrag();
+                resetSlider();
             }, { passive: true });
         })();
 
@@ -3862,13 +3961,28 @@
                 State.docSearchQuery = this.value || '';
                 renderDocuments(State.documents);
             }, 200));
-            // Prevent keyboard from auto-opening dropdowns
             DOM.docSearchInput.addEventListener('focus', function () {
                 setTimeout(function () { DOM.docSearchInput.select(); }, 50);
             });
         }
 
-        // Filters — clicking scrolls the chip into view + renders
+        // ============================================================
+        // FILTER CHIPS — scroll into view via a custom helper
+        // (avoids scrollIntoView breaking the panel layout)
+        // ============================================================
+        function scrollToolbarChipIntoView(btn) {
+            const scroller = DOM.docToolbarScroll;
+            if (!scroller || !btn) return;
+            const target = btn.offsetLeft - (scroller.clientWidth - btn.offsetWidth) / 2;
+            const max = scroller.scrollWidth - scroller.clientWidth;
+            const left = Math.max(0, Math.min(target, max));
+            try {
+                scroller.scrollTo({ left: left, behavior: 'smooth' });
+            } catch (e) {
+                scroller.scrollLeft = left;
+            }
+        }
+
         if (DOM.docFilters) {
             DOM.docFilters.addEventListener('click', function (e) {
                 const btn = e.target.closest('.doc-filter');
@@ -3879,19 +3993,14 @@
                 btn.classList.add('active');
                 State.docFilter = btn.getAttribute('data-filter') || 'all';
                 renderDocuments(State.documents);
-                // Smoothly scroll the active chip into view
-                try {
-                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } catch (err) { }
+                scrollToolbarChipIntoView(btn);
+                lockPanelViewport();
             });
         }
 
-        // Doc toolbar shadow when scrolled
         if (DOM.docToolbarScroll) {
             DOM.docToolbarScroll.addEventListener('scroll', function () {
-                if (!DOM.docToolbar) return;
-                const left = this.scrollLeft;
-                DOM.docToolbar.classList.toggle('scrolled', left > 4);
+                // intentionally empty — no white-box shadow anymore
             }, { passive: true });
         }
 
@@ -4726,7 +4835,6 @@
                 document.addEventListener('touchcancel', this.onTouchEnd.bind(this), { passive: true });
             },
             _computeEdgeHint: function () {
-                // Show subtle edge hints only when relevant panels are closed
                 if (!DOM.edgeHintRight || !DOM.edgeHintLeft) return;
                 const rightOpen = DOM.rightPanel.classList.contains('active');
                 const sidebarOpen = DOM.sidebar.classList.contains('active');
@@ -4799,7 +4907,6 @@
                     DOM.sidebarOverlay.style.visibility = 'visible';
                 }
 
-                // Hand-following trail
                 if (State.isDragging) {
                     DragTrail.show(State.touchCurrentX, State.touchCurrentY);
                 }
@@ -4815,7 +4922,6 @@
                 const wasDraggingRightPanel = State.isDraggingRightPanel;
                 const verticalLock = State.verticalSwipeLock;
 
-                // Cleanup + snap-back animations
                 if (DOM.sidebar) {
                     DOM.sidebar.style.transition = '';
                     DOM.sidebar.style.transform = '';
@@ -4855,7 +4961,6 @@
         };
         Gestures.init();
 
-        // Show edge hints briefly on first visit
         setTimeout(function () {
             Gestures._computeEdgeHint();
             setTimeout(function () {
@@ -5029,8 +5134,11 @@
 
             // Restore last-used right-panel tab without animation
             RightPanel.current = null;
-            DOM.panelSlider.setAttribute('data-active', RightPanel.getLast());
-            DOM.rightPanel.setAttribute('data-active-tab', RightPanel.getLast());
+            const lastTab = RightPanel.getLast();
+            DOM.panelSlider.setAttribute('data-active', lastTab);
+            DOM.rightPanel.setAttribute('data-active-tab', lastTab);
+            DOM.panelSlider.style.transform = '';
+            lockPanelViewport();
 
             await Promise.all([
                 fetchSchoolInfo(),

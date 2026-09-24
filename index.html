@@ -1456,7 +1456,7 @@
             display: flex; align-items: center; justify-content: center;
             text-align: center; overflow: hidden; border-radius: 0;
             color: #fff;
-            background: linear-gradient(135deg, rgba(253, 156, 11, 0.1), rgba(245, 176, 65, 0.2)),
+            background: linear-gradient(135deg, rgba(253, 156, 11, 0.2), rgba(245, 176, 65, 0.3)),
                 url("banner.jpg") center/cover no-repeat;
             isolation: isolate;
         }
@@ -1522,7 +1522,7 @@
             background: #f1c40f; animation: blink 0.8s step-end infinite;
             vertical-align: text-bottom; margin-left: 2px;
         }
-        @keyframes blink { 50% { border-color: transparent; } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .hero-description {
             max-width: 500px; margin: 0 auto 16px;
             color: rgba(255, 255, 255, 0.9);
@@ -1570,6 +1570,84 @@
         .hero-stat-mini .label {
             font-size: 0.875rem; text-transform: uppercase;
             opacity: 0.7; letter-spacing: 0.06em;
+        }
+
+        /* ===== HERO / TICKER POLISH ===== */
+        #hero {
+            min-height: clamp(620px, 86vh, 820px);
+            background-position: center center;
+            background-attachment: scroll;
+        }
+        #hero::after {
+            content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                linear-gradient(180deg, rgba(5,10,20,.16) 0%, rgba(5,10,20,.08) 42%, rgba(5,10,20,.34) 100%),
+                radial-gradient(circle at 50% 25%, rgba(255,255,255,.08), transparent 42%);
+        }
+        .hero-overlay { margin-top: 0; background: rgba(0,0,0,.035); }
+        .hero-content { max-width: 760px; will-change: transform, opacity; }
+        .hero-logo-wrap { transform: translateZ(0); filter: drop-shadow(0 18px 32px rgba(0,0,0,.18)); }
+        .hero-title, .hero-motto, .hero-description, .hero-actions, .hero-stats-mini {
+            animation: heroContentIn .7s var(--snap) both;
+        }
+        .hero-motto { animation-delay: 70ms; }
+        .hero-description { animation-delay: 120ms; }
+        .hero-actions { animation-delay: 170ms; }
+        .hero-stats-mini { animation-delay: 220ms; }
+        @keyframes heroContentIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notice-ticker {
+            position: relative; display: flex; align-items: center; gap: 0;
+            min-height: 54px; margin-bottom: 12px; padding: 0 8px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,.34); border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.52)), var(--surface);
+            box-shadow: 0 12px 34px rgba(15,23,42,.10), inset 0 1px 0 rgba(255,255,255,.85);
+            backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            transform: translateZ(0);
+        }
+        .nt-label {
+            position: relative; z-index: 2; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px;
+            min-height: 36px; padding: 0 12px; border-radius: 12px; color: var(--primary);
+            background: rgba(255,255,255,.72); box-shadow: 0 4px 12px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.9);
+        }
+        .nt-track {
+            position: relative; flex: 1 1 auto; min-width: 0; overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+        }
+        .nt-move {
+            display: inline-flex; width: max-content; animation: ntScroll 22s linear infinite;
+            will-change: transform; transform: translate3d(0,0,0);
+        }
+        .nt-item {
+            display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px;
+            font-size: .86rem; font-weight: 600; color: var(--text); white-space: nowrap; cursor: pointer;
+            transition: color .25s ease, transform .25s ease;
+        }
+        .nt-item:hover { color: var(--primary-dark); }
+        .nt-item i { color: var(--primary); flex: 0 0 auto; }
+        .nt-title { overflow: hidden; text-overflow: ellipsis; }
+        .nt-item em { font-style: normal; font-size: .74rem; font-weight: 500; color: var(--text-light); flex: 0 0 auto; }
+        .nt-all {
+            position: relative; z-index: 2; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 3px;
+            min-height: 36px; padding: 0 11px; border-radius: 12px; color: var(--primary-dark);
+            font-size: .78rem; font-weight: 700; background: rgba(255,255,255,.72); box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+        }
+        body.dark .notice-ticker {
+            border-color: rgba(255,255,255,.08);
+            background: linear-gradient(180deg, rgba(30,41,59,.84), rgba(30,41,59,.68));
+            box-shadow: 0 14px 38px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        body.dark .nt-label, body.dark .nt-all { background: rgba(255,255,255,.08); }
+        @media (max-width: 560px) {
+            .notice-ticker { min-height: 50px; border-radius: 16px; padding: 0 6px; }
+            .nt-label { padding: 0 9px; font-size: .78rem; }
+            .nt-item { padding: 0 13px; font-size: .78rem; }
+            .nt-item em { font-size: .68rem; }
+            .nt-all { padding: 0 8px; font-size: .72rem; }
         }
 
         /* ============================================================
@@ -2397,31 +2475,64 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
     border: 1px solid rgba(255, 255, 255, 0.35); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 10px 24px -14px rgba(0, 0, 0, 0.6);
 }
 .hero-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.7); }
-.hero-title { font-size: clamp(2rem, 7.4vw, 3.8rem); letter-spacing: -0.025em; margin-bottom: 14px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.45); }
-.hero-motto { font-size: clamp(1.05rem, 3.6vw, 1.55rem); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); min-height: 2.2rem; }
+.hero-title { font-size: clamp(2rem, 7.4vw, 3.9rem); letter-spacing: -0.025em; margin-bottom: 14px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.45); }
+.hero-motto { font-size: clamp(1.05rem, 3.6vw, 1.65rem); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); min-height: 2.2rem; }
 .hero-motto .type-cursor { animation: caret 0.9s steps(1) infinite; }
 @keyframes caret { 50% { opacity: 0; } }
-.hero-description { font-size: clamp(0.92rem, 2.5vw, 1.05rem); color: rgba(255, 255, 255, 0.93); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); max-width: 540px; }
-
-.hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 430px; margin: 26px auto 0; }
-.hero-action-btn { width: 100%; padding: 0 12px; }
-.hero-action-btn span { white-space: nowrap; }
-@media (min-width: 560px) {
-    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; max-width: none; gap: 12px; }
-    .hero-action-btn { width: auto; padding: 0 26px; min-height: 50px; font-size: 0.9375rem; }
-}
-@media (max-width: 359px) { .hero-action-btn { font-size: 0.875rem; padding: 0 8px; gap: 6px; } }
+.hero-description { font-size: clamp(0.92rem, 2.5vw, 1.15rem); color: rgba(255, 255, 255, 0.93); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); max-width: 540px; }
 
 .hero-stats-mini {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-    max-width: 470px; margin: 26px auto 0; padding: 16px 6px; border-radius: 26px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
-    border: 1px solid rgba(255, 255, 255, 0.32);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 24px 44px -20px rgba(0, 0, 0, 0.65);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, 430px);
+    margin-top: 14px;
+    margin-bottom: -15px;
+    padding: 4px 0;
+    background: transparent;
 }
-.hero-stat-mini + .hero-stat-mini { border-left: 1px solid rgba(255, 255, 255, 0.22); }
-.hero-stat-mini .num { font-size: clamp(1.4rem, 5vw, 1.9rem); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.15; }
-.hero-stat-mini .label { font-size: 0.75rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.1em; }
+.hero-stat-mini {
+    position: relative;
+    min-width: 0;
+    padding: 6px 14px 8px;
+    text-align: center;
+    color: #fff;
+    isolation: isolate;
+    transition: transform .25s ease, filter .25s ease;
+}
+.hero-stat-mini:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 18%; right: 0;
+    width: 1px; height: 64%;
+    background: linear-gradient(transparent, rgba(255,255,255,.42), transparent);
+}
+.hero-stat-mini:hover { transform: translateY(-3px); filter: brightness(1.08); }
+.hero-stat-mini .stat-dot {
+    display: block;
+    width: 6px; height: 6px;
+    margin: 0 auto 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 0 0 4px rgba(255,255,255,.09), 0 0 16px rgba(255,255,255,.42);
+}
+.hero-stat-mini .num {
+    display: block;
+    font-size: clamp(1.35rem, 4.2vw, 1.65rem);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -.025em;
+    text-shadow: 0 3px 16px rgba(0,0,0,.28);
+}
+.hero-stat-mini .label {
+    display: block;
+    margin-top: 6px;
+    font-size: .62rem;
+    font-weight: 600;
+    opacity: .72;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
 
 .hero-scroll {
     position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%); z-index: 3;
@@ -2433,8 +2544,8 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
 /* =====================================================================
    NOTICE TICKER + QUICK ACCESS (floats over the hero's bottom edge)
    ===================================================================== */
-.quick-wrap { position: relative; z-index: 5; width: calc(100% - 20px); max-width: 1180px; margin: -70px auto 6px; }
-@media (min-width: 768px) { .quick-wrap { width: calc(100% - 48px); margin-top: -76px; } }
+.quick-wrap { position: relative; z-index: 5; width: calc(100% - 20px); max-width: 1180px; margin: -92px auto 6px; }
+@media (min-width: 768px) { .quick-wrap { width: calc(100% - 48px); margin-top: -100px; } }
 
 .notice-ticker {
     display: flex; align-items: center; gap: 10px; padding: 6px; margin-bottom: 12px;
@@ -2941,11 +3052,11 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     .hero-motto { font-size: 1.4rem; }
     .hero-description { max-width: 580px; font-size: 1.12rem; }
     .hero-actions { justify-content: flex-start; margin: 30px 0 0; }
-    .hero-stats-mini { justify-self: stretch; width: 100%; max-width: 540px; margin: 34px 0 0; padding: 20px 8px; }
+    .hero-stats-mini { justify-self: stretch; width: 100%; max-width: 540px; margin: 14px 0 0; padding: 8px 8px; }
     .hero-stat-mini .num { font-size: 2.2rem; }
 
     /* --- Content --- */
-    .quick-wrap { width: calc(100% - 64px); margin-top: -96px; }
+    .quick-wrap { width: calc(100% - 64px); margin-top: -118px; }
     .section { width: calc(100% - 64px); margin: 28px auto; padding: 76px 0; border-radius: 44px; }
     .section-title { font-size: 1.9rem; }
     .about-grid { gap: 56px; align-items: center; }
@@ -3351,28 +3462,13 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                         <div class="hero-logo-wrap">
                             <img src="logo.png" class="hero-logo" alt="Pabitra Secondary School Logo" width="140" height="140" fetchpriority="high" decoding="async">
                         </div>
-                        <p class="hero-badge"><span aria-hidden="true">🏫</span> Estd.: 2040 B.S. <span class="hero-badge-dot" aria-hidden="true"></span> Doti, Nepal</p>
                         <h1 class="hero-title">Pabitra Secondary <span>School</span></h1>
+                      <p class="hero-badge"><span aria-hidden="true">🏫</span> Estd.: 2040 B.S. <span class="hero-badge-dot" aria-hidden="true"></span> Doti, Nepal</p>
                         <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.<span class="type-cursor" aria-hidden="true"></span></h2>
                         <p class="hero-description">
                             Welcome to our learning campus. Access notices, download study documents, explore the
                             gallery, and connect with modern academic excellence.
                         </p>
-
-                        <div class="hero-actions">
-                            <a href="#academics" class="hero-action-btn primary ripple-host">
-                                <i class="ri-graduation-cap-line" aria-hidden="true"></i><span>Our Programs</span>
-                            </a>
-                            <a href="calendar.html" class="hero-action-btn glass ripple-host" aria-label="View school calendar">
-                                <i class="ri-calendar-2-line" aria-hidden="true"></i><span>School Calendar</span>
-                            </a>
-                            <button type="button" class="hero-action-btn glass ripple-host" data-qa="notices">
-                                <i class="ri-notification-3-line" aria-hidden="true"></i><span>Notices</span>
-                            </button>
-                            <a href="#contact" class="hero-action-btn glass ripple-host">
-                                <i class="ri-chat-smile-3-line" aria-hidden="true"></i><span>Contact Us</span>
-                            </a>
-                        </div>
 
                         <div class="hero-stats-mini">
                             <div class="hero-stat-mini"><span class="num" id="heroStudents">1050+</span><span class="label">Students</span></div>
@@ -4686,7 +4782,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             const total = totalPages();
             DOM.galleryPrev.disabled = (page === 0);
             DOM.galleryNext.disabled = (page >= total - 1);
-            DOM.galleryPageIndicator.textContent = 'Page ' + (page + 1) + ' / ' + total;
+            DOM.galleryPageIndicator.textContent = (page + 1) + ' / ' + total;
             State.galleryCurrentPage = page;
         }
 
@@ -6316,22 +6412,45 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             function buildTicker(list) {
                 var wrap = $('#noticeTicker'), move = $('#ntMove');
                 var sub = $('#qcNoticeSub');
-                var all = (list || []).filter(function (n) { return n && n.title; });
-                if (sub) sub.textContent = all.length ? all.length + (all.length === 1 ? ' update' : ' updates') : 'Latest updates';
+
+                // Keep the hero ticker focused: only the 3 newest notices are shown.
+                // Sorting here also protects the ticker if an unsorted array is passed in.
+                var all = (list || [])
+                    .filter(function (n) { return n && n.title; })
+                    .slice()
+                    .sort(function (a, b) {
+                        return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
+                    });
+                var latest = all.slice(0, 3);
+
+                if (sub) {
+                    sub.textContent = all.length
+                        ? all.length + (all.length === 1 ? ' update' : ' updates')
+                        : 'Latest updates';
+                }
                 if (!wrap || !move) return;
-                if (!all.length) { wrap.hidden = true; return; }
+                if (!latest.length) {
+                    wrap.hidden = true;
+                    move.innerHTML = '';
+                    return;
+                }
+
                 function html(hidden) {
-                    return all.slice(0, 6).map(function (n) {
-                        return '<button type="button" class="nt-item" data-qa="notices"' + (hidden ? ' aria-hidden="true" tabindex="-1"' : '') + '>' +
-                            '<i class="ri-notification-3-line" aria-hidden="true"></i>' + esc(n.title) +
+                    return latest.map(function (n) {
+                        return '<button type="button" class="nt-item" data-qa="notices"' +
+                            (hidden ? ' aria-hidden="true" tabindex="-1"' : '') + '>' +
+                            '<i class="ri-notification-3-line" aria-hidden="true"></i>' +
+                            '<span class="nt-title">' + esc(n.title) + '</span>' +
                             '<em>' + esc(Helpers.timeAgo(n.date)) + '</em></button>';
                     }).join('');
                 }
+
+                // Duplicate the same 3 notices so the marquee loops seamlessly.
                 move.innerHTML = html(false) + html(true);
                 wrap.hidden = false;
                 requestAnimationFrame(function () {
-                    var w = move.scrollWidth / 2;
-                    move.style.animationDuration = Math.max(18, Math.round(w / 55)) + 's';
+                    var w = Math.max(1, move.scrollWidth / 2);
+                    move.style.animationDuration = Math.max(14, Math.round(w / 48)) + 's';
                 });
             }
             if (typeof window.renderNotices === 'function') {

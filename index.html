@@ -20,7 +20,11 @@
     <link rel="canonical" href="https://psbs.edu.np/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://ikeexzsjsksyhdfflwqe.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    <link rel="preload" as="image" href="banner.jpg" fetchpriority="high" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
     <link rel="icon" type="image/png" href="school.jpg" />
@@ -65,7 +69,8 @@
 
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Softer spring — less overshoot on tap */
+            --spring: cubic-bezier(0.34, 1.2, 0.64, 1);
             --snap: cubic-bezier(0.16, 1, 0.3, 1);
 
             --sb-width: 85vw;
@@ -224,13 +229,6 @@
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
             opacity: 0.7; z-index: 1;
         }
-        .glossy-btn:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow:
-                0 8px 22px rgba(15, 23, 42, 0.14),
-                0 2px 4px rgba(15, 23, 42, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9);
-        }
         .glossy-btn:active { transform: translateY(0) scale(0.95); }
 
         body.dark .glossy-btn {
@@ -317,7 +315,7 @@
             color: var(--text); transition: all 0.3s var(--snap);
             font-size: 1.1rem; cursor: pointer;
         }
-        .modal-card .modal-close-btn:hover { background: rgba(239, 68, 68, 0.1); color: #EF4444; transform: rotate(90deg); }
+        .modal-card .modal-close-btn:active { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
 
         .edit-modal-card .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
         .edit-modal-card .modal-actions .cancel-btn {
@@ -336,7 +334,7 @@
             display: flex; align-items: center; justify-content: center; gap: 6px;
             cursor: pointer; border: none;
         }
-        .edit-modal-card .modal-actions .save-btn:hover { transform: translateY(-2px) scale(1.02); }
+        .edit-modal-card .modal-actions .save-btn:active { transform: scale(0.97); }
         .edit-modal-card .modal-actions .save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         .name-modal-card { text-align: center; }
@@ -390,7 +388,7 @@
             box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
             animation: slideUp 0.5s 0.3s both; border: none; cursor: pointer;
         }
-        .welcome-card .welcome-btn:hover { transform: translateY(-2px) scale(1.03); }
+        .welcome-card .welcome-btn:active { transform: scale(0.96); }
 
         /* ===== LIGHTBOX ===== */
         .lightbox-overlay {
@@ -411,7 +409,7 @@
             transition: all 0.3s var(--snap);
             z-index: 10; cursor: pointer; backdrop-filter: blur(8px);
         }
-        .lightbox-overlay .lightbox-close:hover { background: rgba(239, 68, 68, 0.7); transform: scale(1.05) rotate(90deg); }
+        .lightbox-overlay .lightbox-close:hover { background: rgba(239, 68, 68, 0.7); }
         .lightbox-overlay .lightbox-img-wrap {
             position: relative; width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center; overflow: hidden;
@@ -473,7 +471,7 @@
             background: var(--surface-solid); aspect-ratio: 3/4;
             cursor: pointer; will-change: transform;
         }
-        .gallery-item:hover { transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-lg); z-index: 2; }
+        .gallery-item:active { transform: scale(0.98); }
         .gallery-item::after {
             content: '🔍'; position: absolute; bottom: 10px; right: 10px;
             font-size: 1.2rem; opacity: 0; transform: scale(0.5);
@@ -482,14 +480,12 @@
             border-radius: var(--radius-full); width: 36px; height: 36px;
             display: grid; place-items: center; color: #fff; pointer-events: none;
         }
-        .gallery-item:hover::after { opacity: 1; transform: scale(1); }
         .gallery-item img {
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.7s var(--snap), opacity 0.5s ease;
             opacity: 0;
         }
         .gallery-item img.loaded { opacity: 1; }
-        .gallery-item:hover img { transform: scale(1.06); }
         .gallery-item .gallery-loader {
             position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
             background: var(--background); z-index: 1; transition: opacity 0.4s ease;
@@ -526,7 +522,6 @@
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
             pointer-events: none;
         }
-        .gallery-pagination button:hover:not(:disabled) { transform: translateY(-2px) scale(1.03); box-shadow: 0 10px 26px rgba(243, 156, 18, 0.38); }
         .gallery-pagination button:active:not(:disabled) { transform: scale(0.95); }
         .gallery-pagination button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
         .gallery-pagination .page-indicator {
@@ -640,7 +635,6 @@
             height: 40%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
-        .submit-btn:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 10px 28px rgba(243, 156, 18, 0.4); }
         .submit-btn:active { transform: scale(0.96); }
 
         /* ============================================================
@@ -714,15 +708,6 @@
                 0 4px 12px rgba(0,0,0,0.35),
                 inset 0 1px 0 rgba(255,255,255,0.12);
         }
-        .header-theme-presets-btn:hover,
-        .header-theme-toggle-btn:hover,
-        .menu-btn:hover,
-        .notice-btn:hover {
-            background: var(--primary-gradient); color: #fff;
-            border-color: transparent;
-            transform: translateY(-2px) scale(1.08);
-            box-shadow: 0 10px 24px rgba(243, 156, 18, 0.35);
-        }
         .menu-btn:active,
         .notice-btn:active,
         .header-theme-toggle-btn:active,
@@ -737,7 +722,7 @@
                 0 4px 14px rgba(243, 156, 18, 0.32),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
-        .profile-btn:hover { transform: translateY(-2px) scale(1.08); box-shadow: 0 10px 22px rgba(243, 156, 18, 0.45); }
+        .profile-btn:active { transform: scale(0.92); }
 
         .notice-btn { position: relative; }
         .notice-badge {
@@ -775,7 +760,7 @@
             border-radius: var(--radius-full);
             transition: transform 0.3s var(--spring), box-shadow 0.3s ease;
         }
-        .dropdown-avatar-wrap:hover { transform: scale(1.06); box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.18); }
+        .dropdown-avatar-wrap:active { transform: scale(0.95); }
         .dropdown-avatar-wrap .avatar-edit-badge {
             position: absolute; bottom: -2px; right: -2px;
             width: 20px; height: 20px; border-radius: var(--radius-full);
@@ -804,8 +789,8 @@
             display: inline-flex; align-items: center; justify-content: center;
             width: 20px; height: 20px;
         }
-        .dropdown-user-meta .name-row .edit-name-icon:hover {
-            color: var(--primary); background: rgba(243, 156, 18, 0.08); transform: scale(1.18) rotate(-6deg);
+        .dropdown-user-meta .name-row .edit-name-icon:active {
+            transform: scale(0.9);
         }
         .dropdown-user-meta span {
             font-size: 0.55rem; font-weight: 600; color: var(--primary);
@@ -817,19 +802,19 @@
             display: flex; align-items: center; gap: 10px;
             padding: 8px 14px; color: var(--text);
             font-size: 0.75rem; font-weight: 500;
-            transition: all 0.25s ease; width: 100%; text-align: left;
+            transition: background 0.25s ease, color 0.25s ease;
+            width: 100%; text-align: left;
             cursor: pointer; border: none; background: none;
             position: relative;
         }
         .dropdown-item i {
             font-size: 0.9rem; color: var(--text-light);
             width: 20px; text-align: center; flex-shrink: 0;
-            transition: transform 0.3s var(--spring);
+            transition: transform 0.3s var(--spring), color 0.25s ease;
         }
-        .dropdown-item:hover { background: rgba(243, 156, 18, 0.05); color: var(--primary); }
-        .dropdown-item:hover i { transform: scale(1.15) translateX(2px); color: var(--primary); }
+        .dropdown-item:active { background: rgba(243, 156, 18, 0.08); }
         .dropdown-item.danger { color: #EF4444; }
-        .dropdown-item.danger:hover { background: rgba(239, 68, 68, 0.05); }
+        .dropdown-item.danger:active { background: rgba(239, 68, 68, 0.08); }
         .dropdown-item .login-role-tag {
             font-size: 0.5rem; font-weight: 700; text-transform: uppercase;
             letter-spacing: 0.04em; background: rgba(243, 156, 18, 0.08);
@@ -981,9 +966,8 @@
                 inset 0 1px 0 rgba(255,255,255,0.14);
         }
         .panel-tab i { font-size: 1rem; position: relative; z-index: 1; }
-        .panel-tab span { position: relative; z-index: 1; }
-        .panel-tab:hover { transform: translateY(-2px) scale(1.04); }
-        .panel-tab:active { transform: translateY(0) scale(0.94); }
+        .panel-tab > span:not(.ripple) { position: relative; z-index: 1; }
+        .panel-tab:active { transform: scale(0.94); }
         .panel-tab.active {
             background: var(--primary-gradient);
             color: #fff;
@@ -1081,11 +1065,10 @@
             background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));
             box-shadow: 0 4px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
         }
-        .sidebar-close:hover, .notice-close:hover, .doc-close:hover {
+        .sidebar-close:active, .notice-close:active, .doc-close:active {
             background: linear-gradient(135deg, #EF4444, #F87171); color: #fff;
             border-color: transparent;
-            transform: rotate(90deg) scale(1.06);
-            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+            transform: scale(0.9);
         }
 
         .sidebar-body {
@@ -1116,13 +1099,10 @@
             position: relative; overflow: hidden; width: 100%;
             text-align: left; font-size: 0.8rem; font-weight: 500;
         }
-        .sidebar-links a::after, .sidebar-link-btn::after {
-            content: ''; position: absolute; bottom: 0; left: 0;
-            width: 0; height: 2px; background: var(--primary-gradient);
-            transition: width 0.4s var(--snap);
+        .sidebar-links a:active, .sidebar-link-btn:active {
+            background: rgba(243, 156, 18, 0.08);
+            transform: scale(0.985);
         }
-        .sidebar-links a:hover::after, .sidebar-link-btn:hover::after, .sidebar-links a.active::after { width: 100%; }
-        .sidebar-links a:hover, .sidebar-link-btn:hover { background: rgba(243, 156, 18, 0.04); transform: translateX(3px); }
 
         .sidebar-links a .nav-icon-wrapper, .sidebar-link-btn .nav-icon-wrapper {
             width: 28px; height: 28px; border-radius: 6px;
@@ -1130,9 +1110,6 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 1rem; color: var(--text); flex-shrink: 0;
             transition: all 0.4s var(--spring);
-        }
-        .sidebar-links a:hover .nav-icon-wrapper, .sidebar-link-btn:hover .nav-icon-wrapper {
-            transform: scale(1.08) rotate(-6deg);
         }
         .sidebar-links a .nav-title, .sidebar-link-btn .nav-title { font-size: 0.8rem; font-weight: 500; color: var(--text); }
 
@@ -1169,12 +1146,11 @@
             padding: 14px 14px; text-align: left;
             border-left: 3px solid var(--primary);
             box-shadow: var(--shadow-sm);
-            transition: all 0.4s var(--spring);
+            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(8px); cursor: pointer;
             animation: fadeUp 0.5s var(--snap) both;
         }
-        .update-card:hover { transform: translateY(-3px) scale(1.01); box-shadow: var(--shadow-md); }
         .update-card:active { transform: scale(0.985); }
         .update-label {
             display: inline-block; padding: 2px 10px; border-radius: 999px;
@@ -1314,8 +1290,7 @@
                 0 4px 12px rgba(0,0,0,0.35),
                 inset 0 1px 0 rgba(255,255,255,0.12);
         }
-        .doc-filter:hover { transform: translateY(-2px) scale(1.04); color: var(--primary); }
-        .doc-filter:active { transform: translateY(0) scale(0.94); }
+        .doc-filter:active { transform: scale(0.94); }
         .doc-filter.active {
             background: var(--primary-gradient);
             color: #fff;
@@ -1333,12 +1308,11 @@
             padding: 12px; border-radius: var(--radius-md);
             background: var(--surface-solid); border: 1px solid var(--border);
             box-shadow: var(--shadow-xs);
-            transition: all 0.4s var(--spring);
+            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap), border-color 0.3s ease;
             cursor: pointer;
             animation: fadeUp 0.5s var(--snap) both;
             position: relative;
         }
-        .doc-card:hover { transform: translateY(-3px) scale(1.01); box-shadow: var(--shadow-md); border-color: var(--primary); }
         .doc-card:active { transform: scale(0.985); }
         .doc-card.menu-active { z-index: 1000; }
 
@@ -1352,7 +1326,6 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.25);
             transition: transform 0.4s var(--spring);
         }
-        .doc-card:hover .doc-file-icon { transform: scale(1.06) rotate(-4deg); }
         .doc-file-icon.pdf { background: linear-gradient(135deg, #e74c3c, #ff8b7b); }
         .doc-file-icon.doc { background: linear-gradient(135deg, #2563eb, #60a5fa); }
         .doc-file-icon.ppt { background: linear-gradient(135deg, #ea580c, #fb923c); }
@@ -1401,10 +1374,9 @@
             border-color: rgba(255,255,255,0.08);
             background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));
         }
-        .doc-menu-btn:hover, .doc-menu-btn[aria-expanded="true"] {
+        .doc-menu-btn[aria-expanded="true"] {
             background: var(--primary-gradient); color: #fff; border-color: transparent;
             box-shadow: 0 8px 18px rgba(243, 156, 18, 0.35);
-            transform: scale(1.05);
         }
         .doc-menu-btn:active { transform: scale(0.9); }
 
@@ -1435,17 +1407,15 @@
             font-size: 0.78rem; font-weight: 500; color: var(--text);
             background: none; border: none; cursor: pointer;
             text-align: left;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s var(--spring);
+            transition: background 0.2s ease, color 0.2s ease;
         }
         .doc-menu-item i {
             font-size: 0.95rem; color: var(--text-light);
             width: 18px; text-align: center;
-            transition: transform 0.25s var(--spring);
         }
-        .doc-menu-item:hover { background: rgba(243, 156, 18, 0.08); color: var(--primary); }
-        .doc-menu-item:hover i { color: var(--primary); transform: scale(1.15); }
+        .doc-menu-item:active { background: rgba(243, 156, 18, 0.08); }
         .doc-menu-item.danger { color: #EF4444; }
-        .doc-menu-item.danger:hover { background: rgba(239, 68, 68, 0.08); }
+        .doc-menu-item.danger:active { background: rgba(239, 68, 68, 0.08); }
         .doc-menu-item.danger i { color: #EF4444; }
 
         .doc-empty { text-align: center; padding: 48px 16px; color: var(--text-light); }
@@ -1567,11 +1537,11 @@
             display: inline-flex; align-items: center; gap: 8px;
             padding: 10px 22px; border-radius: 999px;
             background: var(--primary-gradient); color: #fff; border: none;
-            font-size: 0.85rem; font-weight: 700; letter-spacing: 0.02em;
+            font-size: 0.95rem; font-weight: 800; letter-spacing: 0.02em;
             box-shadow:
                 0 8px 22px rgba(243, 156, 18, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.4s var(--spring);
+            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap);
             cursor: pointer; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
             position: relative; overflow: hidden;
         }
@@ -1585,9 +1555,8 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 8px 20px rgba(0,0,0,0.14);
         }
-        .hero-action-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 32px rgba(243, 156, 18, 0.5); }
         .hero-action-btn:active { transform: scale(0.95); }
-        @media (max-width: 420px) { .hero-action-btn { padding: 10px 16px; font-size: 0.8rem; } }
+        @media (max-width: 420px) { .hero-action-btn { padding: 10px 16px; font-size: 0.9rem; } }
 
         .hero-stats-mini {
             display: flex; justify-content: center; gap: 24px;
@@ -1617,14 +1586,11 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md); padding: 16px 14px;
-            text-align: center; transition: all 0.45s var(--spring);
+            text-align: center;
+            transition: transform 0.45s var(--spring), box-shadow 0.45s var(--snap), border-color 0.3s ease;
         }
-        .academic-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: var(--shadow-lg); border-color: var(--primary);
-        }
-        .academic-icon { font-size: 1.8rem; margin-bottom: 8px; transition: transform 0.45s var(--spring); display: inline-block; }
-        .academic-card:hover .academic-icon { transform: scale(1.15) rotate(-6deg); }
+        .academic-card:active { transform: scale(0.98); }
+        .academic-icon { font-size: 1.8rem; margin-bottom: 8px; display: inline-block; }
         .academic-card h3 { font-size: 0.9rem; margin-bottom: 4px; color: var(--primary); }
         body.dark .academic-card h3 { color: #f5b041; }
         .academic-card p { font-size: 0.75rem; margin-bottom: 8px; }
@@ -1651,7 +1617,6 @@
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
             transition: transform 0.4s var(--spring);
         }
-        .feature:hover span { transform: scale(1.1) rotate(-8deg); }
         .feature h4 { margin-bottom: 2px; color: var(--text); font-size: 0.85rem; }
         .feature p { font-size: 0.75rem; margin-bottom: 0; }
 
@@ -1671,7 +1636,6 @@
             transition: transform 0.5s var(--spring);
         }
         @media (min-width: 768px) { .principal-image img { width: 130px; height: 130px; } }
-        .principal-image img:hover { transform: scale(1.05) rotate(-3deg); }
         .principal-content h3 { margin: 8px 0; color: var(--primary); font-size: 1rem; }
         body.dark .principal-content h3 { color: #f5b041; }
         .principal-content p { line-height: 1.7; font-size: 0.85rem; }
@@ -1691,9 +1655,9 @@
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md); padding: 14px 12px;
             text-align: center;
-            transition: all 0.45s var(--spring);
+            transition: transform 0.45s var(--spring), box-shadow 0.45s var(--snap);
         }
-        .faculty-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow-md); }
+        .faculty-card:active { transform: scale(0.98); }
         .faculty-card .faculty-avatar {
             width: 56px; height: 56px; margin: 0 auto 8px;
             border-radius: var(--radius-full);
@@ -1705,7 +1669,6 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
             transition: transform 0.5s var(--spring);
         }
-        .faculty-card:hover .faculty-avatar { transform: scale(1.08) rotate(-4deg); }
         .faculty-card h4 { font-size: 0.85rem; color: var(--text); }
         .faculty-card p { font-size: 0.65rem; margin: 0; color: var(--text-light); }
         .faculty-card .faculty-subject {
@@ -1729,7 +1692,7 @@
             box-shadow: var(--shadow-sm);
             transition: transform 0.45s var(--spring), box-shadow 0.45s var(--snap);
         }
-        .contact-card:hover { transform: translateX(4px) scale(1.01); box-shadow: var(--shadow-md); }
+        .contact-card:active { transform: scale(0.99); }
         .contact-icon {
             width: 38px; height: 38px; display: grid; place-items: center;
             flex-shrink: 0; font-size: 16px; color: #fff;
@@ -1740,7 +1703,6 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
             transition: transform 0.5s var(--spring);
         }
-        .contact-card:hover .contact-icon { transform: scale(1.1) rotate(-10deg); }
         .contact-card h3 { margin-bottom: 1px; color: var(--primary); font-size: 0.85rem; }
         body.dark .contact-card h3 { color: #f5b041; }
         .contact-card p { margin: 0; color: var(--text-light); font-size: 0.8rem; }
@@ -1778,7 +1740,7 @@
             font-size: 0.92rem; font-weight: 700; border: none;
             border-radius: 999px; background: var(--primary-gradient); color: #fff;
             cursor: pointer; position: relative; overflow: hidden;
-            transition: all 0.4s var(--spring);
+            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap);
             box-shadow:
                 0 8px 24px rgba(243, 156, 18, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -1790,10 +1752,8 @@
             height: 40%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
-        .contact-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 34px rgba(243, 156, 18, 0.45); }
         .contact-btn:active { transform: scale(0.96); }
-        .contact-btn .btn-icon { font-size: 1.2rem; transition: transform 0.3s ease; }
-        .contact-btn:hover .btn-icon { transform: translateX(4px) scale(1.1); }
+        .contact-btn .btn-icon { font-size: 1.2rem; }
         .contact-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
         /* ============================================================
@@ -1833,7 +1793,7 @@
             transition: all 0.4s var(--spring);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
-        .footer-social a:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-3px) scale(1.08); }
+        .footer-social a:active { transform: scale(0.92); }
         .footer-bottom {
             margin-top: 16px; padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -1854,7 +1814,7 @@
             box-shadow:
                 0 8px 22px rgba(243, 156, 18, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.4s var(--spring);
+            transition: transform 0.4s var(--spring), opacity 0.3s ease, visibility 0.3s ease;
             border: none; cursor: pointer;
             opacity: 0; visibility: hidden;
             transform: translateY(16px) scale(0.85);
@@ -1866,7 +1826,6 @@
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
         .fab-btn.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
-        .fab-btn:hover { transform: scale(1.1) translateY(-3px); box-shadow: 0 12px 30px rgba(243, 156, 18, 0.55); }
         .fab-btn:active { transform: scale(0.9); }
 
         /* ============================================================
@@ -1883,10 +1842,10 @@
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 2px solid var(--border); border-radius: var(--radius-md);
             padding: 12px 10px; text-align: center; cursor: pointer;
-            transition: all 0.4s var(--spring);
+            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap), border-color 0.3s ease;
             position: relative;
         }
-        .theme-option:hover { transform: translateY(-3px) scale(1.02); box-shadow: var(--shadow-md); border-color: var(--primary); }
+        .theme-option:active { transform: scale(0.97); }
         .theme-option.active-theme {
             border-color: var(--primary); background: rgba(243, 156, 18, 0.04);
             box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.10);
@@ -1950,11 +1909,11 @@
         .search-results { margin-top: 16px; max-height: 400px; overflow-y: auto; }
         .search-result-item {
             padding: 10px 14px; border-radius: var(--radius-sm);
-            transition: background 0.2s ease, transform 0.3s var(--spring); cursor: pointer;
+            transition: background 0.2s ease; cursor: pointer;
             display: flex; align-items: center; gap: 12px;
             border-bottom: 1px solid var(--border);
         }
-        .search-result-item:hover { background: var(--surface-hover); transform: translateX(4px); }
+        .search-result-item:active { background: var(--surface-hover); }
         .search-result-item .sri-icon { font-size: 1.2rem; color: var(--primary); }
         .search-result-item .sri-text { flex: 1; }
         .search-result-item .sri-text h4 { font-size: 0.85rem; margin: 0; color: var(--text); }
@@ -2027,6 +1986,87 @@
         }
 
         /* ============================================================
+           TOUCH DEVICE FIX — prevent stuck-hover enlargement on tap
+           ============================================================ */
+        @media (hover: none) and (pointer: coarse) {
+            .panel-tab:hover,
+            .doc-filter:hover,
+            .menu-btn:hover,
+            .notice-btn:hover,
+            .header-theme-toggle-btn:hover,
+            .header-theme-presets-btn:hover,
+            .profile-btn:hover,
+            .hero-action-btn:hover,
+            .sidebar-links a:hover,
+            .sidebar-link-btn:hover,
+            .dropdown-item:hover,
+            .doc-menu-btn:hover,
+            .doc-card:hover,
+            .academic-card:hover,
+            .faculty-card:hover,
+            .contact-card:hover,
+            .gallery-item:hover,
+            .gallery-pagination button:hover,
+            .sidebar-close:hover,
+            .notice-close:hover,
+            .doc-close:hover,
+            .footer-social a:hover,
+            .modal-card .modal-close-btn:hover,
+            .edit-modal-card .modal-actions .cancel-btn:hover,
+            .edit-modal-card .modal-actions .save-btn:hover,
+            .welcome-card .welcome-btn:hover,
+            .submit-btn:hover,
+            .contact-btn:hover,
+            .glossy-btn:hover,
+            .edit-name-icon:hover,
+            .dropdown-avatar-wrap:hover,
+            .lightbox-overlay .lightbox-close:hover,
+            .lightbox-overlay .lightbox-nav:hover {
+                transform: none !important;
+                box-shadow: inherit;
+            }
+            /* Restore active-state transforms (which SHOULD still fire) */
+            .panel-tab:active { transform: scale(0.94) !important; }
+            .doc-filter:active { transform: scale(0.94) !important; }
+            .menu-btn:active,
+            .notice-btn:active,
+            .header-theme-toggle-btn:active,
+            .header-theme-presets-btn:active { transform: scale(0.9) !important; }
+            .profile-btn:active { transform: scale(0.92) !important; }
+            .hero-action-btn:active { transform: scale(0.95) !important; }
+            .doc-menu-btn:active { transform: scale(0.9) !important; }
+            .doc-card:active { transform: scale(0.985) !important; }
+            .academic-card:active { transform: scale(0.98) !important; }
+            .faculty-card:active { transform: scale(0.98) !important; }
+            .contact-card:active { transform: scale(0.99) !important; }
+            .gallery-item:active { transform: scale(0.98) !important; }
+            .sidebar-close:active,
+            .notice-close:active,
+            .doc-close:active { transform: scale(0.9) !important; }
+            .modal-card .modal-close-btn:active { transform: scale(0.9) !important; }
+            .edit-modal-card .modal-actions .save-btn:active { transform: scale(0.97) !important; }
+            .welcome-card .welcome-btn:active { transform: scale(0.96) !important; }
+            .submit-btn:active { transform: scale(0.96) !important; }
+            .contact-btn:active { transform: scale(0.96) !important; }
+            .glossy-btn:active { transform: scale(0.95) !important; }
+            .fab-btn:active { transform: scale(0.9) !important; }
+        }
+
+        /* Also disable hover pop on fine pointers that report hover:none */
+        @media (hover: none) {
+            .panel-tab:hover,
+            .doc-filter:hover,
+            .menu-btn:hover,
+            .notice-btn:hover,
+            .header-theme-toggle-btn:hover,
+            .header-theme-presets-btn:hover,
+            .profile-btn:hover,
+            .hero-action-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* ============================================================
            PRINT
            ============================================================ */
         @media print {
@@ -2040,6 +2080,806 @@
             .section { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
         }
     </style>
+    <style id="psbs-enhance">
+/* =====================================================================
+   PSBS ENHANCEMENT LAYER
+   Glossy UI · balanced buttons · new sections · lag-free rendering
+   (loads after the base stylesheet so it refines every component)
+   ===================================================================== */
+
+/* ---------- Theme-aware colour channels (fixes gold shadows on other themes) ---------- */
+:root { --primary-rgb: 243, 156, 18; --icon-btn: 38px; --ease: cubic-bezier(0.22, 1, 0.36, 1); }
+body.theme-gold   { --primary-rgb: 243, 156, 18; }
+body.theme-cyan   { --primary-rgb: 6, 182, 212; }
+body.theme-coral  { --primary-rgb: 232, 93, 117; }
+body.theme-indigo { --primary-rgb: 79, 70, 229; }
+body.theme-red    { --primary-rgb: 231, 76, 60; }
+body.theme-rose   { --primary-rgb: 225, 29, 72; }
+body.theme-teal   { --primary-rgb: 39, 174, 158; }
+body.theme-yellow { --primary-rgb: 241, 196, 15; }
+
+/* Composite tokens live on <body> so they pick up the active theme */
+body {
+    --card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 255, 255, 0.84) 100%);
+    --panel-bg: linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
+    --glass-fill: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
+    --card-border: rgba(255, 255, 255, 0.95);
+    --card-ring: rgba(15, 23, 42, 0.07);
+    --card-shadow: 0 1px 0 #fff inset, 0 0 0 1px var(--card-ring), 0 16px 36px -18px rgba(15, 23, 42, 0.24), 0 3px 8px -4px rgba(15, 23, 42, 0.06);
+    --card-shadow-hover: 0 1px 0 #fff inset, 0 0 0 1px rgba(var(--primary-rgb), 0.3), 0 28px 48px -20px rgba(var(--primary-rgb), 0.5), 0 6px 14px -6px rgba(15, 23, 42, 0.1);
+    --btn-shadow: 0 12px 24px -10px rgba(var(--primary-rgb), 0.7), 0 2px 4px rgba(var(--primary-rgb), 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+    --btn-shadow-hover: 0 18px 32px -12px rgba(var(--primary-rgb), 0.8), 0 3px 6px rgba(var(--primary-rgb), 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(0, 0, 0, 0.08);
+}
+body.dark {
+    --card-bg: linear-gradient(180deg, rgba(51, 65, 85, 0.62) 0%, rgba(30, 41, 59, 0.94) 100%);
+    --panel-bg: linear-gradient(180deg, #26344a 0%, #1b2536 100%);
+    --glass-fill: linear-gradient(180deg, rgba(71, 85, 105, 0.75), rgba(30, 41, 59, 0.9));
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-ring: rgba(255, 255, 255, 0.07);
+    --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 0 0 1px var(--card-ring), 0 20px 44px -20px rgba(0, 0, 0, 0.75);
+    --card-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 0 0 1px rgba(var(--primary-rgb), 0.4), 0 28px 48px -20px rgba(var(--primary-rgb), 0.45);
+}
+@media (max-width: 379px) { :root { --icon-btn: 34px; } }
+@media (min-width: 420px) { :root { --icon-btn: 40px; } }
+
+/* ---------- Global polish ---------- */
+html { scroll-padding-top: calc(var(--header-height) + 12px); }
+button, a, summary, [role="button"] { touch-action: manipulation; }
+::selection { background: rgba(var(--primary-rgb), 0.28); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary-light), var(--primary)); }
+:focus-visible { outline: 3px solid rgba(var(--primary-rgb), 0.55); outline-offset: 3px; }
+.container { max-width: 1240px; }
+
+/* =====================================================================
+   PERFORMANCE — remove the expensive stuff, keep the look
+   ===================================================================== */
+/* Blur filters on huge animated layers were the main source of scroll lag.
+   The orbs are already soft radial gradients, so the filter is not needed. */
+.nebula-bg .orb { filter: none; will-change: auto; }
+@media (max-width: 768px) { .nebula-bg .orb { animation: none; } }
+
+/* Dozens of small backdrop-filters repainting on every scroll frame = jank.
+   Cards now use layered gradients + inner highlights to look glossy instead. */
+.section, .academic-card, .faculty-card, .contact-card, .contact-form, .principal-card,
+.theme-option, .update-card, .doc-card, .modal-card, .welcome-card, .toast,
+.hero-badge, .hero-action-btn.ghost, .glossy-btn, .panel-tab,
+.header-theme-presets-btn, .header-theme-toggle-btn, .menu-btn, .notice-btn, .profile-btn,
+.sidebar-close, .notice-close, .doc-close, .gallery-item::after, .hero-overlay {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.header { -webkit-backdrop-filter: blur(16px) saturate(170%); backdrop-filter: blur(16px) saturate(170%); }
+.gallery-item { will-change: auto; }
+@media (max-width: 600px) { .hero-particle:nth-child(n+12) { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+    }
+    .nebula-bg .orb { animation: none; }
+}
+
+/* =====================================================================
+   BUTTON SYSTEM — one size, one shape, one gloss
+   ===================================================================== */
+.hero-action-btn, .submit-btn, .contact-btn, .welcome-card .welcome-btn,
+.edit-modal-card .modal-actions .save-btn, .edit-modal-card .modal-actions .cancel-btn,
+.gallery-pagination button, .btn-glossy, .btn-glass {
+    min-height: 46px; padding: 0 22px; border-radius: 999px;
+    font-size: 0.86rem; font-weight: 700; letter-spacing: 0.01em; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    cursor: pointer; position: relative; overflow: hidden; isolation: isolate; text-decoration: none;
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), filter 0.3s ease;
+}
+.hero-action-btn i, .btn-glossy i, .btn-glass i, .submit-btn i, .save-btn i { font-size: 1.1em; }
+
+/* Primary (filled, glossy) */
+.hero-action-btn.primary, .submit-btn, .contact-btn, .welcome-card .welcome-btn,
+.edit-modal-card .modal-actions .save-btn, .gallery-pagination button, .btn-glossy {
+    color: #fff; border: 1px solid rgba(255, 255, 255, 0.3);
+    background: var(--primary-gradient);
+    box-shadow: var(--btn-shadow); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.hero-action-btn.primary::before, .submit-btn::before, .contact-btn::before,
+.welcome-card .welcome-btn::before, .edit-modal-card .modal-actions .save-btn::before,
+.gallery-pagination button::before, .btn-glossy::before {
+    content: ''; position: absolute; left: 6%; right: 6%; top: 5%; height: 46%;
+    border-radius: 999px; pointer-events: none; z-index: -1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+}
+/* Light sweep (only runs on hover) */
+.hero-action-btn.primary::after, .submit-btn::after, .contact-btn::after,
+.welcome-card .welcome-btn::after, .edit-modal-card .modal-actions .save-btn::after,
+.gallery-pagination button::after, .btn-glossy::after {
+    content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 34%; pointer-events: none;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: translateX(-160%) skewX(-20deg); z-index: -1;
+}
+@keyframes btnShine { to { transform: translateX(420%) skewX(-20deg); } }
+
+/* Secondary (glass) */
+.btn-glass, .edit-modal-card .modal-actions .cancel-btn {
+    color: var(--text); background: var(--glass-fill); border: 1px solid var(--card-ring);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 20px -12px rgba(15, 23, 42, 0.4);
+}
+.hero-action-btn.glass {
+    color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 12px 24px -14px rgba(0, 0, 0, 0.65);
+}
+.btn-glass.on-dark {
+    color: #fff; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06));
+    border-color: rgba(255, 255, 255, 0.22); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.btn-sm { min-height: 40px; padding: 0 16px; font-size: 0.78rem; }
+
+.submit-btn { width: 100%; }
+.contact-btn { width: 100%; max-width: 260px; margin: 12px auto 0; }
+.contact-btn .btn-icon { font-size: 1.1rem; }
+.gallery-pagination button { min-width: 104px; }
+.gallery-pagination { gap: 12px; }
+.gallery-pagination .page-indicator {
+    min-height: 40px; display: inline-flex; align-items: center; padding: 0 18px;
+    background: var(--glass-fill); border: 1px solid var(--card-ring); font-size: 0.8rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .hero-action-btn.primary:hover, .submit-btn:hover, .contact-btn:hover, .welcome-card .welcome-btn:hover,
+    .edit-modal-card .modal-actions .save-btn:hover, .gallery-pagination button:hover:not(:disabled), .btn-glossy:hover {
+        transform: translateY(-2px); box-shadow: var(--btn-shadow-hover);
+    }
+    .hero-action-btn.primary:hover::after, .submit-btn:hover::after, .contact-btn:hover::after,
+    .welcome-card .welcome-btn:hover::after, .edit-modal-card .modal-actions .save-btn:hover::after,
+    .gallery-pagination button:hover:not(:disabled)::after, .btn-glossy:hover::after { animation: btnShine 0.85s var(--ease); }
+    .btn-glass:hover, .hero-action-btn.glass:hover, .edit-modal-card .modal-actions .cancel-btn:hover {
+        transform: translateY(-2px); filter: brightness(1.03);
+    }
+}
+.hero-action-btn:active, .btn-glossy:active, .btn-glass:active, .gallery-pagination button:active:not(:disabled) { transform: scale(0.96); }
+
+/* ---------- Header icon buttons: identical size, identical gloss ---------- */
+.header-theme-presets-btn, .header-theme-toggle-btn, .header-search-btn, .menu-btn, .notice-btn {
+    width: var(--icon-btn); height: var(--icon-btn); font-size: 18px; color: var(--text);
+    display: grid; place-items: center; border-radius: 50%; flex-shrink: 0;
+    position: relative; overflow: hidden; cursor: pointer;
+    background: var(--glass-fill); border: 1px solid var(--card-ring);
+    box-shadow: 0 8px 16px -8px rgba(15, 23, 42, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(15, 23, 42, 0.05);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), color 0.25s ease;
+}
+.header-theme-presets-btn::before, .header-theme-toggle-btn::before, .header-search-btn::before,
+.menu-btn::before, .notice-btn::before {
+    content: ''; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%;
+    border-radius: 50% / 65%; pointer-events: none; z-index: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+}
+body.dark .header-theme-presets-btn::before, body.dark .header-theme-toggle-btn::before, body.dark .header-search-btn::before,
+body.dark .menu-btn::before, body.dark .notice-btn::before { background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)); }
+.header-theme-presets-btn > i, .header-theme-toggle-btn > i, .header-search-btn > i, .menu-btn > i, .notice-btn > i { position: relative; z-index: 1; }
+.notice-btn { overflow: visible; }
+.notice-btn::before { border-radius: 50% / 65%; }
+.profile-btn {
+    width: var(--icon-btn); height: var(--icon-btn);
+    border: 2px solid #fff; box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.45), var(--btn-shadow);
+}
+body.dark .profile-btn { border-color: #1e293b; }
+.notice-badge { top: -4px; right: -4px; z-index: 2; }
+@media (hover: hover) and (pointer: fine) {
+    .header-theme-presets-btn:hover, .header-theme-toggle-btn:hover, .header-search-btn:hover,
+    .menu-btn:hover, .notice-btn:hover { transform: translateY(-2px); color: var(--primary); box-shadow: 0 14px 22px -10px rgba(var(--primary-rgb), 0.55), inset 0 1px 0 #fff; }
+    .profile-btn:hover { transform: translateY(-2px); }
+}
+.header-search-btn:active { transform: scale(0.9); }
+.nav-right { gap: 7px; } .nav-left { gap: 7px; }
+
+/* =====================================================================
+   HEADER · PROGRESS BAR · BRAND
+   ===================================================================== */
+.scroll-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: calc(var(--z-header) + 1);
+    transform: scaleX(0); transform-origin: 0 50%; pointer-events: none;
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-light));
+    box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.7);
+}
+.header {
+    background: rgba(255, 255, 255, 0.78);
+    border-bottom: 1px solid rgba(var(--primary-rgb), 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 30px -20px rgba(15, 23, 42, 0.3);
+    transition: transform 0.4s var(--snap), box-shadow 0.3s ease;
+}
+body.dark .header { background: rgba(15, 23, 42, 0.8); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 30px -20px rgba(0, 0, 0, 0.8); }
+.header.is-scrolled { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 14px 34px -16px rgba(15, 23, 42, 0.35); }
+.nav-left .logo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(var(--primary-rgb), 0.4), 0 8px 16px -4px rgba(var(--primary-rgb), 0.5); }
+body.dark .nav-left .logo { box-shadow: 0 0 0 2px #1e293b, 0 0 0 4px rgba(var(--primary-rgb), 0.5), 0 8px 16px -4px rgba(var(--primary-rgb), 0.5); }
+.brand-text { display: none; flex-direction: column; line-height: 1.12; margin: 0 4px 0 2px; min-width: 0; }
+.brand-text strong { font-size: 0.92rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
+.brand-text span { font-size: 0.58rem; font-weight: 700; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+@media (min-width: 560px) { .brand-text { display: flex; } }
+
+/* Profile dropdown */
+.profile-dropdown { background: var(--panel-bg); border-radius: 20px; box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35), 0 0 0 1px var(--card-ring); }
+.dropdown-item { padding: 10px 14px; font-size: 0.8rem; border-radius: 10px; margin: 0 6px; width: calc(100% - 12px); }
+.dropdown-item i { color: var(--primary); }
+@media (hover: hover) and (pointer: fine) {
+    .dropdown-item:hover { background: rgba(var(--primary-rgb), 0.1); }
+    .dropdown-item:hover i { transform: scale(1.15); }
+    .dropdown-item.danger:hover { background: rgba(239, 68, 68, 0.1); }
+}
+.dropdown-item.danger i { color: #ef4444; }
+
+/* =====================================================================
+   SIDEBAR
+   ===================================================================== */
+.sidebar-links { gap: 6px; }
+.sidebar-links a, .sidebar-link-btn {
+    padding: 10px 12px; border-radius: 16px; background: var(--card-bg);
+    border: 1px solid var(--card-border); box-shadow: 0 1px 0 #fff inset, 0 0 0 1px var(--card-ring);
+}
+body.dark .sidebar-links a, body.dark .sidebar-link-btn { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 0 0 1px var(--card-ring); }
+.sidebar-links a .nav-icon-wrapper, .sidebar-link-btn .nav-icon-wrapper {
+    width: 34px; height: 34px; border-radius: 11px; color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.12); border-color: rgba(var(--primary-rgb), 0.14);
+}
+.sidebar-links a.active {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 55%), var(--primary-gradient) !important;
+    box-shadow: var(--btn-shadow) !important;
+}
+.sidebar-links a.active .nav-icon-wrapper { background: rgba(255, 255, 255, 0.22) !important; }
+.nav-kbd {
+    margin-left: auto; font-size: 0.55rem; font-weight: 700; padding: 2px 7px; border-radius: 7px;
+    color: var(--text-light); border: 1px solid var(--card-ring); background: var(--glass-fill);
+}
+@media (hover: none) { .nav-kbd { display: none; } }
+@media (hover: hover) and (pointer: fine) {
+    .sidebar-links a:hover:not(.active), .sidebar-link-btn:hover { transform: translateX(4px); box-shadow: var(--card-shadow-hover); }
+}
+.sidebar-action-footer { gap: 10px !important; }
+.sidebar-action-footer .action-pill-btn { height: 46px !important; font-size: 0.8rem !important; gap: 8px !important; }
+.sidebar-action-footer .action-pill-btn:first-child {
+    background: var(--primary-gradient) !important; color: #fff !important;
+    box-shadow: var(--btn-shadow) !important; border-color: rgba(255, 255, 255, 0.3) !important;
+}
+.glossy-btn::before, .hero-action-btn.glass::before { z-index: -1; }
+
+/* Right panel cards */
+.update-card { background: var(--card-bg); box-shadow: var(--card-shadow); border-radius: 18px; border: 1px solid var(--card-border); border-left: 4px solid var(--primary); }
+.panel-tab:not(.active) { background: var(--glass-fill); border-color: var(--card-ring); }
+.panel-tab { min-height: 44px; }
+
+/* Modals / toasts / search */
+.modal-card, .welcome-card, .search-box { background: var(--panel-bg); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--card-ring), inset 0 1px 0 rgba(255, 255, 255, 0.8); }
+body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--card-ring), inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+.toast { background: var(--panel-bg); border-radius: 18px; box-shadow: 0 24px 50px -18px rgba(15, 23, 42, 0.45), 0 0 0 1px var(--card-ring); }
+.welcome-card .welcome-avatar { box-shadow: 0 0 0 6px rgba(var(--primary-rgb), 0.15), 0 14px 32px -8px rgba(var(--primary-rgb), 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.4); }
+.input-wrapper input, .input-group input, .input-group textarea { border-radius: 14px; }
+.input-wrapper input:focus, .input-group input:focus, .input-group textarea:focus {
+    border-color: var(--primary); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.14);
+}
+.search-box .search-input-wrap:focus-within { box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.16); }
+.search-result-item { border-radius: 14px; border-bottom: none; margin-bottom: 4px; }
+.search-result-item .sri-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: rgba(var(--primary-rgb), 0.12); font-size: 1.1rem; }
+.search-result-item .sri-tag {
+    font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 3px 9px; border-radius: 99px; color: var(--primary); background: rgba(var(--primary-rgb), 0.1);
+}
+.search-group-title { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); padding: 8px 6px 6px; }
+@media (hover: hover) and (pointer: fine) { .search-result-item:hover { background: rgba(var(--primary-rgb), 0.08); } }
+
+/* =====================================================================
+   HERO
+   ===================================================================== */
+#hero {
+    min-height: 94vh; min-height: 94svh; padding: 88px var(--container-padding) 110px;
+    border-radius: 0 0 40px 40px;
+}
+.hero-overlay {
+    margin-top: 0;
+    background:
+        radial-gradient(70% 55% at 50% 30%, rgba(var(--primary-rgb), 0.28), transparent 70%),
+        linear-gradient(180deg, rgba(8, 12, 24, 0.5) 0%, rgba(8, 12, 24, 0.32) 45%, rgba(8, 12, 24, 0.72) 100%);
+}
+.hero-logo-wrap {
+    position: relative; width: 150px; height: 150px; margin: 12px auto 16px;
+    padding: 5px; border-radius: 50%;
+    background: conic-gradient(from 210deg, var(--primary-light), #ffffff, var(--primary), var(--primary-light));
+    box-shadow: 0 0 0 9px rgba(255, 255, 255, 0.14), 0 30px 60px -14px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+}
+.hero-logo-wrap::after {
+    content: ''; position: absolute; inset: -16px; border-radius: 50%; pointer-events: none;
+    border: 2px solid rgba(255, 255, 255, 0.5); animation: heroPulse 3.4s ease-out infinite;
+}
+@keyframes heroPulse { 0% { transform: scale(0.9); opacity: 0.9; } 100% { transform: scale(1.2); opacity: 0; } }
+.hero-logo { width: 100%; height: 100%; margin: 0; border-radius: 50%; background: #fff; box-shadow: none; }
+.hero-badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 7px 18px; margin-bottom: 18px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.02em;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.35); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 10px 24px -14px rgba(0, 0, 0, 0.6);
+}
+.hero-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.7); }
+.hero-title { font-size: clamp(2rem, 7.4vw, 3.8rem); letter-spacing: -0.025em; margin-bottom: 14px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.45); }
+.hero-motto { font-size: clamp(1.05rem, 3.6vw, 1.55rem); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); min-height: 2.2rem; }
+.hero-motto .type-cursor { animation: caret 0.9s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+.hero-description { font-size: clamp(0.92rem, 2.5vw, 1.05rem); color: rgba(255, 255, 255, 0.93); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); max-width: 540px; }
+
+.hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 430px; margin: 26px auto 0; }
+.hero-action-btn { width: 100%; padding: 0 12px; }
+.hero-action-btn span { white-space: nowrap; }
+@media (min-width: 560px) {
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; max-width: none; gap: 12px; }
+    .hero-action-btn { width: auto; padding: 0 26px; min-height: 50px; font-size: 0.9rem; }
+}
+@media (max-width: 359px) { .hero-action-btn { font-size: 0.78rem; padding: 0 8px; gap: 6px; } }
+
+.hero-stats-mini {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    max-width: 470px; margin: 26px auto 0; padding: 16px 6px; border-radius: 26px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.08));
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 24px 44px -20px rgba(0, 0, 0, 0.65);
+}
+.hero-stat-mini + .hero-stat-mini { border-left: 1px solid rgba(255, 255, 255, 0.22); }
+.hero-stat-mini .num { font-size: clamp(1.4rem, 5vw, 1.9rem); font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.hero-stat-mini .label { font-size: 0.66rem; font-weight: 600; opacity: 0.85; letter-spacing: 0.1em; }
+
+.hero-scroll {
+    position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%); z-index: 3;
+    width: 26px; height: 42px; border-radius: 99px; border: 2px solid rgba(255, 255, 255, 0.6);
+    display: none; justify-content: center; padding-top: 8px;
+}
+.hero-scroll span { width: 4px; height: 8px; border-radius: 99px; background: #fff; animation: scrollDot 1.8s ease-in-out infinite; }
+@keyframes scrollDot { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(14px); opacity: 0; } 100% { opacity: 0; } }
+@media (min-width: 900px) and (min-height: 760px) { .hero-scroll { display: flex; } }
+
+/* =====================================================================
+   NOTICE TICKER + QUICK ACCESS (floats over the hero's bottom edge)
+   ===================================================================== */
+.quick-wrap { position: relative; z-index: 5; width: calc(100% - 20px); max-width: 1180px; margin: -70px auto 6px; }
+@media (min-width: 768px) { .quick-wrap { width: calc(100% - 48px); margin-top: -76px; } }
+
+.notice-ticker {
+    display: flex; align-items: center; gap: 10px; padding: 6px; margin-bottom: 12px;
+    border-radius: 999px; background: var(--panel-bg); box-shadow: var(--card-shadow); overflow: hidden;
+}
+.notice-ticker[hidden] { display: none; }
+.nt-label {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 999px;
+    font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #fff;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+    box-shadow: var(--btn-shadow);
+}
+.nt-track {
+    flex: 1; min-width: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.nt-move { display: inline-flex; width: max-content; animation: ntScroll 40s linear infinite; will-change: transform; }
+.nt-track:hover .nt-move, .nt-track:focus-within .nt-move { animation-play-state: paused; }
+@keyframes ntScroll { to { transform: translateX(-50%); } }
+.nt-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 22px; font-size: 0.8rem; font-weight: 600; color: var(--text); white-space: nowrap; cursor: pointer; }
+.nt-item i { color: var(--primary); }
+.nt-item em { font-style: normal; font-size: 0.68rem; font-weight: 500; color: var(--text-light); }
+.nt-all {
+    flex-shrink: 0; display: inline-flex; align-items: center; gap: 2px; padding: 0 12px 0 14px; height: 36px; border-radius: 999px;
+    font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(var(--primary-rgb), 0.1); cursor: pointer;
+}
+
+.quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (min-width: 900px) { .quick-grid { grid-template-columns: repeat(6, 1fr); gap: 14px; } }
+.quick-card {
+    --qc: var(--primary-rgb);
+    position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 16px 6px 14px; text-align: center; border-radius: 22px; overflow: hidden;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); cursor: pointer; color: var(--text);
+}
+.quick-card::before {
+    content: ''; position: absolute; inset: 0 0 auto 0; height: 3px;
+    background: linear-gradient(90deg, rgba(var(--qc), 0), rgba(var(--qc), 0.9), rgba(var(--qc), 0));
+}
+.qc-icon {
+    position: relative; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 16px;
+    font-size: 1.3rem; color: #fff; margin-bottom: 4px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 55%), linear-gradient(135deg, rgb(var(--qc)), rgba(var(--qc), 0.72));
+    box-shadow: 0 12px 20px -10px rgba(var(--qc), 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+}
+.qc-title { font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
+.qc-sub { font-size: 0.6rem; font-weight: 500; color: var(--text-light); line-height: 1.2; }
+.qc-badge {
+    position: absolute; top: 8px; right: 10px; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: #fff;
+    background: #ef4444; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.45), 0 0 0 2px var(--surface-solid);
+}
+.qc-badge[hidden] { display: none; }
+@media (hover: hover) and (pointer: fine) {
+    .quick-card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow-hover); }
+}
+.quick-card:active { transform: scale(0.96); }
+
+/* =====================================================================
+   SECTIONS — glossy frames
+   ===================================================================== */
+.section {
+    position: relative; margin: 14px auto; width: calc(100% - 20px); max-width: 1240px; padding: 44px 0;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    border-radius: 30px;
+}
+.section::before {
+    content: ''; position: absolute; left: 8%; right: 8%; top: 0; height: 1px; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.6), transparent);
+}
+@media (min-width: 768px) { .section { width: calc(100% - 48px); padding: 60px 0; border-radius: 36px; } }
+#highlights .container, #academics .container, #faculty .container, #gallery .container,
+#admissions .container, #faq .container, #contact .container { text-align: center; }
+.section-tag {
+    padding: 6px 16px; font-size: 0.64rem; margin-bottom: 12px;
+    background: linear-gradient(180deg, rgba(var(--primary-rgb), 0.18), rgba(var(--primary-rgb), 0.06));
+    border: 1px solid rgba(var(--primary-rgb), 0.24); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+body.dark .section-tag { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+.section-title { font-size: clamp(1.45rem, 4.4vw, 2.2rem); letter-spacing: -0.02em; margin-bottom: 8px; }
+.section-title::after {
+    content: ''; display: block; width: 56px; height: 4px; margin: 14px auto 0; border-radius: 99px;
+    background: var(--primary-gradient); box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.5);
+}
+.section-description { margin-bottom: 28px; font-size: 0.92rem; }
+.cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+.cta-row > * { flex: 1 1 200px; max-width: 300px; }
+
+/* ---------- About ---------- */
+#about .about-content h2 { font-size: clamp(1.4rem, 3.8vw, 2rem); letter-spacing: -0.02em; }
+.about-image { position: relative; }
+.about-image img {
+    border: 6px solid #fff; border-radius: 28px;
+    box-shadow: 0 0 0 1px var(--card-ring), 0 30px 50px -26px rgba(var(--primary-rgb), 0.55);
+}
+body.dark .about-image img { border-color: #1e293b; }
+.about-badge {
+    position: absolute; left: 16px; bottom: -14px; display: flex; flex-direction: column; align-items: center;
+    padding: 10px 18px 9px; border-radius: 20px; color: #fff; line-height: 1.05; text-align: center;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+    box-shadow: var(--btn-shadow); border: 1px solid rgba(255, 255, 255, 0.35);
+}
+.about-badge strong { font-size: 1.55rem; font-weight: 800; }
+.about-badge span { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; }
+.about-badge em { font-style: normal; font-size: 0.55rem; font-weight: 600; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+.feature {
+    align-items: center; padding: 12px 14px; border-radius: 20px;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.feature span {
+    width: 46px; height: 46px; border-radius: 15px; font-size: 1.3rem;
+    background: linear-gradient(145deg, rgba(var(--primary-rgb), 0.2), rgba(var(--primary-rgb), 0.06));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 16px -8px rgba(var(--primary-rgb), 0.5);
+}
+@media (hover: hover) and (pointer: fine) { .feature:hover { transform: translateX(4px); box-shadow: var(--card-shadow-hover); } }
+
+.mvv-grid { display: grid; gap: 12px; margin-top: 30px; text-align: left; }
+@media (min-width: 768px) { .mvv-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.mvv-card {
+    position: relative; overflow: hidden; padding: 20px; border-radius: 24px;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+}
+.mvv-card::after {
+    content: ''; position: absolute; right: -34px; top: -34px; width: 120px; height: 120px; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.2), transparent 70%);
+}
+.mvv-icon {
+    width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; font-size: 1.5rem; margin-bottom: 10px;
+    background: rgba(var(--primary-rgb), 0.12); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.mvv-card h3 { font-size: 1rem; margin-bottom: 4px; color: var(--text); }
+.mvv-card p { font-size: 0.82rem; line-height: 1.65; }
+.mvv-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.mvv-chips span {
+    padding: 5px 12px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; color: var(--primary-dark);
+    background: rgba(var(--primary-rgb), 0.1); border: 1px solid rgba(var(--primary-rgb), 0.2);
+}
+body.dark .mvv-chips span { color: var(--primary-light); }
+
+.principal-card { position: relative; overflow: hidden; border-radius: 28px; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); text-align: center; }
+.principal-card::before {
+    content: '\201C'; position: absolute; right: 22px; top: -8px; font-family: Georgia, serif; font-size: 7rem; line-height: 1; pointer-events: none;
+    color: rgba(var(--primary-rgb), 0.16);
+}
+@media (min-width: 768px) { .principal-card { text-align: left; } }
+.principal-image img { border: 4px solid #fff; box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.5), 0 18px 30px -14px rgba(var(--primary-rgb), 0.6); }
+body.dark .principal-image img { border-color: #1e293b; }
+
+/* ---------- Academics ---------- */
+.academics-grid { grid-template-columns: 1fr 1fr; counter-reset: ac; gap: 12px; }
+@media (min-width: 600px) { .academics-grid { grid-template-columns: 1fr 1fr; gap: 16px; } }
+@media (min-width: 1000px) { .academics-grid { grid-template-columns: repeat(4, 1fr); } }
+.academic-card {
+    counter-increment: ac; position: relative; overflow: hidden; padding: 22px 14px 18px; border-radius: 26px;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+.academic-card::before {
+    content: counter(ac, decimal-leading-zero); position: absolute; top: 12px; right: 16px;
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; color: rgba(var(--primary-rgb), 0.55);
+}
+.academic-card::after {
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+    background: var(--primary-gradient);
+}
+.academic-icon {
+    width: 62px; height: 62px; display: grid; place-items: center; margin: 0 auto 12px; border-radius: 20px; font-size: 1.9rem;
+    background: linear-gradient(145deg, rgba(var(--primary-rgb), 0.22), rgba(var(--primary-rgb), 0.06));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 12px 22px -12px rgba(var(--primary-rgb), 0.6);
+}
+.academic-card h3 { font-size: 0.95rem; }
+.academic-card p { font-size: 0.78rem; line-height: 1.55; min-height: 3.6em; }
+.academic-features { display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 4px; }
+.academic-features li {
+    padding: 4px 11px; border-radius: 99px; font-size: 0.66rem; font-weight: 600; color: var(--text);
+    background: rgba(var(--primary-rgb), 0.09); border: 1px solid rgba(var(--primary-rgb), 0.14);
+}
+@media (hover: hover) and (pointer: fine) { .academic-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow-hover); } }
+
+/* ---------- Highlights ---------- */
+.hl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; }
+@media (min-width: 900px) { .hl-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.hl-card {
+    position: relative; padding: 18px 16px; border-radius: 24px; overflow: hidden;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+.hl-icon {
+    width: 46px; height: 46px; display: grid; place-items: center; border-radius: 15px; font-size: 1.4rem; margin-bottom: 10px;
+    background: linear-gradient(145deg, rgba(var(--primary-rgb), 0.22), rgba(var(--primary-rgb), 0.06));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 10px 18px -10px rgba(var(--primary-rgb), 0.6);
+}
+.hl-card h3 { font-size: 0.92rem; margin-bottom: 4px; color: var(--text); }
+.hl-card p { font-size: 0.78rem; line-height: 1.6; }
+@media (hover: hover) and (pointer: fine) { .hl-card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow-hover); } }
+
+/* ---------- Faculty ---------- */
+.faculty-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; margin-bottom: 18px; }
+.faculty-search {
+    position: relative; flex: 1 1 260px; max-width: 420px; display: flex; align-items: center;
+}
+.faculty-search > i { position: absolute; left: 16px; color: var(--text-light); font-size: 1.05rem; pointer-events: none; }
+.faculty-search input {
+    width: 100%; height: 46px; padding: 0 44px 0 44px; border-radius: 999px; font-size: 0.86rem; color: var(--text); outline: none; cursor: text;
+    background: var(--glass-fill); border: 1px solid var(--card-ring);
+    box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.05), 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.faculty-search input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.15); }
+.faculty-search button {
+    position: absolute; right: 8px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+    color: var(--text-light); background: rgba(15, 23, 42, 0.06);
+}
+.faculty-search button[hidden] { display: none; }
+.faculty-count {
+    font-size: 0.72rem; font-weight: 700; color: var(--primary); padding: 0 14px; height: 34px; display: inline-flex; align-items: center; border-radius: 99px;
+    background: rgba(var(--primary-rgb), 0.1); border: 1px solid rgba(var(--primary-rgb), 0.18);
+}
+.faculty-count:empty { display: none; }
+.faculty-grid { gap: 12px; }
+@media (min-width: 900px) { .faculty-grid { grid-template-columns: repeat(5, 1fr); gap: 16px; } }
+.faculty-card {
+    position: relative; overflow: hidden; padding: 20px 12px 16px; border-radius: 24px;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+.faculty-card::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 64px; pointer-events: none;
+    background: linear-gradient(180deg, rgba(var(--primary-rgb), 0.14), rgba(var(--primary-rgb), 0));
+}
+.faculty-card .faculty-avatar {
+    position: relative; width: 66px; height: 66px; font-size: 1.6rem;
+    border: 3px solid #fff; box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.45), 0 14px 22px -10px rgba(var(--primary-rgb), 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+body.dark .faculty-card .faculty-avatar { border-color: #1e293b; }
+.faculty-card h4 { position: relative; font-size: 0.86rem; margin-top: 4px; }
+.faculty-card p { position: relative; font-size: 0.68rem; margin-top: 2px; }
+.faculty-card .faculty-subject { position: relative; padding: 3px 12px; font-size: 0.6rem; margin-top: 8px; border: 1px solid rgba(var(--primary-rgb), 0.2); background: rgba(var(--primary-rgb), 0.1); }
+.faculty-card.is-hidden { display: none; }
+.faculty-empty { grid-column: 1 / -1; padding: 30px 0; color: var(--text-light); font-size: 0.9rem; }
+.faculty-empty[hidden] { display: none; }
+@media (hover: hover) and (pointer: fine) { .faculty-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow-hover); } }
+
+/* ---------- Gallery ---------- */
+.gallery-item { border-radius: 22px; border: 4px solid #fff; box-shadow: 0 0 0 1px var(--card-ring), 0 16px 28px -16px rgba(15, 23, 42, 0.4); }
+body.dark .gallery-item { border-color: #1e293b; }
+.gallery-item::before {
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(8, 12, 24, 0.55) 100%);
+}
+.gallery-item::after { z-index: 3; }
+@media (hover: hover) and (pointer: fine) {
+    .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 0 0 1px rgba(var(--primary-rgb), 0.35), 0 26px 40px -18px rgba(var(--primary-rgb), 0.55); }
+    .gallery-item:hover::before { opacity: 1; }
+    .gallery-item:hover::after { opacity: 1; transform: scale(1); }
+    .gallery-item:hover img { transform: scale(1.07); }
+}
+
+/* ---------- Admissions ---------- */
+.steps { list-style: none; display: grid; gap: 14px; margin: 4px 0 20px; padding: 0; text-align: left; }
+@media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+.step {
+    position: relative; padding: 68px 20px 22px; border-radius: 26px;
+    background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+}
+.step-num {
+    position: absolute; top: 18px; left: 20px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+    font-size: 1.05rem; font-weight: 800; color: #fff; border: 1px solid rgba(255, 255, 255, 0.35);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+    box-shadow: var(--btn-shadow);
+}
+.step h3 { font-size: 1rem; margin-bottom: 6px; color: var(--text); }
+.step p { font-size: 0.84rem; line-height: 1.65; }
+@media (min-width: 768px) {
+    .step:not(:last-child)::after {
+        content: ''; position: absolute; top: 37px; left: 74px; right: -22px; height: 2px; z-index: 1; pointer-events: none;
+        background: repeating-linear-gradient(90deg, rgba(var(--primary-rgb), 0.5) 0 6px, transparent 6px 12px);
+    }
+}
+.adm-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.adm-chips span {
+    padding: 8px 16px; border-radius: 99px; font-size: 0.76rem; font-weight: 600; color: var(--text);
+    background: var(--glass-fill); border: 1px solid var(--card-ring); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+body.dark .adm-chips span { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+
+/* ---------- FAQ ---------- */
+.faq-list { display: grid; gap: 10px; max-width: 820px; margin: 0 auto; text-align: left; }
+.faq-item { border-radius: 20px; overflow: hidden; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); transition: box-shadow 0.35s var(--ease); }
+.faq-item[open] { box-shadow: var(--card-shadow-hover); }
+.faq-item summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 16px 18px; font-size: 0.92rem; font-weight: 600; color: var(--text);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary i {
+    flex-shrink: 0; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; font-size: 1.05rem;
+    color: var(--primary); background: rgba(var(--primary-rgb), 0.12); transition: transform 0.35s var(--ease), background 0.3s ease, color 0.3s ease;
+}
+.faq-item[open] summary i { transform: rotate(45deg); background: var(--primary-gradient); color: #fff; }
+.faq-item p { padding: 0 18px 18px; font-size: 0.86rem; line-height: 1.75; }
+.faq-item[open] p { animation: faqIn 0.35s var(--ease); }
+@keyframes faqIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Contact ---------- */
+.contact-card {
+    padding: 14px 16px; border-radius: 22px; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.contact-icon {
+    width: 44px; height: 44px; border-radius: 15px; font-size: 1.15rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+    box-shadow: var(--btn-shadow);
+}
+.contact-card > div:not(.contact-icon) { flex: 1; min-width: 0; }
+.contact-card p { overflow-wrap: anywhere; }
+.copy-btn {
+    flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 1rem; color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.1); border: 1px solid rgba(var(--primary-rgb), 0.16); transition: transform 0.3s var(--ease), background 0.3s ease, color 0.3s ease;
+}
+.copy-btn:active { transform: scale(0.88); }
+.copy-btn.done { background: #10b981; color: #fff; border-color: transparent; }
+@media (hover: hover) and (pointer: fine) {
+    .contact-card:hover { transform: translateX(4px); box-shadow: var(--card-shadow-hover); }
+    .copy-btn:hover { background: var(--primary); color: #fff; }
+}
+.open-status {
+    display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 700;
+    color: #047857; background: linear-gradient(180deg, #ecfdf5, #d1fae5); border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: inset 0 1px 0 #fff;
+}
+.open-status.closed { color: #b91c1c; background: linear-gradient(180deg, #fef2f2, #fee2e2); border-color: rgba(239, 68, 68, 0.28); }
+body.dark .open-status { color: #6ee7b7; background: linear-gradient(180deg, rgba(16, 185, 129, 0.18), rgba(16, 185, 129, 0.08)); box-shadow: none; }
+body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180deg, rgba(239, 68, 68, 0.18), rgba(239, 68, 68, 0.08)); }
+.os-dot { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+.os-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid currentColor; opacity: 0.5; animation: heroPulse 2s ease-out infinite; }
+.open-status.closed .os-dot { background: #ef4444; }
+.contact-form { border-radius: 28px; padding: 24px 18px; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.char-count { text-align: right; font-size: 0.68rem; font-weight: 600; color: var(--text-light); margin: -8px 4px 10px; }
+.char-count.warn { color: #ef4444; }
+.contact-extra { margin-top: 22px; display: grid; gap: 16px; }
+.contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.contact-actions > * { flex: 1 1 170px; max-width: 260px; }
+.map-card { position: relative; overflow: hidden; min-height: 280px; border-radius: 28px; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
+.map-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.map-placeholder {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 20px; text-align: center;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(var(--primary-rgb), 0.18), transparent 60%),
+        repeating-linear-gradient(45deg, rgba(var(--primary-rgb), 0.06) 0 14px, transparent 14px 28px);
+}
+.map-placeholder > i { font-size: 2.6rem; color: var(--primary); filter: drop-shadow(0 8px 10px rgba(var(--primary-rgb), 0.45)); animation: floaty 3s ease-in-out infinite; }
+.map-placeholder h3 { font-size: 1.05rem; color: var(--text); }
+.map-placeholder p { margin-bottom: 8px; }
+
+/* =====================================================================
+   FOOTER
+   ===================================================================== */
+.footer {
+    margin-top: 40px; padding: 48px var(--container-padding) 20px; border-radius: 40px 40px 0 0; color: #fff;
+    background:
+        radial-gradient(60% 90% at 0% 0%, rgba(var(--primary-rgb), 0.38), transparent 60%),
+        radial-gradient(50% 80% at 100% 100%, rgba(var(--primary-rgb), 0.22), transparent 60%),
+        linear-gradient(180deg, #1e293b 0%, #0b1220 100%);
+    box-shadow: 0 -20px 50px -30px rgba(var(--primary-rgb), 0.55);
+}
+.footer::before { inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, transparent, var(--primary-light), var(--primary), transparent); opacity: 0.9; }
+.footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.footer-brand img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 8px 16px -4px rgba(0, 0, 0, 0.5); }
+.footer-brand h3 { margin: 0; font-size: 1rem; line-height: 1.25; }
+.footer-box h3 { position: relative; }
+.footer-box:not(.info-box) h3::after { content: ''; display: block; width: 32px; height: 3px; margin-top: 6px; border-radius: 99px; background: var(--primary-gradient); }
+.footer-links { gap: 8px; }
+.footer-links a, .footer-links li { color: rgba(255, 255, 255, 0.78); }
+.footer-links a { display: inline-flex; align-items: center; gap: 6px; }
+@media (hover: hover) and (pointer: fine) { .footer-links a:hover { color: #fff; padding-left: 4px; transform: none; } }
+.footer-social { gap: 10px; margin-top: 14px; }
+.footer-social a {
+    width: 42px; height: 42px; font-size: 1.15rem; position: relative;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+    border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 10px 18px -10px rgba(0, 0, 0, 0.7);
+}
+@media (hover: hover) and (pointer: fine) { .footer-social a:hover { transform: translateY(-4px); background: var(--primary-gradient); } }
+.footer-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.footer-bottom { border-top-color: rgba(255, 255, 255, 0.1); }
+
+/* FAB */
+.fab-container { bottom: calc(22px + env(safe-area-inset-bottom, 0px)); }
+.fab-btn {
+    width: 50px; height: 50px; border: 1px solid rgba(255, 255, 255, 0.35);
+    background: var(--primary-gradient); box-shadow: var(--btn-shadow);
+}
+.fab-btn::before { z-index: 0; }
+.fab-btn i { position: relative; z-index: 1; }
+@media (hover: hover) and (pointer: fine) { .fab-btn.show:hover { transform: translateY(-4px); box-shadow: var(--btn-shadow-hover); } }
+
+/* Theme picker tiles */
+.theme-option { border-radius: 20px; background: var(--card-bg); box-shadow: var(--card-shadow); border: 2px solid transparent; }
+.theme-option.active-theme { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.15), var(--card-shadow); }
+.theme-option .theme-swatch { box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5), 0 10px 16px -8px rgba(0, 0, 0, 0.35); }
+
+/* =====================================================================
+   SMALL-SCREEN BALANCE
+   ===================================================================== */
+@media (max-width: 420px) {
+    .hero-stats-mini { padding: 14px 2px; }
+    .quick-card { padding: 14px 4px 12px; border-radius: 20px; }
+    .qc-icon { width: 42px; height: 42px; font-size: 1.15rem; }
+    .qc-sub { display: none; }
+    .section { padding: 36px 0; }
+    .nt-label span { display: none; }
+    .academic-card { padding: 20px 10px 16px; }
+    .cta-row > *, .contact-actions > * { flex-basis: 100%; max-width: none; }
+}
+
+@media print {
+    .scroll-progress, .quick-wrap, .hero-scroll, .map-card, .faq-item summary i { display: none !important; }
+    .faq-item p { display: block !important; }
+}
+
+/* =====================================================================
+   ENTRANCE MOTION (cheap: transform + opacity only, plays once)
+   ===================================================================== */
+/* Existing cards used `animation-fill-mode: both`, which freezes the final keyframe
+   and silently blocks :hover / :active transforms. `backwards` fixes that. */
+.gallery-item, .faculty-card, .update-card { animation-fill-mode: backwards !important; }
+@keyframes riseIn { from { opacity: 0; transform: translateY(18px) scale(0.97); } to { opacity: 1; transform: none; } }
+.academics-grid > :nth-child(1), .hl-grid > :nth-child(1), .steps > :nth-child(1), .mvv-grid > :nth-child(1), .faq-list > :nth-child(1) { --i: 0; }
+.academics-grid > :nth-child(2), .hl-grid > :nth-child(2), .steps > :nth-child(2), .mvv-grid > :nth-child(2), .faq-list > :nth-child(2) { --i: 1; }
+.academics-grid > :nth-child(3), .hl-grid > :nth-child(3), .steps > :nth-child(3), .mvv-grid > :nth-child(3), .faq-list > :nth-child(3) { --i: 2; }
+.academics-grid > :nth-child(4), .hl-grid > :nth-child(4), .faq-list > :nth-child(4) { --i: 3; }
+.hl-grid > :nth-child(5), .faq-list > :nth-child(5) { --i: 4; }
+.hl-grid > :nth-child(6), .faq-list > :nth-child(6) { --i: 5; }
+.section.visible .academic-card, .section.visible .hl-card, .section.visible .step,
+.section.visible .mvv-card, .section.visible .faq-item {
+    animation: riseIn 0.6s var(--ease) backwards; animation-delay: calc(var(--i, 0) * 70ms);
+}
+.quick-wrap { animation: riseIn 0.8s 0.15s var(--ease) backwards; }
+#hero.offscreen .hero-particle, #hero.offscreen .hero-logo-wrap::after, #hero.offscreen .hero-scroll span { animation-play-state: paused; }
+
+    </style>
 </head>
 
 <body>
@@ -2052,10 +2892,10 @@
     </div>
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <input type="file" id="avatarUploader" accept="image/*" style="display:none;" aria-hidden="true" />
 
-    <!-- Drag trail and edge hints -->
     <div class="drag-trail" id="dragTrail" aria-hidden="true"></div>
     <div class="edge-hint right" id="edgeHintRight" aria-hidden="true"></div>
     <div class="edge-hint left" id="edgeHintLeft" aria-hidden="true"></div>
@@ -2179,11 +3019,15 @@
                         <i class="ri-menu-3-line" aria-hidden="true"></i>
                     </button>
                     <img src="logo.png" alt="Pabitra Secondary Boarding School Logo" class="logo" width="42" height="42">
+                    <div class="brand-text" aria-hidden="true"><strong>Pabitra School</strong><span>Est. 2040 B.S. · Doti</span></div>
                     <button class="header-theme-presets-btn ripple-host" id="headerThemePresetsBtn" aria-label="Theme presets">
                         <i class="ri-palette-line" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="nav-right">
+                    <button class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search the site" title="Search (Ctrl K)">
+                        <i class="ri-search-2-line" aria-hidden="true"></i>
+                    </button>
                     <button class="header-theme-toggle-btn ripple-host" id="headerThemeToggleBtn" aria-label="Toggle theme">
                         <i class="ri-moon-line" aria-hidden="true"></i>
                     </button>
@@ -2268,8 +3112,11 @@
                         <a href="#hero" class="nav-link active" data-section="hero"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-home-5-line"></i></span><span class="nav-title">Home</span></a>
                         <a href="#about" class="nav-link" data-section="about"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-information-line"></i></span><span class="nav-title">About</span></a>
                         <a href="#academics" class="nav-link" data-section="academics"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-book-2-line"></i></span><span class="nav-title">Academics</span></a>
+                        <a href="#highlights" class="nav-link" data-section="highlights"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-sparkling-2-line"></i></span><span class="nav-title">Why PSBS</span></a>
                         <a href="#faculty" class="nav-link" data-section="faculty"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-team-line"></i></span><span class="nav-title">Faculty</span></a>
                         <a href="#gallery" class="nav-link" data-section="gallery"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-gallery-line"></i></span><span class="nav-title">Gallery</span></a>
+                        <a href="#admissions" class="nav-link" data-section="admissions"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span><span class="nav-title">Admissions</span></a>
+                        <a href="#faq" class="nav-link" data-section="faq"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-question-line"></i></span><span class="nav-title">FAQ</span></a>
                         <a href="#contact" class="nav-link" data-section="contact"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-phone-line"></i></span><span class="nav-title">Contact</span></a>
                     </div>
                 </nav>
@@ -2280,6 +3127,18 @@
                         <button class="sidebar-link-btn" id="sidebarDocumentsBtn" type="button">
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-folder-3-line"></i></span>
                             <span class="nav-title">Documents</span>
+                        </button>
+                        <button class="sidebar-link-btn" id="sidebarNoticesBtn" type="button" data-sq="notices">
+                            <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-notification-3-line"></i></span>
+                            <span class="nav-title">Notice Board</span>
+                        </button>
+                        <a class="sidebar-link-btn" href="calendar.html">
+                            <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
+                            <span class="nav-title">School Calendar</span>
+                        </a>
+                        <button class="sidebar-link-btn" id="sidebarSearchBtn" type="button" data-sq="search">
+                            <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-search-2-line"></i></span>
+                            <span class="nav-title">Search</span><span class="nav-kbd" aria-hidden="true">Ctrl K</span>
                         </button>
                     </div>
                 </nav>
@@ -2345,7 +3204,6 @@
 
             <div class="panel-viewport">
                 <div class="panel-slider" id="panelSlider" data-active="notice">
-                    <!-- Notice pane -->
                     <section class="panel-pane" data-pane="notice" aria-label="Notices">
                         <div class="panel-pane-body" id="noticeContainer">
                             <div class="doc-skeleton"></div>
@@ -2354,7 +3212,6 @@
                         </div>
                     </section>
 
-                    <!-- Documents pane -->
                     <section class="panel-pane" data-pane="documents" aria-label="Documents">
                         <div class="doc-toolbar" id="docToolbar">
                             <div class="doc-toolbar-scroll" id="docToolbarScroll">
@@ -2408,36 +3265,85 @@
                 <div class="hero-overlay" aria-hidden="true"></div>
                 <div class="container">
                     <div class="hero-content">
-                        <img src="logo.png" class="hero-logo" alt="Pabitra Secondary School Logo" width="140" height="140" loading="lazy">
-                        <p class="hero-badge">🏫 Estd.: 2040 B.S.</p>
+                        <div class="hero-logo-wrap">
+                            <img src="logo.png" class="hero-logo" alt="Pabitra Secondary School Logo" width="140" height="140" fetchpriority="high" decoding="async">
+                        </div>
+                        <p class="hero-badge"><span aria-hidden="true">🏫</span> Estd.: 2040 B.S. <span class="hero-badge-dot" aria-hidden="true"></span> Doti, Nepal</p>
                         <h1 class="hero-title">Pabitra Secondary <span>School</span></h1>
                         <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.<span class="type-cursor" aria-hidden="true"></span></h2>
                         <p class="hero-description">
                             Welcome to our learning campus. Access notices, download study documents, explore the
                             gallery, and connect with modern academic excellence.
                         </p>
+
+                        <div class="hero-actions">
+                            <a href="#academics" class="hero-action-btn primary ripple-host">
+                                <i class="ri-graduation-cap-line" aria-hidden="true"></i><span>Our Programs</span>
+                            </a>
+                            <a href="calendar.html" class="hero-action-btn glass ripple-host" aria-label="View school calendar">
+                                <i class="ri-calendar-2-line" aria-hidden="true"></i><span>School Calendar</span>
+                            </a>
+                            <button type="button" class="hero-action-btn glass ripple-host" data-qa="notices">
+                                <i class="ri-notification-3-line" aria-hidden="true"></i><span>Notices</span>
+                            </button>
+                            <a href="#contact" class="hero-action-btn glass ripple-host">
+                                <i class="ri-chat-smile-3-line" aria-hidden="true"></i><span>Contact Us</span>
+                            </a>
+                        </div>
+
                         <div class="hero-stats-mini">
                             <div class="hero-stat-mini"><span class="num" id="heroStudents">1050+</span><span class="label">Students</span></div>
                             <div class="hero-stat-mini"><span class="num" id="heroTeachers">35+</span><span class="label">Teachers</span></div>
                             <div class="hero-stat-mini"><span class="num" id="heroYears">43+</span><span class="label">Years</span></div>
                         </div>
-
-                        <div class="hero-actions">
-                            <a href="calendar.html" class="hero-action-btn ripple-host" aria-label="View school calendar">
-                                <i class="ri-calendar-2-line" aria-hidden="true"></i>
-                                <span>School Calendar</span>
-                            </a>
-                        </div>
                     </div>
                 </div>
+                <a href="#quick" class="hero-scroll" aria-label="Scroll down to explore"><span></span></a>
             </section>
+
+            <!-- ===== NOTICE TICKER + QUICK ACCESS ===== -->
+            <div class="quick-wrap" id="quick">
+                <div class="notice-ticker" id="noticeTicker" hidden>
+                    <span class="nt-label"><i class="ri-megaphone-line" aria-hidden="true"></i><span>Latest</span></span>
+                    <div class="nt-track"><div class="nt-move" id="ntMove"></div></div>
+                    <button type="button" class="nt-all" data-qa="notices" aria-label="View all notices">All <i class="ri-arrow-right-s-line" aria-hidden="true"></i></button>
+                </div>
+                <nav class="quick-grid" aria-label="Quick access">
+                    <button type="button" class="quick-card ripple-host" data-qa="notices">
+                        <span class="qc-badge" id="qcNoticeBadge" hidden>0</span>
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-notification-3-line"></i></span>
+                        <span class="qc-title">Notices</span><span class="qc-sub" id="qcNoticeSub">Latest updates</span>
+                    </button>
+                    <button type="button" class="quick-card ripple-host" data-qa="documents" style="--qc: 79, 70, 229;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-folder-3-line"></i></span>
+                        <span class="qc-title">Documents</span><span class="qc-sub" id="qcDocSub">Notes &amp; files</span>
+                    </button>
+                    <a href="calendar.html" class="quick-card ripple-host" style="--qc: 16, 185, 129;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
+                        <span class="qc-title">Calendar</span><span class="qc-sub">Events &amp; holidays</span>
+                    </a>
+                    <a href="student-login.html" class="quick-card ripple-host" style="--qc: 6, 182, 212;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span>
+                        <span class="qc-title">Student Login</span><span class="qc-sub">Student portal</span>
+                    </a>
+                    <a href="teacher-login.html" class="quick-card ripple-host" style="--qc: 232, 93, 117;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-presentation-line"></i></span>
+                        <span class="qc-title">Teacher Login</span><span class="qc-sub">Teacher portal</span>
+                    </a>
+                    <a href="#contact" class="quick-card ripple-host" style="--qc: 139, 92, 246;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-customer-service-2-line"></i></span>
+                        <span class="qc-title">Contact</span><span class="qc-sub">Get in touch</span>
+                    </a>
+                </nav>
+            </div>
 
             <!-- ===== ABOUT ===== -->
             <section id="about" class="section" aria-label="About us">
                 <div class="container">
                     <div class="about-grid">
                         <div class="about-image">
-                            <img src="school.jpg" alt="Pabitra Secondary Boarding School campus view" loading="lazy" width="600" height="400">
+                            <img src="school.jpg" alt="Pabitra Secondary Boarding School campus view" loading="lazy" decoding="async" width="600" height="400">
+                            <div class="about-badge" aria-hidden="true"><strong>2040</strong><span>B.S.</span><em>Established</em></div>
                         </div>
                         <div class="about-content">
                             <span class="section-tag">About PSBS</span>
@@ -2468,9 +3374,26 @@
                             </div>
                         </div>
                     </div>
+                    <div class="mvv-grid">
+                        <article class="mvv-card">
+                            <span class="mvv-icon" aria-hidden="true">🎯</span>
+                            <h3>Our Mission</h3>
+                            <p>To provide global standard education in a disciplined, supportive, and student-centered environment.</p>
+                        </article>
+                        <article class="mvv-card">
+                            <span class="mvv-icon" aria-hidden="true">🔭</span>
+                            <h3>Our Vision</h3>
+                            <p>To nurture every learner toward academic excellence, confidence, and strong moral character.</p>
+                        </article>
+                        <article class="mvv-card">
+                            <span class="mvv-icon" aria-hidden="true">💎</span>
+                            <h3>Our Values</h3>
+                            <div class="mvv-chips"><span>Discipline</span><span>Academic Focus</span><span>Global Values</span><span>Character</span></div>
+                        </article>
+                    </div>
                     <div class="principal-card">
                         <div class="principal-image">
-                            <img src="principal.jpg" alt="Principal Binod Kumar Mishra" loading="lazy" width="150" height="150">
+                            <img src="principal.jpg" alt="Principal Binod Kumar Mishra" loading="lazy" decoding="async" width="150" height="150">
                         </div>
                         <div class="principal-content">
                             <span class="section-tag">Message from the Principal</span>
@@ -2534,13 +3457,44 @@
                 </div>
             </section>
 
+            <!-- ===== WHY PSBS ===== -->
+            <section id="highlights" class="section" aria-label="Why choose PSBS">
+                <div class="container">
+                    <span class="section-tag">Why PSBS</span>
+                    <h2 class="section-title">Learning That Goes Beyond the Classroom</h2>
+                    <p class="section-description">From the first Montessori steps to SEE success, every stage is built around care, discipline, and curiosity.</p>
+                    <div class="hl-grid">
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧸</span><h3>Montessori Early Years</h3><p>Activity-based learning that makes the first school years joyful.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🔬</span><h3>Science Labs</h3><p>Hands-on experiments that turn classroom theory into real understanding.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">💻</span><h3>Computer Education</h3><p>Practical digital skills taught as part of the middle-grade curriculum.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">📝</span><h3>SEE Mock Tests</h3><p>Regular mock tests that build confidence before the Secondary Education Examination.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧭</span><h3>Career Guidance</h3><p>Counseling that helps students plan their next step with clarity.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🌱</span><h3>Character Building</h3><p>Discipline, moral values, and leadership woven into everyday school life.</p></article>
+                    </div>
+                    <div class="cta-row">
+                        <a href="#admissions" class="btn-glossy ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Start Admission Inquiry</a>
+                        <a href="#academics" class="btn-glass ripple-host"><i class="ri-book-open-line" aria-hidden="true"></i> View Programs</a>
+                    </div>
+                </div>
+            </section>
+
             <!-- ===== FACULTY ===== -->
             <section id="faculty" class="section" aria-label="Faculty Directory">
                 <div class="container">
                     <span class="section-tag">Faculty</span>
                     <h2 class="section-title">Our Dedicated Teachers</h2>
                     <p class="section-description">Meet our experienced and passionate educators.</p>
+                    <div class="faculty-toolbar">
+                        <div class="faculty-search">
+                            <i class="ri-search-2-line" aria-hidden="true"></i>
+                            <label for="facultySearch" class="sr-only">Search teachers or subjects</label>
+                            <input type="search" id="facultySearch" placeholder="Search teachers or subjects…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="psbs-faculty-search" data-form-type="other">
+                            <button type="button" id="facultySearchClear" aria-label="Clear teacher search" hidden><i class="ri-close-line" aria-hidden="true"></i></button>
+                        </div>
+                        <span class="faculty-count" id="facultyCount" aria-live="polite"></span>
+                    </div>
                     <div class="faculty-grid" id="facultyContainer"></div>
+                    <p class="faculty-empty" id="facultyEmpty" hidden>😕 No teacher matches your search.</p>
                 </div>
             </section>
 
@@ -2559,6 +3513,46 @@
                 </div>
             </section>
 
+            <!-- ===== ADMISSIONS ===== -->
+            <section id="admissions" class="section" aria-label="Admissions">
+                <div class="container">
+                    <span class="section-tag">Admissions</span>
+                    <h2 class="section-title">Join the PSBS Family</h2>
+                    <p class="section-description">Getting started is simple. Reach out to our office and we will guide you through the next steps.</p>
+                    <ol class="steps">
+                        <li class="step"><span class="step-num" aria-hidden="true">1</span><h3>Get in Touch</h3><p>Call us, send an email, or use the inquiry form to tell us which class you are interested in.</p></li>
+                        <li class="step"><span class="step-num" aria-hidden="true">2</span><h3>Visit the Campus</h3><p>Meet our team at DSM – 6, Doti during office hours and talk through the right grade and programme.</p></li>
+                        <li class="step"><span class="step-num" aria-hidden="true">3</span><h3>Complete Enrollment</h3><p>Finish the enrollment formalities with the school office and get ready for a great school year.</p></li>
+                    </ol>
+                    <div class="adm-chips">
+                        <span>🎓 Play Group – Grade 10</span>
+                        <span>🕐 Mon–Fri · 10:00 AM – 4:00 PM</span>
+                        <span>📍 DSM – 6, Doti, Nepal</span>
+                    </div>
+                    <div class="cta-row">
+                        <a href="tel:+977-094-411035" class="btn-glossy ripple-host"><i class="ri-phone-fill" aria-hidden="true"></i> Call Admissions Office</a>
+                        <a href="#contact" class="btn-glass ripple-host"><i class="ri-mail-send-line" aria-hidden="true"></i> Send an Inquiry</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== FAQ ===== -->
+            <section id="faq" class="section" aria-label="Frequently asked questions">
+                <div class="container">
+                    <span class="section-tag">FAQ</span>
+                    <h2 class="section-title">Quick Answers</h2>
+                    <p class="section-description">Everything you need to know at a glance.</p>
+                    <div class="faq-list">
+                        <details class="faq-item" name="faq"><summary><span>Which classes does PSBS offer?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>We teach from Play Group to Grade 10, including intensive SEE preparation with mock tests and career counseling for Grades 9–10.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>When is the school office open?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>The office is open Monday to Friday, 10:00 AM – 4:00 PM. You can see the live open/closed status in the Contact section.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>Where is the school located?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>We are at DSM – 6, Doti, Nepal. Use the “Get Directions” button in the Contact section to open the route in your maps app.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>Where can I find notices and study documents?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Tap the bell icon in the top bar for the latest notices, or open Documents from the menu for PDFs, slides, and study material you can search and download.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>How can I contact the school?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Call 094-411035, email info@psbs.edu.np, or send a message using the contact form at the bottom of this page.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>Is there a school calendar?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Yes. Open <a href="calendar.html" style="color:var(--primary);font-weight:600;">School Calendar</a> for events, holidays, and exam dates.</p></details>
+                    </div>
+                </div>
+            </section>
+
             <!-- ===== CONTACT ===== -->
             <section id="contact" class="section" aria-label="Contact us">
                 <div class="container">
@@ -2567,6 +3561,7 @@
                     <p class="section-description">Have a question? We would love to hear from you. Send us a message below.</p>
                     <div class="contact-grid">
                         <div class="contact-info">
+                            <div class="open-status closed" id="openStatus" role="status"><span class="os-dot" aria-hidden="true"></span><span class="os-text">Checking office hours…</span></div>
                             <div class="contact-card">
                                 <div class="contact-icon" aria-hidden="true">📞</div>
                                 <div>
@@ -2635,6 +3630,22 @@
                             </form>
                         </div>
                     </div>
+
+                    <div class="contact-extra">
+                        <div class="contact-actions">
+                            <a class="btn-glossy ripple-host" href="tel:+977-094-411035"><i class="ri-phone-fill" aria-hidden="true"></i> Call Now</a>
+                            <a class="btn-glass ripple-host" href="mailto:info@psbs.edu.np"><i class="ri-mail-fill" aria-hidden="true"></i> Email Us</a>
+                            <a class="btn-glass ripple-host" href="https://www.google.com/maps/search/?api=1&amp;query=Pabitra+Secondary+Boarding+School+Doti+Nepal" target="_blank" rel="noopener noreferrer"><i class="ri-direction-fill" aria-hidden="true"></i> Get Directions</a>
+                        </div>
+                        <div class="map-card" id="mapCard">
+                            <div class="map-placeholder" id="mapPlaceholder">
+                                <i class="ri-map-pin-2-fill" aria-hidden="true"></i>
+                                <h3>Find us on the map</h3>
+                                <p>DSM – 6, Doti, Nepal</p>
+                                <button type="button" class="btn-glossy ripple-host" id="loadMapBtn"><i class="ri-map-2-line" aria-hidden="true"></i> Load Interactive Map</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -2644,12 +3655,20 @@
         <footer class="footer" role="contentinfo">
             <div class="footer-container">
                 <div class="footer-box info-box">
-                    <h3>Pabitra Secondary Boarding School</h3>
+                    <div class="footer-brand">
+                        <img src="logo.png" alt="" width="46" height="46" loading="lazy" decoding="async">
+                        <h3>Pabitra Secondary Boarding School</h3>
+                    </div>
                     <p>Providing high-end quality education, robust discipline, and exceptional leadership skills since 2040 B.S.</p>
                     <div class="footer-social">
                         <a href="https://facebook.com/psbs" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="ri-facebook-box-fill"></i></a>
                         <a href="#" aria-label="Instagram"><i class="ri-instagram-fill"></i></a>
                         <a href="#" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
+                    </div>
+                    <div class="footer-cta">
+                        <a href="calendar.html" class="btn-glass on-dark btn-sm ripple-host"><i class="ri-calendar-2-line" aria-hidden="true"></i> Calendar</a>
+                        <button type="button" class="btn-glass on-dark btn-sm ripple-host" data-qa="documents"><i class="ri-folder-3-line" aria-hidden="true"></i> Documents</button>
+                        <button type="button" class="btn-glass on-dark btn-sm ripple-host" data-qa="notices"><i class="ri-notification-3-line" aria-hidden="true"></i> Notices</button>
                     </div>
                 </div>
                 <div class="footer-box links-box">
@@ -2658,7 +3677,10 @@
                         <li><a href="#hero">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#academics">Academics</a></li>
+                        <li><a href="#faculty">Faculty</a></li>
                         <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#admissions">Admissions</a></li>
+                        <li><a href="#faq">FAQ</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -2668,6 +3690,7 @@
                         <li><a href="tel:+977-094-411035">📞 094-411035</a></li>
                         <li><a href="mailto:info@psbs.edu.np">✉️ info@psbs.edu.np</a></li>
                         <li>📍 DSM – 6, Doti, Nepal</li>
+                        <li>🕐 Mon–Fri: 10:00 AM – 4:00 PM</li>
                     </ul>
                 </div>
             </div>
@@ -2997,7 +4020,7 @@
         };
 
         // ============================================================
-        // TOUCH TRACKING: Hide scroll indicators while dragging/scrolling
+        // TOUCH TRACKING
         // ============================================================
         (function setupTouchTracking() {
             let hideTimer = null;
@@ -3018,7 +4041,7 @@
         })();
 
         // ============================================================
-        // DRAG TRAIL — hand-following dot indicator
+        // DRAG TRAIL
         // ============================================================
         const DragTrail = {
             active: false,
@@ -3067,7 +4090,6 @@
                     slider.style.transition = 'none';
                 }
 
-                // Clear any inline transform left by the drag gesture
                 slider.style.transform = '';
                 slider.setAttribute('data-active', which);
                 DOM.rightPanel.setAttribute('data-active-tab', which);
@@ -3175,7 +4197,6 @@
                 e.stopPropagation();
                 const target = btn.getAttribute('data-panel-tab');
                 RightPanel.setTab(target, true);
-                // The viewport can be nudged by an overflow scroll; lock it back
                 setTimeout(lockPanelViewport, 0);
                 setTimeout(lockPanelViewport, 480);
             });
@@ -3210,7 +4231,7 @@
         });
 
         // ============================================================
-        // PANEL VIEWPORT LOCK — prevents the "half-way left" bug
+        // PANEL VIEWPORT LOCK
         // ============================================================
         function lockPanelViewport() {
             const vp = DOM.panelViewport;
@@ -3223,7 +4244,7 @@
         }
 
         // ============================================================
-        // PANEL SWIPE — same finger-following physics as the edge menus
+        // PANEL SWIPE — finger-following physics
         // ============================================================
         (function setupPanelSwipe() {
             const el = DOM.rightPanel;
@@ -3253,7 +4274,6 @@
 
             el.addEventListener('touchstart', function (e) {
                 if (!RightPanel._isOpen || e.touches.length !== 1) { tracking = false; return; }
-                // Skip interactive elements so taps and scroll focus keep working
                 if (e.target.closest('input, textarea, .doc-menu, .doc-menu-btn, .doc-filter, .doc-search-wrap, .doc-toolbar-scroll, .panel-tab')) {
                     tracking = false;
                     return;
@@ -3281,12 +4301,9 @@
                 }
                 if (!horizontal) return;
 
-                // Lock the viewport so no stray scroll leaks in
                 e.preventDefault();
 
                 const cur = RightPanel.current || 'notice';
-
-                // Rubber-band when pushing beyond the first / last pane
                 let d = dx;
                 if (cur === 'notice' && d > 0) d *= 0.3;
                 if (cur === 'documents' && d < 0) d *= 0.3;
@@ -3294,7 +4311,6 @@
                 const limit = el.offsetWidth || 360;
                 d = Helpers.clamp(d, -limit, limit);
 
-                // Use calc() so the base % stays correct
                 slider.style.transform = 'translateX(calc(' + basePercent(cur) + ' + ' + d.toFixed(1) + 'px))';
                 DragTrail.show(t.clientX, t.clientY);
             }, { passive: false });
@@ -3325,12 +4341,10 @@
                 }
 
                 if (target && target !== cur) {
-                    // Release inline transform → CSS transition animates smoothly
                     slider.style.transition = '';
                     slider.style.transform = '';
                     RightPanel.setTab(target, true);
                     lockPanelViewport();
-                    // Safety net: force reset after animation completes
                     clearSettle();
                     settleTimer = setTimeout(function () {
                         slider.style.transition = '';
@@ -3339,7 +4353,6 @@
                         settleTimer = null;
                     }, 500);
                 } else if (cur === 'notice' && totalDx > CONFIG.PANEL_SWIPE_THRESHOLD * 1.5) {
-                    // Big right swipe on Notices → close panel
                     resetSlider();
                     RightPanel.close();
                 } else {
@@ -3966,10 +4979,6 @@
             });
         }
 
-        // ============================================================
-        // FILTER CHIPS — scroll into view via a custom helper
-        // (avoids scrollIntoView breaking the panel layout)
-        // ============================================================
         function scrollToolbarChipIntoView(btn) {
             const scroller = DOM.docToolbarScroll;
             if (!scroller || !btn) return;
@@ -3996,12 +5005,6 @@
                 scrollToolbarChipIntoView(btn);
                 lockPanelViewport();
             });
-        }
-
-        if (DOM.docToolbarScroll) {
-            DOM.docToolbarScroll.addEventListener('scroll', function () {
-                // intentionally empty — no white-box shadow anymore
-            }, { passive: true });
         }
 
         // ===== REALTIME =====
@@ -4825,7 +5828,7 @@
         });
 
         // ============================================================
-        // OUTER SWIPE GESTURES with hand-following trail + edge hints
+        // OUTER SWIPE GESTURES
         // ============================================================
         const Gestures = {
             init: function () {
@@ -5132,7 +6135,6 @@
             Helpers.setThemePreset(Helpers.getThemePreset());
             Profile.updateUI();
 
-            // Restore last-used right-panel tab without animation
             RightPanel.current = null;
             const lastTab = RightPanel.getLast();
             DOM.panelSlider.setAttribute('data-active', lastTab);
@@ -5172,6 +6174,361 @@
         } else {
             init();
         }
+    </script>
+
+    <script>
+        /* =====================================================================
+           PSBS ENHANCEMENT LAYER (progressive — the page works without it)
+           ===================================================================== */
+        (function () {
+            'use strict';
+            var d = document;
+            function $(s, r) { return (r || d).querySelector(s); }
+            function $$(s, r) { return Array.prototype.slice.call((r || d).querySelectorAll(s)); }
+            function esc(t) { return Helpers.sanitize(t); }
+            function safe(fn) { try { return fn(); } catch (e) { if (window.console) console.warn('[PSBS+]', e); } }
+
+            /* ---------- 1. Scroll progress + header shadow (one rAF-throttled listener) ---------- */
+            var bar = $('#scrollProgress'), hdr = $('.header'), ticking = false;
+            function onScroll() {
+                ticking = false;
+                var h = d.documentElement;
+                var y = window.pageYOffset || h.scrollTop;
+                var max = h.scrollHeight - h.clientHeight;
+                if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0).toFixed(4) + ')';
+                if (hdr) hdr.classList.toggle('is-scrolled', y > 8);
+            }
+            window.addEventListener('scroll', function () {
+                if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+            }, { passive: true });
+            window.addEventListener('resize', onScroll, { passive: true });
+            onScroll();
+
+            /* ---------- 2. Quick actions (hero, quick cards, ticker, footer, sidebar, header) ---------- */
+            var actions = {
+                notices: function () { RightPanel.open('notice'); },
+                documents: function () { RightPanel.open('documents'); },
+                search: function () { openSearch(); }
+            };
+            function afterSidebar(fn) {
+                if (State.isSidebarOpen) { closeSidebar(); setTimeout(fn, 160); } else { fn(); }
+            }
+            d.addEventListener('click', function (e) {
+                var qa = e.target.closest('[data-qa]');
+                if (qa) {
+                    var f = actions[qa.getAttribute('data-qa')];
+                    if (f) { e.preventDefault(); safe(f); }
+                    return;
+                }
+                var sq = e.target.closest('[data-sq]');
+                if (sq) {
+                    var g = actions[sq.getAttribute('data-sq')];
+                    if (g) { e.preventDefault(); afterSidebar(function () { safe(g); }); }
+                }
+            });
+            var hs = $('#headerSearchBtn');
+            if (hs) hs.addEventListener('click', function () { State.isSearchOpen ? closeSearch() : openSearch(); });
+
+            /* ---------- 3. Notice ticker + live counts on quick cards ---------- */
+            function buildTicker(list) {
+                var wrap = $('#noticeTicker'), move = $('#ntMove');
+                var sub = $('#qcNoticeSub');
+                var all = (list || []).filter(function (n) { return n && n.title; });
+                if (sub) sub.textContent = all.length ? all.length + (all.length === 1 ? ' update' : ' updates') : 'Latest updates';
+                if (!wrap || !move) return;
+                if (!all.length) { wrap.hidden = true; return; }
+                function html(hidden) {
+                    return all.slice(0, 6).map(function (n) {
+                        return '<button type="button" class="nt-item" data-qa="notices"' + (hidden ? ' aria-hidden="true" tabindex="-1"' : '') + '>' +
+                            '<i class="ri-notification-3-line" aria-hidden="true"></i>' + esc(n.title) +
+                            '<em>' + esc(Helpers.timeAgo(n.date)) + '</em></button>';
+                    }).join('');
+                }
+                move.innerHTML = html(false) + html(true);
+                wrap.hidden = false;
+                requestAnimationFrame(function () {
+                    var w = move.scrollWidth / 2;
+                    move.style.animationDuration = Math.max(18, Math.round(w / 55)) + 's';
+                });
+            }
+            if (typeof window.renderNotices === 'function') {
+                var _rn = window.renderNotices;
+                window.renderNotices = function (n) { var r = _rn.apply(this, arguments); safe(function () { buildTicker(n); }); return r; };
+            }
+            if (typeof window.renderDocuments === 'function') {
+                var _rd = window.renderDocuments;
+                window.renderDocuments = function () {
+                    var r = _rd.apply(this, arguments);
+                    safe(function () {
+                        var n = (State.documents || []).length, s = $('#qcDocSub');
+                        if (s) s.textContent = n ? n + (n === 1 ? ' file' : ' files') : 'Notes & files';
+                    });
+                    return r;
+                };
+            }
+            var nb = $('#noticeBadge'), qb = $('#qcNoticeBadge');
+            function syncBadge() {
+                if (!nb || !qb) return;
+                var t = nb.textContent.trim();
+                qb.hidden = nb.classList.contains('hidden-badge') || !t || t === '0';
+                qb.textContent = t;
+            }
+            if (nb && window.MutationObserver) {
+                new MutationObserver(syncBadge).observe(nb, { attributes: true, childList: true, characterData: true, subtree: true });
+            }
+            syncBadge();
+
+            /* ---------- 4. Faculty search ---------- */
+            var fIn = $('#facultySearch'), fClr = $('#facultySearchClear'), fCnt = $('#facultyCount'),
+                fEmpty = $('#facultyEmpty'), fGrid = $('#facultyContainer');
+            function applyFaculty() {
+                if (!fGrid) return;
+                var q = ((fIn && fIn.value) || '').toLowerCase().trim();
+                var cards = $$('.faculty-card', fGrid), shown = 0;
+                cards.forEach(function (c) {
+                    var ok = !q || c.textContent.toLowerCase().indexOf(q) > -1;
+                    c.classList.toggle('is-hidden', !ok);
+                    if (ok) shown++;
+                });
+                if (fClr) fClr.hidden = !q;
+                if (fEmpty) fEmpty.hidden = !(cards.length && !shown);
+                if (fCnt) fCnt.textContent = cards.length ? (q ? shown + ' of ' + cards.length + ' teachers' : cards.length + ' teachers') : '';
+            }
+            if (fIn) {
+                var t1;
+                fIn.addEventListener('input', function () { clearTimeout(t1); t1 = setTimeout(applyFaculty, 110); });
+            }
+            if (fClr) fClr.addEventListener('click', function () { fIn.value = ''; applyFaculty(); fIn.focus(); });
+            if (typeof window.renderFaculty === 'function') {
+                var _rf = window.renderFaculty;
+                window.renderFaculty = function () { var r = _rf.apply(this, arguments); safe(applyFaculty); return r; };
+            }
+
+            /* ---------- 5. Smarter search: sections, FAQ, teachers, notices, documents, actions ---------- */
+            Helpers.getSearchData = function () {
+                return [
+                    { id: 'hero', title: 'Home', desc: 'Welcome to PSBS Portal', icon: '🏠' },
+                    { id: 'about', title: 'About Us', desc: 'Mission, vision and principal\'s message', icon: 'ℹ️' },
+                    { id: 'academics', title: 'Academics', desc: 'Play Group to Grade 10 programs', icon: '📚' },
+                    { id: 'highlights', title: 'Why PSBS', desc: 'Labs, computer education, mock tests, career guidance', icon: '✨' },
+                    { id: 'faculty', title: 'Faculty', desc: 'Meet our dedicated teachers', icon: '👨‍🏫' },
+                    { id: 'gallery', title: 'Gallery', desc: 'Campus life photos', icon: '🖼️' },
+                    { id: 'admissions', title: 'Admissions', desc: 'How to join Pabitra Secondary Boarding School', icon: '🎓' },
+                    { id: 'faq', title: 'FAQ', desc: 'Answers to common questions', icon: '❓' },
+                    { id: 'contact', title: 'Contact', desc: 'Phone, email, address and map', icon: '📞' }
+                ];
+            };
+            function actionItems() {
+                return [
+                    { kind: 'action', title: 'School Calendar', desc: 'Events, holidays and exams', icon: '📅', tag: 'Page', run: function () { location.href = CONFIG.CALENDAR_PAGE; } },
+                    { kind: 'action', title: 'Notice Board', desc: 'Latest school notices', icon: '📢', tag: 'Open', run: actions.notices },
+                    { kind: 'action', title: 'Documents', desc: 'Notes, PDFs and slides', icon: '📁', tag: 'Open', run: actions.documents },
+                    { kind: 'action', title: 'Theme Presets', desc: 'Change the colour theme', icon: '🎨', tag: 'Action', run: function () { openThemePresets(); } },
+                    { kind: 'action', title: 'Toggle Dark Mode', desc: 'Switch between light and dark', icon: '🌙', tag: 'Action', run: function () { var dk = Helpers.toggleDark(); Toast.info(dk ? '🌙 Dark mode enabled' : '☀️ Light mode enabled'); } },
+                    { kind: 'action', title: 'Student Login', desc: 'Go to the student portal', icon: '🎓', tag: 'Page', run: function () { location.href = CONFIG.LOGIN_BASE + CONFIG.LOGIN_STUDENT; } },
+                    { kind: 'action', title: 'Teacher Login', desc: 'Go to the teacher portal', icon: '🧑‍🏫', tag: 'Page', run: function () { location.href = CONFIG.LOGIN_BASE + CONFIG.LOGIN_TEACHER; } },
+                    { kind: 'action', title: 'Share this Page', desc: 'Send the link to a friend', icon: '🔗', tag: 'Action', run: function () { Helpers.sharePage(); } }
+                ];
+            }
+            var current = [];
+            function match(q, hay) { return String(hay || '').toLowerCase().indexOf(q) > -1; }
+            function collect(q) {
+                var out = [];
+                Helpers.getSearchData().forEach(function (s) {
+                    if (match(q, s.title + ' ' + s.desc + ' ' + s.id)) out.push({ kind: 'section', id: s.id, title: s.title, desc: s.desc, icon: s.icon, tag: 'Section' });
+                });
+                actionItems().forEach(function (a) { if (match(q, a.title + ' ' + a.desc)) out.push(a); });
+                $$('.faq-item').forEach(function (el) {
+                    var sm = $('summary span', el), p = $('p', el);
+                    var title = sm ? sm.textContent : '', body = p ? p.textContent : '';
+                    if (match(q, title + ' ' + body)) out.push({ kind: 'faq', el: el, title: title, desc: body.slice(0, 80) + (body.length > 80 ? '…' : ''), icon: '❓', tag: 'FAQ' });
+                });
+                (State.faculty || []).forEach(function (f) {
+                    if (match(q, (f.name || '') + ' ' + (f.subject || ''))) out.push({ kind: 'faculty', title: f.name || 'Teacher', desc: 'Faculty · ' + (f.subject || ''), icon: f.emoji || '👨‍🏫', tag: 'Teacher' });
+                });
+                (State.notices || []).forEach(function (n) {
+                    if (match(q, (n.title || '') + ' ' + (n.description || ''))) out.push({ kind: 'notice', title: n.title, desc: Helpers.formatDate(n.date), icon: '📢', tag: 'Notice' });
+                });
+                (State.documents || []).forEach(function (dc) {
+                    if (match(q, (dc.title || '') + ' ' + (dc.subject || ''))) out.push({ kind: 'doc', title: dc.title || 'Document', desc: dc.subject || 'Study document', icon: '📄', tag: 'Document' });
+                });
+                return out.slice(0, 14);
+            }
+            function paint(items, heading) {
+                current = items;
+                var box = DOM.searchResults;
+                if (!items.length) return false;
+                var html = heading ? '<div class="search-group-title">' + esc(heading) + '</div>' : '';
+                items.forEach(function (it, i) {
+                    html += '<div class="search-result-item" role="button" tabindex="0" data-i="' + i + '" style="animation: fadeUp 0.3s ' + Math.min(i * 30, 240) + 'ms backwards cubic-bezier(0.16,1,0.3,1);">' +
+                        '<span class="sri-icon">' + esc(it.icon) + '</span>' +
+                        '<div class="sri-text"><h4>' + esc(it.title) + '</h4><p>' + esc(it.desc) + '</p></div>' +
+                        '<span class="sri-tag">' + esc(it.tag || '') + '</span></div>';
+                });
+                box.innerHTML = html;
+                return true;
+            }
+            function suggestions() {
+                var picks = [
+                    { kind: 'action', title: 'Notice Board', desc: 'Latest school notices', icon: '📢', tag: 'Open', run: actions.notices },
+                    { kind: 'action', title: 'Documents', desc: 'Notes, PDFs and slides', icon: '📁', tag: 'Open', run: actions.documents },
+                    { kind: 'action', title: 'School Calendar', desc: 'Events, holidays and exams', icon: '📅', tag: 'Page', run: function () { location.href = CONFIG.CALENDAR_PAGE; } },
+                    { kind: 'section', id: 'admissions', title: 'Admissions', desc: 'How to join PSBS', icon: '🎓', tag: 'Section' },
+                    { kind: 'section', id: 'contact', title: 'Contact', desc: 'Phone, email, address and map', icon: '📞', tag: 'Section' }
+                ];
+                paint(picks, 'Quick jump');
+            }
+            function scrollToId(id) {
+                var el = d.getElementById(id);
+                if (el) { el.classList.add('visible'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            }
+            function runItem(it) {
+                closeSearch();
+                setTimeout(function () {
+                    safe(function () {
+                        if (it.kind === 'section') scrollToId(it.id);
+                        else if (it.kind === 'faculty') { scrollToId('faculty'); if (fIn) { fIn.value = it.title; applyFaculty(); } }
+                        else if (it.kind === 'faq') { scrollToId('faq'); if (it.el) it.el.open = true; }
+                        else if (it.kind === 'notice') RightPanel.open('notice');
+                        else if (it.kind === 'doc') {
+                            RightPanel.open('documents');
+                            if (DOM.docSearchInput) {
+                                DOM.docSearchInput.value = it.title;
+                                DOM.docSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            }
+                        } else if (it.run) it.run();
+                    });
+                }, 220);
+            }
+            window.performSearch = function (query) {
+                var q = String(query || '').toLowerCase().trim();
+                if (!q) { suggestions(); return; }
+                var res = collect(q);
+                if (!paint(res, res.length + (res.length === 1 ? ' result' : ' results'))) {
+                    current = [];
+                    DOM.searchResults.innerHTML = '<div class="search-empty">😕 No results found for "' + esc(q) + '"</div>';
+                }
+            };
+            var _os = window.openSearch;
+            window.openSearch = function () { _os.apply(this, arguments); suggestions(); };
+            if (DOM.searchResults) {
+                DOM.searchResults.addEventListener('click', function (e) {
+                    var el = e.target.closest('.search-result-item');
+                    if (el && current[+el.getAttribute('data-i')]) runItem(current[+el.getAttribute('data-i')]);
+                });
+                DOM.searchResults.addEventListener('keydown', function (e) {
+                    if (e.key !== 'Enter') return;
+                    var el = e.target.closest('.search-result-item');
+                    if (el) el.click();
+                });
+            }
+            if (DOM.searchInput) {
+                DOM.searchInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') { var first = $('.search-result-item', DOM.searchResults); if (first) first.click(); }
+                });
+            }
+            if (DOM.searchClearBtn) DOM.searchClearBtn.addEventListener('click', suggestions);
+
+            /* ---------- 6. Contact helpers ---------- */
+            // 6a. Live office status (Nepal time, Mon–Fri 10:00–16:00)
+            var WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            function nepalNow() {
+                try {
+                    var f = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kathmandu', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' });
+                    var o = {};
+                    f.formatToParts(new Date()).forEach(function (p) { o[p.type] = p.value; });
+                    return { day: o.weekday, mins: (parseInt(o.hour, 10) % 24) * 60 + parseInt(o.minute, 10) };
+                } catch (e) {
+                    var n = new Date();
+                    return { day: WEEK[n.getDay()], mins: n.getHours() * 60 + n.getMinutes() };
+                }
+            }
+            function updateStatus() {
+                var el = $('#openStatus');
+                if (!el) return;
+                var t = nepalNow(), work = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].indexOf(t.day) > -1, open = false, txt;
+                if (work && t.mins >= 600 && t.mins < 960) { open = true; txt = 'Open now · closes 4:00 PM (NPT)'; }
+                else if (work && t.mins < 600) { txt = 'Closed · opens today 10:00 AM (NPT)'; }
+                else {
+                    var next = { Mon: 'Tuesday', Tue: 'Wednesday', Wed: 'Thursday', Thu: 'Friday' }[t.day] || 'Monday';
+                    txt = 'Closed · opens ' + next + ' 10:00 AM (NPT)';
+                }
+                el.classList.toggle('closed', !open);
+                var tx = $('.os-text', el);
+                if (tx) tx.textContent = txt;
+            }
+            updateStatus();
+            setInterval(updateStatus, 60000);
+
+            // 6b. One-tap copy buttons on contact cards
+            function copyText(text, btn) {
+                function ok() {
+                    var i = $('i', btn);
+                    btn.classList.add('done');
+                    if (i) i.className = 'ri-check-line';
+                    Toast.success('Copied: ' + text);
+                    setTimeout(function () { btn.classList.remove('done'); if (i) i.className = 'ri-file-copy-line'; }, 1600);
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(ok).catch(function () { Toast.info(text); });
+                } else {
+                    var ta = d.createElement('textarea');
+                    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                    d.body.appendChild(ta); ta.select();
+                    try { d.execCommand('copy'); ok(); } catch (e) { Toast.info(text); }
+                    ta.remove();
+                }
+            }
+            $$('.contact-card').forEach(function (card) {
+                var val = '', label = '';
+                var tel = $('a[href^="tel:"]', card), mail = $('a[href^="mailto:"]', card), h3 = $('h3', card), p = $('p', card);
+                if (tel) { val = tel.textContent.trim(); label = 'phone number'; }
+                else if (mail) { val = mail.textContent.trim(); label = 'email address'; }
+                else if (h3 && /address/i.test(h3.textContent) && p) { val = p.textContent.trim(); label = 'address'; }
+                if (!val) return;
+                var b = d.createElement('button');
+                b.type = 'button'; b.className = 'copy-btn'; b.setAttribute('aria-label', 'Copy ' + label);
+                b.innerHTML = '<i class="ri-file-copy-line" aria-hidden="true"></i>';
+                b.addEventListener('click', function () { copyText(val, b); });
+                card.appendChild(b);
+            });
+
+            // 6c. Message length counter
+            var ta = $('#contactMessage'), cf = $('#contactForm');
+            if (ta) {
+                var MAX = 1000, cc = d.createElement('div'), grp = ta.closest('.input-group');
+                ta.setAttribute('maxlength', String(MAX));
+                cc.className = 'char-count'; cc.setAttribute('aria-live', 'off'); cc.textContent = '0 / ' + MAX;
+                if (grp) grp.insertAdjacentElement('afterend', cc);
+                var upd = function () { var n = ta.value.length; cc.textContent = n + ' / ' + MAX; cc.classList.toggle('warn', n > MAX * 0.9); };
+                ta.addEventListener('input', upd);
+                if (cf) {
+                    cf.addEventListener('reset', function () { setTimeout(upd, 0); });
+                    cf.addEventListener('fs:success', function () { setTimeout(upd, 50); });
+                }
+            }
+
+            // 6d. Click-to-load map (keeps the first paint fast)
+            var mb = $('#loadMapBtn');
+            if (mb) mb.addEventListener('click', function () {
+                var card = $('#mapCard'), ph = $('#mapPlaceholder');
+                if (!card) return;
+                var f = d.createElement('iframe');
+                f.src = 'https://www.google.com/maps?q=Pabitra+Secondary+Boarding+School+Doti+Nepal&output=embed';
+                f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade';
+                f.title = 'Map showing Pabitra Secondary Boarding School'; f.setAttribute('allowfullscreen', '');
+                card.appendChild(f);
+                if (ph) ph.remove();
+            });
+
+            /* ---------- 7. Hero polish: pause decorative animation when the hero is off-screen ---------- */
+            var hero = $('#hero');
+            if (hero && 'IntersectionObserver' in window) {
+                new IntersectionObserver(function (en) {
+                    hero.classList.toggle('offscreen', !en[0].isIntersecting);
+                }, { threshold: 0 }).observe(hero);
+            }
+        })();
     </script>
 
     <script>

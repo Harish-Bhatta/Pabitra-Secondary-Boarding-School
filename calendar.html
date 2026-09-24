@@ -2047,6 +2047,84 @@
     .pop .detail-box:nth-child(2), .pop .program-item:nth-child(2) { animation-delay: .05s; }
     .pop .detail-box:nth-child(3), .pop .program-item:nth-child(3) { animation-delay: .10s; }
     @media (prefers-reduced-motion: reduce) { .calendar-cell.today::after, .school-header::after, .nebula-bg .orb { animation: none; } .pop .detail-box, .pop .program-item { animation: none; } }
+    /* =====================================================================
+       RESPONSIVE LAYOUT LAYER (matches the main portal)
+       Phone   : original single-column layout
+       Tablet  : roomier calendar cells
+       Desktop : side-by-side calendar + details, permanent left sidebar
+       ===================================================================== */
+    .side-rail { display: none; }
+
+    @media (min-width: 768px) {
+      .calendar-cell { min-height: 88px; }
+    }
+
+    @media (min-width: 1100px) {
+      .app-container {
+        max-width: 1120px; padding: 24px 28px; padding-top: calc(var(--header-height) + 24px); gap: 18px;
+        display: grid; align-items: start;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas: "cal cal" "detail prog" "quote quote";
+      }
+      .calendar-wrapper { grid-area: cal; min-width: 0; padding: 22px 22px 16px; }
+      .detail-panel { grid-area: detail; padding: 16px 18px; }
+      .detail-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .detail-panel, .programs-card { align-self: stretch; }
+      .programs-card { grid-area: prog; padding: 14px 18px; }
+      .footer-quote { grid-area: quote; padding: 14px 20px; font-size: 0.9rem; }
+      .calendar-cell { min-height: 84px; padding: 6px 9px 5px; }
+      .bs-day { font-size: 1.2rem; }
+      .ad-day { font-size: 0.64rem; }
+      .tithi-text { font-size: 0.6rem; }
+      .school-title { font-size: 1.4rem; }
+      .header-btn { width: 42px; height: 42px; }
+    }
+
+    @media (min-width: 1200px) {
+      :root { --rail: 260px; --header-height: 68px; }
+      body { padding-left: var(--rail); }
+      .header { display: none; }
+      .app-container { padding-top: 28px; }
+      .rail-theme {
+        margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer;
+        border-radius: 16px; border: 1px solid var(--border); background: var(--surface-solid);
+        color: var(--text); font: inherit; font-size: 0.88rem; font-weight: 500;
+      }
+      .rail-theme i {
+        width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px;
+        color: var(--primary); background: rgba(var(--primary-rgb), 0.12);
+      }
+
+      .side-rail {
+        position: fixed; top: 0; bottom: 0; left: 0; width: var(--rail); z-index: 900;
+        display: flex; flex-direction: column; gap: 6px; padding: 22px 14px; overflow-y: auto;
+        background: var(--surface-solid); border-right: 1px solid var(--border);
+      }
+      .rail-brand { display: flex; align-items: center; gap: 12px; padding: 4px 8px 18px; text-decoration: none; color: var(--text); }
+      .rail-brand img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-light); background: #fff; }
+      .rail-brand strong { display: block; font-size: 1.05rem; font-weight: 800; line-height: 1.2; }
+      .rail-brand small { font-size: 0.72rem; color: var(--text-light); }
+      .rail-title { padding: 12px 10px 4px; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); }
+      .side-rail a.rail-link {
+        display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 16px;
+        color: var(--text); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+        border: 1px solid var(--border); background: var(--surface-solid);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .side-rail a.rail-link i {
+        width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px;
+        color: var(--primary); background: rgba(var(--primary-rgb), 0.12); font-size: 0.9rem;
+      }
+      .side-rail a.rail-link:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
+      .side-rail a.rail-link.active { background: var(--primary-gradient); color: #fff; font-weight: 600; border-color: transparent; }
+      .side-rail a.rail-link.active i { background: rgba(255, 255, 255, 0.22); color: #fff; }
+    }
+
+    @media (min-width: 1700px) {
+      .app-container { max-width: 1240px; }
+      .calendar-cell { min-height: 92px; }
+    }
+
   </style>
 </head>
 
@@ -2082,6 +2160,27 @@
       </div>
     </nav>
   </header>
+
+  <!-- ===== DESKTOP SIDEBAR (shown on wide screens only) ===== -->
+  <aside class="side-rail" aria-label="Site navigation">
+    <a href="index.html" class="rail-brand">
+      <img src="logo.png" alt="PSBS Logo" width="44" height="44" />
+      <span><strong>Pabitra</strong><small>🌸 Radhe Radhe</small></span>
+    </a>
+    <div class="rail-title">Main Campus</div>
+    <a href="index.html" class="rail-link"><i class="fa-solid fa-house"></i> Home</a>
+    <a href="index.html#about" class="rail-link"><i class="fa-solid fa-circle-info"></i> About</a>
+    <a href="index.html#academics" class="rail-link"><i class="fa-solid fa-book"></i> Academics</a>
+    <a href="index.html#faculty" class="rail-link"><i class="fa-solid fa-people-group"></i> Faculty</a>
+    <a href="index.html#gallery" class="rail-link"><i class="fa-solid fa-images"></i> Gallery</a>
+    <a href="index.html#admissions" class="rail-link"><i class="fa-solid fa-graduation-cap"></i> Admissions</a>
+    <a href="index.html#contact" class="rail-link"><i class="fa-solid fa-phone"></i> Contact</a>
+    <div class="rail-title">Resources</div>
+    <a href="calendar.html" class="rail-link active" aria-current="page"><i class="fa-regular fa-calendar-days"></i> Calendar</a>
+    <a href="student-login.html" class="rail-link"><i class="fa-solid fa-user-graduate"></i> Student Login</a>
+    <a href="teacher-login.html" class="rail-link"><i class="fa-solid fa-chalkboard-user"></i> Teacher Login</a>
+    <button type="button" class="rail-theme" onclick="document.getElementById('themeToggleBtn').click()"><i class="fa-solid fa-circle-half-stroke"></i> Light / Dark mode</button>
+  </aside>
 
   <!-- ===== DROPDOWN BACKDROP (blocks interactions) ===== -->
   <div class="dropdown-backdrop" id="dropdownBackdrop"></div>

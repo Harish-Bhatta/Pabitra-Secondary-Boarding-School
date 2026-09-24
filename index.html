@@ -2879,6 +2879,91 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 .quick-wrap { animation: riseIn 0.8s 0.15s var(--ease) backwards; }
 #hero.offscreen .hero-particle, #hero.offscreen .hero-logo-wrap::after, #hero.offscreen .hero-scroll span { animation-play-state: paused; }
 
+/* =====================================================================
+   RESPONSIVE LAYOUT LAYER
+   Phone (<768)   : original layout, slide-in drawer menu
+   Tablet (768+)  : drawer menu, wider sections, 4-column grids
+   Desktop (1200+): permanent left sidebar, toolbar header with search bar,
+                    two-column hero, roomy sections
+   ===================================================================== */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .faculty-grid { grid-template-columns: repeat(4, 1fr); }
+    .section { margin: 20px auto; }
+}
+
+@media (min-width: 1200px) {
+    :root { --rail: 280px; --header-height: 68px; --container-padding: 32px; }
+    html { scroll-padding-top: 92px; }
+    body { padding-left: var(--rail); font-size: 16px; }
+
+    /* --- Permanent sidebar --- */
+    .sidebar {
+        width: var(--rail); max-width: none; transform: none !important; transition: none;
+        background: var(--surface-solid); box-shadow: none;
+        -webkit-backdrop-filter: none; backdrop-filter: none;
+        border: 0; border-right: 1px solid var(--border);
+    }
+    .sidebar-close, .menu-btn, .sidebar-overlay { display: none !important; }
+    .sidebar-header { padding-top: 22px; padding-bottom: 14px; }
+    .sidebar-body { padding-bottom: 24px; }
+    .sidebar-links a .nav-title, .sidebar-link-btn .nav-title { font-size: 0.88rem; }
+
+    /* --- Header becomes a toolbar next to the sidebar --- */
+    .header { left: var(--rail); }
+    .header.header-hidden { transform: none; }
+    .scroll-progress { left: var(--rail); }
+    .navbar { padding: 0 32px; gap: 10px; }
+    .nav-left, .nav-right { display: contents; }
+    .nav-left .logo, .brand-text { display: none !important; }
+    .header-search-btn {
+        order: 1; margin-right: auto; width: min(400px, 42vw); height: 44px;
+        display: flex; align-items: center; justify-content: flex-start; gap: 12px; padding: 0 18px;
+        border-radius: 999px; background: var(--surface-hover); border: 1px solid var(--border);
+        color: var(--text-light); font-size: 18px; cursor: pointer;
+    }
+    .header-search-btn::after { content: 'Search notices, documents, pages…'; font-size: 0.86rem; font-weight: 500; }
+    .header-theme-presets-btn { order: 2; }
+    .header-theme-toggle-btn { order: 3; }
+    .notice-btn { order: 4; }
+    .profile-container { order: 5; }
+    .header-theme-presets-btn, .header-theme-toggle-btn, .notice-btn, .profile-btn { width: 42px; height: 42px; font-size: 19px; }
+
+    /* --- Hero: text left, logo right --- */
+    #hero { min-height: 90vh; padding: 130px var(--container-padding) 160px; border-radius: 0 0 48px 48px; }
+    .hero-content {
+        max-width: 1180px; display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+        column-gap: 64px; justify-items: start; align-items: start; text-align: left;
+    }
+    .hero-content > * { grid-column: 1; }
+    .hero-content > .hero-logo-wrap {
+        grid-column: 2; grid-row: 1 / span 6; align-self: center; justify-self: center;
+        width: 300px; height: 300px; margin: 0;
+    }
+    .hero-title { font-size: clamp(3rem, 4.3vw, 4.6rem); line-height: 1.06; }
+    .hero-motto { font-size: 1.7rem; }
+    .hero-description { max-width: 580px; font-size: 1.12rem; }
+    .hero-actions { justify-content: flex-start; margin: 30px 0 0; }
+    .hero-stats-mini { justify-self: stretch; width: 100%; max-width: 540px; margin: 34px 0 0; padding: 20px 8px; }
+    .hero-stat-mini .num { font-size: 2.2rem; }
+
+    /* --- Content --- */
+    .quick-wrap { width: calc(100% - 64px); margin-top: -96px; }
+    .section { width: calc(100% - 64px); margin: 28px auto; padding: 76px 0; border-radius: 44px; }
+    .section-title { font-size: 2.4rem; }
+    .about-grid { gap: 56px; align-items: center; }
+    .academics-grid, .hl-grid { gap: 20px; }
+    .faculty-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .contact-grid { grid-template-columns: 320px 1fr; gap: 40px; }
+    .footer-container { grid-template-columns: 2fr 1fr 1fr 1fr; }
+}
+
+@media (min-width: 1600px) {
+    .container, .section, .quick-wrap { max-width: 1360px; }
+    .faculty-grid { grid-template-columns: repeat(5, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
     </style>
 </head>
 

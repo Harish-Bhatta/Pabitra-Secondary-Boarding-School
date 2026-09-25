@@ -392,65 +392,121 @@
 
         /* ===== LIGHTBOX ===== */
         .lightbox-overlay {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.90);
+            position: fixed; inset: 0; background: rgba(6, 8, 12, 0.94);
             backdrop-filter: blur(40px) saturate(180%);
             -webkit-backdrop-filter: blur(40px) saturate(180%);
-            z-index: 10002; display: flex; align-items: center; justify-content: center;
+            z-index: 10002; display: flex; flex-direction: column;
             opacity: 0; visibility: hidden;
-            transition: opacity 0.4s var(--snap), visibility 0.4s var(--snap);
-            padding: 20px; user-select: none; -webkit-user-select: none;
+            transition: opacity 0.4s var(--snap), visibility 0.4s var(--snap), background 0.3s ease;
+            padding: 0; user-select: none; -webkit-user-select: none;
         }
         .lightbox-overlay.active { opacity: 1; visibility: visible; }
-        .lightbox-overlay .lightbox-close {
-            position: absolute; top: 24px; right: 24px;
-            width: 48px; height: 48px; border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #fff; font-size: 1.4rem; display: grid; place-items: center;
-            transition: all 0.3s var(--snap);
-            z-index: 10; cursor: pointer; backdrop-filter: blur(8px);
+        .lightbox-overlay.dismiss-dragging { transition: none; }
+
+        .lightbox-topbar {
+            position: relative; z-index: 12; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 10px;
         }
-        .lightbox-overlay .lightbox-close:hover { background: rgba(239, 68, 68, 0.7); }
-        .lightbox-overlay .lightbox-img-wrap {
-            position: relative; width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        .lightbox-counter-pill {
+            color: rgba(255, 255, 255, 0.9); font-size: 0.8125rem; font-weight: 700;
+            background: rgba(255, 255, 255, 0.08); padding: 9px 18px;
+            border-radius: 999px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            letter-spacing: 0.04em; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
         }
-        .lightbox-overlay .lightbox-img {
+        .lightbox-actions { display: flex; align-items: center; gap: 8px; }
+        .lightbox-icon-btn {
+            position: relative; overflow: hidden;
+            width: 44px; height: 44px; border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #fff; font-size: 1.2rem; display: grid; place-items: center;
+            transition: all 0.3s var(--snap); cursor: pointer;
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        }
+        .lightbox-icon-btn::before {
+            content: ''; position: absolute; left: 14%; right: 14%; top: 8%; height: 40%;
+            border-radius: 999px; pointer-events: none;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+        }
+        .lightbox-icon-btn i { position: relative; z-index: 1; }
+        .lightbox-icon-btn:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-2px); }
+        .lightbox-icon-btn:active { transform: scale(0.92); }
+        .lightbox-icon-btn.active-zoom { background: var(--primary-gradient); border-color: transparent; }
+        .lightbox-icon-btn.lightbox-close:hover { background: rgba(239, 68, 68, 0.75); border-color: transparent; }
+
+        .lightbox-img-wrap {
+            position: relative; flex: 1; min-height: 0; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; touch-action: none;
+        }
+        .lightbox-img {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(1);
-            max-width: 95%; max-height: 85vh;
-            border-radius: var(--radius-md); box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
-            object-fit: contain;
-            transition: opacity 0.35s var(--snap), transform 0.3s var(--snap);
+            max-width: 92%; max-height: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            object-fit: contain; cursor: zoom-in; background: rgba(255, 255, 255, 0.02);
+            transition: opacity 0.28s var(--snap), transform 0.28s var(--snap), border-radius 0.3s ease;
             will-change: transform, opacity; opacity: 0; pointer-events: none;
         }
-        .lightbox-overlay .lightbox-img.active { opacity: 1; pointer-events: auto; }
-        .lightbox-overlay .lightbox-counter {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.6); font-size: 0.8125rem; font-weight: 500;
-            background: rgba(0, 0, 0, 0.3); padding: 6px 18px;
-            border-radius: 999px; backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            letter-spacing: 0.04em; z-index: 5; pointer-events: none;
+        .lightbox-img.active { opacity: 1; pointer-events: auto; }
+        .lightbox-img.zoomed { cursor: zoom-out; border-radius: 6px; }
+        .lightbox-img.panning { transition: none; cursor: grabbing; }
+        .lightbox-spinner {
+            position: absolute; width: 38px; height: 38px; border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.15); border-top-color: #fff;
+            animation: spin 0.8s linear infinite; z-index: 3;
+            opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
         }
+        .lightbox-spinner.show { opacity: 1; }
+        .lightbox-hint {
+            position: absolute; top: 74px; left: 50%; transform: translateX(-50%) translateY(-6px);
+            color: rgba(255, 255, 255, 0.55); font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.03em; z-index: 11; pointer-events: none;
+            opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .lightbox-hint.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .lightbox-overlay .lightbox-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
             width: 48px; height: 48px; border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff; font-size: 1.3rem; display: grid; place-items: center;
             transition: all 0.3s var(--snap);
-            z-index: 10; cursor: pointer; backdrop-filter: blur(8px); opacity: 0.4;
+            z-index: 10; cursor: pointer; backdrop-filter: blur(10px); opacity: 0.55;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
         }
-        .lightbox-overlay .lightbox-nav:hover { background: rgba(255, 255, 255, 0.1); opacity: 1; }
+        .lightbox-overlay .lightbox-nav:hover { background: rgba(255, 255, 255, 0.16); opacity: 1; transform: translateY(-50%) scale(1.06); }
         .lightbox-overlay .lightbox-nav.prev { left: 20px; }
         .lightbox-overlay .lightbox-nav.next { right: 20px; }
+        .lightbox-overlay .lightbox-nav:disabled { opacity: 0.18; cursor: default; }
+
+        .lightbox-filmstrip {
+            position: relative; z-index: 12; flex-shrink: 0;
+            display: flex; gap: 8px; padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+            overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+        }
+        .lightbox-filmstrip::-webkit-scrollbar { display: none; }
+        .lightbox-thumb {
+            flex-shrink: 0; width: 54px; height: 54px; border-radius: 12px; overflow: hidden;
+            border: 2px solid transparent; opacity: 0.45; cursor: pointer; padding: 0;
+            transition: all 0.3s var(--snap); background: rgba(255, 255, 255, 0.06);
+        }
+        .lightbox-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .lightbox-thumb.active { opacity: 1; border-color: var(--primary); box-shadow: 0 6px 16px rgba(243, 156, 18, 0.4); transform: translateY(-3px); }
+        .lightbox-thumb:hover { opacity: 0.85; }
 
         @media (max-width: 600px) {
-            .lightbox-overlay .lightbox-nav { width: 40px; height: 40px; font-size: 1rem; opacity: 0.35; }
-            .lightbox-overlay .lightbox-nav.prev { left: 10px; }
-            .lightbox-overlay .lightbox-nav.next { right: 10px; }
-            .lightbox-overlay .lightbox-img { max-width: 98%; max-height: 80vh; }
-            .lightbox-overlay .lightbox-counter { bottom: 16px; font-size: 0.75rem; padding: 4px 14px; }
-            .lightbox-overlay .lightbox-close { top: 14px; right: 14px; width: 40px; height: 40px; font-size: 1.1rem; }
+            .lightbox-overlay .lightbox-nav { width: 40px; height: 40px; font-size: 1rem; opacity: 0.4; }
+            .lightbox-overlay .lightbox-nav.prev { left: 8px; }
+            .lightbox-overlay .lightbox-nav.next { right: 8px; }
+            .lightbox-img { max-width: 96%; }
+            .lightbox-topbar { padding: calc(12px + env(safe-area-inset-top, 0px)) 12px 8px; }
+            .lightbox-icon-btn { width: 40px; height: 40px; font-size: 1.1rem; }
+            .lightbox-counter-pill { padding: 7px 14px; font-size: 0.75rem; }
+            .lightbox-thumb { width: 46px; height: 46px; }
+            .lightbox-hint { top: 66px; font-size: 0.7rem; }
         }
 
         /* ============================================================
@@ -881,7 +937,7 @@
             width: 200%;
             height: 100%;
             transform: translateX(0);
-            transition: transform 0.45s var(--snap);
+            transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
             will-change: transform;
         }
         .panel-slider[data-active="documents"] { transform: translateX(-50%); }
@@ -968,78 +1024,29 @@
         .panel-tab i { font-size: 1rem; position: relative; z-index: 1; }
         .panel-tab > span:not(.ripple) { position: relative; z-index: 1; }
         .panel-tab:active { transform: scale(0.94); }
-
-        /*
-         * REAL-TIME ACTIVE COLOR INDICATOR
-         * The colored surface is a separate layer so it can move continuously
-         * between the exact Notice and Documents button boxes while swiping.
-         */
-        .panel-tab-indicator {
-            position: absolute;
-            z-index: 0;
-            left: 0;
-            top: 0;
-            width: 0;
-            height: 0;
-            border-radius: 999px;
-            pointer-events: none;
-            opacity: 0;
-            background: var(--primary-gradient);
-            border: 1px solid rgba(255, 255, 255, 0.32);
-            box-shadow:
-                0 8px 22px rgba(var(--primary-rgb), 0.38),
-                inset 0 1px 0 rgba(255, 255, 255, 0.46),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.06);
-            transform: translate3d(0, 0, 0);
-            transform-origin: center;
-            will-change: left, top, width, height, transform;
-            transition:
-                left 0.45s var(--snap),
-                top 0.45s var(--snap),
-                width 0.45s var(--snap),
-                height 0.45s var(--snap),
-                opacity 0.18s ease,
-                border-radius 0.45s var(--snap),
-                box-shadow 0.35s var(--snap);
-        }
-        .panel-tab-indicator-gloss {
-            position: absolute;
-            left: 8%;
-            right: 8%;
-            top: 6%;
-            height: 42%;
-            border-radius: 999px;
-            pointer-events: none;
-            background: linear-gradient(
-                180deg,
-                rgba(255,255,255,0.58),
-                rgba(255,255,255,0)
-            );
-        }
         .panel-tab.active {
-            background: transparent;
+            background: var(--primary-gradient);
             color: #fff;
             border-color: transparent;
-            box-shadow: none;
+            box-shadow:
+                0 8px 22px rgba(243, 156, 18, 0.38),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         .panel-tab.active i,
         .panel-tab.active span { color: #fff; }
         .panel-tab.active::before {
-            background: transparent;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
         }
-        .panel-tab-indicator.following {
-            transition: none !important;
+        body.dark .panel-tab.active {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-color: transparent;
+            box-shadow:
+                0 8px 22px rgba(243, 156, 18, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
-        .panel-tab-indicator.settling {
-            transition:
-                left 0.46s var(--snap),
-                top 0.46s var(--snap),
-                width 0.46s var(--snap),
-                height 0.46s var(--snap),
-                opacity 0.18s ease,
-                border-radius 0.46s var(--snap),
-                box-shadow 0.36s var(--snap);
-        }
+        body.dark .panel-tab.active i,
+        body.dark .panel-tab.active span { color: #fff; }
 
         .panel-tab-badge {
             position: absolute;
@@ -1047,7 +1054,7 @@
             min-width: 18px; height: 18px;
             padding: 0 5px;
             border-radius: 999px;
-            background: #EF4444;
+            background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
             color: #fff;
             font-size: 0.7rem;
             font-weight: 800;
@@ -1055,7 +1062,7 @@
             align-items: center;
             justify-content: center;
             line-height: 1;
-            box-shadow: 0 3px 8px rgba(239, 68, 68, 0.4), 0 0 0 2px var(--surface-solid);
+            box-shadow: 0 3px 8px rgba(145, 138, 138, 0.4), 0 0 0 2px var(--surface-solid);
             z-index: 3;
             animation: popIn 0.4s var(--spring);
         }
@@ -1063,6 +1070,7 @@
         .panel-tab.active .panel-tab-badge {
             background: #fff; color: var(--primary);
             box-shadow: 0 3px 8px rgba(0,0,0,0.14), 0 0 0 2px var(--primary);
+          animation: popIn 0.4s var(--spring);
         }
 
         .sidebar-overlay {
@@ -1361,6 +1369,14 @@
         .doc-filter.active::before {
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
         }
+        body.dark .doc-filter.active {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-color: transparent;
+            box-shadow:
+                0 8px 20px rgba(243, 156, 18, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
 
         .doc-card {
             display: flex; align-items: center; gap: 12px;
@@ -1515,7 +1531,7 @@
             display: flex; align-items: center; justify-content: center;
             text-align: center; overflow: hidden; border-radius: 0;
             color: #fff;
-            background: linear-gradient(135deg, rgba(253, 156, 11, 0.1), rgba(245, 176, 65, 0.2)),
+            background: linear-gradient(135deg, rgba(253, 156, 11, 0.2), rgba(245, 176, 65, 0.3)),
                 url("banner.jpg") center/cover no-repeat;
             isolation: isolate;
         }
@@ -1546,6 +1562,7 @@
             animation: fadeUp 0.8s var(--snap);
             text-align: center;
         }
+        .hero-text-col { display: contents; }
         @media (min-width: 1024px) { .hero-content { max-width: 800px; } }
 
         .hero-logo {
@@ -1581,7 +1598,7 @@
             background: #f1c40f; animation: blink 0.8s step-end infinite;
             vertical-align: text-bottom; margin-left: 2px;
         }
-        @keyframes blink { 50% { border-color: transparent; } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .hero-description {
             max-width: 500px; margin: 0 auto 16px;
             color: rgba(255, 255, 255, 0.9);
@@ -1629,6 +1646,84 @@
         .hero-stat-mini .label {
             font-size: 0.875rem; text-transform: uppercase;
             opacity: 0.7; letter-spacing: 0.06em;
+        }
+
+        /* ===== HERO / TICKER POLISH ===== */
+        #hero {
+            min-height: clamp(620px, 86vh, 820px);
+            background-position: center center;
+            background-attachment: scroll;
+        }
+        #hero::after {
+            content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                linear-gradient(180deg, rgba(5,10,20,.16) 0%, rgba(5,10,20,.08) 42%, rgba(5,10,20,.34) 100%),
+                radial-gradient(circle at 50% 25%, rgba(255,255,255,.08), transparent 42%);
+        }
+        .hero-overlay { margin-top: 0; background: rgba(0,0,0,.035); }
+        .hero-content { max-width: 760px; will-change: transform, opacity; }
+        .hero-logo-wrap { transform: translateZ(0); filter: drop-shadow(0 18px 32px rgba(0,0,0,.18)); }
+        .hero-title, .hero-motto, .hero-description, .hero-actions, .hero-stats-mini {
+            animation: heroContentIn .7s var(--snap) both;
+        }
+        .hero-motto { animation-delay: 70ms; }
+        .hero-description { animation-delay: 120ms; }
+        .hero-actions { animation-delay: 170ms; }
+        .hero-stats-mini { animation-delay: 220ms; }
+        @keyframes heroContentIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .notice-ticker {
+            position: relative; display: flex; align-items: center; gap: 0;
+            min-height: 54px; margin-bottom: 12px; padding: 0 8px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,.34); border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.52)), var(--surface);
+            box-shadow: 0 12px 34px rgba(15,23,42,.10), inset 0 1px 0 rgba(255,255,255,.85);
+            backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            transform: translateZ(0);
+        }
+        .nt-label {
+            position: relative; z-index: 2; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 7px;
+            min-height: 36px; padding: 0 12px; border-radius: 12px; color: var(--primary);
+            background: rgba(255,255,255,.72); box-shadow: 0 4px 12px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.9);
+        }
+        .nt-track {
+            position: relative; flex: 1 1 auto; min-width: 0; overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+        }
+        .nt-move {
+            display: inline-flex; width: max-content; animation: ntScroll 22s linear infinite;
+            will-change: transform; transform: translate3d(0,0,0);
+        }
+        .nt-item {
+            display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px;
+            font-size: .86rem; font-weight: 600; color: var(--text); white-space: nowrap; cursor: pointer;
+            transition: color .25s ease, transform .25s ease;
+        }
+        .nt-item:hover { color: var(--primary-dark); }
+        .nt-item i { color: var(--primary); flex: 0 0 auto; }
+        .nt-title { overflow: hidden; text-overflow: ellipsis; }
+        .nt-item em { font-style: normal; font-size: .74rem; font-weight: 500; color: var(--text-light); flex: 0 0 auto; }
+        .nt-all {
+            position: relative; z-index: 2; flex: 0 0 auto; display: inline-flex; align-items: center; gap: 3px;
+            min-height: 36px; padding: 0 11px; border-radius: 12px; color: var(--primary-dark);
+            font-size: .78rem; font-weight: 700; background: rgba(255,255,255,.72); box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+        }
+        body.dark .notice-ticker {
+            border-color: rgba(255,255,255,.08);
+            background: linear-gradient(180deg, rgba(30,41,59,.84), rgba(30,41,59,.68));
+            box-shadow: 0 14px 38px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        body.dark .nt-label, body.dark .nt-all { background: rgba(255,255,255,.08); }
+        @media (max-width: 560px) {
+            .notice-ticker { min-height: 50px; border-radius: 16px; padding: 0 6px; }
+            .nt-label { padding: 0 9px; font-size: .78rem; }
+            .nt-item { padding: 0 13px; font-size: .78rem; }
+            .nt-item em { font-size: .68rem; }
+            .nt-all { padding: 0 8px; font-size: .72rem; }
         }
 
         /* ============================================================
@@ -2375,6 +2470,7 @@ body.dark .nav-left .logo { box-shadow: 0 0 0 2px #1e293b, 0 0 0 4px rgba(var(--
     border: 1px solid var(--card-border); box-shadow: 0 1px 0 #fff inset, 0 0 0 1px var(--card-ring);
 }
 body.dark .sidebar-links a, body.dark .sidebar-link-btn { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 0 0 1px var(--card-ring); }
+body.dark .sidebar-links a.active { box-shadow: 0 6px 18px rgba(243, 156, 18, 0.45) !important; }
 .sidebar-links a .nav-icon-wrapper, .sidebar-link-btn .nav-icon-wrapper {
     width: 34px; height: 34px; border-radius: 11px; color: var(--primary);
     background: rgba(var(--primary-rgb), 0.12); border-color: rgba(var(--primary-rgb), 0.14);
@@ -2818,6 +2914,10 @@ body.dark .adm-chips span { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
 /* ---------- FAQ ---------- */
 .faq-list { display: grid; gap: 10px; max-width: 820px; margin: 0 auto; text-align: left; }
+@media (min-width: 1300px) {
+    .faq-list { display: block; max-width: 1080px; columns: 2; column-gap: 16px; }
+    .faq-item { break-inside: avoid; margin-bottom: 16px; }
+}
 .faq-item { border-radius: 20px; overflow: hidden; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); transition: box-shadow 0.35s var(--ease); }
 .faq-item[open] { box-shadow: var(--card-shadow-hover); }
 .faq-item summary {
@@ -3021,19 +3121,21 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     /* --- Hero: text left, logo right --- */
     #hero { min-height: 90vh; padding: 130px var(--container-padding) 160px; border-radius: 0 0 48px 48px; }
     .hero-content {
-        max-width: 1180px; display: grid; grid-template-columns: minmax(0, 1fr) 320px;
-        column-gap: 64px; justify-items: start; align-items: start; text-align: left;
+        max-width: 1180px; display: flex; align-items: center; justify-content: space-between;
+        gap: 64px; text-align: left;
     }
-    .hero-content > * { grid-column: 1; }
+    .hero-text-col {
+        display: flex; flex-direction: column; align-items: flex-start;
+        flex: 1 1 auto; min-width: 0; order: 1;
+    }
     .hero-content > .hero-logo-wrap {
-        grid-column: 2; grid-row: 1 / span 6; align-self: center; justify-self: center;
-        width: 300px; height: 300px; margin: 0;
+        flex: 0 0 300px; width: 300px; height: 300px; margin: 0; order: 2;
     }
     .hero-title { font-size: clamp(2.6rem, 3.6vw, 3.6rem); line-height: 1.1; }
     .hero-motto { font-size: 1.4rem; }
     .hero-description { max-width: 580px; font-size: 1.12rem; }
     .hero-actions { justify-content: flex-start; margin: 30px 0 0; }
-    .hero-stats-mini { justify-self: stretch; width: 100%; max-width: 540px; margin: 14px 0 0; padding: 8px 8px; }
+    .hero-stats-mini { width: 100%; max-width: 540px; margin: 14px 0 0; padding: 8px 8px; }
     .hero-stat-mini .num { font-size: 2.2rem; }
 
     /* --- Content --- */
@@ -3045,7 +3147,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     .faculty-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .gallery-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
     .contact-grid { grid-template-columns: 320px 1fr; gap: 40px; }
-    .footer-container { grid-template-columns: 2fr 1fr 1fr 1fr; }
+    .footer-container { grid-template-columns: 1.6fr 1fr 1fr; gap: 56px; }
 }
 
 @media (min-width: 1600px) {
@@ -3054,1127 +3156,569 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     .gallery-grid { grid-template-columns: repeat(5, 1fr); }
 }
 
-
-<style id="psbs-dual-sidebar-desktop">
 /* =====================================================================
-   PSBS DESKTOP DUAL-SIDEBAR UI — STRUCTURAL OVERRIDE
-   Reference-inspired composition; original PSBS glossy palette retained.
-   Mobile/tablet are intentionally untouched.
+   ULTRA ENHANCE — hero reboot, glass UI everywhere, panel tab morphing,
+   gallery previewer overhaul. Appended so it wins the cascade.
    ===================================================================== */
+
+/* ---------- Hero: aurora mesh backdrop ---------- */
+.hero-aurora { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.aurora-blob {
+    position: absolute; border-radius: 50%; opacity: .55; mix-blend-mode: screen;
+    filter: blur(60px); will-change: transform;
+    background: radial-gradient(circle, rgba(var(--primary-rgb), .8), transparent 70%);
+}
+.aurora-blob.a1 { width: 42vw; height: 42vw; top: -14%; left: -8%; animation: auroraDrift1 22s ease-in-out infinite; }
+.aurora-blob.a2 { width: 34vw; height: 34vw; bottom: -16%; right: -6%; background: radial-gradient(circle, rgba(255,255,255,.5), transparent 70%); animation: auroraDrift2 26s ease-in-out infinite; }
+.aurora-blob.a3 { width: 26vw; height: 26vw; top: 30%; right: 18%; background: radial-gradient(circle, rgba(var(--primary-rgb), .55), transparent 70%); animation: auroraDrift3 19s ease-in-out infinite; }
+@keyframes auroraDrift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(6%, 8%) scale(1.12); } }
+@keyframes auroraDrift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-7%, -5%) scale(1.08); } }
+@keyframes auroraDrift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-5%, 6%) scale(0.92); } }
+@media (max-width: 900px) { .aurora-blob.a3 { display: none; } }
+
+/* ---------- Hero: orb ring + floating skill chips around the logo ---------- */
+.hero-logo-wrap { overflow: visible; }
+.hero-orb-ring {
+    position: absolute; inset: -12px; border-radius: 50%; pointer-events: none; z-index: 0;
+    background: conic-gradient(from 0deg, rgba(var(--primary-rgb), 0) 0%, rgba(255,255,255,.9) 18%, rgba(var(--primary-rgb), 0) 36%);
+    animation: orbSpin 6s linear infinite;
+}
+@keyframes orbSpin { to { transform: rotate(360deg); } }
+.hero-float-chip {
+    position: absolute; width: 40px; height: 40px; border-radius: 50%; z-index: 3;
+    display: none; align-items: center; justify-content: center; font-size: 1.05rem; color: #fff;
+    background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.1));
+    border: 1px solid rgba(255,255,255,.4);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 14px 26px -12px rgba(0,0,0,.55);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    animation: chipFloat 4.5s ease-in-out infinite;
+}
+.chip-1 { top: -6px; right: -14px; animation-delay: 0s; }
+.chip-2 { bottom: 6px; left: -22px; animation-delay: 1.1s; }
+.chip-3 { bottom: -14px; right: 22%; animation-delay: 2.2s; }
+@keyframes chipFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(-4deg); } }
+@media (min-width: 1200px) { .hero-float-chip { display: flex; } }
+
+/* ---------- Hero: desktop reboot — glass panel + refined rhythm ---------- */
 @media (min-width: 1200px) {
-    :root {
-        --psbs-left: 252px;
-        --psbs-right: 318px;
-        --psbs-bar: 72px;
-        --psbs-gap: 24px;
-        --psbs-glass:
-            linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.20));
-        --psbs-glass-dark:
-            linear-gradient(180deg, rgba(30,41,59,.78), rgba(15,23,42,.62));
+    #hero { isolation: isolate; }
+    .hero-content { gap: 84px; }
+    .hero-text-col {
+        position: relative; padding: 40px 44px; border-radius: 32px;
+        background: linear-gradient(160deg, rgba(255,255,255,.14), rgba(255,255,255,.03));
+        border: 1px solid rgba(255,255,255,.16);
+        box-shadow: 0 40px 90px -40px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.18);
+        backdrop-filter: blur(2px);
     }
-
-    html { scroll-padding-top: 96px; }
-    body {
-        padding-left: var(--psbs-left) !important;
-        padding-right: var(--psbs-right) !important;
-        overflow-x: hidden;
+    .hero-content > .hero-logo-wrap {
+        flex: 0 0 320px; width: 320px; height: 320px;
+        filter: drop-shadow(0 30px 50px rgba(0,0,0,.35));
     }
-
-    /* ---------- LEFT NAVIGATION ---------- */
-    .sidebar {
-        left: 0 !important;
-        top: 0 !important;
-        bottom: 0 !important;
-        width: var(--psbs-left) !important;
-        max-width: none !important;
-        transform: none !important;
-        border: 0 !important;
-        border-right: 1px solid var(--glass-border) !important;
-        border-radius: 0 26px 26px 0;
-        background: var(--surface) !important;
-        backdrop-filter: blur(28px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-        box-shadow: 16px 0 50px rgba(15,23,42,.07) !important;
-        z-index: 2100 !important;
-    }
-
-    .sidebar-header {
-        min-height: 76px !important;
-        padding: 14px 16px !important;
-        border-bottom: 1px solid var(--glass-border) !important;
-    }
-    .sidebar-brand { min-width: 0; }
-    .sidebar-logo {
-        width: 46px !important;
-        height: 46px !important;
-        box-shadow: 0 8px 22px rgba(243,156,18,.18);
-    }
-    .sidebar-text h2 { font-size: .96rem !important; }
-    .sidebar-text p { font-size: .72rem !important; }
-    .sidebar-close, .menu-btn, .sidebar-overlay { display: none !important; }
-    .sidebar-body {
-        padding: 12px 12px 18px !important;
-        overflow-y: auto !important;
-        scrollbar-width: thin;
-    }
-    .sidebar-group { margin-bottom: 14px !important; }
-    .sidebar-group-title {
-        padding: 5px 10px 7px !important;
-        font-size: .64rem !important;
-        letter-spacing: .10em !important;
-        text-transform: uppercase;
-    }
-    .sidebar-links { gap: 3px !important; }
-    .sidebar-links a,
-    .sidebar-link-btn {
-        min-height: 42px !important;
-        padding: 7px 10px !important;
-        border-radius: 13px !important;
-        gap: 10px !important;
-        font-size: .82rem !important;
-    }
-    .sidebar-links a:hover,
-    .sidebar-link-btn:hover {
-        transform: translateX(2px);
-    }
-    .sidebar-links a.active {
-        background: var(--psbs-glass) !important;
-        border: 1px solid rgba(255,255,255,.46) !important;
-        box-shadow: 0 8px 20px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.7) !important;
-    }
-    .sidebar-links a.active::before {
-        content: "";
-        position: absolute;
-        left: 3px;
-        width: 3px;
-        height: 22px;
-        border-radius: 99px;
-        background: var(--primary);
-        box-shadow: 0 0 10px rgba(243,156,18,.38);
-    }
-    .nav-icon-wrapper {
-        width: 32px !important;
-        height: 32px !important;
-        min-width: 32px !important;
-        border-radius: 10px !important;
-    }
-    .sidebar-action-footer { margin-top: 8px !important; }
-    .sidebar-footer-wrap { padding: 10px 14px 16px !important; }
-
-    /* ---------- MAIN COMMAND BAR ---------- */
-    .header {
-        left: var(--psbs-left) !important;
-        right: var(--psbs-right) !important;
-        height: var(--psbs-bar) !important;
-        border-radius: 0 !important;
-        background: var(--surface) !important;
-        backdrop-filter: blur(26px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
-        border-bottom: 1px solid var(--glass-border) !important;
-        box-shadow: 0 8px 28px rgba(15,23,42,.05) !important;
-    }
-    .header.header-hidden { transform: none !important; }
-    .navbar {
-        height: 100% !important;
-        padding: 0 20px !important;
-        gap: 10px !important;
-    }
-    .nav-left, .nav-right { display: contents !important; }
-    .nav-left .logo, .brand-text { display: none !important; }
-    .header-theme-presets-btn { order: 1; }
-    .header-search-btn {
-        order: 2;
-        margin: 0 auto 0 6px !important;
-        width: min(520px, 48vw) !important;
-        height: 44px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-        gap: 11px !important;
-        padding: 0 16px !important;
-        border-radius: 999px !important;
-        background: var(--surface-hover) !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text-light) !important;
-    }
-    .header-search-btn::after {
-        content: 'Search notices, documents, pages…' !important;
-        font-size: .82rem !important;
-        font-weight: 500 !important;
-    }
-    .header-theme-toggle-btn { order: 3; }
-    .notice-btn { order: 4; }
-    .profile-container { order: 5; }
-    .header-theme-presets-btn,
-    .header-theme-toggle-btn,
-    .notice-btn,
-    .profile-btn {
-        width: 42px !important;
-        height: 42px !important;
-        min-width: 42px !important;
-        border-radius: 13px !important;
-    }
-
-    /* ---------- RIGHT UTILITY SIDEBAR ---------- */
-    .right-panel {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        top: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: var(--psbs-right) !important;
-        max-width: none !important;
-        transform: none !important;
-        border: 0 !important;
-        border-left: 1px solid var(--glass-border) !important;
-        border-radius: 26px 0 0 26px;
-        background: var(--surface) !important;
-        backdrop-filter: blur(28px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-        box-shadow: -16px 0 50px rgba(15,23,42,.07) !important;
-        z-index: 2050 !important;
-    }
-    .right-panel .sidebar-header {
-        min-height: 76px !important;
-        padding: 14px 16px !important;
-    }
-    .right-panel .notice-close {
-        display: none !important;
-    }
-    .right-panel .panel-viewport {
-        overflow: hidden !important;
-    }
-    .right-panel .panel-slider {
-        transform: none !important;
-        display: flex !important;
-        flex-direction: column !important;
-        height: 100% !important;
-    }
-    .right-panel .panel-pane {
-        position: relative !important;
-        transform: none !important;
-        width: 100% !important;
-        min-height: 0 !important;
-    }
-    .right-panel .panel-pane[data-pane="notice"] {
-        flex: 1.15 1 0 !important;
-        overflow: hidden !important;
-        border-bottom: 1px solid var(--glass-border);
-    }
-    .right-panel .panel-pane[data-pane="documents"] {
-        flex: .85 1 0 !important;
-        overflow: hidden !important;
-    }
-    .right-panel .panel-pane-body {
-        padding: 12px 14px !important;
-        overflow-y: auto !important;
-    }
-    .right-panel .doc-toolbar {
-        position: sticky !important;
-        top: 0 !important;
-        z-index: 2 !important;
-        padding: 10px 12px !important;
-    }
-    .right-panel .doc-toolbar-scroll { overflow: hidden !important; }
-    .right-panel .doc-toolbar-inner { flex-wrap: wrap !important; }
-    .right-panel .panel-tabs { display: none !important; }
-
-    /* ---------- CENTRAL WORKSPACE ---------- */
-    #app {
-        min-width: 0;
-    }
-    #main-content {
-        min-width: 0;
-    }
-    .scroll-progress {
-        left: var(--psbs-left) !important;
-        right: var(--psbs-right) !important;
-    }
-    .container,
-    .section,
-    .quick-wrap {
-        max-width: none !important;
-    }
-    .section {
-        width: calc(100% - 48px) !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        border-radius: 30px !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-
-    /* ---------- HERO ---------- */
-    #hero {
-        min-height: 560px !important;
-        padding: 112px 40px 118px !important;
-        border-radius: 0 0 34px 34px !important;
-    }
-    .hero-content {
-        width: 100% !important;
-        max-width: 1280px !important;
-        margin: 0 auto !important;
-        grid-template-columns: minmax(0, 1fr) 300px !important;
-        column-gap: 54px !important;
-    }
-    .hero-title { font-size: clamp(2.55rem, 3.4vw, 3.55rem) !important; }
-    .hero-description { max-width: 650px !important; }
-    .hero-logo-wrap {
-        width: 285px !important;
-        height: 285px !important;
-    }
-
-    /* ---------- QUICK COMMAND DECK ---------- */
-    .quick-wrap {
-        width: calc(100% - 48px) !important;
-        margin-top: -72px !important;
-        position: relative !important;
-        z-index: 20 !important;
-    }
-    .quick-grid {
-        grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
-        gap: 10px !important;
-    }
-    .quick-card {
-        min-width: 0 !important;
-        min-height: 112px !important;
-        border-radius: 20px !important;
-    }
-    .quick-card .qc-title { font-size: .82rem !important; }
-
-    /* ---------- CONTENT GRID SYSTEM ---------- */
-    .about-grid { grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr) !important; }
-    .academics-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
-    .hl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-    .faculty-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
-    .gallery-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
-    .faq-list { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
-    .contact-grid { grid-template-columns: 310px minmax(0, 1fr) !important; }
-    .footer-container { grid-template-columns: 2fr 1fr 1fr 1fr !important; }
-
-    /* ---------- DASHBOARD CARD LANGUAGE ---------- */
-    .academic-card,
-    .hl-card,
-    .faculty-card,
-    .update-card,
-    .faq-item,
-    .mvv-card,
-    .step {
-        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease !important;
-    }
-    .academic-card:hover,
-    .hl-card:hover,
-    .faculty-card:hover,
-    .update-card:hover,
-    .mvv-card:hover,
-    .step:hover {
-        transform: translateY(-4px) !important;
-        box-shadow: 0 18px 40px rgba(15,23,42,.10) !important;
-    }
-
-    /* ---------- DESKTOP SECTION HEADERS ---------- */
-    .section-title { font-size: 1.72rem !important; }
-    .section-subtitle { max-width: 720px !important; }
-
-    /* ---------- DARK MODE: preserve PSBS identity ---------- */
-    body.dark-mode .sidebar,
-    body.dark-mode .header,
-    body.dark-mode .right-panel {
-        background: var(--surface) !important;
-        box-shadow: none !important;
-    }
+    .hero-title { font-size: clamp(2.8rem, 3.4vw, 4.2rem); }
+    .hero-actions { display: flex; gap: 14px; }
+}
+@media (min-width: 1440px) {
+    .hero-content { gap: 110px; }
+    .hero-content > .hero-logo-wrap { flex-basis: 360px; width: 360px; height: 360px; }
 }
 
-@media (min-width: 1500px) {
-    :root {
-        --psbs-left: 268px;
-        --psbs-right: 334px;
+/* Hero action buttons + stat rail already themed — just tune spacing */
+.hero-actions { margin-top: 8px; margin-bottom: 4px; }
+.hero-stats-mini { position: relative; }
+
+/* ---------- Global "codtum" gloss pass: shine sweep + lift on every solid button ---------- */
+@media (hover: hover) and (pointer: fine) {
+    .quick-card:hover, .academic-card:hover, .hl-card:hover, .faculty-card:hover, .update-card:hover {
+        transform: translateY(-4px);
     }
-    .quick-grid { gap: 12px !important; }
-    .faculty-grid { grid-template-columns: repeat(5, minmax(0,1fr)) !important; }
-    .gallery-grid { grid-template-columns: repeat(5, minmax(0,1fr)) !important; }
 }
-</style>
+.sidebar-link-btn, .nav-link { position: relative; overflow: hidden; }
+.nav-link.active { position: relative; }
+.nav-link.active::after {
+    content: ''; position: absolute; left: 0; top: 50%; width: 3px; height: 60%; transform: translateY(-50%);
+    border-radius: 0 4px 4px 0; background: var(--primary-gradient);
+    box-shadow: 0 0 12px rgba(var(--primary-rgb), .7);
+}
+
+/* ---------- Panel tabs: finger-following realtime active state ---------- */
+.panel-tab {
+    --swipe-p: 0;
+    position: relative;
+    isolation: isolate;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        background-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* The finger directly drives --swipe-p from 0 to 1. */
+.panel-tab {
+    background: color-mix(in srgb, #fff calc(var(--swipe-p) * 100%), rgba(255,255,255,.14)) !important;
+    color: color-mix(in srgb, rgb(var(--primary-rgb)) calc(var(--swipe-p) * 100%), var(--text)) !important;
+    border-color: color-mix(in srgb, #fff calc(var(--swipe-p) * 100%), rgba(255,255,255,.45)) !important;
+    box-shadow: 0 4px 12px rgba(15,23,42,calc(.08 + var(--swipe-p) * .14)) !important;
+}
+.panel-tab i,
+.panel-tab > span:not(.ripple) {
+    color: inherit !important;
+}
+.panel-tab.active {
+    --swipe-p: 1;
+}
+
+/* During the gesture there is no CSS easing fighting the finger. */
+.right-panel.tabs-dragging .panel-tab {
+    transition: none !important;
+}
+
+.panel-tab:active {
+    transform: none !important;
+}
+.panel-tab::after {
+    display: none !important;
+    content: none !important;
+}
+.panel-tab i,
+.panel-tab > span:not(.ripple),
+.panel-tab-badge {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Gallery previewer reboot: no more flat black ---------- */
+.lightbox-overlay { background: #fff; }
+.lightbox-backdrop { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.lightbox-backdrop-img {
+    position: absolute; inset: -6%; z-index: 0;
+    background-size: cover; background-position: center;
+    filter: blur(40px) saturate(120%) brightness(1.02);
+    transform: scale(1.15);
+    opacity: 0; transition: opacity .6s ease;
+    will-change: opacity;
+}
+.lightbox-backdrop-img.show { opacity: 1; }
+.lightbox-backdrop-scrim { position:absolute; inset:0; z-index:1; background:rgba(255,255,255,.92); }
+.lightbox-backdrop-grain {
+    position: absolute; inset: 0; z-index: 2; opacity: 0; mix-blend-mode: normal; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.lightbox-img-wrap { position: relative; z-index: 1; }
+.lightbox-topbar, .lightbox-filmstrip, .lightbox-overlay .lightbox-nav { position: relative; z-index: 3; }
+.lightbox-img {
+    animation: lbPopIn .42s var(--snap);
+}
+@keyframes lbPopIn { from { opacity: 0; transform: translate(-50%, -50%) scale(.94); } }
+.lightbox-overlay.lb-hswipe .lightbox-nav { opacity: 0.18; transition: opacity .2s ease; }
+.lightbox-icon-btn, .lightbox-overlay .lightbox-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.78));
+    border-color: rgba(15,23,42,.10);
+    color: var(--primary);
+}
+.lightbox-icon-btn::after, .lightbox-overlay .lightbox-nav::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.35) 48%, transparent 62%);
+    transform: translateX(-140%); transition: transform .6s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+    .lightbox-icon-btn:hover::after, .lightbox-overlay .lightbox-nav:hover::after { transform: translateX(140%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aurora-blob, .hero-orb-ring, .hero-float-chip { animation: none !important; }
+    .lightbox-img { animation: none !important; }
+}
+
+    
+/* ===== FINAL LIGHTBOX UX POLISH ===== */
+.lightbox-overlay {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.96), rgba(255,255,255,.82) 48%, rgba(248,250,252,.94));
+    overflow: hidden;
+}
+.lightbox-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.48), rgba(255,255,255,.12) 42%, rgba(255,255,255,.52)),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.08), rgba(255,255,255,.42));
+    backdrop-filter: saturate(150%);
+    -webkit-backdrop-filter: saturate(150%);
+}
+.lightbox-backdrop {
+    opacity: 1;
+    filter: saturate(1.15);
+}
+.lightbox-backdrop-img {
+    filter: blur(34px) saturate(135%) brightness(1.06);
+    transform: scale(1.18);
+    opacity: .34;
+}
+.lightbox-backdrop-scrim {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.30) 35%, rgba(255,255,255,.72));
+}
+.lightbox-topbar,
+.lightbox-img-wrap,
+.lightbox-filmstrip,
+.lightbox-overlay .lightbox-nav {
+    z-index: 4;
+}
+.lightbox-img-wrap {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 16px;
+}
+.lightbox-img-wrap::-webkit-scrollbar { display:none; }
+.lightbox-img {
+    position: absolute;
+    max-width: min(94%, 1100px);
+    max-height: 78dvh;
+    width: auto;
+    height: auto;
+    border-radius: 22px;
+    background: rgba(255,255,255,.26);
+    border: 1px solid rgba(255,255,255,.76);
+    box-shadow:
+        0 24px 70px rgba(15,23,42,.18),
+        0 0 0 1px rgba(255,255,255,.45),
+        inset 0 1px 0 rgba(255,255,255,.92),
+        inset 0 -1px 0 rgba(15,23,42,.05);
+}
+.lightbox-img.zoomed {
+    max-width: none;
+    max-height: none;
+    border-radius: 24px;
+    box-shadow:
+        0 30px 90px rgba(15,23,42,.20),
+        0 0 34px rgba(255,255,255,.62),
+        0 0 0 1px rgba(255,255,255,.9),
+        inset 0 1px 0 rgba(255,255,255,.95),
+        inset 0 -1px 0 rgba(15,23,42,.06);
+}
+.lightbox-img.panning { cursor: grabbing; }
+.lightbox-filmstrip {
+    justify-content: center;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-left: max(16px, calc((100vw - 100%) / 2));
+    padding-right: max(16px, calc((100vw - 100%) / 2));
+}
+.lightbox-filmstrip .lightbox-thumb {
+    scroll-snap-align: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.48));
+    border: 1px solid rgba(255,255,255,.88);
+    box-shadow:
+        0 8px 24px rgba(15,23,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.95);
+    opacity: .52;
+}
+.lightbox-filmstrip .lightbox-thumb.active {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.06);
+    border: 2px solid var(--primary);
+    box-shadow:
+        0 10px 28px rgba(243,156,18,.24),
+        0 0 0 4px rgba(255,255,255,.72),
+        inset 0 1px 0 rgba(255,255,255,1);
+}
+.lightbox-icon-btn,
+.lightbox-overlay .lightbox-nav {
+    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.62));
+    color: var(--primary);
+    border-color: rgba(255,255,255,.92);
+    box-shadow:
+        0 8px 24px rgba(15,23,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.98);
+    color: var(--primary);
+}
+@media (max-width: 600px) {
+    .lightbox-img-wrap { padding: 10px 8px; }
+    .lightbox-img { max-width: 94%; max-height: 72dvh; border-radius: 18px; }
+    .lightbox-img.zoomed { border-radius: 20px; }
+    .lightbox-filmstrip { gap: 10px; padding-top: 9px; }
+    .lightbox-filmstrip .lightbox-thumb { width: 52px; height: 52px; border-radius: 14px; }
+}
+
     </style>
-<style id="psbs-desktop-polish-v2">
-@media (min-width: 1200px) {
-    /* --- Dedicated sidebar scroll indicator --- */
-    .sidebar-body {
-        position: relative !important;
-        scrollbar-width: none !important;
-        padding-right: 18px !important;
-    }
-    .sidebar-body::-webkit-scrollbar { width: 0 !important; height: 0 !important; }
-    .psbs-sidebar-scroll-indicator {
-        position: absolute;
-        top: 12px;
-        right: 5px;
-        width: 4px;
-        height: calc(100% - 24px);
-        border-radius: 999px;
-        background: rgba(100,116,139,.10);
-        pointer-events: none;
-        z-index: 8;
-        opacity: 0;
-        transition: opacity .25s ease;
-    }
-    .psbs-sidebar-scroll-indicator.is-visible { opacity: 1; }
-    .psbs-sidebar-scroll-thumb {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        min-height: 34px;
-        border-radius: 999px;
-        background: linear-gradient(180deg, var(--primary-light), var(--primary));
-        box-shadow: 0 2px 8px rgba(243,156,18,.28), inset 0 1px 0 rgba(255,255,255,.65);
-        transform: translateY(0);
-        transition: transform .12s linear, height .12s ease;
-    }
-    body.dark .psbs-sidebar-scroll-indicator { background: rgba(255,255,255,.10); }
 
-    /* --- Hero balance pass --- */
-    #hero {
-        min-height: 500px !important;
-        padding: 104px 38px 104px !important;
-        display: flex !important;
-        align-items: center !important;
-    }
-    .hero-content {
-        max-width: 1160px !important;
-        grid-template-columns: minmax(0, 1fr) 230px !important;
-        column-gap: 46px !important;
-        align-items: center !important;
-    }
-    .hero-title { font-size: clamp(2.35rem, 3vw, 3.2rem) !important; }
-    .hero-motto { font-size: 1.18rem !important; }
-    .hero-description { max-width: 590px !important; font-size: 1rem !important; }
-    .hero-actions { margin-top: 22px !important; }
-    .hero-stats-mini { max-width: 500px !important; margin-top: 12px !important; }
-    .hero-logo-wrap {
-        width: 205px !important;
-        height: 205px !important;
-        margin: 0 auto !important;
-    }
-    .hero-logo-wrap::after { inset: -10px !important; }
-
-    /* Ticker visually belongs to hero, while quick actions remain below it. */
-    #hero .container { position: relative !important; }
-    #hero .notice-ticker {
-        display: flex !important;
-        position: absolute !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: -66px !important;
-        width: 100% !important;
-        margin: 0 !important;
-        z-index: 25 !important;
-        min-height: 48px !important;
-    }
-    .quick-wrap {
-        margin-top: 74px !important;
-    }
-    .notice-ticker .nt-track { min-width: 0 !important; }
-    .notice-ticker .nt-item { white-space: nowrap; }
+<style id="curved-centered-thumbnail-override">
+/* Curved / convex thumbnail strip */
+.lightbox-filmstrip {
+  width: min(94vw, 900px);
+  margin: 0 auto;
+  padding: 14px 22px 18px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.36)),
+    rgba(255,255,255,.28);
+  border: 1px solid rgba(255,255,255,.8);
+  box-shadow:
+    inset 0 2px 8px rgba(255,255,255,.75),
+    inset 0 -5px 14px rgba(0,0,0,.10),
+    0 10px 30px rgba(0,0,0,.14);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 50%;
+  scrollbar-width: none;
 }
 
-@media (min-width: 1500px) {
-    #hero {
-        min-height: 515px !important;
-    }
-    .hero-content {
-        max-width: 1240px !important;
-        grid-template-columns: minmax(0, 1fr) 245px !important;
-        column-gap: 58px !important;
-    }
-    .hero-logo-wrap { width: 220px !important; height: 220px !important; }
+.lightbox-filmstrip::-webkit-scrollbar {
+  display: none;
 }
 
-@media (min-width: 1200px) and (max-width: 1299px) {
-    #hero { padding-left: 28px !important; padding-right: 28px !important; }
-    .hero-content { grid-template-columns: minmax(0, 1fr) 205px !important; column-gap: 30px !important; }
-    .hero-logo-wrap { width: 180px !important; height: 180px !important; }
-}
-</style>
-
-<style id="psbs-hero-alignment-fix">
-/* =====================================================================
-   DESKTOP HERO ALIGNMENT — all hero copy shares one clean left edge
-   ===================================================================== */
-@media (min-width: 1200px) {
-    #hero {
-        min-height: 500px !important;
-        padding: 92px 38px 96px !important;
-    }
-
-    #hero .hero-content {
-        max-width: 1160px !important;
-        display: grid !important;
-        grid-template-columns: minmax(0, 1fr) 220px !important;
-        grid-auto-rows: auto !important;
-        column-gap: 52px !important;
-        row-gap: 0 !important;
-        align-items: center !important;
-        justify-items: stretch !important;
-        text-align: left !important;
-    }
-
-    /* Logo occupies only the right column. */
-    #hero .hero-logo-wrap {
-        grid-column: 2 !important;
-        grid-row: 1 / span 6 !important;
-        width: 190px !important;
-        height: 190px !important;
-        margin: 0 auto !important;
-        align-self: center !important;
-        justify-self: center !important;
-    }
-
-    /* Every text element starts at exactly the same x-position. */
-    #hero .hero-title,
-    #hero .hero-badge,
-    #hero .hero-motto,
-    #hero .hero-description,
-    #hero .hero-stats-mini {
-        grid-column: 1 !important;
-        justify-self: stretch !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
-
-    #hero .hero-title {
-        grid-row: 1 !important;
-        width: 100% !important;
-        margin-top: 0 !important;
-        margin-bottom: 8px !important;
-        line-height: 1.08 !important;
-    }
-
-    #hero .hero-badge {
-        grid-row: 2 !important;
-        width: fit-content !important;
-        max-width: 100% !important;
-        margin-top: 0 !important;
-        margin-bottom: 10px !important;
-        justify-self: start !important;
-    }
-
-    #hero .hero-motto {
-        grid-row: 3 !important;
-        width: 100% !important;
-        min-height: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 8px !important;
-        line-height: 1.25 !important;
-    }
-
-    #hero .hero-description {
-        grid-row: 4 !important;
-        width: 100% !important;
-        max-width: 650px !important;
-        margin-top: 0 !important;
-        margin-bottom: 14px !important;
-        line-height: 1.55 !important;
-    }
-
-    #hero .hero-stats-mini {
-        grid-row: 5 !important;
-        width: min(100%, 520px) !important;
-        max-width: 520px !important;
-        margin: 0 !important;
-        justify-self: start !important;
-        justify-content: flex-start !important;
-        gap: 28px !important;
-    }
-
-    #hero .hero-stat-mini {
-        text-align: left !important;
-    }
+.lightbox-filmstrip .lightbox-thumb {
+  flex: 0 0 auto;
+  width: 72px;
+  height: 52px;
+  margin: 0 5px;
+  border-radius: 18px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  transform: perspective(500px) rotateX(0deg) scale(.94);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, opacity .22s ease;
+  border: 2px solid rgba(255,255,255,.72);
+  box-shadow:
+    inset 0 2px 5px rgba(255,255,255,.72),
+    inset 0 -4px 8px rgba(0,0,0,.16),
+    0 5px 12px rgba(0,0,0,.13);
 }
 
-@media (min-width: 1500px) {
-    #hero {
-        min-height: 490px !important;
-        padding-top: 88px !important;
-        padding-bottom: 90px !important;
-    }
-    #hero .hero-content {
-        max-width: 1240px !important;
-        grid-template-columns: minmax(0, 1fr) 230px !important;
-        column-gap: 62px !important;
-    }
-    #hero .hero-logo-wrap {
-        width: 200px !important;
-        height: 200px !important;
-    }
+.lightbox-filmstrip .lightbox-thumb.active {
+  transform: perspective(500px) translateY(-4px) scale(1.08);
+  border-color: var(--primary, #4f8cff);
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,.82),
+    inset 0 -4px 9px rgba(0,0,0,.12),
+    0 7px 18px rgba(0,0,0,.20),
+    0 0 0 2px color-mix(in srgb, var(--primary, #4f8cff) 28%, transparent);
+  z-index: 2;
 }
 
-@media (min-width: 1200px) and (max-width: 1299px) {
-    #hero {
-        padding-left: 28px !important;
-        padding-right: 28px !important;
-    }
-    #hero .hero-content {
-        grid-template-columns: minmax(0, 1fr) 185px !important;
-        column-gap: 34px !important;
-    }
-    #hero .hero-logo-wrap {
-        width: 165px !important;
-        height: 165px !important;
-    }
-    #hero .hero-title {
-        font-size: clamp(2.25rem, 3vw, 3rem) !important;
-    }
+/* Keep the filmstrip's active item exactly centered */
+.lightbox-filmstrip.is-centering {
+  scroll-behavior: auto !important;
+}
+
+/* Prevent the viewer itself from being left/right biased at the edges */
+.lightbox-img-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-inline: auto !important;
+  text-align: center;
+}
+
+.lightbox-img {
+  display: block;
+  margin-inline: auto !important;
+  transform-origin: center center;
 }
 </style>
 
 
-<style id="psbs-desktop-subtle-gloss-shadows">
-@media (min-width: 1200px) {
-    /* Subtle glossy depth for individual floating boxes/cards.
-       Keeps the header itself transparent; only the actual controls/cards receive depth. */
-    .desktop-left-sidebar .sidebar-link,
-    .desktop-left-sidebar .sidebar-brand,
-    .desktop-left-sidebar .sidebar-footer,
-    .desktop-right-sidebar .utility-card,
-    .desktop-right-sidebar .notice-item,
-    .desktop-right-sidebar .document-item,
-    .desktop-right-sidebar .quick-action,
-    .desktop-mainbar .search-box,
-    .desktop-mainbar .header-action,
-    .desktop-mainbar .profile-control,
-    .desktop-mainbar .theme-control,
-    .desktop-mainbar .notice-control,
-    .desktop-content .quick-action-card,
-    .desktop-content .academic-card,
-    .desktop-content .highlight-card,
-    .desktop-content .faculty-card,
-    .desktop-content .gallery-card,
-    .desktop-content .contact-card,
-    .desktop-content .faq-item,
-    .desktop-content .hero-stat,
-    .desktop-content .hero-action-btn {
-        box-shadow:
-            0 8px 22px rgba(15, 23, 42, 0.055),
-            0 2px 6px rgba(15, 23, 42, 0.035),
-            inset 0 1px 0 rgba(255, 255, 255, 0.62);
-        transition:
-            box-shadow 0.25s ease,
-            transform 0.25s ease,
-            border-color 0.25s ease;
-    }
+<style id="convex-five-thumbnail-override">
+/* Exactly 5 thumbnails are visible, with a true convex/arc arrangement. */
+.lightbox-filmstrip {
+  --thumb-w: 68px;
+  --thumb-h: 50px;
+  --thumb-gap: 8px;
+  --visible-w: calc(var(--thumb-w) * 5 + var(--thumb-gap) * 4);
+  width: min(var(--visible-w), 94vw);
+  margin: 0 auto;
+  padding: 18px 0 22px;
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--thumb-gap);
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: calc((100% - var(--thumb-w)) / 2);
+  scrollbar-width: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 
-    /* Slightly stronger depth only where a box is visually important. */
-    .desktop-content .quick-action-card:hover,
-    .desktop-content .academic-card:hover,
-    .desktop-content .highlight-card:hover,
-    .desktop-content .faculty-card:hover,
-    .desktop-content .gallery-card:hover,
-    .desktop-right-sidebar .quick-action:hover,
-    .desktop-right-sidebar .notice-item:hover,
-    .desktop-right-sidebar .document-item:hover {
-        box-shadow:
-            0 14px 30px rgba(15, 23, 42, 0.075),
-            0 4px 10px rgba(15, 23, 42, 0.04),
-            inset 0 1px 0 rgba(255, 255, 255, 0.72);
-        transform: translateY(-2px);
-    }
+.lightbox-filmstrip::-webkit-scrollbar { display:none; }
 
-    /* Keep the transparent floating header itself clean. */
-    .desktop-mainbar {
-        box-shadow: none !important;
-        background: transparent !important;
-        border: 0 !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-    }
+/* Curvature is based on each thumbnail's distance from the viewport center.
+   JS updates --arc-y so the center thumbnail sits highest. */
+.lightbox-filmstrip .lightbox-thumb {
+  --arc-y: 0px;
+  flex: 0 0 var(--thumb-w);
+  width: var(--thumb-w);
+  height: var(--thumb-h);
+  margin: 0;
+  transform: translateY(var(--arc-y)) scale(.94);
+  transform-origin: center bottom;
+  border-radius: 17px;
+  scroll-snap-align: center;
+  transition:
+    transform 150ms cubic-bezier(.22,.8,.2,1),
+    opacity 150ms ease,
+    filter 150ms ease,
+    box-shadow 150ms ease;
+  will-change: transform;
+}
 
-    /* Individual header controls still float independently. */
-    .desktop-mainbar .search-box,
-    .desktop-mainbar .header-action,
-    .desktop-mainbar .profile-control,
-    .desktop-mainbar .theme-control,
-    .desktop-mainbar .notice-control {
-        box-shadow:
-            0 7px 20px rgba(15, 23, 42, 0.06),
-            0 2px 5px rgba(15, 23, 42, 0.035),
-            inset 0 1px 0 rgba(255, 255, 255, 0.68);
-    }
+/* The centered item rises above the neighboring thumbnails. */
+.lightbox-filmstrip .lightbox-thumb.active {
+  transform: translateY(-12px) scale(1.10);
+  z-index: 5;
+}
 
-    /* Dark mode: same subtle depth, not heavy black shadows. */
-    body.dark-mode .desktop-left-sidebar .sidebar-link,
-    body.dark-mode .desktop-left-sidebar .sidebar-brand,
-    body.dark-mode .desktop-right-sidebar .utility-card,
-    body.dark-mode .desktop-right-sidebar .notice-item,
-    body.dark-mode .desktop-right-sidebar .document-item,
-    body.dark-mode .desktop-right-sidebar .quick-action,
-    body.dark-mode .desktop-mainbar .search-box,
-    body.dark-mode .desktop-mainbar .header-action,
-    body.dark-mode .desktop-mainbar .profile-control,
-    body.dark-mode .desktop-mainbar .theme-control,
-    body.dark-mode .desktop-mainbar .notice-control,
-    body.dark-mode .desktop-content .quick-action-card,
-    body.dark-mode .desktop-content .academic-card,
-    body.dark-mode .desktop-content .highlight-card,
-    body.dark-mode .desktop-content .faculty-card,
-    body.dark-mode .desktop-content .gallery-card,
-    body.dark-mode .desktop-content .contact-card,
-    body.dark-mode .desktop-content .faq-item,
-    body.dark-mode .desktop-content .hero-stat,
-    body.dark-mode .desktop-content .hero-action-btn {
-        box-shadow:
-            0 8px 22px rgba(0, 0, 0, 0.16),
-            0 2px 7px rgba(0, 0, 0, 0.10),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
+/* Keep the center visually dominant without changing the fixed 5-slot window. */
+.lightbox-filmstrip .lightbox-thumb.arc-side {
+  opacity: .86;
+}
+
+/* Edge spacers let the first and last thumbnail occupy the exact center slot. */
+.lightbox-filmstrip::before,
+.lightbox-filmstrip::after {
+  content: "";
+  flex: 0 0 calc((100% - var(--thumb-w)) / 2 - var(--thumb-gap));
+}
+
+/* Center the main preview independently of whether it is first/last. */
+.lightbox-img-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-inline: auto !important;
+  width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.lightbox-img {
+  margin: 0 auto !important;
+  display: block;
 }
 </style>
 
 
-<style id="psbs-desktop-spacing-polish">
-@media (min-width: 1200px) {
+<style id="mobile-arrow-and-fluid-arc">
+/* Mobile: use gesture navigation only; hide previous/next controls. */
+@media (max-width: 768px), (pointer: coarse) {
+  .lightbox-prev,
+  .lightbox-next,
+  .lightbox-nav-prev,
+  .lightbox-nav-next,
+  [class*="lightbox"][class*="prev"],
+  [class*="lightbox"][class*="next"] {
+    display: none !important;
+    pointer-events: none !important;
+  }
 
-    /* PC HERO: give the school identity stack more breathing room. */
-    #hero .hero-content {
-        row-gap: 0 !important;
-    }
+  /* The thumbnail rail itself becomes a soft glass/boxed track. */
+  .lightbox-filmstrip {
+    position: relative;
+    width: min(94vw, 430px);
+    min-height: 88px;
+    padding: 22px 0 28px;
+    border-radius: 30px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.30)),
+      rgba(255,255,255,.26);
+    border: 1px solid rgba(255,255,255,.82);
+    box-shadow:
+      inset 0 2px 10px rgba(255,255,255,.78),
+      inset 0 -8px 18px rgba(0,0,0,.10),
+      0 10px 28px rgba(0,0,0,.16);
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 50%;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
 
-    #hero .hero-logo,
-    #hero .hero-logo-wrap {
-        margin-bottom: 22px !important;
-    }
+  .lightbox-filmstrip .lightbox-thumb {
+    transition:
+      transform 110ms cubic-bezier(.16,1,.3,1),
+      opacity 110ms linear,
+      filter 110ms linear,
+      box-shadow 110ms ease;
+    will-change: transform;
+  }
 
-    #hero .hero-badge {
-        margin-bottom: 18px !important;
-    }
-
-    #hero .hero-title {
-        margin-bottom: 18px !important;
-        line-height: 1.12 !important;
-    }
-
-    #hero .hero-subtitle,
-    #hero .hero-estd,
-    #hero .hero-location {
-        margin-bottom: 16px !important;
-    }
-
-    #hero .hero-motto {
-        margin-top: 4px !important;
-        margin-bottom: 20px !important;
-        line-height: 1.3 !important;
-    }
-
-    #hero .hero-description {
-        margin-top: 0 !important;
-        margin-bottom: 22px !important;
-        line-height: 1.65 !important;
-    }
-
-    #hero .hero-stats {
-        margin-top: 4px !important;
-        margin-bottom: 20px !important;
-        gap: 16px !important;
-    }
-
-    #hero .hero-actions {
-        margin-top: 4px !important;
-    }
-
-    /* QUICK REACH: pull the cards closer to the hero. */
-    #quickReach,
-    .quick-reach,
-    .quick-actions-section {
-        margin-top: 12px !important;
-        padding-top: 12px !important;
-    }
-
-    #quickReach .section-header,
-    .quick-reach .section-header,
-    .quick-actions-section .section-header {
-        margin-bottom: 12px !important;
-    }
-
-    #quickReach .quick-action-grid,
-    #quickReach .quick-actions-grid,
-    .quick-reach .quick-action-grid,
-    .quick-reach .quick-actions-grid,
-    .quick-actions-section .quick-action-grid,
-    .quick-actions-section .quick-actions-grid {
-        margin-top: 0 !important;
-    }
-
-    /* If the cards are rendered as direct children, keep their top edge tight. */
-    #quickReach > .container,
-    .quick-reach > .container,
-    .quick-actions-section > .container {
-        padding-top: 0 !important;
-    }
+  .lightbox-filmstrip .lightbox-thumb.active {
+    box-shadow:
+      inset 0 2px 6px rgba(255,255,255,.88),
+      inset 0 -4px 9px rgba(0,0,0,.10),
+      0 7px 18px rgba(0,0,0,.18),
+      0 0 0 2px color-mix(in srgb, var(--primary, #4f8cff) 35%, transparent);
+  }
 }
 </style>
 
 
-<style id="psbs-desktop-scroll-header-behavior">
-@media (min-width: 1200px) {
+<style id="smooth-center-sync">
+/* A curved glass "track" that follows the same convex geometry as its thumbnails. */
+@media (max-width: 768px), (pointer: coarse) {
+  .lightbox-filmstrip {
+    --rail-curve: 22px;
+    width: min(94vw, 430px);
+    min-height: 92px;
+    padding: 26px 0 30px;
+    border-radius: 50% / 34%;
+    background:
+      radial-gradient(ellipse at 50% 115%, rgba(255,255,255,.88), rgba(255,255,255,.22) 58%, rgba(255,255,255,.08) 100%),
+      linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.28));
+    border: 1px solid rgba(255,255,255,.86);
+    box-shadow:
+      inset 0 4px 12px rgba(255,255,255,.78),
+      inset 0 -10px 22px rgba(0,0,0,.10),
+      0 12px 34px rgba(0,0,0,.16);
+    clip-path: ellipse(58% 72% at 50% 50%);
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: none !important;
+    scroll-behavior: auto !important;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+  }
 
-    /* The desktop header remains transparent; only its controls participate
-       in the scroll transition. */
-    .desktop-mainbar {
-        transition: none !important;
-    }
+  .lightbox-filmstrip .lightbox-thumb {
+    transition:
+      transform 0ms linear,
+      opacity 0ms linear,
+      filter 0ms linear,
+      box-shadow 120ms ease;
+    will-change: transform;
+  }
 
-    /* Full search state. */
-    .desktop-mainbar .search-box {
-        width: min(520px, 42vw);
-        min-width: 300px;
-        overflow: hidden;
-        transition:
-            width .32s cubic-bezier(.22,1,.36,1),
-            min-width .32s cubic-bezier(.22,1,.36,1),
-            opacity .22s ease,
-            transform .32s cubic-bezier(.22,1,.36,1);
-    }
-
-    /* Compact search button after scrolling upward/away from top. */
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box {
-        width: 46px;
-        min-width: 46px;
-        height: 46px;
-        padding: 0 !important;
-        border-radius: 50%;
-        justify-content: center;
-        cursor: pointer;
-    }
-
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box input,
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box .search-input,
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box .search-placeholder {
-        width: 0 !important;
-        opacity: 0 !important;
-        pointer-events: none;
-    }
-
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box .search-icon {
-        margin: 0 !important;
-    }
-
-    /* Keep the four right-side controls visible.
-       They must never slide underneath the profile control. */
-    .desktop-mainbar .header-actions,
-    .desktop-mainbar .header-right,
-    .desktop-mainbar .profile-actions,
-    .desktop-mainbar .toolbar-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-shrink: 0;
-        position: relative;
-        z-index: 20;
-    }
-
-    .desktop-mainbar .header-action,
-    .desktop-mainbar .theme-control,
-    .desktop-mainbar .notice-control,
-    .desktop-mainbar .profile-control {
-        flex: 0 0 42px;
-        position: relative;
-        z-index: 21;
-    }
-
-    /* Never allow profile to cover the preceding four controls. */
-    .desktop-mainbar .profile-control {
-        margin-left: 4px;
-    }
-
-    /* When scrolled, make the four utility buttons slightly more compact,
-       but do not hide them behind profile. */
-    body.psbs-desktop-scrolled .desktop-mainbar .header-actions,
-    body.psbs-desktop-scrolled .desktop-mainbar .header-right,
-    body.psbs-desktop-scrolled .desktop-mainbar .profile-actions,
-    body.psbs-desktop-scrolled .desktop-mainbar .toolbar-actions {
-        gap: 7px;
-    }
-
-    /* If the existing markup uses a profile dropdown trigger, its panel
-       stays above all controls. */
-    .desktop-mainbar .profile-menu,
-    .desktop-mainbar .profile-dropdown {
-        z-index: 100;
-    }
-
-    /* On narrower desktop screens, compress the left title/search region
-       rather than allowing right-side controls to overlap. */
-    @media (min-width: 1200px) and (max-width: 1350px) {
-        .desktop-mainbar .search-box {
-            width: min(390px, 31vw);
-            min-width: 240px;
-        }
-
-        body.psbs-desktop-scrolled .desktop-mainbar .search-box {
-            width: 44px;
-            min-width: 44px;
-        }
-    }
+  /* The center thumbnail is the visual "selection head". */
+  .lightbox-filmstrip .lightbox-thumb.active {
+    z-index: 10;
+  }
 }
-</style>
 
-
-<style id="psbs-desktop-final-hero-spacing">
-@media (min-width: 1200px) {
-
-    /* HERO TYPOGRAPHY STACK
-       Give each major text layer clearer breathing room while keeping
-       everything on the same centered vertical axis. */
-    #hero .hero-content {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-    #hero .hero-logo,
-    #hero .hero-logo-wrap {
-        margin-bottom: 26px !important;
-    }
-
-    #hero .hero-badge {
-        margin-bottom: 22px !important;
-    }
-
-    #hero .hero-title {
-        margin-top: 0 !important;
-        margin-bottom: 24px !important;
-        line-height: 1.12 !important;
-    }
-
-    #hero .hero-estd,
-    #hero .hero-subtitle,
-    #hero .hero-location {
-        margin-top: 0 !important;
-        margin-bottom: 20px !important;
-        line-height: 1.35 !important;
-    }
-
-    #hero .hero-motto {
-        margin-top: 2px !important;
-        margin-bottom: 26px !important;
-        line-height: 1.35 !important;
-    }
-
-    #hero .hero-description {
-        max-width: 760px !important;
-        margin-top: 0 !important;
-        margin-bottom: 28px !important;
-        line-height: 1.7 !important;
-    }
-
-    #hero .hero-stats {
-        margin-top: 0 !important;
-        margin-bottom: 24px !important;
-        gap: 14px !important;
-    }
-
-    #hero .hero-actions {
-        margin-top: 0 !important;
-    }
-
-    /* QUICK ACCESS
-       Smaller and tighter so the cards do not visually compete with
-       the centered school identity. */
-    #quickReach .quick-action-grid,
-    #quickReach .quick-actions-grid,
-    .quick-reach .quick-action-grid,
-    .quick-reach .quick-actions-grid,
-    .quick-actions-section .quick-action-grid,
-    .quick-actions-section .quick-actions-grid {
-        gap: 10px !important;
-    }
-
-    #quickReach .quick-action-card,
-    #quickReach .quick-action,
-    .quick-reach .quick-action-card,
-    .quick-reach .quick-action,
-    .quick-actions-section .quick-action-card,
-    .quick-actions-section .quick-action {
-        min-height: 82px !important;
-        padding: 12px 14px !important;
-        border-radius: 18px !important;
-    }
-
-    #quickReach .quick-action-card .icon,
-    #quickReach .quick-action .icon,
-    .quick-reach .quick-action-card .icon,
-    .quick-reach .quick-action .icon,
-    .quick-actions-section .quick-action-card .icon,
-    .quick-actions-section .quick-action .icon {
-        width: 30px !important;
-        height: 30px !important;
-        font-size: 15px !important;
-    }
-
-    #quickReach .quick-action-card h3,
-    #quickReach .quick-action h3,
-    .quick-reach .quick-action-card h3,
-    .quick-reach .quick-action h3,
-    .quick-actions-section .quick-action-card h3,
-    .quick-actions-section .quick-action h3 {
-        font-size: 13px !important;
-        margin-bottom: 3px !important;
-    }
-
-    #quickReach .quick-action-card p,
-    #quickReach .quick-action p,
-    .quick-reach .quick-action-card p,
-    .quick-reach .quick-action p,
-    .quick-actions-section .quick-action-card p,
-    .quick-actions-section .quick-action p {
-        font-size: 10px !important;
-        line-height: 1.35 !important;
-    }
-
-    /* Keep the quick-access block close to the hero without making the
-       cards oversized. */
-    #quickReach,
-    .quick-reach,
-    .quick-actions-section {
-        margin-top: 10px !important;
-    }
-}
-</style>
-
-
-<style id="psbs-desktop-tight-quick-access">
-@media (min-width: 1200px) {
-    /* Pull Quick Access directly toward the hero banner. */
-    #quickReach,
-    .quick-reach,
-    .quick-actions-section {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-    }
-
-    #quickReach .section-header,
-    .quick-reach .section-header,
-    .quick-actions-section .section-header {
-        margin-top: 0 !important;
-        margin-bottom: 8px !important;
-    }
-
-    #quickReach .quick-action-grid,
-    #quickReach .quick-actions-grid,
-    .quick-reach .quick-action-grid,
-    .quick-reach .quick-actions-grid,
-    .quick-actions-section .quick-action-grid,
-    .quick-actions-section .quick-actions-grid {
-        margin-top: 0 !important;
-    }
-
-    /* Remove accidental top spacing from the first Quick Access card row. */
-    #quickReach .quick-action-card:first-child,
-    #quickReach .quick-action:first-child,
-    .quick-reach .quick-action-card:first-child,
-    .quick-reach .quick-action:first-child,
-    .quick-actions-section .quick-action-card:first-child,
-    .quick-actions-section .quick-action:first-child {
-        margin-top: 0 !important;
-    }
-}
-</style>
-
-
-<style id="psbs-desktop-hero-large-scrolled-header">
-@media (min-width: 1200px) {
-
-    /* 1) SCROLLED HEADER:
-       Small search button + hide three utility options behind the profile.
-       The profile remains visible. */
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box {
-        width: 44px !important;
-        min-width: 44px !important;
-        height: 44px !important;
-        padding: 0 !important;
-        border-radius: 50% !important;
-        overflow: hidden !important;
-        justify-content: center !important;
-    }
-
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box input,
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box .search-input,
-    body.psbs-desktop-scrolled .desktop-mainbar .search-box .search-placeholder {
-        width: 0 !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-
-    /* Hide the three non-profile utility controls after scrolling. */
-    body.psbs-desktop-scrolled .desktop-mainbar .header-action:nth-child(-n+3),
-    body.psbs-desktop-scrolled .desktop-mainbar .theme-control,
-    body.psbs-desktop-scrolled .desktop-mainbar .notice-control {
-        display: none !important;
-    }
-
-    /* Keep profile above everything. */
-    body.psbs-desktop-scrolled .desktop-mainbar .profile-control {
-        display: flex !important;
-        position: relative !important;
-        z-index: 50 !important;
-    }
-
-    /* 2) MAKE THE PC HERO A LITTLE LARGER. */
-    #hero {
-        min-height: 500px !important;
-    }
-
-    #hero .hero-content {
-        min-height: 500px !important;
-        padding-top: 34px !important;
-        padding-bottom: 34px !important;
-    }
-
-    #hero .hero-title {
-        font-size: clamp(42px, 4vw, 62px) !important;
-    }
-
-    #hero .hero-motto {
-        font-size: clamp(21px, 1.65vw, 27px) !important;
-    }
-
-    #hero .hero-description {
-        max-width: 820px !important;
-        font-size: 16px !important;
-    }
-
-    /* 3) QUICK ACCESS:
-       Move the row upward so roughly half of the card height visually
-       overlaps / aligns with the bottom area of the hero. */
-    #quickReach,
-    .quick-reach,
-    .quick-actions-section {
-        position: relative !important;
-        z-index: 5 !important;
-        margin-top: -42px !important;
-        padding-top: 0 !important;
-    }
-
-    #quickReach .quick-action-grid,
-    #quickReach .quick-actions-grid,
-    .quick-reach .quick-action-grid,
-    .quick-reach .quick-actions-grid,
-    .quick-actions-section .quick-action-grid,
-    .quick-actions-section .quick-actions-grid {
-        position: relative !important;
-        z-index: 6 !important;
-    }
-
-    #quickReach .quick-action-card,
-    #quickReach .quick-action,
-    .quick-reach .quick-action-card,
-    .quick-reach .quick-action,
-    .quick-actions-section .quick-action-card,
-    .quick-actions-section .quick-action {
-        min-height: 84px !important;
-    }
+/* Reduce zoom sensitivity globally without changing the viewer's normal size. */
+.lightbox-img {
+  touch-action: none;
 }
 </style>
 
@@ -4281,14 +3825,29 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
     <!-- ===== LIGHTBOX ===== -->
     <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Image viewer">
-        <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">✕</button>
-        <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">‹</button>
-        <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">›</button>
+        <div class="lightbox-backdrop" id="lightboxBackdrop" aria-hidden="true">
+            <div class="lightbox-backdrop-img" id="lightboxBackdropA"></div>
+            <div class="lightbox-backdrop-img" id="lightboxBackdropB"></div>
+            <div class="lightbox-backdrop-scrim"></div>
+            <div class="lightbox-backdrop-grain"></div>
+        </div>
+        <div class="lightbox-topbar">
+            <div class="lightbox-counter-pill" id="lightboxCounter">1 / 1</div>
+            <div class="lightbox-actions">
+                <button class="lightbox-icon-btn" id="lightboxZoomBtn" aria-label="Zoom image" type="button"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
+                <button class="lightbox-icon-btn" id="lightboxDownloadBtn" aria-label="Download image" type="button"><i class="ri-download-2-line" aria-hidden="true"></i></button>
+                <button class="lightbox-icon-btn lightbox-close" id="lightboxClose" aria-label="Close image viewer" type="button"><i class="ri-close-line" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image"><i class="ri-arrow-left-s-line" aria-hidden="true"></i></button>
+        <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image"><i class="ri-arrow-right-s-line" aria-hidden="true"></i></button>
         <div class="lightbox-img-wrap" id="lightboxImgWrap">
+            <div class="lightbox-spinner" id="lightboxSpinner" aria-hidden="true"></div>
             <img class="lightbox-img active" id="lightboxImgCurrent" src="" alt="Enlarged view">
             <img class="lightbox-img" id="lightboxImgNext" src="" alt="Next image" style="pointer-events:none;">
         </div>
-        <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+        <div class="lightbox-hint" id="lightboxHint">Double-tap or scroll to zoom</div>
+        <div class="lightbox-filmstrip" id="lightboxFilmstrip" aria-label="Image thumbnails"></div>
     </div>
 
     <!-- ===== SEARCH OVERLAY ===== -->
@@ -4543,9 +4102,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
             <!-- TABS AT BOTTOM (floating pills only) -->
             <div class="panel-tabbar" role="tablist" aria-label="Panel switcher">
-                <span class="panel-tab-indicator" id="panelTabIndicator" aria-hidden="true">
-                    <span class="panel-tab-indicator-gloss"></span>
-                </span>
                 <button class="panel-tab active ripple-host" type="button" role="tab" data-panel-tab="notice" aria-selected="true">
                     <i class="ri-notification-3-line" aria-hidden="true"></i>
                     <span>Notices</span>
@@ -4563,12 +4119,21 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
             <!-- ===== HERO ===== -->
             <section id="hero" aria-label="Hero banner">
+                <div class="hero-aurora" aria-hidden="true">
+                    <span class="aurora-blob a1"></span>
+                    <span class="aurora-blob a2"></span>
+                    <span class="aurora-blob a3"></span>
+                </div>
                 <div class="hero-overlay" aria-hidden="true"></div>
                 <div class="container">
                     <div class="hero-content">
                         <div class="hero-logo-wrap">
                             <img src="logo.png" class="hero-logo" alt="Pabitra Secondary School Logo" width="140" height="140" fetchpriority="high" decoding="async">
+                            <span class="hero-float-chip chip-1" aria-hidden="true"><i class="ri-book-open-line"></i></span>
+                            <span class="hero-float-chip chip-2" aria-hidden="true"><i class="ri-award-line"></i></span>
+                            <span class="hero-float-chip chip-3" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span>
                         </div>
+                        <div class="hero-text-col">
                         <h1 class="hero-title">Pabitra Secondary <span>School</span></h1>
                       <p class="hero-badge"><span aria-hidden="true">🏫</span> Estd.: 2040 B.S. <span class="hero-badge-dot" aria-hidden="true"></span> Doti, Nepal</p>
                         <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.<span class="type-cursor" aria-hidden="true"></span></h2>
@@ -4577,10 +4142,16 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                             gallery, and connect with modern academic excellence.
                         </p>
 
+                        <div class="hero-actions">
+                            <a href="#quick" class="hero-action-btn primary"><i class="ri-compass-3-line" aria-hidden="true"></i><span>Explore Campus</span></a>
+                            <a href="#gallery" class="hero-action-btn glass"><i class="ri-image-2-line" aria-hidden="true"></i><span>View Gallery</span></a>
+                        </div>
+
                         <div class="hero-stats-mini">
-                            <div class="hero-stat-mini"><span class="num" id="heroStudents">1050+</span><span class="label">Students</span></div>
-                            <div class="hero-stat-mini"><span class="num" id="heroTeachers">35+</span><span class="label">Teachers</span></div>
-                            <div class="hero-stat-mini"><span class="num" id="heroYears">43+</span><span class="label">Years</span></div>
+                            <div class="hero-stat-mini"><span class="stat-dot" aria-hidden="true"></span><span class="num" id="heroStudents">1050+</span><span class="label">Students</span></div>
+                            <div class="hero-stat-mini"><span class="stat-dot" aria-hidden="true"></span><span class="num" id="heroTeachers">35+</span><span class="label">Teachers</span></div>
+                            <div class="hero-stat-mini"><span class="stat-dot" aria-hidden="true"></span><span class="num" id="heroYears">43+</span><span class="label">Years</span></div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -5239,7 +4810,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             verticalSwipeLock: false,
             touchInsideRightPanel: false,
             profile: null,
-            lightboxOpen: false, lightboxImages: [], lightboxIndex: 0, lightboxIsTransitioning: false,
+            lightboxOpen: false, lightboxImages: [], lightboxIndex: 0, lightboxIsTransitioning: false, lightboxHintShown: false,
             openCount: 0,
             galleryCurrentPage: 0,
             notices: [], faculty: [], galleryImages: [], documents: [],
@@ -5294,6 +4865,10 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             lightboxImgCurrent: $('#lightboxImgCurrent'), lightboxImgNext: $('#lightboxImgNext'),
             lightboxClose: $('#lightboxClose'), lightboxPrev: $('#lightboxPrev'),
             lightboxNext: $('#lightboxNext'), lightboxCounter: $('#lightboxCounter'),
+            lightboxImgWrap: $('#lightboxImgWrap'), lightboxSpinner: $('#lightboxSpinner'),
+            lightboxZoomBtn: $('#lightboxZoomBtn'), lightboxDownloadBtn: $('#lightboxDownloadBtn'),
+            lightboxFilmstrip: $('#lightboxFilmstrip'), lightboxHint: $('#lightboxHint'),
+            lightboxBackdropA: $('#lightboxBackdropA'), lightboxBackdropB: $('#lightboxBackdropB'),
             themePresetsModal: $('#themePresetsModal'), themePresetsGrid: $('#themePresetsGrid'),
             themePresetsCloseBtn: $('#themePresetsCloseBtn'), themePresetsApplyBtn: $('#themePresetsApplyBtn'),
             sidebarShareBtn: $('#sidebarShareBtn'),
@@ -5407,11 +4982,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 this.current = which;
                 this.setLast(which);
 
-                // Move the active color to the exact target button box.
-                if (typeof PanelTabIndicator !== 'undefined' && PanelTabIndicator) {
-                    PanelTabIndicator.sync(which, !animate);
-                }
-
                 State.isNoticeOpen = (which === 'notice');
                 State.isDocumentsOpen = (which === 'documents');
 
@@ -5482,111 +5052,34 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         function openDocumentsPanel() { RightPanel.open('documents'); }
         function closeDocumentsPanel() { RightPanel.close(); }
 
-
-        // ============================================================
-        // REAL-TIME PANEL TAB COLOR — exact-box + finger following
-        // ============================================================
-        const PanelTabIndicator = (function () {
-            const bar = document.querySelector('.panel-tabbar');
-            const indicator = document.getElementById('panelTabIndicator');
-            if (!bar || !indicator) return null;
-
-            const buttons = Array.from(bar.querySelectorAll('.panel-tab'));
-
-            function clamp01(v) {
-                return Math.max(0, Math.min(1, v));
-            }
-
-            function box(btn) {
-                const br = btn.getBoundingClientRect();
-                const rr = bar.getBoundingClientRect();
-                return {
-                    x: br.left - rr.left,
-                    y: br.top - rr.top,
-                    w: br.width,
-                    h: br.height,
-                    r: Math.min(br.height / 2, 999)
-                };
-            }
-
-            function paint(b, instant) {
-                if (!b) return;
-                indicator.classList.toggle('following', !!instant);
-                indicator.classList.toggle('settling', !instant);
-                indicator.style.left = b.x + 'px';
-                indicator.style.top = b.y + 'px';
-                indicator.style.width = b.w + 'px';
-                indicator.style.height = b.h + 'px';
-                indicator.style.borderRadius = b.r + 'px';
-                indicator.style.opacity = '1';
-            }
-
-            function get(which) {
-                return buttons.find(function (btn) {
-                    return btn.getAttribute('data-panel-tab') === which;
-                }) || buttons[0];
-            }
-
-            function sync(which, instant) {
-                const btn = get(which);
-                if (!btn) return;
-                requestAnimationFrame(function () {
-                    paint(box(btn), !!instant);
-                });
-            }
-
-            /*
-             * Interpolate every box dimension, not only X.
-             * This keeps the colored surface exactly matched to the button
-             * even if fonts, badges, wrapping, or responsive widths change.
-             */
-            function follow(fromWhich, toWhich, progress) {
-                const aBtn = get(fromWhich);
-                const bBtn = get(toWhich);
-                if (!aBtn || !bBtn) return;
-
-                const a = box(aBtn);
-                const b = box(bBtn);
-                const t = clamp01(progress);
-                const mix = function (x, y) { return x + (y - x) * t; };
-
-                paint({
-                    x: mix(a.x, b.x),
-                    y: mix(a.y, b.y),
-                    w: mix(a.w, b.w),
-                    h: mix(a.h, b.h),
-                    r: mix(a.r, b.r)
-                }, true);
-            }
-
-            function hide() {
-                indicator.style.opacity = '0';
-            }
-
-            window.addEventListener('resize', function () {
-                const current = (typeof RightPanel !== 'undefined' && RightPanel.current) || 'notice';
-                sync(current, true);
-            }, { passive: true });
-
-            return { sync, follow, hide };
-        })();
-
+        // ===== BOTTOM PANEL TAB SWITCHER =====
         document.querySelectorAll('.panel-tab').forEach(function (btn, i, arr) {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+
                 const target = btn.getAttribute('data-panel-tab');
-                RightPanel.setTab(target, true);
-                setTimeout(lockPanelViewport, 0);
-                setTimeout(lockPanelViewport, 480);
+                if (target !== 'notice' && target !== 'documents') return;
+
+                // Bottom-bar buttons are full panel switchers:
+                // open the panel if closed, otherwise switch the visible pane.
+                if (!RightPanel._isOpen) {
+                    RightPanel.open(target);
+                } else if (RightPanel.current !== target) {
+                    RightPanel.setTab(target, true);
+                }
+
+                requestAnimationFrame(lockPanelViewport);
+                setTimeout(lockPanelViewport, 360);
             });
+
             btn.addEventListener('keydown', function (e) {
-                if (e.key === 'ArrowLeft') {
-                    const prev = arr[i - 1] || arr[arr.length - 1];
-                    prev.focus(); prev.click(); e.preventDefault();
-                } else if (e.key === 'ArrowRight') {
-                    const next = arr[i + 1] || arr[0];
-                    next.focus(); next.click(); e.preventDefault();
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    const step = e.key === 'ArrowLeft' ? -1 : 1;
+                    const next = arr[(i + step + arr.length) % arr.length];
+                    next.focus();
+                    next.click();
+                    e.preventDefault();
                 }
             });
         });
@@ -5649,10 +5142,59 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 slider.style.transform = '';
                 void slider.offsetWidth;
                 slider.style.transition = '';
-                if (typeof PanelTabIndicator !== 'undefined' && PanelTabIndicator) {
-                    PanelTabIndicator.sync(RightPanel.current || 'notice', false);
-                }
                 lockPanelViewport();
+                resetTabFill();
+            }
+
+            function tabBtn(which) {
+                return document.querySelector('.panel-tab[data-panel-tab="' + which + '"]');
+            }
+
+            function resetTabFill() {
+                el.classList.remove('tabs-dragging');
+                var notice = tabBtn('notice'), docs = tabBtn('documents');
+                if (notice) notice.style.removeProperty('--swipe-p');
+                if (docs) docs.style.removeProperty('--swipe-p');
+                document.querySelectorAll('.panel-tab').forEach(function (btn) {
+                    var on = btn.getAttribute('data-panel-tab') === (RightPanel.current || 'notice');
+                    btn.classList.toggle('active', on);
+                    btn.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
+            }
+
+            function updateTabFill(cur, dragDx, limit) {
+                if (!limit) return;
+
+                /* Finger-following interpolation: the outgoing tab fades from
+                   active -> inactive while the incoming tab rises from
+                   inactive -> active on every touchmove frame. */
+                var progress = Helpers.clamp(Math.abs(dragDx) / limit, 0, 1);
+                var toward = null;
+                if (cur === 'notice' && dragDx < 0) toward = 'documents';
+                if (cur === 'documents' && dragDx > 0) toward = 'notice';
+
+                var notice = tabBtn('notice'), docs = tabBtn('documents');
+                if (!notice || !docs) return;
+
+                if (!toward) {
+                    notice.style.setProperty('--swipe-p', cur === 'notice' ? '1' : '0');
+                    docs.style.setProperty('--swipe-p', cur === 'documents' ? '1' : '0');
+                    return;
+                }
+
+                var curP = 1 - progress;
+                var nextP = progress;
+                notice.style.setProperty('--swipe-p', (cur === 'notice' ? curP : nextP).toFixed(4));
+                docs.style.setProperty('--swipe-p', (cur === 'documents' ? curP : nextP).toFixed(4));
+
+                /* ARIA follows the visual state only at the midpoint; the
+                   colors themselves remain truly finger-following. */
+                var visualNext = progress >= 0.5 ? toward : cur;
+                document.querySelectorAll('.panel-tab').forEach(function (btn) {
+                    var on = btn.getAttribute('data-panel-tab') === visualNext;
+                    btn.classList.toggle('active', on);
+                    btn.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
             }
 
             el.addEventListener('touchstart', function (e) {
@@ -5695,17 +5237,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 d = Helpers.clamp(d, -limit, limit);
 
                 slider.style.transform = 'translateX(calc(' + basePercent(cur) + ' + ' + d.toFixed(1) + 'px))';
-
-                // The color indicator follows the same finger position.
-                // Use the un-damped gesture distance for natural 0→1 tab progress.
-                const rawProgress = Math.min(1, Math.abs(dx) / Math.max(1, limit));
-                const destination = dx < 0 ? 'documents' : 'notice';
-                if (destination !== cur && typeof PanelTabIndicator !== 'undefined' && PanelTabIndicator) {
-                    PanelTabIndicator.follow(cur, destination, rawProgress);
-                } else if (typeof PanelTabIndicator !== 'undefined' && PanelTabIndicator) {
-                    PanelTabIndicator.sync(cur, true);
-                }
-
+                updateTabFill(cur, dx, limit);
                 DragTrail.show(t.clientX, t.clientY);
             }, { passive: false });
 
@@ -5737,10 +5269,8 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 if (target && target !== cur) {
                     slider.style.transition = '';
                     slider.style.transform = '';
-                    if (typeof PanelTabIndicator !== 'undefined' && PanelTabIndicator) {
-                        PanelTabIndicator.sync(target, false);
-                    }
                     RightPanel.setTab(target, true);
+                    resetTabFill();
                     lockPanelViewport();
                     clearSettle();
                     settleTimer = setTimeout(function () {
@@ -5763,12 +5293,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 resetSlider();
             }, { passive: true });
         })();
-
-        requestAnimationFrame(function () {
-            if (typeof PanelTabIndicator !== 'undefined' && PanelTabIndicator) {
-                PanelTabIndicator.sync((RightPanel.current || 'notice'), true);
-            }
-        });
 
         // ===== NOTICE MANAGER =====
         const NoticeManager = {
@@ -5950,6 +5474,13 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 const { data, error } = await window.db.from('gallery').select('*').order('order', { ascending: true });
                 if (error) throw error;
                 State.galleryImages = (data || []).map(function (item) { return item.image_url; });
+                // Warm the entire viewer cache so switching feels immediate.
+                State.galleryImages.forEach(function (src) {
+                    var warm = new Image();
+                    warm.decoding = 'async';
+                    warm.src = src;
+                });
+
                 State.galleryCurrentPage = 0;
                 renderGalleryPage(0);
             } catch (e) {
@@ -7017,27 +6548,102 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         }, true);
 
         // ===== LIGHTBOX =====
+        const LBZoom = {
+            scale: 1, tx: 0, ty: 0,
+            reset: function (el) {
+                this.scale = 1; this.tx = 0; this.ty = 0;
+                if (el) {
+                    el.classList.remove('zoomed', 'panning');
+                    el.style.transform = 'translate(-50%, -50%) scale(1)';
+                }
+                if (DOM.lightboxZoomBtn) DOM.lightboxZoomBtn.classList.remove('active-zoom');
+            },
+            apply: function (el) {
+                el.style.transform = 'translate(calc(-50% + ' + this.tx + 'px), calc(-50% + ' + this.ty + 'px)) scale(' + this.scale + ')';
+                el.classList.toggle('zoomed', this.scale > 1.02);
+                if (DOM.lightboxZoomBtn) DOM.lightboxZoomBtn.classList.toggle('active-zoom', this.scale > 1.02);
+            },
+            clampPan: function () {
+                const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
+                const maxX = Math.max(0, (wrap.width * (this.scale - 1)) / 2);
+                const maxY = Math.max(0, (wrap.height * (this.scale - 1)) / 2);
+                this.tx = Math.max(-maxX, Math.min(maxX, this.tx));
+                this.ty = Math.max(-maxY, Math.min(maxY, this.ty));
+            },
+            toggle: function (el, cx, cy) {
+                if (this.scale > 1.02) {
+                    this.reset(el);
+                } else {
+                    this.scale = 2.4;
+                    if (typeof cx === 'number' && DOM.lightboxImgWrap) {
+                        const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
+                        this.tx = (wrap.width / 2 - cx) * (this.scale - 1) / this.scale;
+                        this.ty = (wrap.height / 2 - cy) * (this.scale - 1) / this.scale;
+                    }
+                    this.clampPan();
+                    this.apply(el);
+                }
+            }
+        };
+
+        var lbBackdropShowingA = true;
+        function setLightboxBackdrop(src) {
+            if (!DOM.lightboxBackdropA || !DOM.lightboxBackdropB || !src) return;
+            const showEl = lbBackdropShowingA ? DOM.lightboxBackdropB : DOM.lightboxBackdropA;
+            const hideEl = lbBackdropShowingA ? DOM.lightboxBackdropA : DOM.lightboxBackdropB;
+            showEl.style.backgroundImage = 'url("' + src + '")';
+            showEl.classList.add('show');
+            hideEl.classList.remove('show');
+            lbBackdropShowingA = !lbBackdropShowingA;
+        }
+
         function openLightbox(images, index) {
             if (!images || images.length === 0) return;
             State.lightboxImages = images;
             State.lightboxIndex = Math.min(index, images.length - 1);
             State.lightboxOpen = true;
             State.openCount++;
+            State.lightboxHistoryEntry = true;
+            try { history.pushState({ psbsLightbox: true }, ''); } catch (e) {}
             const current = DOM.lightboxImgCurrent;
             const next = DOM.lightboxImgNext;
+            LBZoom.reset(current);
             current.src = images[State.lightboxIndex];
+            setLightboxBackdrop(images[State.lightboxIndex]);
             current.className = 'lightbox-img active';
             current.style.transition = '';
             current.style.opacity = '';
-            current.style.transform = 'translate(-50%, -50%) scale(1)';
             next.className = 'lightbox-img';
             next.style.opacity = '';
             next.src = '';
             updateLightboxCounter();
+            buildLightboxFilmstrip();
+            requestAnimationFrame(function () {
+                var activeThumb = DOM.lightboxFilmstrip && DOM.lightboxFilmstrip.querySelector('.lightbox-thumb.active');
+                if (activeThumb) activeThumb.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+          requestAnimationFrame(() => {
+            const rail = DOM.lightboxFilmstrip;
+            if (rail && activeThumb) {
+              const target = activeThumb.offsetLeft - (rail.clientWidth - activeThumb.offsetWidth) / 2;
+              rail.scrollLeft = Math.max(0, target);
+              activeThumb.classList.add('is-centered');
+            }
+          });
+            });
+            showLightboxSpinner(!(current.complete && current.naturalHeight !== 0));
             DOM.lightboxOverlay.classList.add('active');
             document.body.classList.add('lightbox-open');
             document.body.style.overflow = 'hidden';
             preloadLightboxNeighbours();
+            if (!State.lightboxHintShown && DOM.lightboxHint) {
+                State.lightboxHintShown = true;
+                DOM.lightboxHint.classList.add('show');
+                setTimeout(function () { DOM.lightboxHint.classList.remove('show'); }, 2600);
+            }
+        }
+
+        function showLightboxSpinner(show) {
+            if (DOM.lightboxSpinner) DOM.lightboxSpinner.classList.toggle('show', !!show);
         }
 
         function preloadLightboxNeighbours() {
@@ -7052,30 +6658,79 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             });
         }
 
-        function closeLightbox() {
-            DOM.lightboxOverlay.classList.remove('active');
+        function buildLightboxFilmstrip() {
+            const strip = DOM.lightboxFilmstrip;
+            if (!strip) return;
+            const imgs = State.lightboxImages || [];
+            if (imgs.length < 2) { strip.innerHTML = ''; strip.style.display = 'none'; return; }
+            strip.style.display = 'flex';
+            strip.innerHTML = imgs.map(function (src, i) {
+                return '<button type="button" class="lightbox-thumb' + (i === State.lightboxIndex ? ' active' : '') +
+                    '" data-idx="' + i + '" aria-label="Go to image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
+            }).join('');
+        }
+
+        function updateLightboxFilmstripActive() {
+            const strip = DOM.lightboxFilmstrip;
+            if (!strip) return;
+            const thumbs = strip.querySelectorAll('.lightbox-thumb');
+            thumbs.forEach(function (t, i) {
+                const on = i === State.lightboxIndex;
+                t.classList.toggle('active', on);
+                if (on) t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            });
+        }
+
+        function updateLightboxNavState() {
+            if (DOM.lightboxPrev) DOM.lightboxPrev.disabled = State.lightboxIndex <= 0;
+            if (DOM.lightboxNext) DOM.lightboxNext.disabled = State.lightboxIndex >= State.lightboxImages.length - 1;
+        }
+
+        function closeLightbox(fromPopState) {
+            if (!State.lightboxOpen) return;
+            if (!fromPopState && State.lightboxHistoryEntry) {
+                State.lightboxHistoryEntry = false;
+                try { history.back(); } catch (e) {}
+            } else {
+                State.lightboxHistoryEntry = false;
+            }
+            DOM.lightboxOverlay.classList.remove('active', 'dismiss-dragging');
+            DOM.lightboxOverlay.style.transform = '';
+            DOM.lightboxOverlay.style.background = '';
             document.body.classList.remove('lightbox-open');
             document.body.style.overflow = '';
             State.lightboxOpen = false;
+            LBZoom.reset(DOM.lightboxImgCurrent);
             DOM.lightboxImgCurrent.className = 'lightbox-img active';
             DOM.lightboxImgNext.className = 'lightbox-img';
             DOM.lightboxImgCurrent.style.transition = '';
             DOM.lightboxImgCurrent.style.opacity = '';
-            DOM.lightboxImgCurrent.style.transform = 'translate(-50%, -50%) scale(1)';
             DOM.lightboxImgNext.style.transition = '';
             DOM.lightboxImgNext.style.opacity = '';
             DOM.lightboxImgNext.style.transform = 'translate(-50%, -50%) scale(1)';
+            showLightboxSpinner(false);
             if (State.openCount > 0) State.openCount--;
+        }
+
+        function jumpToLightbox(newIndex) {
+            if (!State.lightboxImages || newIndex === State.lightboxIndex) return;
+            if (newIndex < 0 || newIndex >= State.lightboxImages.length) return;
+            navigateLightboxTo(newIndex);
         }
 
         function navigateLightbox(direction) {
             if (!State.lightboxImages || State.lightboxImages.length === 0) return;
-            if (State.lightboxIsTransitioning) return;
             const newIndex = State.lightboxIndex + direction;
             if (newIndex < 0 || newIndex >= State.lightboxImages.length) {
                 Toast.info(direction > 0 ? '📸 Last image' : '📸 First image');
                 return;
             }
+            navigateLightboxTo(newIndex);
+        }
+
+        function navigateLightboxTo(newIndex) {
+            if (State.lightboxIsTransitioning) return;
+            if (LBZoom.scale > 1.02) LBZoom.reset(DOM.lightboxImgCurrent);
             State.lightboxIsTransitioning = true;
 
             const current = DOM.lightboxImgCurrent;
@@ -7085,23 +6740,27 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             next.className = 'lightbox-img';
             next.style.transition = 'none';
             next.style.opacity = '0';
+            next.style.transform = 'translate(-50%, -50%) scale(1)';
             next.src = targetSrc;
+            showLightboxSpinner(!(next.complete && next.naturalHeight !== 0));
+            setLightboxBackdrop(targetSrc);
 
             const doSwap = function () {
-                next.style.transition = 'opacity 0.3s ease';
-                next.style.opacity = '1';
-                setTimeout(function () {
-                    current.src = targetSrc;
-                    current.style.transition = 'none';
-                    current.style.opacity = '1';
-                    next.style.transition = 'none';
-                    next.style.opacity = '0';
-                    next.src = '';
-                    State.lightboxIndex = newIndex;
-                    updateLightboxCounter();
-                    preloadLightboxNeighbours();
-                    State.lightboxIsTransitioning = false;
-                }, 310);
+                showLightboxSpinner(false);
+                current.src = targetSrc;
+                current.style.transition = 'none';
+                current.style.opacity = '1';
+                current.style.transform = 'translate(-50%, -50%) scale(1)';
+                next.style.transition = 'none';
+                next.style.opacity = '0';
+                next.style.transform = 'translate(-50%, -50%) scale(1)';
+                next.src = '';
+                State.lightboxIndex = newIndex;
+                updateLightboxCounter();
+                updateLightboxFilmstripActive();
+                updateLightboxNavState();
+                preloadLightboxNeighbours();
+                State.lightboxIsTransitioning = false;
             };
 
             if (next.complete && next.naturalHeight !== 0) {
@@ -7125,6 +6784,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             if (DOM.lightboxCounter) {
                 DOM.lightboxCounter.textContent = (State.lightboxIndex + 1) + ' / ' + State.lightboxImages.length;
             }
+            updateLightboxNavState();
         }
 
         DOM.lightboxClose.addEventListener('click', closeLightbox);
@@ -7134,22 +6794,220 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         DOM.lightboxPrev.addEventListener('click', function () { navigateLightbox(-1); });
         DOM.lightboxNext.addEventListener('click', function () { navigateLightbox(1); });
 
+        if (DOM.lightboxZoomBtn) {
+            DOM.lightboxZoomBtn.addEventListener('click', function () {
+                const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
+                LBZoom.toggle(DOM.lightboxImgCurrent, wrap.width / 2, wrap.height / 2);
+            });
+        }
+
+        if (DOM.lightboxDownloadBtn) {
+            DOM.lightboxDownloadBtn.addEventListener('click', function () {
+                const src = State.lightboxImages[State.lightboxIndex];
+                if (!src) return;
+                const a = document.createElement('a');
+                a.href = src;
+                a.download = 'psbs-gallery-' + (State.lightboxIndex + 1) + '.jpg';
+                a.target = '_blank';
+                a.rel = 'noopener';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                Helpers.vibrate(8);
+            });
+        }
+
+        if (DOM.lightboxFilmstrip) {
+            DOM.lightboxFilmstrip.addEventListener('click', function (e) {
+                const btn = e.target.closest('.lightbox-thumb');
+                if (!btn) return;
+                jumpToLightbox(parseInt(btn.getAttribute('data-idx'), 10));
+            });
+        }
+
+        DOM.lightboxImgCurrent.addEventListener('dblclick', function (e) {
+            const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
+            LBZoom.toggle(DOM.lightboxImgCurrent, e.clientX - wrap.left, e.clientY - wrap.top);
+        });
+
+        DOM.lightboxImgWrap.addEventListener('wheel', function (e) {
+            if (!State.lightboxOpen) return;
+            e.preventDefault();
+            const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
+            const cx = e.clientX - wrap.left, cy = e.clientY - wrap.top;
+            const prevScale = LBZoom.scale;
+            const delta = e.deltaY < 0 ? 0.22 : -0.22;
+            LBZoom.scale = Math.max(1, Math.min(4, LBZoom.scale + delta));
+            if (LBZoom.scale === 1) {
+                LBZoom.reset(DOM.lightboxImgCurrent);
+                return;
+            }
+            const ratio = LBZoom.scale / prevScale;
+            LBZoom.tx = (LBZoom.tx + (wrap.width / 2 - cx) * (1 - 1 / ratio)) * 1;
+            LBZoom.ty = (LBZoom.ty + (wrap.height / 2 - cy) * (1 - 1 / ratio)) * 1;
+            LBZoom.clampPan();
+            LBZoom.apply(DOM.lightboxImgCurrent);
+        }, { passive: false });
+
         (function () {
-            let sx = 0, sy = 0, active = false;
-            DOM.lightboxOverlay.addEventListener('touchstart', function (e) {
-                if (!State.lightboxOpen || e.touches.length !== 1) return;
-                sx = e.touches[0].clientX;
-                sy = e.touches[0].clientY;
-                active = true;
+            // Finger-following image navigation + low-sensitivity pinch zoom.
+            let sx = 0, sy = 0, active = false, mode = null;
+            let lastTx = 0, lastTy = 0, lastTapTime = 0, moved = false;
+            let pinchStartDist = 0, pinchStartScale = 1, pinching = false;
+            let swipeDir = 0, swipeWidth = 0;
+
+            function dist(t0, t1) {
+                return Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
+            }
+            function imgAt(index) { return State.lightboxImages && State.lightboxImages[index]; }
+            function prepNeighbour(dir) {
+                const idx = State.lightboxIndex + dir;
+                const src = imgAt(idx);
+                const next = DOM.lightboxImgNext;
+                if (!src || !next) return false;
+                next.className = 'lightbox-img';
+                next.style.transition = 'none';
+                next.style.opacity = '1';
+                next.style.transform = 'translate(calc(-50% + ' + (dir * swipeWidth) + 'px), -50%) scale(1)';
+                next.src = src;
+                return true;
+            }
+            function resetFingerSwipe() {
+                const current = DOM.lightboxImgCurrent, next = DOM.lightboxImgNext;
+                current.style.transition = 'transform .28s var(--snap), opacity .22s ease';
+                current.style.transform = 'translate(-50%, -50%) scale(1)';
+                current.style.opacity = '1';
+                next.style.transition = 'transform .28s var(--snap), opacity .22s ease';
+                next.style.transform = 'translate(calc(-50% + ' + (swipeDir * swipeWidth) + 'px), -50%) scale(1)';
+                next.style.opacity = '0';
+                setTimeout(function(){ next.style.transition=''; next.style.transform='translate(-50%,-50%) scale(1)'; next.style.opacity='0'; next.src=''; }, 290);
+            }
+            function finishFingerSwipe(dir) {
+                const current = DOM.lightboxImgCurrent, next = DOM.lightboxImgNext;
+                const target = imgAt(State.lightboxIndex + dir);
+                if (!target) { resetFingerSwipe(); return; }
+                State.lightboxIsTransitioning = true;
+                current.style.transition = 'transform .24s cubic-bezier(.22,1,.36,1), opacity .18s ease';
+                next.style.transition = 'transform .24s cubic-bezier(.22,1,.36,1), opacity .18s ease';
+                current.style.transform = 'translate(calc(-50% + ' + (-dir * swipeWidth) + 'px), -50%) scale(.985)';
+                current.style.opacity = '0';
+                next.style.transform = 'translate(-50%, -50%) scale(1)';
+                next.style.opacity = '1';
+                setTimeout(function () {
+                    current.src = target;
+                    current.style.transition = 'none';
+                    current.style.transform = 'translate(-50%, -50%) scale(1)';
+                    current.style.opacity = '1';
+                    next.style.transition = 'none';
+                    next.style.transform = 'translate(-50%, -50%) scale(1)';
+                    next.style.opacity = '0';
+                    next.src = '';
+                    State.lightboxIndex += dir;
+                    updateLightboxCounter();
+                    updateLightboxFilmstripActive();
+                    updateLightboxNavState();
+                    preloadLightboxNeighbours();
+                    setLightboxBackdrop(target);
+                    State.lightboxIsTransitioning = false;
+                }, 250);
+            }
+
+            DOM.lightboxImgWrap.addEventListener('touchstart', function (e) {
+                if (!State.lightboxOpen || State.lightboxIsTransitioning) return;
+                if (e.touches.length === 2) {
+                    pinching = true;
+                    active = false;
+                    pinchStartDist = Math.max(1, dist(e.touches[0], e.touches[1]));
+                    pinchStartScale = LBZoom.scale;
+                    return;
+                }
+                if (e.touches.length !== 1) return;
+                sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+                lastTx = LBZoom.tx; lastTy = LBZoom.ty;
+                swipeWidth = DOM.lightboxImgWrap.getBoundingClientRect().width;
+                active = true; moved = false; swipeDir = 0;
+                mode = LBZoom.scale > 1.02 ? 'pan' : 'swipe';
             }, { passive: true });
-            DOM.lightboxOverlay.addEventListener('touchend', function (e) {
+
+            DOM.lightboxImgWrap.addEventListener('touchmove', function (e) {
+                if (!State.lightboxOpen) return;
+                if (pinching && e.touches.length === 2) {
+                    const d = dist(e.touches[0], e.touches[1]);
+                    // Slightly calmer pinch sensitivity.
+                    const raw = pinchStartScale * (d / pinchStartDist);
+                    LBZoom.scale = Math.max(1, Math.min(3.5, pinchStartScale + (raw - pinchStartScale) * 0.72));
+                    LBZoom.clampPan();
+                    LBZoom.apply(DOM.lightboxImgCurrent);
+                    return;
+                }
+                if (!active || e.touches.length !== 1) return;
+                const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) moved = true;
+
+                if (mode === 'pan') {
+                    LBZoom.tx = lastTx + dx;
+                    LBZoom.ty = lastTy + dy;
+                    LBZoom.clampPan();
+                    DOM.lightboxImgCurrent.classList.add('panning');
+                    LBZoom.apply(DOM.lightboxImgCurrent);
+                    return;
+                }
+                if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) > 5) {
+                    swipeDir = dx < 0 ? 1 : -1;
+                    const atEdge = (swipeDir === 1 && State.lightboxIndex >= State.lightboxImages.length - 1) || (swipeDir === -1 && State.lightboxIndex <= 0);
+                    let follow = dx;
+                    if (atEdge) follow *= 0.18;
+                    if (!DOM.lightboxImgNext.src || DOM.lightboxImgNext.dataset.swipeDir !== String(swipeDir)) {
+                        if (prepNeighbour(swipeDir)) DOM.lightboxImgNext.dataset.swipeDir = String(swipeDir);
+                    }
+                    DOM.lightboxOverlay.classList.add('lb-hswipe');
+                    DOM.lightboxImgCurrent.style.transition = 'none';
+                    DOM.lightboxImgNext.style.transition = 'none';
+                    DOM.lightboxImgCurrent.style.transform = 'translate(calc(-50% + ' + follow.toFixed(1) + 'px), -50%) scale(1)';
+                    DOM.lightboxImgCurrent.style.opacity = String(Math.max(0.58, 1 - Math.abs(follow) / 900));
+                    if (!atEdge) {
+                        DOM.lightboxImgNext.style.transform = 'translate(calc(-50% + ' + (follow + swipeDir * swipeWidth) .toFixed(1) + 'px), -50%) scale(1)';
+                        DOM.lightboxImgNext.style.opacity = String(Math.min(1, Math.max(0, Math.abs(follow) / Math.max(1, swipeWidth * .62))));
+                    }
+                }
+            }, { passive: true });
+
+            DOM.lightboxImgWrap.addEventListener('touchend', function (e) {
+                if (pinching) {
+                    pinching = false;
+                    if (LBZoom.scale <= 1.02) LBZoom.reset(DOM.lightboxImgCurrent);
+                    return;
+                }
                 if (!active || !State.lightboxOpen) return;
                 active = false;
-                const t = e.changedTouches[0];
-                const dx = t.clientX - sx;
-                const dy = t.clientY - sy;
-                if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
-                    navigateLightbox(dx < 0 ? 1 : -1);
+                DOM.lightboxImgCurrent.classList.remove('panning');
+                DOM.lightboxOverlay.classList.remove('lb-hswipe');
+                const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+
+                if (mode === 'swipe') {
+                    if (Math.abs(dy) > 76 && Math.abs(dy) > Math.abs(dx) * 1.15) {
+                        closeLightbox();
+                        Helpers.vibrate(6);
+                        return;
+                    }
+                    if (!moved) {
+                        const now = Date.now();
+                        if (now - lastTapTime < 320) {
+                            const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
+                            LBZoom.toggle(DOM.lightboxImgCurrent, t.clientX - wrap.left, t.clientY - wrap.top);
+                        }
+                        lastTapTime = now;
+                        return;
+                    }
+                    if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.15 && swipeDir) {
+                        const target = State.lightboxIndex + swipeDir;
+                        if (target >= 0 && target < State.lightboxImages.length) {
+                            finishFingerSwipe(swipeDir);
+                            Helpers.vibrate(6);
+                            return;
+                        }
+                    }
+                    resetFingerSwipe();
                 }
             }, { passive: true });
         })();
@@ -7159,7 +7017,43 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             if (e.key === 'Escape') { closeLightbox(); return; }
             if (e.key === 'ArrowLeft') { navigateLightbox(-1); e.preventDefault(); return; }
             if (e.key === 'ArrowRight') { navigateLightbox(1); e.preventDefault(); return; }
+            if (e.key === '+' || e.key === '=') {
+                LBZoom.scale = Math.min(4, LBZoom.scale + 0.4); LBZoom.clampPan(); LBZoom.apply(DOM.lightboxImgCurrent); return;
+            }
+            if (e.key === '-') {
+                LBZoom.scale = Math.max(1, LBZoom.scale - 0.4);
+                if (LBZoom.scale === 1) LBZoom.reset(DOM.lightboxImgCurrent);
+                else { LBZoom.clampPan(); LBZoom.apply(DOM.lightboxImgCurrent); }
+                return;
+            }
         });
+
+        window.addEventListener('popstate', function () {
+            if (State.lightboxOpen) closeLightbox(true);
+        });
+
+
+        // Downward swipe on the thumbnail rail dismisses the previewer.
+        (function () {
+            if (!DOM.lightboxFilmstrip) return;
+            var sy = 0, sx = 0, tracking = false;
+            DOM.lightboxFilmstrip.addEventListener('touchstart', function (e) {
+                if (!State.lightboxOpen || e.touches.length !== 1) return;
+                sx = e.touches[0].clientX;
+                sy = e.touches[0].clientY;
+                tracking = true;
+            }, { passive: true });
+            DOM.lightboxFilmstrip.addEventListener('touchend', function (e) {
+                if (!tracking || !State.lightboxOpen) return;
+                tracking = false;
+                var t = e.changedTouches[0];
+                var dx = t.clientX - sx, dy = t.clientY - sy;
+                if (dy > 64 && Math.abs(dy) > Math.abs(dx) * 1.15) {
+                    closeLightbox();
+                    Helpers.vibrate(6);
+                }
+            }, { passive: true });
+        })();
 
         // ===== HEADER SCROLL =====
         let headerScrollTimer = null;
@@ -7636,29 +7530,45 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             function buildTicker(list) {
                 var wrap = $('#noticeTicker'), move = $('#ntMove');
                 var sub = $('#qcNoticeSub');
-                var all = (list || []).filter(function (n) { return n && n.title; });
-                if (sub) sub.textContent = all.length ? all.length + (all.length === 1 ? ' update' : ' updates') : 'Latest updates';
+
+                // Keep the hero ticker focused: only the 3 newest notices are shown.
+                // Sorting here also protects the ticker if an unsorted array is passed in.
+                var all = (list || [])
+                    .filter(function (n) { return n && n.title; })
+                    .slice()
+                    .sort(function (a, b) {
+                        return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
+                    });
+                var latest = all.slice(0, 3);
+
+                if (sub) {
+                    sub.textContent = all.length
+                        ? all.length + (all.length === 1 ? ' update' : ' updates')
+                        : 'Latest updates';
+                }
                 if (!wrap || !move) return;
-                if (!all.length) { wrap.hidden = true; return; }
-                /* Always show the four most recent notices, newest first. */
-                 all.sort(function (a, b) {
-                     var da = new Date(a.date || 0).getTime();
-                     var db = new Date(b.date || 0).getTime();
-                     return (db || 0) - (da || 0);
-                 });
-                 all = all.slice(0, 4);
-                 function html(hidden) {
-                    return all.map(function (n) {
-                        return '<button type="button" class="nt-item" data-qa="notices"' + (hidden ? ' aria-hidden="true" tabindex="-1"' : '') + '>' +
-                            '<i class="ri-notification-3-line" aria-hidden="true"></i>' + esc(n.title) +
+                if (!latest.length) {
+                    wrap.hidden = true;
+                    move.innerHTML = '';
+                    return;
+                }
+
+                function html(hidden) {
+                    return latest.map(function (n) {
+                        return '<button type="button" class="nt-item" data-qa="notices"' +
+                            (hidden ? ' aria-hidden="true" tabindex="-1"' : '') + '>' +
+                            '<i class="ri-notification-3-line" aria-hidden="true"></i>' +
+                            '<span class="nt-title">' + esc(n.title) + '</span>' +
                             '<em>' + esc(Helpers.timeAgo(n.date)) + '</em></button>';
                     }).join('');
                 }
+
+                // Duplicate the same 3 notices so the marquee loops seamlessly.
                 move.innerHTML = html(false) + html(true);
                 wrap.hidden = false;
                 requestAnimationFrame(function () {
-                    var w = move.scrollWidth / 2;
-                    move.style.animationDuration = Math.max(18, Math.round(w / 55)) + 's';
+                    var w = Math.max(1, move.scrollWidth / 2);
+                    move.style.animationDuration = Math.max(14, Math.round(w / 48)) + 's';
                 });
             }
             if (typeof window.renderNotices === 'function') {
@@ -7964,316 +7874,254 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     </script>
     <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
-<script id="psbs-desktop-polish-v2-js">
+
+<script id="convex-five-thumbnail-script">
 (function () {
-    'use strict';
-    function initDesktopPolish() {
-        if (window.innerWidth < 1200) return;
+  function updateConvexFilmstrip() {
+    const rail = document.querySelector('.lightbox-filmstrip');
+    if (!rail) return;
+    const thumbs = rail.querySelectorAll('.lightbox-thumb');
+    if (!thumbs.length) return;
 
-        /* Put the live notice ticker inside the hero's visual composition. */
-        var ticker = document.getElementById('noticeTicker');
-        var heroContainer = document.querySelector('#hero .container');
-        if (ticker && heroContainer && ticker.parentElement !== heroContainer) {
-            heroContainer.appendChild(ticker);
-        }
+    const rc = rail.getBoundingClientRect();
+    const centerX = rc.left + rc.width / 2;
+    const half = Math.max(1, rc.width / 2);
 
-        /* Dedicated left-sidebar scroll indicator. */
-        var sidebarBody = document.querySelector('.sidebar .sidebar-body');
-        if (!sidebarBody || sidebarBody.querySelector('.psbs-sidebar-scroll-indicator')) return;
+    thumbs.forEach(function (thumb) {
+      const r = thumb.getBoundingClientRect();
+      const x = (r.left + r.width / 2 - centerX) / half;
+      const d = Math.min(1, Math.abs(x));
+      /* Convex mirror-like arc: center is raised, sides descend. */
+      const y = 24 * d * d;
+      thumb.style.setProperty('--arc-y', y.toFixed(2) + 'px');
+      thumb.classList.toggle('arc-side', d > .22);
+    });
+  }
 
-        var indicator = document.createElement('div');
-        indicator.className = 'psbs-sidebar-scroll-indicator';
-        indicator.setAttribute('aria-hidden', 'true');
-        var thumb = document.createElement('div');
-        thumb.className = 'psbs-sidebar-scroll-thumb';
-        indicator.appendChild(thumb);
-        sidebarBody.appendChild(indicator);
+  let raf = 0;
+  function scheduleConvexUpdate() {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = 0;
+      updateConvexFilmstrip();
+    });
+  }
 
-        function updateIndicator() {
-            var scrollable = sidebarBody.scrollHeight - sidebarBody.clientHeight;
-            if (scrollable <= 2) {
-                indicator.classList.remove('is-visible');
-                return;
-            }
-            indicator.classList.add('is-visible');
-            var ratio = sidebarBody.clientHeight / sidebarBody.scrollHeight;
-            var track = indicator.clientHeight;
-            var thumbHeight = Math.max(34, Math.round(track * ratio));
-            var travel = Math.max(0, track - thumbHeight);
-            var progress = sidebarBody.scrollTop / scrollable;
-            thumb.style.height = thumbHeight + 'px';
-            thumb.style.transform = 'translateY(' + Math.round(travel * progress) + 'px)';
-        }
-        sidebarBody.addEventListener('scroll', updateIndicator, { passive: true });
-        window.addEventListener('resize', updateIndicator, { passive: true });
-        setTimeout(updateIndicator, 120);
-        setTimeout(updateIndicator, 600);
-    }
+  document.addEventListener('scroll', scheduleConvexUpdate, true);
+  document.addEventListener('touchmove', scheduleConvexUpdate, {passive:true});
+  window.addEventListener('resize', scheduleConvexUpdate);
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDesktopPolish);
-    } else {
-        initDesktopPolish();
-    }
-})();
-</script>
+  const observer = new MutationObserver(scheduleConvexUpdate);
+  observer.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
 
-<script id="psbs-desktop-scroll-header-js">
-(function () {
-    'use strict';
-
-    function initDesktopScrollHeader() {
-        if (window.innerWidth < 1200) return;
-
-        var ticking = false;
-
-        function update() {
-            var y = window.scrollY || window.pageYOffset || 0;
-
-            /* At the very top: full search bar.
-               Once the page has moved down: compact search button. */
-            document.body.classList.toggle('psbs-desktop-scrolled', y > 70);
-
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', function () {
-            if (!ticking) {
-                window.requestAnimationFrame(update);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        update();
-
-        /* Clicking the compact search button restores/focuses the search. */
-        document.addEventListener('click', function (event) {
-            var box = event.target.closest('.desktop-mainbar .search-box');
-            if (!box || !document.body.classList.contains('psbs-desktop-scrolled')) return;
-
-            var input = box.querySelector('input, .search-input');
-            if (!input) return;
-
-            document.body.classList.remove('psbs-desktop-scrolled');
-
-            setTimeout(function () {
-                try {
-                    input.focus();
-                } catch (e) {}
-            }, 220);
-        });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDesktopScrollHeader);
-    } else {
-        initDesktopScrollHeader();
-    }
+  setInterval(scheduleConvexUpdate, 80);
 })();
 </script>
 
 
-<script id="psbs-desktop-scrolled-utility-visibility">
+<script id="fluid-mobile-arc">
 (function () {
-    function syncScrolledHeader() {
-        if (window.innerWidth < 1200) return;
-        document.body.classList.toggle(
-            'psbs-desktop-scrolled',
-            (window.scrollY || window.pageYOffset || 0) > 70
-        );
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  let ticking = false;
+
+  function paintArc() {
+    ticking = false;
+    const rail = document.querySelector('.lightbox-filmstrip');
+    if (!rail) return;
+
+    const thumbs = rail.querySelectorAll('.lightbox-thumb');
+    if (!thumbs.length) return;
+
+    const box = rail.getBoundingClientRect();
+    const center = box.left + box.width / 2;
+    const radius = Math.max(1, box.width * .52);
+
+    thumbs.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const x = ((r.left + r.width / 2) - center) / radius;
+      const n = clamp(x, -1, 1);
+      const d = Math.abs(n);
+
+      // Convex-mirror-like curve: center rises, edges descend.
+      const y = 26 * n * n;
+      const scale = 1.10 - 0.12 * d;
+      const rotate = n * -2.2;
+
+      el.style.setProperty('--arc-y', y.toFixed(2) + 'px');
+      el.style.transform =
+        `translate3d(0, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(3)}) rotateZ(${rotate.toFixed(2)}deg)`;
+
+      el.style.opacity = String(1 - .18 * d);
+    });
+  }
+
+  function schedule() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(paintArc);
+    }
+  }
+
+  document.addEventListener('scroll', schedule, {passive:true, capture:true});
+  document.addEventListener('touchmove', schedule, {passive:true, capture:true});
+  window.addEventListener('resize', schedule, {passive:true});
+
+  const observer = new MutationObserver(schedule);
+  observer.observe(document.body, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['class']
+  });
+
+  schedule();
+})();
+</script>
+
+
+<script id="smooth-center-sync-script">
+(function () {
+  let raf = 0;
+  let lastIndex = -1;
+  let suppress = false;
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+  function thumbs() {
+    const rail = document.querySelector('.lightbox-filmstrip');
+    return rail ? Array.from(rail.querySelectorAll('.lightbox-thumb')) : [];
+  }
+
+  function centerRailOn(el, behavior) {
+    const rail = document.querySelector('.lightbox-filmstrip');
+    if (!rail || !el) return;
+    const target = el.offsetLeft - (rail.clientWidth - el.offsetWidth) / 2;
+    rail.scrollTo({ left: target, behavior: behavior || 'auto' });
+  }
+
+  function findNearest() {
+    const rail = document.querySelector('.lightbox-filmstrip');
+    const list = thumbs();
+    if (!rail || !list.length) return -1;
+
+    const rc = rail.getBoundingClientRect();
+    const cx = rc.left + rc.width / 2;
+    let best = 0, dist = Infinity;
+
+    list.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const d = Math.abs((r.left + r.width / 2) - cx);
+      if (d < dist) { dist = d; best = i; }
+    });
+    return best;
+  }
+
+  function setCenterIndex(index, duringDrag) {
+    const list = thumbs();
+    if (!list[index]) return;
+
+    list.forEach((el, i) => el.classList.toggle('active', i === index));
+
+    // Existing app navigation is used if available. We trigger the same
+    // thumbnail action the app already uses, keeping all existing state.
+    if (index !== lastIndex) {
+      lastIndex = index;
+      if (!suppress) {
+        elClick(list[index]);
+      }
     }
 
-    window.addEventListener('scroll', syncScrolledHeader, {passive:true});
-    window.addEventListener('resize', syncScrolledHeader);
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', syncScrolledHeader);
-    } else {
-        syncScrolledHeader();
+    if (!duringDrag) centerRailOn(list[index], 'smooth');
+  }
+
+  function elClick(el) {
+    if (!el) return;
+    // Do not synthesize a click if the thumbnail is already selected.
+    if (el.classList.contains('active') && lastIndex === thumbs().indexOf(el)) return;
+    el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+  }
+
+  function paint() {
+    raf = 0;
+    const rail = document.querySelector('.lightbox-filmstrip');
+    const list = thumbs();
+    if (!rail || !list.length) return;
+
+    const rc = rail.getBoundingClientRect();
+    const cx = rc.left + rc.width / 2;
+    const radius = Math.max(1, rc.width * .54);
+
+    let nearest = 0, nearestD = Infinity;
+
+    list.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const ex = r.left + r.width / 2;
+      const n = clamp((ex - cx) / radius, -1, 1);
+      const d = Math.abs(n);
+
+      if (Math.abs(ex - cx) < nearestD) {
+        nearestD = Math.abs(ex - cx);
+        nearest = i;
+      }
+
+      // Smooth continuous convex arc. No "settling" jumps.
+      const y = 27 * n * n;
+      const scale = 1.10 - .13 * d;
+      const rot = -2.4 * n;
+
+      el.style.transform =
+        `translate3d(0, ${y.toFixed(3)}px, 0) scale(${scale.toFixed(4)}) rotateZ(${rot.toFixed(3)}deg)`;
+      el.style.opacity = String(1 - .15 * d);
+      el.style.filter = `brightness(${1 - .035 * d})`;
+    });
+
+    // The center thumbnail defines the image being viewed.
+    if (nearest !== lastIndex) {
+      setCenterIndex(nearest, true);
     }
+  }
+
+  function schedule() {
+    if (!raf) raf = requestAnimationFrame(paint);
+  }
+
+  // Capture the rail's native scrolling directly, so finger movement and
+  // image selection stay in the same animation frame.
+  document.addEventListener('scroll', schedule, { passive: true, capture: true });
+  document.addEventListener('touchmove', schedule, { passive: true, capture: true });
+  document.addEventListener('pointermove', schedule, { passive: true, capture: true });
+  window.addEventListener('resize', schedule, { passive: true });
+
+  // Keep the selected thumbnail centered after a normal thumbnail tap.
+  document.addEventListener('click', function (e) {
+    const el = e.target.closest && e.target.closest('.lightbox-filmstrip .lightbox-thumb');
+    if (!el) return;
+    setTimeout(function () {
+      const list = thumbs();
+      const i = list.indexOf(el);
+      if (i >= 0) {
+        lastIndex = i;
+        centerRailOn(el, 'smooth');
+        schedule();
+      }
+    }, 0);
+  }, true);
+
+  const observer = new MutationObserver(function () {
+    schedule();
+  });
+  observer.observe(document.body, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['class', 'src']
+  });
+
+  // More responsive than a timer, while still allowing the browser to paint.
+  schedule();
 })();
 </script>
 
 </body>
 
 </html>
-<style>
-/* ================================================================
-   PC ONLY — CENTERED HERO CONTENT
-   Mobile/tablet styles are intentionally untouched.
-   ================================================================ */
-@media (min-width: 1200px) {
-    #hero {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        min-height: 520px !important;
-        padding: 88px 42px 96px !important;
-    }
-
-    #hero .container {
-        width: 100% !important;
-        max-width: 1240px !important;
-        margin: 0 auto !important;
-    }
-
-    #hero .hero-content {
-        width: min(100%, 900px) !important;
-        max-width: 900px !important;
-        margin: 0 auto !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        gap: 0 !important;
-        transform: none !important;
-    }
-
-    /* Logo stays above the information stack and is deliberately restrained. */
-    #hero .hero-logo-wrap,
-    #hero .hero-content > .hero-logo-wrap {
-        order: 0 !important;
-        grid-column: auto !important;
-        grid-row: auto !important;
-        width: 150px !important;
-        height: 150px !important;
-        margin: 0 auto 20px !important;
-        align-self: center !important;
-        justify-self: center !important;
-    }
-
-    #hero .hero-title {
-        order: 1 !important;
-        width: 100% !important;
-        margin: 0 auto 9px !important;
-        font-size: clamp(2.75rem, 3.8vw, 4.15rem) !important;
-        line-height: 1.08 !important;
-        letter-spacing: -0.035em !important;
-        text-align: center !important;
-    }
-
-    #hero .hero-badge {
-        order: 2 !important;
-        margin: 0 auto 11px !important;
-        justify-content: center !important;
-        width: fit-content !important;
-    }
-
-    #hero .hero-motto {
-        order: 3 !important;
-        width: 100% !important;
-        margin: 0 auto 13px !important;
-        font-size: clamp(1.3rem, 1.8vw, 1.65rem) !important;
-        line-height: 1.35 !important;
-        text-align: center !important;
-    }
-
-    #hero .hero-description {
-        order: 4 !important;
-        width: min(100%, 700px) !important;
-        max-width: 700px !important;
-        margin: 0 auto 20px !important;
-        font-size: clamp(1rem, 1.25vw, 1.12rem) !important;
-        line-height: 1.65 !important;
-        text-align: center !important;
-    }
-
-    #hero .hero-stats-mini {
-        order: 5 !important;
-        width: min(100%, 560px) !important;
-        max-width: 560px !important;
-        margin: 3px auto 0 !important;
-        justify-self: center !important;
-        align-self: center !important;
-        text-align: center !important;
-    }
-
-    #hero .hero-actions {
-        order: 6 !important;
-        justify-content: center !important;
-        margin: 22px auto 0 !important;
-    }
-
-    /* Keep the hero visually balanced by reserving a subtle central content zone. */
-    #hero .hero-content::after {
-        content: none !important;
-    }
-}
-
-@media (min-width: 1500px) {
-    #hero {
-        min-height: 540px !important;
-        padding-top: 82px !important;
-        padding-bottom: 92px !important;
-    }
-
-    #hero .hero-content {
-        max-width: 960px !important;
-    }
-
-    #hero .hero-logo-wrap,
-    #hero .hero-content > .hero-logo-wrap {
-        width: 158px !important;
-        height: 158px !important;
-        margin-bottom: 21px !important;
-    }
-
-    #hero .hero-title {
-        font-size: clamp(3rem, 3.35vw, 4.35rem) !important;
-    }
-
-    #hero .hero-description {
-        max-width: 740px !important;
-    }
-}
-</style>
-
-<style id="psbs-pc-floating-header-final">
-/* ================================================================
-   PC ONLY — FLOATING HEADER / CONTROLS
-   Keeps the existing glossy PSBS material, but removes the solid
-   header slab so navigation appears to float over the canvas.
-   ================================================================ */
-@media (min-width: 1200px) {
-  .header {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    pointer-events: none;
-  }
-  .header .navbar,
-  .header .navbar > * {
-    pointer-events: auto;
-  }
-  .header .navbar {
-    padding: 14px 22px !important;
-  }
-  .header .nav-left,
-  .header .nav-right {
-    gap: 9px !important;
-  }
-  .header .brand-text {
-    padding: 7px 13px !important;
-    border-radius: 16px !important;
-    background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.14)) !important;
-    border: 1px solid rgba(255,255,255,.42) !important;
-    box-shadow: 0 8px 24px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.82) !important;
-    backdrop-filter: blur(14px) saturate(165%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(165%) !important;
-  }
-  .header .header-theme-presets-btn,
-  .header .header-theme-toggle-btn,
-  .header .menu-btn,
-  .header .notice-btn,
-  .header .profile-btn {
-    box-shadow: 0 9px 24px rgba(15,23,42,.10), inset 0 1px 0 rgba(255,255,255,.9) !important;
-  }
-  body.dark .header .brand-text {
-    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.035)) !important;
-    border-color: rgba(255,255,255,.09) !important;
-    box-shadow: 0 9px 24px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.13) !important;
-  }
-}
-</style>

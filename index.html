@@ -153,8 +153,6 @@
         body.welcome-active,
         body.lightbox-open { overflow: hidden !important; }
 
-        body.touching ::-webkit-scrollbar { display: none !important; }
-        body.touching * { scrollbar-width: none !important; }
 
         /* ===== NEBULA ===== */
         .nebula-bg {
@@ -447,12 +445,12 @@
             max-width: 92%; max-height: 100%;
             border-radius: var(--radius-md);
             box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            object-fit: contain; cursor: zoom-in; background: rgba(255, 255, 255, 0.02);
+            object-fit: contain; cursor: default; background: rgba(255, 255, 255, 0.02);
             transition: opacity 0.28s var(--snap), transform 0.28s var(--snap), border-radius 0.3s ease;
             will-change: transform, opacity; opacity: 0; pointer-events: none;
         }
         .lightbox-img.active { opacity: 1; pointer-events: auto; }
-        .lightbox-img.zoomed { cursor: zoom-out; border-radius: 6px; }
+        
         .lightbox-img.panning { transition: none; cursor: grabbing; }
         .lightbox-spinner {
             position: absolute; width: 38px; height: 38px; border-radius: 50%;
@@ -1536,10 +1534,28 @@
             isolation: isolate;
         }
         #hero::before {
-            content: ''; position: absolute; inset: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(243, 156, 18, 0.10), transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(245, 176, 65, 0.08), transparent 50%);
+            content: ''; position: absolute; inset: -20%;
+            background:
+                radial-gradient(ellipse at 50% 43%, rgba(255, 236, 164, 0.30) 0%, rgba(255, 196, 71, 0.12) 18%, transparent 48%),
+                radial-gradient(circle at 15% 30%, rgba(255,255,255,0.12), transparent 32%),
+                radial-gradient(circle at 88% 68%, rgba(255,190,65,0.10), transparent 34%);
             z-index: 0; pointer-events: none;
+            animation: hero-bloom 7s ease-in-out infinite alternate;
+        }
+        #hero::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(115deg, transparent 0%, transparent 43%, rgba(255,255,255,0.13) 49%, transparent 55%, transparent 100%);
+            background-size: 240% 100%;
+            animation: hero-light-sweep 8s ease-in-out 1.2s 1;
+            z-index: 1; pointer-events: none;
+        }
+        @keyframes hero-bloom {
+            from { transform: scale(0.96); opacity: .72; }
+            to { transform: scale(1.04); opacity: 1; }
+        }
+        @keyframes hero-light-sweep {
+            0%, 35% { background-position: 120% 0; }
+            65%, 100% { background-position: -20% 0; }
         }
         .hero-particle {
             position: absolute; border-radius: var(--radius-full);
@@ -1571,7 +1587,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
         }
         .hero-badge {
-            display: inline-block; padding: 3px 14px; margin-bottom: 16px;
+            display: inline-block; padding: 3px 4px; margin-bottom: 16px;
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.14);
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -1580,30 +1596,99 @@
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
         }
         .hero-title {
-            font-size: 2rem; color: #fff; line-height: 1.15;
-            margin-bottom: 12px; font-weight: 800;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            position: relative; isolation: isolate;
+            font-size: clamp(2rem, 5vw, 3.65rem);
+            line-height: 1.08; margin: 0 auto 15px;
+            font-weight: 800; letter-spacing: -0.035em;
+            color: #fff;
+            -webkit-text-fill-color: #fff;
+            text-shadow:
+                0 1px 0 rgba(255,255,255,.95),
+                0 -1px 0 rgba(255,255,255,.85),
+                0 2px 0 rgba(190,198,204,.75),
+                0 5px 14px rgba(0,0,0,.30),
+                0 0 22px rgba(255,255,255,.18);
+            filter: drop-shadow(0 10px 24px rgba(0,0,0,.22));
+        }
+        .hero-title::before {
+            content: '';
+            position: absolute;
+            left: 4%; right: 4%; top: 4%; height: 44%;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,.48), transparent);
+            filter: blur(7px);
+            opacity: .55;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .hero-title::after {
+            content: attr(data-reflection);
+            position: absolute; left: 0; right: 0; top: 100%;
+            transform: scaleY(-1) translateY(-1px);
+            transform-origin: center top;
+            opacity: .09; filter: blur(1.4px);
+            -webkit-mask-image: linear-gradient(to bottom, #000, transparent 78%);
+            mask-image: linear-gradient(to bottom, #000, transparent 78%);
+            pointer-events: none;
         }
         .hero-title span {
-            background: linear-gradient(120deg, #F7EA11, #f1c40f);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            display: block;
+            color: #fff;
+            -webkit-text-fill-color: #fff;
+        }
+        .hero-title-main {
+            font-size: 1em;
+            letter-spacing: -0.035em;
+            text-shadow:
+                0 1px 0 rgba(255,255,255,1),
+                0 0 2px rgba(255,255,255,.95),
+                0 2px 0 rgba(190,198,204,.72),
+                0 5px 15px rgba(0,0,0,.30),
+                0 0 24px rgba(255,255,255,.24);
         }
         .hero-motto {
-            font-size: 1.3rem; color: #f1c40f; margin-bottom: 5px;
-            font-weight: 600; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+            position: relative; display: inline-block;
+            font-size: clamp(1.28rem, 2.8vw, 1.72rem);
+            color: transparent; margin: 0 auto 10px;
+            font-weight: 700; letter-spacing: .025em;
+            background: linear-gradient(
+    100deg,
+    #fff 0%,
+    color-mix(in srgb, var(--primary) 22%, white) 35%,
+    #fff 52%,
+    color-mix(in srgb, var(--primary) 32%, white) 75%,
+    #fff 100%
+);
+            background-size: 220% 100%;
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,.20));
             min-height: 2.4rem;
         }
-        .hero-motto .type-cursor {
-            display: inline-block; width: 3px; height: 1.2rem;
-            background: #f1c40f; animation: blink 0.8s step-end infinite;
-            vertical-align: text-bottom; margin-left: 2px;
+        .hero-motto::after {
+            content: ''; position: absolute; left: 12%; right: 12%; bottom: -6px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--primary) 42%, transparent), color-mix(in srgb, var(--primary) 22%, white), color-mix(in srgb, var(--primary) 42%, transparent), transparent);
+            box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 24%, transparent);
         }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .hero-motto {
+            opacity: 0;
+            transform: translateY(7px);
+            transition: opacity .65s cubic-bezier(.22,1,.36,1),
+                        transform .65s cubic-bezier(.22,1,.36,1),
+                        background-position 1.8s cubic-bezier(.22,1,.36,1);
+        }
+        .hero-motto.motto-ready {
+            opacity: 1;
+            transform: translateY(0);
+            background-position: 100% 50%;
+        }
         .hero-description {
-            max-width: 500px; margin: 0 auto 16px;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5; font-size: 1rem;
-            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+            max-width: 590px; margin: 0 auto 16px;
+            color: rgba(255,255,255,.91);
+            line-height: 1.65; font-size: 1rem;
+            letter-spacing: .012em;
+            text-shadow: 0 2px 12px rgba(0,0,0,.22);
         }
         .hero-actions {
             display: flex; gap: 10px; justify-content: center;
@@ -1632,7 +1717,16 @@
             border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 8px 20px rgba(0,0,0,0.14);
         }
         .hero-action-btn:active { transform: scale(0.95); }
-        @media (max-width: 420px) { .hero-action-btn { padding: 10px 16px; font-size: 0.9375rem; } }
+        @media (max-width: 420px) {
+            .hero-action-btn { padding: 10px 16px; font-size: 0.9375rem; }
+            .hero-title { font-size: 2rem; letter-spacing: -0.025em; }
+            .hero-motto { font-size: 1.3rem; }
+            .hero-description { font-size: .94rem; line-height: 1.55; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #hero::before, #hero::after, .hero-title span, .hero-motto { animation: none; transition: none; }
+            .hero-motto { opacity: 1; transform: none; }
+        }
 
         .hero-stats-mini {
             display: flex; justify-content: center; gap: 24px;
@@ -1959,7 +2053,7 @@
         /* ============================================================
            FAB
            ============================================================ */
-        .fab-container { position: fixed; bottom: 24px; right: 16px; z-index: var(--z-float); }
+.fab-container { position: fixed; bottom: 24px; right: 16px; z-index: var(--z-float); }
         @media (min-width: 600px) { .fab-container { bottom: 28px; right: 24px; } }
         .fab-btn {
             width: 46px; height: 46px; border-radius: var(--radius-full);
@@ -2050,7 +2144,7 @@
             padding: 0 14px; background: var(--background);
             transition: all 0.3s ease;
         }
-        .search-box .search-input-wrap:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.10); }
+        .search-box .search-input-wrap:focus-within { border-color: rgba(var(--primary-rgb),.16); box-shadow: 0 12px 28px -18px rgba(15,23,42,.45), inset 0 1px 0 rgba(255,255,255,.92); outline: none; }
         .search-box .search-input-wrap input {
             flex: 1; padding: 14px 0; background: transparent;
             color: var(--text); font-size: 1rem; outline: none; border: none;
@@ -2074,15 +2168,181 @@
         .search-result-item .sri-text p { font-size: 0.8rem; margin: 0; color: var(--text-light); }
         .search-empty { text-align: center; padding: 30px 0; color: var(--text-light); }
 
+        /* Search focus: keep the glossy shell stable — no theme-colored focus rectangle. */
+        .search-box .search-input-wrap:focus,
+        .search-box .search-input-wrap:focus-within,
+        .search-box .search-input-wrap input:focus,
+        .search-box .search-input-wrap .search-clear:focus {
+            outline: none !important;
+        }
+        .search-box .search-input-wrap:focus-within {
+            border-color: transparent !important;
+            box-shadow: 0 12px 28px -18px rgba(15,23,42,.45), inset 0 1px 0 rgba(255,255,255,.92) !important;
+        }
+
         /* ============================================================
-           HIDDEN SCROLL INDICATORS DURING TOUCH
+           SEARCH — PREMIUM GLOSSY REDESIGN
            ============================================================ */
-        .panel-pane-body, .doc-toolbar-scroll, .sidebar-body, .documents-container {
+        .search-overlay {
+            background:
+                radial-gradient(circle at 50% 18%, rgba(var(--primary-rgb), .16), transparent 32%),
+                linear-gradient(135deg, rgba(15,23,42,.62), rgba(15,23,42,.42));
+            backdrop-filter: blur(34px) saturate(180%);
+            -webkit-backdrop-filter: blur(34px) saturate(180%);
+        }
+        .search-box {
+            position: relative;
+            max-width: 680px;
+            padding: 12px;
+            overflow: hidden;
+            border-radius: 28px;
+            background:
+                linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.70)),
+                var(--panel-bg);
+            border: 1px solid rgba(255,255,255,.72);
+            box-shadow:
+                0 38px 90px -30px rgba(15,23,42,.55),
+                0 0 0 1px rgba(var(--primary-rgb),.10),
+                inset 0 1px 0 rgba(255,255,255,.95),
+                inset 0 -18px 35px rgba(var(--primary-rgb),.035);
+        }
+        .search-box::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(115deg, rgba(255,255,255,.70), transparent 28%, transparent 68%, rgba(var(--primary-rgb),.08));
+        }
+        .search-box::after {
+            content: ''; position: absolute; left: 9%; right: 9%; top: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+            pointer-events: none;
+        }
+        body.dark .search-box {
+            background: linear-gradient(145deg, rgba(30,41,59,.92), rgba(15,23,42,.84));
+            border-color: rgba(255,255,255,.12);
+            box-shadow:
+                0 42px 95px -30px rgba(0,0,0,.72),
+                0 0 0 1px rgba(var(--primary-rgb),.13),
+                inset 0 1px 0 rgba(255,255,255,.10);
+        }
+        .search-box .search-input-wrap {
+            position: relative; z-index: 1;
+            min-height: 62px; padding: 0 9px 0 18px; gap: 12px;
+            border: 1px solid rgba(var(--primary-rgb),.16);
+            border-radius: 21px;
+            background: rgba(255,255,255,.68);
+            box-shadow:
+                0 12px 28px -18px rgba(15,23,42,.45),
+                inset 0 1px 0 rgba(255,255,255,.92);
+        }
+        body.dark .search-box .search-input-wrap {
+            background: rgba(15,23,42,.62);
+            border-color: rgba(255,255,255,.10);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+        }
+        .search-box .search-input-wrap > i {
+            width: 22px; height: 22px; display: grid; place-items: center;
+            flex: 0 0 22px; font-size: 1.18rem !important;
+            color: var(--primary) !important;
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            border-radius: 0;
+        }
+        .search-box .search-input-wrap:focus-within {
+            border-color: rgba(var(--primary-rgb),.16);
+            transform: none;
+            box-shadow: 0 12px 28px -18px rgba(15,23,42,.45), inset 0 1px 0 rgba(255,255,255,.92);
+            outline: none;
+        }
+        .search-box .search-input-wrap input {
+            min-width: 0; font-size: 1.02rem; font-weight: 600; letter-spacing: .01em;
+            padding: 15px 0;
+        }
+        .search-box .search-input-wrap input::placeholder { color: var(--text-light); opacity: .78; font-weight: 500; }
+        .search-box .search-input-wrap input:-webkit-autofill,
+        .search-box .search-input-wrap input:-webkit-autofill:hover,
+        .search-box .search-input-wrap input:-webkit-autofill:focus {
+            -webkit-text-fill-color: var(--text) !important;
+            -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+            transition: background-color 9999s ease-out 0s;
+        }
+
+        .search-box .search-input-wrap .search-clear {
+            position: relative; z-index: 20; pointer-events: auto; touch-action: manipulation; -webkit-appearance: none; appearance: none; flex: 0 0 40px;
+            width: 40px; height: 40px; display: grid; place-items: center;
+            border-radius: 13px; border: 1px solid rgba(var(--primary-rgb),.10);
+            background: rgba(var(--primary-rgb),.07);
+            color: var(--text-light); opacity: .82;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            transition: transform .18s var(--spring), opacity .18s ease, color .18s ease, background .18s ease;
+        }
+        .search-box .search-input-wrap .search-clear:hover,
+        .search-box .search-input-wrap .search-clear:focus-visible {
+            opacity: 1; color: var(--primary); background: rgba(var(--primary-rgb),.14);
+            transform: scale(1.05); outline: none;
+        }
+        .search-box .search-input-wrap .search-clear:active { transform: scale(.92); }
+        .search-results {
+            position: relative; z-index: 1; margin: 10px 2px 2px; padding: 4px;
+            max-height: min(52vh, 430px); border-radius: 20px;
             scrollbar-width: thin;
         }
-        body.touching .panel-pane-body::-webkit-scrollbar,
-        body.touching .doc-toolbar-scroll::-webkit-scrollbar,
-        body.touching .sidebar-body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+        .search-result-item {
+            position: relative; overflow: hidden; margin-bottom: 6px; padding: 11px 12px;
+            border: 1px solid transparent; border-radius: 17px;
+            background: rgba(255,255,255,.34);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.48);
+            transition: transform .22s var(--spring), background .22s ease, border-color .22s ease, box-shadow .22s ease;
+        }
+        body.dark .search-result-item { background: rgba(255,255,255,.035); box-shadow: inset 0 1px 0 rgba(255,255,255,.035); }
+        .search-result-item:hover {
+            transform: translateX(3px);
+            background: rgba(var(--primary-rgb),.09);
+            border-color: rgba(var(--primary-rgb),.16);
+            box-shadow: 0 8px 20px -16px rgba(var(--primary-rgb),.55), inset 0 1px 0 rgba(255,255,255,.5);
+        }
+        .search-result-item .sri-icon {
+            width: 42px; height: 42px; flex: 0 0 42px; border-radius: 14px;
+            background: linear-gradient(145deg, rgba(var(--primary-rgb),.20), rgba(var(--primary-rgb),.07));
+            border: 1px solid rgba(var(--primary-rgb),.12);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        .search-result-item .sri-text h4 { font-size: .93rem; font-weight: 750; }
+        .search-result-item .sri-text p { margin-top: 2px; line-height: 1.35; }
+        .search-empty {
+            margin: 8px 0; padding: 34px 16px; border-radius: 18px;
+            background: rgba(var(--primary-rgb),.045); border: 1px dashed rgba(var(--primary-rgb),.15);
+        }
+
+        /* ============================================================
+           CONSISTENT SCROLL INDICATORS
+           ============================================================ */
+        .panel-pane-body, .doc-toolbar-scroll, .sidebar-body, .documents-container,
+        .search-results {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--background);
+            scrollbar-gutter: stable;
+        }
+        .panel-pane-body::-webkit-scrollbar,
+        .doc-toolbar-scroll::-webkit-scrollbar,
+        .sidebar-body::-webkit-scrollbar,
+        .documents-container::-webkit-scrollbar,
+        .search-results::-webkit-scrollbar {
+            width: 5px; height: 5px;
+        }
+        .panel-pane-body::-webkit-scrollbar-thumb,
+        .doc-toolbar-scroll::-webkit-scrollbar-thumb,
+        .sidebar-body::-webkit-scrollbar-thumb,
+        .documents-container::-webkit-scrollbar-thumb,
+        .search-results::-webkit-scrollbar-thumb {
+            background: var(--primary); border-radius: 999px;
+        }
+        .panel-pane-body::-webkit-scrollbar-track,
+        .doc-toolbar-scroll::-webkit-scrollbar-track,
+        .sidebar-body::-webkit-scrollbar-track,
+        .documents-container::-webkit-scrollbar-track,
+        .search-results::-webkit-scrollbar-track {
+            background: var(--background);
+        }
 
         /* ============================================================
            PANEL DRAG EDGE INDICATOR
@@ -2510,7 +2770,7 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
 .input-wrapper input:focus, .input-group input:focus, .input-group textarea:focus {
     border-color: var(--primary); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.14);
 }
-.search-box .search-input-wrap:focus-within { box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.16); }
+.search-box .search-input-wrap:focus-within { border-color: transparent !important; box-shadow: 0 12px 28px -18px rgba(15,23,42,.45), inset 0 1px 0 rgba(255,255,255,.92) !important; outline: none !important; }
 .search-result-item { border-radius: 14px; border-bottom: none; margin-bottom: 4px; }
 .search-result-item .sri-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: rgba(var(--primary-rgb), 0.12); font-size: 1.1rem; }
 .search-result-item .sri-tag {
@@ -2553,7 +2813,7 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
 }
 .hero-badge-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 255, 255, 0.7); }
 .hero-title { font-size: clamp(2rem, 7.4vw, 3.9rem); letter-spacing: -0.025em; margin-bottom: 14px; text-shadow: 0 4px 28px rgba(0, 0, 0, 0.45); }
-.hero-motto { font-size: clamp(1.05rem, 3.6vw, 1.65rem); text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5); min-height: 2.2rem; }
+.hero-motto { font-size: clamp(1.05rem, 3.6vw, 1.65rem); text-shadow: 0 1px 5px color-mix(in srgb, var(--primary) 42%, transparent), 0 2px 10px color-mix(in srgb, var(--primary) 20%, transparent); min-height: 2.2rem; }
 .hero-motto .type-cursor { animation: caret 0.9s steps(1) infinite; }
 @keyframes caret { 50% { opacity: 0; } }
 .hero-description { font-size: clamp(0.92rem, 2.5vw, 1.15rem); color: rgba(255, 255, 255, 0.93); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); max-width: 540px; }
@@ -3132,8 +3392,8 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         flex: 0 0 300px; width: 300px; height: 300px; margin: 0; order: 2;
     }
     .hero-title { font-size: clamp(2.6rem, 3.6vw, 3.6rem); line-height: 1.1; }
-    .hero-motto { font-size: 1.4rem; }
-    .hero-description { max-width: 580px; font-size: 1.12rem; }
+    .hero-motto { font-size: 1.7rem; }
+    .hero-description { max-width: 580px; font-size: 1.32rem; }
     .hero-actions { justify-content: flex-start; margin: 30px 0 0; }
     .hero-stats-mini { width: 100%; max-width: 540px; margin: 14px 0 0; padding: 8px 8px; }
     .hero-stat-mini .num { font-size: 2.2rem; }
@@ -3214,7 +3474,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         flex: 0 0 320px; width: 320px; height: 320px;
         filter: drop-shadow(0 30px 50px rgba(0,0,0,.35));
     }
-    .hero-title { font-size: clamp(2.8rem, 3.4vw, 4.2rem); }
+    .hero-title { font-size: clamp(3.3rem, 3.4vw, 4.2rem); }
     .hero-actions { display: flex; gap: 14px; }
 }
 @media (min-width: 1440px) {
@@ -3453,275 +3713,595 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
     </style>
 
-<style id="curved-centered-thumbnail-override">
-/* Curved / convex thumbnail strip */
-.lightbox-filmstrip {
-  width: min(94vw, 900px);
-  margin: 0 auto;
-  padding: 14px 22px 18px;
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.36)),
-    rgba(255,255,255,.28);
-  border: 1px solid rgba(255,255,255,.8);
-  box-shadow:
-    inset 0 2px 8px rgba(255,255,255,.75),
-    inset 0 -5px 14px rgba(0,0,0,.10),
-    0 10px 30px rgba(0,0,0,.14);
-  backdrop-filter: blur(18px) saturate(1.15);
-  -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 50%;
-  scrollbar-width: none;
-}
-
-.lightbox-filmstrip::-webkit-scrollbar {
-  display: none;
-}
-
-.lightbox-filmstrip .lightbox-thumb {
-  flex: 0 0 auto;
-  width: 72px;
-  height: 52px;
-  margin: 0 5px;
-  border-radius: 18px;
-  overflow: hidden;
-  scroll-snap-align: center;
-  transform: perspective(500px) rotateX(0deg) scale(.94);
-  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, opacity .22s ease;
-  border: 2px solid rgba(255,255,255,.72);
-  box-shadow:
-    inset 0 2px 5px rgba(255,255,255,.72),
-    inset 0 -4px 8px rgba(0,0,0,.16),
-    0 5px 12px rgba(0,0,0,.13);
-}
-
-.lightbox-filmstrip .lightbox-thumb.active {
-  transform: perspective(500px) translateY(-4px) scale(1.08);
-  border-color: var(--primary, #4f8cff);
-  box-shadow:
-    inset 0 2px 6px rgba(255,255,255,.82),
-    inset 0 -4px 9px rgba(0,0,0,.12),
-    0 7px 18px rgba(0,0,0,.20),
-    0 0 0 2px color-mix(in srgb, var(--primary, #4f8cff) 28%, transparent);
-  z-index: 2;
-}
-
-/* Keep the filmstrip's active item exactly centered */
-.lightbox-filmstrip.is-centering {
-  scroll-behavior: auto !important;
-}
-
-/* Prevent the viewer itself from being left/right biased at the edges */
-.lightbox-img-wrap {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-inline: auto !important;
-  text-align: center;
-}
-
-.lightbox-img {
-  display: block;
-  margin-inline: auto !important;
-  transform-origin: center center;
-}
-</style>
-
-
-<style id="convex-five-thumbnail-override">
-/* Exactly 5 thumbnails are visible, with a true convex/arc arrangement. */
-.lightbox-filmstrip {
-  --thumb-w: 68px;
-  --thumb-h: 50px;
-  --thumb-gap: 8px;
-  --visible-w: calc(var(--thumb-w) * 5 + var(--thumb-gap) * 4);
-  width: min(var(--visible-w), 94vw);
-  margin: 0 auto;
-  padding: 18px 0 22px;
-  display: flex !important;
-  align-items: flex-end;
-  justify-content: flex-start;
-  gap: var(--thumb-gap);
-  overflow-x: auto;
-  overflow-y: visible;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: calc((100% - var(--thumb-w)) / 2);
-  scrollbar-width: none;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.lightbox-filmstrip::-webkit-scrollbar { display:none; }
-
-/* Curvature is based on each thumbnail's distance from the viewport center.
-   JS updates --arc-y so the center thumbnail sits highest. */
-.lightbox-filmstrip .lightbox-thumb {
-  --arc-y: 0px;
-  flex: 0 0 var(--thumb-w);
-  width: var(--thumb-w);
-  height: var(--thumb-h);
-  margin: 0;
-  transform: translateY(var(--arc-y)) scale(.94);
-  transform-origin: center bottom;
-  border-radius: 17px;
-  scroll-snap-align: center;
-  transition:
-    transform 150ms cubic-bezier(.22,.8,.2,1),
-    opacity 150ms ease,
-    filter 150ms ease,
-    box-shadow 150ms ease;
-  will-change: transform;
-}
-
-/* The centered item rises above the neighboring thumbnails. */
-.lightbox-filmstrip .lightbox-thumb.active {
-  transform: translateY(-12px) scale(1.10);
-  z-index: 5;
-}
-
-/* Keep the center visually dominant without changing the fixed 5-slot window. */
-.lightbox-filmstrip .lightbox-thumb.arc-side {
-  opacity: .86;
-}
-
-/* Edge spacers let the first and last thumbnail occupy the exact center slot. */
-.lightbox-filmstrip::before,
-.lightbox-filmstrip::after {
-  content: "";
-  flex: 0 0 calc((100% - var(--thumb-w)) / 2 - var(--thumb-gap));
-}
-
-/* Center the main preview independently of whether it is first/last. */
-.lightbox-img-wrap {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-inline: auto !important;
-  width: 100% !important;
-  left: 0 !important;
-  right: 0 !important;
-}
-
-.lightbox-img {
-  margin: 0 auto !important;
-  display: block;
-}
-</style>
-
-
-<style id="mobile-arrow-and-fluid-arc">
-/* Mobile: use gesture navigation only; hide previous/next controls. */
-@media (max-width: 768px), (pointer: coarse) {
-  .lightbox-prev,
-  .lightbox-next,
-  .lightbox-nav-prev,
-  .lightbox-nav-next,
-  [class*="lightbox"][class*="prev"],
-  [class*="lightbox"][class*="next"] {
-    display: none !important;
-    pointer-events: none !important;
-  }
-
-  /* The thumbnail rail itself becomes a soft glass/boxed track. */
-  .lightbox-filmstrip {
-    position: relative;
-    width: min(94vw, 430px);
-    min-height: 88px;
-    padding: 22px 0 28px;
-    border-radius: 30px;
-    background:
-      linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.30)),
-      rgba(255,255,255,.26);
-    border: 1px solid rgba(255,255,255,.82);
-    box-shadow:
-      inset 0 2px 10px rgba(255,255,255,.78),
-      inset 0 -8px 18px rgba(0,0,0,.10),
-      0 10px 28px rgba(0,0,0,.16);
-    backdrop-filter: blur(18px) saturate(1.15);
-    -webkit-backdrop-filter: blur(18px) saturate(1.15);
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 50%;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-  }
-
-  .lightbox-filmstrip .lightbox-thumb {
-    transition:
-      transform 110ms cubic-bezier(.16,1,.3,1),
-      opacity 110ms linear,
-      filter 110ms linear,
-      box-shadow 110ms ease;
-    will-change: transform;
-  }
-
-  .lightbox-filmstrip .lightbox-thumb.active {
-    box-shadow:
-      inset 0 2px 6px rgba(255,255,255,.88),
-      inset 0 -4px 9px rgba(0,0,0,.10),
-      0 7px 18px rgba(0,0,0,.18),
-      0 0 0 2px color-mix(in srgb, var(--primary, #4f8cff) 35%, transparent);
-  }
-}
-</style>
-
-
-<style id="smooth-center-sync">
-/* A curved glass "track" that follows the same convex geometry as its thumbnails. */
-@media (max-width: 768px), (pointer: coarse) {
-  .lightbox-filmstrip {
-    --rail-curve: 22px;
-    width: min(94vw, 430px);
-    min-height: 92px;
-    padding: 26px 0 30px;
-    border-radius: 50% / 34%;
-    background:
-      radial-gradient(ellipse at 50% 115%, rgba(255,255,255,.88), rgba(255,255,255,.22) 58%, rgba(255,255,255,.08) 100%),
-      linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.28));
-    border: 1px solid rgba(255,255,255,.86);
-    box-shadow:
-      inset 0 4px 12px rgba(255,255,255,.78),
-      inset 0 -10px 22px rgba(0,0,0,.10),
-      0 12px 34px rgba(0,0,0,.16);
-    clip-path: ellipse(58% 72% at 50% 50%);
-    overflow-x: auto;
-    overflow-y: visible;
-    scroll-snap-type: none !important;
-    scroll-behavior: auto !important;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x;
-  }
-
-  .lightbox-filmstrip .lightbox-thumb {
-    transition:
-      transform 0ms linear,
-      opacity 0ms linear,
-      filter 0ms linear,
-      box-shadow 120ms ease;
-    will-change: transform;
-  }
-
-  /* The center thumbnail is the visual "selection head". */
-  .lightbox-filmstrip .lightbox-thumb.active {
-    z-index: 10;
-  }
-}
-
+<style id="lightbox-misc">
 /* Reduce zoom sensitivity globally without changing the viewer's normal size. */
 .lightbox-img {
   touch-action: none;
 }
+@media (max-width: 600px) {
+    .lightbox-overlay .lightbox-nav {
+        display: none !important;
+    }
+}
+
 </style>
 
+<style id="v2-premium-polish">
+/* =====================================================================
+   V2 PREMIUM POLISH — image viewer glossiness, thumbnail box, desktop
+   layout fixes, hero/footer/ticker refinement, a11y + perf touches.
+   This block is intentionally last in the cascade so it wins overrides.
+   ===================================================================== */
+
+/* ---------- 1 & 7. Glossy, modern image viewer ---------- */
+.lightbox-overlay { background: #fff; }
+body.dark .lightbox-overlay { background: #0b1120; }
+.lightbox-topbar {
+  background: linear-gradient(180deg, rgba(255,255,255,.0), rgba(0,0,0,0));
+}
+.lightbox-counter-pill {
+  background: rgba(20, 22, 28, .42) !important;
+  backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 8px 24px -10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.18);
+  font-weight: 700; letter-spacing: .02em;
+}
+.lightbox-icon-btn, .lightbox-overlay .lightbox-nav {
+  background: rgba(20, 22, 28, .38) !important;
+  border: 1px solid rgba(255,255,255,.22) !important;
+  box-shadow: 0 10px 26px -12px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.22);
+  backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), background .25s ease, box-shadow .25s ease;
+}
+.lightbox-icon-btn:hover, .lightbox-overlay .lightbox-nav:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 16px 34px -12px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.lightbox-overlay .lightbox-nav:active { transform: scale(.94); }
+.lightbox-img {
+  border-radius: 20px;
+  box-shadow: 0 30px 70px -24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.06);
+  transition: transform .45s cubic-bezier(.16,1,.3,1), opacity .35s ease, box-shadow .35s ease;
+}
+.lightbox-img.zoomed { box-shadow: 0 40px 90px -20px rgba(0,0,0,.55); }
+.lightbox-spinner {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 3px solid rgba(var(--primary-rgb), .18); border-top-color: var(--primary);
+  box-shadow: 0 8px 20px -8px rgba(var(--primary-rgb), .5);
+}
+
+/* Rubber-band edge feedback: brief glow when a swipe hits the first/last image */
+.lightbox-img-wrap.lb-edge-bounce .lightbox-img.active {
+  animation: lbEdgeBounce .38s cubic-bezier(.22,1,.36,1);
+}
+@keyframes lbEdgeBounce {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  40% { transform: translate(-50%, -50%) scale(.97); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ---------- 4 & 7. Thumbnail strip: a real "boxed" glass rail ---------- */
+.lightbox-filmstrip {
+  position: relative;
+  display: flex; align-items: flex-end; justify-content: flex-start;
+  gap: 10px; padding: 14px 18px 16px;
+  margin: 0 auto 18px; max-width: min(94vw, 640px);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 20px 50px -22px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.16);
+  backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+  overflow-x: auto; overflow-y: visible; scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.lightbox-filmstrip::-webkit-scrollbar { display: none; }
+.lightbox-filmstrip::before,
+.lightbox-filmstrip::after {
+  content: ''; flex: 0 0 var(--edge-pad, 0px);
+}
+.lightbox-filmstrip .lightbox-thumb {
+  scroll-snap-align: center;
+  border-radius: 14px; overflow: hidden; flex: 0 0 auto;
+  width: 54px; height: 54px;
+  border: 2px solid rgba(255,255,255,.18);
+  opacity: .62; filter: saturate(.85);
+  transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .32s ease, border-color .32s ease, box-shadow .32s ease;
+  will-change: transform;
+}
+.lightbox-filmstrip .lightbox-thumb.active {
+  opacity: 1; filter: none;
+  border-color: var(--primary);
+  box-shadow: 0 14px 26px -10px rgba(var(--primary-rgb), .55);
+}
+.lightbox-filmstrip .lightbox-thumb:hover { opacity: .9; }
+.lightbox-filmstrip .lightbox-thumb.drag-focus:not(.active) {
+  opacity: .88; border-color: rgba(var(--primary-rgb), .55);
+}
+
+/* ---------- 8. Desktop: don't cover the sidebar; balance the arrows ---------- */
+@media (min-width: 1200px) {
+  .lightbox-overlay {
+    left: var(--rail); inset-inline-start: var(--rail);
+  }
+  .lightbox-overlay .lightbox-nav.prev { left: clamp(24px, 4vw, 64px); }
+  .lightbox-overlay .lightbox-nav.next { right: clamp(24px, 4vw, 64px); }
+  .lightbox-overlay .lightbox-nav { width: 52px; height: 52px; font-size: 1.3rem; }
+  .lightbox-topbar { padding-left: clamp(24px, 4vw, 64px); padding-right: clamp(24px, 4vw, 64px); }
+}
+
+/* ---------- 12. Own scroll indicator on PC: a slim right-edge dot rail ---------- */
+#pcScrollDots {
+  display: none;
+}
+@media (min-width: 1200px) {
+  #pcScrollDots {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    position: fixed; right: 22px; top: 50%; transform: translateY(-50%);
+    z-index: var(--z-header);
+  }
+  #pcScrollDots .psd-dot {
+    width: 9px; height: 9px; border-radius: 50%; cursor: pointer; padding: 0; border: none;
+    background: var(--border); position: relative;
+    transition: transform .25s cubic-bezier(.22,1,.36,1), background .25s ease;
+  }
+  #pcScrollDots .psd-dot::after {
+    content: attr(data-label); position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+    font-size: .72rem; font-weight: 700; white-space: nowrap; color: var(--text);
+    background: var(--surface-solid); padding: 4px 10px; border-radius: 8px;
+    box-shadow: 0 8px 20px -10px rgba(0,0,0,.3); opacity: 0; pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  #pcScrollDots .psd-dot:hover::after { opacity: 1; transform: translateY(-50%) translateX(-4px); }
+  #pcScrollDots .psd-dot.active { background: var(--primary); transform: scale(1.35); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .18); }
+}
+
+/* ---------- 15. Hero logo: a touch smaller on PC + a nicer shine sweep ---------- */
+@media (min-width: 1200px) {
+  .hero-content > .hero-logo-wrap { flex: 0 0 240px; width: 240px; height: 240px; }
+}
+@media (min-width: 1440px) {
+  .hero-content > .hero-logo-wrap { flex-basis: 260px; width: 260px; height: 260px; }
+}
+
+/* ---------- 17. Footer: interactive links, socials, and a "Top" pill ---------- */
+.footer-links a {
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: color .25s ease, transform .25s cubic-bezier(.22,1,.36,1), gap .25s ease;
+}
+.footer-links a i { font-size: 1rem; color: var(--primary-light); transition: transform .3s cubic-bezier(.22,1,.36,1); }
+@media (hover: hover) and (pointer: fine) {
+  .footer-links a:hover { color: #fff; transform: translateX(4px); }
+  .footer-links a:hover i { transform: translateX(2px) scale(1.15); }
+}
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.footer-to-top {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 999px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); color: #fff;
+  font-size: .8125rem; font-weight: 700; cursor: pointer;
+  transition: transform .25s cubic-bezier(.22,1,.36,1), background .25s ease, box-shadow .25s ease;
+}
+.footer-to-top:hover { background: var(--primary-gradient); transform: translateY(-3px); box-shadow: 0 12px 26px -10px rgba(var(--primary-rgb), .6); }
+.footer-to-top:active { transform: translateY(0) scale(.95); }
+.footer-to-top i { transition: transform .3s ease; }
+.footer-to-top:hover i { transform: translateY(-2px); }
+
+/* ---------- 18. Notice ticker: calmer, steadier motion ---------- */
+.nt-move { animation-timing-function: linear; }
+.notice-ticker:hover .nt-move,
+.notice-ticker:focus-within .nt-move { animation-play-state: paused; }
+.nt-track { contain: layout style paint; }
+
+/* ---------- Gift: FAB "back to top" fills as a progress ring while you scroll ---------- */
+.fab-btn {
+  border: 3px solid transparent;
+  background:
+    linear-gradient(var(--primary-gradient), var(--primary-gradient)) padding-box,
+    conic-gradient(#fff calc(var(--scroll-pct, 0) * 1%), rgba(255,255,255,.28) 0) border-box;
+  transition: transform 0.4s var(--spring), opacity 0.3s ease, visibility 0.3s ease, background 0.2s linear;
+}
+
+/* ---------- Gift: shimmer skeleton while gallery images load ---------- */
+.gallery-item .gallery-loader {
+  background: linear-gradient(100deg, var(--surface-hover) 30%, var(--border-light) 50%, var(--surface-hover) 70%);
+  background-size: 240% 100%;
+  animation: galleryShimmer 1.6s ease-in-out infinite;
+}
+.gallery-item .gallery-loader::after { content: none; }
+@keyframes galleryShimmer { 0% { background-position: 200% 0; } 100% { background-position: -40% 0; } }
+
+/* ---------- Gift: premium, visible keyboard focus ring everywhere ---------- */
+:focus-visible {
+  outline: 2.5px solid var(--primary) !important;
+  outline-offset: 3px !important;
+  border-radius: 6px;
+  transition: outline-offset .15s ease;
+}
+
+/* ---------- 11. Autofill: kill the browser's yellow highlight everywhere ---------- */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: var(--text) !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  transition: background-color 99999s ease-out 0s !important;
+}
+
+/* ---------- Gift: respect reduced-motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .nt-move, .hero-logo-wrap::before, .hero-logo-wrap::after,
+  .hero-orb-ring, .hero-float-chip, .lightbox-img, .lightbox-filmstrip .lightbox-thumb {
+    animation: none !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<style id="gallery-v10-polish">
+
+/* =====================================================================
+   GALLERY VIEWER V10 — theme-aware FAB + controllable zoom UX
+   ===================================================================== */
+.fab-btn {
+    background: var(--primary-gradient) !important;
+    box-shadow: 0 10px 28px rgba(var(--primary-rgb), .42),
+                0 0 0 1px rgba(var(--primary-rgb), .18),
+                inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+.fab-btn::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(from -90deg, var(--primary), rgba(255,255,255,.35) calc(var(--scroll-pct, 0) * 1%), transparent 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+.fab-btn .fab-progress {
+    position:absolute; inset:4px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.28); pointer-events:none;
+}
+.lightbox-theme-btn { color: var(--primary) !important; }
+.lightbox-icon-btn.theme-active {
+    background: var(--primary-gradient) !important;
+    color:#fff !important;
+    border-color: transparent !important;
+}
+
+
+@media (max-width:600px) {
+    
+    
+    .lightbox-zoom-readout { bottom:122px; }
+}
+
+</style>
+
+<style id="v4-fluid-gallery-polish">
+/* Navigation arrows removed: thumbnail swiping is the navigation control. */
+#lightboxPrev, #lightboxNext,
+.lightbox-overlay .lightbox-nav { display: none !important; }
+
+/* Keep thumbnail swiping compositor-friendly and prevent JS from fighting native momentum. */
+#lightboxFilmstrip {
+    scroll-behavior: auto !important;
+    scroll-snap-type: x proximity !important;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+}
+#lightboxFilmstrip.is-dragging {
+    scroll-snap-type: none !important;
+}
+#lightboxFilmstrip.is-dragging .lightbox-thumb {
+    scroll-snap-align: none !important;
+}
+
+.lightbox-filmstrip {
+    justify-content: flex-start !important;
+    gap: 10px;
+    padding: 12px 18px calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    max-width: min(96vw, 760px) !important;
+    overscroll-behavior-x: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+    contain: layout paint;
+}
+.lightbox-filmstrip::before,
+.lightbox-filmstrip::after { flex: 0 0 var(--edge-pad, 0px); }
+.lightbox-filmstrip .lightbox-thumb {
+    width: 58px !important;
+    height: 58px !important;
+    flex: 0 0 58px;
+    scroll-snap-align: center;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    transition: transform .24s cubic-bezier(.22,1,.36,1), opacity .22s ease,
+                border-color .22s ease, box-shadow .22s ease;
+}
+.lightbox-filmstrip .lightbox-thumb.drag-focus {
+    opacity: .82;
+    transform: translateY(-2px) scale(1.025);
+}
+.lightbox-filmstrip .lightbox-thumb.active {
+    transform: translateY(-4px) scale(1.06);
+}
+.lightbox-filmstrip.is-dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+}
+.lightbox-filmstrip.is-dragging .lightbox-thumb { transition: none !important; }
+
+.lightbox-img-wrap { perspective: 1000px; contain: layout paint; }
+.lightbox-img {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
+    box-shadow: 0 34px 90px -24px rgba(0,0,0,.55),
+                0 0 0 1px rgba(255,255,255,.12),
+                inset 0 1px 0 rgba(255,255,255,.08);
+}
+.lightbox-icon-btn,
+.lightbox-overlay .lightbox-nav {
+    border: 1px solid rgba(255,255,255,.30) !important;
+    background: linear-gradient(180deg, rgba(255,255,255,.32),
+                rgba(255,255,255,.08) 48%, rgba(0,0,0,.12)),
+                rgba(20,22,28,.36) !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.28),
+                inset 0 1px 0 rgba(255,255,255,.58),
+                inset 0 -1px 0 rgba(0,0,0,.18) !important;
+    backdrop-filter: blur(18px) saturate(170%);
+    -webkit-backdrop-filter: blur(18px) saturate(170%);
+}
+.lightbox-icon-btn::after,
+.lightbox-overlay .lightbox-nav::after {
+    content: '';
+    position: absolute;
+    left: 12%; right: 12%; top: 7%; height: 34%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0));
+    pointer-events: none;
+}
+.lightbox-icon-btn:hover,
+.lightbox-overlay .lightbox-nav:hover {
+    transform: translateY(-2px) scale(1.055);
+    box-shadow: 0 18px 38px rgba(0,0,0,.34),
+                inset 0 1px 0 rgba(255,255,255,.72),
+                inset 0 -1px 0 rgba(0,0,0,.16) !important;
+}
+.lightbox-icon-btn:active,
+.lightbox-overlay .lightbox-nav:active { transform: scale(.94) !important; }
+.lightbox-overlay .lightbox-nav { opacity: .9; }
+.lightbox-overlay .lightbox-nav:disabled { opacity: .25; }
+
+@media (max-width: 600px) {
+    .lightbox-filmstrip {
+        max-width: calc(100vw - 18px) !important;
+        margin-bottom: 10px;
+        border-radius: 22px;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+    .lightbox-filmstrip .lightbox-thumb {
+        width: 52px !important;
+        height: 52px !important;
+        flex-basis: 52px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lightbox-filmstrip, .lightbox-filmstrip .lightbox-thumb,
+    .lightbox-img, .lightbox-icon-btn,
+    .lightbox-overlay .lightbox-nav { transition-duration: .01ms !important; }
+}
+
+/* FINAL UI PASS — smooth featured notices + centered desktop hero */
+.notice-ticker{min-height:0;padding:8px;overflow:hidden;display:block}
+.notice-ticker .nt-move{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;transform:none!important;animation:none!important;will-change:auto}
+.notice-ticker .nt-item{min-width:0;min-height:58px;display:flex;align-items:center;gap:9px;padding:10px 11px;border:1px solid var(--border);border-radius:14px;background:rgba(255,255,255,.52);color:var(--text);text-align:left;transition:transform .22s ease,background .22s ease,border-color .22s ease}
+.notice-ticker .nt-item:hover{transform:translateY(-2px);background:rgba(255,255,255,.78);border-color:rgba(243,156,18,.28)}
+.notice-ticker .nt-index{flex:0 0 28px;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-size:.72rem;font-weight:800;color:#fff;background:var(--primary-gradient)}
+.notice-ticker .nt-copy{min-width:0;display:flex;flex-direction:column;gap:2px}.notice-ticker .nt-title{font-size:.78rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.notice-ticker .nt-copy em{font-size:.67rem;font-style:normal;color:var(--text-light)}.notice-ticker .nt-arrow{margin-left:auto;color:var(--primary);font-size:1rem}
+body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
+@media (max-width:767px){.notice-ticker .nt-move{grid-template-columns:1fr}.notice-ticker .nt-item:not(:first-child){display:none}}
+</style>
+
+
+<style id="desktop-hero-center-fix">
+/* Desktop: keep the logo in its original right-side position; center only hero text content. */
+@media (min-width: 1200px) {
+  .hero-text-col {
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .hero-text-col .hero-title,
+  .hero-text-col .hero-badge,
+  .hero-text-col .hero-motto,
+  .hero-text-col .hero-description {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .hero-text-col .hero-actions {
+    width: 100%;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .hero-text-col .hero-stats-mini {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+}
+</style>
+
+<style id="lightbox-glossy-white-final">
+/* Glossy white previewer controls + theme-aware accents */
+.lightbox-overlay .lightbox-icon-btn,
+.lightbox-overlay .lightbox-nav,
+.lightbox-counter-pill {
+  color: var(--primary) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.82) 52%, rgba(241,245,249,.92) 100%) !important;
+  border: 1px solid rgba(255,255,255,.98) !important;
+  box-shadow: 0 10px 28px rgba(15,23,42,.13), 0 2px 5px rgba(15,23,42,.07), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(15,23,42,.06) !important;
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+.lightbox-overlay .lightbox-icon-btn::before,
+.lightbox-overlay .lightbox-nav::before,
+.lightbox-counter-pill::before {
+  content: ''; position: absolute; inset: 1px 1px 52% 1px; border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,0));
+  pointer-events: none; opacity: .9;
+}
+.lightbox-overlay .lightbox-icon-btn:hover,
+.lightbox-overlay .lightbox-nav:hover {
+  color: var(--primary) !important;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 16px 34px rgba(15,23,42,.16), inset 0 1px 0 #fff !important;
+}
+.lightbox-overlay .lightbox-icon-btn:active,
+.lightbox-overlay .lightbox-nav:active { transform: scale(.94); }
+.lightbox-counter-pill {
+  position: relative; min-width: 76px; justify-content: center;
+  font-weight: 800; letter-spacing: .035em;
+  text-shadow: 0 1px 0 #fff;
+}
+.lightbox-counter-pill .count-current,
+.lightbox-counter-pill .count-total,
+.lightbox-counter-pill span { color: var(--primary) !important; }
+.lightbox-filmstrip {
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.90)) !important;
+  border: 1px solid rgba(255,255,255,.98);
+  box-shadow: 0 -10px 30px rgba(15,23,42,.08), inset 0 1px 0 #fff !important;
+}
+.lightbox-filmstrip .lightbox-thumb {
+  background: linear-gradient(180deg, #fff, #f3f6fa) !important;
+  border-color: rgba(255,255,255,.98) !important;
+  box-shadow: 0 7px 18px rgba(15,23,42,.10), inset 0 1px 0 #fff !important;
+}
+.lightbox-filmstrip .lightbox-thumb.active {
+  border-color: var(--primary) !important;
+  box-shadow: 0 12px 28px rgba(var(--primary-rgb),.28), 0 0 0 3px rgba(255,255,255,.92), inset 0 1px 0 #fff !important;
+}
+body.dark .lightbox-overlay .lightbox-icon-btn,
+body.dark .lightbox-overlay .lightbox-nav,
+body.dark .lightbox-counter-pill {
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(226,232,240,.94)) !important;
+  color: var(--primary) !important;
+}
+body.dark .lightbox-filmstrip {
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,245,249,.94)) !important;
+}
+</style>
+
+
+<style id="lightbox-premium-filmstrip-v2">
+/* Premium white/gloss previewer controls */
+.lightbox-overlay .lightbox-icon-btn,
+.lightbox-counter-pill {
+  min-height: 44px;
+  border-radius: 15px !important;
+  position: relative;
+  overflow: hidden;
+  color: rgb(var(--primary-rgb)) !important;
+  background: linear-gradient(180deg,#ffffff 0%,#ffffff 42%,#f5f8fc 100%) !important;
+  border: 1px solid rgba(255,255,255,.98) !important;
+  box-shadow: 0 12px 30px rgba(15,23,42,.14), 0 2px 5px rgba(15,23,42,.06), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(15,23,42,.055) !important;
+}
+.lightbox-overlay .lightbox-icon-btn::after,
+.lightbox-counter-pill::after {
+  content:''; position:absolute; left:8%; right:8%; top:3px; height:38%; border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,0));
+  pointer-events:none; opacity:.9;
+}
+.lightbox-overlay .lightbox-icon-btn:hover { transform:translateY(-2px) scale(1.055); }
+.lightbox-counter-pill { min-width:92px; font-variant-numeric:tabular-nums; }
+.lightbox-counter-pill .count-current { font-size:1.05em; }
+.lightbox-counter-pill .count-total { opacity:.65; }
+
+/* More responsive strip: no easing during the finger gesture */
+#lightboxFilmstrip {
+  scroll-behavior:auto !important;
+  scroll-snap-type:x proximity !important;
+  scrollbar-width:none;
+  isolation:isolate;
+}
+#lightboxFilmstrip::-webkit-scrollbar { display:none; }
+#lightboxFilmstrip::before, #lightboxFilmstrip::after {
+  content:''; position:sticky; top:0; bottom:0; z-index:5; pointer-events:none;
+  flex:0 0 var(--edge-pad,0px);
+}
+.lightbox-filmstrip .lightbox-thumb {
+  position:relative; width:62px !important; height:62px !important; flex-basis:62px !important;
+  border-radius:16px !important;
+  border:1px solid rgba(255,255,255,.98) !important;
+  background:linear-gradient(180deg,#fff,#f2f6fa) !important;
+  box-shadow:0 8px 18px rgba(15,23,42,.11), inset 0 1px 0 #fff !important;
+  opacity:.66; filter:saturate(.88);
+  transition:transform .12s linear, opacity .12s linear, box-shadow .12s linear, border-color .12s linear !important;
+  overflow:visible;
+}
+.lightbox-filmstrip .lightbox-thumb img { border-radius:14px; }
+.lightbox-filmstrip .lightbox-thumb::after {
+  content:''; position:absolute; inset:1px 1px 55%; border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.75),transparent); pointer-events:none;
+}
+.lightbox-filmstrip .lightbox-thumb .thumb-index {
+  position:absolute; right:-5px; bottom:-5px; z-index:3; min-width:19px; height:19px; padding:0 5px;
+  display:grid; place-items:center; border-radius:999px;
+  background:#fff; color:rgb(var(--primary-rgb)); border:1px solid rgba(var(--primary-rgb),.22);
+  box-shadow:0 4px 10px rgba(15,23,42,.16); font:700 10px/1 system-ui,sans-serif;
+}
+.lightbox-filmstrip .lightbox-thumb.drag-focus:not(.active) {
+  opacity:.94; transform:translateY(-3px) scale(1.035);
+  border-color:rgba(var(--primary-rgb),.48) !important;
+}
+.lightbox-filmstrip .lightbox-thumb.active {
+  opacity:1; filter:none; transform:translateY(-5px) scale(1.09);
+  border:2px solid rgb(var(--primary-rgb)) !important;
+  box-shadow:0 14px 28px rgba(var(--primary-rgb),.28), 0 0 0 4px rgba(255,255,255,.96), inset 0 1px 0 #fff !important;
+}
+.lightbox-filmstrip .lightbox-thumb.active .thumb-index {
+  background:rgb(var(--primary-rgb)); color:#fff; border-color:rgb(var(--primary-rgb));
+}
+.lightbox-filmstrip.is-dragging .lightbox-thumb { transition:none !important; }
+@media(max-width:600px){
+  .lightbox-filmstrip .lightbox-thumb { width:54px !important; height:54px !important; flex-basis:54px !important; border-radius:14px !important; }
+  .lightbox-filmstrip .lightbox-thumb img { border-radius:12px; }
+}
+</style>
+
+<style id="lightbox-fluid-filmstrip-v3">
+#lightboxFilmstrip{--thumb-size:66px;gap:10px!important;padding-top:10px!important;padding-bottom:12px!important;overscroll-behavior-x:contain;touch-action:pan-x;scroll-snap-type:x proximity!important;scroll-behavior:auto!important;contain:layout paint style;-webkit-overflow-scrolling:touch}
+#lightboxFilmstrip .lightbox-thumb{width:var(--thumb-size)!important;height:var(--thumb-size)!important;flex-basis:var(--thumb-size)!important;border-radius:18px!important;transform-origin:center bottom;will-change:transform,opacity;transition:transform 90ms linear,opacity 90ms linear,box-shadow 90ms linear!important;box-shadow:0 7px 16px rgba(15,23,42,.10),inset 0 1px 0 #fff!important}
+#lightboxFilmstrip .lightbox-thumb img{width:100%;height:100%;object-fit:cover;backface-visibility:hidden;transform:translateZ(0)}
+#lightboxFilmstrip .lightbox-thumb.drag-focus:not(.active){transform:translateY(-4px) scale(1.055)!important;opacity:.96}
+#lightboxFilmstrip .lightbox-thumb.active{transform:translateY(-7px) scale(1.115)!important;box-shadow:0 15px 30px rgba(var(--primary-rgb),.26),0 0 0 3px #fff,0 0 0 5px rgba(var(--primary-rgb),.24)!important}
+#lightboxFilmstrip .lightbox-thumb::before{content:'';position:absolute;inset:-7px;border-radius:22px;border:1px solid rgba(var(--primary-rgb),.16);opacity:0;transform:scale(.9);pointer-events:none;transition:opacity 100ms linear,transform 100ms linear}
+#lightboxFilmstrip .lightbox-thumb.active::before{opacity:1;transform:scale(1)}
+#lightboxFilmstrip .thumb-index{transition:transform 90ms linear,background 90ms linear}
+#lightboxFilmstrip .lightbox-thumb.active .thumb-index{transform:scale(1.08)}
+@media(max-width:600px){#lightboxFilmstrip{--thumb-size:58px;gap:8px!important}}
+</style>
 </head>
 
 <body>
@@ -3754,7 +4334,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             <span class="modal-icon" aria-hidden="true">👋</span>
             <h2 id="nameModalTitle">Welcome to PSBS Portal</h2>
             <p>Please enter your name to personalize your experience</p>
-            <form id="nameForm" novalidate autocomplete="off">
+            <form id="nameForm" novalidate autocomplete="off" data-autofill="off">
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="userNameInput" class="sr-only">Enter your name</label>
@@ -3789,7 +4369,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
-            <form id="editNameForm" novalidate autocomplete="off">
+            <form id="editNameForm" novalidate autocomplete="off" data-autofill="off">
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="editNameInput" class="sr-only">Enter your name</label>
@@ -3834,19 +4414,18 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         <div class="lightbox-topbar">
             <div class="lightbox-counter-pill" id="lightboxCounter">1 / 1</div>
             <div class="lightbox-actions">
+                
                 <button class="lightbox-icon-btn" id="lightboxZoomBtn" aria-label="Zoom image" type="button"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
                 <button class="lightbox-icon-btn" id="lightboxDownloadBtn" aria-label="Download image" type="button"><i class="ri-download-2-line" aria-hidden="true"></i></button>
+                
                 <button class="lightbox-icon-btn lightbox-close" id="lightboxClose" aria-label="Close image viewer" type="button"><i class="ri-close-line" aria-hidden="true"></i></button>
             </div>
         </div>
-        <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image"><i class="ri-arrow-left-s-line" aria-hidden="true"></i></button>
-        <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image"><i class="ri-arrow-right-s-line" aria-hidden="true"></i></button>
         <div class="lightbox-img-wrap" id="lightboxImgWrap">
             <div class="lightbox-spinner" id="lightboxSpinner" aria-hidden="true"></div>
             <img class="lightbox-img active" id="lightboxImgCurrent" src="" alt="Enlarged view">
             <img class="lightbox-img" id="lightboxImgNext" src="" alt="Next image" style="pointer-events:none;">
         </div>
-        <div class="lightbox-hint" id="lightboxHint">Double-tap or scroll to zoom</div>
         <div class="lightbox-filmstrip" id="lightboxFilmstrip" aria-label="Image thumbnails"></div>
     </div>
 
@@ -3858,7 +4437,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 <input type="text" id="searchInput" placeholder="Search for information..."
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     name="psbs-search" data-form-type="other">
-                <button class="search-clear" id="searchClearBtn" aria-label="Clear search">✕</button>
+                <button type="button" class="search-clear" id="searchClearBtn" aria-label="Clear search" title="Clear search">✕</button>
             </div>
             <div class="search-results" id="searchResults">
                 <div class="search-empty">🔍 Type to start searching...</div>
@@ -3969,9 +4548,9 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                         <a href="#hero" class="nav-link active" data-section="hero"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-home-5-line"></i></span><span class="nav-title">Home</span></a>
                         <a href="#about" class="nav-link" data-section="about"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-information-line"></i></span><span class="nav-title">About</span></a>
                         <a href="#academics" class="nav-link" data-section="academics"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-book-2-line"></i></span><span class="nav-title">Academics</span></a>
-                        <a href="#highlights" class="nav-link" data-section="highlights"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-sparkling-2-line"></i></span><span class="nav-title">Why PSBS</span></a>
                         <a href="#faculty" class="nav-link" data-section="faculty"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-team-line"></i></span><span class="nav-title">Faculty</span></a>
                         <a href="#gallery" class="nav-link" data-section="gallery"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-gallery-line"></i></span><span class="nav-title">Gallery</span></a>
+                        <a href="#highlights" class="nav-link" data-section="highlights"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-sparkling-2-line"></i></span><span class="nav-title">Why PSBS</span></a>
                         <a href="#admissions" class="nav-link" data-section="admissions"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span><span class="nav-title">Admissions</span></a>
                         <a href="#faq" class="nav-link" data-section="faq"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-question-line"></i></span><span class="nav-title">FAQ</span></a>
                         <a href="#contact" class="nav-link" data-section="contact"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-phone-line"></i></span><span class="nav-title">Contact</span></a>
@@ -4134,13 +4713,14 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                             <span class="hero-float-chip chip-3" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span>
                         </div>
                         <div class="hero-text-col">
-                        <h1 class="hero-title">Pabitra Secondary <span>School</span></h1>
+                        <h1 class="hero-title" data-reflection="Pabitra Secondary Boarding School">
+    <span class="hero-title-main">Pabitra Secondary Boarding School</span>
+</h1>
                       <p class="hero-badge"><span aria-hidden="true">🏫</span> Estd.: 2040 B.S. <span class="hero-badge-dot" aria-hidden="true"></span> Doti, Nepal</p>
-                        <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.<span class="type-cursor" aria-hidden="true"></span></h2>
+                        <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.</h2>
                         <p class="hero-description">
-                            Welcome to our learning campus. Access notices, download study documents, explore the
-                            gallery, and connect with modern academic excellence.
-                        </p>
+                            A disciplined, supportive and student-centered learning community — nurturing academic
+                            excellence, confidence and strong character for a brighter future.</p>
 
                         <div class="hero-actions">
                             <a href="#quick" class="hero-action-btn primary"><i class="ri-compass-3-line" aria-hidden="true"></i><span>Explore Campus</span></a>
@@ -4160,11 +4740,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
             <!-- ===== NOTICE TICKER + QUICK ACCESS ===== -->
             <div class="quick-wrap" id="quick">
-                <div class="notice-ticker" id="noticeTicker" hidden>
-                    <span class="nt-label"><i class="ri-megaphone-line" aria-hidden="true"></i><span>Latest</span></span>
-                    <div class="nt-track"><div class="nt-move" id="ntMove"></div></div>
-                    <button type="button" class="nt-all" data-qa="notices" aria-label="View all notices">All <i class="ri-arrow-right-s-line" aria-hidden="true"></i></button>
-                </div>
                 <nav class="quick-grid" aria-label="Quick access">
                     <button type="button" class="quick-card ripple-host" data-qa="notices">
                         <span class="qc-badge" id="qcNoticeBadge" hidden>0</span>
@@ -4314,27 +4889,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 </div>
             </section>
 
-            <!-- ===== WHY PSBS ===== -->
-            <section id="highlights" class="section" aria-label="Why choose PSBS">
-                <div class="container">
-                    <span class="section-tag">Why PSBS</span>
-                    <h2 class="section-title">Learning That Goes Beyond the Classroom</h2>
-                    <p class="section-description">From the first Montessori steps to SEE success, every stage is built around care, discipline, and curiosity.</p>
-                    <div class="hl-grid">
-                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧸</span><h3>Montessori Early Years</h3><p>Activity-based learning that makes the first school years joyful.</p></article>
-                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🔬</span><h3>Science Labs</h3><p>Hands-on experiments that turn classroom theory into real understanding.</p></article>
-                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">💻</span><h3>Computer Education</h3><p>Practical digital skills taught as part of the middle-grade curriculum.</p></article>
-                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">📝</span><h3>SEE Mock Tests</h3><p>Regular mock tests that build confidence before the Secondary Education Examination.</p></article>
-                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧭</span><h3>Career Guidance</h3><p>Counseling that helps students plan their next step with clarity.</p></article>
-                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🌱</span><h3>Character Building</h3><p>Discipline, moral values, and leadership woven into everyday school life.</p></article>
-                    </div>
-                    <div class="cta-row">
-                        <a href="#admissions" class="btn-glossy ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Start Admission Inquiry</a>
-                        <a href="#academics" class="btn-glass ripple-host"><i class="ri-book-open-line" aria-hidden="true"></i> View Programs</a>
-                    </div>
-                </div>
-            </section>
-
             <!-- ===== FACULTY ===== -->
             <section id="faculty" class="section" aria-label="Faculty Directory">
                 <div class="container">
@@ -4366,6 +4920,27 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                         <button id="galleryPrev" class="ripple-host" aria-label="Previous page">‹ Prev</button>
                         <span class="page-indicator" id="galleryPageIndicator">Page 1 / 1</span>
                         <button id="galleryNext" class="ripple-host" aria-label="Next page">Next ›</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== WHY PSBS ===== -->
+            <section id="highlights" class="section" aria-label="Why choose PSBS">
+                <div class="container">
+                    <span class="section-tag">Why PSBS</span>
+                    <h2 class="section-title">Learning That Goes Beyond the Classroom</h2>
+                    <p class="section-description">From the first Montessori steps to SEE success, every stage is built around care, discipline, and curiosity.</p>
+                    <div class="hl-grid">
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧸</span><h3>Montessori Early Years</h3><p>Activity-based learning that makes the first school years joyful.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🔬</span><h3>Science Labs</h3><p>Hands-on experiments that turn classroom theory into real understanding.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">💻</span><h3>Computer Education</h3><p>Practical digital skills taught as part of the middle-grade curriculum.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">📝</span><h3>SEE Mock Tests</h3><p>Regular mock tests that build confidence before the Secondary Education Examination.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧭</span><h3>Career Guidance</h3><p>Counseling that helps students plan their next step with clarity.</p></article>
+                        <article class="hl-card"><span class="hl-icon" aria-hidden="true">🌱</span><h3>Character Building</h3><p>Discipline, moral values, and leadership woven into everyday school life.</p></article>
+                    </div>
+                    <div class="cta-row">
+                        <a href="#admissions" class="btn-glossy ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Start Admission Inquiry</a>
+                        <a href="#academics" class="btn-glass ripple-host"><i class="ri-book-open-line" aria-hidden="true"></i> View Programs</a>
                     </div>
                 </div>
             </section>
@@ -4452,7 +5027,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                             <div data-fs-success></div>
                             <div data-fs-error></div>
 
-                            <form id="contactForm" novalidate autocomplete="off">
+                            <form id="contactForm" novalidate autocomplete="off" data-autofill="off">
                                 <div class="input-group">
                                     <span aria-hidden="true">👤</span>
                                     <label for="contactName" class="sr-only">Your Full Name</label>
@@ -4531,14 +5106,15 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 <div class="footer-box links-box">
                     <h3>Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#hero">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#academics">Academics</a></li>
-                        <li><a href="#faculty">Faculty</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
-                        <li><a href="#admissions">Admissions</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#hero"><i class="ri-home-5-line" aria-hidden="true"></i>Home</a></li>
+                        <li><a href="#about"><i class="ri-information-line" aria-hidden="true"></i>About</a></li>
+                        <li><a href="#academics"><i class="ri-book-2-line" aria-hidden="true"></i>Academics</a></li>
+                        <li><a href="#faculty"><i class="ri-team-line" aria-hidden="true"></i>Faculty</a></li>
+                        <li><a href="#gallery"><i class="ri-gallery-line" aria-hidden="true"></i>Gallery</a></li>
+                        <li><a href="#highlights"><i class="ri-sparkling-2-line" aria-hidden="true"></i>Why PSBS</a></li>
+                        <li><a href="#admissions"><i class="ri-graduation-cap-line" aria-hidden="true"></i>Admissions</a></li>
+                        <li><a href="#faq"><i class="ri-question-line" aria-hidden="true"></i>FAQ</a></li>
+                        <li><a href="#contact"><i class="ri-phone-line" aria-hidden="true"></i>Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-box contact-box">
@@ -4553,11 +5129,14 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             </div>
             <div class="footer-bottom">
                 <p>© <span id="footerYear"></span> Pabitra Secondary Boarding School | Developed by <strong>Harish</strong> | 🌸 Radhe Radhe</p>
+                <button type="button" class="footer-to-top ripple-host" id="footerToTop" aria-label="Back to top">
+                    <i class="ri-arrow-up-line" aria-hidden="true"></i><span>Top</span>
+                </button>
             </div>
         </footer>
 
         <div class="fab-container">
-            <button class="fab-btn ripple-host" id="fabTop" aria-label="Back to top">
+            <button class="fab-btn ripple-host" id="fabTop" aria-label="Back to top"><span class="fab-progress" aria-hidden="true"></span>
                 <i class="ri-arrow-up-line" aria-hidden="true"></i>
             </button>
         </div>
@@ -4866,7 +5445,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             lightboxClose: $('#lightboxClose'), lightboxPrev: $('#lightboxPrev'),
             lightboxNext: $('#lightboxNext'), lightboxCounter: $('#lightboxCounter'),
             lightboxImgWrap: $('#lightboxImgWrap'), lightboxSpinner: $('#lightboxSpinner'),
-            lightboxZoomBtn: $('#lightboxZoomBtn'), lightboxDownloadBtn: $('#lightboxDownloadBtn'),
+lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             lightboxFilmstrip: $('#lightboxFilmstrip'), lightboxHint: $('#lightboxHint'),
             lightboxBackdropA: $('#lightboxBackdropA'), lightboxBackdropB: $('#lightboxBackdropB'),
             themePresetsModal: $('#themePresetsModal'), themePresetsGrid: $('#themePresetsGrid'),
@@ -4886,10 +5465,8 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         (function setupTouchTracking() {
             let hideTimer = null;
             const showTouching = function () {
-                document.body.classList.add('touching');
                 clearTimeout(hideTimer);
                 hideTimer = setTimeout(function () {
-                    document.body.classList.remove('touching');
                 }, 700);
             };
             document.addEventListener('touchstart', showTouching, { passive: true });
@@ -6265,11 +6842,27 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             });
         }
         DOM.searchInput.addEventListener('input', function () { performSearch(this.value); });
-        DOM.searchClearBtn.addEventListener('click', function () {
+        function clearSearchInput(e) {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            if (!DOM.searchInput) return;
             DOM.searchInput.value = '';
-            DOM.searchInput.focus();
             DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
-        });
+            DOM.searchInput.focus({ preventScroll: true });
+        }
+        if (DOM.searchClearBtn) {
+            /* The X closes the entire search card/overlay. Capture the interaction
+               before any overlay/document handler can interfere with it. */
+            var closeSearchFromButton = function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+                if (!State.isSearchOpen) return;
+                closeSearch();
+            };
+            DOM.searchClearBtn.addEventListener('pointerdown', closeSearchFromButton, true);
+            DOM.searchClearBtn.addEventListener('touchstart', closeSearchFromButton, { capture: true, passive: false });
+            DOM.searchClearBtn.addEventListener('click', closeSearchFromButton, true);
+        }
 
         // ===== SIDEBAR =====
         function openSidebar() {
@@ -6548,44 +7141,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         }, true);
 
         // ===== LIGHTBOX =====
-        const LBZoom = {
-            scale: 1, tx: 0, ty: 0,
-            reset: function (el) {
-                this.scale = 1; this.tx = 0; this.ty = 0;
-                if (el) {
-                    el.classList.remove('zoomed', 'panning');
-                    el.style.transform = 'translate(-50%, -50%) scale(1)';
-                }
-                if (DOM.lightboxZoomBtn) DOM.lightboxZoomBtn.classList.remove('active-zoom');
-            },
-            apply: function (el) {
-                el.style.transform = 'translate(calc(-50% + ' + this.tx + 'px), calc(-50% + ' + this.ty + 'px)) scale(' + this.scale + ')';
-                el.classList.toggle('zoomed', this.scale > 1.02);
-                if (DOM.lightboxZoomBtn) DOM.lightboxZoomBtn.classList.toggle('active-zoom', this.scale > 1.02);
-            },
-            clampPan: function () {
-                const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
-                const maxX = Math.max(0, (wrap.width * (this.scale - 1)) / 2);
-                const maxY = Math.max(0, (wrap.height * (this.scale - 1)) / 2);
-                this.tx = Math.max(-maxX, Math.min(maxX, this.tx));
-                this.ty = Math.max(-maxY, Math.min(maxY, this.ty));
-            },
-            toggle: function (el, cx, cy) {
-                if (this.scale > 1.02) {
-                    this.reset(el);
-                } else {
-                    this.scale = 2.4;
-                    if (typeof cx === 'number' && DOM.lightboxImgWrap) {
-                        const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
-                        this.tx = (wrap.width / 2 - cx) * (this.scale - 1) / this.scale;
-                        this.ty = (wrap.height / 2 - cy) * (this.scale - 1) / this.scale;
-                    }
-                    this.clampPan();
-                    this.apply(el);
-                }
-            }
-        };
-
         var lbBackdropShowingA = true;
         function setLightboxBackdrop(src) {
             if (!DOM.lightboxBackdropA || !DOM.lightboxBackdropB || !src) return;
@@ -6607,9 +7162,10 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             try { history.pushState({ psbsLightbox: true }, ''); } catch (e) {}
             const current = DOM.lightboxImgCurrent;
             const next = DOM.lightboxImgNext;
-            LBZoom.reset(current);
-            current.src = images[State.lightboxIndex];
-            setLightboxBackdrop(images[State.lightboxIndex]);
+            const initialSrc = images[State.lightboxIndex];
+            current.src = initialSrc;
+            setLightboxBackdrop(initialSrc);
+            loadLightboxImage(initialSrc, true);
             current.className = 'lightbox-img active';
             current.style.transition = '';
             current.style.opacity = '';
@@ -6646,15 +7202,79 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             if (DOM.lightboxSpinner) DOM.lightboxSpinner.classList.toggle('show', !!show);
         }
 
+        // Image cache: current image + two images on each side are decoded with priority.
+        // Remaining images are warmed progressively in the background.
+        const lightboxImageCache = new Map();
+        let lightboxWarmToken = 0;
+
+        function loadLightboxImage(src, priority) {
+            if (!src) return Promise.resolve(null);
+            const cached = lightboxImageCache.get(src);
+            if (cached) return cached.promise;
+
+            const img = new Image();
+            img.decoding = 'async';
+            if (priority) img.fetchPriority = 'high';
+            img.src = src;
+
+            const promise = new Promise(function (resolve) {
+                let done = false;
+                function finish() {
+                    if (done) return;
+                    done = true;
+                    resolve(img);
+                }
+                img.onload = function () {
+                    if (img.decode) {
+                        img.decode().catch(function () {}).then(finish);
+                    } else {
+                        finish();
+                    }
+                };
+                img.onerror = finish;
+                if (img.complete && img.naturalWidth) {
+                    if (img.decode) img.decode().catch(function () {}).then(finish);
+                    else finish();
+                }
+            });
+
+            lightboxImageCache.set(src, { img: img, promise: promise });
+            return promise;
+        }
+
         function preloadLightboxNeighbours() {
             const imgs = State.lightboxImages;
-            if (!imgs || imgs.length === 0) return;
-            [-2, -1, 1, 2].forEach(function (offset) {
-                const i = State.lightboxIndex + offset;
-                if (i >= 0 && i < imgs.length) {
-                    const pre = new Image();
-                    pre.src = imgs[i];
+            if (!imgs || !imgs.length) return;
+
+            const token = ++lightboxWarmToken;
+            const center = State.lightboxIndex;
+            const priorityIndexes = [center, center - 1, center + 1, center - 2, center + 2]
+                .filter(function (i, pos, arr) {
+                    return i >= 0 && i < imgs.length && arr.indexOf(i) === pos;
+                });
+
+            // Current + two on either side: fully load/decode with priority.
+            Promise.all(priorityIndexes.map(function (i) {
+                return loadLightboxImage(imgs[i], true);
+            })).then(function () {
+                if (token !== lightboxWarmToken) return;
+
+                // Then progressively warm the rest, one at a time, so bandwidth/CPU
+                // stays available for the images the user is most likely to view next.
+                let distance = 3;
+                function warmNextRing() {
+                    if (token !== lightboxWarmToken) return;
+                    const indexes = [center - distance, center + distance]
+                        .filter(function (i) { return i >= 0 && i < imgs.length; });
+                    if (!indexes.length) return;
+                    Promise.all(indexes.map(function (i) {
+                        return loadLightboxImage(imgs[i], false);
+                    })).then(function () {
+                        distance++;
+                        setTimeout(warmNextRing, 0);
+                    });
                 }
+                warmNextRing();
             });
         }
 
@@ -6666,7 +7286,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             strip.style.display = 'flex';
             strip.innerHTML = imgs.map(function (src, i) {
                 return '<button type="button" class="lightbox-thumb' + (i === State.lightboxIndex ? ' active' : '') +
-                    '" data-idx="' + i + '" aria-label="Go to image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="lazy"></button>';
+                    '" data-idx="' + i + '" aria-label="Go to image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="eager" decoding="async"></button>';
             }).join('');
         }
 
@@ -6677,7 +7297,10 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             thumbs.forEach(function (t, i) {
                 const on = i === State.lightboxIndex;
                 t.classList.toggle('active', on);
-                if (on) t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                if (on && !strip.classList.contains('is-dragging')) {
+                    const target = t.offsetLeft - (strip.clientWidth - t.offsetWidth) / 2;
+                    strip.scrollTo({ left: Math.max(0, target), behavior: 'auto' });
+                }
             });
         }
 
@@ -6700,7 +7323,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             document.body.classList.remove('lightbox-open');
             document.body.style.overflow = '';
             State.lightboxOpen = false;
-            LBZoom.reset(DOM.lightboxImgCurrent);
             DOM.lightboxImgCurrent.className = 'lightbox-img active';
             DOM.lightboxImgNext.className = 'lightbox-img';
             DOM.lightboxImgCurrent.style.transition = '';
@@ -6730,7 +7352,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
         function navigateLightboxTo(newIndex) {
             if (State.lightboxIsTransitioning) return;
-            if (LBZoom.scale > 1.02) LBZoom.reset(DOM.lightboxImgCurrent);
             State.lightboxIsTransitioning = true;
 
             const current = DOM.lightboxImgCurrent;
@@ -6763,8 +7384,21 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 State.lightboxIsTransitioning = false;
             };
 
-            if (next.complete && next.naturalHeight !== 0) {
-                doSwap();
+            const cachedTarget = lightboxImageCache.get(targetSrc);
+            if (cachedTarget) {
+                cachedTarget.promise.then(function () {
+                    // The browser may still need one frame to attach the decoded resource.
+                    if (next.src !== targetSrc) next.src = targetSrc;
+                    requestAnimationFrame(doSwap);
+                });
+            } else if (next.complete && next.naturalHeight !== 0) {
+                if (next.decode) {
+                    next.decode().catch(function () {}).then(function () {
+                        requestAnimationFrame(doSwap);
+                    });
+                } else {
+                    doSwap();
+                }
             } else {
                 let settled = false;
                 const finish = function () {
@@ -6774,9 +7408,15 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                     next.onerror = null;
                     doSwap();
                 };
-                next.onload = finish;
+                next.onload = function () {
+                    if (next.decode) next.decode().catch(function () {}).then(finish);
+                    else finish();
+                };
                 next.onerror = finish;
-                setTimeout(finish, 900);
+                setTimeout(finish, 1800);
+                loadLightboxImage(targetSrc, true).then(function () {
+                    if (!settled) finish();
+                });
             }
         }
 
@@ -6791,15 +7431,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         DOM.lightboxOverlay.addEventListener('click', function (e) {
             if (e.target === DOM.lightboxOverlay) closeLightbox();
         });
-        DOM.lightboxPrev.addEventListener('click', function () { navigateLightbox(-1); });
-        DOM.lightboxNext.addEventListener('click', function () { navigateLightbox(1); });
-
-        if (DOM.lightboxZoomBtn) {
-            DOM.lightboxZoomBtn.addEventListener('click', function () {
-                const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
-                LBZoom.toggle(DOM.lightboxImgCurrent, wrap.width / 2, wrap.height / 2);
-            });
-        }
 
         if (DOM.lightboxDownloadBtn) {
             DOM.lightboxDownloadBtn.addEventListener('click', function () {
@@ -6825,41 +7456,13 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             });
         }
 
-        DOM.lightboxImgCurrent.addEventListener('dblclick', function (e) {
-            const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
-            LBZoom.toggle(DOM.lightboxImgCurrent, e.clientX - wrap.left, e.clientY - wrap.top);
-        });
-
-        DOM.lightboxImgWrap.addEventListener('wheel', function (e) {
-            if (!State.lightboxOpen) return;
-            e.preventDefault();
-            const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
-            const cx = e.clientX - wrap.left, cy = e.clientY - wrap.top;
-            const prevScale = LBZoom.scale;
-            const delta = e.deltaY < 0 ? 0.22 : -0.22;
-            LBZoom.scale = Math.max(1, Math.min(4, LBZoom.scale + delta));
-            if (LBZoom.scale === 1) {
-                LBZoom.reset(DOM.lightboxImgCurrent);
-                return;
-            }
-            const ratio = LBZoom.scale / prevScale;
-            LBZoom.tx = (LBZoom.tx + (wrap.width / 2 - cx) * (1 - 1 / ratio)) * 1;
-            LBZoom.ty = (LBZoom.ty + (wrap.height / 2 - cy) * (1 - 1 / ratio)) * 1;
-            LBZoom.clampPan();
-            LBZoom.apply(DOM.lightboxImgCurrent);
-        }, { passive: false });
-
         (function () {
-            // Finger-following image navigation + low-sensitivity pinch zoom.
-            let sx = 0, sy = 0, active = false, mode = null;
-            let lastTx = 0, lastTy = 0, lastTapTime = 0, moved = false;
-            let pinchStartDist = 0, pinchStartScale = 1, pinching = false;
+            // Finger-following image navigation only. Zoom gestures are intentionally disabled.
+            let sx = 0, sy = 0, active = false, moved = false;
             let swipeDir = 0, swipeWidth = 0;
 
-            function dist(t0, t1) {
-                return Math.hypot(t1.clientX - t0.clientX, t1.clientY - t0.clientY);
-            }
             function imgAt(index) { return State.lightboxImages && State.lightboxImages[index]; }
+
             function prepNeighbour(dir) {
                 const idx = State.lightboxIndex + dir;
                 const src = imgAt(idx);
@@ -6872,6 +7475,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 next.src = src;
                 return true;
             }
+
             function resetFingerSwipe() {
                 const current = DOM.lightboxImgCurrent, next = DOM.lightboxImgNext;
                 current.style.transition = 'transform .28s var(--snap), opacity .22s ease';
@@ -6880,19 +7484,27 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                 next.style.transition = 'transform .28s var(--snap), opacity .22s ease';
                 next.style.transform = 'translate(calc(-50% + ' + (swipeDir * swipeWidth) + 'px), -50%) scale(1)';
                 next.style.opacity = '0';
-                setTimeout(function(){ next.style.transition=''; next.style.transform='translate(-50%,-50%) scale(1)'; next.style.opacity='0'; next.src=''; }, 290);
+                setTimeout(function () {
+                    next.style.transition = '';
+                    next.style.transform = 'translate(-50%,-50%) scale(1)';
+                    next.style.opacity = '0';
+                    next.src = '';
+                }, 290);
             }
+
             function finishFingerSwipe(dir) {
                 const current = DOM.lightboxImgCurrent, next = DOM.lightboxImgNext;
                 const target = imgAt(State.lightboxIndex + dir);
                 if (!target) { resetFingerSwipe(); return; }
+
                 State.lightboxIsTransitioning = true;
                 current.style.transition = 'transform .24s cubic-bezier(.22,1,.36,1), opacity .18s ease';
                 next.style.transition = 'transform .24s cubic-bezier(.22,1,.36,1), opacity .18s ease';
-                current.style.transform = 'translate(calc(-50% + ' + (-dir * swipeWidth) + 'px), -50%) scale(.985)';
+                current.style.transform = 'translate(calc(-50% + ' + (-dir * swipeWidth) + 'px), -50%) scale(1)';
                 current.style.opacity = '0';
                 next.style.transform = 'translate(-50%, -50%) scale(1)';
                 next.style.opacity = '1';
+
                 setTimeout(function () {
                     current.src = target;
                     current.style.transition = 'none';
@@ -6913,102 +7525,80 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             }
 
             DOM.lightboxImgWrap.addEventListener('touchstart', function (e) {
-                if (!State.lightboxOpen || State.lightboxIsTransitioning) return;
-                if (e.touches.length === 2) {
-                    pinching = true;
-                    active = false;
-                    pinchStartDist = Math.max(1, dist(e.touches[0], e.touches[1]));
-                    pinchStartScale = LBZoom.scale;
-                    return;
-                }
-                if (e.touches.length !== 1) return;
-                sx = e.touches[0].clientX; sy = e.touches[0].clientY;
-                lastTx = LBZoom.tx; lastTy = LBZoom.ty;
+                if (!State.lightboxOpen || State.lightboxIsTransitioning || DOM.lightboxOverlay.classList.contains('is-zoomed') || e.touches.length !== 1) return;
+                sx = e.touches[0].clientX;
+                sy = e.touches[0].clientY;
                 swipeWidth = DOM.lightboxImgWrap.getBoundingClientRect().width;
-                active = true; moved = false; swipeDir = 0;
-                mode = LBZoom.scale > 1.02 ? 'pan' : 'swipe';
+                active = true;
+                moved = false;
+                swipeDir = 0;
             }, { passive: true });
 
             DOM.lightboxImgWrap.addEventListener('touchmove', function (e) {
-                if (!State.lightboxOpen) return;
-                if (pinching && e.touches.length === 2) {
-                    const d = dist(e.touches[0], e.touches[1]);
-                    // Slightly calmer pinch sensitivity.
-                    const raw = pinchStartScale * (d / pinchStartDist);
-                    LBZoom.scale = Math.max(1, Math.min(3.5, pinchStartScale + (raw - pinchStartScale) * 0.72));
-                    LBZoom.clampPan();
-                    LBZoom.apply(DOM.lightboxImgCurrent);
-                    return;
-                }
-                if (!active || e.touches.length !== 1) return;
-                const t = e.touches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+                if (!active || !State.lightboxOpen || DOM.lightboxOverlay.classList.contains('is-zoomed') || e.touches.length !== 1) return;
+
+                const t = e.touches[0];
+                const dx = t.clientX - sx, dy = t.clientY - sy;
                 if (Math.abs(dx) > 5 || Math.abs(dy) > 5) moved = true;
 
-                if (mode === 'pan') {
-                    LBZoom.tx = lastTx + dx;
-                    LBZoom.ty = lastTy + dy;
-                    LBZoom.clampPan();
-                    DOM.lightboxImgCurrent.classList.add('panning');
-                    LBZoom.apply(DOM.lightboxImgCurrent);
-                    return;
-                }
                 if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) > 5) {
                     swipeDir = dx < 0 ? 1 : -1;
-                    const atEdge = (swipeDir === 1 && State.lightboxIndex >= State.lightboxImages.length - 1) || (swipeDir === -1 && State.lightboxIndex <= 0);
+                    const atEdge =
+                        (swipeDir === 1 && State.lightboxIndex >= State.lightboxImages.length - 1) ||
+                        (swipeDir === -1 && State.lightboxIndex <= 0);
+
                     let follow = dx;
                     if (atEdge) follow *= 0.18;
+
                     if (!DOM.lightboxImgNext.src || DOM.lightboxImgNext.dataset.swipeDir !== String(swipeDir)) {
                         if (prepNeighbour(swipeDir)) DOM.lightboxImgNext.dataset.swipeDir = String(swipeDir);
                     }
+
                     DOM.lightboxOverlay.classList.add('lb-hswipe');
                     DOM.lightboxImgCurrent.style.transition = 'none';
                     DOM.lightboxImgNext.style.transition = 'none';
-                    DOM.lightboxImgCurrent.style.transform = 'translate(calc(-50% + ' + follow.toFixed(1) + 'px), -50%) scale(1)';
-                    DOM.lightboxImgCurrent.style.opacity = String(Math.max(0.58, 1 - Math.abs(follow) / 900));
+                    DOM.lightboxImgCurrent.style.transform =
+                        'translate(calc(-50% + ' + follow.toFixed(1) + 'px), -50%) scale(1)';
+                    DOM.lightboxImgCurrent.style.opacity =
+                        String(Math.max(0.58, 1 - Math.abs(follow) / 900));
+
                     if (!atEdge) {
-                        DOM.lightboxImgNext.style.transform = 'translate(calc(-50% + ' + (follow + swipeDir * swipeWidth) .toFixed(1) + 'px), -50%) scale(1)';
-                        DOM.lightboxImgNext.style.opacity = String(Math.min(1, Math.max(0, Math.abs(follow) / Math.max(1, swipeWidth * .62))));
+                        DOM.lightboxImgNext.style.transform =
+                            'translate(calc(-50% + ' + (follow + swipeDir * swipeWidth).toFixed(1) + 'px), -50%) scale(1)';
+                        DOM.lightboxImgNext.style.opacity =
+                            String(Math.min(1, Math.max(0, Math.abs(follow) / Math.max(1, swipeWidth * .62))));
                     }
                 }
             }, { passive: true });
 
             DOM.lightboxImgWrap.addEventListener('touchend', function (e) {
-                if (pinching) {
-                    pinching = false;
-                    if (LBZoom.scale <= 1.02) LBZoom.reset(DOM.lightboxImgCurrent);
+                if (!active || !State.lightboxOpen || DOM.lightboxOverlay.classList.contains('is-zoomed')) return;
+
+                active = false;
+                DOM.lightboxOverlay.classList.remove('lb-hswipe');
+                const t = e.changedTouches[0];
+                const dx = t.clientX - sx, dy = t.clientY - sy;
+
+                if (Math.abs(dy) > 76 && Math.abs(dy) > Math.abs(dx) * 1.15) {
+                    closeLightbox();
+                    Helpers.vibrate(6);
                     return;
                 }
-                if (!active || !State.lightboxOpen) return;
-                active = false;
-                DOM.lightboxImgCurrent.classList.remove('panning');
-                DOM.lightboxOverlay.classList.remove('lb-hswipe');
-                const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
 
-                if (mode === 'swipe') {
-                    if (Math.abs(dy) > 76 && Math.abs(dy) > Math.abs(dx) * 1.15) {
-                        closeLightbox();
+                if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.15 && swipeDir) {
+                    const target = State.lightboxIndex + swipeDir;
+                    if (target >= 0 && target < State.lightboxImages.length) {
+                        finishFingerSwipe(swipeDir);
                         Helpers.vibrate(6);
                         return;
                     }
-                    if (!moved) {
-                        const now = Date.now();
-                        if (now - lastTapTime < 320) {
-                            const wrap = DOM.lightboxImgWrap.getBoundingClientRect();
-                            LBZoom.toggle(DOM.lightboxImgCurrent, t.clientX - wrap.left, t.clientY - wrap.top);
-                        }
-                        lastTapTime = now;
-                        return;
-                    }
-                    if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.15 && swipeDir) {
-                        const target = State.lightboxIndex + swipeDir;
-                        if (target >= 0 && target < State.lightboxImages.length) {
-                            finishFingerSwipe(swipeDir);
-                            Helpers.vibrate(6);
-                            return;
-                        }
-                    }
-                    resetFingerSwipe();
+                    DOM.lightboxImgWrap.classList.add('lb-edge-bounce');
+                    setTimeout(function () {
+                        DOM.lightboxImgWrap.classList.remove('lb-edge-bounce');
+                    }, 400);
                 }
+
+                resetFingerSwipe();
             }, { passive: true });
         })();
 
@@ -7017,15 +7607,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             if (e.key === 'Escape') { closeLightbox(); return; }
             if (e.key === 'ArrowLeft') { navigateLightbox(-1); e.preventDefault(); return; }
             if (e.key === 'ArrowRight') { navigateLightbox(1); e.preventDefault(); return; }
-            if (e.key === '+' || e.key === '=') {
-                LBZoom.scale = Math.min(4, LBZoom.scale + 0.4); LBZoom.clampPan(); LBZoom.apply(DOM.lightboxImgCurrent); return;
-            }
-            if (e.key === '-') {
-                LBZoom.scale = Math.max(1, LBZoom.scale - 0.4);
-                if (LBZoom.scale === 1) LBZoom.reset(DOM.lightboxImgCurrent);
-                else { LBZoom.clampPan(); LBZoom.apply(DOM.lightboxImgCurrent); }
-                return;
-            }
         });
 
         window.addEventListener('popstate', function () {
@@ -7062,7 +7643,11 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         const handleHeaderScroll = function () {
             const current = window.pageYOffset || document.documentElement.scrollTop;
             clearTimeout(headerScrollTimer);
-            if (DOM.fabTop) DOM.fabTop.classList.toggle('show', current > 400);
+            if (DOM.fabTop) {
+                DOM.fabTop.classList.toggle('show', current > 400);
+                const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                DOM.fabTop.style.setProperty('--scroll-pct', Math.min(100, Math.round((current / maxScroll) * 100)));
+            }
 
             headerScrollTimer = setTimeout(function () {
                 if (current <= 0) {
@@ -7304,27 +7889,16 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             }
         });
 
-        // ===== HERO TYPING EFFECT =====
-        function typeMotto() {
+        // ===== HERO MOTTO =====
+        // Static text + a single GPU-friendly reveal; no typing interval/cursor.
+        function revealMotto() {
             const el = DOM.heroMotto;
             if (!el) return;
-            const text = 'Quality Education is our Motto.';
-            const cursor = el.querySelector('.type-cursor');
-            const textNode = document.createTextNode('');
-            el.innerHTML = '';
-            el.appendChild(textNode);
-            if (cursor) el.appendChild(cursor);
-            let i = 0;
-            const interval = setInterval(function () {
-                if (i < text.length) {
-                    textNode.textContent += text.charAt(i);
-                    i++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 60);
+            requestAnimationFrame(function () {
+                el.classList.add('motto-ready');
+            });
         }
-        setTimeout(typeMotto, 400);
+        revealMotto();
 
         // ===== HERO PARTICLES =====
         if (DOM.heroContainer) {
@@ -7398,6 +7972,28 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             if (el) sections.push({ id: sectionId, element: el, link: link });
         });
 
+        // ---- Own PC scroll indicator: a right-edge dot rail synced to sections ----
+        var pcScrollDotsEl = null, pcScrollDotButtons = [];
+        (function buildPcScrollDots() {
+            if (!sections.length) return;
+            pcScrollDotsEl = document.createElement('nav');
+            pcScrollDotsEl.id = 'pcScrollDots';
+            pcScrollDotsEl.setAttribute('aria-label', 'Page section indicator');
+            pcScrollDotsEl.innerHTML = sections.map(function (s) {
+                var label = (s.link.querySelector('.nav-title') || {}).textContent || s.id;
+                return '<button type="button" class="psd-dot" data-id="' + s.id + '" data-label="' + label + '" aria-label="Go to ' + label + '"></button>';
+            }).join('');
+            document.body.appendChild(pcScrollDotsEl);
+            pcScrollDotButtons = Array.prototype.slice.call(pcScrollDotsEl.querySelectorAll('.psd-dot'));
+            pcScrollDotsEl.addEventListener('click', function (e) {
+                const btn = e.target.closest('.psd-dot');
+                if (!btn) return;
+                const el = document.getElementById(btn.getAttribute('data-id'));
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        })();
+
+        var lastActiveSectionId = null;
         function updateActiveSection() {
             const pos = (window.pageYOffset || document.documentElement.scrollTop) + (window.innerHeight * 0.35);
             const atBottom = (window.innerHeight + window.pageYOffset) >=
@@ -7413,6 +8009,19 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             for (let i = 0; i < sections.length; i++) {
                 sections[i].link.classList.toggle('active', active && sections[i].id === active.id);
             }
+            if (pcScrollDotButtons.length) {
+                pcScrollDotButtons.forEach(function (dot) {
+                    dot.classList.toggle('active', !!active && dot.getAttribute('data-id') === active.id);
+                });
+            }
+            // 19. Keep the sidebar's own scroll position following the highlighted link,
+            // so the active item never drifts out of view as the page section changes.
+            if (active && active.id !== lastActiveSectionId) {
+                lastActiveSectionId = active.id;
+                if (active.link && typeof active.link.scrollIntoView === 'function') {
+                    active.link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+                }
+            }
         }
         window.addEventListener('scroll', Helpers.debounce(updateActiveSection, 50), { passive: true });
         window.addEventListener('resize', Helpers.debounce(updateActiveSection, 100), { passive: true });
@@ -7426,7 +8035,44 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         // ===== FOOTER YEAR =====
         if (DOM.footerYear) DOM.footerYear.textContent = new Date().getFullYear();
 
+        var footerToTopBtn = $('#footerToTop');
+        if (footerToTopBtn) {
+            footerToTopBtn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                Helpers.vibrate(6);
+            });
+        }
+
         // ===== INIT =====
+        // 11. Discourage password-manager / autofill suggestion bars on every text field,
+        // including ones rendered later (faculty search, contact form, etc.).
+        function hardenInputsAgainstAutofill(root) {
+            (root || document).querySelectorAll('input, textarea').forEach(function (el) {
+                if (el.type === 'checkbox' || el.type === 'radio' || el.type === 'file' || el.type === 'submit') return;
+                el.setAttribute('autocomplete', 'off');
+                el.setAttribute('autocorrect', 'off');
+                el.setAttribute('autocapitalize', 'off');
+                el.setAttribute('spellcheck', 'false');
+                el.setAttribute('aria-autocomplete', 'none');
+                el.setAttribute('data-autofill', 'off');
+                el.setAttribute('data-lpignore', 'true');
+                el.setAttribute('data-1p-ignore', 'true');
+                el.setAttribute('data-bwignore', 'true');
+                el.setAttribute('data-form-type', el.getAttribute('data-form-type') || 'other');
+            });
+        }
+        hardenInputsAgainstAutofill(document);
+        document.addEventListener('focusin', function (e) {
+            var el = e.target;
+            if (!el || !el.matches || !el.matches('input, textarea')) return;
+            if (el.type === 'checkbox' || el.type === 'radio' || el.type === 'file' || el.type === 'submit') return;
+            el.setAttribute('autocomplete', 'off');
+            el.setAttribute('autocorrect', 'off');
+            el.setAttribute('autocapitalize', 'off');
+            el.setAttribute('spellcheck', 'false');
+            el.setAttribute('aria-autocomplete', 'none');
+        });
+
         async function init() {
             Helpers.applyTheme();
             Helpers.setThemePreset(Helpers.getThemePreset());
@@ -7526,54 +8172,24 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
             var hs = $('#headerSearchBtn');
             if (hs) hs.addEventListener('click', function () { State.isSearchOpen ? closeSearch() : openSearch(); });
 
-            /* ---------- 3. Notice ticker + live counts on quick cards ---------- */
+            /* ---------- 3. Featured notice card — no continuous marquee ---------- */
             function buildTicker(list) {
                 var wrap = $('#noticeTicker'), move = $('#ntMove');
                 var sub = $('#qcNoticeSub');
-
-                // Keep the hero ticker focused: only the 3 newest notices are shown.
-                // Sorting here also protects the ticker if an unsorted array is passed in.
-                var all = (list || [])
-                    .filter(function (n) { return n && n.title; })
-                    .slice()
-                    .sort(function (a, b) {
-                        return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
-                    });
-                var latest = all.slice(0, 3);
-
-                if (sub) {
-                    sub.textContent = all.length
-                        ? all.length + (all.length === 1 ? ' update' : ' updates')
-                        : 'Latest updates';
-                }
-                if (!wrap || !move) return;
-                if (!latest.length) {
-                    wrap.hidden = true;
-                    move.innerHTML = '';
-                    return;
-                }
-
-                function html(hidden) {
-                    return latest.map(function (n) {
-                        return '<button type="button" class="nt-item" data-qa="notices"' +
-                            (hidden ? ' aria-hidden="true" tabindex="-1"' : '') + '>' +
-                            '<i class="ri-notification-3-line" aria-hidden="true"></i>' +
-                            '<span class="nt-title">' + esc(n.title) + '</span>' +
-                            '<em>' + esc(Helpers.timeAgo(n.date)) + '</em></button>';
-                    }).join('');
-                }
-
-                // Duplicate the same 3 notices so the marquee loops seamlessly.
-                move.innerHTML = html(false) + html(true);
-                wrap.hidden = false;
-                requestAnimationFrame(function () {
-                    var w = Math.max(1, move.scrollWidth / 2);
-                    move.style.animationDuration = Math.max(14, Math.round(w / 48)) + 's';
+                var all = (list || []).filter(function (n) { return n && n.title; }).slice().sort(function (a,b) {
+                    return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
                 });
-            }
-            if (typeof window.renderNotices === 'function') {
-                var _rn = window.renderNotices;
-                window.renderNotices = function (n) { var r = _rn.apply(this, arguments); safe(function () { buildTicker(n); }); return r; };
+                if (sub) sub.textContent = all.length ? all.length + (all.length === 1 ? ' update' : ' updates') : 'Latest updates';
+                if (!wrap || !move) return;
+                if (!all.length) { wrap.hidden = true; move.innerHTML = ''; return; }
+                move.innerHTML = all.slice(0,3).map(function (n,i) {
+                    return '<button type="button" class="nt-item" data-qa="notices">' +
+                        '<span class="nt-index">' + (i+1) + '</span>' +
+                        '<span class="nt-copy"><span class="nt-title">' + esc(n.title) + '</span>' +
+                        '<em>' + esc(Helpers.timeAgo(n.date)) + '</em></span>' +
+                        '<i class="ri-arrow-right-up-line nt-arrow" aria-hidden="true"></i></button>';
+                }).join('');
+                wrap.hidden = false;
             }
             if (typeof window.renderDocuments === 'function') {
                 var _rd = window.renderDocuments;
@@ -7747,7 +8363,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
                     if (e.key === 'Enter') { var first = $('.search-result-item', DOM.searchResults); if (first) first.click(); }
                 });
             }
-            if (DOM.searchClearBtn) DOM.searchClearBtn.addEventListener('click', suggestions);
+            /* Clear button is handled by the single authoritative handler above. */
 
             /* ---------- 6. Contact helpers ---------- */
             // 6a. Live office status (Nepal time, Mon–Fri 10:00–16:00)
@@ -7875,253 +8491,319 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 
-<script id="convex-five-thumbnail-script">
+<script id="thumbnail-live-sync">
 (function () {
-  function updateConvexFilmstrip() {
-    const rail = document.querySelector('.lightbox-filmstrip');
+    var rail = document.getElementById('lightboxFilmstrip');
     if (!rail) return;
-    const thumbs = rail.querySelectorAll('.lightbox-thumb');
-    if (!thumbs.length) return;
+    var raf = 0, settleTimer = 0, dragging = false, moved = false;
+    var lastFocus = -1, microIndex = -1, lastMicroTime = 0, thumbs = [], step = 0, centerOffset = 0;
 
-    const rc = rail.getBoundingClientRect();
-    const centerX = rc.left + rc.width / 2;
-    const half = Math.max(1, rc.width / 2);
-
-    thumbs.forEach(function (thumb) {
-      const r = thumb.getBoundingClientRect();
-      const x = (r.left + r.width / 2 - centerX) / half;
-      const d = Math.min(1, Math.abs(x));
-      /* Convex mirror-like arc: center is raised, sides descend. */
-      const y = 24 * d * d;
-      thumb.style.setProperty('--arc-y', y.toFixed(2) + 'px');
-      thumb.classList.toggle('arc-side', d > .22);
-    });
-  }
-
-  let raf = 0;
-  function scheduleConvexUpdate() {
-    if (raf) return;
-    raf = requestAnimationFrame(function () {
-      raf = 0;
-      updateConvexFilmstrip();
-    });
-  }
-
-  document.addEventListener('scroll', scheduleConvexUpdate, true);
-  document.addEventListener('touchmove', scheduleConvexUpdate, {passive:true});
-  window.addEventListener('resize', scheduleConvexUpdate);
-
-  const observer = new MutationObserver(scheduleConvexUpdate);
-  observer.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
-
-  setInterval(scheduleConvexUpdate, 80);
+    function refreshMetrics() {
+        thumbs = Array.prototype.slice.call(rail.querySelectorAll('.lightbox-thumb'));
+        if (!thumbs.length) return;
+        var a = thumbs[0].getBoundingClientRect();
+        var b = thumbs[1] ? thumbs[1].getBoundingClientRect() : null;
+        step = b ? Math.max(1, b.left - a.left) : Math.max(1, a.width + 10);
+        centerOffset = rail.clientWidth / 2;
+        rail.style.setProperty('--edge-pad', Math.max(0, centerOffset - a.width / 2) + 'px');
+    }
+    function nearestThumbIndexFast() {
+        if (!thumbs.length || !step) return -1;
+        var first = thumbs[0].offsetLeft + thumbs[0].offsetWidth / 2;
+        var idx = Math.round((rail.scrollLeft + centerOffset - first) / step);
+        return Math.max(0, Math.min(thumbs.length - 1, idx));
+    }
+    function updateDragFocus(idx) {
+        if (idx === lastFocus) return;
+        lastFocus = idx;
+        for (var i = 0; i < thumbs.length; i++) thumbs[i].classList.toggle('drag-focus', i === idx);
+    }
+    function paintMicroImage(idx) {
+        if (!document.body.classList.contains('lightbox-open') || idx < 0 || idx >= State.lightboxImages.length) return;
+        var now = performance.now();
+        if (idx === microIndex || now - lastMicroTime < 24) return;
+        microIndex = idx; lastMicroTime = now;
+        var src = State.lightboxImages[idx];
+        var cached = lightboxImageCache.get(src);
+        var apply = function () {
+            if (!dragging || microIndex !== idx) return;
+            requestAnimationFrame(function () {
+                if (!dragging || microIndex !== idx) return;
+                DOM.lightboxImgCurrent.src = src;
+                State.lightboxIndex = idx;
+                updateLightboxCounter(); updateLightboxNavState(); setLightboxBackdrop(src);
+            });
+        };
+        if (cached && cached.img && cached.img.complete && cached.img.naturalWidth) apply();
+        else loadLightboxImage(src, true).then(apply);
+    }
+    function settle() {
+        if (!document.body.classList.contains('lightbox-open')) return;
+        var idx = nearestThumbIndexFast();
+        if (idx < 0 || !thumbs[idx]) return;
+        var target = parseInt(thumbs[idx].getAttribute('data-idx'), 10);
+        if (Number.isFinite(target) && target !== State.lightboxIndex) jumpToLightbox(target);
+        rail.classList.remove('is-dragging'); dragging = false; moved = false; microIndex = -1;
+    }
+    rail.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'mouse') return;
+        dragging = true; moved = false; microIndex = State.lightboxIndex; lastFocus = -1;
+        rail.classList.add('is-dragging');
+    }, { passive: true });
+    rail.addEventListener('pointermove', function () { if (dragging) moved = true; }, { passive: true });
+    rail.addEventListener('pointerup', function (e) {
+        if (!dragging) return;
+        var tappedThumb = e.target && e.target.closest ? e.target.closest('.lightbox-thumb') : null;
+        if (tappedThumb && !moved) {
+            dragging = false; rail.classList.remove('is-dragging'); clearTimeout(settleTimer); microIndex = -1; return;
+        }
+        clearTimeout(settleTimer); settleTimer = setTimeout(settle, 18);
+    }, { passive: true });
+    rail.addEventListener('scroll', function () {
+        if (!document.body.classList.contains('lightbox-open')) return;
+        if (!raf) raf = requestAnimationFrame(function () {
+            raf = 0;
+            var idx = nearestThumbIndexFast(); updateDragFocus(idx);
+            if (dragging && idx >= 0) paintMicroImage(parseInt(thumbs[idx].getAttribute('data-idx'), 10));
+        });
+        clearTimeout(settleTimer); settleTimer = setTimeout(settle, 24);
+    }, { passive: true });
+    if ('onscrollend' in rail) rail.addEventListener('scrollend', function () {
+        clearTimeout(settleTimer); settleTimer = setTimeout(settle, 12);
+    }, { passive: true });
+    window.addEventListener('resize', refreshMetrics, { passive: true });
+    new MutationObserver(function () { refreshMetrics(); updateDragFocus(nearestThumbIndexFast()); }).observe(rail, { childList: true });
+    refreshMetrics();
 })();
 </script>
 
 
-<script id="fluid-mobile-arc">
-(function () {
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  let ticking = false;
-
-  function paintArc() {
-    ticking = false;
-    const rail = document.querySelector('.lightbox-filmstrip');
-    if (!rail) return;
-
-    const thumbs = rail.querySelectorAll('.lightbox-thumb');
-    if (!thumbs.length) return;
-
-    const box = rail.getBoundingClientRect();
-    const center = box.left + box.width / 2;
-    const radius = Math.max(1, box.width * .52);
-
-    thumbs.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      const x = ((r.left + r.width / 2) - center) / radius;
-      const n = clamp(x, -1, 1);
-      const d = Math.abs(n);
-
-      // Convex-mirror-like curve: center rises, edges descend.
-      const y = 26 * n * n;
-      const scale = 1.10 - 0.12 * d;
-      const rotate = n * -2.2;
-
-      el.style.setProperty('--arc-y', y.toFixed(2) + 'px');
-      el.style.transform =
-        `translate3d(0, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(3)}) rotateZ(${rotate.toFixed(2)}deg)`;
-
-      el.style.opacity = String(1 - .18 * d);
-    });
+<style id="lightbox-gloss-final-v4">
+/* Final viewer polish: clean counter, glassy white controls, restrained zoom */
+.lightbox-topbar{gap:12px!important}
+.lightbox-counter-pill{
+  min-width:88px!important;height:42px!important;padding:0 16px!important;border-radius:999px!important;
+  display:inline-flex!important;align-items:center;justify-content:center;gap:7px!important;
+  font-size:.88rem!important;font-weight:850!important;letter-spacing:.025em!important;
+  color:rgb(var(--primary-rgb))!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.995),rgba(255,255,255,.88) 48%,rgba(241,245,249,.94))!important;
+  border:1px solid rgba(255,255,255,.99)!important;
+  box-shadow:0 12px 28px rgba(15,23,42,.14),0 2px 6px rgba(15,23,42,.07),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(15,23,42,.055)!important;
+  text-shadow:0 1px 0 #fff;backdrop-filter:blur(18px) saturate(170%)!important;-webkit-backdrop-filter:blur(18px) saturate(170%)!important;
+}
+.lightbox-counter-pill::before{inset:2px 10% 54%!important;border-radius:999px!important;opacity:1!important}
+.lightbox-actions{gap:9px!important}
+.lightbox-overlay .lightbox-icon-btn,.lightbox-overlay .lightbox-nav{
+  width:44px!important;height:44px!important;min-width:44px!important;border-radius:15px!important;
+  display:grid!important;place-items:center!important;position:relative!important;overflow:hidden!important;
+  color:rgb(var(--primary-rgb))!important;
+  background:linear-gradient(180deg,#fff 0%,#fff 40%,#f3f7fb 100%)!important;
+  border:1px solid rgba(255,255,255,.99)!important;
+  box-shadow:0 12px 28px rgba(15,23,42,.14),0 2px 6px rgba(15,23,42,.06),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(15,23,42,.06)!important;
+  backdrop-filter:blur(16px) saturate(165%)!important;-webkit-backdrop-filter:blur(16px) saturate(165%)!important;
+  transition:transform .16s cubic-bezier(.22,1,.36,1),box-shadow .16s ease,filter .16s ease!important;
+}
+.lightbox-overlay .lightbox-icon-btn::after,.lightbox-overlay .lightbox-nav::after{
+  content:'';position:absolute;left:9%;right:9%;top:4px;height:36%;border-radius:999px;
+  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,0));pointer-events:none;
+}
+.lightbox-overlay .lightbox-icon-btn i,.lightbox-overlay .lightbox-nav i{position:relative;z-index:1;font-size:1.15rem;filter:drop-shadow(0 1px 0 #fff)}
+.lightbox-overlay .lightbox-icon-btn:hover,.lightbox-overlay .lightbox-nav:hover{transform:translateY(-2px) scale(1.035)!important;filter:saturate(1.08);box-shadow:0 16px 34px rgba(15,23,42,.17),inset 0 1px 0 #fff!important}
+.lightbox-overlay .lightbox-icon-btn:active,.lightbox-overlay .lightbox-nav:active{transform:translateY(1px) scale(.965)!important}
+.lightbox-filmstrip .lightbox-thumb .thumb-index{display:none!important}
+#lightboxImgWrap{touch-action:none;overflow:hidden!important}
+.lightbox-img{cursor:zoom-in;transform-origin:center center;will-change:transform}
+.lightbox-overlay.is-zoomed .lightbox-img{cursor:grab}
+.lightbox-overlay.is-zoomed .lightbox-img:active{cursor:grabbing}
+#lightboxZoomBtn.is-active{background:linear-gradient(180deg,#fff 0%,#eef6ff 100%)!important;box-shadow:0 14px 30px rgba(var(--primary-rgb),.20),inset 0 1px 0 #fff!important}
+@media(max-width:600px){
+ .lightbox-counter-pill{height:38px!important;min-width:78px!important;padding:0 13px!important;font-size:.82rem!important}
+ .lightbox-overlay .lightbox-icon-btn{width:40px!important;height:40px!important;min-width:40px!important;border-radius:13px!important}
+ .lightbox-overlay .lightbox-icon-btn i{font-size:1.05rem}
+}
+</style>
+<script id="lightbox-restrained-zoom-v4">
+(function(){
+  var wrap=document.getElementById('lightboxImgWrap'), overlay=document.getElementById('lightboxOverlay'), btn=document.getElementById('lightboxZoomBtn');
+  if(!wrap||!overlay) return;
+  var scale=1, min=1, max=1.6, pinchStart=1, pinchDistance=0, pinching=false, panX=0, panY=0, panStartX=0, panStartY=0, panBaseX=0, panBaseY=0;
+  function currentImg(){ return document.getElementById('lightboxImgCurrent'); }
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function apply(animated){
+    var img=currentImg(); if(!img) return;
+    img.style.transition=animated?'transform .18s cubic-bezier(.22,1,.36,1)':'none';
+    if(scale<=1.001){panX=panY=0;}
+    var maxPan=Math.max(0,(scale-1)*Math.min(wrap.clientWidth,wrap.clientHeight)*.48);
+    panX=clamp(panX,-maxPan,maxPan); panY=clamp(panY,-maxPan,maxPan);
+    img.style.transform='translate(calc(-50% + '+panX.toFixed(1)+'px), calc(-50% + '+panY.toFixed(1)+'px)) scale('+scale.toFixed(3)+')';
+    overlay.classList.toggle('is-zoomed',scale>1.001);
+    if(btn) btn.classList.toggle('is-active',scale>1.001);
   }
-
-  function schedule() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(paintArc);
+  function setZoom(v,animated){scale=clamp(v,min,max);apply(!!animated);}
+  function reset(){doubleTapStage=0;setZoom(1,true);}
+  if(btn) btn.addEventListener('click',function(){setZoom(scale<=1.01?1.28:1,true);});
+  /* Three-stage double-tap cycle: normal -> gentle zoom -> deeper zoom -> normal. */
+  var lastTap=0, tapX=0, tapY=0, tapTimer=0;
+  var doubleTapZooms=[1.28,1.52,1];
+  var doubleTapStage=0;
+  wrap.addEventListener('touchend',function(e){
+    if(!State.lightboxOpen || pinching || e.changedTouches.length!==1) return;
+    var t=e.changedTouches[0], now=Date.now();
+    var dx=t.clientX-tapX, dy=t.clientY-tapY;
+    var closeEnough=Math.hypot(dx,dy)<32;
+    if(now-lastTap<320 && closeEnough){
+      clearTimeout(tapTimer);
+      doubleTapStage=(doubleTapStage+1)%doubleTapZooms.length;
+      setZoom(doubleTapZooms[doubleTapStage],true);
+      lastTap=0;
+      Helpers.vibrate(4);
+    } else {
+      lastTap=now; tapX=t.clientX; tapY=t.clientY;
+      clearTimeout(tapTimer);
+      tapTimer=setTimeout(function(){lastTap=0;},330);
     }
-  }
-
-  document.addEventListener('scroll', schedule, {passive:true, capture:true});
-  document.addEventListener('touchmove', schedule, {passive:true, capture:true});
-  window.addEventListener('resize', schedule, {passive:true});
-
-  const observer = new MutationObserver(schedule);
-  observer.observe(document.body, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ['class']
-  });
-
-  schedule();
-})();
-</script>
-
-
-<script id="smooth-center-sync-script">
-(function () {
-  let raf = 0;
-  let lastIndex = -1;
-  let suppress = false;
-
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-  function thumbs() {
-    const rail = document.querySelector('.lightbox-filmstrip');
-    return rail ? Array.from(rail.querySelectorAll('.lightbox-thumb')) : [];
-  }
-
-  function centerRailOn(el, behavior) {
-    const rail = document.querySelector('.lightbox-filmstrip');
-    if (!rail || !el) return;
-    const target = el.offsetLeft - (rail.clientWidth - el.offsetWidth) / 2;
-    rail.scrollTo({ left: target, behavior: behavior || 'auto' });
-  }
-
-  function findNearest() {
-    const rail = document.querySelector('.lightbox-filmstrip');
-    const list = thumbs();
-    if (!rail || !list.length) return -1;
-
-    const rc = rail.getBoundingClientRect();
-    const cx = rc.left + rc.width / 2;
-    let best = 0, dist = Infinity;
-
-    list.forEach((el, i) => {
-      const r = el.getBoundingClientRect();
-      const d = Math.abs((r.left + r.width / 2) - cx);
-      if (d < dist) { dist = d; best = i; }
-    });
-    return best;
-  }
-
-  function setCenterIndex(index, duringDrag) {
-    const list = thumbs();
-    if (!list[index]) return;
-
-    list.forEach((el, i) => el.classList.toggle('active', i === index));
-
-    // Existing app navigation is used if available. We trigger the same
-    // thumbnail action the app already uses, keeping all existing state.
-    if (index !== lastIndex) {
-      lastIndex = index;
-      if (!suppress) {
-        elClick(list[index]);
-      }
+  },{passive:true});
+  wrap.addEventListener('wheel',function(e){
+    if(!State.lightboxOpen) return;
+    e.preventDefault();
+    var step=Math.sign(e.deltaY)*-0.055;
+    setZoom(scale+step,false);
+  },{passive:false});
+  wrap.addEventListener('touchstart',function(e){
+    if(!State.lightboxOpen) return;
+    if(e.touches.length===2){
+      pinching=true; pinchStart=scale;
+      var a=e.touches[0],b=e.touches[1],dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;
+      pinchDistance=Math.hypot(dx,dy); e.preventDefault();
+    } else if(e.touches.length===1 && scale>1.01){
+      var t=e.touches[0]; panStartX=t.clientX; panStartY=t.clientY; panBaseX=panX; panBaseY=panY;
     }
-
-    if (!duringDrag) centerRailOn(list[index], 'smooth');
-  }
-
-  function elClick(el) {
-    if (!el) return;
-    // Do not synthesize a click if the thumbnail is already selected.
-    if (el.classList.contains('active') && lastIndex === thumbs().indexOf(el)) return;
-    el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-  }
-
-  function paint() {
-    raf = 0;
-    const rail = document.querySelector('.lightbox-filmstrip');
-    const list = thumbs();
-    if (!rail || !list.length) return;
-
-    const rc = rail.getBoundingClientRect();
-    const cx = rc.left + rc.width / 2;
-    const radius = Math.max(1, rc.width * .54);
-
-    let nearest = 0, nearestD = Infinity;
-
-    list.forEach((el, i) => {
-      const r = el.getBoundingClientRect();
-      const ex = r.left + r.width / 2;
-      const n = clamp((ex - cx) / radius, -1, 1);
-      const d = Math.abs(n);
-
-      if (Math.abs(ex - cx) < nearestD) {
-        nearestD = Math.abs(ex - cx);
-        nearest = i;
-      }
-
-      // Smooth continuous convex arc. No "settling" jumps.
-      const y = 27 * n * n;
-      const scale = 1.10 - .13 * d;
-      const rot = -2.4 * n;
-
-      el.style.transform =
-        `translate3d(0, ${y.toFixed(3)}px, 0) scale(${scale.toFixed(4)}) rotateZ(${rot.toFixed(3)}deg)`;
-      el.style.opacity = String(1 - .15 * d);
-      el.style.filter = `brightness(${1 - .035 * d})`;
-    });
-
-    // The center thumbnail defines the image being viewed.
-    if (nearest !== lastIndex) {
-      setCenterIndex(nearest, true);
+  },{passive:false});
+  wrap.addEventListener('touchmove',function(e){
+    if(e.touches.length===2){
+      pinching=true; var a=e.touches[0],b=e.touches[1],dx=a.clientX-b.clientX,dy=a.clientY-b.clientY,d=Math.hypot(dx,dy);
+      if(pinchDistance>0){ var ratio=(d-pinchDistance)/Math.max(120,pinchDistance); setZoom(pinchStart+ratio*.72,false); }
+      e.preventDefault(); return;
     }
-  }
-
-  function schedule() {
-    if (!raf) raf = requestAnimationFrame(paint);
-  }
-
-  // Capture the rail's native scrolling directly, so finger movement and
-  // image selection stay in the same animation frame.
-  document.addEventListener('scroll', schedule, { passive: true, capture: true });
-  document.addEventListener('touchmove', schedule, { passive: true, capture: true });
-  document.addEventListener('pointermove', schedule, { passive: true, capture: true });
-  window.addEventListener('resize', schedule, { passive: true });
-
-  // Keep the selected thumbnail centered after a normal thumbnail tap.
-  document.addEventListener('click', function (e) {
-    const el = e.target.closest && e.target.closest('.lightbox-filmstrip .lightbox-thumb');
-    if (!el) return;
-    setTimeout(function () {
-      const list = thumbs();
-      const i = list.indexOf(el);
-      if (i >= 0) {
-        lastIndex = i;
-        centerRailOn(el, 'smooth');
-        schedule();
-      }
-    }, 0);
-  }, true);
-
-  const observer = new MutationObserver(function () {
-    schedule();
-  });
-  observer.observe(document.body, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ['class', 'src']
-  });
-
-  // More responsive than a timer, while still allowing the browser to paint.
-  schedule();
+    if(e.touches.length===1 && scale>1.01){
+      var t=e.touches[0]; panX=panBaseX+(t.clientX-panStartX)*.72; panY=panBaseY+(t.clientY-panStartY)*.72; apply(false); e.preventDefault();
+    }
+  },{passive:false});
+  wrap.addEventListener('touchend',function(e){if(e.touches.length<2) pinching=false; if(e.touches.length===0&&scale>1.01) apply(true);},{passive:false});
+  document.addEventListener('keydown',function(e){if(!State.lightboxOpen)return;if(e.key==='0')reset();});
+  var observer=new MutationObserver(function(){if(State.lightboxOpen&&State.lightboxIndex>=0){setTimeout(reset,0);}});
+  observer.observe(document.getElementById('lightboxImgCurrent'),{attributes:true,attributeFilter:['src']});
+  window.addEventListener('resize',function(){if(scale>1)apply(false);},{passive:true});
 })();
 </script>
 
 </body>
 
 </html>
+<style id="lightbox-fluent-filmstrip-v5">
+/* Fluent thumbnail rail — center-focused, glossy, continuous motion */
+#lightboxFilmstrip {
+  --fluent-ease: cubic-bezier(.16,1,.3,1);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.985),rgba(248,250,252,.94) 55%,rgba(241,245,249,.90)) !important;
+  border:1px solid rgba(255,255,255,.98) !important;
+  box-shadow:
+    0 -14px 36px rgba(15,23,42,.08),
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(15,23,42,.035) !important;
+  padding-top:14px !important;
+  padding-bottom:16px !important;
+}
+#lightboxFilmstrip .lightbox-thumb {
+  --focus:0;
+  --distance:999px;
+  transform:
+    translate3d(0, calc(var(--focus) * -7px), 0)
+    scale(calc(.94 + var(--focus) * .17)) !important;
+  opacity:calc(.48 + var(--focus) * .52) !important;
+  filter:saturate(calc(.72 + var(--focus) * .42)) brightness(calc(.97 + var(--focus) * .03)) !important;
+  border-color:rgba(255,255,255,.98) !important;
+  box-shadow:
+    0 7px 17px rgba(15,23,42,calc(.08 + var(--focus) * .18)),
+    0 0 calc(var(--focus) * 16px) rgba(var(--primary-rgb),calc(var(--focus) * .24)),
+    inset 0 1px 0 #fff !important;
+  transition:
+    transform 90ms linear,
+    opacity 90ms linear,
+    filter 90ms linear,
+    box-shadow 90ms linear,
+    border-color 90ms linear !important;
+}
+#lightboxFilmstrip .lightbox-thumb::after {
+  opacity:calc(.18 + var(--focus) * .58) !important;
+  transition:opacity 90ms linear !important;
+}
+#lightboxFilmstrip .lightbox-thumb.active {
+  border:2px solid rgb(var(--primary-rgb)) !important;
+  box-shadow:
+    0 15px 30px rgba(var(--primary-rgb),.28),
+    0 0 0 3px rgba(255,255,255,.98),
+    0 0 0 5px rgba(var(--primary-rgb),.20),
+    inset 0 1px 0 #fff !important;
+}
+#lightboxFilmstrip .lightbox-thumb.active::before {
+  opacity:1 !important;
+  transform:scale(1) !important;
+  box-shadow:0 0 20px rgba(var(--primary-rgb),.16);
+}
+#lightboxFilmstrip.is-dragging .lightbox-thumb {
+  transition:none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #lightboxFilmstrip .lightbox-thumb { transition:none !important; }
+}
+</style>
+
+<script id="lightbox-fluent-center-v5">
+(function () {
+  var rail = document.getElementById('lightboxFilmstrip');
+  if (!rail) return;
+  var raf = 0, lastCenter = -1, thumbs = [];
+
+  function refresh() {
+    thumbs = Array.prototype.slice.call(rail.querySelectorAll('.lightbox-thumb'));
+    update(true);
+  }
+
+  function update(force) {
+    if (!thumbs.length) return;
+    var railRect = rail.getBoundingClientRect();
+    var center = railRect.left + railRect.width / 2;
+    var maxDistance = Math.max(42, Math.min(150, railRect.width * .22));
+    var nearest = -1, nearestDistance = Infinity;
+
+    for (var i = 0; i < thumbs.length; i++) {
+      var rect = thumbs[i].getBoundingClientRect();
+      var thumbCenter = rect.left + rect.width / 2;
+      var distance = Math.abs(thumbCenter - center);
+      if (distance < nearestDistance) { nearestDistance = distance; nearest = i; }
+      var focus = Math.max(0, 1 - distance / maxDistance);
+      focus = focus * focus * (3 - 2 * focus); /* smoothstep */
+      thumbs[i].style.setProperty('--focus', focus.toFixed(3));
+      thumbs[i].style.setProperty('--distance', distance.toFixed(1) + 'px');
+    }
+
+    if (nearest !== lastCenter || force) {
+      lastCenter = nearest;
+      for (var j = 0; j < thumbs.length; j++) {
+        thumbs[j].classList.toggle('drag-focus', j === nearest);
+      }
+    }
+  }
+
+  function schedule() {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = 0; update(false); });
+  }
+
+  rail.addEventListener('scroll', schedule, { passive:true });
+  window.addEventListener('resize', refresh, { passive:true });
+  new MutationObserver(refresh).observe(rail, { childList:true });
+  refresh();
+})();
+</script>

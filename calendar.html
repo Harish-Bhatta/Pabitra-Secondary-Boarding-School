@@ -793,6 +793,55 @@
             color: #fff !important; border-color: transparent !important;
         }
 
+        /* ===== GLOSSY SIDEBAR BUTTONS + ACTIVE RESOURCE STATE ===== */
+        .sidebar-links .sidebar-link-btn {
+            border: 1px solid rgba(255,255,255,0.28);
+            background: linear-gradient(180deg, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.14) 48%, rgba(255,255,255,0.05) 100%);
+            box-shadow: 0 5px 14px rgba(15,23,42,0.07), inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(15,23,42,0.04);
+            backdrop-filter: blur(12px) saturate(160%);
+            -webkit-backdrop-filter: blur(12px) saturate(160%);
+        }
+        .sidebar-links .sidebar-link-btn::before {
+            content: ''; position: absolute; left: 7%; right: 7%; top: 5%; height: 38%;
+            border-radius: 999px; pointer-events: none;
+            background: linear-gradient(180deg, rgba(255,255,255,0.68), rgba(255,255,255,0));
+            opacity: .7; transition: opacity .3s ease;
+        }
+        .sidebar-links .sidebar-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(15,23,42,0.11), inset 0 1px 0 rgba(255,255,255,0.85);
+            border-color: rgba(255,255,255,0.55);
+        }
+        .sidebar-links .sidebar-link-btn:active { transform: translateY(0) scale(.975); }
+        .sidebar-links .sidebar-link-btn.active {
+            color: #fff;
+            background: var(--primary-gradient) !important;
+            border-color: transparent !important;
+            box-shadow: 0 9px 24px rgba(243,156,18,.34), inset 0 1px 0 rgba(255,255,255,.48);
+            transform: translateY(-1px);
+        }
+        .sidebar-links .sidebar-link-btn.active::before { opacity: .85; }
+        .sidebar-links .sidebar-link-btn.active .nav-title { color: #fff !important; font-weight: 700; }
+        .sidebar-links .sidebar-link-btn.active .nav-icon-wrapper {
+            color: #fff !important; background: rgba(255,255,255,.17) !important;
+            border-color: rgba(255,255,255,.18) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+        }
+        body.dark .sidebar-links .sidebar-link-btn {
+            border-color: rgba(255,255,255,.08);
+            background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.025));
+            box-shadow: 0 5px 16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.12);
+        }
+        body.dark .sidebar-links .sidebar-link-btn.active {
+            background: var(--primary-gradient) !important;
+            box-shadow: 0 10px 28px rgba(243,156,18,.42), inset 0 1px 0 rgba(255,255,255,.3);
+        }
+
+        /* Keep the glossy treatment consistent across sidebar/header controls. */
+        .sidebar-close, .sidebar-link-btn, .panel-tab, .notice-close, .doc-close {
+            -webkit-font-smoothing: antialiased;
+        }
+
         .sidebar-footer-wrap {
             padding: 8px var(--sb-inner-padding) 12px;
             display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
@@ -3063,6 +3112,7 @@
             themePresetsCloseBtn: $('#themePresetsCloseBtn'), themePresetsApplyBtn: $('#themePresetsApplyBtn'),
             sidebarShareBtn: $('#sidebarShareBtn'),
             sidebarDocumentsBtn: $('#sidebarDocumentsBtn'),
+            sidebarNoticesBtn: $('#sidebarNoticesBtn'),
             headerThemePresetsBtn: $('#headerThemePresetsBtn'),
             headerThemeToggleBtn: $('#headerThemeToggleBtn'),
             dragTrail: $('#dragTrail'),
@@ -3153,6 +3203,7 @@
 
                 State.isNoticeOpen = (which === 'notice');
                 State.isDocumentsOpen = (which === 'documents');
+                syncSidebarResourceActive(which);
 
                 if (which === 'notice') {
                     NoticeManager.markAllAsRead();
@@ -3202,6 +3253,7 @@
                 State.panelOpen = false;
                 this._isOpen = false;
                 this.current = null;
+                syncSidebarResourceActive(null);
 
                 if (DOM.docSearchInput) DOM.docSearchInput.blur();
                 closeAllDocMenus();
@@ -3215,6 +3267,11 @@
                 if (wasOpen && State.openCount > 0) State.openCount--;
             }
         };
+
+        function syncSidebarResourceActive(which) {
+            if (DOM.sidebarDocumentsBtn) DOM.sidebarDocumentsBtn.classList.toggle('active', which === 'documents');
+            if (DOM.sidebarNoticesBtn) DOM.sidebarNoticesBtn.classList.toggle('active', which === 'notice');
+        }
 
         document.querySelectorAll('.panel-tab').forEach(function (btn, i, arr) {
             btn.addEventListener('click', function (e) {
@@ -3257,6 +3314,10 @@
         if (DOM.sidebarDocumentsBtn) DOM.sidebarDocumentsBtn.addEventListener('click', function () {
             closeSidebar();
             setTimeout(function () { RightPanel.open('documents'); }, 120);
+        });
+        if (DOM.sidebarNoticesBtn) DOM.sidebarNoticesBtn.addEventListener('click', function () {
+            closeSidebar();
+            setTimeout(function () { RightPanel.open('notice'); }, 120);
         });
         if (DOM.ddDocumentsBtn) DOM.ddDocumentsBtn.addEventListener('click', function (e) {
             e.stopPropagation();

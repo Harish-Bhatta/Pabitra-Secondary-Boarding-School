@@ -3334,8 +3334,6 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .hero-text-col 
-  }
 </style>
 
 <style id="psbs-gallery-page-polish">
@@ -3930,14 +3928,6 @@ body.dark .gx-pager .page-indicator {
         <main id="main-content" role="main">
 
             <!-- ===== GALLERY PAGE ===== -->
-
-            <!-- ===== ABOUT ===== -->
-
-            <!-- ===== ACADEMICS ===== -->
-
-            <!-- ===== FACULTY ===== -->
-
-            <!-- ===== GALLERY ===== -->
             <section id="gallery" class="gx" aria-labelledby="gxTitle">
                 <header class="gx-hero">
                     <p class="gx-eyebrow">PSBS • School Life</p>
@@ -3972,20 +3962,8 @@ body.dark .gx-pager .page-indicator {
                 </div>
             </section>
 
-            <!-- ===== WHY PSBS ===== -->
-
-            <!-- ===== FAQ ===== -->
-
-            <!-- ===== CONTACT ===== -->
-
         </main>
 
-
-        <div class="fab-container">
-            <button class="fab-btn ripple-host" id="fabTop" aria-label="Back to top"><span class="fab-progress" aria-hidden="true"></span>
-                <i class="ri-arrow-up-line" aria-hidden="true"></i>
-            </button>
-        </div>
 
     </div>
 
@@ -4035,7 +4013,7 @@ body.dark .gx-pager .page-indicator {
             TOAST_DURATION: 3200,
             SWIPE_THRESHOLD: 50,
             PANEL_SWIPE_THRESHOLD: 55,
-            GALLERY_BATCH_SIZE: 12,
+            GALLERY_BATCH_SIZE: 10,
             THEME_KEY: 'psbs_theme',
             PROFILE_KEY: 'psbs_profile',
             THEME_PRESET_KEY: 'psbs_theme_preset',
@@ -6649,7 +6627,7 @@ body.dark .gx-pager .page-indicator {
         setTimeout(updateActiveSection, 100);
 
         // ===== FAB =====
-        DOM.fabTop.addEventListener('click', function () {
+        if (DOM.fabTop) DOM.fabTop.addEventListener('click', function () {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
@@ -7337,6 +7315,8 @@ body.dark .gx-pager > button:disabled {
 .gallery-pagination button:disabled i,
 .gx-pager > button:disabled i { opacity: .8 !important; }
 </style>
+
+
 
 </body>
 

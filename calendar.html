@@ -2931,6 +2931,73 @@
         }
 
     </style>
+
+    <!-- Final primary-action button consistency fix -->
+    <style id="primary-action-button-fix">
+        /* Match Continue, Continue to Dashboard, and Apply Theme to the sidebar Call button. */
+        #nameForm button[type="submit"],
+        #welcomeCard #welcomeCloseBtn,
+        #themePresetsModal #themePresetsApplyBtn {
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            box-sizing: border-box !important;
+            min-height: 46px !important;
+            height: 46px !important;
+            width: 100% !important;
+            padding: 0 22px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            border-radius: 999px !important;
+            background: var(--primary-gradient) !important;
+            color: #fff !important;
+            border: 1px solid transparent !important;
+            font-family: inherit !important;
+            font-size: 0.9rem !important;
+            font-weight: 700 !important;
+            line-height: 1 !important;
+            letter-spacing: 0.01em !important;
+            text-decoration: none !important;
+            text-shadow: none !important;
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.38),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            position: relative !important;
+            overflow: hidden !important;
+            cursor: pointer !important;
+            transition: transform 0.35s var(--spring),
+                        box-shadow 0.35s var(--snap),
+                        background 0.35s ease !important;
+        }
+        #nameForm button[type="submit"]::before,
+        #welcomeCard #welcomeCloseBtn::before,
+        #themePresetsModal #themePresetsApplyBtn::before {
+            display: none !important;
+            content: none !important;
+        }
+        #nameForm button[type="submit"]:hover,
+        #welcomeCard #welcomeCloseBtn:hover,
+        #themePresetsModal #themePresetsApplyBtn:hover {
+            filter: brightness(1.04) !important;
+        }
+        #nameForm button[type="submit"]:active,
+        #welcomeCard #welcomeCloseBtn:active,
+        #themePresetsModal #themePresetsApplyBtn:active {
+            transform: scale(0.97) !important;
+        }
+        body.dark #nameForm button[type="submit"],
+        body.dark #welcomeCard #welcomeCloseBtn,
+        body.dark #themePresetsModal #themePresetsApplyBtn {
+            background: var(--primary-gradient) !important;
+            color: #fff !important;
+            border-color: transparent !important;
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+        }
+    </style>
+
 </head>
 
 <body>

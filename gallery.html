@@ -3483,6 +3483,93 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
 .gxv-stage.pop .gxv-slide:nth-child(2) img{transform-origin:var(--ox,50%) var(--oy,50%);animation:gxPop .34s cubic-bezier(.22,1,.36,1) both}
 @media(prefers-reduced-motion:reduce){.gx-grid,.gx-card,.gx-card img,.gx-feat-img img,.gx-btn,.gxv,.gxv-slide img,.js-rv .gx-rv{transition:none!important;animation:none!important}.js-rv .gx-rv{opacity:1;transform:none}.gx-card.is-load,.gx-card.is-skel{animation:none!important}.gxv-stage.pop .gxv-slide:nth-child(2) img{animation:none}}
 </style>
+
+<style id="gallery-viewer-theme-cleanup">
+/* Keep gallery cards clean: image-opening is handled by tapping the photo itself. */
+.gx-open { display: none !important; }
+
+/* Image viewer follows the active site theme: light by default, dark only in dark mode. */
+.gxv { background: #f8fafc !important; color: #172033 !important; color-scheme: light; }
+.gxv-bar { background: rgba(255,255,255,.92) !important; border-bottom-color: rgba(15,23,42,.10) !important; }
+.gxv-b { color: #263247 !important; }
+.gxv-b:hover { background: rgba(15,23,42,.07) !important; }
+.gxv-nav { background: rgba(255,255,255,.88) !important; color: #172033 !important; border-color: rgba(15,23,42,.14) !important; box-shadow: 0 4px 16px rgba(15,23,42,.10); }
+.gxv-nav:hover { background: #fff !important; }
+.gxv-spin { border-color: rgba(15,23,42,.14); border-top-color: var(--primary); }
+.gxv-fb { color: #64748b !important; }
+.gxv-fb button { color: #334155 !important; border-color: rgba(15,23,42,.22) !important; }
+.gxv-info p { color: #64748b !important; }
+.gxv-info p.m { color: var(--primary-dark, var(--primary)) !important; }
+.gxv-strip button { background: #e2e8f0 !important; }
+body.dark .gxv { background: #0b0d11 !important; color: #eef1f6 !important; color-scheme: dark; }
+body.dark .gxv-bar { background: rgba(255,255,255,.05) !important; border-bottom-color: rgba(255,255,255,.07) !important; }
+body.dark .gxv-b { color: #eef1f6 !important; }
+body.dark .gxv-b:hover { background: rgba(255,255,255,.12) !important; }
+body.dark .gxv-nav { background: rgba(20,22,28,.65) !important; color: #fff !important; border-color: rgba(255,255,255,.16) !important; box-shadow: none; }
+body.dark .gxv-nav:hover { background: rgba(255,255,255,.18) !important; }
+body.dark .gxv-spin { border-color: rgba(255,255,255,.2); border-top-color: var(--primary); }
+body.dark .gxv-fb { color: #b9c1cf !important; }
+body.dark .gxv-fb button { color: #fff !important; border-color: rgba(255,255,255,.25) !important; }
+body.dark .gxv-info p { color: #b9c1cf !important; }
+body.dark .gxv-info p.m { color: var(--primary-light) !important; }
+body.dark .gxv-strip button { background: #1a1d24 !important; }
+</style>
+
+
+<style id="gallery-outside-pagination-polish">
+/* Keep navigation outside the photo itself; polish the gallery's page controls. */
+#gxViewer .gxv-nav { display: none !important; }
+.gx-pager {
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  flex-wrap:wrap; padding:22px 16px 8px; margin:8px auto 0;
+}
+.gx-pager > button {
+  appearance:none; -webkit-appearance:none; position:relative; isolation:isolate;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  min-width:112px; min-height:46px; padding:0 19px;
+  border:1px solid rgba(99,102,241,.20); border-radius:16px;
+  background:linear-gradient(135deg, #ffffff 0%, #f1f5ff 100%);
+  color:#334155; font:700 .9rem/1 inherit; letter-spacing:.01em;
+  box-shadow:0 7px 18px rgba(30,41,59,.08), inset 0 1px 0 rgba(255,255,255,.95);
+  cursor:pointer; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+.gx-pager > button:hover:not(:disabled) {
+  transform:translateY(-2px); border-color:rgba(99,102,241,.48);
+  box-shadow:0 12px 24px rgba(79,70,229,.15), inset 0 1px 0 rgba(255,255,255,.95);
+  background:linear-gradient(135deg,#fff 0%,#e8edff 100%);
+}
+.gx-pager > button:active:not(:disabled) { transform:translateY(0) scale(.98); }
+.gx-pager > button:focus-visible { outline:3px solid rgba(99,102,241,.42); outline-offset:3px; }
+.gx-pager > button:disabled { opacity:.42; cursor:not-allowed; box-shadow:none; }
+.gx-pager .page-indicator {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:78px; min-height:42px; padding:0 15px;
+  border:1px solid rgba(99,102,241,.18); border-radius:14px;
+  background:rgba(99,102,241,.075); color:#4f46e5;
+  font-size:.86rem; font-weight:800; font-variant-numeric:tabular-nums;
+  letter-spacing:.07em; box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+}
+body.dark .gx-pager > button {
+  color:#e5e7eb; border-color:rgba(165,180,252,.20);
+  background:linear-gradient(135deg,#202638 0%,#171c2a 100%);
+  box-shadow:0 8px 20px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
+}
+body.dark .gx-pager > button:hover:not(:disabled) {
+  border-color:rgba(165,180,252,.48); background:linear-gradient(135deg,#293149 0%,#20283c 100%);
+  box-shadow:0 12px 24px rgba(0,0,0,.28), 0 0 0 1px rgba(129,140,248,.08);
+}
+body.dark .gx-pager .page-indicator {
+  color:#c7d2fe; border-color:rgba(165,180,252,.18); background:rgba(129,140,248,.13);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+@media(max-width:420px) {
+  .gx-pager { gap:8px; padding-inline:8px; }
+  .gx-pager > button { min-width:0; min-height:43px; padding:0 13px; border-radius:14px; }
+  .gx-pager .page-indicator { min-width:64px; min-height:40px; padding:0 10px; }
+}
+@media(prefers-reduced-motion:reduce) { .gx-pager > button { transition:none; } }
+</style>
+
 </head>
 
 <body>
@@ -4912,7 +4999,7 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
                 h += '<button type="button" class="gx-card is-load" data-i="' + i + '" aria-label="Open photo ' + (i + 1) + ' of ' + l.length + (it.title ? ': ' + gxEsc(it.title) : '') + '">' +
                     '<img src="' + gxEsc(it.thumb || it.src) + '" alt="' + gxEsc(it.title || it.caption || 'School photo ' + (i + 1)) + '" decoding="async" ' + (i - s < 4 ? 'fetchpriority="high"' : 'loading="lazy"') + '>' +
                     ((it.title || sub) ? '<span class="gx-cap">' + gxEsc(it.title) + (sub ? '<small>' + gxEsc(sub) + '</small>' : '') + '</span>' : '') +
-                    '<i class="ri-expand-diagonal-line gx-open" aria-hidden="true"></i></button>';
+                    '</button>';
             }
             grid.innerHTML = h;
             if (pager) pager.hidden = tp < 2;
@@ -7096,119 +7183,159 @@ body.dark .gallery-pagination button, body.dark .btn-glossy {
 
 
 <style id="gallery-pagination-cleanup">
-/* Gallery pagination: clean, restrained controls, independent of the global glossy-button system. */
+/* Premium outside-gallery pagination: vivid jewel gradient, crisp contrast, polished counter. */
+.gallery-pagination {
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  gap:clamp(10px,2vw,16px) !important; margin-top:24px !important; flex-wrap:wrap;
+}
 .gallery-pagination button {
-  min-height: 42px !important; min-width: 96px !important; padding: 0 17px !important;
-  border-radius: 13px !important; border: 1px solid var(--card-ring, var(--border)) !important;
-  color: var(--text) !important; background: var(--glass-fill, var(--surface)) !important;
-  background-image: none !important; text-shadow: none !important;
-  box-shadow: 0 3px 10px rgba(15, 23, 42, .08), inset 0 1px 0 rgba(255,255,255,.55) !important;
-  font-size: .875rem !important; font-weight: 650 !important; letter-spacing: .01em;
-  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease !important;
+  min-height:46px !important; min-width:112px !important; padding:0 21px !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important; gap:9px !important;
+  border:1px solid rgba(255,255,255,.48) !important; border-radius:15px !important;
+  color:#fff !important; background:linear-gradient(135deg,#6657e8 0%,#8b45d6 52%,#b044c5 100%) !important;
+  background-image:linear-gradient(135deg,#6657e8 0%,#8b45d6 52%,#b044c5 100%) !important;
+  font-size:.9rem !important; font-weight:700 !important; letter-spacing:.015em !important;
+  text-shadow:0 1px 2px rgba(28,18,90,.22) !important;
+  box-shadow:0 7px 17px rgba(104,77,219,.25),0 2px 4px rgba(55,35,130,.12),inset 0 1px 0 rgba(255,255,255,.3) !important;
+  transition:transform .22s ease,box-shadow .22s ease,filter .22s ease !important;
+  position:relative !important; overflow:hidden !important;
 }
-.gallery-pagination button::before, .gallery-pagination button::after {
-  content: none !important; display: none !important; animation: none !important;
-}
+.gallery-pagination button::before,.gallery-pagination button::after { content:none !important; display:none !important; }
 .gallery-pagination button:hover:not(:disabled) {
-  border-color: var(--primary) !important;
-  box-shadow: 0 5px 14px rgba(15, 23, 42, .12) !important;
-  transform: translateY(-1px);
+  filter:saturate(1.12) brightness(1.06) !important; transform:translateY(-2px) !important;
+  box-shadow:0 11px 23px rgba(104,77,219,.32),0 3px 7px rgba(55,35,130,.14),inset 0 1px 0 rgba(255,255,255,.36) !important;
 }
-.gallery-pagination button:active:not(:disabled) { transform: scale(.98) !important; }
-.gallery-pagination button:disabled { opacity: .42 !important; box-shadow: none !important; }
+.gallery-pagination button:active:not(:disabled) { transform:translateY(0) scale(.97) !important; }
+.gallery-pagination button:disabled { opacity:.38 !important; filter:grayscale(.22) !important; box-shadow:none !important; cursor:not-allowed !important; }
 .gallery-pagination .page-indicator {
-  min-height: 38px; padding: 0 14px; border-radius: 11px; box-shadow: none;
+  min-height:42px !important; min-width:76px !important; padding:0 16px !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  border-radius:14px !important; border:1px solid rgba(112,91,225,.2) !important;
+  color:#5543c7 !important; background:linear-gradient(145deg,#f5f2ff,#fff) !important;
+  font-size:.9rem !important; font-weight:800 !important; letter-spacing:.06em !important;
+  box-shadow:0 4px 12px rgba(86,66,180,.09),inset 0 1px 0 #fff !important;
 }
 body.dark .gallery-pagination button {
-  background: var(--glass-fill, var(--surface)) !important;
-  border-color: var(--card-ring, var(--border)) !important;
-  box-shadow: 0 3px 10px rgba(0,0,0,.16) !important;
+  color:#fff !important; background:linear-gradient(135deg,#5548c9 0%,#773cb7 55%,#9238a7 100%) !important;
+  background-image:linear-gradient(135deg,#5548c9 0%,#773cb7 55%,#9238a7 100%) !important;
+  border-color:rgba(210,202,255,.22) !important;
+  box-shadow:0 7px 19px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.17) !important;
 }
-
-/* Final polish: compact merged admissions and glossy outlined contact actions */
-#admissions.admissions-subsection { border: 0 !important; background: transparent !important; box-shadow: none !important; }
-#admissions .admissions-heading { padding-top: 2px; }
-#admissions .steps { gap: 12px; }
-#contact .contact-btn,
-#contact a.btn-glossy,
-#contact a.btn-glass,
-#contact button.btn-glossy,
-#contact button.btn-glass {
-    border: 1px solid rgba(255,255,255,.72) !important;
-    outline: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
-    outline-offset: -3px;
-    box-shadow: 0 8px 22px rgba(15,23,42,.11), inset 0 1px 0 rgba(255,255,255,.62), inset 0 -1px 0 rgba(255,255,255,.12) !important;
-    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+body.dark .gallery-pagination button:hover:not(:disabled) { box-shadow:0 11px 24px rgba(0,0,0,.36),0 0 0 3px rgba(143,124,255,.12) !important; }
+body.dark .gallery-pagination .page-indicator {
+  color:#e3dcff !important; background:linear-gradient(145deg,#28243e,#1d1b2e) !important;
+  border-color:rgba(166,148,255,.3) !important; box-shadow:0 4px 12px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.06) !important;
 }
-#contact .contact-btn { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; }
-#contact a.btn-glossy, #contact button.btn-glossy { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; }
-#contact a.btn-glass, #contact button.btn-glass { background: linear-gradient(135deg, var(--surface-solid), var(--surface)); color: var(--text); border-color: color-mix(in srgb, var(--primary) 48%, white) !important; }
-#contact .contact-btn:hover, #contact a.btn-glossy:hover, #contact a.btn-glass:hover, #contact button.btn-glossy:hover, #contact button.btn-glass:hover {
-    transform: translateY(-2px); border-color: rgba(255,255,255,.95) !important;
-    box-shadow: 0 12px 28px rgba(15,23,42,.17), inset 0 1px 0 rgba(255,255,255,.78) !important;
+@media(max-width:420px) {
+  .gallery-pagination { gap:8px !important; }
+  .gallery-pagination button { min-width:98px !important; min-height:43px !important; padding:0 14px !important; font-size:.84rem !important; }
+  .gallery-pagination .page-indicator { min-width:62px !important; min-height:39px !important; padding:0 11px !important; font-size:.84rem !important; }
 }
-#contact .contact-btn:focus-visible, #contact a.btn-glossy:focus-visible, #contact a.btn-glass:focus-visible, #contact button:focus-visible { outline: 3px solid var(--primary-light); outline-offset: 3px; }
-@media (max-width: 520px) {
-    #admissions.admissions-subsection { margin-top: 22px; }
-    #contact .contact-btn, #contact a.btn-glossy, #contact a.btn-glass, #contact button.btn-glossy, #contact button.btn-glass { max-width: 100%; }
-}
+@media(prefers-reduced-motion:reduce) { .gallery-pagination button { transition:none !important; } }
+</style>
 
 
-/* ---------- Final refinement: compact footer + premium floating top control ---------- */
-.footer {
-    margin-top: 24px !important;
-    padding: 28px var(--container-padding) 12px !important;
-    border-radius: 28px 28px 0 0 !important;
+<style id="gallery-pagination-primary-theme">
+/* Pagination follows the site's active theme color automatically. */
+.gallery-pagination, .gx-pager {
+  gap: clamp(9px, 1.8vw, 14px) !important;
 }
-.footer-container { gap: 18px !important; }
-.footer-brand { gap: 9px !important; margin-bottom: 7px !important; }
-.footer-brand img { width: 38px !important; height: 38px !important; }
-.footer-box p { line-height: 1.5 !important; margin-bottom: 0 !important; }
-.footer-social { margin-top: 9px !important; gap: 8px !important; }
-.footer-social a { width: 34px !important; height: 34px !important; font-size: 1rem !important; }
-.footer-cta { margin-top: 10px !important; gap: 7px !important; }
-.footer-box h3 { margin-bottom: 6px !important; }
-.footer-links { gap: 5px !important; }
-.footer-links a, .footer-links li { font-size: .82rem !important; line-height: 1.35 !important; }
-.footer-bottom { margin-top: 12px !important; padding-top: 10px !important; }
-.footer-bottom p { font-size: .75rem !important; line-height: 1.45 !important; margin: 0 !important; }
+.gallery-pagination button, .gx-pager > button {
+  color: #fff !important;
+  background: var(--primary-gradient) !important;
+  background-image: var(--primary-gradient) !important;
+  border: 1px solid rgba(255,255,255,.42) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 7px 18px rgba(var(--primary-rgb), .28),
+              inset 0 1px 0 rgba(255,255,255,.28) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.14) !important;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease !important;
+}
+.gallery-pagination button:hover:not(:disabled), .gx-pager > button:hover:not(:disabled) {
+  filter: brightness(1.07) saturate(1.05) !important;
+  border-color: rgba(255,255,255,.68) !important;
+  box-shadow: 0 11px 25px rgba(var(--primary-rgb), .36),
+              inset 0 1px 0 rgba(255,255,255,.34) !important;
+  transform: translateY(-2px) !important;
+}
+.gallery-pagination button:active:not(:disabled), .gx-pager > button:active:not(:disabled) {
+  transform: translateY(0) scale(.975) !important;
+}
+.gallery-pagination button:disabled, .gx-pager > button:disabled {
+  opacity: .42 !important; filter: saturate(.65) !important; box-shadow: none !important;
+}
+.gallery-pagination .page-indicator, .gx-pager .page-indicator {
+  color: var(--primary-dark, var(--primary)) !important;
+  background: linear-gradient(145deg, rgba(var(--primary-rgb), .13), var(--surface-solid, #fff)) !important;
+  border: 1px solid rgba(var(--primary-rgb), .26) !important;
+  border-radius: 13px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 4px 12px rgba(var(--primary-rgb), .08) !important;
+  font-weight: 800 !important;
+  font-variant-numeric: tabular-nums !important;
+}
+body.dark .gallery-pagination .page-indicator, body.dark .gx-pager .page-indicator {
+  color: var(--primary-light, #c4b5fd) !important;
+  background: linear-gradient(145deg, rgba(var(--primary-rgb), .22), rgba(255,255,255,.035)) !important;
+  border-color: rgba(var(--primary-rgb), .4) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 4px 12px rgba(0,0,0,.2) !important;
+}
+body.dark .gallery-pagination button, body.dark .gx-pager > button {
+  background: var(--primary-gradient) !important;
+  background-image: var(--primary-gradient) !important;
+  border-color: rgba(255,255,255,.22) !important;
+  box-shadow: 0 7px 20px rgba(0,0,0,.26), 0 0 0 1px rgba(var(--primary-rgb), .12) !important;
+}
+body.dark .gallery-pagination button:hover:not(:disabled), body.dark .gx-pager > button:hover:not(:disabled) {
+  box-shadow: 0 10px 25px rgba(0,0,0,.32), 0 0 0 3px rgba(var(--primary-rgb), .16) !important;
+}
+@media (max-width: 420px) {
+  .gallery-pagination button, .gx-pager > button { min-width: 96px !important; min-height: 43px !important; padding: 0 13px !important; }
+  .gallery-pagination .page-indicator, .gx-pager .page-indicator { min-width: 62px !important; min-height: 39px !important; padding: 0 11px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-pagination button, .gx-pager > button { transition: none !important; }
+}
+</style>
 
-/* Compact two-column quick links on phones to reduce footer height. */
-@media (max-width: 767px) {
-    .footer { padding-top: 22px !important; }
-    .footer-container { gap: 16px !important; }
-    .footer-box.links-box .footer-links { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; row-gap: 6px !important; }
-    .footer-box.contact-box .footer-links { gap: 5px !important; }
-}
 
-/* Floating back-to-top: compact glass button with a clear progress halo. */
-.fab-container { right: 18px !important; bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; }
-.fab-btn {
-    width: 48px !important; height: 48px !important; border-radius: 50% !important;
-    color: #fff !important; font-size: 1.15rem !important;
-    border: 2px solid rgba(255,255,255,.78) !important;
-    background: linear-gradient(145deg, color-mix(in srgb, var(--primary-light) 88%, white), var(--primary)) !important;
-    box-shadow: 0 8px 24px rgba(var(--primary-rgb), .38), inset 0 1px 0 rgba(255,255,255,.72), inset 0 -2px 5px rgba(0,0,0,.12) !important;
-    isolation: isolate;
-}
-/* Remove the reflective sheen overlay only; retain the glossy border and progress ring. */
-.fab-btn::before { content: none !important; display: none !important; }
-.fab-btn::after {
-    content: ""; position: absolute; inset: -4px; border-radius: inherit; padding: 2px;
-    background: conic-gradient(from -90deg, rgba(255,255,255,.98) calc(var(--scroll-pct, 0) * 1%), rgba(255,255,255,.2) 0);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: -1;
-}
-.fab-btn .fab-progress { inset: 4px !important; border: 1px solid rgba(255,255,255,.3) !important; }
-.fab-btn i { filter: drop-shadow(0 1px 2px rgba(0,0,0,.22)); }
-.fab-btn.show { animation: fabEnter .28s cubic-bezier(.2,.8,.2,1) both; }
-@keyframes fabEnter { from { opacity: 0; transform: translateY(10px) scale(.86); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@media (hover: hover) and (pointer: fine) {
-    .fab-btn.show:hover { transform: translateY(-3px) scale(1.04) !important; box-shadow: 0 12px 28px rgba(var(--primary-rgb), .48), inset 0 1px 0 rgba(255,255,255,.78) !important; }
-}
-.fab-btn:focus-visible { outline: 3px solid var(--primary-light) !important; outline-offset: 4px !important; }
-@media (prefers-reduced-motion: reduce) { .fab-btn.show { animation: none !important; } }
 
+<style id="gallery-pagination-inactive-luxe">
+/* Disabled/inactive controls stay colorful and intentional instead of turning dark or gray. */
+.gallery-pagination button:disabled,
+.gx-pager > button:disabled {
+  opacity: 1 !important;
+  filter: none !important;
+  color: var(--primary-dark, var(--primary)) !important;
+  background: linear-gradient(135deg,
+    rgba(var(--primary-rgb), .16) 0%,
+    rgba(var(--primary-rgb), .08) 55%,
+    var(--surface-solid, #fff) 100%) !important;
+  background-image: linear-gradient(135deg,
+    rgba(var(--primary-rgb), .16) 0%,
+    rgba(var(--primary-rgb), .08) 55%,
+    var(--surface-solid, #fff) 100%) !important;
+  border: 1px solid rgba(var(--primary-rgb), .24) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.78),
+              0 4px 12px rgba(var(--primary-rgb), .09) !important;
+  cursor: not-allowed !important;
+}
+body.dark .gallery-pagination button:disabled,
+body.dark .gx-pager > button:disabled {
+  color: var(--primary-light, #d8ccff) !important;
+  background: linear-gradient(135deg,
+    rgba(var(--primary-rgb), .23) 0%,
+    rgba(var(--primary-rgb), .13) 58%,
+    rgba(255,255,255,.045) 100%) !important;
+  background-image: linear-gradient(135deg,
+    rgba(var(--primary-rgb), .23) 0%,
+    rgba(var(--primary-rgb), .13) 58%,
+    rgba(255,255,255,.045) 100%) !important;
+  border-color: rgba(var(--primary-rgb), .36) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08),
+              0 4px 13px rgba(0,0,0,.16) !important;
+}
+.gallery-pagination button:disabled i,
+.gx-pager > button:disabled i { opacity: .8 !important; }
 </style>
 
 </body>

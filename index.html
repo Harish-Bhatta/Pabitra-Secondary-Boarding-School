@@ -7239,8 +7239,167 @@ body.dark .gallery-pagination button {
 .fab-btn:focus-visible { outline: 3px solid var(--primary-light) !important; outline-offset: 4px !important; }
 @media (prefers-reduced-motion: reduce) { .fab-btn.show { animation: none !important; } }
 
+
+
+/* Subtle glossy border for Save Changes only; no shine overlay on the button face. */
+.edit-modal-card .modal-actions .save-btn {
+    border: 1px solid color-mix(in srgb, var(--primary) 58%, white) !important;
+    box-shadow: 0 2px 7px rgba(var(--primary-rgb), .16),
+                inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+.edit-modal-card .modal-actions .save-btn:hover {
+    border-color: color-mix(in srgb, var(--primary) 38%, white) !important;
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), .22),
+                inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+.edit-modal-card .modal-actions .save-btn:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+}
+</style>
+
+
+
+<style id="calendar-save-changes-button-css">
+/* Save Changes button CSS copied from calendar.html */
+        .edit-modal-card .modal-actions .save-btn {
+            flex: 2; padding: 10px; border-radius: var(--radius-sm);
+            background: var(--primary-gradient); color: #fff;
+            font-weight: 700; font-size: 0.9rem;
+            transition: all 0.3s var(--snap);
+            box-shadow: 0 4px 16px rgba(243, 156, 18, 0.25);
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            cursor: pointer; border: none;
+        }
+        .edit-modal-card .modal-actions .save-btn:active { transform: scale(0.97); }
+        .edit-modal-card .modal-actions .save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 </style>
 
 </body>
 
 </html>
+
+<style id="continue-buttons-glossy-border">
+/* Continue buttons: a simple glossy rim, without decorative corner marks. */
+.submit-btn,
+.welcome-card .welcome-btn {
+    border: 1px solid rgba(255, 255, 255, 0.78) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.18),
+                var(--btn-shadow);
+}
+body.dark .submit-btn,
+body.dark .welcome-card .welcome-btn {
+    border-color: rgba(255, 255, 255, 0.48) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+                var(--btn-shadow);
+}
+</style>
+
+<style id="save-changes-exact-calendar-style">
+/* Match the rounded glossy Save Changes button from calendar.html. */
+.edit-modal-card .modal-actions .save-btn {
+    min-height: 46px !important;
+    padding: 0 22px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: var(--primary-gradient) !important;
+    box-shadow: 0 12px 24px -10px rgba(var(--primary-rgb), 0.7),
+                0 2px 4px rgba(var(--primary-rgb), 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                inset 0 -2px 0 rgba(0, 0, 0, 0.08) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+    .edit-modal-card .modal-actions .save-btn:hover { transform: translateY(-2px); }
+}
+.edit-modal-card .modal-actions .save-btn:active { transform: scale(0.97) !important; }
+.edit-modal-card .modal-actions .save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+</style>
+
+<!-- Extra-glow unified Continue button styling -->
+<style id="extra-glow-continue-buttons">
+.submit-btn,
+.welcome-card .welcome-btn {
+    position: relative !important;
+    isolation: isolate;
+    overflow: hidden !important;
+    border: 1px solid rgba(255,255,255,.96) !important;
+    border-radius: 999px !important;
+    background: var(--primary-gradient) !important;
+    color: #fff !important;
+    box-shadow:
+        0 0 0 1px rgba(var(--primary-rgb), .48),
+        0 0 12px rgba(var(--primary-rgb), .55),
+        0 0 26px rgba(var(--primary-rgb), .34),
+        0 8px 22px rgba(var(--primary-rgb), .30),
+        inset 0 1px 0 rgba(255,255,255,.92),
+        inset 0 -2px 0 rgba(0,0,0,.10) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.22);
+    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease !important;
+}
+.submit-btn::after,
+.welcome-card .welcome-btn::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border: 1px solid rgba(255,255,255,.36);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -1;
+}
+.submit-btn::before,
+.welcome-card .welcome-btn::before {
+    content: "";
+    position: absolute;
+    left: 5%; right: 5%; top: 4%; height: 48%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,.48), rgba(255,255,255,0));
+    pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+    .submit-btn:hover,
+    .welcome-card .welcome-btn:hover {
+        transform: translateY(-2px) !important;
+        filter: brightness(1.06);
+        box-shadow:
+            0 0 0 1px rgba(var(--primary-rgb), .65),
+            0 0 16px rgba(var(--primary-rgb), .72),
+            0 0 34px rgba(var(--primary-rgb), .48),
+            0 12px 26px rgba(var(--primary-rgb), .38),
+            inset 0 1px 0 rgba(255,255,255,.98),
+            inset 0 -2px 0 rgba(0,0,0,.10) !important;
+    }
+}
+.submit-btn:active,
+.welcome-card .welcome-btn:active {
+    transform: scale(.97) !important;
+}
+.submit-btn:focus-visible,
+.welcome-card .welcome-btn:focus-visible {
+    outline: 2px solid var(--primary-light) !important;
+    outline-offset: 4px !important;
+}
+body.dark .submit-btn,
+body.dark .welcome-card .welcome-btn {
+    border-color: rgba(255,255,255,.82) !important;
+    box-shadow:
+        0 0 0 1px rgba(var(--primary-rgb), .58),
+        0 0 14px rgba(var(--primary-rgb), .62),
+        0 0 28px rgba(var(--primary-rgb), .38),
+        0 8px 22px rgba(0,0,0,.34),
+        inset 0 1px 0 rgba(255,255,255,.78),
+        inset 0 -2px 0 rgba(0,0,0,.14) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    .submit-btn, .welcome-card .welcome-btn { transition: none !important; }
+}
+</style>

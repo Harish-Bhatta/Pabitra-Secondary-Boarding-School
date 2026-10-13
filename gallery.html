@@ -7314,9 +7314,192 @@ body.dark .gx-pager > button:disabled {
 }
 .gallery-pagination button:disabled i,
 .gx-pager > button:disabled i { opacity: .8 !important; }
+
+
+        /* ===== COLORFUL EXTRA-GLOSSY BORDERS: requested buttons ===== */
+        #editNameSaveBtn,
+        #nameForm .submit-btn,
+        #welcomeCloseBtn {
+            color: #fff !important;
+            background: var(--primary-gradient, linear-gradient(135deg, #f39c12, #f5b041)) !important;
+            background-color: var(--primary, #f39c12) !important;
+            background-image: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,0) 52%), var(--primary-gradient, linear-gradient(135deg, #f39c12, #f5b041)) !important;
+            border: 2px solid var(--primary-light, #f5b041) !important;
+            outline: 1px solid rgba(255,255,255,.78) !important;
+            outline-offset: -4px;
+            box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary, #f39c12) 45%, transparent),
+                        0 0 12px color-mix(in srgb, var(--primary, #f39c12) 58%, transparent),
+                        0 7px 22px color-mix(in srgb, var(--primary, #f39c12) 36%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,.85),
+                        inset 0 -2px 0 rgba(0,0,0,.10) !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,.22);
+            transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+        }
+        #editNameSaveBtn:hover,
+        #nameForm .submit-btn:hover,
+        #welcomeCloseBtn:hover {
+            filter: brightness(1.08) saturate(1.12);
+            box-shadow: 0 0 0 2px rgba(255,255,255,.82),
+                        0 0 16px color-mix(in srgb, var(--primary-light, #f5b041) 85%, transparent),
+                        0 0 30px color-mix(in srgb, var(--primary, #f39c12) 55%, transparent),
+                        0 10px 26px color-mix(in srgb, var(--primary, #f39c12) 40%, transparent),
+                        inset 0 1px 0 rgba(255,255,255,.95) !important;
+            transform: translateY(-2px);
+        }
+        #editNameSaveBtn:active,
+        #nameForm .submit-btn:active,
+        #welcomeCloseBtn:active { transform: scale(.97); }
+        body.dark #editNameSaveBtn,
+        body.dark #nameForm .submit-btn,
+        body.dark #welcomeCloseBtn {
+            color: #fff !important;
+            background: var(--primary-gradient, linear-gradient(135deg, #f39c12, #f5b041)) !important;
+            background-image: linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,0) 52%), var(--primary-gradient, linear-gradient(135deg, #f39c12, #f5b041)) !important;
+            border-color: var(--primary-light, #f5b041) !important;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #editNameSaveBtn, #nameForm .submit-btn, #welcomeCloseBtn {
+                transition: none;
+            }
+        }
+
+    </style>
+
+
+
+
+
+<style id="shared-primary-action-button-style">
+  /* Match the four primary actions to the polished buttons used on the calendar page. */
+  #nameForm button[type="submit"],
+  #welcomeCard #welcomeCloseBtn,
+  #themePresetsModal #themePresetsApplyBtn,
+  #editNameSaveBtn {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-sizing: border-box !important;
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 22px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    border-radius: 999px !important;
+    background: var(--primary-gradient) !important;
+    background-image: var(--primary-gradient) !important;
+    background-color: var(--primary) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.38) !important;
+    font-family: inherit !important;
+    font-size: .9rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    letter-spacing: .01em !important;
+    text-decoration: none !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+    box-shadow:
+      0 8px 20px color-mix(in srgb, var(--primary) 34%, transparent),
+      0 2px 5px rgba(15,23,42,.08),
+      inset 0 1px 0 rgba(255,255,255,.48),
+      inset 0 -1px 0 rgba(0,0,0,.06) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    cursor: pointer !important;
+    transform: translateY(0);
+    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease !important;
+  }
+
+  /* Primary actions occupy their normal available width; Save stays beside Cancel. */
+  #nameForm button[type="submit"],
+  #themePresetsModal #themePresetsApplyBtn {
+    width: 100% !important;
+  }
+  #welcomeCard #welcomeCloseBtn {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  #editNameSaveBtn {
+    width: auto !important;
+    min-width: 0 !important;
+    flex: 2 1 0 !important;
+  }
+
+  #nameForm button[type="submit"]::before,
+  #nameForm button[type="submit"]::after,
+  #welcomeCard #welcomeCloseBtn::before,
+  #welcomeCard #welcomeCloseBtn::after,
+  #themePresetsModal #themePresetsApplyBtn::before,
+  #themePresetsModal #themePresetsApplyBtn::after,
+  #editNameSaveBtn::before,
+  #editNameSaveBtn::after {
+    content: none !important;
+    display: none !important;
+    animation: none !important;
+  }
+
+  #nameForm button[type="submit"]:hover,
+  #welcomeCard #welcomeCloseBtn:hover,
+  #themePresetsModal #themePresetsApplyBtn:hover,
+  #editNameSaveBtn:hover {
+    filter: brightness(1.06) saturate(1.08) !important;
+    transform: translateY(-2px) !important;
+    box-shadow:
+      0 0 0 2px rgba(255,255,255,.65),
+      0 0 15px color-mix(in srgb, var(--primary) 44%, transparent),
+      0 11px 25px color-mix(in srgb, var(--primary) 35%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.56) !important;
+  }
+
+  #nameForm button[type="submit"]:active,
+  #welcomeCard #welcomeCloseBtn:active,
+  #themePresetsModal #themePresetsApplyBtn:active,
+  #editNameSaveBtn:active {
+    transform: translateY(0) scale(.97) !important;
+    filter: brightness(.99) !important;
+  }
+
+  #nameForm button[type="submit"]:focus-visible,
+  #welcomeCard #welcomeCloseBtn:focus-visible,
+  #themePresetsModal #themePresetsApplyBtn:focus-visible,
+  #editNameSaveBtn:focus-visible {
+    outline: 3px solid var(--primary-light) !important;
+    outline-offset: 3px !important;
+  }
+
+  body.dark #nameForm button[type="submit"],
+  body.dark #welcomeCard #welcomeCloseBtn,
+  body.dark #themePresetsModal #themePresetsApplyBtn,
+  body.dark #editNameSaveBtn {
+    background: var(--primary-gradient) !important;
+    background-image: var(--primary-gradient) !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.22) !important;
+    box-shadow:
+      0 8px 21px color-mix(in srgb, var(--primary) 40%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.3) !important;
+  }
+
+  @media (max-width: 420px) {
+    #nameForm button[type="submit"],
+    #welcomeCard #welcomeCloseBtn,
+    #themePresetsModal #themePresetsApplyBtn {
+      min-height: 44px !important;
+      height: 44px !important;
+      padding: 0 16px !important;
+      font-size: .86rem !important;
+    }
+    #editNameSaveBtn { padding: 0 12px !important; font-size: .82rem !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #nameForm button[type="submit"],
+    #welcomeCard #welcomeCloseBtn,
+    #themePresetsModal #themePresetsApplyBtn,
+    #editNameSaveBtn { transition: none !important; }
+  }
 </style>
-
-
 
 </body>
 

@@ -1833,7 +1833,7 @@
             overflow: hidden !important;
             position: fixed !important;
             width: 100% !important;
-            top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+            top: var(--scroll-lock-top, 0px) !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
         }
 
         #main-content { font-family: 'Poppins', 'Mukta', sans-serif; }
@@ -1892,10 +1892,6 @@
         body.dark .calendar-wrapper::before { background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,0)); }
         @keyframes calFadeUp { 0% { opacity: 0; transform: translateY(16px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* Calendar swipe zone — touch-action kept at pan-y so the browser
-           only ever hands horizontal intent to our JS, and vertical scroll
-           is never blocked. The portal's global gestures are disabled here
-           in JS so months always win inside this area. */
         .grid-swipe-container {
             position: relative; overflow: hidden;
             touch-action: pan-y;
@@ -2389,6 +2385,552 @@
             .calendar-wrapper { max-width:1040px; }
         }
     </style>
+
+    <!-- ============================================================
+         SEAMLESS CALENDAR SHELL — mirrors the gallery's clean,
+         card-free look. Removes the gradient header card and the
+         calendar box wrapper so the whole page reads as one
+         continuous surface and month swipes travel edge-to-edge
+         without a frame.
+         ============================================================ -->
+    <style id="calendar-seamless-shell">
+        /* Wider, breathing layout matching the gallery page rhythm */
+        .app-container {
+            gap: 22px;
+            padding-top: calc(var(--header-height) + 14px);
+            width: min(100% - 28px, 1180px);
+        }
+
+        /* --- School header: plain typographic block, no gradient card --- */
+        .school-header {
+            background: transparent;
+            color: var(--text);
+            border-radius: 0;
+            padding: 4px 2px 14px;
+            margin-bottom: 2px;
+            box-shadow: none;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 10px;
+            animation: calFadeDown .5s ease both;
+        }
+        .school-header::after { content: none !important; display: none !important; animation: none !important; }
+        .school-title {
+            color: var(--text);
+            text-shadow: none;
+            font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+            font-weight: 800;
+            letter-spacing: -.015em;
+            line-height: 1.15;
+        }
+        .school-title small {
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: .72rem;
+            letter-spacing: .01em;
+            margin-top: 4px;
+            display: block;
+        }
+        .school-contacts {
+            color: var(--text-light);
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            font-size: .72rem;
+            gap: 10px;
+        }
+        .school-contacts i { color: var(--primary); }
+
+        /* --- Main calendar shell: card border / shadow / background removed --- */
+        .calendar-wrapper {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            animation: none;
+        }
+        .calendar-wrapper::before { content: none !important; display: none !important; }
+        body.dark .calendar-wrapper {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* --- Controls: transparent so month UI floats on the page --- */
+        .controls-card {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 4px 2px 6px;
+            margin-bottom: 12px;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        .controls-card::before { content: none !important; display: none !important; }
+        body.dark .controls-card {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Softer month-nav pills (no card framing needed now) */
+        .month-btn {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, .06);
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+        }
+        .month-btn:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-color: transparent;
+            transform: scale(1.04);
+        }
+        body.dark .month-btn {
+            background: var(--surface-solid);
+            border-color: var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+        }
+
+        .month-dropdown-btn {
+            background: var(--surface-solid);
+            border: 1.5px solid var(--border);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, .06);
+            color: var(--text);
+        }
+        .month-dropdown-btn:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), .14);
+        }
+        body.dark .month-dropdown-btn {
+            background: var(--surface-solid);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+        }
+
+        .live-clock {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, .06);
+            color: var(--text-light);
+        }
+        body.dark .live-clock {
+            background: var(--surface-solid);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+        }
+
+        /* Today pill: keep the accent, tone the shadow down */
+        .btn-today {
+            box-shadow: 0 6px 14px -6px rgba(var(--primary-rgb), .55),
+                        inset 0 1px 0 rgba(255, 255, 255, .55);
+        }
+
+        /* --- Month title row: subtle divider instead of a card edge --- */
+        .month-header-details {
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* --- Detail panel & Programs: simpler surfaces, no glossy overlays --- */
+        .detail-panel {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        .detail-panel::before { content: none !important; display: none !important; }
+        body.dark .detail-panel {
+            background: var(--surface-solid);
+            border-color: var(--border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+        }
+
+        .programs-card {
+            background: var(--surface-solid);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        .programs-card::before { content: none !important; display: none !important; }
+        body.dark .programs-card {
+            background: var(--surface-solid);
+            border-color: var(--border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+        }
+
+        .detail-box {
+            background: var(--background);
+            border: 1px solid var(--border-light);
+            box-shadow: none;
+        }
+        .detail-box:hover { transform: none; }
+        body.dark .detail-box {
+            background: var(--surface-hover);
+            border-color: var(--border);
+        }
+
+        /* --- Footer quote: still distinct, but flatter --- */
+        .footer-quote {
+            background: var(--surface-solid);
+            border-top: 3px solid var(--primary);
+            border-radius: var(--radius-md);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+            color: var(--text);
+            margin-top: 4px;
+        }
+        body.dark .footer-quote {
+            background: var(--surface-solid);
+            color: var(--text);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+        }
+
+        /* Cleaner legend separation */
+        .legend-bar {
+            border-top: 1px solid var(--border-light);
+            padding-top: 10px;
+        }
+
+        /* Month dots breathing room */
+        .month-dots { padding: 10px 0 0; }
+
+        /* On mobile, tighten a little further */
+        @media (max-width: 480px) {
+            .school-header { padding: 2px 2px 10px; }
+            .school-title { font-size: 1rem; }
+            .school-contacts { font-size: .62rem; gap: 8px; }
+            .controls-card { padding: 2px 0 4px; margin-bottom: 8px; }
+        }
+    </style>
+
+    <!-- PREMIUM CALENDAR UI — school identity, intro, month navigation, summary cards, calendar card -->
+    <style id="calendar-premium-ui">
+        /* ---------- Tokens (all derived from the active theme) ---------- */
+        body {
+            --pm-gap: clamp(10px, 1.6vw, 16px);
+            --pm-pad-x: clamp(14px, 3vw, 24px);
+            --pm-glass: linear-gradient(160deg, rgba(255,255,255,.88), rgba(255,255,255,.60));
+            --pm-border: rgba(var(--primary-rgb), .16);
+            --pm-shadow: 0 18px 38px -24px rgba(var(--primary-rgb), .55), 0 2px 6px rgba(15,23,42,.05), inset 0 1px 0 rgba(255,255,255,.95);
+            --pm-tint: rgba(var(--primary-rgb), .10);
+            --pm-btn: linear-gradient(180deg, #fff, rgba(var(--primary-rgb), .09));
+            --pm-btn-shadow: 0 6px 14px -8px rgba(var(--primary-rgb), .6), inset 0 1px 0 #fff;
+        }
+        body.dark {
+            --pm-glass: linear-gradient(160deg, rgba(51,65,85,.66), rgba(15,23,42,.58));
+            --pm-border: rgba(255,255,255,.09);
+            --pm-shadow: 0 18px 38px -22px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.10);
+            --pm-tint: rgba(var(--primary-rgb), .16);
+            --pm-btn: linear-gradient(180deg, rgba(71,85,105,.65), rgba(30,41,59,.75));
+            --pm-btn-shadow: 0 6px 14px -8px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12);
+        }
+
+        /* ---------- Layout ---------- */
+        .app-container { gap: var(--pm-gap); }
+        .cal-top { display: flex; flex-direction: column; gap: var(--pm-gap); width: 100%; min-width: 0; }
+        .cal-top > * { min-width: 0; }
+        .calendar-wrapper { max-width: none; }
+        @media (min-width: 1100px) {
+            .app-container { grid-template-areas: "top top" "cal cal" "detail prog" "quote quote"; }
+            .cal-top { grid-area: top; }
+        }
+
+        /* ---------- 1. School identity card ---------- */
+        body .cal-top .school-header {
+            position: relative; overflow: hidden;
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 12px 20px;
+            padding: clamp(14px, 2.2vw, 22px) var(--pm-pad-x);
+            margin: 0;
+            border: 1px solid var(--pm-border);
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(120% 140% at 0% 0%, rgba(var(--primary-rgb), .18), transparent 60%),
+                var(--pm-glass);
+            box-shadow: var(--pm-shadow);
+            animation: none;
+        }
+        .cal-top .school-header::before {
+            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 46%;
+            background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+        body.dark .cal-top .school-header::before { background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,0)); }
+        .cal-top .school-header > * { position: relative; }
+
+        .school-id { display: flex; align-items: center; gap: clamp(12px, 2vw, 18px); flex: 1 1 320px; min-width: 0; }
+        .school-logo-wrap {
+            flex: 0 0 auto; display: grid; place-items: center;
+            width: clamp(54px, 8vw, 80px); height: clamp(54px, 8vw, 80px);
+            padding: 5px; border-radius: 24%;
+            background: #fff;
+            border: 1px solid rgba(var(--primary-rgb), .28);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .10), 0 10px 20px -10px rgba(var(--primary-rgb), .65);
+        }
+        .school-logo { width: 100%; height: 100%; object-fit: contain; border-radius: 18%; display: block; }
+        body.dark .school-logo-wrap { box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .18), 0 10px 20px -10px rgba(0,0,0,.8); }
+
+        body .cal-top .school-title {
+            min-width: 0; margin: 0;
+            font-size: clamp(1rem, 2.5vw, 1.55rem); font-weight: 800; line-height: 1.2; letter-spacing: .005em;
+            overflow-wrap: anywhere;
+            background: linear-gradient(110deg, var(--text) 55%, var(--primary));
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+        body .cal-top .school-title small {
+            display: block; margin-top: 5px;
+            font-size: clamp(.7rem, 1.6vw, .82rem); font-weight: 500; letter-spacing: .01em;
+            color: var(--text-light); -webkit-text-fill-color: var(--text-light);
+        }
+
+        body .cal-top .school-contacts {
+            display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0;
+            background: transparent; border: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+        }
+        body .cal-top .school-contacts span {
+            display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+            padding: 6px 12px; border-radius: 999px;
+            font-size: .74rem; font-weight: 600; color: var(--text);
+            background: var(--pm-tint); border: 1px solid var(--pm-border);
+        }
+        body .cal-top .school-contacts i { margin: 0; color: var(--primary); font-size: .72rem; }
+
+        /* ---------- 2. Calendar intro ---------- */
+        .cal-intro {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px var(--pm-pad-x);
+            border: 1px solid var(--pm-border); border-radius: var(--radius-lg);
+            background: var(--pm-glass); box-shadow: var(--pm-shadow);
+        }
+        .cal-intro-icon {
+            position: relative; flex: 0 0 auto; display: grid; place-items: center;
+            width: 42px; height: 42px; border-radius: 14px; font-size: 1.05rem; color: #fff;
+            background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0) 55%), var(--primary-gradient);
+            box-shadow: 0 8px 16px -8px rgba(var(--primary-rgb), .8), inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        .cal-intro-text { min-width: 0; }
+        .cal-intro-title { margin: 0; font-size: clamp(1.02rem, 2.2vw, 1.2rem); font-weight: 700; line-height: 1.25; color: var(--text); }
+        .cal-intro-desc { margin: 2px 0 0; font-size: clamp(.72rem, 1.6vw, .8rem); line-height: 1.4; color: var(--text-light); }
+
+        /* ---------- 3. Month navigation card ---------- */
+        body .cal-top .controls-card {
+            display: flex; flex-direction: column; gap: 12px;
+            padding: 14px var(--pm-pad-x); margin: 0;
+            border: 1px solid var(--pm-border); border-radius: var(--radius-lg);
+            background: var(--pm-glass); box-shadow: var(--pm-shadow);
+            backdrop-filter: none; -webkit-backdrop-filter: none; overflow: visible;
+        }
+        body.dark .cal-top .controls-card { background: var(--pm-glass); border-color: var(--pm-border); box-shadow: var(--pm-shadow); }
+        body .cal-top .nav-row { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: clamp(8px, 2vw, 16px); }
+
+        body .cal-top .month-btn {
+            position: relative; flex: 0 0 auto;
+            width: 46px; height: 46px; border-radius: 14px; font-size: .95rem;
+            background: var(--pm-btn); color: var(--primary);
+            border: 1px solid var(--pm-border); box-shadow: var(--pm-btn-shadow);
+            transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, color .18s ease;
+        }
+        body.dark .cal-top .month-btn { background: var(--pm-btn); border-color: var(--pm-border); box-shadow: var(--pm-btn-shadow); color: var(--primary-light); }
+        body .cal-top .month-btn:hover {
+            background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0) 55%), var(--primary-gradient);
+            color: #fff; border-color: transparent; transform: translateY(-1px);
+            box-shadow: 0 10px 18px -8px rgba(var(--primary-rgb), .8), inset 0 1px 0 rgba(255,255,255,.55);
+        }
+        body .cal-top .month-btn:active { transform: scale(.93); box-shadow: inset 0 2px 4px rgba(0,0,0,.18); }
+        body .cal-top .month-btn:focus-visible,
+        body .cal-top .month-dropdown-btn:focus-visible,
+        body .cal-top .btn-today:focus-visible { outline: 3px solid rgba(var(--primary-rgb), .6); outline-offset: 2px; }
+
+        body .cal-top .month-dropdown-wrapper { flex: 1 1 auto; min-width: 0; max-width: 420px; margin: 0 auto; position: relative; }
+        .month-dropdown-wrapper::after {
+            content: ''; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; pointer-events: none;
+            border-right: 2px solid var(--primary); border-bottom: 2px solid var(--primary);
+            transform: translateY(-70%) rotate(45deg); opacity: .85;
+        }
+        body .cal-top .month-dropdown-btn {
+            display: block; width: 100%; height: 50px; padding: 0 38px;
+            border-radius: 16px; text-align: center; text-overflow: ellipsis;
+            font-size: clamp(1.05rem, 3.4vw, 1.4rem); font-weight: 800; letter-spacing: .005em; line-height: 50px;
+            color: var(--text);
+            background: var(--pm-btn); border: 1px solid rgba(var(--primary-rgb), .30);
+            box-shadow: var(--pm-btn-shadow);
+            transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+        }
+        body.dark .cal-top .month-dropdown-btn { background: var(--pm-btn); box-shadow: var(--pm-btn-shadow); }
+        body .cal-top .month-dropdown-btn:hover { border-color: var(--primary); box-shadow: 0 10px 18px -10px rgba(var(--primary-rgb), .7), inset 0 1px 0 rgba(255,255,255,.6); }
+        body .cal-top .month-dropdown-btn:active { transform: scale(.985); }
+        body .cal-top .month-dropdown-btn[aria-expanded="true"] { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(var(--primary-rgb), .18); }
+
+        body .cal-top .action-row {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px;
+            padding-top: 12px; border-top: 1px solid var(--pm-border);
+        }
+        body .cal-top .live-clock {
+            padding: 6px 14px; font-size: .8rem; font-weight: 600; border-radius: 999px;
+            background: var(--pm-tint); border: 1px solid var(--pm-border); box-shadow: none; color: var(--text);
+            font-variant-numeric: tabular-nums;
+        }
+        body .cal-top .live-clock i { color: var(--primary); }
+        body.dark .cal-top .live-clock { background: var(--pm-tint); box-shadow: none; }
+        body .cal-top .btn-today { min-height: 40px; padding: 8px 18px; border-radius: 12px; font-size: .8rem; transition: transform .18s ease, box-shadow .18s ease; }
+        body .cal-top .btn-today:hover { transform: translateY(-1px); }
+        body .cal-top .btn-today:active { transform: scale(.95); }
+
+        /* ---------- 4. Month summary cards (informational, not interactive) ---------- */
+        .month-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--pm-gap); }
+        .stat-card {
+            display: flex; align-items: center; gap: 10px; min-height: 62px;
+            padding: 10px 14px; border-radius: var(--radius-md);
+            border: 1px solid var(--pm-border); background: var(--pm-glass);
+            box-shadow: 0 10px 22px -18px rgba(15,23,42,.45), inset 0 1px 0 rgba(255,255,255,.7);
+            cursor: default;
+        }
+        body.dark .stat-card { box-shadow: 0 10px 22px -16px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.08); }
+        .stat-icon {
+            position: relative; flex: 0 0 auto; display: grid; place-items: center;
+            width: 36px; height: 36px; border-radius: 12px; font-size: .9rem; color: var(--c);
+        }
+        .stat-icon::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--c); opacity: .15; }
+        .stat-icon i { position: relative; }
+        .stat-body { min-width: 0; }
+        .stat-label { font-size: .7rem; font-weight: 600; color: var(--text-light); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .stat-value { font-size: 1.25rem; font-weight: 800; line-height: 1.15; color: var(--text); min-height: 1.15em; font-variant-numeric: tabular-nums; }
+
+        /* ---------- 5. Main calendar card ---------- */
+        body #calendarWrapper {
+            position: relative; overflow: hidden; width: 100%;
+            padding: clamp(10px, 2vw, 22px) clamp(6px, 2vw, 24px) clamp(10px, 1.6vw, 16px);
+            border: 1px solid var(--pm-border); border-radius: var(--radius-lg);
+            background: var(--pm-glass); box-shadow: var(--pm-shadow);
+        }
+        body.dark #calendarWrapper { background: var(--pm-glass); border: 1px solid var(--pm-border); box-shadow: var(--pm-shadow); }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 899px) {
+            .month-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) {
+            .school-id { flex-basis: 100%; }
+            body .cal-top .school-contacts { gap: 6px; }
+            body .cal-top .school-contacts span { padding: 5px 10px; font-size: .68rem; }
+            .cal-intro { padding: 10px 14px; gap: 10px; }
+            .cal-intro-icon { width: 38px; height: 38px; border-radius: 12px; }
+            body .cal-top .controls-card { padding: 12px; gap: 10px; }
+            body .cal-top .month-btn { width: 44px; height: 44px; }
+            body .cal-top .month-dropdown-btn { height: 46px; line-height: 46px; padding: 0 32px 0 12px; }
+            .month-dropdown-wrapper::after { right: 13px; }
+            body .cal-top .action-row { padding-top: 10px; }
+            .stat-card { min-height: 56px; padding: 8px 10px; gap: 8px; }
+            .stat-icon { width: 32px; height: 32px; border-radius: 10px; font-size: .8rem; }
+            .stat-value { font-size: 1.1rem; }
+            .stat-label { font-size: .66rem; }
+        }
+        @media (max-width: 359px) {
+            .school-id { flex-direction: column; text-align: center; }
+            body .cal-top .school-contacts { justify-content: center; width: 100%; }
+            body .cal-top .month-btn { width: 40px; height: 40px; }
+            body .cal-top .month-dropdown-btn { font-size: 1rem; }
+            .stat-icon { display: none; }
+        }
+        @media (min-width: 900px) {
+            body .cal-top .controls-card { flex-direction: row; align-items: center; gap: clamp(16px, 3vw, 32px); }
+            body .cal-top .nav-row { flex: 1 1 auto; min-width: 0; }
+            body .cal-top .action-row { flex: 0 0 auto; padding: 0 0 0 clamp(16px, 3vw, 28px); border-top: 0; border-left: 1px solid var(--pm-border); flex-wrap: nowrap; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body .cal-top .month-btn, body .cal-top .month-dropdown-btn, body .cal-top .btn-today { transition: none; }
+            body .cal-top .month-btn:hover, body .cal-top .btn-today:hover { transform: none; }
+        }
+    
+
+        /* ===== FULL-WIDTH CALENDAR: remove the outer calendar box ===== */
+        .app-container {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding-left: clamp(6px, 1.2vw, 18px) !important;
+            padding-right: clamp(6px, 1.2vw, 18px) !important;
+        }
+        .calendar-wrapper {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            overflow: hidden;
+        }
+        .calendar-wrapper::before { display: none !important; }
+        body.dark .calendar-wrapper {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+        .grid-swipe-container {
+            width: 100% !important;
+            max-width: none !important;
+        }
+        .month-pane {
+            padding: 3px 2px 2px !important;
+        }
+        .calendar-grid {
+            width: 100% !important;
+            grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+            gap: clamp(3px, .45vw, 7px) !important;
+        }
+        .calendar-cell {
+            min-width: 0;
+            min-height: clamp(58px, 8.2vw, 112px);
+            padding: clamp(4px, .55vw, 9px) !important;
+            border-radius: 9px;
+        }
+        .month-dots { margin-top: 8px; }
+        .legend-bar { margin-top: 8px; }
+
+        @media (max-width: 480px) {
+            .app-container {
+                padding-left: 4px !important;
+                padding-right: 4px !important;
+            }
+            .month-pane { padding-left: 1px !important; padding-right: 1px !important; }
+            .calendar-grid { gap: 3px !important; }
+            .calendar-cell {
+                min-height: clamp(48px, 14vw, 68px) !important;
+                padding: 3px 2px 2px !important;
+                border-radius: 6px;
+            }
+        }
+        @media (min-width: 900px) {
+            .calendar-cell { min-height: clamp(84px, 7.5vw, 124px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .calendar-wrapper { animation: none !important; }
+        }
+
+    </style>
 </head>
 
 <body>
@@ -2749,10 +3291,14 @@
 
             <div class="app-container">
 
-                <!-- ===== CALENDAR WRAPPER ===== -->
-                <div class="calendar-wrapper" id="calendarWrapper">
+                <!-- ===== UPPER SECTION: identity → intro → navigation → summary ===== -->
+                <div class="cal-top">
+
                     <header class="school-header">
-                        <div>
+                        <div class="school-id">
+                            <span class="school-logo-wrap">
+                                <img src="logo.png" alt="Pabitra Secondary Boarding School Logo" class="school-logo" width="80" height="80" decoding="async" onerror="this.parentNode.style.display='none'">
+                            </span>
                             <div class="school-title">
                                 PABITRA SECONDARY BOARDING SCHOOL
                                 <small>सिलगढी-६, डोटी · Est. 2040 BS</small>
@@ -2790,7 +3336,11 @@
                             </div>
                         </div>
                     </div>
+                  
+                </div>
 
+                <!-- ===== CALENDAR WRAPPER ===== -->
+                <div class="calendar-wrapper" id="calendarWrapper">
                     <div class="grid-swipe-container" id="gridSwipeContainer">
                         <div class="month-track" id="monthTrack"></div>
                     </div>
@@ -2803,6 +3353,25 @@
                     </div>
                 </div>
 
+                                  <section class="month-stats" aria-label="महिनाको सारांश">
+                        <div class="stat-card" style="--c: var(--holiday-red)">
+                            <span class="stat-icon" aria-hidden="true"><i class="fa-solid fa-umbrella-beach"></i></span>
+                            <div class="stat-body"><div class="stat-label">बिदा दिन</div><div class="stat-value" id="statHolidays">–</div></div>
+                        </div>
+                        <div class="stat-card" style="--c: var(--primary)">
+                            <span class="stat-icon" aria-hidden="true"><i class="fa-solid fa-school"></i></span>
+                            <div class="stat-body"><div class="stat-label">पढाइ दिन</div><div class="stat-value" id="statSchoolDays">–</div></div>
+                        </div>
+                        <div class="stat-card" style="--c: var(--prog-green)">
+                            <span class="stat-icon" aria-hidden="true"><i class="fa-solid fa-calendar-check"></i></span>
+                            <div class="stat-body"><div class="stat-label">कार्यक्रम</div><div class="stat-value" id="statPrograms">–</div></div>
+                        </div>
+                        <div class="stat-card" style="--c: var(--event-blue)">
+                            <span class="stat-icon" aria-hidden="true"><i class="fa-solid fa-star"></i></span>
+                            <div class="stat-body"><div class="stat-label">विशेष दिन</div><div class="stat-value" id="statEvents">–</div></div>
+                        </div>
+                                  </section>
+              
                 <!-- ===== DETAIL PANEL ===== -->
                 <div class="detail-panel" id="detailPanel">
                     <div class="detail-header">
@@ -2859,7 +3428,13 @@
         const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
         const SUPABASE_ANON_KEY =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // If the CDN script is blocked/offline the page must still load; data features then show their error states.
+        let supabaseClient = null;
+        try {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } catch (err) {
+            console.error('[Portal] Supabase client unavailable:', err);
+        }
         window.db = supabaseClient;
     </script>
 
@@ -2886,8 +3461,17 @@
             CALENDAR_PAGE: 'calendar.html',
         };
 
+        // localStorage can throw (private mode, blocked storage, quota). That must never break the page.
+        const SafeStorage = {
+            get: function (key) { try { return localStorage.getItem(key); } catch (e) { return null; } },
+            set: function (key, value) { try { localStorage.setItem(key, value); return true; } catch (e) { return false; } },
+            remove: function (key) { try { localStorage.removeItem(key); } catch (e) { } }
+        };
+
         // -------------------- HELPERS --------------------
         const Helpers = {
+            safeDecode: function (s) { try { return decodeURIComponent(s); } catch (e) { return String(s); } },
+            cssUrl: function (v) { return 'url("' + String(v).replace(/["\\\n\r]/g, '') + '")'; },
             sanitize: function (input) {
                 const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' };
                 return String(input == null ? '' : input).replace(/[&<>"'/]/g, function (s) { return map[s] || s; });
@@ -2946,7 +3530,7 @@
             toggleDark: function () {
                 document.body.classList.toggle('dark');
                 const isDark = document.body.classList.contains('dark');
-                localStorage.setItem(CONFIG.THEME_KEY, isDark ? 'dark' : 'light');
+                SafeStorage.set(CONFIG.THEME_KEY, isDark ? 'dark' : 'light');
                 const btn = document.getElementById('headerThemeToggleBtn');
                 if (btn) {
                     const icon = btn.querySelector('i');
@@ -2954,7 +3538,7 @@
                 }
                 return isDark;
             },
-            getTheme: function () { return localStorage.getItem(CONFIG.THEME_KEY) || 'light'; },
+            getTheme: function () { return SafeStorage.get(CONFIG.THEME_KEY) || 'light'; },
             applyTheme: function () {
                 const btn = document.getElementById('headerThemeToggleBtn');
                 const icon = btn ? btn.querySelector('i') : null;
@@ -2966,13 +3550,14 @@
                 if (icon) icon.className = 'ri-moon-line';
                 return false;
             },
-            getThemePreset: function () { return localStorage.getItem(CONFIG.THEME_PRESET_KEY) || 'gold'; },
+            getThemePreset: function () { return SafeStorage.get(CONFIG.THEME_PRESET_KEY) || 'gold'; },
             setThemePreset: function (preset) {
-                document.body.className = document.body.className.split(' ').filter(function (c) {
-                    return !c.startsWith('theme-');
-                }).join(' ');
+                if (!/^[a-z0-9-]+$/i.test(String(preset))) preset = 'gold';   // stored value is untrusted
+                Array.prototype.slice.call(document.body.classList).forEach(function (c) {
+                    if (c.indexOf('theme-') === 0) document.body.classList.remove(c);
+                });
                 if (preset && preset !== 'default') { document.body.classList.add('theme-' + preset); }
-                localStorage.setItem(CONFIG.THEME_PRESET_KEY, preset);
+                SafeStorage.set(CONFIG.THEME_PRESET_KEY, preset);
                 const meta = document.querySelector('meta[name="theme-color"]');
                 const colorMap = {
                     gold: '#f39c12', cyan: '#06b6d4', coral: '#e85d75', indigo: '#4f46e5',
@@ -3000,7 +3585,6 @@
             },
             getSearchData: function () {
                 // Search is intentionally calendar-only: festivals and events only.
-                // Other portal pages, documents, programs and tithis are excluded.
                 if (typeof window.PSBSCalendarSearchData === 'function') {
                     const items = window.PSBSCalendarSearchData();
                     return Array.isArray(items) ? items : [];
@@ -3044,6 +3628,9 @@
             show: function (message, type, duration) {
                 type = type || 'success';
                 duration = duration || CONFIG.TOAST_DURATION;
+                // Don't pile up identical toasts (e.g. toggling dark mode repeatedly) or build an endless backlog
+                if (this._current === message || (this._queue.length && this._queue[this._queue.length - 1].message === message)) return;
+                if (this._queue.length >= 3) this._queue.shift();
                 this._queue.push({ message: message, type: type, duration: duration });
                 if (!this._isShowing) this._processQueue();
             },
@@ -3059,20 +3646,23 @@
                 const msgEl = toastEl.querySelector('.toast-message');
                 const iconEl = toastEl.querySelector('.toast-icon');
                 const closeBtn = toastEl.querySelector('.toast-close');
+                this._current = message;
                 msgEl.textContent = message;
                 toastEl.className = 'toast toast-' + type;
                 if (iconEl) iconEl.textContent = icons[type] || icons.info;
                 toastEl.classList.add('active');
                 clearTimeout(this._timeout);
-                closeBtn.onclick = function () { Toast.hide(); };
+                if (closeBtn) closeBtn.onclick = function () { Toast.hide(); };
                 this._timeout = setTimeout(function () {
                     toastEl.classList.remove('active');
+                    Toast._current = null;
                     setTimeout(function () { Toast._processQueue(); }, 300);
                 }, duration);
             },
             hide: function () {
                 const toastEl = document.getElementById('toast');
                 toastEl.classList.remove('active');
+                this._current = null;
                 clearTimeout(this._timeout);
                 setTimeout(function () { Toast._processQueue(); }, 300);
             },
@@ -3092,9 +3682,6 @@
             isDragging: false, isDraggingSidebar: false, isDraggingRightPanel: false,
             verticalSwipeLock: false,
             touchInsideRightPanel: false,
-            // NEW: when a touch begins inside the calendar swipe zone, the
-            // portal's global swipe gestures are disabled for that touch so the
-            // month carousel always wins.
             touchInsideCalendar: false,
             profile: null,
             lightboxOpen: false,
@@ -3149,6 +3736,47 @@
             edgeHintRight: $('#edgeHintRight'),
             edgeHintLeft: $('#edgeHintLeft'),
         };
+
+        // ============================================================
+        // PANEL STATE
+        // The old code hand-maintained State.openCount / State.panelOpen with ++/-- in every open/close function, and the
+        // close functions run unconditionally (e.g. on every document click), so the counter drifted: the Back button
+        // then either left the page while a panel was open, or did nothing. State is now derived from the real flags.
+        // ============================================================
+        function syncPanelState() {
+            const open = (State.isSidebarOpen ? 1 : 0) + (RightPanel._isOpen ? 1 : 0) + (State.isDropdownOpen ? 1 : 0) +
+                (State.isNameModalOpen ? 1 : 0) + (State.isWelcomeOpen ? 1 : 0) + (State.isEditModalOpen ? 1 : 0) +
+                (State.isSearchOpen ? 1 : 0) + (State.isThemePresetsOpen ? 1 : 0);
+            State.openCount = open;
+            State.panelOpen = open > 0;
+            const cl = document.body.classList;
+            cl.toggle('modal-active', !!(State.isNameModalOpen || State.isEditModalOpen || State.isSearchOpen || State.isThemePresetsOpen));
+            cl.toggle('sidebar-active', !!State.isSidebarOpen);
+            cl.toggle('right-panel-active', !!RightPanel._isOpen);
+            cl.toggle('dropdown-active', !!State.isDropdownOpen);
+            cl.toggle('welcome-active', !!State.isWelcomeOpen);
+            document.body.style.overflow = (State.isSidebarOpen || RightPanel._isOpen || State.isDropdownOpen) ? 'hidden' : '';
+        }
+        function closeCalendarDropdown() {
+            if (typeof window.PSBSCalendarCloseDropdown === 'function') window.PSBSCalendarCloseDropdown();
+        }
+        // Focus an input inside a dialog that is still fading in. A single setTimeout(focus) raced the overlay becoming
+        // focusable (it failed about half the time with prefers-reduced-motion), so retry briefly.
+        function focusSoon(el, delay) {
+            let tries = 8;
+            setTimeout(function attempt() {
+                if (!el) return;
+                try { el.focus(); } catch (e) { }
+                if (document.activeElement !== el && --tries > 0) setTimeout(attempt, 120);
+            }, delay);
+        }
+        // Return keyboard focus to whatever opened a dialog/panel once it closes
+        const focusMemory = {};
+        function rememberFocus(key) { focusMemory[key] = document.activeElement; }
+        function restoreFocus(key) {
+            const el = focusMemory[key]; focusMemory[key] = null;
+            if (el && el !== document.body && el.isConnected && typeof el.focus === 'function') { try { el.focus({ preventScroll: true }); } catch (e) { } }
+        }
 
         // ============================================================
         // DRAG TRAIL
@@ -3252,21 +3880,19 @@
                 if (State.isEditModalOpen) closeEditNameModal();
                 if (State.isSearchOpen) closeSearch();
                 if (State.isThemePresetsOpen) closeThemePresets();
+                closeCalendarDropdown();
                 closeAllDocMenus();
 
                 const wasOpen = this._isOpen;
+                if (!wasOpen) rememberFocus('panel');
 
                 DOM.rightPanel.classList.add('active');
                 DOM.sidebarOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                document.body.classList.add('right-panel-active');
 
                 this._isOpen = true;
 
                 this.setTab(which, wasOpen && this.current !== which);
-
-                if (!wasOpen) State.openCount++;
-                State.panelOpen = true;
+                syncPanelState();
 
                 if (which === 'notice') NoticeManager.markAllAsRead();
             },
@@ -3276,25 +3902,17 @@
 
                 DOM.rightPanel.classList.remove('active', 'dragging');
                 DOM.sidebarOverlay.classList.remove('active');
-                document.body.classList.remove('right-panel-active');
 
                 State.isNoticeOpen = false;
                 State.isDocumentsOpen = false;
-                State.panelOpen = false;
                 this._isOpen = false;
                 this.current = null;
                 syncSidebarResourceActive(null);
 
                 if (DOM.docSearchInput) DOM.docSearchInput.blur();
                 closeAllDocMenus();
-
-                if (!State.isSidebarOpen && !State.isDropdownOpen && !State.isEditModalOpen &&
-                    !State.isSearchOpen && !State.isThemePresetsOpen &&
-                    !State.isNameModalOpen && !State.isWelcomeOpen) {
-                    document.body.style.overflow = '';
-                }
-
-                if (wasOpen && State.openCount > 0) State.openCount--;
+                syncPanelState();
+                if (wasOpen) restoreFocus('panel');
             }
         };
 
@@ -3545,10 +4163,11 @@
             getReadIds: function () {
                 try {
                     const data = localStorage.getItem(CONFIG.NOTICE_READ_IDS_KEY);
-                    return data ? JSON.parse(data) : [];
+                    const arr = data ? JSON.parse(data) : [];
+                    return Array.isArray(arr) ? arr : [];
                 } catch (e) { return []; }
             },
-            saveReadIds: function (ids) { localStorage.setItem(CONFIG.NOTICE_READ_IDS_KEY, JSON.stringify(ids)); },
+            saveReadIds: function (ids) { SafeStorage.set(CONFIG.NOTICE_READ_IDS_KEY, JSON.stringify(ids)); },
             getUnreadIds: function () {
                 const readIds = this.getReadIds();
                 const notices = State.notices || [];
@@ -3558,6 +4177,7 @@
             getUnreadCount: function () { return this.getUnreadIds().length; },
             markAllAsRead: function () {
                 const ids = (State.notices || []).map(function (n) { return String(n.id); });
+                if (!ids.length) return;   // notices not loaded yet: never overwrite the stored read list with []
                 this.saveReadIds(ids);
                 this.updateBadge();
                 document.querySelectorAll('.update-card.notice-unread').forEach(function (el) {
@@ -3610,15 +4230,20 @@
         }
 
         // ===== SUPABASE DATA =====
+        let noticesSeq = 0, documentsSeq = 0;   // an older response must never overwrite a newer one
         async function fetchNotices() {
+            const seq = ++noticesSeq;
             try {
                 const { data, error } = await window.db.from('notices').select('*').order('date', { ascending: false });
+                if (seq !== noticesSeq) return;
                 if (error) throw error;
                 State.notices = data || [];
                 renderNotices(State.notices);
                 NoticeManager.updateBadge();
             } catch (e) {
+                if (seq !== noticesSeq) return;
                 console.warn('Notices fetch error:', e);
+                if (State.notices && State.notices.length) return;   // keep what is already on screen
                 DOM.noticeContainer.innerHTML =
                     '<div class="doc-empty"><span class="doc-empty-icon">📭</span><h4>Could not load notices</h4><p>Please check your connection and try again.</p></div>';
             }
@@ -3651,17 +4276,17 @@
                 html += '<span class="update-label ' + safeLabel + '">' + labelText + '</span>';
                 html += '<h3>' + Helpers.sanitize(n.title) + '</h3>';
                 html += '<p>' + Helpers.sanitize(n.description) + '</p>';
-                html += '<div class="update-date">📅 ' + Helpers.formatDate(n.date) + ' • ' + Helpers.timeAgo(n.date) + '</div>';
+                html += '<div class="update-date">📅 ' + Helpers.sanitize(Helpers.formatDate(n.date)) + ' • ' + Helpers.sanitize(Helpers.timeAgo(n.date)) + '</div>';
                 html += '</div>';
             }
             container.innerHTML = html;
-            container.querySelectorAll('.update-card').forEach(function (card) {
-                card.addEventListener('click', function () {
-                    const id = this.getAttribute('data-notice-id');
-                    if (id) NoticeManager.markNoticeAsRead(id);
-                });
-            });
         }
+        // One delegated listener instead of one per card per render
+        if (DOM.noticeContainer) DOM.noticeContainer.addEventListener('click', function (e) {
+            const card = e.target.closest('.update-card');
+            const id = card && card.getAttribute('data-notice-id');
+            if (id) NoticeManager.markNoticeAsRead(id);
+        });
 
         // ============================================================
         // DOCUMENTS
@@ -3702,8 +4327,10 @@
         }
 
         async function fetchDocuments() {
+            const seq = ++documentsSeq;
             try {
                 const { data, error } = await window.db.from('documents').select('*').order('created_at', { ascending: false });
+                if (seq !== documentsSeq) return;
                 if (error) throw error;
                 State.documents = data || [];
                 renderDocuments(State.documents);
@@ -3715,7 +4342,9 @@
                         : 'Notes • PDFs • Slides';
                 }
             } catch (e) {
+                if (seq !== documentsSeq) return;
                 console.warn('Documents fetch error:', e);
+                if (State.documents && State.documents.length) return;   // keep what is already on screen
                 State.documents = [];
                 renderDocuments([]);
                 updateDocTabBadge();
@@ -3758,17 +4387,18 @@
                 return;
             }
 
+            const downloaded = new Set(Downloads.get());   // read storage once, not once per card
             let html = '';
             for (let i = 0; i < filtered.length; i++) {
                 const d = filtered[i];
                 const ext = getDocExtension(d);
                 const info = getDocTypeInfo(ext);
-                const title = d.title || (d.file_url ? decodeURIComponent(String(d.file_url).split('/').pop()) : 'Document');
+                const title = d.title || (d.file_url ? Helpers.safeDecode(String(d.file_url).split('/').pop()) : 'Document');
                 const size = Helpers.formatBytes(d.file_size);
-                const date = d.created_at ? Helpers.formatDate(d.created_at) : (d.date ? Helpers.formatDate(d.date) : '');
+                const date = Helpers.sanitize(d.created_at ? Helpers.formatDate(d.created_at) : (d.date ? Helpers.formatDate(d.date) : ''));
 
                 const key = docKey(d);
-                const isDownloaded = Downloads.has(key);
+                const isDownloaded = downloaded.has(key);
 
                 html += '<div class="doc-card' + (isDownloaded ? ' doc-downloaded' : '') +
                     '" data-doc-index="' + i + '" data-doc-key="' + Helpers.sanitize(key) +
@@ -3793,27 +4423,20 @@
                 html += '  </div>';
                 html += '</div>';
             }
+            container._docs = filtered;
             container.innerHTML = html;
-
-            container.querySelectorAll('.doc-card').forEach(function (card) {
-                const idx = parseInt(card.getAttribute('data-doc-index'), 10);
-                const doc = filtered[idx];
-                if (!doc) return;
-
-                card.addEventListener('click', function (e) {
-                    if (e.target.closest('.doc-menu-wrap')) return;
-                    handleDocumentTap(doc);
-                });
-
-                const menuBtn = card.querySelector('.doc-menu-btn');
-                if (menuBtn) {
-                    menuBtn.addEventListener('click', function (e) {
-                        e.stopPropagation();
-                        openDocMenu(menuBtn, doc);
-                    });
-                }
-            });
         }
+        // One delegated listener for every document card (the list re-renders on each search/filter change)
+        if (DOM.documentsContainer) DOM.documentsContainer.addEventListener('click', function (e) {
+            const card = e.target.closest('.doc-card');
+            if (!card) return;
+            const doc = (DOM.documentsContainer._docs || [])[parseInt(card.getAttribute('data-doc-index'), 10)];
+            if (!doc) return;
+            const menuBtn = e.target.closest('.doc-menu-btn');
+            if (menuBtn) { e.stopPropagation(); openDocMenu(menuBtn, doc); return; }
+            if (e.target.closest('.doc-menu-wrap')) return;
+            handleDocumentTap(doc);
+        });
 
         // ============================================================
         // FLOATING DOCUMENT MENU
@@ -3885,6 +4508,7 @@
         }
 
         function closeAllDocMenus() {
+            if (!currentDocMenuEl) return;   // cheap exit: this also runs on every scroll/resize event
             document.querySelectorAll('.doc-menu').forEach(function (m) { m.remove(); });
             document.querySelectorAll('.doc-card.menu-active').forEach(function (c) {
                 c.classList.remove('menu-active');
@@ -3913,7 +4537,8 @@
             get: function () {
                 try {
                     const raw = localStorage.getItem(this._key());
-                    return raw ? JSON.parse(raw) : [];
+                    const arr = raw ? JSON.parse(raw) : [];
+                    return Array.isArray(arr) ? arr : [];
                 } catch (e) { return []; }
             },
             has: function (id) { return this.get().indexOf(String(id)) !== -1; },
@@ -3967,13 +4592,21 @@
             viewDocument(doc);
         }
 
+        // Ignore repeat taps while the same file is already being fetched
+        const downloadsInFlight = new Set();
         async function downloadDocument(doc, opts) {
+            const k = docKey(doc);
+            if (downloadsInFlight.has(k)) { Toast.info('⏳ Already downloading…'); return false; }
+            downloadsInFlight.add(k);
+            try { return await downloadDocumentNow(doc, opts); } finally { downloadsInFlight.delete(k); }
+        }
+        async function downloadDocumentNow(doc, opts) {
             opts = opts || {};
             const url = doc.file_url;
             if (!url) { Toast.error('File link is not available.'); return false; }
 
             const rawName = doc.title ||
-                decodeURIComponent(String(url).split('/').pop().split('?')[0]) || 'document';
+                Helpers.safeDecode(String(url).split('/').pop().split('?')[0]) || 'document';
             const ext = getDocExtension(doc);
             const filename = /\.[a-z0-9]{2,5}$/i.test(rawName) ? rawName : (rawName + (ext ? '.' + ext : ''));
 
@@ -4048,11 +4681,15 @@
 
         // ===== REALTIME =====
         function setupRealtime() {
+            if (!window.db || typeof window.db.channel !== 'function') return;
+            // Admin edits arrive as bursts of events: coalesce them into one refetch
+            const refreshNotices = Helpers.debounce(fetchNotices, 300);
+            const refreshDocuments = Helpers.debounce(fetchDocuments, 300);
             window.db.channel('notices_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'notices' }, function () { fetchNotices(); })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'notices' }, refreshNotices)
                 .subscribe();
             window.db.channel('documents_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'documents' }, function () { fetchDocuments(); })
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'documents' }, refreshDocuments)
                 .subscribe();
         }
 
@@ -4096,7 +4733,7 @@
                 this.save(name, p.avatar, p.role);
             },
             clear: function () {
-                localStorage.removeItem(CONFIG.PROFILE_KEY);
+                SafeStorage.remove(CONFIG.PROFILE_KEY);
                 State.profile = null;
                 this.updateUI();
             },
@@ -4109,17 +4746,17 @@
                     profileBtn.style.backgroundImage = '';
                     profileBtn.style.backgroundColor = '';
                     if (p.avatar) {
-                        profileBtn.style.backgroundImage = 'url(' + p.avatar + ')';
+                        profileBtn.style.backgroundImage = Helpers.cssUrl(p.avatar);
                         profileBtn.style.backgroundSize = 'cover';
                         profileBtn.style.backgroundPosition = 'center';
                     } else {
                         profileBtn.textContent = Helpers.initials(p.name);
                         profileBtn.style.backgroundColor = Helpers.colorFromName(p.name);
                     }
-                    ddName.textContent = Helpers.sanitize(p.name);
+                    ddName.textContent = p.name;   // textContent: pre-escaping showed D&#x27;Souza
                     ddRole.textContent = p.role || 'Viewer';
                     if (p.avatar) {
-                        ddAvatar.style.backgroundImage = 'url(' + p.avatar + ')';
+                        ddAvatar.style.backgroundImage = Helpers.cssUrl(p.avatar);
                         ddAvatar.style.backgroundSize = 'cover';
                         ddAvatar.style.backgroundPosition = 'center';
                         ddAvatar.textContent = '';
@@ -4157,21 +4794,18 @@
 
         // ===== NAME MODAL =====
         function openNameModal() {
+            if (State.isNameModalOpen) return;
             DOM.nameModal.classList.add('active');
             State.isNameModalOpen = true;
-            State.panelOpen = true;
-            State.openCount++;
-            document.body.classList.add('modal-active');
             DOM.nameError.textContent = '';
-            setTimeout(function () { DOM.userNameInput.focus(); }, 400);
+            syncPanelState();
+            focusSoon(DOM.userNameInput, 400);
         }
 
         function closeNameModal() {
             DOM.nameModal.classList.remove('active');
             State.isNameModalOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('modal-active');
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
         }
 
         if (DOM.nameForm) DOM.nameForm.addEventListener('submit', function (e) {
@@ -4195,9 +4829,10 @@
         });
 
         // ===== WELCOME CARD =====
+        let welcomeTimer = null;
         function showWelcomeCard(name) {
             const greeting = Helpers.getGreeting();
-            DOM.welcomeTitle.textContent = greeting + ', ' + Helpers.sanitize(name) + '! 👋';
+            DOM.welcomeTitle.textContent = greeting + ', ' + name + '! 👋';
             DOM.welcomeAvatar.textContent = Helpers.initials(name);
             DOM.welcomeAvatar.style.backgroundColor = Helpers.colorFromName(name);
             const messages = [
@@ -4215,40 +4850,38 @@
             DOM.welcomeMessage.textContent = messages[Math.floor(Math.random() * messages.length)];
             DOM.welcomeCard.classList.add('active');
             State.isWelcomeOpen = true;
-            State.panelOpen = true;
-            State.openCount++;
-            document.body.classList.add('welcome-active');
-            setTimeout(function () { if (State.isWelcomeOpen) closeWelcomeCard(); }, 6000);
+            syncPanelState();
+            clearTimeout(welcomeTimer);   // a stale timer from an earlier card must not close this one
+            welcomeTimer = setTimeout(function () { if (State.isWelcomeOpen) closeWelcomeCard(); }, 6000);
         }
 
         function closeWelcomeCard() {
+            clearTimeout(welcomeTimer);
             DOM.welcomeCard.classList.remove('active');
             State.isWelcomeOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('welcome-active');
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
         }
         if (DOM.welcomeCloseBtn) DOM.welcomeCloseBtn.addEventListener('click', closeWelcomeCard);
 
         // ===== EDIT NAME MODAL =====
         function openEditNameModal() {
+            if (State.isEditModalOpen) return;
+            rememberFocus('edit');
             const p = Profile.get();
             DOM.editNameInput.value = p ? p.name || '' : '';
             DOM.editNameError.textContent = '';
             DOM.editNameModal.classList.add('active');
             State.isEditModalOpen = true;
-            State.panelOpen = true;
-            State.openCount++;
-            document.body.classList.add('modal-active');
-            setTimeout(function () { DOM.editNameInput.focus(); }, 300);
+            syncPanelState();
+            focusSoon(DOM.editNameInput, 300);
         }
 
         function closeEditNameModal() {
+            const wasOpen = State.isEditModalOpen;
             DOM.editNameModal.classList.remove('active');
             State.isEditModalOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('modal-active');
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
+            if (wasOpen) restoreFocus('edit');
         }
 
         if (DOM.editNameForm) DOM.editNameForm.addEventListener('submit', function (e) {
@@ -4287,12 +4920,13 @@
 
         // ===== SEARCH (portal-wide overlay) =====
         function openSearch() {
+            if (State.isSearchOpen) return;
+            closeCalendarDropdown();
+            rememberFocus('search');
             DOM.searchOverlay.classList.add('active');
             State.isSearchOpen = true;
-            State.panelOpen = true;
-            State.openCount++;
-            document.body.classList.add('modal-active');
-            setTimeout(function () { DOM.searchInput.focus(); }, 300);
+            syncPanelState();
+            focusSoon(DOM.searchInput, 300);
             DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
         }
 
@@ -4303,12 +4937,12 @@
         });
 
         function closeSearch() {
+            const wasOpen = State.isSearchOpen;
             DOM.searchOverlay.classList.remove('active');
             State.isSearchOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('modal-active');
             DOM.searchInput.value = '';
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
+            if (wasOpen) restoreFocus('search');
         }
 
         if (DOM.searchOverlay) DOM.searchOverlay.addEventListener('click', function (e) {
@@ -4324,7 +4958,7 @@
                 return;
             }
             const results = data.filter(function (item) {
-                const haystack = [item.title, item.desc, item.id, item.searchType || '', item.searchText || ''].join(' ').toLowerCase();
+                const haystack = item._hay || [item.title, item.desc, item.id, item.searchType || '', item.searchText || ''].join(' ').toLowerCase();
                 return haystack.includes(q);
             });
             if (results.length === 0) {
@@ -4334,27 +4968,27 @@
             let html = '';
             for (let i = 0; i < results.length; i++) {
                 const r = results[i];
-                html += '<div class="search-result-item" data-id="' + r.id + '" data-result-index="' + i + '" style="animation: fadeUp 0.35s ' + (i * 40) + 'ms both cubic-bezier(0.16,1,0.3,1);">';
+                html += '<div class="search-result-item" data-id="' + Helpers.sanitize(r.id) + '" data-result-index="' + i + '" style="animation: fadeUp 0.35s ' + (i * 40) + 'ms both cubic-bezier(0.16,1,0.3,1);">';
                 html += '<span class="sri-icon">' + r.icon + '</span>';
                 html += '<div class="sri-text"><h4>' + Helpers.sanitize(r.title) + '</h4><p>' + Helpers.sanitize(r.desc) + '</p></div>';
                 html += '</div>';
             }
+            container._results = results;
             container.innerHTML = html;
-            container.querySelectorAll('.search-result-item').forEach(function (el) {
-                el.addEventListener('click', function () {
-                    const item = results[Number(el.dataset.resultIndex)];
-                    closeSearch();
-                    if (item && item.calendarMonth != null && typeof window.PSBSCalendarGoToMonth === 'function') {
-                        const day = item.calendarDay || 1;
-                        window.PSBSCalendarGoToMonth(item.calendarMonth, day);
-                        return;
-                    }
-                    const id = el.getAttribute('data-id');
-                    const target = document.getElementById(id);
-                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
         }
+        // Delegated: one listener, however many results are shown
+        if (DOM.searchResults) DOM.searchResults.addEventListener('click', function (e) {
+            const el = e.target.closest('.search-result-item');
+            if (!el) return;
+            const item = (DOM.searchResults._results || [])[Number(el.dataset.resultIndex)];
+            closeSearch();
+            if (item && item.calendarMonth != null && typeof window.PSBSCalendarGoToMonth === 'function') {
+                window.PSBSCalendarGoToMonth(item.calendarMonth, item.calendarDay || 1);
+                return;
+            }
+            const target = document.getElementById(el.getAttribute('data-id'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
         if (DOM.searchInput) DOM.searchInput.addEventListener('input', function () { performSearch(this.value); });
 
         var closeSearchFromButton = function (e) {
@@ -4374,30 +5008,22 @@
         function openSidebar() {
             if (State.panelOpen && !State.isSidebarOpen) return;
             closeAllPanels(['sidebar']);
+            rememberFocus('sidebar');
             DOM.sidebar.classList.add('active');
             DOM.sidebarOverlay.classList.add('active');
             DOM.menuBtn.setAttribute('aria-expanded', 'true');
-            document.body.style.overflow = 'hidden';
             State.isSidebarOpen = true;
-            State.panelOpen = true;
-            State.openCount++;
-            document.body.classList.add('sidebar-active');
+            syncPanelState();
         }
 
         function closeSidebar() {
+            const wasOpen = State.isSidebarOpen;
             DOM.sidebar.classList.remove('active');
-            if (!DOM.rightPanel.classList.contains('active')) {
-                DOM.sidebarOverlay.classList.remove('active');
-                if (!State.isDropdownOpen && !State.isEditModalOpen && !State.isSearchOpen &&
-                    !State.isThemePresetsOpen && !State.isNameModalOpen && !State.isWelcomeOpen) {
-                    document.body.style.overflow = '';
-                }
-            }
+            if (!DOM.rightPanel.classList.contains('active')) DOM.sidebarOverlay.classList.remove('active');
             DOM.menuBtn.setAttribute('aria-expanded', 'false');
             State.isSidebarOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('sidebar-active');
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
+            if (wasOpen) restoreFocus('sidebar');
         }
 
         if (DOM.menuBtn) DOM.menuBtn.addEventListener('click', function () {
@@ -4420,10 +5046,7 @@
                 DOM.profileDropdown.classList.add('active');
                 DOM.profileBtn.setAttribute('aria-expanded', 'true');
                 State.isDropdownOpen = true;
-                State.panelOpen = true;
-                State.openCount++;
-                document.body.classList.add('dropdown-active');
-                document.body.style.overflow = 'hidden';
+                syncPanelState();
             } else { closeProfileDropdown(); }
         }
 
@@ -4431,19 +5054,12 @@
             DOM.profileDropdown.classList.remove('active');
             DOM.profileBtn.setAttribute('aria-expanded', 'false');
             State.isDropdownOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('dropdown-active');
-            if (!State.isSidebarOpen && !State.isNoticeOpen && !State.isDocumentsOpen &&
-                !State.isEditModalOpen && !State.isNameModalOpen && !State.isWelcomeOpen &&
-                !State.isSearchOpen && !State.isThemePresetsOpen) {
-                document.body.style.overflow = '';
-            }
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
         }
 
         if (DOM.profileBtn) DOM.profileBtn.addEventListener('click', toggleProfileDropdown);
         document.addEventListener('click', function (e) {
-            if (DOM.profileDropdown && !DOM.profileDropdown.contains(e.target) && e.target !== DOM.profileBtn) {
+            if (State.isDropdownOpen && DOM.profileDropdown && !DOM.profileDropdown.contains(e.target) && e.target !== DOM.profileBtn) {
                 closeProfileDropdown();
             }
             if (!e.target.closest('.doc-menu') && !e.target.closest('.doc-menu-btn')) {
@@ -4559,41 +5175,47 @@
             for (let i = 0; i < themePresets.length; i++) {
                 const t = themePresets[i];
                 const active = t.id === selectedThemePreset ? 'active-theme' : '';
-                html += '<div class="theme-option ' + active + '" data-theme-id="' + t.id + '" style="animation: fadeUp 0.4s ' + (i * 35) + 'ms both cubic-bezier(0.16,1,0.3,1);">';
+                html += '<div class="theme-option ' + active + '" data-theme-id="' + t.id + '" role="button" tabindex="0" aria-label="' + t.label + ' theme" style="animation: fadeUp 0.4s ' + (i * 35) + 'ms both cubic-bezier(0.16,1,0.3,1);">';
                 html += '<div class="theme-swatch" style="background:' + t.color + ';"></div>';
                 html += '<div class="theme-name">' + t.label + '</div>';
                 html += '<div class="theme-check"><i class="ri-check-line"></i></div>';
                 html += '</div>';
             }
             grid.innerHTML = html;
-            grid.querySelectorAll('.theme-option').forEach(function (el) {
-                el.addEventListener('click', function () {
-                    grid.querySelectorAll('.theme-option').forEach(function (c) {
-                        c.classList.remove('active-theme');
-                    });
-                    el.classList.add('active-theme');
-                    selectedThemePreset = el.getAttribute('data-theme-id');
-                });
+        }
+        // Delegated selection (mouse + keyboard)
+        if (DOM.themePresetsGrid) {
+            DOM.themePresetsGrid.addEventListener('click', function (e) {
+                const el = e.target.closest('.theme-option');
+                if (!el) return;
+                DOM.themePresetsGrid.querySelectorAll('.theme-option').forEach(function (c) { c.classList.remove('active-theme'); });
+                el.classList.add('active-theme');
+                selectedThemePreset = el.getAttribute('data-theme-id');
+            });
+            DOM.themePresetsGrid.addEventListener('keydown', function (e) {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                const el = e.target.closest('.theme-option');
+                if (el) { e.preventDefault(); el.click(); }
             });
         }
 
         function openThemePresets() {
             if (State.panelOpen && !State.isThemePresetsOpen) return;
             closeAllPanels(['themePresets']);
+            rememberFocus('theme');
+            selectedThemePreset = Helpers.getThemePreset();   // show what is applied, not a choice abandoned last time
             renderThemePresets();
             DOM.themePresetsModal.classList.add('active');
             State.isThemePresetsOpen = true;
-            State.panelOpen = true;
-            State.openCount++;
-            document.body.classList.add('modal-active');
+            syncPanelState();
         }
 
         function closeThemePresets() {
+            const wasOpen = State.isThemePresetsOpen;
             DOM.themePresetsModal.classList.remove('active');
             State.isThemePresetsOpen = false;
-            State.panelOpen = false;
-            document.body.classList.remove('modal-active');
-            if (State.openCount > 0) State.openCount--;
+            syncPanelState();
+            if (wasOpen) restoreFocus('theme');
         }
 
         if (DOM.themePresetsCloseBtn) DOM.themePresetsCloseBtn.addEventListener('click', closeThemePresets);
@@ -4635,6 +5257,7 @@
         // ===== CLOSE ALL PANELS =====
         function closeAllPanels(exclude) {
             exclude = exclude || [];
+            closeCalendarDropdown();
             if (exclude.indexOf('dropdown') === -1) closeProfileDropdown();
             if (exclude.indexOf('sidebar') === -1) closeSidebar();
             if (exclude.indexOf('rightpanel') === -1) RightPanel.close();
@@ -4647,22 +5270,21 @@
                 !DOM.rightPanel.classList.contains('active')) {
                 DOM.sidebarOverlay.classList.remove('active');
             }
-
-            if (!State.isSidebarOpen && !State.isNoticeOpen &&
-                !State.isDocumentsOpen && !State.isDropdownOpen && !State.isEditModalOpen &&
-                !State.isNameModalOpen && !State.isWelcomeOpen && !State.isSearchOpen &&
-                !State.isThemePresetsOpen) {
-                document.body.style.overflow = '';
-                document.body.classList.remove('modal-active', 'sidebar-active', 'right-panel-active',
-                    'dropdown-active', 'welcome-active');
-            }
+            syncPanelState();
         }
 
         // ===== BACK BUTTON =====
-        history.pushState({ psbs: true }, '');
+        // One extra history entry lets Back close an open panel instead of leaving the page.
+        // Don't stack another on reload, and when nothing is open let the Back press through
+        // (previously the first Back press on a clean page did nothing).
+        if (!(history.state && history.state.psbs)) history.pushState({ psbs: true }, '');
 
         window.addEventListener('popstate', function () {
-            if (State.openCount <= 0) return;
+            syncPanelState();
+            if (State.openCount <= 0) {
+                if (!(history.state && history.state.psbs)) history.back();
+                return;
+            }
             if (State.isThemePresetsOpen) { closeThemePresets(); history.pushState({ psbs: true }, ''); return; }
             if (State.isSearchOpen) { closeSearch(); history.pushState({ psbs: true }, ''); return; }
             if (State.isWelcomeOpen) { closeWelcomeCard(); history.pushState({ psbs: true }, ''); return; }
@@ -4677,9 +5299,6 @@
 
         // ============================================================
         // OUTER SWIPE GESTURES (portal)
-        // Priority: month carousel > sidebar/panel swipes.
-        // If a touch starts inside the calendar swipe zone, the portal's
-        // gestures are skipped entirely for that touch sequence.
         // ============================================================
         const Gestures = {
             init: function () {
@@ -4711,16 +5330,12 @@
                 State.touchInsideRightPanel = !!(DOM.rightPanel && DOM.rightPanel.contains(e.target) &&
                     DOM.rightPanel.classList.contains('active'));
 
-                // NEW: If the touch began inside the month carousel region,
-                // surrender the gesture entirely to the calendar and do not
-                // try to drag the sidebar or right panel.
                 var calZone = e.target && e.target.closest ? e.target.closest('#gridSwipeContainer') : null;
                 State.touchInsideCalendar = !!calZone;
             },
             onTouchMove: function (e) {
                 if (State.isSearchOpen) return;
                 if (State.touchInsideRightPanel) return;
-                // NEW: months own the gesture — never drag panels from here.
                 if (State.touchInsideCalendar) return;
 
                 const touch = e.touches[0];
@@ -4835,6 +5450,21 @@
             }, 2600);
         }, 1200);
 
+        // ===== DIALOG FOCUS TRAP (aria-modal dialogs must keep Tab inside) =====
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Tab') return;
+            const dlg = document.querySelector('.modal-overlay.active, .welcome-card-overlay.active, .search-overlay.active');
+            if (!dlg) return;
+            const f = Array.prototype.filter.call(
+                dlg.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])'),
+                function (el) { return el.getClientRects().length > 0; });
+            if (!f.length) return;
+            const first = f[0], last = f[f.length - 1];
+            if (!dlg.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+            else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
+
         // ===== KEYBOARD SHORTCUTS =====
         document.addEventListener('keydown', function (e) {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -4931,11 +5561,61 @@
     <script>
     (function () {
         'use strict';
-        if (!window.db) { console.error('[Calendar] Supabase client not found on window.db'); return; }
 
+        // ---------------------------------------------------------------
+        // Constants & small helpers
+        // ---------------------------------------------------------------
+        const YEAR_BS = 2083;      // year served by the `calendar_data` table (was hard-coded in several places)
+        const MONTH_COUNT = 12;
+
+        // Anything that originates in the database is escaped before it reaches innerHTML.
+        const ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ESC_MAP[c]);
+        // Muhurta text may legitimately contain simple line-break / emphasis tags: escape everything,
+        // then restore only those bare, attribute-free tags.
+        const safeRich = s => esc(s).replace(/&lt;(\/?)(br|b|strong|i|em)\s*\/?&gt;/gi,
+            (m, slash, tag) => tag.toLowerCase() === 'br' ? '<br>' : '<' + slash + tag.toLowerCase() + '>');
+
+        // `new Date('2026-04-14')` is UTC midnight: that is 05:45 local in Nepal (which broke "is today inside this
+        // month?" on the 1st of every month) and the previous evening for anyone west of UTC (AD day numbers were off
+        // by one). Stored start dates are calendar dates, so parse them as *local* dates.
+        function toLocalMidnight(v) {
+            if (v == null || v === '') return null;
+            if (typeof v === 'string') {
+                const s = v.trim();
+                let m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+                if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+                // "…T00:00:00Z" is how a date-only column often serialises: its intended calendar date is the UTC one.
+                m = /^(\d{4})-(\d{2})-(\d{2})T00:00:00(?:\.0+)?(?:Z|\+00:00)$/.exec(s);
+                if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+            }
+            const d = v instanceof Date ? v : new Date(v);
+            if (isNaN(d.getTime())) return null;
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+
+        const withTimeout = (promise, ms) => {
+            let t;
+            const timeout = new Promise((_, reject) => { t = setTimeout(() => reject(new Error('Request timed out')), ms); });
+            return Promise.race([promise, timeout]).finally(() => clearTimeout(t));
+        };
+
+        const $id = id => document.getElementById(id);
+
+        // ---------------------------------------------------------------
+        // Toasts: reuse the portal's queued Toast so the two never fight over #toast
+        // ---------------------------------------------------------------
         const CalHelpers = {
+            _last: { msg: '', at: 0 },
             showToast: function (msg, type) {
-                const el = document.getElementById('toast');
+                const now = Date.now();
+                if (msg === this._last.msg && now - this._last.at < 2800) return; // rapid repeats (e.g. spamming "आज")
+                this._last = { msg: msg, at: now };
+                if (typeof Toast !== 'undefined' && Toast && typeof Toast.show === 'function') {
+                    Toast.show(msg, type || 'info', 2800);
+                    return;
+                }
+                const el = $id('toast');
                 if (!el) { console.log('[Cal]', msg); return; }
                 el.className = 'toast toast-' + (type || 'info');
                 el.querySelector('.toast-message').textContent = msg;
@@ -4948,31 +5628,46 @@
             }
         };
 
+        // ---------------------------------------------------------------
+        // Scroll lock (used while the month dropdown is open)
+        // ---------------------------------------------------------------
+        // The stylesheet pins `top: 0 !important` on the locked body, which silently overrode the inline negative
+        // `top` the old code set. The page therefore jumped to the top and the dropdown (positioned beforehand)
+        // ended up detached from its button. The offset now travels through a CSS variable the stylesheet honours.
         const ScrollLock = {
             _y: 0, _locked: false,
             lock() {
                 if (this._locked) return;
-                this._y = window.scrollY;
+                this._y = window.pageYOffset || document.documentElement.scrollTop || 0;
+                document.body.style.setProperty('--scroll-lock-top', '-' + this._y + 'px');
                 document.body.classList.add('body-scroll-locked');
-                document.body.style.top = '-' + this._y + 'px';
                 this._locked = true;
             },
             unlock() {
                 if (!this._locked) return;
                 document.body.classList.remove('body-scroll-locked');
-                document.body.style.top = '';
+                document.body.style.removeProperty('--scroll-lock-top');
+                // html { scroll-behavior: smooth } would animate the restore; make it instant.
+                const root = document.documentElement, prev = root.style.scrollBehavior;
+                root.style.scrollBehavior = 'auto';
                 window.scrollTo(0, this._y);
+                root.style.scrollBehavior = prev;
                 this._locked = false;
             },
             isLocked() { return this._locked; }
         };
 
+        // ---------------------------------------------------------------
+        // State
+        // ---------------------------------------------------------------
         let MONTHS = [];
         let currentMonthIdx = 3;
         let selectedMonthIdx = -1;
         let selectedDayBS = -1;
-        let TODAY = { monthIdx: 3, dayBS: 8, yearBS: 2083 };
+        let TODAY = { monthIdx: 3, dayBS: 8, yearBS: YEAR_BS };
         let isAnimatingSwipe = false;
+        let calendarReady = false;
+        let builtMonthIdx = -1, builtData = null;   // which month/data the carousel DOM currently shows
 
         const nepaliNumbers = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
         const toNepaliDigits = n => n.toString().split('').map(d => nepaliNumbers[d] || d).join('');
@@ -4983,57 +5678,120 @@
         const dayNamesFullBS = ["आइतबार", "सोमबार", "मङ्गलबार", "बुधबार", "बिहीबार", "शुक्रबार", "शनिबार"];
         const monthNamesBS = ["वैशाख", "जेठ", "असार", "श्रावण", "भदौ", "असोज", "कार्तिक", "मंसिर", "पुस", "माघ", "फागुन", "चैत्र"];
 
+        // Frequently used elements (the script runs after the markup, so they exist)
+        const quoteEl = $id('quoteText');
+        const detailPanelEl = $id('detailPanel');
+        const programsCardEl = document.querySelector('.programs-card');
+        const daysDiffEl = $id('daysDiffText');
+        const clockEl = $id('clockDisplay');
+
+        // Month helpers (AD day numbers are computed once per month instead of per cell render)
+        function finishMonth(md) {
+            md.adDays = [];
+            if (md.adStartDate) {
+                const y = md.adStartDate.getFullYear(), mo = md.adStartDate.getMonth(), d0 = md.adStartDate.getDate();
+                for (let i = 0; i < md.daysCount; i++) md.adDays.push(new Date(y, mo, d0 + i).getDate());
+            }
+            md.progByDay = {};
+            md.programs.forEach(p => { if (!(p.day in md.progByDay)) md.progByDay[p.day] = p; });
+            return md;
+        }
+        const adDay = (m, d) => (m.adDays[d - 1] == null ? '' : m.adDays[d - 1]);
+        const adDateOf = (m, d) => m.adStartDate
+            ? new Date(m.adStartDate.getFullYear(), m.adStartDate.getMonth(), m.adStartDate.getDate() + d - 1) : null;
+
         function calculateTodayBS() {
             if (!MONTHS || MONTHS.length === 0) return;
             const now = new Date();
             const todayAD = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            for (let m = 0; m < 12; m++) {
-                const mStart = new Date(MONTHS[m].adStartDate);
-                const mEnd = new Date(mStart); mEnd.setDate(mEnd.getDate() + MONTHS[m].daysCount - 1);
-                if (todayAD >= mStart && todayAD <= mEnd) {
-                    const diff = Math.round((todayAD - mStart) / 86400000) + 1;
-                    TODAY = { monthIdx: m, dayBS: diff, yearBS: 2083 };
+            for (let m = 0; m < MONTH_COUNT; m++) {
+                if (!MONTHS[m].adStartDate) continue;
+                const offset = Math.round((todayAD - MONTHS[m].adStartDate) / 86400000);
+                if (offset >= 0 && offset < MONTHS[m].daysCount) {
+                    TODAY = { monthIdx: m, dayBS: offset + 1, yearBS: YEAR_BS };
                     return;
                 }
             }
-            TODAY = { monthIdx: 3, dayBS: 8, yearBS: 2083 };
+            // Today lies outside the loaded year: clamp to the nearest edge (was a hard-coded Shrawan 8).
+            const first = MONTHS[0].adStartDate;
+            TODAY = (first && todayAD < first)
+                ? { monthIdx: 0, dayBS: 1, yearBS: YEAR_BS }
+                : { monthIdx: MONTH_COUNT - 1, dayBS: MONTHS[MONTH_COUNT - 1].daysCount, yearBS: YEAR_BS };
         }
 
+        // ---------------------------------------------------------------
+        // Clock + "days from today" ticker (one timer, idle while the tab is hidden)
+        // ---------------------------------------------------------------
         function updateClock() {
             const now = new Date();
             const p = n => String(n).padStart(2, '0');
-            const el = document.getElementById('clockDisplay');
-            if (el) el.textContent = p(now.getHours()) + ':' + p(now.getMinutes()) + ':' + p(now.getSeconds());
+            if (clockEl) clockEl.textContent = p(now.getHours()) + ':' + p(now.getMinutes()) + ':' + p(now.getSeconds());
         }
-        setInterval(updateClock, 1000); updateClock();
+        let ticks = 0;
+        setInterval(function () {
+            if (document.hidden) return;
+            updateClock();
+            if (++ticks % 60 === 0) updateDaysDifference();
+        }, 1000);
+        updateClock();
 
-        const dropdownBtn = document.getElementById('monthDropdownBtn');
-        const dropdownPortal = document.getElementById('monthDropdownPortal');
-        const dropdownBackdrop = document.getElementById('dropdownBackdrop');
+        // ---------------------------------------------------------------
+        // Month dropdown
+        // ---------------------------------------------------------------
+        const dropdownBtn = $id('monthDropdownBtn');
+        const dropdownPortal = $id('monthDropdownPortal');
+        const dropdownBackdrop = $id('dropdownBackdrop');
         let dropdownOpen = false;
+        let dropdownBuiltFor = null;
+        dropdownBtn.setAttribute('aria-haspopup', 'listbox');
+        $id('prevMonthBtn').setAttribute('aria-label', 'Previous month');
+        $id('nextMonthBtn').setAttribute('aria-label', 'Next month');
 
         function populateDropdownPortal(selectedIdx) {
             if (!MONTHS || MONTHS.length === 0) return;
-            let html = '';
-            MONTHS.forEach((m, idx) => {
-                const active = (idx === selectedIdx) ? 'active-option' : '';
-                html += `<div class="month-option ${active}" data-index="${idx}" role="option" aria-selected="${idx === selectedIdx}">
-                    <span class="month-label">${m.nameBS}</span><span class="month-sub">${m.nameAD}</span></div>`;
-            });
-            dropdownPortal.innerHTML = html;
-            dropdownBtn.textContent = MONTHS[selectedIdx].nameBS;
-            dropdownPortal.querySelectorAll('.month-option').forEach(el => {
-                el.addEventListener('click', function () {
-                    const idx = parseInt(this.getAttribute('data-index'));
-                    changeMonth(idx); closeDropdown();
+            if (dropdownBuiltFor !== MONTHS) {            // build once per data load, not on every render
+                let html = '';
+                MONTHS.forEach((m, idx) => {
+                    html += '<div class="month-option" data-index="' + idx + '" role="option" tabindex="-1" aria-selected="false">' +
+                        '<span class="month-label">' + esc(m.nameBS) + '</span><span class="month-sub">' + esc(m.nameAD) + '</span></div>';
                 });
-            });
+                dropdownPortal.innerHTML = html;
+                dropdownBuiltFor = MONTHS;
+            }
+            markActiveOption(selectedIdx);
+            dropdownBtn.textContent = MONTHS[selectedIdx].nameBS;
         }
+        function markActiveOption(idx) {
+            const opts = dropdownPortal.children;
+            for (let i = 0; i < opts.length; i++) {
+                const on = i === idx;
+                opts[i].classList.toggle('active-option', on);
+                opts[i].setAttribute('aria-selected', on ? 'true' : 'false');
+            }
+        }
+        // One delegated listener instead of one per option per render
+        dropdownPortal.addEventListener('click', function (e) {
+            const opt = e.target.closest('.month-option');
+            if (!opt) return;
+            const idx = parseInt(opt.getAttribute('data-index'), 10);
+            if (isNaN(idx)) return;
+            changeMonth(idx); closeDropdown();
+        });
+        dropdownPortal.addEventListener('keydown', function (e) {
+            const opts = Array.prototype.slice.call(dropdownPortal.querySelectorAll('.month-option'));
+            const i = opts.indexOf(document.activeElement);
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const n = opts.length; if (!n) return;
+                opts[(i + (e.key === 'ArrowDown' ? 1 : -1) + n) % n].focus({ preventScroll: true });
+            } else if ((e.key === 'Enter' || e.key === ' ') && i > -1) {
+                e.preventDefault();
+                const idx = parseInt(opts[i].getAttribute('data-index'), 10);
+                changeMonth(idx); closeDropdown(true);
+            }
+        });
 
-        function openDropdown() {
-            if (dropdownOpen) return;
-            dropdownOpen = true;
-            const rect = dropdownBtn.getBoundingClientRect();
+        function placeDropdown(rect) {
             const vw = window.innerWidth, vh = window.innerHeight;
             let left = rect.left, top = rect.bottom + 6, width = Math.min(rect.width, 260);
             if (left + width > vw - 10) left = vw - width - 10;
@@ -5044,104 +5802,105 @@
             dropdownPortal.style.top = top + 'px';
             dropdownPortal.style.width = width + 'px';
             dropdownPortal.style.maxHeight = Math.min(260, vh - top - 20) + 'px';
+        }
+        function openDropdown() {
+            if (dropdownOpen || !MONTHS.length) return;
+            dropdownOpen = true;
+            placeDropdown(dropdownBtn.getBoundingClientRect());   // measured before the scroll lock, which no longer moves the page
             dropdownBackdrop.classList.add('show');
             dropdownPortal.classList.add('open');
             dropdownBtn.setAttribute('aria-expanded', 'true');
             ScrollLock.lock();
-            dropdownPortal.querySelectorAll('.month-option').forEach(el => {
-                const idx = parseInt(el.getAttribute('data-index'));
-                el.classList.toggle('active-option', idx === currentMonthIdx);
-                el.setAttribute('aria-selected', idx === currentMonthIdx ? 'true' : 'false');
-            });
+            markActiveOption(currentMonthIdx);
+            const active = dropdownPortal.querySelector('.month-option.active-option');
+            if (active) active.focus({ preventScroll: true });
         }
-        function closeDropdown() {
+        function closeDropdown(restoreFocus) {
             if (!dropdownOpen) return;
             dropdownOpen = false;
+            const hadFocusInside = dropdownPortal.contains(document.activeElement);
             dropdownBackdrop.classList.remove('show');
             dropdownPortal.classList.remove('open');
             dropdownBtn.setAttribute('aria-expanded', 'false');
             ScrollLock.unlock();
+            if (restoreFocus === true || hadFocusInside) dropdownBtn.focus({ preventScroll: true });
         }
+        window.PSBSCalendarCloseDropdown = function () { closeDropdown(); };
+
         dropdownBtn.addEventListener('click', function (e) { e.stopPropagation(); dropdownOpen ? closeDropdown() : openDropdown(); });
         dropdownBackdrop.addEventListener('click', function (e) { e.stopPropagation(); closeDropdown(); });
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                if (dropdownOpen) closeDropdown();
-            }
+            if (e.key === 'Escape' && dropdownOpen) closeDropdown(true);
         });
         let resizeTimer;
         window.addEventListener('resize', function () {
+            if (!dropdownOpen) return;
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () {
-                if (dropdownOpen) {
-                    const rect = dropdownBtn.getBoundingClientRect();
-                    const vw = window.innerWidth;
-                    let left = rect.left;
-                    let width = Math.min(rect.width, 260);
-                    if (left + width > vw - 10) left = vw - width - 10;
-                    if (left < 10) left = 10;
-                    dropdownPortal.style.left = left + 'px';
-                    dropdownPortal.style.top = (rect.bottom + 6) + 'px';
-                    dropdownPortal.style.width = width + 'px';
-                }
+                if (dropdownOpen) placeDropdown(dropdownBtn.getBoundingClientRect());
             }, 150);
-        });
+        }, { passive: true });
 
-        // Expose calendar data/actions to the portal-wide search layer.
-        // The main portal script runs in a separate IIFE, so these explicit bridges
-        // keep the calendar search independent without leaking internal variables.
+        // ---------------------------------------------------------------
+        // Search data for the portal's search overlay (cached per data load)
+        // ---------------------------------------------------------------
+        const SEARCH_ALIASES = {
+            'कृष्ण जन्माष्टमी': 'krishna janmashtami janmashtami कृष्ण जन्माष्टमी',
+            'जन्माष्टमी': 'krishna janmashtami janmashtami जन्माष्टमी',
+            'दशैं': 'dashain दशैं dasain',
+            'दशैँ': 'dashain दशैं dasain',
+            'तिहार': 'tihar दीपावली diwali festival तिहार',
+            'दीपावली': 'diwali tihar दीपावली तिहार',
+            'नाग पञ्चमी': 'nag panchami naga panchami नाग पञ्चमी नाग पंचमी',
+            'नाग पंचमी': 'nag panchami naga panchami नाग पञ्चमी नाग पंचमी',
+            'होली': 'holi होली फागु',
+            'शिवरात्रि': 'shivaratri maha shivaratri शिवरात्रि महाशिवरात्रि',
+            'राम नवमी': 'ram navami राम नवमी',
+            'बुद्ध जयन्ती': 'buddha jayanti बुद्ध जयन्ती बुद्ध पूर्णिमा',
+            'गाईजात्रा': 'gaijatra gai jatra गाईजात्रा',
+            'इन्द्रजात्रा': 'indra jatra indrajatra इन्द्रजात्रा',
+            'तीज': 'teej हरितालिका तीज',
+            'जनै पूर्णिमा': 'janai purnima raksha bandhan जनै पूर्णिमा रक्षा बन्धन',
+            'माघे सङ्क्रान्ति': 'maghe sankranti maghi माघे सङ्क्रान्ति',
+            'सरस्वती पूजा': 'saraswati puja basanta panchami सरस्वती पूजा',
+            'फागु पूर्णिमा': 'holi fagu purnima फागु पूर्णिमा होली',
+            'valentine': 'valentine day valentines day भ्यालेन्टाइन',
+            'chocolate day': 'chocolate day चकलेट डे',
+            'rose day': 'rose day रोज डे',
+            'friendship day': 'friendship day मित्रता दिवस',
+            "mother's day": 'mothers day mother day मातातीर्थ औंसी आमाको मुख हेर्ने दिन',
+            "father's day": 'fathers day father day बुबाको मुख हेर्ने दिन',
+            'new year': 'new year नयाँ वर्ष नव वर्ष',
+            'christmas': 'christmas क्रिसमस',
+            'eid': 'eid ईद',
+            'republic day': 'republic day गणतन्त्र दिवस',
+            'constitution day': 'constitution day संविधान दिवस'
+        };
+        // The old matcher tested every *word* of every alias as a substring of the title, so "day" (from "rose day",
+        // "valentine day"…) tagged unrelated titles such as "Republic Day", and "holi" matched "Holiday". Aliases are now
+        // matched on the phrase itself or on whole, non-generic words.
+        const GENERIC_WORDS = new Set(['day', 'डे', 'new', 'year', 'festival', 'puja', 'पूजा', 'purnima', 'पूर्णिमा', 'jatra',
+            'जात्रा', 'jayanti', 'जयन्ती', 'mother', 'mothers', 'father', 'fathers', 'special', 'event', 'the', 'of', 'and']);
+        const tokenize = s => String(s || '').toLowerCase().split(/[\s/,.\-–—()'’"]+/).filter(Boolean);
+        const ALIAS_INDEX = Object.keys(SEARCH_ALIASES).map(key => ({
+            key: key.toLowerCase(), value: SEARCH_ALIASES[key],
+            words: tokenize(SEARCH_ALIASES[key]).filter(w => w.length > 1 && !GENERIC_WORDS.has(w))
+        }));
+        function getAliases(title) {
+            const t = String(title || '').toLowerCase().trim();
+            const tokens = new Set(tokenize(t));
+            let out = '';
+            ALIAS_INDEX.forEach(function (a) {
+                if (t.indexOf(a.key) !== -1 || a.words.some(w => tokens.has(w))) out += ' ' + a.value;
+            });
+            return out;
+        }
+
+        let searchCache = null, searchCacheFor = null;
         window.PSBSCalendarSearchData = function () {
+            if (!MONTHS || !MONTHS.length) return [];
+            if (searchCache && searchCacheFor === MONTHS) return searchCache;
             const data = [];
-            if (!MONTHS || !MONTHS.length) return data;
-
-            // Bilingual aliases make common festival/event names searchable in
-            // either English or Nepali, while the actual calendar data remains
-            // the single source of truth for dates.
-            const aliases = {
-                'कृष्ण जन्माष्टमी': 'krishna janmashtami janmashtami कृष्ण जन्माष्टमी',
-                'जन्माष्टमी': 'krishna janmashtami janmashtami जन्माष्टमी',
-                'दशैं': 'dashain दशैं dasain',
-                'दशैँ': 'dashain दशैं dasain',
-                'तिहार': 'tihar दीपावली diwali festival तिहार',
-                'दीपावली': 'diwali tihar दीपावली तिहार',
-                'नाग पञ्चमी': 'nag panchami naga panchami नाग पञ्चमी नाग पंचमी',
-                'नाग पंचमी': 'nag panchami naga panchami नाग पञ्चमी नाग पंचमी',
-                'होली': 'holi होली फागु',
-                'शिवरात्रि': 'shivaratri maha shivaratri शिवरात्रि महाशिवरात्रि',
-                'राम नवमी': 'ram navami राम नवमी',
-                'बुद्ध जयन्ती': 'buddha jayanti बुद्ध जयन्ती बुद्ध पूर्णिमा',
-                'गाईजात्रा': 'gaijatra gai jatra गाईजात्रा',
-                'इन्द्रजात्रा': 'indra jatra indrajatra इन्द्रजात्रा',
-                'तीज': 'teej हरितालिका तीज',
-                'जनै पूर्णिमा': 'janai purnima raksha bandhan जनै पूर्णिमा रक्षा बन्धन',
-                'माघे सङ्क्रान्ति': 'maghe sankranti maghi माघे सङ्क्रान्ति',
-                'सरस्वती पूजा': 'saraswati puja basanta panchami सरस्वती पूजा',
-                'फागु पूर्णिमा': 'holi fagu purnima फागु पूर्णिमा होली',
-                'valentine': 'valentine day valentines day भ्यालेन्टाइन',
-                'chocolate day': 'chocolate day चकलेट डे',
-                'rose day': 'rose day रोज डे',
-                'friendship day': 'friendship day मित्रता दिवस',
-                "mother's day": 'mothers day mother day मातातीर्थ औंसी आमाको मुख हेर्ने दिन',
-                "father's day": 'fathers day father day बुबाको मुख हेर्ने दिन',
-                'new year': 'new year नयाँ वर्ष नव वर्ष',
-                'christmas': 'christmas क्रिसमस',
-                'eid': 'eid ईद',
-                'republic day': 'republic day गणतन्त्र दिवस',
-                'constitution day': 'constitution day संविधान दिवस'
-            };
-
-            function getAliases(title) {
-                const t = String(title || '').toLowerCase().trim();
-                let out = '';
-                Object.keys(aliases).forEach(function (key) {
-                    const k = key.toLowerCase();
-                    if (t.indexOf(k) !== -1 || aliases[key].toLowerCase().split(' ').some(function (word) {
-                        return word && t.indexOf(word) !== -1;
-                    })) out += ' ' + aliases[key];
-                });
-                return out;
-            }
-
             MONTHS.forEach(function (m, mi) {
                 const monthLabel = (m.nameBS || '') + ' ' + (m.nameAD || '');
                 Object.keys(m.events || {}).forEach(function (day) {
@@ -5151,8 +5910,7 @@
                     const typeWords = ev.isHoliday
                         ? 'festival holiday पर्व बिदा छुट्टी उत्सव'
                         : 'event special day कार्यक्रम घटना';
-                    const aliasWords = getAliases(title);
-                    data.push({
+                    const item = {
                         id: 'calendar-event-' + mi + '-' + day,
                         title: title,
                         desc: monthLabel + ' · ' + toNepaliDigits(day) + ' गते · ' + (ev.isHoliday ? 'Festival / पर्व' : 'Event / कार्यक्रम'),
@@ -5160,75 +5918,101 @@
                         calendarMonth: mi,
                         calendarDay: Number(day),
                         searchType: ev.isHoliday ? 'festival' : 'event',
-                        searchText: [title, monthLabel, day, typeWords, aliasWords].join(' ')
-                    });
+                        searchText: [title, monthLabel, day, typeWords, getAliases(title)].join(' ')
+                    };
+                    item._hay = [item.title, item.desc, item.id, item.searchType, item.searchText].join(' ').toLowerCase();
+                    data.push(item);
                 });
             });
+            searchCache = data; searchCacheFor = MONTHS;
             return data;
         };
 
-        // ---- Carousel ----
-        const gridBox = document.getElementById('gridSwipeContainer');
-        const track = document.getElementById('monthTrack');
-        const dotsEl = document.getElementById('monthDots');
+        // ---------------------------------------------------------------
+        // Carousel
+        // ---------------------------------------------------------------
+        const gridBox = $id('gridSwipeContainer');
+        const track = $id('monthTrack');
+        const dotsEl = $id('monthDots');
         const EASE = 'cubic-bezier(.22,1,.36,1)';
         let W = 0, H = [0, 0, 0], curX = 0, drag = null, raf = 0, settling = null, clickBlock = 0;
+        let dotsBuiltFor = null;
 
         function setX(x) { curX = x; track.style.transform = 'translate3d(' + x + 'px,0,0)'; }
         function measure() { W = gridBox.clientWidth; for (let i = 0; i < 3; i++) H[i] = track.children[i] ? track.children[i].offsetHeight : 0; }
         function fitTo(i) { gridBox.style.height = (H[i] || H[1]) + 'px'; }
-        function adOf(m, d) { const t = new Date(m.adStartDate); t.setDate(t.getDate() + d - 1); return t.getDate(); }
 
-        function paneHTML(mi) {
-            if (mi < 0 || mi > 11) return '';
+        function paneHTML(mi, interactive) {
+            if (mi < 0 || mi >= MONTH_COUNT) return '';
             const md = MONTHS[mi], pi = (mi + 11) % 12, ni = (mi + 1) % 12, pm = MONTHS[pi], nm = MONTHS[ni];
             const ghost = (m, idx, d) =>
                 '<div class="calendar-cell empty ghost" data-m="' + idx + '" data-d="' + d + '"><div class="cell-top"><span class="bs-day">' +
-                toNepaliDigits(d) + '</span><span class="ad-day">' + adOf(m, d) + '</span></div><div class="tithi-text">' + (m.tithis[d - 1] || '') +
+                toNepaliDigits(d) + '</span><span class="ad-day">' + adDay(m, d) + '</span></div><div class="tithi-text">' + esc(m.tithis[d - 1] || '') +
                 '</div><div class="indicator-dots"></div></div>';
             const blank = '<div class="calendar-cell empty" style="pointer-events:none"></div>';
-            let h = '<div class="month-header-details"><div class="month-title-bs">' + md.nameBS + '</div><div class="month-title-ad">' + md.nameAD + '</div></div><div class="calendar-grid">';
+            let h = '<div class="month-header-details"><div class="month-title-bs">' + esc(md.nameBS) + '</div><div class="month-title-ad">' + esc(md.nameAD) + '</div></div><div class="calendar-grid">';
             dayHeaders.forEach((dh, i) => { h += '<div class="day-header' + (i === 0 || i === 6 ? ' saturday' : '') + '">' + dh.bs + '<span>' + dh.en + '</span></div>'; });
             const se = md.startDayOfWeek;
             for (let i = 0; i < se; i++) h += mi === 0 ? blank : ghost(pm, pi, pm.daysCount - se + i + 1);
             for (let d = 1; d <= md.daysCount; d++) {
                 const info = getDateInfo(mi, d), ev = md.events[d];
-                const prog = md.programs.some(p => p.day === d);
-                const cls = 'calendar-cell' + (info.isHoliday ? ' holiday' : '') + ((mi === TODAY.monthIdx && d === TODAY.dayBS) ? ' today' : '') + ((selectedMonthIdx === mi && selectedDayBS === d) ? ' selected' : '');
+                const prog = md.progByDay[d] !== undefined;
+                const isToday = mi === TODAY.monthIdx && d === TODAY.dayBS;
+                const isSel = selectedMonthIdx === mi && selectedDayBS === d;
+                const cls = 'calendar-cell' + (info.isHoliday ? ' holiday' : '') + (isToday ? ' today' : '') + (isSel ? ' selected' : '');
+                // Keyboard access: cells of the visible month are buttons with a single roving tab stop (the selected cell)
+                const a11y = interactive ? ' role="button" tabindex="' + (isSel ? '0' : '-1') + '"' + (isToday ? ' aria-current="date"' : '') : '';
                 const dots = (info.isHoliday ? '<span class="dot dot-holiday"></span>' : '') + (prog ? '<span class="dot dot-program"></span>' : '') + ((ev && !ev.isHoliday && !info.isSunOrSat) ? '<span class="dot dot-event"></span>' : '');
-                h += '<div class="' + cls + '" data-m="' + mi + '" data-d="' + d + '"><div class="cell-top"><span class="bs-day">' + toNepaliDigits(d) + '</span><span class="ad-day">' + adOf(md, d) + '</span></div><div class="tithi-text">' + (md.tithis[d - 1] || '') + '</div><div class="indicator-dots">' + dots + '</div></div>';
+                h += '<div class="' + cls + '" data-m="' + mi + '" data-d="' + d + '"' + a11y + '><div class="cell-top"><span class="bs-day">' + toNepaliDigits(d) + '</span><span class="ad-day">' + adDay(md, d) + '</span></div><div class="tithi-text">' + esc(md.tithis[d - 1] || '') + '</div><div class="indicator-dots">' + dots + '</div></div>';
             }
             const rem = (se + md.daysCount) % 7, ee = rem ? 7 - rem : 0;
-            for (let i = 0; i < ee; i++) h += mi === 11 ? blank : ghost(nm, ni, i + 1);
+            for (let i = 0; i < ee; i++) h += mi === MONTH_COUNT - 1 ? blank : ghost(nm, ni, i + 1);
             return h + '</div>';
         }
 
         function buildPanes() {
             const c = currentMonthIdx;
             track.style.transition = 'none'; gridBox.style.transition = 'none';
-            track.innerHTML = [c - 1, c, c + 1].map(i => '<section class="month-pane" aria-hidden="' + (i !== c) + '">' + paneHTML(i) + '</section>').join('');
+            track.innerHTML = [c - 1, c, c + 1].map(i => '<section class="month-pane" aria-hidden="' + (i !== c) + '">' + paneHTML(i, i === c) + '</section>').join('');
             measure(); setX(-W); fitTo(1);
-            dotsEl.innerHTML = MONTHS.map((m, i) => '<button class="mdot' + (i === c ? ' on' : '') + '" data-i="' + i + '" aria-label="' + m.nameBS + '"></button>').join('');
+            if (dotsBuiltFor !== MONTHS) {                 // dots only change when the data does
+                dotsEl.innerHTML = MONTHS.map((m, i) => '<button class="mdot" role="tab" data-i="' + i + '" aria-label="' + esc(m.nameBS) + '"></button>').join('');
+                dotsBuiltFor = MONTHS;
+            }
+            const dots = dotsEl.children;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('on', i === c);
+                dots[i].setAttribute('aria-selected', i === c ? 'true' : 'false');
+            }
         }
-        function popIn(el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+        function popIn(el) { if (!el) return; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
 
+        function selectedCellEl() {
+            const pane = track.children[1];
+            return pane ? pane.querySelector('.calendar-cell.selected') : null;
+        }
+
+        // Full (re)render of the carousel for a month
         function renderCalendar(monthIdx) {
             if (!MONTHS || MONTHS.length === 0) return;
+            const hadFocus = gridBox.contains(document.activeElement);   // don't drop keyboard focus when the DOM is rebuilt
             currentMonthIdx = monthIdx;
             const md = MONTHS[monthIdx];
-            document.getElementById('quoteText').innerText = md.quote;
+            quoteEl.innerText = md.quote;
             dropdownBtn.textContent = md.nameBS;
             buildPanes();
             renderPrograms(md);
             populateDropdownPortal(monthIdx);
             updateDaysDifference();
-            popIn(document.getElementById('detailPanel'));
-            popIn(document.querySelector('.programs-card'));
+            popIn(detailPanelEl);
+            popIn(programsCardEl);
+            builtMonthIdx = monthIdx; builtData = MONTHS;
+            if (hadFocus) { const c = selectedCellEl(); if (c) c.focus({ preventScroll: true }); }
         }
 
         function follow(dx) {
             setX(-W + dx);
-            const nb = dx < 0 ? 2 : 0, has = nb === 2 ? currentMonthIdx < 11 : currentMonthIdx > 0;
+            const nb = dx < 0 ? 2 : 0, has = nb === 2 ? currentMonthIdx < MONTH_COUNT - 1 : currentMonthIdx > 0;
             if (has && H[nb] !== H[1]) gridBox.style.height = (H[1] + (H[nb] - H[1]) * Math.min(Math.abs(dx) / W, 1)) + 'px';
         }
         function settle(dir, vx, day) {
@@ -5247,36 +6031,47 @@
             track.style.transition = 'none'; gridBox.style.transition = 'none';
             if (s.dir) {
                 const ni = currentMonthIdx + s.dir;
-                selectDate(ni, s.day || (ni === TODAY.monthIdx ? TODAY.dayBS : 1));
+                // applySelection (not selectDate): a scroll-lock must never leave a finished swipe half-applied
+                applySelection(ni, s.day || (ni === TODAY.monthIdx ? TODAY.dayBS : 1));
             } else { setX(-W); fitTo(1); }
             isAnimatingSwipe = false;
         }
         track.addEventListener('transitionend', e => { if (e.target === track && e.propertyName === 'transform') finalize(); });
 
         function goToMonth(newIdx, day) {
-            if (!MONTHS.length || newIdx < 0 || newIdx > 11 || newIdx === currentMonthIdx) return;
+            if (!MONTHS.length || newIdx < 0 || newIdx >= MONTH_COUNT) return;
+            if (settling) finalize();                          // land any in-flight swipe so currentMonthIdx is up to date
+            if (newIdx === currentMonthIdx) {
+                // Same month: still honour an explicit day (e.g. a search hit inside the month on screen)
+                if (day && day !== selectedDayBS) { closeDropdown(); applySelection(newIdx, day); }
+                return;
+            }
+            if (drag && drag.on) return;                       // a real drag is in progress
+            drag = null;                                       // …but a stale, never-started press must not freeze navigation
             closeDropdown();
-            if (settling) finalize();
-            if (drag) return;
             measure();
             const diff = newIdx - currentMonthIdx;
             if (Math.abs(diff) === 1) { settle(diff, 0, day); return; }
-            // For non-adjacent jumps, rebuild once without opacity animation.
-            // The previous fade-to-zero caused a visible blink on month changes.
             isAnimatingSwipe = true;
             track.style.transition = 'none';
             gridBox.style.transition = 'height .28s ' + EASE;
-            selectDate(newIdx, day || (newIdx === TODAY.monthIdx ? TODAY.dayBS : 1));
+            applySelection(newIdx, day || (newIdx === TODAY.monthIdx ? TODAY.dayBS : 1));
             requestAnimationFrame(function () {
                 gridBox.style.transition = 'none';
                 isAnimatingSwipe = false;
             });
         }
+        // Relative navigation must be resolved *after* any pending swipe lands, otherwise a quick second tap on
+        // "next" computed the same target as the first and was swallowed.
+        function stepMonth(delta) {
+            if (settling) finalize();
+            goToMonth(currentMonthIdx + delta);
+        }
 
         window.PSBSCalendarGoToMonth = goToMonth;
 
         gridBox.addEventListener('pointerdown', function (e) {
-            if ((e.pointerType === 'mouse' && e.button !== 0) || dropdownOpen || ScrollLock.isLocked() || !MONTHS.length) return;
+            if (!e.isPrimary || (e.pointerType === 'mouse' && e.button !== 0) || dropdownOpen || ScrollLock.isLocked() || !MONTHS.length) return;
             if (settling) finalize();
             measure();
             drag = { id: e.pointerId, x0: e.clientX, y0: e.clientY, lx: e.clientX, lt: e.timeStamp, vx: 0, dx: 0, on: false };
@@ -5297,7 +6092,7 @@
             if (dt > 0) drag.vx = drag.vx * 0.6 + ((e.clientX - drag.lx) / dt) * 0.4;
             drag.lx = e.clientX; drag.lt = e.timeStamp;
             const dx = e.clientX - drag.x0;
-            const edge = (dx > 0 && currentMonthIdx === 0) || (dx < 0 && currentMonthIdx === 11);
+            const edge = (dx > 0 && currentMonthIdx === 0) || (dx < 0 && currentMonthIdx === MONTH_COUNT - 1);
             drag.dx = edge ? dx * 0.3 : Math.max(-W, Math.min(W, dx));
             if (!raf) raf = requestAnimationFrame(() => { raf = 0; if (drag) follow(drag.dx); });
         });
@@ -5310,9 +6105,9 @@
             clickBlock = performance.now() + 60;
             const dir = d.dx < 0 ? 1 : -1, ni = currentMonthIdx + dir;
             const flick = Math.abs(d.vx) > 0.4 && Math.sign(d.vx) === Math.sign(d.dx) && Math.abs(d.dx) > 12;
-            if ((Math.abs(d.dx) > W * 0.22 || flick) && ni >= 0 && ni <= 11 && e.type !== 'pointercancel') { settle(dir, d.vx); }
+            if ((Math.abs(d.dx) > W * 0.22 || flick) && ni >= 0 && ni < MONTH_COUNT && e.type !== 'pointercancel') { settle(dir, d.vx); }
             else {
-                if ((ni < 0 || ni > 11) && Math.abs(d.dx) > 24) CalHelpers.showToast(ni < 0 ? '📅 पहिलो महिना' : '📅 अन्तिम महिना', 'info');
+                if ((ni < 0 || ni >= MONTH_COUNT) && Math.abs(d.dx) > 24) CalHelpers.showToast(ni < 0 ? '📅 पहिलो महिना' : '📅 अन्तिम महिना', 'info');
                 settle(0, d.vx);
             }
         }
@@ -5325,26 +6120,57 @@
             const m = +cell.dataset.m, d = +cell.dataset.d;
             if (m === currentMonthIdx) selectDate(m, d); else goToMonth(m, d);
         });
-        dotsEl.addEventListener('click', e => { const b = e.target.closest('.mdot'); if (b) goToMonth(+b.dataset.i); });
-        document.addEventListener('keydown', function (e) {
-            if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || dropdownOpen || ScrollLock.isLocked() || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
-            goToMonth(currentMonthIdx + (e.key === 'ArrowRight' ? 1 : -1));
+        gridBox.addEventListener('keydown', function (e) {
+            const cell = e.target.closest && e.target.closest('.calendar-cell[data-m]');
+            if (!cell || cell.classList.contains('ghost') || e.altKey || e.ctrlKey || e.metaKey) return;
+            const m = +cell.dataset.m, d = +cell.dataset.d;
+            let nd = null;
+            if (e.key === 'Enter' || e.key === ' ') nd = d;
+            else if (e.key === 'ArrowDown') nd = d + 7;
+            else if (e.key === 'ArrowUp') nd = d - 7;
+            if (nd == null || !MONTHS[m] || nd < 1 || nd > MONTHS[m].daysCount) return;
+            e.preventDefault();
+            selectDate(m, nd);
+            const c = selectedCellEl(); if (c) c.focus({ preventScroll: true });
         });
+        dotsEl.addEventListener('click', e => { const b = e.target.closest('.mdot'); if (b) goToMonth(+b.dataset.i); });
+
+        // Left/Right arrows change month, but never while typing, with modifiers (Alt+← is browser "back"),
+        // or while any dialog / panel / dropdown is open.
+        function anyOverlayOpen() {
+            const c = document.body.classList;
+            return dropdownOpen || ScrollLock.isLocked() || c.contains('modal-active') || c.contains('sidebar-active') ||
+                c.contains('right-panel-active') || c.contains('dropdown-active') || c.contains('welcome-active');
+        }
+        document.addEventListener('keydown', function (e) {
+            if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
+            const t = e.target;
+            if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+            if (anyOverlayOpen()) return;
+            stepMonth(e.key === 'ArrowRight' ? 1 : -1);
+        });
+
         if (window.ResizeObserver) {
             new ResizeObserver(function () {
-                if (drag || settling || !MONTHS.length || !track.children.length) return;
-                measure(); setX(-W); fitTo(1);
+                if (drag || settling || !MONTHS.length || track.children.length !== 3) return;
+                const oldW = W, oldH = H[1];
+                measure();
+                if (W !== oldW || H[1] !== oldH) { setX(-W); fitTo(1); }   // skip the write when nothing moved
             }).observe(track);
         }
 
+        // ---------------------------------------------------------------
+        // Detail panel / programs
+        // ---------------------------------------------------------------
         function updateDaysDifference() {
-            const diffEl = document.getElementById('daysDiffText');
-            if (selectedMonthIdx === -1 || selectedDayBS === -1) { diffEl.textContent = '—'; return; }
-            const md = MONTHS[selectedMonthIdx]; if (!md) { diffEl.textContent = '—'; return; }
-            const selDate = new Date(md.adStartDate); selDate.setDate(selDate.getDate() + (selectedDayBS - 1));
+            if (!daysDiffEl) return;
+            if (selectedMonthIdx === -1 || selectedDayBS === -1) { daysDiffEl.textContent = '—'; return; }
+            const md = MONTHS[selectedMonthIdx]; if (!md) { daysDiffEl.textContent = '—'; return; }
+            const selDate = adDateOf(md, selectedDayBS);
+            if (!selDate) { daysDiffEl.textContent = '—'; return; }
             const now = new Date(); const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const diffDays = Math.round((selDate.getTime() - today.getTime()) / 86400000);
-            diffEl.textContent = diffDays === 0 ? 'आज' : (diffDays > 0 ? toNepaliDigits(diffDays) + ' दिन पछि' : toNepaliDigits(Math.abs(diffDays)) + ' दिन अगाडि');
+            daysDiffEl.textContent = diffDays === 0 ? 'आज' : (diffDays > 0 ? toNepaliDigits(diffDays) + ' दिन पछि' : toNepaliDigits(Math.abs(diffDays)) + ' दिन अगाडि');
         }
 
         function getDateInfo(monthIdx, dayBS) {
@@ -5356,61 +6182,92 @@
             if (monthIdx === 5 && dayBS === 18) return { isHoliday: false, eventTitle: eventData ? eventData.title : null, isSunOrSat, dayOfWeekIdx };
             if ((monthIdx === 5 && dayBS >= 28) || (monthIdx === 6 && dayBS <= 9)) return { isHoliday: true, eventTitle: eventData ? eventData.title : "दशैं बिदा", isSunOrSat, dayOfWeekIdx };
             if (monthIdx === 6 && dayBS >= 10 && dayBS <= 27) return { isHoliday: true, eventTitle: eventData ? eventData.title : "तिहार बिदा", isSunOrSat, dayOfWeekIdx };
-            const isHoliday = isSunOrSat || (eventData && eventData.isHoliday);
+            const isHoliday = !!(isSunOrSat || (eventData && eventData.isHoliday));
             return { isHoliday, eventTitle: eventData ? eventData.title : null, isSunOrSat, dayOfWeekIdx };
         }
 
+        // Month summary cards: derived only from data that is already loaded (no new queries).
+        function updateMonthStats(md) {
+            const mi = MONTHS.indexOf(md);
+            const elH = $id('statHolidays'), elS = $id('statSchoolDays'), elP = $id('statPrograms'), elE = $id('statEvents');
+            if (mi < 0 || !elH) return;
+            let hol = 0, special = 0;
+            for (let d = 1; d <= md.daysCount; d++) {
+                const info = getDateInfo(mi, d), ev = md.events[d];
+                if (info.isHoliday) hol++;
+                if (ev && !ev.isHoliday && !info.isSunOrSat) special++;   // same rule as the blue calendar dot
+            }
+            elH.textContent = toNepaliDigits(hol);
+            elS.textContent = toNepaliDigits(md.daysCount - hol);
+            elP.textContent = toNepaliDigits(md.programs ? md.programs.length : 0);
+            elE.textContent = toNepaliDigits(special);
+        }
+
         function renderPrograms(md) {
-            document.getElementById('programsCardTitle').innerText = md.nameBS.split(' ')[0] + ' महिनाका कार्यक्रमहरू';
-            const list = document.getElementById('programList');
-            list.innerHTML = '';
+            updateMonthStats(md);
+            $id('programsCardTitle').innerText = md.nameBS.split(' ')[0] + ' महिनाका कार्यक्रमहरू';
+            const list = $id('programList');
             if (md.programs && md.programs.length > 0) {
-                md.programs.forEach(p => {
-                    const li = document.createElement('li'); li.className = 'program-item';
-                    li.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>' + p.title + '</span>';
-                    list.appendChild(li);
-                });
+                let html = '';
+                md.programs.forEach(p => { html += '<li class="program-item"><i class="fa-solid fa-circle-check"></i> <span>' + esc(p.title) + '</span></li>'; });
+                list.innerHTML = html;
             } else {
                 list.innerHTML = '<li class="program-item"><i class="fa-regular fa-circle"></i> <span>यस महिना विशेष कार्यक्रम तोकिएको छैन।</span></li>';
             }
-            const mBox = document.getElementById('muhurtaBox');
-            if (md.muhurta) { mBox.style.display = 'flex'; mBox.innerHTML = '<strong><i class="fa-solid fa-heart"></i> साइत / मुहूर्तः:</strong> ' + md.muhurta; }
+            const mBox = $id('muhurtaBox');
+            if (md.muhurta) { mBox.style.display = 'flex'; mBox.innerHTML = '<strong><i class="fa-solid fa-heart"></i> साइत / मुहूर्तः:</strong> ' + safeRich(md.muhurta); }
             else { mBox.style.display = 'none'; }
         }
 
-        function selectDate(monthIdx, dayBS) {
-            if (ScrollLock.isLocked()) return;
-            if (!MONTHS || MONTHS.length === 0) return;
-            selectedMonthIdx = monthIdx; selectedDayBS = dayBS;
+        // Applies a selection (details panel + highlight). Re-renders the carousel only when the month changed.
+        function applySelection(monthIdx, dayBS) {
+            if (!MONTHS || MONTHS.length === 0 || !MONTHS[monthIdx]) return;
             const md = MONTHS[monthIdx];
+            dayBS = Math.max(1, Math.min(md.daysCount, dayBS));
+            selectedMonthIdx = monthIdx; selectedDayBS = dayBS;
             const info = getDateInfo(monthIdx, dayBS);
             const dayOfWeekIdx = info.dayOfWeekIdx;
             const isHoliday = info.isHoliday;
             const eventTitle = info.eventTitle;
-            const adDate = new Date(md.adStartDate); adDate.setDate(adDate.getDate() + (dayBS - 1));
-            const adFull = adDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            const adDate = adDateOf(md, dayBS);
+            const adFull = adDate ? adDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '—';
             const tithi = md.tithis[dayBS - 1] || '—';
-            const progInfo = md.programs.find(p => p.day === dayBS);
+            const progInfo = md.progByDay[dayBS];
 
-            document.getElementById('detailDateBS').innerText = '२०८३ ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[dayOfWeekIdx];
-            document.getElementById('detailDateAD').innerText = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
-            document.getElementById('detailTithi').innerText = tithi;
+            $id('detailDateBS').innerText = toNepaliDigits(YEAR_BS) + ' ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[dayOfWeekIdx];
+            $id('detailDateAD').innerText = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
+            $id('detailTithi').innerText = tithi;
 
             let evtTxt = '—', evtClass = 'empty-text';
             if (eventTitle) { evtTxt = eventTitle; evtClass = isHoliday ? 'holiday-text' : 'event-text'; }
             else if (info.isSunOrSat && isHoliday) { evtTxt = 'साप्ताहिक बिदा (Weekly Holiday)'; evtClass = 'holiday-text'; }
             else if (isHoliday) { evtTxt = 'विदा'; evtClass = 'holiday-text'; }
-            document.getElementById('detailEvent').innerHTML = '<span class="' + evtClass + '">' + evtTxt + '</span>';
+            $id('detailEvent').innerHTML = '<span class="' + evtClass + '">' + esc(evtTxt) + '</span>';
 
             let progTxt = '—', progClass = 'empty-text';
             if (isHoliday) { progTxt = 'बिदा · कुनै कार्यक्रम छैन'; progClass = 'holiday-text'; }
             else if (progInfo) { progTxt = progInfo.title; progClass = 'program-text'; }
             else if (dayOfWeekIdx === 5) { progTxt = 'शुक्रबारीय नियमित क्रियाकलाप'; progClass = 'program-text'; }
             else { progTxt = 'नियमित पठनपाठन'; progClass = 'empty-text'; }
-            document.getElementById('detailProgram').innerHTML = '<span class="' + progClass + '">' + progTxt + '</span>';
+            $id('detailProgram').innerHTML = '<span class="' + progClass + '">' + esc(progTxt) + '</span>';
 
-            renderCalendar(monthIdx);
-            updateDaysDifference();
+            const pane = track.children[1];
+            if (builtData === MONTHS && builtMonthIdx === monthIdx && currentMonthIdx === monthIdx && track.children.length === 3 && pane) {
+                // Same month already on screen: just move the highlight instead of rebuilding three panes
+                const old = pane.querySelector('.calendar-cell.selected');
+                const cell = pane.querySelector('.calendar-cell[data-m="' + monthIdx + '"][data-d="' + dayBS + '"]:not(.ghost)');
+                if (old && old !== cell) { old.classList.remove('selected'); old.setAttribute('tabindex', '-1'); }
+                if (cell) { cell.classList.add('selected'); cell.setAttribute('tabindex', '0'); }
+                updateDaysDifference();
+                popIn(detailPanelEl);
+                popIn(programsCardEl);
+            } else {
+                renderCalendar(monthIdx);
+            }
+        }
+        function selectDate(monthIdx, dayBS) {
+            if (ScrollLock.isLocked()) return;
+            applySelection(monthIdx, dayBS);
         }
 
         function changeMonth(newIdx) { goToMonth(newIdx); }
@@ -5420,26 +6277,47 @@
             CalHelpers.showToast('📅 आज: ' + MONTHS[TODAY.monthIdx].nameBS + ' ' + toNepaliDigits(TODAY.dayBS), 'info');
         }
 
-        document.getElementById('prevMonthBtn').onclick = () => changeMonth(currentMonthIdx - 1);
-        document.getElementById('nextMonthBtn').onclick = () => changeMonth(currentMonthIdx + 1);
-        document.getElementById('todayBtn').onclick = goToToday;
+        $id('prevMonthBtn').onclick = () => stepMonth(-1);
+        $id('nextMonthBtn').onclick = () => stepMonth(1);
+        $id('todayBtn').onclick = goToToday;
 
-        function scheduleMidnightRefresh() {
-            const now = new Date();
-            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1);
-            setTimeout(function () {
-                calculateTodayBS();
-                if (selectedMonthIdx !== -1 && selectedDayBS !== -1) {
-                    if (selectedMonthIdx === TODAY.monthIdx) selectDate(selectedMonthIdx, TODAY.dayBS);
-                    else renderCalendar(selectedMonthIdx);
-                } else renderCalendar(currentMonthIdx);
-                scheduleMidnightRefresh();
-            }, tomorrow - now);
+        // Re-render after the data or "today" changed, keeping the user's own selection
+        // (previously every refresh yanked the selection back to today).
+        function refreshView(prevToday) {
+            if (!MONTHS.length) return;
+            if (drag && drag.on) { setTimeout(function () { refreshView(prevToday); }, 300); return; }  // never rebuild under a finger
+            if (settling) finalize();
+            builtData = null;                                  // force a full rebuild
+            const wasOnToday = prevToday && selectedMonthIdx === prevToday.monthIdx && selectedDayBS === prevToday.dayBS;
+            if (selectedMonthIdx === -1 || wasOnToday) applySelection(TODAY.monthIdx, TODAY.dayBS);
+            else applySelection(selectedMonthIdx, selectedDayBS);
         }
-        setInterval(updateDaysDifference, 60000);
 
-        // Built-in 2083 BS festival/event fallback. Database data remains primary,
-        // but missing/legacy event JSON no longer makes the calendar appear empty.
+        let midnightTimer = 0;
+        function scheduleMidnightRefresh() {
+            clearTimeout(midnightTimer);
+            const now = new Date();
+            const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1);
+            midnightTimer = setTimeout(function () {
+                const prev = TODAY;
+                calculateTodayBS();
+                refreshView(prev);
+                scheduleMidnightRefresh();
+            }, Math.max(1000, next - now));
+        }
+        // Timers can be late after sleep / background throttling: re-check the date when the tab returns.
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden || !MONTHS.length) return;
+            updateClock();
+            const prev = TODAY;
+            calculateTodayBS();
+            if (prev.monthIdx !== TODAY.monthIdx || prev.dayBS !== TODAY.dayBS) { refreshView(prev); scheduleMidnightRefresh(); }
+            else updateDaysDifference();
+        });
+
+        // ---------------------------------------------------------------
+        // Data
+        // ---------------------------------------------------------------
         const BUILTIN_EVENTS_2083 = {
             0: { 1: ['Nepali New Year / नयाँ वर्ष', true], 18: ['Buddha Jayanti / बुद्ध जयन्ती', true] },
             1: { 14: ['Eid al-Adha / बकर ईद', true], 15: ['Republic Day / गणतन्त्र दिवस', true] },
@@ -5454,15 +6332,14 @@
 
         function normalizeEvents(rawEvents, monthIdx) {
             const out = {};
+            const put = (day, title, isHoliday) => { const n = Number(day); if (Number.isFinite(n) && title) out[n] = { title: String(title), isHoliday: !!isHoliday }; };
             if (Array.isArray(rawEvents)) {
-                rawEvents.forEach(function (ev) {
-                    if (ev && ev.day != null && ev.title) out[Number(ev.day)] = { title: String(ev.title), isHoliday: !!ev.isHoliday };
-                });
+                rawEvents.forEach(function (ev) { if (ev && ev.day != null && ev.title) put(ev.day, ev.title, ev.isHoliday); });
             } else if (rawEvents && typeof rawEvents === 'object') {
                 Object.keys(rawEvents).forEach(function (day) {
                     const ev = rawEvents[day];
-                    if (ev && typeof ev === 'object' && ev.title) out[Number(day)] = { title: String(ev.title), isHoliday: !!ev.isHoliday };
-                    else if (typeof ev === 'string') out[Number(day)] = { title: ev, isHoliday: false };
+                    if (ev && typeof ev === 'object' && ev.title) put(day, ev.title, ev.isHoliday);
+                    else if (typeof ev === 'string') put(day, ev, false);
                 });
             }
             const fallback = BUILTIN_EVENTS_2083[monthIdx] || {};
@@ -5472,60 +6349,119 @@
             return out;
         }
 
-        async function fetchAllMonths() {
+        // Turns one DB row into a month object; returns null when the row is unusable.
+        function normalizeMonth(raw, idx) {
+            if (typeof raw === 'string') { try { raw = JSON.parse(raw); } catch (e) { return null; } }
+            if (!raw || typeof raw !== 'object') return null;
+            const start = toLocalMidnight(raw.adStartDate);
+            const daysCount = parseInt(raw.daysCount, 10);
+            if (!start || !(daysCount >= 28 && daysCount <= 32)) return null;
+            let sdow = parseInt(raw.startDayOfWeek, 10);
+            if (!(sdow >= 0 && sdow <= 6)) sdow = start.getDay();
+            return finishMonth({
+                nameBS: String(raw.nameBS || monthNamesBS[idx]), nameAD: String(raw.nameAD || ''), daysCount: daysCount, startDayOfWeek: sdow,
+                adStartDate: start, quote: String(raw.quote || ''),
+                programs: (Array.isArray(raw.programs) ? raw.programs : []).filter(p => p && p.title).map(p => Object.assign({}, p, { day: Number(p.day), title: String(p.title) })),
+                muhurta: String(raw.muhurta || ''),
+                tithis: Array.isArray(raw.tithis) ? raw.tithis.map(t => (t == null ? '' : String(t))) : [],
+                events: normalizeEvents(raw.events, idx)
+            });
+        }
+        // Month with missing/invalid data: keeps the grid contiguous (start date follows the previous month) instead of
+        // using "now" as its start, which made today resolve into the wrong month.
+        function placeholderMonth(idx, prev) {
+            const start = prev && prev.adStartDate
+                ? new Date(prev.adStartDate.getFullYear(), prev.adStartDate.getMonth(), prev.adStartDate.getDate() + prev.daysCount) : null;
+            return finishMonth({ nameBS: 'अज्ञात', nameAD: 'Unknown', daysCount: 30, startDayOfWeek: start ? start.getDay() : 0, adStartDate: start, quote: '', programs: [], muhurta: '', tithis: [], events: normalizeEvents({}, idx) });
+        }
+
+        // Returns true (loaded), false (failed) or null (a newer request superseded this one: ignore it).
+        let fetchSeq = 0;
+        async function fetchAllMonths(quiet) {
+            const seq = ++fetchSeq;
             try {
-                const { data, error } = await window.db.from('calendar_data').select('*').eq('year_bs', 2083).order('month_idx', { ascending: true });
-                if (error) { console.error('Supabase error:', error); CalHelpers.showToast('❌ क्यालेन्डर डाटा लोड गर्न असफल', 'error'); return false; }
-                if (!data || data.length === 0) { CalHelpers.showToast('⚠️ क्यालेन्डर डाटा भेटिएन।', 'warning'); return false; }
+                if (!window.db) throw new Error('Supabase client is not available');
+                const { data, error } = await withTimeout(
+                    window.db.from('calendar_data').select('*').eq('year_bs', YEAR_BS).order('month_idx', { ascending: true }), 15000);
+                if (seq !== fetchSeq) return null;            // an older response must never overwrite newer data
+                if (error) throw error;
+                if (!data || data.length === 0) { if (!quiet) CalHelpers.showToast('⚠️ क्यालेन्डर डाटा भेटिएन।', 'warning'); return false; }
+                const byIdx = new Map(data.map(r => [Number(r.month_idx), r]));
                 const months = [];
-                for (let i = 0; i < 12; i++) {
-                    const row = data.find(d => d.month_idx === i);
-                    if (row && row.data) {
-                        const raw = row.data;
-                        months.push({
-                            nameBS: raw.nameBS, nameAD: raw.nameAD, daysCount: raw.daysCount, startDayOfWeek: raw.startDayOfWeek,
-                            adStartDate: new Date(raw.adStartDate), quote: raw.quote || '', programs: raw.programs || [],
-                            muhurta: raw.muhurta || '', tithis: raw.tithis || [], events: normalizeEvents(raw.events, i)
-                        });
-                    } else {
-                        months.push({ nameBS: 'अज्ञात', nameAD: 'Unknown', daysCount: 30, startDayOfWeek: 0, adStartDate: new Date(), quote: '', programs: [], muhurta: '', tithis: [], events: normalizeEvents({}, i) });
-                    }
+                for (let i = 0; i < MONTH_COUNT; i++) {
+                    const row = byIdx.get(i);
+                    const m = row ? normalizeMonth(row.data, i) : null;
+                    if (row && !m) console.warn('[Calendar] month ' + i + ' has invalid data; showing placeholder');
+                    months.push(m || placeholderMonth(i, months[i - 1]));
                 }
                 MONTHS = months;
                 return true;
-            } catch (err) { console.error('Fetch error:', err); CalHelpers.showToast('❌ डाटा लोड गर्न असफल', 'error'); return false; }
+            } catch (err) {
+                if (seq !== fetchSeq) return null;
+                console.error('[Calendar] data load failed:', err);
+                if (!quiet) CalHelpers.showToast('❌ क्यालेन्डर डाटा लोड गर्न असफल', 'error');
+                return false;
+            }
         }
 
+        let realtimeChannel = null, realtimeTimer = 0;
         function setupCalendarRealtime() {
-            window.db.channel('calendar_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'calendar_data' }, () => {
-                    fetchAllMonths().then(ok => {
-                        if (ok && MONTHS.length > 0) {
-                            calculateTodayBS();
-                            if (selectedMonthIdx !== -1 && selectedDayBS !== -1) {
-                                if (selectedMonthIdx === TODAY.monthIdx) selectDate(selectedMonthIdx, TODAY.dayBS);
-                                else renderCalendar(selectedMonthIdx);
-                            } else renderCalendar(currentMonthIdx);
-                            CalHelpers.showToast('📅 क्यालेन्डर अपडेट भयो', 'info');
-                        }
-                    });
+            if (realtimeChannel || !window.db || typeof window.db.channel !== 'function') return;
+            realtimeChannel = window.db.channel('calendar_changes')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'calendar_data' }, function () {
+                    // An admin edit touches several rows: coalesce the burst into one refetch.
+                    clearTimeout(realtimeTimer);
+                    realtimeTimer = setTimeout(async function () {
+                        const prev = TODAY;
+                        const ok = await fetchAllMonths(true);
+                        if (!ok || !MONTHS.length) return;      // failed or superseded: keep what is on screen
+                        calculateTodayBS();
+                        refreshView(prev);
+                        CalHelpers.showToast('📅 क्यालेन्डर अपडेट भयो', 'info');
+                    }, 400);
                 })
                 .subscribe();
         }
 
+        // ---------------------------------------------------------------
+        // Start-up (loading state, failure state with automatic retry)
+        // ---------------------------------------------------------------
+        const RETRY_DELAYS = [3000, 8000, 20000, 60000];
+        let loadAttempts = 0, retryTimer = 0;
+
+        function showStatus(text) {
+            track.style.transform = '';
+            gridBox.style.height = '';
+            track.innerHTML = '<div class="month-pane empty-msg">' + text + '</div>';
+        }
+        function scheduleRetry() {
+            clearTimeout(retryTimer);
+            if (loadAttempts > RETRY_DELAYS.length) return;
+            retryTimer = setTimeout(initCalendar, RETRY_DELAYS[loadAttempts - 1]);
+        }
         async function initCalendar() {
-            const ok = await fetchAllMonths();
+            clearTimeout(retryTimer);
+            if (calendarReady) return;
+            gridBox.setAttribute('aria-busy', 'true');
+            if (loadAttempts === 0) showStatus('क्यालेन्डर लोड हुँदैछ…');
+            const ok = await fetchAllMonths(loadAttempts > 0);
+            if (ok === null) return;
             if (!ok || MONTHS.length === 0) {
-                document.getElementById('monthTrack').innerHTML = '<div class="month-pane empty-msg">डाटा लोड हुन सकेन</div>';
-                document.getElementById('quoteText').innerText = '';
+                loadAttempts++;
+                gridBox.removeAttribute('aria-busy');
+                showStatus('डाटा लोड हुन सकेन');
+                quoteEl.innerText = '';
+                scheduleRetry();
                 return;
             }
+            calendarReady = true;
+            gridBox.removeAttribute('aria-busy');
             calculateTodayBS();
-            populateDropdownPortal(TODAY.monthIdx);
-            selectDate(TODAY.monthIdx, TODAY.dayBS);
+            applySelection(TODAY.monthIdx, TODAY.dayBS);
             setupCalendarRealtime();
             scheduleMidnightRefresh();
         }
+        window.addEventListener('online', function () { if (!calendarReady) initCalendar(); });
 
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initCalendar);
         else initCalendar();

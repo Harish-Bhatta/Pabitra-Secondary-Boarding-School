@@ -3043,6 +3043,290 @@
             color: #fff !important; border-color: transparent !important;
         }
     </style>
+    <style id="calendar-desktop-dashboard">
+        /* ==========================================================================
+           DESKTOP DASHBOARD (>=1024px) — fully isolated. Nothing here applies below
+           1024px, so the mobile/tablet interface is untouched. Colors come from the
+           existing theme variables (--primary, --primary-rgb, --pm-*, --text ...).
+           ========================================================================== */
+        .cal-page-heading { display: none; }
+
+        @media (min-width: 1024px) {
+            body .app-container {
+                --dk-gap: 18px;
+                --dk-radius: 20px;
+                --dk-surface: var(--pm-glass);
+                --dk-line: var(--pm-border);
+                --dk-shadow: var(--pm-shadow);
+                --dk-tile: rgba(var(--primary-rgb), .12);
+                display: grid !important;
+                width: 100% !important; max-width: 1480px !important; min-height: 0;
+                margin: 0 auto !important;
+                padding: calc(var(--header-height) + 22px) clamp(20px, 2.4vw, 36px) 36px !important;
+                gap: var(--dk-gap);
+                align-items: stretch;
+                grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+                grid-template-areas:
+                    "title  head"
+                    "stats  stats"
+                    "nav    detail"
+                    "cal    prog"
+                    "quote  quote";
+            }
+            body .app-container .cal-top { display: contents; }
+
+            body .app-container .cal-page-heading { grid-area: title; display: flex; align-items: center; gap: 16px; min-width: 0; padding: 4px 4px 4px 2px; }
+            body .app-container .school-header     { grid-area: head; }
+            body .app-container .month-stats       { grid-area: stats; }
+            body .app-container .controls-card     { grid-area: nav; }
+            body .app-container .detail-panel      { grid-area: detail; }
+            body .app-container #calendarWrapper   { grid-area: cal; }
+            body .app-container .programs-card     { grid-area: prog; }
+            body .app-container .footer-quote      { grid-area: quote; }
+
+            /* ---------- Shared card surface ---------- */
+            body .app-container .school-header,
+            body .app-container .controls-card,
+            body .app-container .detail-panel,
+            body .app-container .programs-card,
+            body .app-container #calendarWrapper,
+            body .app-container .footer-quote,
+            body .app-container .stat-card {
+                position: relative;
+                background: var(--dk-surface);
+                border: 1px solid var(--dk-line);
+                border-radius: var(--dk-radius);
+                box-shadow: var(--dk-shadow);
+                backdrop-filter: none; -webkit-backdrop-filter: none;
+                margin: 0; min-width: 0;
+            }
+            body .app-container .detail-panel::before,
+            body .app-container .programs-card::before { content: none !important; display: none !important; }
+
+            /* ---------- Page heading ---------- */
+            .cal-page-heading-icon {
+                flex: 0 0 auto; display: grid; place-items: center;
+                width: 54px; height: 54px; border-radius: 17px; font-size: 1.35rem; color: #fff;
+                background: linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,0) 55%), var(--primary-gradient);
+                box-shadow: 0 12px 22px -10px rgba(var(--primary-rgb), .8), inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 0 rgba(0,0,0,.08);
+            }
+            .cal-page-heading h1 { margin: 0; font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 800; line-height: 1.15; letter-spacing: -.01em; color: var(--text); }
+            .cal-page-heading p  { margin: 4px 0 0; font-size: .86rem; line-height: 1.45; color: var(--text-light); max-width: 34ch; }
+
+            /* ---------- School identity ---------- */
+            body .app-container .school-header {
+                flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between;
+                gap: 12px 18px; padding: 16px 22px; animation: none;
+            }
+            body .app-container .school-id { flex: 1 1 auto; gap: 16px; }
+            body .app-container .school-logo-wrap { width: 62px; height: 62px; }
+            body .app-container .cal-top .school-title { font-size: clamp(1rem, 1.35vw, 1.3rem); letter-spacing: 0; }
+            body .app-container .school-contacts { flex: 0 1 auto; }
+
+            /* ---------- Summary cards ---------- */
+            body .app-container .month-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--dk-gap); }
+            body .app-container .stat-card {
+                min-height: 80px; padding: 14px 20px; gap: 14px; overflow: hidden;
+                background:
+                    radial-gradient(130% 160% at 100% 0%, color-mix(in srgb, var(--c) 14%, transparent), transparent 62%),
+                    var(--dk-surface);
+                transition: transform .22s ease, box-shadow .22s ease;
+            }
+            body .app-container .stat-icon { width: 46px; height: 46px; border-radius: 15px; font-size: 1.08rem; }
+            body .app-container .stat-icon::before { opacity: .17; }
+            body .app-container .stat-label { font-size: .8rem; font-weight: 600; }
+            body .app-container .stat-value { font-size: 1.7rem; font-weight: 800; letter-spacing: -.01em; }
+
+            /* ---------- Month navigation card (left column) ---------- */
+            body .app-container .cal-top .controls-card {
+                flex-direction: column; justify-content: center; align-items: stretch; gap: 14px;
+                padding: 18px 20px; overflow: visible;
+            }
+            body .app-container .cal-top .nav-row { gap: 10px; }
+            body .app-container .cal-top .month-btn { width: 44px; height: 44px; border-radius: 14px; }
+            body .app-container .cal-top .month-dropdown-wrapper { max-width: none; margin: 0; }
+            body .app-container .cal-top .month-dropdown-btn { height: 44px; line-height: 44px; font-size: 1.1rem; border-radius: 14px; }
+            body .app-container .cal-top .action-row {
+                flex: 0 0 auto; flex-wrap: nowrap; gap: 10px;
+                padding: 14px 0 0; border-left: 0; border-top: 1px solid var(--dk-line);
+            }
+            body .app-container .cal-top .btn-today { min-height: 40px; padding: 8px 20px; }
+
+            /* ---------- Compact calendar widget ---------- */
+            body #calendarWrapper.calendar-wrapper {
+                display: flex !important; flex-direction: column;
+                width: 100% !important; max-width: none !important; margin: 0 !important;
+                padding: 16px 14px 14px !important;
+                border: 1px solid var(--dk-line) !important;
+                border-radius: var(--dk-radius) !important;
+                background: var(--dk-surface) !important;
+                box-shadow: var(--dk-shadow) !important;
+                overflow: hidden;
+            }
+            body.dark #calendarWrapper.calendar-wrapper { background: var(--dk-surface) !important; border: 1px solid var(--dk-line) !important; box-shadow: var(--dk-shadow) !important; }
+            body #calendarWrapper.calendar-wrapper::before { display: none !important; }
+            body #calendarWrapper .grid-swipe-container { flex: 0 0 auto; }
+            body #calendarWrapper .month-pane { padding: 0 !important; }
+            body #calendarWrapper .month-header-details { margin: 0 0 12px; padding: 0 4px 10px; }
+            body #calendarWrapper .month-title-bs { font-size: 1.1rem; }
+            body #calendarWrapper .month-title-ad { font-size: .72rem; padding: 2px 12px; }
+            body #calendarWrapper .calendar-grid { gap: 4px !important; }
+
+            body #calendarWrapper .day-header {
+                padding: 6px 0 5px; font-size: .72rem; border-radius: 10px; border-bottom-width: 0;
+                background: rgba(var(--primary-rgb), .07); box-shadow: none;
+            }
+            body #calendarWrapper .day-header span { font-size: .5rem; }
+            body #calendarWrapper .day-header.saturday, body #calendarWrapper .day-header.sunday { background: color-mix(in srgb, var(--holiday-red) 10%, transparent); }
+            body.dark #calendarWrapper .day-header { background: rgba(var(--primary-rgb), .12); box-shadow: none; }
+            body.dark #calendarWrapper .day-header.saturday, body.dark #calendarWrapper .day-header.sunday { background: color-mix(in srgb, var(--holiday-red) 20%, transparent); }
+
+            body #calendarWrapper .calendar-cell {
+                min-height: 50px; padding: 4px 5px 3px !important; border-radius: 11px;
+                transition: transform .16s ease, box-shadow .16s ease, background-color .16s ease, border-color .16s ease;
+            }
+            body #calendarWrapper .bs-day { font-size: .92rem; line-height: 1; }
+            body #calendarWrapper .ad-day { font-size: .5rem; padding: 1px 4px; border-radius: 5px; }
+            body #calendarWrapper .tithi-text { display: none; }
+            body #calendarWrapper .indicator-dots { gap: 3px; margin-top: 0; justify-content: center; min-height: 6px; }
+            body #calendarWrapper .dot { width: 5px; height: 5px; }
+            body #calendarWrapper .calendar-cell:hover { transform: translateY(-1px); box-shadow: 0 8px 16px -8px rgba(var(--primary-rgb), .6); }
+            body #calendarWrapper .calendar-cell:active { transform: scale(.96); }
+            body #calendarWrapper .calendar-cell.empty:not(.ghost):hover { transform: none; box-shadow: none; }
+            body #calendarWrapper .calendar-cell.empty.ghost:hover { transform: none; box-shadow: none; }
+            body #calendarWrapper .calendar-cell:focus-visible { outline: 3px solid rgba(var(--primary-rgb), .6); outline-offset: 1px; z-index: 3; }
+
+            /* Today: a calm static ring instead of the pulsing animation. */
+            body #calendarWrapper .calendar-cell.today::after {
+                animation: none; transform: none; opacity: 1; inset: -3px; border-radius: 13px;
+                border: 2px solid rgba(var(--primary-rgb), .38);
+            }
+            body #calendarWrapper .calendar-cell.today .bs-day { color: var(--primary-dark); }
+            body #calendarWrapper .calendar-cell.selected,
+            body.dark #calendarWrapper .calendar-cell.selected {
+                background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0) 55%), var(--primary-gradient);
+                border: 1.5px solid rgba(255,255,255,.7);
+                transform: none; box-shadow: 0 12px 22px -10px rgba(var(--primary-rgb), .85), inset 0 1.5px 0 rgba(255,255,255,.6);
+            }
+            body #calendarWrapper .calendar-cell.selected .bs-day { color: #fff; }
+            body #calendarWrapper .calendar-cell.selected::after { border-color: rgba(255,255,255,.55); }
+
+            body #calendarWrapper .month-dots { margin-top: auto; padding-top: 14px; }
+            body #calendarWrapper .legend-bar { margin-top: 10px; padding-top: 10px; gap: 16px; font-size: .7rem; }
+
+            /* ---------- Selected date (right column, top) ---------- */
+            body .app-container .detail-panel { padding: 20px 24px; border-left: 1px solid var(--dk-line); animation: none; }
+            body .app-container .detail-header { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--dk-line); }
+            body .app-container .detail-date-bs { font-size: 1.3rem; }
+            body .app-container .detail-date-ad,
+            body .app-container .days-diff { background: rgba(var(--primary-rgb), .08); border: 1px solid var(--dk-line); color: var(--text); }
+            body .app-container .days-diff { margin: 0; padding: 5px 14px; }
+            body .app-container .detail-grid { gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            body .app-container .detail-box {
+                padding: 12px 14px; border-radius: 14px;
+                background: rgba(var(--primary-rgb), .05); border: 1px solid var(--dk-line); box-shadow: none;
+                transition: transform .2s ease, background-color .2s ease;
+            }
+            body .app-container .detail-box:hover { transform: translateY(-2px); background: rgba(var(--primary-rgb), .09); }
+            body .app-container .detail-box-title { text-transform: none; letter-spacing: 0; font-size: .74rem; gap: 8px; margin-bottom: 8px; }
+            body .app-container .detail-box-title i {
+                display: grid; place-items: center; width: 24px; height: 24px; border-radius: 8px;
+                background: var(--dk-tile); color: var(--primary); font-size: .72rem;
+            }
+            body .app-container .detail-box-content { font-size: 1rem; }
+            body .app-container .detail-box-content .empty-text { font-size: .86rem; font-style: italic; }
+
+            /* ---------- Monthly programs (right column, main) ---------- */
+            body .app-container .programs-card { padding: 20px 24px; border-top: 1px solid var(--dk-line); animation: none; display: flex; flex-direction: column; }
+            body .app-container .programs-header { gap: 12px; margin-bottom: 14px; color: var(--text); }
+            body.dark .app-container .programs-header { color: var(--text); }
+            body .app-container .programs-header i {
+                display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px;
+                background: var(--dk-tile); color: var(--primary); font-size: .85rem;
+            }
+            body .app-container .programs-header h3 { font-size: 1.08rem; }
+            body .app-container .program-list { gap: 8px; max-height: 400px; overflow-y: auto; padding-right: 4px; scrollbar-width: thin; scrollbar-color: rgba(var(--primary-rgb), .4) transparent; }
+            body .app-container .program-item,
+            body.dark .app-container .program-item {
+                padding: 11px 14px; border-radius: 13px; font-size: .9rem; gap: 12px;
+                background: rgba(var(--primary-rgb), .07); border: 1px solid rgba(var(--primary-rgb), .13); border-left-width: 1px;
+                transition: transform .2s ease, background-color .2s ease;
+            }
+            body .app-container .program-item:hover { transform: translateX(3px); background: rgba(var(--primary-rgb), .12); }
+            body .app-container .program-item i { color: var(--primary); font-size: .85rem; }
+            body .app-container .program-item:has(> i.fa-regular) {
+                justify-content: center; padding: 26px 16px; background: transparent; color: var(--text-muted);
+                border: 1.5px dashed var(--dk-line); font-weight: 500;
+            }
+            body .app-container .program-item:has(> i.fa-regular):hover { transform: none; background: transparent; }
+            body .app-container .muhurta-box,
+            body.dark .app-container .muhurta-box {
+                margin-top: 14px; padding: 12px 16px; border-radius: 13px; font-size: .86rem; color: var(--text);
+                background: color-mix(in srgb, var(--holiday-red) 8%, transparent);
+                border: 1px solid color-mix(in srgb, var(--holiday-red) 22%, transparent);
+            }
+            body .app-container .muhurta-box i { color: var(--holiday-red); }
+
+            /* ---------- Quote ---------- */
+            body .app-container .footer-quote { margin: 0; padding: 18px 28px; border-top: 1px solid var(--dk-line); font-size: 1rem; color: var(--text); animation: none; }
+            body .app-container .footer-quote i {
+                display: grid; place-items: center; flex: 0 0 auto; width: 34px; height: 34px; border-radius: 11px;
+                background: var(--dk-tile); color: var(--primary); font-size: .85rem; opacity: 1;
+            }
+
+            /* ---------- Hover elevation (pointer devices only) ---------- */
+            @media (hover: hover) and (pointer: fine) {
+                body .app-container .stat-card:hover,
+                body .app-container .detail-panel:hover,
+                body .app-container .programs-card:hover,
+                body .app-container .footer-quote:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 22px 40px -22px rgba(var(--primary-rgb), .55), 0 2px 6px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.7);
+                }
+                body .app-container .detail-panel, body .app-container .programs-card, body .app-container .footer-quote { transition: transform .22s ease, box-shadow .22s ease; }
+            }
+        }
+
+        /* Compact two-column dashboard: 1024–1279px */
+        @media (min-width: 1024px) and (max-width: 1279px) {
+            body .app-container { --dk-gap: 14px; padding-left: 20px !important; padding-right: 20px !important; }
+            body .app-container .cal-page-heading p { display: none; }
+            body .app-container .school-contacts span { padding: 5px 10px; font-size: .7rem; }
+            body .app-container .stat-card { padding: 12px 14px; min-height: 72px; gap: 10px; }
+            body .app-container .stat-icon { width: 40px; height: 40px; }
+            body .app-container .stat-value { font-size: 1.45rem; }
+            body .app-container .detail-grid { gap: 8px; }
+            body .app-container .detail-panel, body .app-container .programs-card { padding: 18px 20px; }
+            body #calendarWrapper .calendar-grid { gap: 3px !important; }
+            body #calendarWrapper .calendar-cell { min-height: 46px; padding: 3px 4px 3px !important; }
+            body #calendarWrapper .bs-day { font-size: .86rem; }
+        }
+
+        /* Spacious, balanced: 1280–1599px */
+        @media (min-width: 1280px) {
+            body #calendarWrapper .calendar-cell { min-height: 54px; }
+            body #calendarWrapper .bs-day { font-size: .98rem; }
+        }
+
+        /* Wide: calendar stays a fixed-size widget, extra room goes to the information cards */
+        @media (min-width: 1600px) {
+            body .app-container { --dk-gap: 22px; grid-template-columns: minmax(0, 500px) minmax(0, 1fr); }
+            body #calendarWrapper .calendar-cell { min-height: 58px; }
+            body #calendarWrapper .tithi-text { display: block; font-size: .46rem; margin-top: 1px; }
+            body .app-container .detail-panel, body .app-container .programs-card { padding: 24px 28px; }
+            body .app-container .program-list { max-height: 440px; }
+        }
+
+        @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+            body .app-container .stat-card, body .app-container .detail-panel, body .app-container .programs-card,
+            body .app-container .footer-quote, body .app-container .detail-box, body .app-container .program-item,
+            body #calendarWrapper .calendar-cell { transition: none; }
+            body .app-container .stat-card:hover, body .app-container .detail-panel:hover, body .app-container .programs-card:hover,
+            body .app-container .footer-quote:hover, body .app-container .detail-box:hover, body .app-container .program-item:hover,
+            body #calendarWrapper .calendar-cell:hover { transform: none; }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -3405,6 +3689,14 @@
 
                 <!-- ===== UPPER SECTION: identity → intro → navigation → summary ===== -->
                 <div class="cal-top">
+
+                    <div class="cal-page-heading">
+                        <span class="cal-page-heading-icon" aria-hidden="true"><i class="fa-solid fa-calendar-days"></i></span>
+                        <div>
+                            <h1>क्यालेन्डर</h1>
+                            <p>बिदा, पर्व र विद्यालयका कार्यक्रमहरू एकै ठाउँमा।</p>
+                        </div>
+                    </div>
 
                     <header class="school-header">
                         <div class="school-id">

@@ -3435,88 +3435,241 @@ body.dark .gx-pillar i{color:var(--primary-light)}
 .js-rv .gx-rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
 .js-rv .gx-rv.in{opacity:1;transform:none}
 
-/* ---------- Viewer ---------- */
-html.gx-lock,html.gx-lock body{overflow:hidden!important}
-.gxv{--gx-pad:0px;position:fixed;inset:0;z-index:10050;display:flex;flex-direction:column;background:#0b0d11;color:#eef1f6;font-family:var(--font-family);opacity:0;transition:opacity .22s ease;overscroll-behavior:none}
-.gxv[hidden]{display:none}
-.gxv.is-open{opacity:1}
-.gxv-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 6px) calc(env(safe-area-inset-right,0px) + 8px) 6px calc(env(safe-area-inset-left,0px) + 16px);background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
-.gxv-pos{font-size:.9rem;font-weight:600;font-variant-numeric:tabular-nums}
-.gxv-tools{display:flex;gap:2px}
-.gxv-b{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:12px;background:transparent;color:#eef1f6;font-size:1.35rem;cursor:pointer;text-decoration:none;transition:background .15s}
-.gxv-b:hover{background:rgba(255,255,255,.12)}
-.gxv-b:disabled{opacity:.35;cursor:default;background:transparent}
-.gxv-b[hidden]{display:none}
-.gxv button:focus-visible,.gxv a:focus-visible{outline:2px solid var(--primary-light);outline-offset:2px}
-.gxv-stage{position:relative;flex:1;min-height:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
-.gxv-stage.zoomed{cursor:grab}
-.gxv-track{position:absolute;top:0;bottom:0;left:-100%;width:300%;display:flex;will-change:transform}
-.gxv-slide{position:relative;flex:0 0 33.3333%;display:flex;align-items:center;justify-content:center;padding:0 var(--gx-pad);overflow:hidden}
-.gxv-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;-webkit-user-drag:none;will-change:transform}
-.gxv-slide.is-empty img{display:none}
-.gxv-spin{position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;opacity:0;pointer-events:none}
-.gxv-slide.is-load .gxv-spin{opacity:1}
-.gxv-fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:#b9c1cf}
-.gxv-fb[hidden]{display:none}
-.gxv-fb i{font-size:2.6rem}
-.gxv-fb button{min-height:44px;padding:0 18px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:transparent;color:#fff;font:600 .85rem var(--font-family);cursor:pointer}
-.gxv-nav{position:absolute;top:50%;z-index:2;display:none;place-items:center;width:48px;height:48px;margin-top:-24px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(20,22,28,.65);color:#fff;font-size:1.6rem;cursor:pointer}
-.gxv-nav.prev{left:12px}.gxv-nav.next{right:12px}
-.gxv-nav:disabled{opacity:0;pointer-events:none}
-.gxv-nav:hover{background:rgba(255,255,255,.18)}
-@media(min-width:768px),(hover:hover) and (pointer:fine){.gxv{--gx-pad:72px}.gxv-nav{display:grid}}
-@media(max-width:520px) and (pointer:coarse){#gxvIn,#gxvOut{display:none}}
-.gxv-info{width:100%;max-width:760px;margin:0 auto;padding:10px 18px calc(env(safe-area-inset-bottom,0px) + 12px);text-align:center}
-.gxv-info[hidden]{display:none}
-.gxv-info h2{font-size:1rem;font-weight:600}
-.gxv-info p{margin-top:3px;font-size:.85rem;line-height:1.5;color:#b9c1cf;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.gxv-info p.m{color:var(--primary-light);font-size:.78rem;font-weight:600}
-.gxv-strip{display:none}
-@media(min-width:768px) and (min-height:520px){.gxv-strip{display:flex;gap:8px;justify-content:safe center;overflow-x:auto;padding:8px 16px calc(env(safe-area-inset-bottom,0px) + 12px);scrollbar-width:thin}}
-.gxv-strip button{flex:0 0 auto;width:68px;height:52px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#1a1d24;opacity:.55;cursor:pointer;transition:opacity .2s,border-color .2s}
-.gxv-strip button.on,.gxv-strip button:hover{opacity:1}
-.gxv-strip button.on{border-color:var(--primary)}
-.gxv-strip img{width:100%;height:100%;object-fit:cover;display:block}
-@keyframes gxPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
-.gxv-stage.pop .gxv-slide:nth-child(2) img{transform-origin:var(--ox,50%) var(--oy,50%);animation:gxPop .34s cubic-bezier(.22,1,.36,1) both}
 @media(prefers-reduced-motion:reduce){.gx-grid,.gx-card,.gx-card img,.gx-feat-img img,.gx-btn,.gxv,.gxv-slide img,.js-rv .gx-rv{transition:none!important;animation:none!important}.js-rv .gx-rv{opacity:1;transform:none}.gx-card.is-load,.gx-card.is-skel{animation:none!important}.gxv-stage.pop .gxv-slide:nth-child(2) img{animation:none}}
 </style>
 
-<style id="gallery-viewer-theme-cleanup">
-/* Keep gallery cards clean: image-opening is handled by tapping the photo itself. */
-.gx-open { display: none !important; }
+<style id="gallery-viewer">
+/* =====================================================================
+   PHOTO VIEWER — single consolidated block (replaces the earlier viewer
+   rules and the theme-cleanup overrides). Everything is driven by the
+   site's theme variables, so presets + dark mode apply live.
+   NOTE: .gxv itself never gets opacity/filter, otherwise it would become a
+   "backdrop root" and the frosted blur would stop seeing the page behind it.
+   ===================================================================== */
+.gx-open{display:none!important}
+html.gx-lock,html.gx-lock body{overflow:hidden!important}
 
-/* Image viewer follows the active site theme: light by default, dark only in dark mode. */
-.gxv { background: #f8fafc !important; color: #172033 !important; color-scheme: light; }
-.gxv-bar { background: rgba(255,255,255,.92) !important; border-bottom-color: rgba(15,23,42,.10) !important; }
-.gxv-b { color: #263247 !important; }
-.gxv-b:hover { background: rgba(15,23,42,.07) !important; }
-.gxv-nav { background: rgba(255,255,255,.88) !important; color: #172033 !important; border-color: rgba(15,23,42,.14) !important; box-shadow: 0 4px 16px rgba(15,23,42,.10); }
-.gxv-nav:hover { background: #fff !important; }
-.gxv-spin { border-color: rgba(15,23,42,.14); border-top-color: var(--primary); }
-.gxv-fb { color: #64748b !important; }
-.gxv-fb button { color: #334155 !important; border-color: rgba(15,23,42,.22) !important; }
-.gxv-info p { color: #64748b !important; }
-.gxv-info p.m { color: var(--primary-dark, var(--primary)) !important; }
-.gxv-strip button { background: #e2e8f0 !important; }
-body.dark .gxv { background: #0b0d11 !important; color: #eef1f6 !important; color-scheme: dark; }
-body.dark .gxv-bar { background: rgba(255,255,255,.05) !important; border-bottom-color: rgba(255,255,255,.07) !important; }
-body.dark .gxv-b { color: #eef1f6 !important; }
-body.dark .gxv-b:hover { background: rgba(255,255,255,.12) !important; }
-body.dark .gxv-nav { background: rgba(20,22,28,.65) !important; color: #fff !important; border-color: rgba(255,255,255,.16) !important; box-shadow: none; }
-body.dark .gxv-nav:hover { background: rgba(255,255,255,.18) !important; }
-body.dark .gxv-spin { border-color: rgba(255,255,255,.2); border-top-color: var(--primary); }
-body.dark .gxv-fb { color: #b9c1cf !important; }
-body.dark .gxv-fb button { color: #fff !important; border-color: rgba(255,255,255,.25) !important; }
-body.dark .gxv-info p { color: #b9c1cf !important; }
-body.dark .gxv-info p.m { color: var(--primary-light) !important; }
-body.dark .gxv-strip button { background: #1a1d24 !important; }
+.gxv{
+  --gx-pad:0px;
+  --gxv-btn:46px;
+  --gxv-ease:var(--snap,cubic-bezier(.16,1,.3,1));
+  --gxv-pop:var(--spring,cubic-bezier(.34,1.2,.64,1));
+  --gxv-blur:22px;
+  --gxv-blur-ui:14px;
+  --gxv-fill:color-mix(in srgb,var(--surface-solid) 56%,transparent);
+  --gxv-fill-strong:color-mix(in srgb,var(--surface-solid) 84%,transparent);
+  --gxv-gloss:linear-gradient(180deg,rgba(255,255,255,.66) 0%,rgba(255,255,255,.18) 52%,rgba(255,255,255,.05) 100%);
+  --gxv-sheen:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,0));
+  --gxv-border:rgba(255,255,255,.62);
+  --gxv-shadow:0 10px 28px rgba(15,23,42,.18),0 2px 6px rgba(15,23,42,.10),inset 0 1px 0 rgba(255,255,255,.92),inset 0 -1px 0 rgba(15,23,42,.06);
+  --gxv-pop-shadow:0 22px 48px rgba(15,23,42,.24),0 4px 14px rgba(15,23,42,.12),inset 0 1px 0 rgba(255,255,255,.9);
+  --gxv-scrim:color-mix(in srgb,var(--background) 62%,transparent);
+  --gxv-hair:color-mix(in srgb,var(--text) 9%,transparent);
+  position:fixed;inset:0;z-index:10050;display:flex;flex-direction:column;
+  color:var(--text);font-family:var(--font-family);color-scheme:light;
+  overscroll-behavior:none;-webkit-tap-highlight-color:transparent;
+}
+@supports(height:100dvh){.gxv{height:100dvh;bottom:auto}}
+body.dark .gxv{
+  color-scheme:dark;
+  --gxv-fill:color-mix(in srgb,var(--surface-solid) 52%,transparent);
+  --gxv-fill-strong:color-mix(in srgb,var(--surface-solid) 86%,transparent);
+  --gxv-gloss:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.06) 55%,rgba(255,255,255,.02));
+  --gxv-sheen:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0));
+  --gxv-border:rgba(255,255,255,.15);
+  --gxv-shadow:0 10px 28px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(0,0,0,.28);
+  --gxv-pop-shadow:0 22px 52px rgba(0,0,0,.6),0 4px 14px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.16);
+  --gxv-scrim:color-mix(in srgb,var(--background) 68%,transparent);
+}
+.gxv[hidden]{display:none}
+.gxv.lite{--gxv-blur:10px;--gxv-blur-ui:6px}
+
+/* frosted backdrop: the page underneath stays softly visible */
+.gxv-backdrop{
+  position:absolute;inset:0;z-index:0;opacity:0;pointer-events:none;
+  background:
+    radial-gradient(120% 70% at 50% -10%,rgba(var(--primary-rgb),.16),transparent 62%),
+    var(--gxv-scrim);
+  -webkit-backdrop-filter:blur(var(--gxv-blur)) saturate(140%);
+  backdrop-filter:blur(var(--gxv-blur)) saturate(140%);
+  transition:opacity .3s ease;
+}
+.gxv.is-open .gxv-backdrop{opacity:1}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .gxv{--gxv-scrim:color-mix(in srgb,var(--background) 94%,transparent)}
+}
+.gxv:fullscreen .gxv-backdrop{background:var(--background)}
+.gxv:-webkit-full-screen .gxv-backdrop{background:var(--background)}
+
+/* ---------- floating glass controls (adapted from .glossy-btn) ---------- */
+.gxv-bar{
+  position:absolute;z-index:5;top:0;left:0;right:0;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  padding:calc(env(safe-area-inset-top,0px) + 10px) calc(env(safe-area-inset-right,0px) + 12px) 0 calc(env(safe-area-inset-left,0px) + 12px);
+  pointer-events:none;
+}
+.gxv-cluster{display:flex;align-items:center;gap:10px;min-width:0}
+.gxv-b,.gxv-pos{
+  position:relative;isolation:isolate;overflow:hidden;flex:0 0 auto;
+  border:1px solid var(--gxv-border);
+  background:var(--gxv-gloss),var(--gxv-fill);
+  box-shadow:var(--gxv-shadow);
+  -webkit-backdrop-filter:blur(var(--gxv-blur-ui)) saturate(170%);backdrop-filter:blur(var(--gxv-blur-ui)) saturate(170%);
+  pointer-events:auto;-webkit-user-select:none;user-select:none;
+  transition:transform .36s var(--gxv-pop),box-shadow .3s var(--gxv-ease),background-color .3s ease,border-color .3s ease,opacity .3s ease;
+}
+.gxv-b::before,.gxv-pos::before{
+  content:"";position:absolute;left:12%;right:12%;top:5%;height:44%;border-radius:999px;
+  background:var(--gxv-sheen);opacity:.55;pointer-events:none;z-index:-1;
+}
+.gxv-b{
+  display:grid;place-items:center;width:var(--gxv-btn);height:var(--gxv-btn);padding:0;border-radius:50%;
+  color:var(--primary);font-size:1.3rem;line-height:1;cursor:pointer;text-decoration:none;touch-action:manipulation;
+}
+.gxv-b i{position:relative;z-index:1;line-height:1;text-shadow:0 1px 2px rgba(15,23,42,.16)}
+.gxv-b.sm{width:40px;height:40px;font-size:1.15rem}
+.gxv-pos{display:inline-flex;align-items:center;height:38px;padding:0 14px;border-radius:999px;color:var(--text);font-size:.84rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gxv-pos:empty{display:none}
+@media(hover:hover){.gxv-b:hover{transform:translateY(-1px);border-color:rgba(var(--primary-rgb),.55);box-shadow:0 0 0 3px rgba(var(--primary-rgb),.12),var(--gxv-shadow)}}
+.gxv-b:active{transform:scale(.9);transition-duration:.12s,.12s,.3s,.3s,.3s}
+.gxv-b:disabled{opacity:.4;cursor:default;transform:none}
+.gxv-b[hidden]{display:none}
+.gxv button:focus-visible,.gxv a:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+
+/* favorite */
+.gxv-fav.is-fav{
+  background:var(--gxv-gloss),linear-gradient(135deg,rgba(var(--primary-rgb),.32),rgba(var(--primary-rgb),.12)),var(--gxv-fill);
+  border-color:rgba(var(--primary-rgb),.65);
+  box-shadow:0 0 0 3px rgba(var(--primary-rgb),.14),0 8px 22px rgba(var(--primary-rgb),.34),var(--gxv-shadow);
+}
+.gxv-fav.beat i{animation:gxvBeat .6s var(--gxv-ease)}
+@keyframes gxvBeat{0%{transform:scale(1)}28%{transform:scale(1.34)}52%{transform:scale(.95)}76%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+/* desktop/tablet extras (zoom, fit, fullscreen, open original) */
+.gxv-desk{display:flex;align-items:center;gap:8px;margin-right:4px}
+@media(max-width:640px){.gxv-desk{display:none}}
+
+/* toolbar visibility: initial/closing state and immersive (tap-to-hide) mode */
+.gxv:not(.is-open) .gxv-bar .gxv-b,.gxv:not(.is-open) .gxv-bar .gxv-pos,
+.gxv.ui-off .gxv-bar .gxv-b,.gxv.ui-off .gxv-bar .gxv-pos{opacity:0;transform:translate3d(0,-14px,0) scale(.94);pointer-events:none}
+.gxv:not(.is-open) .gxv-info,.gxv:not(.is-open) .gxv-strip,
+.gxv.ui-off .gxv-info,.gxv.ui-off .gxv-strip{opacity:0;transform:translate3d(0,12px,0);pointer-events:none}
+/* while dragging to dismiss, chrome fades out in step with the finger */
+.gxv.is-dragging:not(.ui-off) .gxv-bar .gxv-b,.gxv.is-dragging:not(.ui-off) .gxv-bar .gxv-pos,
+.gxv.is-dragging:not(.ui-off) .gxv-info,.gxv.is-dragging:not(.ui-off) .gxv-strip{opacity:max(0,calc(1 - var(--gxv-p,0)*2.2));transition:none}
+
+/* ---------- popup surfaces (menu + details) ---------- */
+.gxv-pop{
+  position:absolute;overflow:hidden;color:var(--text);
+  background:var(--gxv-gloss),var(--gxv-fill-strong);
+  border:1px solid var(--gxv-border);box-shadow:var(--gxv-pop-shadow);
+  -webkit-backdrop-filter:blur(calc(var(--gxv-blur) + 4px)) saturate(180%);backdrop-filter:blur(calc(var(--gxv-blur) + 4px)) saturate(180%);
+  opacity:0;visibility:hidden;pointer-events:none;
+}
+.gxv-pop::before{content:"";position:absolute;inset:0 0 auto 0;height:38%;border-radius:inherit;background:var(--gxv-sheen);opacity:.3;pointer-events:none}
+.gxv-pop>*{position:relative}
+
+.gxv-menu-wrap{position:relative}
+.gxv-menu{
+  top:calc(100% + 10px);right:0;z-index:6;width:max-content;min-width:216px;max-width:min(300px,calc(100vw - 24px));
+  padding:6px;border-radius:20px;transform-origin:calc(100% - 23px) -6px;
+  transform:translate3d(0,-10px,0) scale(.96);
+  transition:opacity .2s ease,transform .34s var(--gxv-ease),visibility 0s linear .34s;
+}
+.gxv-menu.on{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:opacity .2s ease,transform .4s var(--gxv-pop),visibility 0s}
+.gxv-mi{
+  display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:6px 14px 6px 8px;border:0;border-radius:14px;
+  background:transparent;color:var(--text);font:600 .92rem var(--font-family);text-align:left;cursor:pointer;touch-action:manipulation;
+  transition:background-color .2s ease,transform .24s var(--gxv-pop);
+}
+.gxv-mi i{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:rgba(var(--primary-rgb),.15);color:var(--primary);font-size:1.15rem}
+@media(hover:hover){.gxv-mi:hover{background:rgba(var(--primary-rgb),.1)}}
+.gxv-mi:active{transform:scale(.97);background:rgba(var(--primary-rgb),.18)}
+
+.gxv-details{
+  z-index:7;left:0;right:0;bottom:0;display:flex;flex-direction:column;
+  max-height:min(72vh,560px);padding:0 18px calc(env(safe-area-inset-bottom,0px) + 14px);
+  border-radius:26px 26px 0 0;border-bottom:0;
+  transform:translate3d(0,104%,0);
+  transition:transform .36s var(--gxv-ease),opacity .22s ease,visibility 0s linear .36s;
+}
+@supports(height:100dvh){.gxv-details{max-height:min(72dvh,560px)}}
+.gxv-details.on{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:transform .46s var(--gxv-pop),opacity .22s ease,visibility 0s}
+.gxv-details.dragging{transition:none}
+.gxv-d-grab{flex:0 0 auto;padding-top:8px;touch-action:none;cursor:grab}
+.gxv-handle{display:block;width:40px;height:5px;margin:0 auto 6px;border-radius:5px;background:color-mix(in srgb,var(--text) 24%,transparent)}
+.gxv-d-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 0 8px}
+.gxv-d-head h3{font-size:1.05rem;font-weight:700;color:var(--text)}
+.gxv-d-body{margin:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.gxv-d-row{display:flex;align-items:flex-start;gap:12px;padding:11px 2px}
+.gxv-d-row+.gxv-d-row{border-top:1px solid var(--gxv-hair)}
+.gxv-d-row>i{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:rgba(var(--primary-rgb),.15);color:var(--primary);font-size:1.1rem}
+.gxv-d-row>div{min-width:0;flex:1}
+.gxv-d-row dt{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light)}
+.gxv-d-row dd{margin:2px 0 0;font-size:.94rem;line-height:1.5;color:var(--text);overflow-wrap:anywhere;word-break:break-word}
+.gxv-d-row dd.muted{color:var(--text-light);font-style:italic}
+@media(min-width:700px){
+  .gxv-details{
+    left:auto;bottom:auto;right:calc(env(safe-area-inset-right,0px) + 16px);top:calc(env(safe-area-inset-top,0px) + 72px);
+    width:min(360px,calc(100vw - 32px));max-height:min(560px,calc(100vh - 96px));padding:0 16px 8px;border-radius:22px;border-bottom:1px solid var(--gxv-border);
+    transform-origin:calc(100% - 24px) -6px;transform:translate3d(0,-10px,0) scale(.97);
+  }
+  @supports(height:100dvh){.gxv-details{max-height:min(560px,calc(100dvh - 96px))}}
+  .gxv-details.on{transform:none}
+  .gxv-d-grab{padding-top:14px;cursor:default}
+  .gxv-handle{display:none}
+}
+
+/* ---------- stage / slides ---------- */
+.gxv-stage{position:relative;z-index:1;flex:1;min-height:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+.gxv-stage.zoomed{cursor:grab}
+.gxv-track{position:absolute;top:0;bottom:0;left:-100%;width:300%;display:flex}
+.gxv-slide{position:relative;flex:0 0 33.3333%;display:flex;align-items:center;justify-content:center;padding:0 var(--gx-pad);overflow:hidden}
+.gxv-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:var(--radius-sm);box-shadow:0 14px 44px rgba(15,23,42,.22);-webkit-user-drag:none}
+body.dark .gxv-slide img{box-shadow:0 14px 44px rgba(0,0,0,.5)}
+.gxv-stage.zoomed .gxv-slide:nth-child(2) img{will-change:transform}
+.gxv-slide.is-empty img{display:none}
+.gxv-spin{position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px;border:3px solid color-mix(in srgb,var(--text) 16%,transparent);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;opacity:0;pointer-events:none}
+.gxv-slide.is-load .gxv-spin{opacity:1}
+.gxv-fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:var(--text-light)}
+.gxv-fb[hidden]{display:none}
+.gxv-fb i{font-size:2.6rem}
+.gxv-fb button{min-height:44px;padding:0 18px;border:1px solid var(--border);border-radius:999px;background:var(--gxv-fill-strong);color:var(--text);font:600 .85rem var(--font-family);cursor:pointer}
+@keyframes gxPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.gxv-stage.pop .gxv-slide:nth-child(2) img{transform-origin:var(--ox,50%) var(--oy,50%);animation:gxPop .34s cubic-bezier(.22,1,.36,1) both}
+@media(min-width:768px),(hover:hover) and (pointer:fine){.gxv{--gx-pad:72px}}
+
+/* gesture/exit motion: one language — soft ease out, restrained spring on return */
+.gxv.is-dragging .gxv-stage{will-change:transform}
+.gxv.is-settling .gxv-stage{transition:transform .46s var(--gxv-pop)}
+.gxv.is-settling .gxv-backdrop{transition:opacity .34s ease}
+.gxv.is-closing{pointer-events:none}
+.gxv.is-closing .gxv-stage{transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .2s ease-out}
+.gxv.is-closing .gxv-backdrop{transition:opacity .22s ease}
+.gxv.is-closing .gxv-bar .gxv-b,.gxv.is-closing .gxv-bar .gxv-pos{transition-duration:.2s}
+
+/* ---------- caption + thumbnail strip (desktop strip design unchanged) ---------- */
+.gxv-info{position:relative;z-index:2;width:100%;max-width:760px;margin:0 auto;padding:10px 18px calc(env(safe-area-inset-bottom,0px) + 12px);text-align:center;transition:opacity .3s ease,transform .36s var(--gxv-ease)}
+.gxv-info[hidden]{display:none}
+.gxv-info h2{font-size:1rem;font-weight:600;color:var(--text)}
+.gxv-info p{margin-top:3px;font-size:.85rem;line-height:1.5;color:var(--text-light);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.gxv-info p.m{color:var(--primary-dark,var(--primary));font-size:.78rem;font-weight:600}
+body.dark .gxv-info p.m{color:var(--primary-light)}
+.gxv-strip{display:none;position:relative;z-index:2;transition:opacity .3s ease,transform .36s var(--gxv-ease)}
+@media(min-width:768px) and (min-height:520px){.gxv-strip{display:flex;gap:8px;justify-content:safe center;overflow-x:auto;overscroll-behavior-x:contain;padding:8px 16px calc(env(safe-area-inset-bottom,0px) + 12px);scrollbar-width:thin}}
+.gxv-strip button{flex:0 0 auto;width:68px;height:52px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:color-mix(in srgb,var(--text) 10%,var(--surface-solid));opacity:.55;cursor:pointer;transition:opacity .2s,border-color .2s}
+.gxv-strip button.on,.gxv-strip button:hover{opacity:1}
+.gxv-strip button.on{border-color:var(--primary)}
+.gxv-strip img{width:100%;height:100%;object-fit:cover;display:block}
+
+@media(prefers-reduced-motion:reduce){
+  .gxv *,.gxv *::before{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
+  .gxv .gxv-spin{animation:spin .8s linear infinite!important}
+}
 </style>
 
 
 <style id="gallery-outside-pagination-polish">
 /* Keep navigation outside the photo itself; polish the gallery's page controls. */
-#gxViewer .gxv-nav { display: none !important; }
 .gx-pager {
   display:flex; align-items:center; justify-content:center; gap:12px;
   flex-wrap:wrap; padding:22px 16px 8px; margin:8px auto 0;
@@ -3969,24 +4122,46 @@ body.dark .gx-pager .page-indicator {
 
     <!-- ===== PHOTO VIEWER ===== -->
     <div id="gxViewer" class="gxv" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
-        <div class="gxv-bar">
-            <span class="gxv-pos" id="gxvPos"></span>
-            <div class="gxv-tools">
-                <button type="button" class="gxv-b" id="gxvOut" aria-label="Zoom out"><i class="ri-zoom-out-line" aria-hidden="true"></i></button>
-                <button type="button" class="gxv-b" id="gxvIn" aria-label="Zoom in"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
-                <button type="button" class="gxv-b" id="gxvFit" aria-label="Fit to screen" hidden><i class="ri-aspect-ratio-line" aria-hidden="true"></i></button>
-                <button type="button" class="gxv-b" id="gxvFull" aria-label="Toggle fullscreen" hidden><i class="ri-fullscreen-line" aria-hidden="true"></i></button>
-                <a class="gxv-b" id="gxvOpen" href="#" target="_blank" rel="noopener" aria-label="Open original in new tab"><i class="ri-external-link-line" aria-hidden="true"></i></a>
-                <button type="button" class="gxv-b" id="gxvClose" aria-label="Close viewer"><i class="ri-close-line" aria-hidden="true"></i></button>
+        <div class="gxv-backdrop" id="gxvBackdrop" aria-hidden="true"></div>
+        <div class="gxv-bar" id="gxvBar">
+            <div class="gxv-cluster">
+                <button type="button" class="gxv-b" id="gxvClose" aria-label="Back to gallery"><i class="ri-arrow-left-line" aria-hidden="true"></i></button>
+                <span class="gxv-pos" id="gxvPos"></span>
+            </div>
+            <div class="gxv-cluster">
+                <div class="gxv-desk">
+                    <button type="button" class="gxv-b sm" id="gxvOut" aria-label="Zoom out"><i class="ri-zoom-out-line" aria-hidden="true"></i></button>
+                    <button type="button" class="gxv-b sm" id="gxvIn" aria-label="Zoom in"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
+                    <button type="button" class="gxv-b sm" id="gxvFit" aria-label="Fit to screen" hidden><i class="ri-aspect-ratio-line" aria-hidden="true"></i></button>
+                    <button type="button" class="gxv-b sm" id="gxvFull" aria-label="Toggle fullscreen" hidden><i class="ri-fullscreen-line" aria-hidden="true"></i></button>
+                    <a class="gxv-b sm" id="gxvOpen" href="#" target="_blank" rel="noopener" aria-label="Open original in new tab"><i class="ri-external-link-line" aria-hidden="true"></i></a>
+                </div>
+                <button type="button" class="gxv-b gxv-fav" id="gxvFav" aria-label="Add to favorites" aria-pressed="false"><i class="ri-heart-line" aria-hidden="true"></i></button>
+                <div class="gxv-menu-wrap">
+                    <button type="button" class="gxv-b" id="gxvMore" aria-label="More options" aria-haspopup="menu" aria-expanded="false" aria-controls="gxvMenu"><i class="ri-more-2-fill" aria-hidden="true"></i></button>
+                    <div class="gxv-pop gxv-menu" id="gxvMenu" role="menu" aria-label="Image options" inert>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="save"><i class="ri-download-2-line" aria-hidden="true"></i><span>Save Image</span></button>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="share"><i class="ri-share-forward-line" aria-hidden="true"></i><span>Share Image</span></button>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="details"><i class="ri-information-line" aria-hidden="true"></i><span>Image Details</span></button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="gxv-stage" id="gxvStage">
             <div class="gxv-track" id="gxvTrack"></div>
-            <button type="button" class="gxv-nav prev" id="gxvPrev" aria-label="Previous photo"><i class="ri-arrow-left-s-line" aria-hidden="true"></i></button>
-            <button type="button" class="gxv-nav next" id="gxvNext" aria-label="Next photo"><i class="ri-arrow-right-s-line" aria-hidden="true"></i></button>
         </div>
         <div class="gxv-info" id="gxvInfo" hidden></div>
         <div class="gxv-strip" id="gxvStrip" role="group" aria-label="Photo thumbnails"></div>
+        <section class="gxv-pop gxv-details" id="gxvDetails" role="dialog" aria-labelledby="gxvDTitle" inert>
+            <div class="gxv-d-grab" id="gxvDGrab">
+                <span class="gxv-handle" aria-hidden="true"></span>
+                <div class="gxv-d-head">
+                    <h3 id="gxvDTitle">Image details</h3>
+                    <button type="button" class="gxv-b sm" id="gxvDClose" aria-label="Close details"><i class="ri-close-line" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <dl class="gxv-d-body" id="gxvDBody"></dl>
+        </section>
         <p class="gx-sr" id="gxvLive" aria-live="polite"></p>
     </div>
 
@@ -4019,6 +4194,7 @@ body.dark .gx-pager .page-indicator {
             THEME_PRESET_KEY: 'psbs_theme_preset',
             NOTICE_READ_IDS_KEY: 'psbs_notice_read_ids',
             RIGHT_PANEL_TAB_KEY: 'psbs_right_panel_tab',
+            GALLERY_FAV_KEY: 'psbs_gallery_favorites',
             LOGIN_BASE: './',
             LOGIN_STUDENT: 'student-login.html',
             LOGIN_TEACHER: 'teacher-login.html',
@@ -4888,7 +5064,7 @@ body.dark .gx-pager .page-indicator {
             const s = function (ks) { for (let i = 0; i < ks.length; i++) { const v = r[ks[i]]; if (typeof v === 'string' && v.trim()) return v.trim(); } return ''; };
             let date = s(['event_date', 'date', 'taken_at']);
             if (date && !isNaN(Date.parse(date))) date = new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
-            const it = { src: r.image_url, thumb: s(['thumbnail_url', 'thumb_url', 'thumbnail']), title: s(['title', 'name']), caption: s(['caption', 'description']), cat: s(['category', 'event', 'event_name']), date: date };
+            const it = { id: r.id != null ? String(r.id) : '', src: r.image_url, thumb: s(['thumbnail_url', 'thumb_url', 'thumbnail']), title: s(['title', 'name']), caption: s(['caption', 'description']), cat: s(['category', 'event', 'event_name']), date: date };
             it.hay = (it.title + ' ' + it.caption + ' ' + it.cat).toLowerCase();
             return it;
         }
@@ -5027,182 +5203,476 @@ body.dark .gx-pager .page-indicator {
             const $v = gxEl('gxViewer');
             if (!$v) return { open: function () { }, sync: function () { }, isOpen: function () { return false; } };
             const stage = gxEl('gxvStage'), track = gxEl('gxvTrack'), pos = gxEl('gxvPos'), info = gxEl('gxvInfo'), strip = gxEl('gxvStrip'), live = gxEl('gxvLive');
-            const bPrev = gxEl('gxvPrev'), bNext = gxEl('gxvNext'), bIn = gxEl('gxvIn'), bOut = gxEl('gxvOut'), bFit = gxEl('gxvFit'), bFull = gxEl('gxvFull'), bOpen = gxEl('gxvOpen'), bClose = gxEl('gxvClose');
-            const MAX = 5, L = function () { return GX.list; }, clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
-            let idx = 0, open = false, opener = null, settleFn = null, tm = null, pushed = false, ignorePop = false, z = { s: 1, x: 0, y: 0 }, g = null, lastTap = 0, lastTapX = 0, lastTapY = 0, lastToggle = 0;
-            const ptrs = new Map(), slides = [];
+            const bar = gxEl('gxvBar'), backdrop = gxEl('gxvBackdrop');
+            const bIn = gxEl('gxvIn'), bOut = gxEl('gxvOut'), bFit = gxEl('gxvFit'), bFull = gxEl('gxvFull'), bOpen = gxEl('gxvOpen'), bClose = gxEl('gxvClose');
+            const bFav = gxEl('gxvFav'), bMore = gxEl('gxvMore'), menu = gxEl('gxvMenu');
+            const det = gxEl('gxvDetails'), detBody = gxEl('gxvDBody'), detGrab = gxEl('gxvDGrab'), bDetClose = gxEl('gxvDClose');
+            const MAX = 5, FAV_KEY = CONFIG.GALLERY_FAV_KEY || 'psbs_gallery_favorites';
+            const L = function () { return GX.list; }, clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+            const canInert = 'inert' in HTMLElement.prototype;
+            const setInert = function (el, on) { if (canInert) el.inert = !!on; };
 
+            // ---- the one authoritative viewer state ----
+            const S = {
+                idx: 0, open: false, closing: false, opener: null, scrollY: 0, pushed: false,
+                z: { s: 1, x: 0, y: 0 },          // zoom / pan
+                g: null,                          // active gesture (pend | swipe | pan | pinch | dismiss | none)
+                controls: true,                   // toolbar + caption + strip visible
+                popup: null,                      // null | 'menu' | 'details' — only one at a time
+                favs: new Set(),                  // stable keys of favorited photos
+                swallow: false,                   // pointer sequence consumed by "tap outside popup"
+                lite: false                       // adaptive: lighter blur on low-powered devices
+            };
+            const ptrs = new Map(), slides = [];
+            let settleFn = null, tm = null, ignorePop = false, hideTm = 0, settleTm = 0, tapTm = 0, popTm = 0;
+            let lastTap = 0, lastTapX = 0, lastTapY = 0, lastToggle = 0, raf = 0, job = null, sheet = null, sheetRaf = 0;
+            let stripList = null, stripLen = -1, stripOn = null;
+            const ready = new Set(), inflight = new Map(), blobs = new Map(), blobPending = new Map(), sizes = new Map(), sizePending = new Map();
+            const cur = function () { return L()[S.idx]; };
+            const mqSheet = window.matchMedia('(max-width:699.98px)');
+
+            // ---- one rAF slot for continuous gesture rendering ----
+            function frame(fn) { job = fn; if (!raf) raf = requestAnimationFrame(function () { raf = 0; const f = job; job = null; if (f) f(); }); }
+            function flush() { if (raf) { cancelAnimationFrame(raf); raf = 0; } const f = job; job = null; if (f) f(); }
+            function dropFrame() { if (raf) { cancelAnimationFrame(raf); raf = 0; } job = null; }
+
+            // ================= favorites =================
+            (function loadFavs() { try { const a = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); if (Array.isArray(a)) a.forEach(function (k) { S.favs.add(String(k)); }); } catch (e) { } })();
+            function saveFavs() { try { localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(S.favs))); } catch (e) { } }
+            const favKey = function (it) { return it.id ? 'id:' + it.id : 'src:' + it.src; };
+            function favUI(beat) {
+                const it = cur(), on = !!it && S.favs.has(favKey(it));
+                bFav.classList.toggle('is-fav', on);
+                bFav.setAttribute('aria-pressed', String(on));
+                bFav.setAttribute('aria-label', on ? 'Remove from favorites' : 'Add to favorites');
+                bFav.firstElementChild.className = on ? 'ri-heart-fill' : 'ri-heart-line';
+                if (beat && on && !gxReduce.matches) { bFav.classList.remove('beat'); void bFav.offsetWidth; bFav.classList.add('beat'); }
+            }
+            function toggleFav() {
+                const it = cur(); if (!it) return;
+                const k = favKey(it), on = !S.favs.has(k);
+                if (on) S.favs.add(k); else S.favs.delete(k);
+                saveFavs(); favUI(true);
+                live.textContent = on ? 'Added to favorites' : 'Removed from favorites';
+                if (Helpers.vibrate) Helpers.vibrate(10);
+            }
+            bFav.addEventListener('animationend', function () { bFav.classList.remove('beat'); }, true);
+            window.addEventListener('storage', function (e) {
+                if (e.key !== FAV_KEY) return;
+                S.favs.clear(); try { JSON.parse(e.newValue || '[]').forEach(function (k) { S.favs.add(String(k)); }); } catch (x) { }
+                if (S.open) favUI(false);
+            });
+
+            // ================= image loading (deduped) =================
+            function whenReady(src) {
+                if (ready.has(src)) return Promise.resolve(true);
+                let p = inflight.get(src); if (p) return p;
+                p = new Promise(function (res) {
+                    const im = new Image(); im.decoding = 'async';
+                    im.onload = function () { ready.add(src); inflight.delete(src); res(true); };
+                    im.onerror = function () { inflight.delete(src); res(false); };
+                    im.src = src;
+                });
+                inflight.set(src, p); return p;
+            }
             function mkSlide() {
                 const e = document.createElement('div'); e.className = 'gxv-slide is-empty';
                 e.innerHTML = '<div class="gxv-spin"></div><img alt="" draggable="false" decoding="async"><div class="gxv-fb" hidden><i class="ri-image-2-line" aria-hidden="true"></i><p>This photo could not be loaded.</p><button type="button">Try again</button></div>';
-                const s = { el: e, img: e.querySelector('img'), fb: e.querySelector('.gxv-fb'), tok: 0, src: '', full: false, to: 0 };
-                s.img.addEventListener('load', function () { clearTimeout(s.to); e.classList.remove('is-load'); s.fb.hidden = true; });
+                const s = { el: e, img: e.querySelector('img'), fb: e.querySelector('.gxv-fb'), tok: 0, src: '', cur: '', full: false, fullLoaded: false, thumbFirst: false, to: 0 };
+                s.img.addEventListener('load', function () {
+                    clearTimeout(s.to); e.classList.remove('is-load'); s.fb.hidden = true;
+                    s.fullLoaded = !!s.src && s.cur === s.src;
+                    if (s.fullLoaded && s === slides[1] && S.popup === 'details') renderDetails();
+                });
                 s.img.addEventListener('error', function () {
-                    if (s.thumbFirst && !s.full) { s.full = true; s.img.src = s.src; return; }
+                    if (s.thumbFirst && !s.full) { s.full = true; s.cur = s.src; s.img.src = s.src; return; }
                     clearTimeout(s.to); e.classList.remove('is-load'); s.fb.hidden = false;
                 });
-                s.fb.querySelector('button').addEventListener('click', function () { load(s, L()[idx + slides.indexOf(s) - 1]); });
+                s.fb.querySelector('button').addEventListener('click', function () { ready.delete(s.src); load(s, L()[S.idx + slides.indexOf(s) - 1]); });
                 return s;
             }
             function load(s, it) {
-                const tok = ++s.tok; clearTimeout(s.to); s.src = it ? it.src : ''; s.full = false; s.thumbFirst = false;
+                const tok = ++s.tok; clearTimeout(s.to); s.src = it ? it.src : ''; s.full = false; s.fullLoaded = false; s.thumbFirst = false;
                 s.fb.hidden = true; s.img.style.transform = ''; s.el.classList.toggle('is-empty', !it);
-                if (!it) { s.el.classList.remove('is-load'); s.img.removeAttribute('src'); return; }
+                if (!it) { s.cur = ''; s.el.classList.remove('is-load'); s.img.removeAttribute('src'); return; }
                 s.el.classList.add('is-load'); s.img.alt = it.title || it.caption || 'School photo';
-                const first = it.thumb || it.src; s.thumbFirst = first !== it.src; s.img.src = first;
-                if (s.thumbFirst) { const f = new Image(); f.onload = function () { if (tok === s.tok) { s.full = true; s.img.src = it.src; } }; f.src = it.src; }
+                const first = (it.thumb && !ready.has(it.src)) ? it.thumb : it.src;
+                s.thumbFirst = first !== it.src; s.cur = first; s.img.src = first;
+                if (s.thumbFirst) whenReady(it.src).then(function (ok) { if (ok && tok === s.tok) { s.full = true; s.cur = it.src; s.img.src = it.src; } });
                 s.to = setTimeout(function () { if (tok === s.tok && s.el.classList.contains('is-load')) { s.el.classList.remove('is-load'); s.fb.hidden = false; } }, 25000);
             }
             for (let k = 0; k < 3; k++) { const s = mkSlide(); slides.push(s); track.appendChild(s.el); }
-            const fill = function () { const l = L(); for (let k = 0; k < 3; k++) load(slides[k], l[idx + k - 1]); };
-
-            function renderStrip() {
-                const l = L(), W = l[idx].thumb ? 12 : 5, a = Math.max(0, idx - W), b = Math.min(l.length, idx + W + 1), had = strip.contains(document.activeElement); let h = '';
-                for (let i = a; i < b; i++) h += '<button type="button" data-i="' + i + '"' + (i === idx ? ' class="on" aria-current="true"' : '') + ' aria-label="Show photo ' + (i + 1) + '"><img src="' + gxEsc(l[i].thumb || l[i].src) + '" alt="" loading="lazy" decoding="async"></button>';
-                strip.innerHTML = h;
-                const on = strip.querySelector('.on');
-                if (on) { strip.scrollLeft = on.offsetLeft - (strip.clientWidth - on.offsetWidth) / 2; if (had) on.focus({ preventScroll: true }); }
+            const fill = function () { const l = L(); for (let k = 0; k < 3; k++) load(slides[k], l[S.idx + k - 1]); preloadFar(); };
+            function preloadFar() { // warm the next photos beyond the three live slides, once each
+                const l = L(); [S.idx + 2, S.idx - 2].forEach(function (i) { if (l[i]) whenReady(l[i].src); });
             }
-            function ui() {
-                const l = L(), it = l[idx]; if (!it) return;
-                pos.textContent = (idx + 1) + ' / ' + l.length;
-                bPrev.disabled = idx <= 0; bNext.disabled = idx >= l.length - 1; bOpen.href = it.src;
+
+            // ================= thumbnails (built once, only the active mark moves) =================
+            function buildStrip() {
+                const l = L(); if (stripList === l && stripLen === l.length) return;
+                stripList = l; stripLen = l.length; stripOn = null; let h = '';
+                for (let i = 0; i < l.length; i++) h += '<button type="button" tabindex="-1" data-i="' + i + '" aria-label="Show photo ' + (i + 1) + '"><img src="' + gxEsc(l[i].thumb || l[i].src) + '" alt="" loading="lazy" decoding="async"></button>';
+                strip.innerHTML = h;
+            }
+            function markStrip(smooth) {
+                if (stripOn) { stripOn.classList.remove('on'); stripOn.removeAttribute('aria-current'); stripOn.tabIndex = -1; }
+                stripOn = strip.children[S.idx] || null;
+                if (stripOn) { stripOn.classList.add('on'); stripOn.setAttribute('aria-current', 'true'); stripOn.tabIndex = 0; }
+                centerStrip(smooth);
+            }
+            function centerStrip(smooth) {
+                if (!stripOn || !strip.clientWidth) return;
+                const left = stripOn.offsetLeft - (strip.clientWidth - stripOn.offsetWidth) / 2;
+                strip.scrollTo({ left: left, behavior: smooth && !gxReduce.matches ? 'smooth' : 'auto' });
+            }
+
+            function ui(smooth) {
+                const l = L(), it = l[S.idx]; if (!it) return;
+                pos.textContent = (S.idx + 1) + ' / ' + l.length; pos.setAttribute('aria-label', 'Photo ' + (S.idx + 1) + ' of ' + l.length);
+                bOpen.href = it.src;
                 const meta = [it.cat, it.date].filter(Boolean).join(' • ');
                 info.hidden = !(it.title || it.caption || meta);
                 info.innerHTML = (it.title ? '<h2>' + gxEsc(it.title) + '</h2>' : '') + (meta ? '<p class="m">' + gxEsc(meta) + '</p>' : '') + (it.caption ? '<p>' + gxEsc(it.caption) + '</p>' : '');
-                live.textContent = 'Photo ' + (idx + 1) + ' of ' + l.length + (it.title ? ': ' + it.title : '');
-                renderStrip(); zoomUI();
+                live.textContent = 'Photo ' + (S.idx + 1) + ' of ' + l.length + (it.title ? ': ' + it.title : '');
+                favUI(false); buildStrip(); markStrip(!!smooth); zoomUI();
+                if (S.popup === 'details') renderDetails();
             }
 
-            // ---- zoom ----
-            function zoomUI() { bFit.hidden = z.s === 1; bIn.disabled = z.s >= MAX; bOut.disabled = z.s <= 1; stage.classList.toggle('zoomed', z.s > 1); }
+            // ================= zoom =================
+            function zoomUI() { bFit.hidden = S.z.s === 1; bIn.disabled = S.z.s >= MAX; bOut.disabled = S.z.s <= 1; stage.classList.toggle('zoomed', S.z.s > 1); }
             function applyZ(anim) {
-                const im = slides[1].img;
+                const im = slides[1].img, z = S.z;
                 im.style.transition = anim && !gxReduce.matches ? 'transform .22s ease' : 'none';
                 im.style.transform = (z.s === 1 && !z.x && !z.y) ? '' : 'translate3d(' + z.x + 'px,' + z.y + 'px,0) scale(' + z.s + ')';
                 zoomUI();
             }
             function clampZ() {
-                const im = slides[1].img, r = stage.getBoundingClientRect();
+                const im = slides[1].img, r = stage.getBoundingClientRect(), z = S.z;
                 const mx = Math.max(0, (im.clientWidth * z.s - r.width) / 2), my = Math.max(0, (im.clientHeight * z.s - r.height) / 2);
                 z.x = clamp(z.x, -mx, mx); z.y = clamp(z.y, -my, my);
             }
             function zoomAt(s2, cx, cy, anim) {
-                s2 = clamp(s2, 1, MAX);
+                const z = S.z; s2 = clamp(s2, 1, MAX);
                 const r = stage.getBoundingClientRect(), px = cx - (r.left + r.width / 2), py = cy - (r.top + r.height / 2), k = s2 / z.s;
                 z.x = px - (px - z.x) * k; z.y = py - (py - z.y) * k; z.s = s2;
                 if (s2 === 1) { z.x = 0; z.y = 0; }
                 clampZ(); applyZ(anim);
             }
             const center = function () { const r = stage.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
-            function resetZoom(anim) { z = { s: 1, x: 0, y: 0 }; applyZ(anim); }
-            function toggleZoom(x, y) { lastToggle = performance.now(); if (z.s > 1) resetZoom(true); else zoomAt(2.5, x, y, true); }
-            function settleZoom() { if (z.s < 1.02) { z.s = 1; z.x = z.y = 0; } clampZ(); applyZ(true); }
+            function resetZoom(anim) { S.z = { s: 1, x: 0, y: 0 }; applyZ(anim); }
+            function toggleZoom(x, y) { lastToggle = performance.now(); if (S.z.s > 1) resetZoom(true); else zoomAt(2.5, x, y, true); }
+            function settleZoom() { const z = S.z; if (z.s < 1.02) { z.s = 1; z.x = z.y = 0; } clampZ(); applyZ(true); }
 
-            // ---- navigation ----
+            // ================= navigation =================
             function settle() { if (settleFn) { const f = settleFn; settleFn = null; f(); } }
-            function snap() { track.style.transition = gxReduce.matches ? 'none' : 'transform .22s cubic-bezier(.22,1,.36,1)'; track.style.transform = ''; }
+            function snap() { track.style.transition = gxReduce.matches ? 'none' : 'transform .26s ' + 'cubic-bezier(.22,1,.36,1)'; track.style.transform = ''; markStrip(true); }
+            track.addEventListener('transitionend', function (e) { if (e.target === track) track.style.willChange = ''; });
             function go(d) {
-                settle();
-                const l = L(), n = idx + d;
+                settle(); closePopup();
+                const l = L(), n = S.idx + d;
                 if (n < 0 || n >= l.length) { snap(); return false; }
-                resetZoom(false); idx = n; ui();
+                resetZoom(false); S.idx = n; ui(true);
                 const dur = gxReduce.matches ? 0 : 280, W = stage.clientWidth;
                 const fin = function () {
-                    clearTimeout(tm); settleFn = null; track.style.transition = 'none'; track.style.transform = '';
-                    if (d > 0) { track.appendChild(slides[0].el); slides.push(slides.shift()); load(slides[2], L()[idx + 1]); }
-                    else { track.insertBefore(slides[2].el, slides[0].el); slides.unshift(slides.pop()); load(slides[0], L()[idx - 1]); }
+                    clearTimeout(tm); settleFn = null; track.style.transition = 'none'; track.style.transform = ''; track.style.willChange = '';
+                    if (d > 0) { track.appendChild(slides[0].el); slides.push(slides.shift()); load(slides[2], L()[S.idx + 1]); }
+                    else { track.insertBefore(slides[2].el, slides[0].el); slides.unshift(slides.pop()); load(slides[0], L()[S.idx - 1]); }
+                    preloadFar();
                 };
                 if (!dur) { fin(); return true; }
                 settleFn = fin; tm = setTimeout(settle, dur + 40);
+                track.style.willChange = 'transform';
                 track.style.transition = 'transform ' + dur + 'ms cubic-bezier(.22,1,.36,1)'; track.style.transform = 'translate3d(' + (-d * W) + 'px,0,0)';
                 return true;
             }
             function jump(i) {
-                if (i === idx) return;
-                if (Math.abs(i - idx) === 1) { go(i - idx); return; }
-                settle(); resetZoom(false); idx = i; fill(); ui();
+                if (i === S.idx) return;
+                if (Math.abs(i - S.idx) === 1) { go(i - S.idx); return; }
+                settle(); closePopup(); resetZoom(false); S.idx = i; fill(); ui(true);
             }
 
-            // ---- gestures (pointer events; stage has touch-action:none) ----
+            // ================= toolbar visibility (tap-to-toggle immersive mode) =================
+            function setControls(on) {
+                if (S.controls === on) return;
+                S.controls = on; $v.classList.toggle('ui-off', !on);
+                setInert(bar, !on); setInert(strip, !on);
+                if (!on) { closePopup(); if (bar.contains(document.activeElement)) document.activeElement.blur(); }
+            }
+
+            // ================= popup controller (menu | details) =================
+            function setPopup(name, byKey) {
+                if (S.popup === name) return;
+                const prev = S.popup, prevEl = prev === 'menu' ? menu : prev === 'details' ? det : null;
+                const hadFocus = !!prevEl && prevEl.contains(document.activeElement);
+                S.popup = name;
+                menu.classList.toggle('on', name === 'menu'); setInert(menu, name !== 'menu');
+                det.classList.toggle('on', name === 'details'); setInert(det, name !== 'details');
+                bMore.setAttribute('aria-expanded', String(name === 'menu'));
+                if (name === 'menu') { const it = cur(); if (it && navigator.share && navigator.canShare) getBlob(it).catch(function () { }); if (byKey) { const f = menu.querySelector('.gxv-mi'); if (f) f.focus({ preventScroll: true }); } }
+                if (name === 'details') { renderDetails(); if (hadFocus || byKey) bDetClose.focus({ preventScroll: true }); }
+                if (!name && hadFocus) bMore.focus({ preventScroll: true });
+            }
+            const closePopup = function () { setPopup(null); };
+            const togglePopup = function (n, byKey) { setPopup(S.popup === n ? null : n, byKey); };
+
+            // ---- details content (never invented: unknown values say so) ----
+            const EXT = /\.(jpe?g|png|gif|webp|avif|bmp|svg|heic|heif|tiff?)$/i;
+            function urlName(src) { try { return decodeURIComponent(new URL(src, location.href).pathname.split('/').pop() || ''); } catch (e) { return ''; } }
+            function row(icon, label, val, muted) { return '<div class="gxv-d-row"><i class="' + icon + '" aria-hidden="true"></i><div><dt>' + label + '</dt><dd' + (muted ? ' class="muted"' : '') + '>' + gxEsc(val) + '</dd></div></div>'; }
+            function renderDetails() {
+                const it = cur(); if (!it) return;
+                const file = urlName(it.src), sz = sizes.get(it.src), s1 = slides[1];
+                let h = row('ri-image-line', 'Name', it.title || file || 'Untitled photo');
+                if (sz) h += row('ri-database-2-line', 'Size', Helpers.formatBytes(sz));
+                else if (sz === null) h += row('ri-database-2-line', 'Size', 'Unavailable', true);
+                else { h += row('ri-database-2-line', 'Size', 'Checking…', true); fetchSize(it).then(function () { if (S.popup === 'details' && cur() === it) renderDetails(); }); }
+                const m = EXT.exec(file), fmt = m ? m[1].toUpperCase().replace('JPEG', 'JPG') : '';
+                if (s1 && s1.fullLoaded && s1.src === it.src && s1.img.naturalWidth) h += row('ri-aspect-ratio-line', 'Dimensions', s1.img.naturalWidth + ' × ' + s1.img.naturalHeight + (fmt ? ' · ' + fmt : ''));
+                h += it.caption ? row('ri-chat-quote-line', 'Caption', it.caption) : row('ri-chat-quote-line', 'Caption', 'No caption added', true);
+                const meta = [it.cat, it.date].filter(Boolean).join(' • ');
+                if (meta) h += row('ri-calendar-event-line', 'Album', meta);
+                detBody.innerHTML = h;
+            }
+            function fetchSize(it) {
+                const src = it.src; if (sizes.has(src)) return Promise.resolve();
+                if (sizePending.has(src)) return sizePending.get(src);
+                const p = (async function () {
+                    let n = 0; const b = blobs.get(src); if (b) n = b.size;
+                    if (!n) { try { const r = await fetch(src, { method: 'HEAD', mode: 'cors', credentials: 'omit' }); if (r.ok) n = +r.headers.get('content-length') || 0; } catch (e) { } }
+                    if (!n) { try { const pe = performance.getEntriesByName(src); for (let i = pe.length - 1; i >= 0 && !n; i--) n = pe[i].encodedBodySize || 0; } catch (e) { } }
+                    sizes.set(src, n > 0 ? n : null);
+                })().then(function () { sizePending.delete(src); }, function () { sizePending.delete(src); sizes.set(src, null); });
+                sizePending.set(src, p); return p;
+            }
+
+            // ================= save / share =================
+            function getBlob(it) {
+                const src = it.src;
+                if (blobs.has(src)) { const b = blobs.get(src); blobs.delete(src); blobs.set(src, b); return Promise.resolve(b); }
+                if (blobPending.has(src)) return blobPending.get(src);
+                const p = fetch(src, { mode: 'cors', credentials: 'omit' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.blob(); }).then(function (b) {
+                    blobs.set(src, b); while (blobs.size > 3) blobs.delete(blobs.keys().next().value); blobPending.delete(src); return b;
+                }, function (e) { blobPending.delete(src); throw e; });
+                blobPending.set(src, p); return p;
+            }
+            const TYPE_EXT = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif', 'image/avif': 'avif', 'image/svg+xml': 'svg', 'image/bmp': 'bmp' };
+            function saveName(it, blob) {
+                let n = urlName(it.src).replace(/[\\/:*?"<>|]+/g, '_').trim();
+                if (!n) n = 'psbs-photo-' + (S.idx + 1);
+                if (!EXT.test(n)) n += '.' + ((blob && TYPE_EXT[blob.type]) || 'jpg');
+                return n;
+            }
+            function clickLink(href, name, newTab) {
+                const a = document.createElement('a'); a.href = href; a.download = name; a.rel = 'noopener'; if (newTab) a.target = '_blank'; a.style.display = 'none';
+                document.body.appendChild(a); a.click(); a.remove();
+            }
+            async function saveImage() {
+                const it = cur(); if (!it) return;
+                if (navigator.onLine === false) { Toast.show('You appear to be offline. Try saving again when connected.', 'error'); return; }
+                try {
+                    const blob = await getBlob(it), url = URL.createObjectURL(blob);
+                    clickLink(url, saveName(it, blob), false); setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+                    Toast.show('Image saved to your downloads', 'success', 2400);
+                } catch (err) {
+                    // Cross-origin file without CORS headers: hand the original to the browser instead of failing silently.
+                    try { clickLink(it.src, saveName(it, null), true); Toast.show('Opened the original image. Press and hold it to save.', 'info'); }
+                    catch (e2) { Toast.show('Couldn’t save this image. Please try again.', 'error'); }
+                }
+            }
+            async function copyLink(url) {
+                try { await navigator.clipboard.writeText(url); return true; } catch (e) { }
+                try { const t = document.createElement('textarea'); t.value = url; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;opacity:0;top:0;left:0'; document.body.appendChild(t); t.select(); const ok = document.execCommand('copy'); t.remove(); return ok; } catch (e) { return false; }
+            }
+            async function shareImage() {
+                const it = cur(); if (!it) return;
+                const base = { title: it.title || 'School photo', text: it.caption || '' };
+                if (navigator.share) {
+                    try {
+                        if (navigator.canShare) {
+                            const blob = await Promise.race([getBlob(it), new Promise(function (r) { setTimeout(function () { r(null); }, 4000); })]);
+                            if (blob) {
+                                const file = new File([blob], saveName(it, blob), { type: blob.type || 'image/jpeg' });
+                                if (navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: base.title, text: base.text }); return; }
+                            }
+                        }
+                    } catch (e) { if (e && e.name === 'AbortError') return; }
+                    try { await navigator.share({ title: base.title, text: base.text, url: it.src }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+                }
+                if (await copyLink(it.src)) Toast.show('Image link copied', 'success', 2200);
+                else Toast.show('Sharing isn’t available here.', 'error');
+            }
+
+            // ================= visuals =================
+            function resetVisuals() {
+                $v.classList.remove('is-dragging', 'is-settling', 'is-closing', 'ui-off');
+                stage.style.transition = ''; stage.style.transform = ''; stage.style.opacity = ''; backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
+                track.style.transition = 'none'; track.style.transform = ''; track.style.willChange = '';
+                S.controls = true; setInert(bar, false); setInert(strip, false);
+            }
+            function renderDismiss() {
+                const g = S.g; if (!g || g.mode !== 'dismiss') return;
+                const p = clamp(Math.abs(g.dy) / (g.H * .5), 0, 1);
+                stage.style.transform = 'translate3d(' + g.dx + 'px,' + g.dy + 'px,0) scale(' + (1 - p * .26).toFixed(4) + ')';
+                backdrop.style.opacity = (1 - p * .92).toFixed(3);
+                $v.style.setProperty('--gxv-p', p.toFixed(3));
+            }
+            function settleBack() {
+                $v.classList.remove('is-dragging'); $v.classList.add('is-settling');
+                stage.style.transform = ''; backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
+                clearTimeout(settleTm); settleTm = setTimeout(function () { $v.classList.remove('is-settling'); }, gxReduce.matches ? 0 : 500);
+            }
+            function renderSwipe() {
+                const g = S.g; if (!g || g.mode !== 'swipe') return;
+                const l = L(), dx = g.dx, edge = (dx > 0 && S.idx <= 0) || (dx < 0 && S.idx >= l.length - 1), e = edge ? dx * .3 : dx;
+                track.style.transform = 'translate3d(' + e + 'px,0,0)';
+                if (g.sb != null) strip.scrollLeft = g.sb - (clamp(e, -g.W, g.W) / g.W) * g.pitch; // thumbnails glide with the photo
+            }
+
+            // ================= gestures (pointer events; stage has touch-action:none) =================
             const rel = function (x, y) { const c = center(); return [x - c[0], y - c[1]]; };
+            // A tap outside an open popup only dismisses it — it never starts a gesture or toggles controls.
+            $v.addEventListener('pointerdown', function (e) {
+                S.swallow = false; if (!S.popup) return;
+                if (e.target.closest('#gxvMenu,#gxvDetails,#gxvMore')) return;
+                const hitStage = !!e.target.closest('#gxvStage');
+                closePopup(); if (hitStage) S.swallow = true;
+            }, true);
             stage.addEventListener('pointerdown', function (e) {
+                if (S.swallow || S.closing || !S.open) return;
                 if ((e.pointerType === 'mouse' && e.button > 0) || e.target.closest('button,a')) return;
                 settle(); try { stage.setPointerCapture(e.pointerId); } catch (x) { }
                 ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
-                if (ptrs.size === 1) { g = { mode: 'pend', x0: e.clientX, y0: e.clientY, t0: performance.now(), dx: 0 }; track.style.transition = 'none'; }
+                if (ptrs.size === 1) { const t = performance.now(); S.g = { mode: 'pend', x0: e.clientX, y0: e.clientY, t0: t, dx: 0, dy: 0, ly: e.clientY, lt: t, vy: 0 }; track.style.transition = 'none'; }
                 else if (ptrs.size === 2) {
-                    track.style.transform = '';
+                    if (S.g && S.g.mode === 'dismiss') { dropFrame(); S.g = null; settleBack(); }
+                    clearTimeout(tapTm); track.style.transform = '';
                     const p = Array.from(ptrs.values());
-                    g = { mode: 'pinch', d0: Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y) || 1, s0: z.s, tx0: z.x, ty0: z.y, m0: rel((p[0].x + p[1].x) / 2, (p[0].y + p[1].y) / 2) };
+                    S.g = { mode: 'pinch', d0: Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y) || 1, s0: S.z.s, tx0: S.z.x, ty0: S.z.y, m0: rel((p[0].x + p[1].x) / 2, (p[0].y + p[1].y) / 2) };
                 }
             });
             stage.addEventListener('pointermove', function (e) {
-                const p = ptrs.get(e.pointerId); if (!p || !g) return;
+                const p = ptrs.get(e.pointerId), g = S.g; if (!p || !g) return;
                 p.x = e.clientX; p.y = e.clientY;
                 if (g.mode === 'pinch' && ptrs.size >= 2) {
                     const q = Array.from(ptrs.values()), d = Math.hypot(q[0].x - q[1].x, q[0].y - q[1].y), s = clamp(g.s0 * d / g.d0, 1, MAX), m = rel((q[0].x + q[1].x) / 2, (q[0].y + q[1].y) / 2);
-                    z.s = s; z.x = m[0] - (g.m0[0] - g.tx0) * (s / g.s0); z.y = m[1] - (g.m0[1] - g.ty0) * (s / g.s0); clampZ(); applyZ(false); return;
+                    S.z.s = s; S.z.x = m[0] - (g.m0[0] - g.tx0) * (s / g.s0); S.z.y = m[1] - (g.m0[1] - g.ty0) * (s / g.s0);
+                    frame(function () { clampZ(); applyZ(false); }); return;
                 }
                 if (ptrs.size > 1) return;
                 const dx = e.clientX - g.x0, dy = e.clientY - g.y0;
                 if (g.mode === 'pend') {
                     if (Math.hypot(dx, dy) < 8) return;
-                    g.mode = z.s > 1 ? 'pan' : (Math.abs(dx) > Math.abs(dy) ? 'swipe' : 'none'); g.zx = z.x; g.zy = z.y;
+                    clearTimeout(tapTm); lastTap = 0;
+                    if (S.z.s > 1) g.mode = 'pan';
+                    else if (Math.abs(dx) > Math.abs(dy)) g.mode = 'swipe';
+                    else { g.mode = 'dismiss'; g.x0 = e.clientX; g.y0 = e.clientY; g.H = stage.clientHeight || window.innerHeight; $v.classList.add('is-dragging'); return; }
+                    g.zx = S.z.x; g.zy = S.z.y;
+                    if (g.mode === 'swipe') {
+                        g.W = stage.clientWidth || 1; track.style.willChange = 'transform';
+                        const b1 = strip.children[1], b0 = strip.children[0];
+                        g.sb = strip.clientWidth ? strip.scrollLeft : null; g.pitch = (b1 && b0 ? b1.offsetLeft - b0.offsetLeft : 76) || 76;
+                    }
                 }
-                if (g.mode === 'swipe') {
-                    const l = L(); g.dx = dx;
-                    track.style.transform = 'translate3d(' + (((dx > 0 && idx <= 0) || (dx < 0 && idx >= l.length - 1)) ? dx * .3 : dx) + 'px,0,0)';
-                } else if (g.mode === 'pan') { z.x = g.zx + dx; z.y = g.zy + dy; clampZ(); applyZ(false); }
+                if (g.mode === 'swipe') { g.dx = dx; frame(renderSwipe); }
+                else if (g.mode === 'pan') { S.z.x = g.zx + dx; S.z.y = g.zy + dy; frame(function () { clampZ(); applyZ(false); }); }
+                else if (g.mode === 'dismiss') {
+                    g.dx = dx; g.dy = dy; const t = performance.now(), dt = t - g.lt;
+                    if (dt > 0) { g.vy = g.vy * .6 + ((e.clientY - g.ly) / dt) * .4; g.ly = e.clientY; g.lt = t; }
+                    frame(renderDismiss);
+                }
             });
             function up(e, cancel) {
                 if (!ptrs.has(e.pointerId)) return;
                 ptrs.delete(e.pointerId);
-                if (!g) return;
+                const g = S.g; if (!g) return;
                 if (ptrs.size) { if (g.mode === 'pinch') { g.mode = 'none'; settleZoom(); } return; }
-                const gg = g; g = null;
-                if (gg.mode === 'swipe') {
-                    const adx = Math.abs(gg.dx), v = adx / Math.max(1, performance.now() - gg.t0), W = stage.clientWidth;
-                    if (!cancel && (adx > Math.min(90, W * .2) || (v > .45 && adx > 28))) go(gg.dx < 0 ? 1 : -1); else snap();
-                } else if (gg.mode === 'pinch') settleZoom();
-                else if (gg.mode === 'pend' && !cancel && e.pointerType !== 'mouse') {
+                dropFrame(); S.g = null;
+                if (g.mode === 'swipe') {
+                    const adx = Math.abs(g.dx), v = adx / Math.max(1, performance.now() - g.t0), W = stage.clientWidth;
+                    if (!cancel && (adx > Math.min(90, W * .2) || (v > .45 && adx > 28))) go(g.dx < 0 ? 1 : -1); else snap();
+                } else if (g.mode === 'dismiss') {
+                    const dy = g.dy, v = g.vy, adx = Math.abs(dy);
+                    const far = adx > Math.min(140, g.H * .2), fast = Math.abs(v) > .55 && adx > 24 && Math.sign(v) === Math.sign(dy), back = Math.abs(v) > .4 && Math.sign(v) !== Math.sign(dy);
+                    if (!cancel && !back && (far || fast)) close(false, dy < 0 ? -1 : 1, g.dx); else settleBack();
+                } else if (g.mode === 'pan') { applyZ(false); }
+                else if (g.mode === 'pinch') settleZoom();
+                else if (g.mode === 'pend' && !cancel && e.pointerType !== 'mouse') {
                     const now = performance.now();
-                    if (now - lastTap < 320 && Math.hypot(e.clientX - lastTapX, e.clientY - lastTapY) < 32) { lastTap = 0; toggleZoom(e.clientX, e.clientY); }
-                    else { lastTap = now; lastTapX = e.clientX; lastTapY = e.clientY; }
+                    if (now - lastTap < 320 && Math.hypot(e.clientX - lastTapX, e.clientY - lastTapY) < 32) { lastTap = 0; clearTimeout(tapTm); toggleZoom(e.clientX, e.clientY); }
+                    else {
+                        lastTap = now; lastTapX = e.clientX; lastTapY = e.clientY; clearTimeout(tapTm);
+                        tapTm = setTimeout(function () { if (S.open && !S.closing) setControls(!S.controls); }, 300); // waits briefly so a double-tap can still zoom
+                    }
                 }
             }
             stage.addEventListener('pointerup', function (e) { up(e, false); });
             stage.addEventListener('pointercancel', function (e) { up(e, true); });
             stage.addEventListener('dblclick', function (e) { if (performance.now() - lastToggle > 400 && !e.target.closest('button,a')) toggleZoom(e.clientX, e.clientY); });
-            stage.addEventListener('wheel', function (e) { if (!e.ctrlKey) return; e.preventDefault(); zoomAt(z.s * Math.exp(-e.deltaY * .01), e.clientX, e.clientY, false); }, { passive: false });
+            stage.addEventListener('wheel', function (e) { if (!e.ctrlKey) return; e.preventDefault(); zoomAt(S.z.s * Math.exp(-e.deltaY * .01), e.clientX, e.clientY, false); }, { passive: false });
             // Keep viewer swipes from also driving the page-level sidebar / panel gestures.
             ['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach(function (t) { $v.addEventListener(t, function (e) { e.stopPropagation(); }, { passive: true }); });
 
-            // ---- controls ----
-            bPrev.addEventListener('click', function () { go(-1); });
-            bNext.addEventListener('click', function () { go(1); });
-            bIn.addEventListener('click', function () { const c = center(); zoomAt(z.s * 1.6, c[0], c[1], true); });
-            bOut.addEventListener('click', function () { const c = center(); zoomAt(z.s / 1.6, c[0], c[1], true); });
+            // ---- details bottom-sheet: finger-following drag-to-dismiss (never reaches the stage) ----
+            detGrab.addEventListener('pointerdown', function (e) {
+                if (!mqSheet.matches || e.target.closest('button') || (e.pointerType === 'mouse' && e.button > 0)) return;
+                try { detGrab.setPointerCapture(e.pointerId); } catch (x) { }
+                const t = performance.now(); sheet = { id: e.pointerId, y0: e.clientY, dy: 0, vy: 0, ly: e.clientY, lt: t }; det.classList.add('dragging');
+            });
+            detGrab.addEventListener('pointermove', function (e) {
+                if (!sheet || e.pointerId !== sheet.id) return;
+                const raw = e.clientY - sheet.y0; sheet.dy = raw < 0 ? raw * .15 : raw;
+                const t = performance.now(), dt = t - sheet.lt; if (dt > 0) { sheet.vy = sheet.vy * .6 + ((e.clientY - sheet.ly) / dt) * .4; sheet.ly = e.clientY; sheet.lt = t; }
+                if (!sheetRaf) sheetRaf = requestAnimationFrame(function () { sheetRaf = 0; if (sheet) det.style.transform = 'translate3d(0,' + sheet.dy + 'px,0)'; });
+            });
+            function sheetUp(e) {
+                if (!sheet || e.pointerId !== sheet.id) return;
+                if (sheetRaf) { cancelAnimationFrame(sheetRaf); sheetRaf = 0; }
+                const s = sheet; sheet = null;
+                det.style.transform = 'translate3d(0,' + s.dy + 'px,0)'; det.classList.remove('dragging'); void det.offsetWidth;
+                det.style.transform = '';
+                if (e.type !== 'pointercancel' && (s.dy > 90 || (s.vy > .5 && s.dy > 20))) closePopup();
+            }
+            detGrab.addEventListener('pointerup', sheetUp); detGrab.addEventListener('pointercancel', sheetUp);
+
+            // ================= controls =================
+            bIn.addEventListener('click', function () { const c = center(); zoomAt(S.z.s * 1.6, c[0], c[1], true); });
+            bOut.addEventListener('click', function () { const c = center(); zoomAt(S.z.s / 1.6, c[0], c[1], true); });
             bFit.addEventListener('click', function () { resetZoom(true); });
             bClose.addEventListener('click', function () { close(false); });
+            bFav.addEventListener('click', function () { closePopup(); toggleFav(); });
+            bMore.addEventListener('click', function () { togglePopup('menu'); });
+            bDetClose.addEventListener('click', closePopup);
+            menu.addEventListener('click', function (e) {
+                const b = e.target.closest('[data-act]'); if (!b) return;
+                const act = b.dataset.act;
+                if (act === 'details') { setPopup('details'); return; }
+                closePopup(); if (act === 'save') saveImage(); else if (act === 'share') shareImage();
+            });
             strip.addEventListener('click', function (e) { const b = e.target.closest('button[data-i]'); if (b) jump(+b.dataset.i); });
             const fsOK = document.fullscreenEnabled && $v.requestFullscreen;
             bFull.hidden = !fsOK; // omitted where the browser has no fullscreen support
             if (fsOK) {
-                bFull.addEventListener('click', function () { if (document.fullscreenElement) document.exitFullscreen(); else $v.requestFullscreen().catch(function () { }); });
+                bFull.addEventListener('click', function () { closePopup(); if (document.fullscreenElement) document.exitFullscreen(); else $v.requestFullscreen().catch(function () { }); });
                 document.addEventListener('fullscreenchange', function () { bFull.firstElementChild.className = document.fullscreenElement ? 'ri-fullscreen-exit-line' : 'ri-fullscreen-line'; });
             }
 
             function onKey(e) {
                 const k = e.key;
-                if (k === 'Escape') { e.preventDefault(); close(false); }
-                else if (k === 'ArrowRight') { e.preventDefault(); go(1); }
+                if (k === 'Escape') { e.preventDefault(); if (S.popup) closePopup(); else close(false); return; }
+                if (!S.controls) setControls(true);
+                if (S.popup === 'menu' && (k === 'ArrowDown' || k === 'ArrowUp' || k === 'Home' || k === 'End')) {
+                    e.preventDefault();
+                    const items = Array.prototype.slice.call(menu.querySelectorAll('.gxv-mi')), i = items.indexOf(document.activeElement);
+                    const n = k === 'Home' ? 0 : k === 'End' ? items.length - 1 : (i + (k === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+                    items[n].focus({ preventScroll: true }); return;
+                }
+                if (k === 'ArrowRight') { e.preventDefault(); go(1); }
                 else if (k === 'ArrowLeft') { e.preventDefault(); go(-1); }
-                else if (k === '+' || k === '=') { const c = center(); zoomAt(z.s * 1.6, c[0], c[1], true); }
-                else if (k === '-') { const c = center(); zoomAt(z.s / 1.6, c[0], c[1], true); }
+                else if (k === '+' || k === '=') { const c = center(); zoomAt(S.z.s * 1.6, c[0], c[1], true); }
+                else if (k === '-') { const c = center(); zoomAt(S.z.s / 1.6, c[0], c[1], true); }
                 else if (k === '0') resetZoom(true);
                 else if (k === 'Tab') {
-                    const f = Array.prototype.filter.call($v.querySelectorAll('button:not([disabled]),a[href]'), function (n) { return n.getClientRects().length; });
+                    const f = Array.prototype.filter.call($v.querySelectorAll('button:not([disabled]),a[href]'), function (n) { return n.getClientRects().length && !n.closest('[inert]'); });
                     if (!f.length) return;
                     const a = document.activeElement, first = f[0], last = f[f.length - 1];
                     if (!$v.contains(a)) { e.preventDefault(); first.focus(); }
@@ -5210,52 +5680,74 @@ body.dark .gx-pager .page-indicator {
                     else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
                 }
             }
-            const onResize = function () { clampZ(); applyZ(false); };
+            const onResize = function () { clampZ(); applyZ(false); centerStrip(false); };
 
-            // ---- open / close ----
+            // ================= open / close =================
             function openV(i, from) {
-                const l = L(); if (!l.length || open) return;
-                idx = clamp(i, 0, l.length - 1); opener = from || document.activeElement; open = true;
+                const l = L(); if (!l.length || S.open) return;
+                clearTimeout(hideTm); S.closing = false; resetVisuals();
+                S.idx = clamp(i, 0, l.length - 1); S.opener = from || document.activeElement; S.open = true; S.popup = null; S.swallow = false;
+                S.scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+                S.lite = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 2;
+                $v.classList.toggle('lite', S.lite);
+                menu.classList.remove('on'); det.classList.remove('on'); det.style.transform = ''; setInert(menu, true); setInert(det, true); bMore.setAttribute('aria-expanded', 'false');
                 $v.hidden = false;
                 document.documentElement.classList.add('gx-lock');
                 const app = gxEl('app'); if (app && 'inert' in app) app.inert = true;
                 if (from) { const r = from.getBoundingClientRect(), s = stage.getBoundingClientRect(); stage.style.setProperty('--ox', (r.left + r.width / 2 - s.left) + 'px'); stage.style.setProperty('--oy', (r.top + r.height / 2 - s.top) + 'px'); }
-                z = { s: 1, x: 0, y: 0 }; track.style.transition = 'none'; track.style.transform = '';
-                fill(); ui();
-                stage.classList.add('pop'); setTimeout(function () { stage.classList.remove('pop'); }, 450);
+                S.z = { s: 1, x: 0, y: 0 };
+                fill(); ui(false);
+                if (!gxReduce.matches) { stage.classList.add('pop'); clearTimeout(popTm); popTm = setTimeout(function () { stage.classList.remove('pop'); }, 450); }
                 void $v.offsetWidth; $v.classList.add('is-open');
                 document.addEventListener('keydown', onKey); window.addEventListener('resize', onResize);
-                history.pushState({ gxv: 1 }, ''); pushed = true;
+                history.pushState({ gxv: 1 }, ''); S.pushed = true;
                 bClose.focus({ preventScroll: true });
             }
-            function close(fromPop) {
-                if (!open) return;
-                open = false; settle(); ptrs.clear(); g = null;
+            // dir: -1 swiped up, +1 swiped down, undefined = button / Escape / history back
+            function close(fromPop, dir, dx) {
+                if (!S.open) return;
+                S.open = false; S.closing = true; settle(); dropFrame(); ptrs.clear(); S.g = null;
+                clearTimeout(tapTm); clearTimeout(settleTm); clearTimeout(popTm); stage.classList.remove('pop');
+                if (sheetRaf) { cancelAnimationFrame(sheetRaf); sheetRaf = 0; } sheet = null;
+                closePopup();
+                $v.classList.remove('is-dragging', 'is-settling'); $v.classList.add('is-closing');
+                // every exit (swipe up/down, back arrow, browser back, Escape): glide to center and pinch in (shrink) fast while fading
+                stage.style.transform = 'translate3d(0,0,0) scale(.55)';
+                stage.style.opacity = '0'; backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
                 $v.classList.remove('is-open');
                 document.removeEventListener('keydown', onKey); window.removeEventListener('resize', onResize);
                 if (document.fullscreenElement) document.exitFullscreen().catch(function () { });
                 document.documentElement.classList.remove('gx-lock');
                 const app = gxEl('app'); if (app && 'inert' in app) app.inert = false;
-                if (pushed) { pushed = false; if (!fromPop) { ignorePop = true; history.back(); } }
-                // Return focus to the card for the photo currently shown (grid follows if it was on another page).
-                const page = Math.floor(idx / BATCH_SIZE);
-                if (page !== GX.page && GX.status === 'ready') renderGalleryPage(page);
-                const card = DOM.galleryGrid && DOM.galleryGrid.querySelector('[data-i="' + idx + '"]');
-                const tgt = card || (opener && document.contains(opener) ? opener : null);
-                if (tgt) tgt.focus({ preventScroll: !card });
-                setTimeout(function () { if (!open) { $v.hidden = true; slides.forEach(function (s) { load(s, null); }); } }, gxReduce.matches ? 0 : 240);
+                if (S.pushed) { S.pushed = false; if (!fromPop) { ignorePop = true; history.back(); } }
+                // Restore the gallery exactly as it was; only follow the photo if it lives on another page.
+                const page = Math.floor(S.idx / BATCH_SIZE), moved = page !== GX.page && GX.status === 'ready';
+                if (moved) renderGalleryPage(page);
+                else window.scrollTo({ top: S.scrollY, left: 0, behavior: 'instant' });
+                const card = DOM.galleryGrid && DOM.galleryGrid.querySelector('[data-i="' + S.idx + '"]');
+                const tgt = card || (S.opener && document.contains(S.opener) ? S.opener : null);
+                if (tgt) tgt.focus({ preventScroll: !moved });
+                hideTm = setTimeout(finishClose, gxReduce.matches ? 0 : 260);
+            }
+            function finishClose() {
+                if (S.open) return;
+                S.closing = false; $v.hidden = true; resetVisuals();
+                slides.forEach(function (s) { load(s, null); });
+                ready.clear(); inflight.clear(); blobs.clear(); stripList = null; stripLen = -1; stripOn = null; strip.innerHTML = ''; detBody.innerHTML = '';
             }
             window.addEventListener('popstate', function () {
                 if (ignorePop) { ignorePop = false; return; }
-                if (open) { pushed = false; close(true); }
+                if (!S.open) return;
+                if (S.popup) { closePopup(); history.pushState({ gxv: 1 }, ''); S.pushed = true; return; } // Back closes the popup first
+                S.pushed = false; close(true);
             });
             function sync() { // called after data refresh (realtime/retry): keep the same photo or close
-                if (!open) return;
-                const cur = slides[1].src, n = L().findIndex(function (it) { return it.src === cur; });
+                if (!S.open) return;
+                const cur0 = slides[1].src, n = L().findIndex(function (it) { return it.src === cur0; });
                 if (n < 0) { close(false); return; }
-                settle(); idx = n; fill(); ui();
+                settle(); S.idx = n; fill(); ui(false);
             }
-            return { open: openV, sync: sync, isOpen: function () { return open; } };
+            return { open: openV, sync: sync, isOpen: function () { return S.open; } };
         })();
 
         // ============================================================

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description"
         content="Pabitra Secondary Boarding School - Quality Education since 2040 B.S. Official portal with notices, documents and gallery." />
     <meta name="theme-color" content="#f39c12" />
@@ -11,12 +11,16 @@
     <meta name="keywords"
         content="School Website, Pabitra Secondary School, Pabitra Boarding School, Doti, Nepal, education, PSBS, portal, documents" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://pabitraschool.edu.np/" />
+    <meta property="og:url" content="https://psbs.edu.np/" />
     <meta property="og:title" content="Pabitra Secondary Boarding School" />
     <meta property="og:description"
         content="Quality Education since 2040 B.S. - School portal with notices, documents and gallery." />
     <meta property="og:image" content="school.jpg" />
+    <meta property="og:image:alt" content="Pabitra Secondary Boarding School" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pabitra Secondary Boarding School" />
+    <meta name="twitter:description" content="Quality Education is our Motto. Official PSBS portal with notices, documents and gallery." />
+    <meta name="twitter:image" content="school.jpg" />
     <link rel="canonical" href="https://psbs.edu.np/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,9 +67,9 @@
 
             --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.09);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.08);
+            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.10);
 
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -76,7 +80,7 @@
             --sb-width: 85vw;
             --sb-inner-padding: 14px;
             --container-padding: 16px;
-            --font-family: 'Poppins', sans-serif;
+            --font-family: "Poppins", sans-serif;
             --header-height: 56px;
             --z-modal: 10000;
             --z-overlay: 9999;
@@ -119,10 +123,10 @@
             --text-inverse: #1E293B;
             --border: rgba(51, 65, 85, 0.5);
             --border-light: #1E293B;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.22);
+            --shadow-md: 0 4px 18px rgba(0, 0, 0, 0.28);
+            --shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.34);
+            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.4);
             --glass-bg: rgba(30, 41, 59, 0.4);
             --glass-border: rgba(255, 255, 255, 0.03);
         }
@@ -146,13 +150,28 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        body.modal-active,
-        body.sidebar-active,
-        body.right-panel-active,
-        body.dropdown-active,
-        body.welcome-active,
-        body.lightbox-open { overflow: hidden !important; }
-
+        /* ===== DISABLE BROWSER AUTOFILL STYLING ===== */
+        input, textarea, select { background-clip: padding-box; }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            -webkit-text-fill-color: var(--text) !important;
+            caret-color: var(--text) !important;
+            transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+            -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+            box-shadow: 0 0 0 1000px transparent inset !important;
+            background-color: transparent !important;
+        }
+        input:-internal-autofill-selected { background-color: transparent !important; }
+        input, textarea { color-scheme: light; }
+        body.dark input, body.dark textarea { color-scheme: dark; }
 
         /* ===== NEBULA ===== */
         .nebula-bg {
@@ -222,7 +241,7 @@
             transition: transform 0.35s var(--spring), box-shadow 0.35s var(--snap), background 0.35s ease;
         }
         .glossy-btn::before {
-            content: ''; position: absolute; left: 6%; right: 6%; top: 4%;
+            content: ""; position: absolute; left: 6%; right: 6%; top: 4%;
             height: 42%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
             opacity: 0.7; z-index: 1;
@@ -274,8 +293,8 @@
            ============================================================ */
         .modal-overlay {
             position: fixed; inset: 0;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(28px) saturate(180%);
+            background: rgba(15, 23, 42, 0.24);
+            backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
             display: flex; align-items: center; justify-content: center;
             z-index: var(--z-modal); padding: 20px;
@@ -388,125 +407,6 @@
         }
         .welcome-card .welcome-btn:active { transform: scale(0.96); }
 
-        /* ===== LIGHTBOX ===== */
-        .lightbox-overlay {
-            position: fixed; inset: 0; background: rgba(6, 8, 12, 0.94);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            z-index: 10002; display: flex; flex-direction: column;
-            opacity: 0; visibility: hidden;
-            transition: opacity 0.4s var(--snap), visibility 0.4s var(--snap), background 0.3s ease;
-            padding: 0; user-select: none; -webkit-user-select: none;
-        }
-        .lightbox-overlay.active { opacity: 1; visibility: visible; }
-        .lightbox-overlay.dismiss-dragging { transition: none; }
-
-        .lightbox-topbar {
-            position: relative; z-index: 12; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
-            padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 10px;
-        }
-        .lightbox-counter-pill {
-            color: rgba(255, 255, 255, 0.9); font-size: 0.8125rem; font-weight: 700;
-            background: rgba(255, 255, 255, 0.08); padding: 9px 18px;
-            border-radius: 999px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            letter-spacing: 0.04em; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-        }
-        .lightbox-actions { display: flex; align-items: center; gap: 8px; }
-        .lightbox-icon-btn {
-            position: relative; overflow: hidden;
-            width: 44px; height: 44px; border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14);
-            color: #fff; font-size: 1.2rem; display: grid; place-items: center;
-            transition: all 0.3s var(--snap); cursor: pointer;
-            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-        }
-        .lightbox-icon-btn::before {
-            content: ''; position: absolute; left: 14%; right: 14%; top: 8%; height: 40%;
-            border-radius: 999px; pointer-events: none;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
-        }
-        .lightbox-icon-btn i { position: relative; z-index: 1; }
-        .lightbox-icon-btn:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-2px); }
-        .lightbox-icon-btn:active { transform: scale(0.92); }
-        .lightbox-icon-btn.active-zoom { background: var(--primary-gradient); border-color: transparent; }
-        .lightbox-icon-btn.lightbox-close:hover { background: rgba(239, 68, 68, 0.75); border-color: transparent; }
-
-        .lightbox-img-wrap {
-            position: relative; flex: 1; min-height: 0; width: 100%;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; touch-action: none;
-        }
-        .lightbox-img {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            max-width: 92%; max-height: 100%;
-            border-radius: var(--radius-md);
-            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            object-fit: contain; cursor: default; background: rgba(255, 255, 255, 0.02);
-            transition: opacity 0.28s var(--snap), transform 0.28s var(--snap), border-radius 0.3s ease;
-            will-change: transform, opacity; opacity: 0; pointer-events: none;
-        }
-        .lightbox-img.active { opacity: 1; pointer-events: auto; }
-        
-        .lightbox-img.panning { transition: none; cursor: grabbing; }
-        .lightbox-spinner {
-            position: absolute; width: 38px; height: 38px; border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.15); border-top-color: #fff;
-            animation: spin 0.8s linear infinite; z-index: 3;
-            opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
-        }
-        .lightbox-spinner.show { opacity: 1; }
-        .lightbox-hint {
-            position: absolute; top: 74px; left: 50%; transform: translateX(-50%) translateY(-6px);
-            color: rgba(255, 255, 255, 0.55); font-size: 0.75rem; font-weight: 600;
-            letter-spacing: 0.03em; z-index: 11; pointer-events: none;
-            opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .lightbox-hint.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        .lightbox-overlay .lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 48px; height: 48px; border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff; font-size: 1.3rem; display: grid; place-items: center;
-            transition: all 0.3s var(--snap);
-            z-index: 10; cursor: pointer; backdrop-filter: blur(10px); opacity: 0.55;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-        }
-        .lightbox-overlay .lightbox-nav:hover { background: rgba(255, 255, 255, 0.16); opacity: 1; transform: translateY(-50%) scale(1.06); }
-        .lightbox-overlay .lightbox-nav.prev { left: 20px; }
-        .lightbox-overlay .lightbox-nav.next { right: 20px; }
-        .lightbox-overlay .lightbox-nav:disabled { opacity: 0.18; cursor: default; }
-
-        .lightbox-filmstrip {
-            position: relative; z-index: 12; flex-shrink: 0;
-            display: flex; gap: 8px; padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
-            overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
-        }
-        .lightbox-filmstrip::-webkit-scrollbar { display: none; }
-        .lightbox-thumb {
-            flex-shrink: 0; width: 54px; height: 54px; border-radius: 12px; overflow: hidden;
-            border: 2px solid transparent; opacity: 0.45; cursor: pointer; padding: 0;
-            transition: all 0.3s var(--snap); background: rgba(255, 255, 255, 0.06);
-        }
-        .lightbox-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .lightbox-thumb.active { opacity: 1; border-color: var(--primary); box-shadow: 0 6px 16px rgba(243, 156, 18, 0.4); transform: translateY(-3px); }
-        .lightbox-thumb:hover { opacity: 0.85; }
-
-        @media (max-width: 600px) {
-            .lightbox-overlay .lightbox-nav { width: 40px; height: 40px; font-size: 1rem; opacity: 0.4; }
-            .lightbox-overlay .lightbox-nav.prev { left: 8px; }
-            .lightbox-overlay .lightbox-nav.next { right: 8px; }
-            .lightbox-img { max-width: 96%; }
-            .lightbox-topbar { padding: calc(12px + env(safe-area-inset-top, 0px)) 12px 8px; }
-            .lightbox-icon-btn { width: 40px; height: 40px; font-size: 1.1rem; }
-            .lightbox-counter-pill { padding: 7px 14px; font-size: 0.75rem; }
-            .lightbox-thumb { width: 46px; height: 46px; }
-            .lightbox-hint { top: 66px; font-size: 0.7rem; }
-        }
-
         /* ============================================================
            GALLERY
            ============================================================ */
@@ -527,7 +427,7 @@
         }
         .gallery-item:active { transform: scale(0.98); }
         .gallery-item::after {
-            content: '🔍'; position: absolute; bottom: 10px; right: 10px;
+            content: "🔍"; position: absolute; bottom: 10px; right: 10px;
             font-size: 1.2rem; opacity: 0; transform: scale(0.5);
             transition: all 0.4s var(--spring);
             background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(4px);
@@ -545,7 +445,7 @@
             background: var(--background); z-index: 1; transition: opacity 0.4s ease;
         }
         .gallery-item .gallery-loader::after {
-            content: ''; width: 30px; height: 30px;
+            content: ""; width: 30px; height: 30px;
             border: 3px solid var(--border); border-top-color: var(--primary);
             border-radius: var(--radius-full); animation: spin 0.7s linear infinite;
         }
@@ -571,7 +471,7 @@
             position: relative; overflow: hidden;
         }
         .gallery-pagination button::before {
-            content: ''; position: absolute; left: 8%; right: 8%; top: 6%;
+            content: ""; position: absolute; left: 8%; right: 8%; top: 6%;
             height: 40%; border-radius: 999px;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
             pointer-events: none;
@@ -685,7 +585,7 @@
             position: relative; overflow: hidden;
         }
         .submit-btn::before {
-            content: ''; position: absolute; left: 6%; right: 6%; top: 5%;
+            content: ""; position: absolute; left: 6%; right: 6%; top: 5%;
             height: 40%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
@@ -713,7 +613,7 @@
             border-left-width: 4px; position: relative;
         }
         .update-card.notice-unread::before {
-            content: '●'; position: absolute; right: 12px; top: 12px;
+            content: "●"; position: absolute; right: 12px; top: 12px;
             font-size: 0.75rem; color: var(--primary);
             animation: pulse 2s ease-in-out infinite;
         }
@@ -1007,7 +907,7 @@
                 background 0.35s ease, color 0.3s ease;
         }
         .panel-tab::before {
-            content: ''; position: absolute; left: 10%; right: 10%; top: 6%;
+            content: ""; position: absolute; left: 10%; right: 10%; top: 6%;
             height: 42%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
         }
@@ -1073,7 +973,7 @@
 
         .sidebar-overlay {
             position: fixed; inset: 0;
-            background: rgba(15, 23, 42, 0.25);
+            background: rgba(15, 23, 42, 0.16);
             backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             opacity: 0; visibility: hidden;
             transition: opacity 0.4s var(--snap), visibility 0.4s var(--snap);
@@ -1343,7 +1243,7 @@
                 background 0.35s ease, color 0.3s ease, border-color 0.3s ease;
         }
         .doc-filter::before {
-            content: ''; position: absolute; left: 14%; right: 14%; top: 8%;
+            content: ""; position: absolute; left: 14%; right: 14%; top: 8%;
             height: 40%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
         }
@@ -1534,19 +1434,18 @@
             isolation: isolate;
         }
         #hero::before {
-            content: ''; position: absolute; inset: -20%;
+            content: ""; position: absolute; inset: -20%;
             background:
                 radial-gradient(ellipse at 50% 43%, rgba(255, 236, 164, 0.30) 0%, rgba(255, 196, 71, 0.12) 18%, transparent 48%),
                 radial-gradient(circle at 15% 30%, rgba(255,255,255,0.12), transparent 32%),
                 radial-gradient(circle at 88% 68%, rgba(255,190,65,0.10), transparent 34%);
             z-index: 0; pointer-events: none;
-            animation: hero-bloom 7s ease-in-out infinite alternate;
         }
         #hero::after {
-            content: ''; position: absolute; inset: 0;
+            content: ""; position: absolute; inset: 0;
             background: linear-gradient(115deg, transparent 0%, transparent 43%, rgba(255,255,255,0.13) 49%, transparent 55%, transparent 100%);
             background-size: 240% 100%;
-            animation: hero-light-sweep 8s ease-in-out 1.2s 1;
+            background-position: -20% 0;
             z-index: 1; pointer-events: none;
         }
         @keyframes hero-bloom {
@@ -1557,12 +1456,7 @@
             0%, 35% { background-position: 120% 0; }
             65%, 100% { background-position: -20% 0; }
         }
-        .hero-particle {
-            position: absolute; border-radius: var(--radius-full);
-            background: rgba(255, 255, 255, 0.10);
-            pointer-events: none; z-index: 0;
-            animation: float-particle 8s ease-in-out infinite;
-        }
+        .hero-particle { display: none !important; animation: none !important; }
         @keyframes float-particle {
             0% { transform: translateY(0) scale(1); opacity: 0.3; }
             100% { transform: translateY(-250px) scale(0); opacity: 0; }
@@ -1578,6 +1472,18 @@
             animation: fadeUp 0.8s var(--snap);
             text-align: center;
         }
+        .gallery-hero-cta {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            margin-top: 22px; padding: 13px 20px; border-radius: 999px;
+            color: #fff; text-decoration: none; font-weight: 800; letter-spacing: .01em;
+            background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 86%, white), var(--primary));
+            border: 1px solid rgba(255,255,255,.68);
+            box-shadow: 0 12px 28px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.52), inset 0 -2px 0 rgba(0,0,0,.10);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .gallery-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.58); }
+        .gallery-hero-cta:active { transform: scale(.97); }
+        .gallery-hero-cta i { font-size: 1.1em; }
         .hero-text-col { display: contents; }
         @media (min-width: 1024px) { .hero-content { max-width: 800px; } }
 
@@ -1611,7 +1517,7 @@
             filter: drop-shadow(0 10px 24px rgba(0,0,0,.22));
         }
         .hero-title::before {
-            content: '';
+            content: "";
             position: absolute;
             left: 4%; right: 4%; top: 4%; height: 44%;
             border-radius: 50%;
@@ -1666,7 +1572,7 @@
             min-height: 2.4rem;
         }
         .hero-motto::after {
-            content: ''; position: absolute; left: 12%; right: 12%; bottom: -6px;
+            content: ""; position: absolute; left: 12%; right: 12%; bottom: -6px;
             height: 1px;
             background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--primary) 42%, transparent), color-mix(in srgb, var(--primary) 22%, white), color-mix(in srgb, var(--primary) 42%, transparent), transparent);
             box-shadow: 0 0 10px color-mix(in srgb, var(--primary) 24%, transparent);
@@ -1690,35 +1596,16 @@
             letter-spacing: .012em;
             text-shadow: 0 2px 12px rgba(0,0,0,.22);
         }
-        .hero-actions {
-            display: flex; gap: 10px; justify-content: center;
-            flex-wrap: wrap; margin-top: 25px;
-        }
-        .hero-action-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 22px; border-radius: 999px;
-            background: var(--primary-gradient); color: #fff; border: none;
-            font-size: 1rem; font-weight: 800; letter-spacing: 0.02em;
-            box-shadow:
-                0 8px 22px rgba(243, 156, 18, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap);
-            cursor: pointer; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-            position: relative; overflow: hidden;
-        }
+
         .hero-action-btn::before {
-            content: ''; position: absolute; left: 8%; right: 8%; top: 6%;
+            content: ""; position: absolute; left: 8%; right: 8%; top: 6%;
             height: 38%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
-        .hero-action-btn.ghost {
-            background: rgba(255, 255, 255, 0.14);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 8px 20px rgba(0,0,0,0.14);
-        }
+        
         .hero-action-btn:active { transform: scale(0.95); }
         @media (max-width: 420px) {
-            .hero-action-btn { padding: 10px 16px; font-size: 0.9375rem; }
+            
             .hero-title { font-size: 2rem; letter-spacing: -0.025em; }
             .hero-motto { font-size: 1.3rem; }
             .hero-description { font-size: .94rem; line-height: 1.55; }
@@ -1728,20 +1615,6 @@
             .hero-motto { opacity: 1; transform: none; }
         }
 
-        .hero-stats-mini {
-            display: flex; justify-content: center; gap: 24px;
-            margin-top: 16px; margin-bottom: 6px; flex-wrap: wrap;
-        }
-        .hero-stat-mini { text-align: center; color: #fff; }
-        .hero-stat-mini .num {
-            font-size: 1.7rem; font-weight: 700; display: block;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
-        }
-        .hero-stat-mini .label {
-            font-size: 0.875rem; text-transform: uppercase;
-            opacity: 0.7; letter-spacing: 0.06em;
-        }
-
         /* ===== HERO / TICKER POLISH ===== */
         #hero {
             min-height: clamp(620px, 86vh, 820px);
@@ -1749,7 +1622,7 @@
             background-attachment: scroll;
         }
         #hero::after {
-            content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
             background:
                 linear-gradient(180deg, rgba(5,10,20,.16) 0%, rgba(5,10,20,.08) 42%, rgba(5,10,20,.34) 100%),
                 radial-gradient(circle at 50% 25%, rgba(255,255,255,.08), transparent 42%);
@@ -1757,13 +1630,10 @@
         .hero-overlay { margin-top: 0; background: rgba(0,0,0,.035); }
         .hero-content { max-width: 760px; will-change: transform, opacity; }
         .hero-logo-wrap { transform: translateZ(0); filter: drop-shadow(0 18px 32px rgba(0,0,0,.18)); }
-        .hero-title, .hero-motto, .hero-description, .hero-actions, .hero-stats-mini {
-            animation: heroContentIn .7s var(--snap) both;
-        }
+        .hero-title, .hero-motto, .hero-description, .hero-actions,
         .hero-motto { animation-delay: 70ms; }
         .hero-description { animation-delay: 120ms; }
-        .hero-actions { animation-delay: 170ms; }
-        .hero-stats-mini { animation-delay: 220ms; }
+        
         @keyframes heroContentIn {
             from { opacity: 0; transform: translateY(14px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1996,7 +1866,7 @@
             align-items: center; justify-content: center; gap: 10px;
         }
         .contact-btn::before {
-            content: ''; position: absolute; left: 8%; right: 8%; top: 6%;
+            content: ""; position: absolute; left: 8%; right: 8%; top: 6%;
             height: 40%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
@@ -2013,7 +1883,7 @@
             margin-top: 24px; position: relative; overflow: hidden;
         }
         .footer::before {
-            content: ''; position: absolute; inset: 0;
+            content: ""; position: absolute; inset: 0;
             background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.04), transparent 60%);
             pointer-events: none;
         }
@@ -2069,7 +1939,7 @@
             position: relative; overflow: hidden;
         }
         .fab-btn::before {
-            content: ''; position: absolute; left: 12%; right: 12%; top: 8%;
+            content: ""; position: absolute; left: 12%; right: 12%; top: 8%;
             height: 40%; border-radius: 999px; pointer-events: none;
             background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
         }
@@ -2185,9 +2055,9 @@
            ============================================================ */
         .search-overlay {
             background:
-                radial-gradient(circle at 50% 18%, rgba(var(--primary-rgb), .16), transparent 32%),
-                linear-gradient(135deg, rgba(15,23,42,.62), rgba(15,23,42,.42));
-            backdrop-filter: blur(34px) saturate(180%);
+                radial-gradient(circle at 50% 18%, rgba(var(--primary-rgb), .14), transparent 32%),
+                linear-gradient(135deg, rgba(15,23,42,.30), rgba(15,23,42,.18));
+            backdrop-filter: blur(26px) saturate(160%);
             -webkit-backdrop-filter: blur(34px) saturate(180%);
         }
         .search-box {
@@ -2207,11 +2077,11 @@
                 inset 0 -18px 35px rgba(var(--primary-rgb),.035);
         }
         .search-box::before {
-            content: ''; position: absolute; inset: 0; pointer-events: none;
+            content: ""; position: absolute; inset: 0; pointer-events: none;
             background: linear-gradient(115deg, rgba(255,255,255,.70), transparent 28%, transparent 68%, rgba(var(--primary-rgb),.08));
         }
         .search-box::after {
-            content: ''; position: absolute; left: 9%; right: 9%; top: 0; height: 1px;
+            content: ""; position: absolute; left: 9%; right: 9%; top: 0; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
             pointer-events: none;
         }
@@ -2403,42 +2273,7 @@
            TOUCH DEVICE FIX — prevent stuck-hover enlargement on tap
            ============================================================ */
         @media (hover: none) and (pointer: coarse) {
-            .panel-tab:hover,
-            .doc-filter:hover,
-            .menu-btn:hover,
-            .notice-btn:hover,
-            .header-theme-toggle-btn:hover,
-            .header-theme-presets-btn:hover,
-            .profile-btn:hover,
-            .hero-action-btn:hover,
-            .sidebar-links a:hover,
-            .sidebar-link-btn:hover,
-            .dropdown-item:hover,
-            .doc-menu-btn:hover,
-            .doc-card:hover,
-            .academic-card:hover,
-            .faculty-card:hover,
-            .contact-card:hover,
-            .gallery-item:hover,
-            .gallery-pagination button:hover,
-            .sidebar-close:hover,
-            .notice-close:hover,
-            .doc-close:hover,
-            .footer-social a:hover,
-            .modal-card .modal-close-btn:hover,
-            .edit-modal-card .modal-actions .cancel-btn:hover,
-            .edit-modal-card .modal-actions .save-btn:hover,
-            .welcome-card .welcome-btn:hover,
-            .submit-btn:hover,
-            .contact-btn:hover,
-            .glossy-btn:hover,
-            .edit-name-icon:hover,
-            .dropdown-avatar-wrap:hover,
-            .lightbox-overlay .lightbox-close:hover,
-            .lightbox-overlay .lightbox-nav:hover {
-                transform: none !important;
-                box-shadow: inherit;
-            }
+            
             /* Restore active-state transforms (which SHOULD still fire) */
             .panel-tab:active { transform: scale(0.94) !important; }
             .doc-filter:active { transform: scale(0.94) !important; }
@@ -2484,16 +2319,64 @@
            PRINT
            ============================================================ */
         @media print {
-            .header, .sidebar, .right-panel, .sidebar-overlay,
-            .profile-container, .menu-btn, .notice-btn, .modal-overlay, .toast,
-            .search-overlay, .fab-container, .lightbox-overlay, .nebula-bg, .doc-menu,
-            .edge-hint, .drag-trail {
-                display: none !important;
-            }
+            
             body { background: #fff !important; color: #000 !important; }
             .section { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
         }
-    </style>
+    
+        /* ===== Combined Why PSBS + Admissions layout ===== */
+        .admissions-subsection {
+            margin-top: 26px; padding: 0; border: 0; border-radius: 0;
+            background: transparent; box-shadow: none;
+            scroll-margin-top: calc(var(--header-height) + 18px);
+        }
+        .admissions-heading { text-align: center; margin: 0 auto 12px; }
+        .admissions-heading .section-tag { margin-top: 0; }
+        .admissions-heading .section-title { margin-bottom: 6px; }
+        .admissions-heading .section-description { max-width: 650px; margin-inline: auto; }
+        .admissions-subsection .steps { margin-top: 16px; }
+        .cta-row { display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap; }
+        .cta-row .btn-glossy, .cta-row .btn-glass {
+            min-height:48px; padding:12px 22px; border-radius:999px;
+            display:inline-flex; align-items:center; justify-content:center; gap:9px;
+            font-size:.9rem; font-weight:700; letter-spacing:.01em;
+            transition:transform .25s ease,box-shadow .25s ease,background .25s ease;
+        }
+        .cta-row .btn-glossy {
+            color:#fff; background:linear-gradient(135deg,var(--primary),var(--primary-light));
+            border:1px solid rgba(255,255,255,.38);
+            box-shadow:0 8px 20px rgba(211,137,16,.25),inset 0 1px 0 rgba(255,255,255,.35);
+        }
+        .cta-row .btn-glass {
+            color:var(--text); border:1px solid var(--border);
+            background:var(--surface-solid); box-shadow:0 5px 15px rgba(15,23,42,.07);
+        }
+        .cta-row .btn-glossy:hover,.cta-row .btn-glass:hover {
+            transform:translateY(-2px); box-shadow:0 11px 24px rgba(15,23,42,.13);
+        }
+        .cta-row .btn-glass:hover { border-color:var(--primary); color:var(--primary-dark); }
+        .contact-btn {
+            min-height:52px; border-radius:16px; padding:14px 20px;
+            background:linear-gradient(135deg,var(--primary),var(--primary-light));
+            box-shadow:0 9px 22px rgba(211,137,16,.27),inset 0 1px 0 rgba(255,255,255,.38);
+            font-weight:750; letter-spacing:.01em;
+        }
+        .contact-btn .btn-text,.contact-btn .btn-icon { position:relative; z-index:2; }
+        .contact-btn:hover { transform:translateY(-2px); box-shadow:0 13px 28px rgba(211,137,16,.32); }
+        .contact-btn:focus-visible,.cta-row a:focus-visible {
+            outline:3px solid var(--primary-light); outline-offset:4px;
+        }
+        body.dark .admissions-subsection {
+            background:linear-gradient(145deg,rgba(243,156,18,.12),var(--surface-solid) 72%);
+            border-color:rgba(243,156,18,.24);
+        }
+        body.dark .cta-row .btn-glass { background:rgba(30,41,59,.82); }
+        @media (max-width:520px) {
+            .cta-row { flex-direction:column; align-items:stretch; }
+            .cta-row .btn-glossy,.cta-row .btn-glass { width:100%; }
+            .admissions-subsection { border-radius:18px; }
+        }
+</style>
     <style id="psbs-enhance">
 /* =====================================================================
    PSBS ENHANCEMENT LAYER
@@ -2563,7 +2446,7 @@ button, a, summary, [role="button"] { touch-action: manipulation; }
 }
 .header { -webkit-backdrop-filter: blur(16px) saturate(170%); backdrop-filter: blur(16px) saturate(170%); }
 .gallery-item { will-change: auto; }
-@media (max-width: 600px) { .hero-particle:nth-child(n+12) { display: none; } }
+@media (max-width: 600px) { .hero-particle:nth-child(n/**/+12) { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -2597,7 +2480,7 @@ button, a, summary, [role="button"] { touch-action: manipulation; }
 .hero-action-btn.primary::before, .submit-btn::before, .contact-btn::before,
 .welcome-card .welcome-btn::before, .edit-modal-card .modal-actions .save-btn::before,
 .gallery-pagination button::before, .btn-glossy::before {
-    content: ''; position: absolute; left: 6%; right: 6%; top: 5%; height: 46%;
+    content: ""; position: absolute; left: 6%; right: 6%; top: 5%; height: 46%;
     border-radius: 999px; pointer-events: none; z-index: -1;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
 }
@@ -2605,7 +2488,7 @@ button, a, summary, [role="button"] { touch-action: manipulation; }
 .hero-action-btn.primary::after, .submit-btn::after, .contact-btn::after,
 .welcome-card .welcome-btn::after, .edit-modal-card .modal-actions .save-btn::after,
 .gallery-pagination button::after, .btn-glossy::after {
-    content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 34%; pointer-events: none;
+    content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 34%; pointer-events: none;
     background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
     transform: translateX(-160%) skewX(-20deg); z-index: -1;
 }
@@ -2616,12 +2499,7 @@ button, a, summary, [role="button"] { touch-action: manipulation; }
     color: var(--text); background: var(--glass-fill); border: 1px solid var(--card-ring);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 20px -12px rgba(15, 23, 42, 0.4);
 }
-.hero-action-btn.glass {
-    color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.1));
-    border: 1px solid rgba(255, 255, 255, 0.38);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 12px 24px -14px rgba(0, 0, 0, 0.65);
-}
+
 .btn-glass.on-dark {
     color: #fff; background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06));
     border-color: rgba(255, 255, 255, 0.22); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -2663,7 +2541,7 @@ button, a, summary, [role="button"] { touch-action: manipulation; }
 }
 .header-theme-presets-btn::before, .header-theme-toggle-btn::before, .header-search-btn::before,
 .menu-btn::before, .notice-btn::before {
-    content: ''; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%;
+    content: ""; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%;
     border-radius: 50% / 65%; pointer-events: none; z-index: 0;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
 }
@@ -2799,10 +2677,7 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
     background: conic-gradient(from 210deg, var(--primary-light), #ffffff, var(--primary), var(--primary-light));
     box-shadow: 0 0 0 9px rgba(255, 255, 255, 0.14), 0 30px 60px -14px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.7);
 }
-.hero-logo-wrap::after {
-    content: ''; position: absolute; inset: -16px; border-radius: 50%; pointer-events: none;
-    border: 2px solid rgba(255, 255, 255, 0.5); animation: heroPulse 3.4s ease-out infinite;
-}
+.hero-logo-wrap::after { content: none; }
 @keyframes heroPulse { 0% { transform: scale(0.9); opacity: 0.9; } 100% { transform: scale(1.2); opacity: 0; } }
 .hero-logo { width: 100%; height: 100%; margin: 0; border-radius: 50%; background: #fff; box-shadow: none; }
 .hero-badge {
@@ -2818,65 +2693,11 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
 @keyframes caret { 50% { opacity: 0; } }
 .hero-description { font-size: clamp(0.92rem, 2.5vw, 1.15rem); color: rgba(255, 255, 255, 0.93); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); max-width: 540px; }
 
-.hero-stats-mini {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: min(100%, 430px);
-    margin-top: 14px;
-    margin-bottom: -15px;
-    padding: 4px 0;
-    background: transparent;
-}
-.hero-stat-mini {
-    position: relative;
-    min-width: 0;
-    padding: 6px 14px 8px;
-    text-align: center;
-    color: #fff;
-    isolation: isolate;
-    transition: transform .25s ease, filter .25s ease;
-}
-.hero-stat-mini:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 18%; right: 0;
-    width: 1px; height: 64%;
-    background: linear-gradient(transparent, rgba(255,255,255,.42), transparent);
-}
-.hero-stat-mini:hover { transform: translateY(-3px); filter: brightness(1.08); }
-.hero-stat-mini .stat-dot {
-    display: block;
-    width: 6px; height: 6px;
-    margin: 0 auto 7px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.9);
-    box-shadow: 0 0 0 4px rgba(255,255,255,.09), 0 0 16px rgba(255,255,255,.42);
-}
-.hero-stat-mini .num {
-    display: block;
-    font-size: clamp(1.35rem, 4.2vw, 1.65rem);
-    font-weight: 800;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-    letter-spacing: -.025em;
-    text-shadow: 0 3px 16px rgba(0,0,0,.28);
-}
-.hero-stat-mini .label {
-    display: block;
-    margin-top: 6px;
-    font-size: .62rem;
-    font-weight: 600;
-    opacity: .72;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-}
-
 .hero-scroll {
     position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%); z-index: 3;
     width: 26px; height: 42px; border-radius: 99px; border: 2px solid rgba(255, 255, 255, 0.6);
     display: none; justify-content: center; padding-top: 8px;
 }
-
 
 /* =====================================================================
    NOTICE TICKER + QUICK ACCESS (floats over the hero's bottom edge)
@@ -2921,7 +2742,7 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
     transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); cursor: pointer; color: var(--text);
 }
 .quick-card::before {
-    content: ''; position: absolute; inset: 0 0 auto 0; height: 3px;
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
     background: linear-gradient(90deg, rgba(var(--qc), 0), rgba(var(--qc), 0.9), rgba(var(--qc), 0));
 }
 .qc-icon {
@@ -2952,7 +2773,7 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
     border-radius: 30px;
 }
 .section::before {
-    content: ''; position: absolute; left: 8%; right: 8%; top: 0; height: 1px; pointer-events: none;
+    content: ""; position: absolute; left: 8%; right: 8%; top: 0; height: 1px; pointer-events: none;
     background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.6), transparent);
 }
 @media (min-width: 768px) { .section { width: calc(100% - 48px); padding: 60px 0; border-radius: 36px; } }
@@ -2966,7 +2787,7 @@ body.dark .modal-card, body.dark .welcome-card, body.dark .search-box { box-shad
 body.dark .section-tag { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
 .section-title { font-size: clamp(1.45rem, 4.4vw, 2.2rem); letter-spacing: -0.02em; margin-bottom: 8px; }
 .section-title::after {
-    content: ''; display: block; width: 56px; height: 4px; margin: 14px auto 0; border-radius: 99px;
+    content: ""; display: block; width: 56px; height: 4px; margin: 14px auto 0; border-radius: 99px;
     background: var(--primary-gradient); box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.5);
 }
 .section-description { margin-bottom: 28px; font-size: 0.9375rem; }
@@ -3009,7 +2830,7 @@ body.dark .about-image img { border-color: #1e293b; }
     background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);
 }
 .mvv-card::after {
-    content: ''; position: absolute; right: -34px; top: -34px; width: 120px; height: 120px; border-radius: 50%; pointer-events: none;
+    content: ""; position: absolute; right: -34px; top: -34px; width: 120px; height: 120px; border-radius: 50%; pointer-events: none;
     background: radial-gradient(circle, rgba(var(--primary-rgb), 0.2), transparent 70%);
 }
 .mvv-icon {
@@ -3027,7 +2848,7 @@ body.dark .mvv-chips span { color: var(--primary-light); }
 
 .principal-card { position: relative; overflow: hidden; border-radius: 28px; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); text-align: center; }
 .principal-card::before {
-    content: '\201C'; position: absolute; right: 22px; top: -8px; font-family: Georgia, serif; font-size: 7rem; line-height: 1; pointer-events: none;
+    content: "“"; position: absolute; right: 22px; top: -8px; font-family: Georgia, serif; font-size: 7rem; line-height: 1; pointer-events: none;
     color: rgba(var(--primary-rgb), 0.16);
 }
 @media (min-width: 768px) { .principal-card { text-align: left; } }
@@ -3048,7 +2869,7 @@ body.dark .principal-image img { border-color: #1e293b; }
     font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.08em; color: rgba(var(--primary-rgb), 0.55);
 }
 .academic-card::after {
-    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px;
     background: var(--primary-gradient);
 }
 .academic-icon {
@@ -3113,7 +2934,7 @@ body.dark .principal-image img { border-color: #1e293b; }
     transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
 }
 .faculty-card::before {
-    content: ''; position: absolute; left: 0; right: 0; top: 0; height: 64px; pointer-events: none;
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 64px; pointer-events: none;
     background: linear-gradient(180deg, rgba(var(--primary-rgb), 0.14), rgba(var(--primary-rgb), 0));
 }
 .faculty-card .faculty-avatar {
@@ -3133,7 +2954,7 @@ body.dark .faculty-card .faculty-avatar { border-color: #1e293b; }
 .gallery-item { border-radius: 22px; border: 4px solid #fff; box-shadow: 0 0 0 1px var(--card-ring), 0 16px 28px -16px rgba(15, 23, 42, 0.4); }
 body.dark .gallery-item { border-color: #1e293b; }
 .gallery-item::before {
-    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
+    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(8, 12, 24, 0.55) 100%);
 }
 .gallery-item::after { z-index: 3; }
@@ -3161,7 +2982,7 @@ body.dark .gallery-item { border-color: #1e293b; }
 .step p { font-size: 0.9rem; line-height: 1.65; }
 @media (min-width: 768px) {
     .step:not(:last-child)::after {
-        content: ''; position: absolute; top: 37px; left: 74px; right: -22px; height: 2px; z-index: 1; pointer-events: none;
+        content: ""; position: absolute; top: 37px; left: 74px; right: -22px; height: 2px; z-index: 1; pointer-events: none;
         background: repeating-linear-gradient(90deg, rgba(var(--primary-rgb), 0.5) 0 6px, transparent 6px 12px);
     }
 }
@@ -3224,7 +3045,7 @@ body.dark .adm-chips span { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 body.dark .open-status { color: #6ee7b7; background: linear-gradient(180deg, rgba(16, 185, 129, 0.18), rgba(16, 185, 129, 0.08)); box-shadow: none; }
 body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180deg, rgba(239, 68, 68, 0.18), rgba(239, 68, 68, 0.08)); }
 .os-dot { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
-.os-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid currentColor; opacity: 0.5; animation: heroPulse 2s ease-out infinite; }
+.os-dot::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid currentColor; opacity: 0.5; animation: heroPulse 2s ease-out infinite; }
 .open-status.closed .os-dot { background: #ef4444; }
 .contact-form { border-radius: 28px; padding: 24px 18px; background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
 .char-count { text-align: right; font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin: -8px 4px 10px; }
@@ -3260,7 +3081,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 .footer-brand img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 8px 16px -4px rgba(0, 0, 0, 0.5); }
 .footer-brand h3 { margin: 0; font-size: 1rem; line-height: 1.25; }
 .footer-box h3 { position: relative; }
-.footer-box:not(.info-box) h3::after { content: ''; display: block; width: 32px; height: 3px; margin-top: 6px; border-radius: 99px; background: var(--primary-gradient); }
+.footer-box:not(.info-box) h3::after { content: ""; display: block; width: 32px; height: 3px; margin-top: 6px; border-radius: 99px; background: var(--primary-gradient); }
 .footer-links { gap: 8px; }
 .footer-links a, .footer-links li { color: rgba(255, 255, 255, 0.78); }
 .footer-links a { display: inline-flex; align-items: center; gap: 6px; }
@@ -3294,7 +3115,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
    SMALL-SCREEN BALANCE
    ===================================================================== */
 @media (max-width: 420px) {
-    .hero-stats-mini { padding: 14px 2px; }
     .quick-card { padding: 14px 4px 12px; border-radius: 20px; }
     .qc-icon { width: 42px; height: 42px; font-size: 1.15rem; }
     .qc-sub { display: none; }
@@ -3371,7 +3191,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         border-radius: 999px; background: var(--surface-hover); border: 1px solid var(--border);
         color: var(--text-light); font-size: 18px; cursor: pointer;
     }
-    .header-search-btn::after { content: 'Search notices, documents, pages…'; font-size: 0.9rem; font-weight: 500; }
+    .header-search-btn::after { content: "Search notices, documents, pages…"; font-size: 0.9rem; font-weight: 500; }
     .header-theme-presets-btn { order: 2; }
     .header-theme-toggle-btn { order: 3; }
     .notice-btn { order: 4; }
@@ -3394,9 +3214,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
     .hero-title { font-size: clamp(2.6rem, 3.6vw, 3.6rem); line-height: 1.1; }
     .hero-motto { font-size: 1.7rem; }
     .hero-description { max-width: 580px; font-size: 1.32rem; }
-    .hero-actions { justify-content: flex-start; margin: 30px 0 0; }
-    .hero-stats-mini { width: 100%; max-width: 540px; margin: 14px 0 0; padding: 8px 8px; }
-    .hero-stat-mini .num { font-size: 2.2rem; }
 
     /* --- Content --- */
     .quick-wrap { width: calc(100% - 64px); margin-top: -118px; }
@@ -3475,7 +3292,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         filter: drop-shadow(0 30px 50px rgba(0,0,0,.35));
     }
     .hero-title { font-size: clamp(3.3rem, 3.4vw, 4.2rem); }
-    .hero-actions { display: flex; gap: 14px; }
+    
 }
 @media (min-width: 1440px) {
     .hero-content { gap: 110px; }
@@ -3483,8 +3300,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 }
 
 /* Hero action buttons + stat rail already themed — just tune spacing */
-.hero-actions { margin-top: 8px; margin-bottom: 4px; }
-.hero-stats-mini { position: relative; }
 
 /* ---------- Global "codtum" gloss pass: shine sweep + lift on every solid button ---------- */
 @media (hover: hover) and (pointer: fine) {
@@ -3495,7 +3310,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 .sidebar-link-btn, .nav-link { position: relative; overflow: hidden; }
 .nav-link.active { position: relative; }
 .nav-link.active::after {
-    content: ''; position: absolute; left: 0; top: 50%; width: 3px; height: 60%; transform: translateY(-50%);
+    content: ""; position: absolute; left: 0; top: 50%; width: 3px; height: 60%; transform: translateY(-50%);
     border-radius: 0 4px 4px 0; background: var(--primary-gradient);
     box-shadow: 0 0 12px rgba(var(--primary-rgb), .7);
 }
@@ -3548,183 +3363,25 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 }
 
 /* ---------- Gallery previewer reboot: no more flat black ---------- */
-.lightbox-overlay { background: #fff; }
-.lightbox-backdrop { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.lightbox-backdrop-img {
-    position: absolute; inset: -6%; z-index: 0;
-    background-size: cover; background-position: center;
-    filter: blur(40px) saturate(120%) brightness(1.02);
-    transform: scale(1.15);
-    opacity: 0; transition: opacity .6s ease;
-    will-change: opacity;
-}
-.lightbox-backdrop-img.show { opacity: 1; }
-.lightbox-backdrop-scrim { position:absolute; inset:0; z-index:1; background:rgba(255,255,255,.92); }
-.lightbox-backdrop-grain {
-    position: absolute; inset: 0; z-index: 2; opacity: 0; mix-blend-mode: normal; pointer-events: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
-.lightbox-img-wrap { position: relative; z-index: 1; }
-.lightbox-topbar, .lightbox-filmstrip, .lightbox-overlay .lightbox-nav { position: relative; z-index: 3; }
-.lightbox-img {
-    animation: lbPopIn .42s var(--snap);
-}
+
 @keyframes lbPopIn { from { opacity: 0; transform: translate(-50%, -50%) scale(.94); } }
-.lightbox-overlay.lb-hswipe .lightbox-nav { opacity: 0.18; transition: opacity .2s ease; }
-.lightbox-icon-btn, .lightbox-overlay .lightbox-nav {
-    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.78));
-    border-color: rgba(15,23,42,.10);
-    color: var(--primary);
-}
-.lightbox-icon-btn::after, .lightbox-overlay .lightbox-nav::after {
-    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.35) 48%, transparent 62%);
-    transform: translateX(-140%); transition: transform .6s ease;
-}
+
 @media (hover: hover) and (pointer: fine) {
-    .lightbox-icon-btn:hover::after, .lightbox-overlay .lightbox-nav:hover::after { transform: translateX(140%); }
+    
 }
 
 @media (prefers-reduced-motion: reduce) {
     .aurora-blob, .hero-orb-ring, .hero-float-chip { animation: none !important; }
-    .lightbox-img { animation: none !important; }
+    
 }
 
-    
-/* ===== FINAL LIGHTBOX UX POLISH ===== */
-.lightbox-overlay {
-    background:
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,.96), rgba(255,255,255,.82) 48%, rgba(248,250,252,.94));
-    overflow: hidden;
-}
-.lightbox-overlay::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(255,255,255,.48), rgba(255,255,255,.12) 42%, rgba(255,255,255,.52)),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,.08), rgba(255,255,255,.42));
-    backdrop-filter: saturate(150%);
-    -webkit-backdrop-filter: saturate(150%);
-}
-.lightbox-backdrop {
-    opacity: 1;
-    filter: saturate(1.15);
-}
-.lightbox-backdrop-img {
-    filter: blur(34px) saturate(135%) brightness(1.06);
-    transform: scale(1.18);
-    opacity: .34;
-}
-.lightbox-backdrop-scrim {
-    background:
-        linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.30) 35%, rgba(255,255,255,.72));
-}
-.lightbox-topbar,
-.lightbox-img-wrap,
-.lightbox-filmstrip,
-.lightbox-overlay .lightbox-nav {
-    z-index: 4;
-}
-.lightbox-img-wrap {
-    overflow: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    align-items: center;
-    justify-content: center;
-    padding: 18px 16px;
-}
-.lightbox-img-wrap::-webkit-scrollbar { display:none; }
-.lightbox-img {
-    position: absolute;
-    max-width: min(94%, 1100px);
-    max-height: 78dvh;
-    width: auto;
-    height: auto;
-    border-radius: 22px;
-    background: rgba(255,255,255,.26);
-    border: 1px solid rgba(255,255,255,.76);
-    box-shadow:
-        0 24px 70px rgba(15,23,42,.18),
-        0 0 0 1px rgba(255,255,255,.45),
-        inset 0 1px 0 rgba(255,255,255,.92),
-        inset 0 -1px 0 rgba(15,23,42,.05);
-}
-.lightbox-img.zoomed {
-    max-width: none;
-    max-height: none;
-    border-radius: 24px;
-    box-shadow:
-        0 30px 90px rgba(15,23,42,.20),
-        0 0 34px rgba(255,255,255,.62),
-        0 0 0 1px rgba(255,255,255,.9),
-        inset 0 1px 0 rgba(255,255,255,.95),
-        inset 0 -1px 0 rgba(15,23,42,.06);
-}
-.lightbox-img.panning { cursor: grabbing; }
-.lightbox-filmstrip {
-    justify-content: center;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    padding-left: max(16px, calc((100vw - 100%) / 2));
-    padding-right: max(16px, calc((100vw - 100%) / 2));
-}
-.lightbox-filmstrip .lightbox-thumb {
-    scroll-snap-align: center;
-    width: 58px;
-    height: 58px;
-    border-radius: 16px;
-    background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.48));
-    border: 1px solid rgba(255,255,255,.88);
-    box-shadow:
-        0 8px 24px rgba(15,23,42,.10),
-        inset 0 1px 0 rgba(255,255,255,.95);
-    opacity: .52;
-}
-.lightbox-filmstrip .lightbox-thumb.active {
-    opacity: 1;
-    transform: translateY(-4px) scale(1.06);
-    border: 2px solid var(--primary);
-    box-shadow:
-        0 10px 28px rgba(243,156,18,.24),
-        0 0 0 4px rgba(255,255,255,.72),
-        inset 0 1px 0 rgba(255,255,255,1);
-}
-.lightbox-icon-btn,
-.lightbox-overlay .lightbox-nav {
-    background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.62));
-    color: var(--primary);
-    border-color: rgba(255,255,255,.92);
-    box-shadow:
-        0 8px 24px rgba(15,23,42,.10),
-        inset 0 1px 0 rgba(255,255,255,.98);
-    color: var(--primary);
-}
 @media (max-width: 600px) {
-    .lightbox-img-wrap { padding: 10px 8px; }
-    .lightbox-img { max-width: 94%; max-height: 72dvh; border-radius: 18px; }
-    .lightbox-img.zoomed { border-radius: 20px; }
-    .lightbox-filmstrip { gap: 10px; padding-top: 9px; }
-    .lightbox-filmstrip .lightbox-thumb { width: 52px; height: 52px; border-radius: 14px; }
+
+    
+
 }
 
     </style>
-
-<style id="lightbox-misc">
-/* Reduce zoom sensitivity globally without changing the viewer's normal size. */
-.lightbox-img {
-  touch-action: none;
-}
-@media (max-width: 600px) {
-    .lightbox-overlay .lightbox-nav {
-        display: none !important;
-    }
-}
-
-</style>
 
 <style id="v2-premium-polish">
 /* =====================================================================
@@ -3734,46 +3391,9 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
    ===================================================================== */
 
 /* ---------- 1 & 7. Glossy, modern image viewer ---------- */
-.lightbox-overlay { background: #fff; }
-body.dark .lightbox-overlay { background: #0b1120; }
-.lightbox-topbar {
-  background: linear-gradient(180deg, rgba(255,255,255,.0), rgba(0,0,0,0));
-}
-.lightbox-counter-pill {
-  background: rgba(20, 22, 28, .42) !important;
-  backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255,255,255,.22);
-  box-shadow: 0 8px 24px -10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.18);
-  font-weight: 700; letter-spacing: .02em;
-}
-.lightbox-icon-btn, .lightbox-overlay .lightbox-nav {
-  background: rgba(20, 22, 28, .38) !important;
-  border: 1px solid rgba(255,255,255,.22) !important;
-  box-shadow: 0 10px 26px -12px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.22);
-  backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
-  transition: transform .25s cubic-bezier(.2,.8,.2,1), background .25s ease, box-shadow .25s ease;
-}
-.lightbox-icon-btn:hover, .lightbox-overlay .lightbox-nav:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 16px 34px -12px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.3);
-}
-.lightbox-overlay .lightbox-nav:active { transform: scale(.94); }
-.lightbox-img {
-  border-radius: 20px;
-  box-shadow: 0 30px 70px -24px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.06);
-  transition: transform .45s cubic-bezier(.16,1,.3,1), opacity .35s ease, box-shadow .35s ease;
-}
-.lightbox-img.zoomed { box-shadow: 0 40px 90px -20px rgba(0,0,0,.55); }
-.lightbox-spinner {
-  width: 42px; height: 42px; border-radius: 50%;
-  border: 3px solid rgba(var(--primary-rgb), .18); border-top-color: var(--primary);
-  box-shadow: 0 8px 20px -8px rgba(var(--primary-rgb), .5);
-}
 
 /* Rubber-band edge feedback: brief glow when a swipe hits the first/last image */
-.lightbox-img-wrap.lb-edge-bounce .lightbox-img.active {
-  animation: lbEdgeBounce .38s cubic-bezier(.22,1,.36,1);
-}
+
 @keyframes lbEdgeBounce {
   0% { transform: translate(-50%, -50%) scale(1); }
   40% { transform: translate(-50%, -50%) scale(.97); }
@@ -3781,52 +3401,12 @@ body.dark .lightbox-overlay { background: #0b1120; }
 }
 
 /* ---------- 4 & 7. Thumbnail strip: a real "boxed" glass rail ---------- */
-.lightbox-filmstrip {
-  position: relative;
-  display: flex; align-items: flex-end; justify-content: flex-start;
-  gap: 10px; padding: 14px 18px 16px;
-  margin: 0 auto 18px; max-width: min(94vw, 640px);
-  border-radius: 26px;
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
-  border: 1px solid rgba(255,255,255,.18);
-  box-shadow: 0 20px 50px -22px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.16);
-  backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
-  overflow-x: auto; overflow-y: visible; scroll-snap-type: x proximity;
-  -webkit-overflow-scrolling: touch;
-}
-.lightbox-filmstrip::-webkit-scrollbar { display: none; }
-.lightbox-filmstrip::before,
-.lightbox-filmstrip::after {
-  content: ''; flex: 0 0 var(--edge-pad, 0px);
-}
-.lightbox-filmstrip .lightbox-thumb {
-  scroll-snap-align: center;
-  border-radius: 14px; overflow: hidden; flex: 0 0 auto;
-  width: 54px; height: 54px;
-  border: 2px solid rgba(255,255,255,.18);
-  opacity: .62; filter: saturate(.85);
-  transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .32s ease, border-color .32s ease, box-shadow .32s ease;
-  will-change: transform;
-}
-.lightbox-filmstrip .lightbox-thumb.active {
-  opacity: 1; filter: none;
-  border-color: var(--primary);
-  box-shadow: 0 14px 26px -10px rgba(var(--primary-rgb), .55);
-}
-.lightbox-filmstrip .lightbox-thumb:hover { opacity: .9; }
-.lightbox-filmstrip .lightbox-thumb.drag-focus:not(.active) {
-  opacity: .88; border-color: rgba(var(--primary-rgb), .55);
-}
 
 /* ---------- 8. Desktop: don't cover the sidebar; balance the arrows ---------- */
 @media (min-width: 1200px) {
-  .lightbox-overlay {
-    left: var(--rail); inset-inline-start: var(--rail);
-  }
-  .lightbox-overlay .lightbox-nav.prev { left: clamp(24px, 4vw, 64px); }
-  .lightbox-overlay .lightbox-nav.next { right: clamp(24px, 4vw, 64px); }
-  .lightbox-overlay .lightbox-nav { width: 52px; height: 52px; font-size: 1.3rem; }
-  .lightbox-topbar { padding-left: clamp(24px, 4vw, 64px); padding-right: clamp(24px, 4vw, 64px); }
+
+  
+
 }
 
 /* ---------- 12. Own scroll indicator on PC: a slim right-edge dot rail ---------- */
@@ -3939,11 +3519,7 @@ select:-webkit-autofill {
 
 /* ---------- Gift: respect reduced-motion preferences ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .nt-move, .hero-logo-wrap::before, .hero-logo-wrap::after,
-  .hero-orb-ring, .hero-float-chip, .lightbox-img, .lightbox-filmstrip .lightbox-thumb {
-    animation: none !important;
-    transition-duration: .01ms !important;
-  }
+  
 }
 </style>
 
@@ -3959,7 +3535,7 @@ select:-webkit-autofill {
                 inset 0 1px 0 rgba(255,255,255,.55) !important;
 }
 .fab-btn::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: -3px;
     border-radius: inherit;
@@ -3974,141 +3550,24 @@ select:-webkit-autofill {
     position:absolute; inset:4px; border-radius:50%;
     border:1px solid rgba(255,255,255,.28); pointer-events:none;
 }
-.lightbox-theme-btn { color: var(--primary) !important; }
-.lightbox-icon-btn.theme-active {
-    background: var(--primary-gradient) !important;
-    color:#fff !important;
-    border-color: transparent !important;
-}
-
 
 @media (max-width:600px) {
+
     
-    
-    .lightbox-zoom-readout { bottom:122px; }
 }
 
 </style>
 
 <style id="v4-fluid-gallery-polish">
 /* Navigation arrows removed: thumbnail swiping is the navigation control. */
-#lightboxPrev, #lightboxNext,
-.lightbox-overlay .lightbox-nav { display: none !important; }
 
 /* Keep thumbnail swiping compositor-friendly and prevent JS from fighting native momentum. */
-#lightboxFilmstrip {
-    scroll-behavior: auto !important;
-    scroll-snap-type: x proximity !important;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x;
-    -webkit-overflow-scrolling: touch;
-    user-select: none;
-}
-#lightboxFilmstrip.is-dragging {
-    scroll-snap-type: none !important;
-}
-#lightboxFilmstrip.is-dragging .lightbox-thumb {
-    scroll-snap-align: none !important;
-}
-
-.lightbox-filmstrip {
-    justify-content: flex-start !important;
-    gap: 10px;
-    padding: 12px 18px calc(16px + env(safe-area-inset-bottom, 0px)) !important;
-    max-width: min(96vw, 760px) !important;
-    overscroll-behavior-x: contain;
-    scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
-    touch-action: pan-x;
-    -webkit-overflow-scrolling: touch;
-    will-change: scroll-position;
-    contain: layout paint;
-}
-.lightbox-filmstrip::before,
-.lightbox-filmstrip::after { flex: 0 0 var(--edge-pad, 0px); }
-.lightbox-filmstrip .lightbox-thumb {
-    width: 58px !important;
-    height: 58px !important;
-    flex: 0 0 58px;
-    scroll-snap-align: center;
-    transform: translateZ(0);
-    will-change: transform, opacity;
-    transition: transform .24s cubic-bezier(.22,1,.36,1), opacity .22s ease,
-                border-color .22s ease, box-shadow .22s ease;
-}
-.lightbox-filmstrip .lightbox-thumb.drag-focus {
-    opacity: .82;
-    transform: translateY(-2px) scale(1.025);
-}
-.lightbox-filmstrip .lightbox-thumb.active {
-    transform: translateY(-4px) scale(1.06);
-}
-.lightbox-filmstrip.is-dragging {
-    scroll-snap-type: none;
-    scroll-behavior: auto;
-}
-.lightbox-filmstrip.is-dragging .lightbox-thumb { transition: none !important; }
-
-.lightbox-img-wrap { perspective: 1000px; contain: layout paint; }
-.lightbox-img {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform, opacity;
-    box-shadow: 0 34px 90px -24px rgba(0,0,0,.55),
-                0 0 0 1px rgba(255,255,255,.12),
-                inset 0 1px 0 rgba(255,255,255,.08);
-}
-.lightbox-icon-btn,
-.lightbox-overlay .lightbox-nav {
-    border: 1px solid rgba(255,255,255,.30) !important;
-    background: linear-gradient(180deg, rgba(255,255,255,.32),
-                rgba(255,255,255,.08) 48%, rgba(0,0,0,.12)),
-                rgba(20,22,28,.36) !important;
-    box-shadow: 0 12px 30px rgba(0,0,0,.28),
-                inset 0 1px 0 rgba(255,255,255,.58),
-                inset 0 -1px 0 rgba(0,0,0,.18) !important;
-    backdrop-filter: blur(18px) saturate(170%);
-    -webkit-backdrop-filter: blur(18px) saturate(170%);
-}
-.lightbox-icon-btn::after,
-.lightbox-overlay .lightbox-nav::after {
-    content: '';
-    position: absolute;
-    left: 12%; right: 12%; top: 7%; height: 34%;
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0));
-    pointer-events: none;
-}
-.lightbox-icon-btn:hover,
-.lightbox-overlay .lightbox-nav:hover {
-    transform: translateY(-2px) scale(1.055);
-    box-shadow: 0 18px 38px rgba(0,0,0,.34),
-                inset 0 1px 0 rgba(255,255,255,.72),
-                inset 0 -1px 0 rgba(0,0,0,.16) !important;
-}
-.lightbox-icon-btn:active,
-.lightbox-overlay .lightbox-nav:active { transform: scale(.94) !important; }
-.lightbox-overlay .lightbox-nav { opacity: .9; }
-.lightbox-overlay .lightbox-nav:disabled { opacity: .25; }
 
 @media (max-width: 600px) {
-    .lightbox-filmstrip {
-        max-width: calc(100vw - 18px) !important;
-        margin-bottom: 10px;
-        border-radius: 22px;
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-    }
-    .lightbox-filmstrip .lightbox-thumb {
-        width: 52px !important;
-        height: 52px !important;
-        flex-basis: 52px;
-    }
+
 }
 @media (prefers-reduced-motion: reduce) {
-    .lightbox-filmstrip, .lightbox-filmstrip .lightbox-thumb,
-    .lightbox-img, .lightbox-icon-btn,
-    .lightbox-overlay .lightbox-nav { transition-duration: .01ms !important; }
+    
 }
 
 /* FINAL UI PASS — smooth featured notices + centered desktop hero */
@@ -4121,7 +3580,6 @@ select:-webkit-autofill {
 body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
 @media (max-width:767px){.notice-ticker .nt-move{grid-template-columns:1fr}.notice-ticker .nt-item:not(:first-child){display:none}}
 </style>
-
 
 <style id="desktop-hero-center-fix">
 /* Desktop: keep the logo in its original right-side position; center only hero text content. */
@@ -4138,169 +3596,8 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  .hero-text-col .hero-actions {
-    width: 100%;
-    justify-content: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+  .hero-text-col 
   }
-  .hero-text-col .hero-stats-mini {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    justify-content: center !important;
-    text-align: center !important;
-  }
-}
-</style>
-
-<style id="lightbox-glossy-white-final">
-/* Glossy white previewer controls + theme-aware accents */
-.lightbox-overlay .lightbox-icon-btn,
-.lightbox-overlay .lightbox-nav,
-.lightbox-counter-pill {
-  color: var(--primary) !important;
-  background: linear-gradient(180deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.82) 52%, rgba(241,245,249,.92) 100%) !important;
-  border: 1px solid rgba(255,255,255,.98) !important;
-  box-shadow: 0 10px 28px rgba(15,23,42,.13), 0 2px 5px rgba(15,23,42,.07), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(15,23,42,.06) !important;
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-}
-.lightbox-overlay .lightbox-icon-btn::before,
-.lightbox-overlay .lightbox-nav::before,
-.lightbox-counter-pill::before {
-  content: ''; position: absolute; inset: 1px 1px 52% 1px; border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,0));
-  pointer-events: none; opacity: .9;
-}
-.lightbox-overlay .lightbox-icon-btn:hover,
-.lightbox-overlay .lightbox-nav:hover {
-  color: var(--primary) !important;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 16px 34px rgba(15,23,42,.16), inset 0 1px 0 #fff !important;
-}
-.lightbox-overlay .lightbox-icon-btn:active,
-.lightbox-overlay .lightbox-nav:active { transform: scale(.94); }
-.lightbox-counter-pill {
-  position: relative; min-width: 76px; justify-content: center;
-  font-weight: 800; letter-spacing: .035em;
-  text-shadow: 0 1px 0 #fff;
-}
-.lightbox-counter-pill .count-current,
-.lightbox-counter-pill .count-total,
-.lightbox-counter-pill span { color: var(--primary) !important; }
-.lightbox-filmstrip {
-  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.90)) !important;
-  border: 1px solid rgba(255,255,255,.98);
-  box-shadow: 0 -10px 30px rgba(15,23,42,.08), inset 0 1px 0 #fff !important;
-}
-.lightbox-filmstrip .lightbox-thumb {
-  background: linear-gradient(180deg, #fff, #f3f6fa) !important;
-  border-color: rgba(255,255,255,.98) !important;
-  box-shadow: 0 7px 18px rgba(15,23,42,.10), inset 0 1px 0 #fff !important;
-}
-.lightbox-filmstrip .lightbox-thumb.active {
-  border-color: var(--primary) !important;
-  box-shadow: 0 12px 28px rgba(var(--primary-rgb),.28), 0 0 0 3px rgba(255,255,255,.92), inset 0 1px 0 #fff !important;
-}
-body.dark .lightbox-overlay .lightbox-icon-btn,
-body.dark .lightbox-overlay .lightbox-nav,
-body.dark .lightbox-counter-pill {
-  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(226,232,240,.94)) !important;
-  color: var(--primary) !important;
-}
-body.dark .lightbox-filmstrip {
-  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,245,249,.94)) !important;
-}
-</style>
-
-
-<style id="lightbox-premium-filmstrip-v2">
-/* Premium white/gloss previewer controls */
-.lightbox-overlay .lightbox-icon-btn,
-.lightbox-counter-pill {
-  min-height: 44px;
-  border-radius: 15px !important;
-  position: relative;
-  overflow: hidden;
-  color: rgb(var(--primary-rgb)) !important;
-  background: linear-gradient(180deg,#ffffff 0%,#ffffff 42%,#f5f8fc 100%) !important;
-  border: 1px solid rgba(255,255,255,.98) !important;
-  box-shadow: 0 12px 30px rgba(15,23,42,.14), 0 2px 5px rgba(15,23,42,.06), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(15,23,42,.055) !important;
-}
-.lightbox-overlay .lightbox-icon-btn::after,
-.lightbox-counter-pill::after {
-  content:''; position:absolute; left:8%; right:8%; top:3px; height:38%; border-radius:999px;
-  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,0));
-  pointer-events:none; opacity:.9;
-}
-.lightbox-overlay .lightbox-icon-btn:hover { transform:translateY(-2px) scale(1.055); }
-.lightbox-counter-pill { min-width:92px; font-variant-numeric:tabular-nums; }
-.lightbox-counter-pill .count-current { font-size:1.05em; }
-.lightbox-counter-pill .count-total { opacity:.65; }
-
-/* More responsive strip: no easing during the finger gesture */
-#lightboxFilmstrip {
-  scroll-behavior:auto !important;
-  scroll-snap-type:x proximity !important;
-  scrollbar-width:none;
-  isolation:isolate;
-}
-#lightboxFilmstrip::-webkit-scrollbar { display:none; }
-#lightboxFilmstrip::before, #lightboxFilmstrip::after {
-  content:''; position:sticky; top:0; bottom:0; z-index:5; pointer-events:none;
-  flex:0 0 var(--edge-pad,0px);
-}
-.lightbox-filmstrip .lightbox-thumb {
-  position:relative; width:62px !important; height:62px !important; flex-basis:62px !important;
-  border-radius:16px !important;
-  border:1px solid rgba(255,255,255,.98) !important;
-  background:linear-gradient(180deg,#fff,#f2f6fa) !important;
-  box-shadow:0 8px 18px rgba(15,23,42,.11), inset 0 1px 0 #fff !important;
-  opacity:.66; filter:saturate(.88);
-  transition:transform .12s linear, opacity .12s linear, box-shadow .12s linear, border-color .12s linear !important;
-  overflow:visible;
-}
-.lightbox-filmstrip .lightbox-thumb img { border-radius:14px; }
-.lightbox-filmstrip .lightbox-thumb::after {
-  content:''; position:absolute; inset:1px 1px 55%; border-radius:14px;
-  background:linear-gradient(180deg,rgba(255,255,255,.75),transparent); pointer-events:none;
-}
-.lightbox-filmstrip .lightbox-thumb .thumb-index {
-  position:absolute; right:-5px; bottom:-5px; z-index:3; min-width:19px; height:19px; padding:0 5px;
-  display:grid; place-items:center; border-radius:999px;
-  background:#fff; color:rgb(var(--primary-rgb)); border:1px solid rgba(var(--primary-rgb),.22);
-  box-shadow:0 4px 10px rgba(15,23,42,.16); font:700 10px/1 system-ui,sans-serif;
-}
-.lightbox-filmstrip .lightbox-thumb.drag-focus:not(.active) {
-  opacity:.94; transform:translateY(-3px) scale(1.035);
-  border-color:rgba(var(--primary-rgb),.48) !important;
-}
-.lightbox-filmstrip .lightbox-thumb.active {
-  opacity:1; filter:none; transform:translateY(-5px) scale(1.09);
-  border:2px solid rgb(var(--primary-rgb)) !important;
-  box-shadow:0 14px 28px rgba(var(--primary-rgb),.28), 0 0 0 4px rgba(255,255,255,.96), inset 0 1px 0 #fff !important;
-}
-.lightbox-filmstrip .lightbox-thumb.active .thumb-index {
-  background:rgb(var(--primary-rgb)); color:#fff; border-color:rgb(var(--primary-rgb));
-}
-.lightbox-filmstrip.is-dragging .lightbox-thumb { transition:none !important; }
-@media(max-width:600px){
-  .lightbox-filmstrip .lightbox-thumb { width:54px !important; height:54px !important; flex-basis:54px !important; border-radius:14px !important; }
-  .lightbox-filmstrip .lightbox-thumb img { border-radius:12px; }
-}
-</style>
-
-<style id="lightbox-fluid-filmstrip-v3">
-#lightboxFilmstrip{--thumb-size:66px;gap:10px!important;padding-top:10px!important;padding-bottom:12px!important;overscroll-behavior-x:contain;touch-action:pan-x;scroll-snap-type:x proximity!important;scroll-behavior:auto!important;contain:layout paint style;-webkit-overflow-scrolling:touch}
-#lightboxFilmstrip .lightbox-thumb{width:var(--thumb-size)!important;height:var(--thumb-size)!important;flex-basis:var(--thumb-size)!important;border-radius:18px!important;transform-origin:center bottom;will-change:transform,opacity;transition:transform 90ms linear,opacity 90ms linear,box-shadow 90ms linear!important;box-shadow:0 7px 16px rgba(15,23,42,.10),inset 0 1px 0 #fff!important}
-#lightboxFilmstrip .lightbox-thumb img{width:100%;height:100%;object-fit:cover;backface-visibility:hidden;transform:translateZ(0)}
-#lightboxFilmstrip .lightbox-thumb.drag-focus:not(.active){transform:translateY(-4px) scale(1.055)!important;opacity:.96}
-#lightboxFilmstrip .lightbox-thumb.active{transform:translateY(-7px) scale(1.115)!important;box-shadow:0 15px 30px rgba(var(--primary-rgb),.26),0 0 0 3px #fff,0 0 0 5px rgba(var(--primary-rgb),.24)!important}
-#lightboxFilmstrip .lightbox-thumb::before{content:'';position:absolute;inset:-7px;border-radius:22px;border:1px solid rgba(var(--primary-rgb),.16);opacity:0;transform:scale(.9);pointer-events:none;transition:opacity 100ms linear,transform 100ms linear}
-#lightboxFilmstrip .lightbox-thumb.active::before{opacity:1;transform:scale(1)}
-#lightboxFilmstrip .thumb-index{transition:transform 90ms linear,background 90ms linear}
-#lightboxFilmstrip .lightbox-thumb.active .thumb-index{transform:scale(1.08)}
-@media(max-width:600px){#lightboxFilmstrip{--thumb-size:58px;gap:8px!important}}
 </style>
 </head>
 
@@ -4322,10 +3619,10 @@ body.dark .lightbox-filmstrip {
     <div class="edge-hint right" id="edgeHintRight" aria-hidden="true"></div>
     <div class="edge-hint left" id="edgeHintLeft" aria-hidden="true"></div>
 
-    <div id="toast" class="toast" role="alert" aria-live="polite">
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
         <span class="toast-icon" aria-hidden="true">✅</span>
         <span class="toast-message"></span>
-        <button class="toast-close" aria-label="Close notification">✕</button>
+        <button type="button" class="toast-close" aria-label="Close notification">✕</button>
     </div>
 
     <!-- ===== NAME MODAL ===== -->
@@ -4356,7 +3653,7 @@ body.dark .lightbox-filmstrip {
             <div class="welcome-avatar" id="welcomeAvatar" aria-hidden="true">👤</div>
             <h2 id="welcomeTitle">Welcome!</h2>
             <p id="welcomeMessage">We're glad to have you here at PSBS Portal.</p>
-            <button class="welcome-btn ripple-host" id="welcomeCloseBtn">Continue to Dashboard</button>
+            <button type="button" class="welcome-btn ripple-host" id="welcomeCloseBtn">Continue to Dashboard</button>
         </div>
     </div>
 
@@ -4365,7 +3662,7 @@ body.dark .lightbox-filmstrip {
         <div class="modal-card edit-modal-card">
             <div class="modal-header">
                 <h2 id="editNameTitle">✏️ Edit Name</h2>
-                <button class="modal-close-btn" id="editNameCloseBtn" aria-label="Close edit name dialog">
+                <button type="button" class="modal-close-btn" id="editNameCloseBtn" aria-label="Close edit name dialog">
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
@@ -4393,43 +3690,15 @@ body.dark .lightbox-filmstrip {
         <div class="modal-card" style="max-width:440px;">
             <div class="modal-header">
                 <h2 id="themePresetsTitle">🎨 Theme Presets</h2>
-                <button class="modal-close-btn" id="themePresetsCloseBtn" aria-label="Close theme presets">
+                <button type="button" class="modal-close-btn" id="themePresetsCloseBtn" aria-label="Close theme presets">
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
             <p style="font-size:0.875rem;color:var(--text-light);margin-bottom:4px;">Choose a color theme that suits your style.</p>
             <div class="theme-presets-grid" id="themePresetsGrid"></div>
-            <button class="submit-btn ripple-host" id="themePresetsApplyBtn" style="margin-top:8px;">Apply Theme</button>
+            <button type="button" class="submit-btn ripple-host" id="themePresetsApplyBtn" style="margin-top:8px;">Apply Theme</button>
         </div>
-    </div>
-
-    <!-- ===== LIGHTBOX ===== -->
-    <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Image viewer">
-        <div class="lightbox-backdrop" id="lightboxBackdrop" aria-hidden="true">
-            <div class="lightbox-backdrop-img" id="lightboxBackdropA"></div>
-            <div class="lightbox-backdrop-img" id="lightboxBackdropB"></div>
-            <div class="lightbox-backdrop-scrim"></div>
-            <div class="lightbox-backdrop-grain"></div>
-        </div>
-        <div class="lightbox-topbar">
-            <div class="lightbox-counter-pill" id="lightboxCounter">1 / 1</div>
-            <div class="lightbox-actions">
-                
-                <button class="lightbox-icon-btn" id="lightboxZoomBtn" aria-label="Zoom image" type="button"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
-                <button class="lightbox-icon-btn" id="lightboxDownloadBtn" aria-label="Download image" type="button"><i class="ri-download-2-line" aria-hidden="true"></i></button>
-                
-                <button class="lightbox-icon-btn lightbox-close" id="lightboxClose" aria-label="Close image viewer" type="button"><i class="ri-close-line" aria-hidden="true"></i></button>
-            </div>
-        </div>
-        <div class="lightbox-img-wrap" id="lightboxImgWrap">
-            <div class="lightbox-spinner" id="lightboxSpinner" aria-hidden="true"></div>
-            <img class="lightbox-img active" id="lightboxImgCurrent" src="" alt="Enlarged view">
-            <img class="lightbox-img" id="lightboxImgNext" src="" alt="Next image" style="pointer-events:none;">
-        </div>
-        <div class="lightbox-filmstrip" id="lightboxFilmstrip" aria-label="Image thumbnails"></div>
-    </div>
-
-    <!-- ===== SEARCH OVERLAY ===== -->
+    </div><!-- ===== SEARCH OVERLAY ===== -->
     <div id="searchOverlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search">
         <div class="search-box">
             <div class="search-input-wrap">
@@ -4451,28 +3720,28 @@ body.dark .lightbox-filmstrip {
         <header class="header" role="banner">
             <nav class="navbar" role="navigation" aria-label="Main navigation">
                 <div class="nav-left">
-                    <button class="menu-btn ripple-host" aria-label="Open menu" aria-expanded="false">
+                    <button type="button" class="menu-btn ripple-host" aria-label="Open menu" aria-expanded="false">
                         <i class="ri-menu-3-line" aria-hidden="true"></i>
                     </button>
                     <img src="logo.png" alt="Pabitra Secondary Boarding School Logo" class="logo" width="42" height="42">
                     <div class="brand-text" aria-hidden="true"><strong>Pabitra School</strong><span>Est. 2040 B.S. · Doti</span></div>
-                    <button class="header-theme-presets-btn ripple-host" id="headerThemePresetsBtn" aria-label="Theme presets">
+                    <button type="button" class="header-theme-presets-btn ripple-host" id="headerThemePresetsBtn" aria-label="Theme presets">
                         <i class="ri-palette-line" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div class="nav-right">
-                    <button class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search the site" title="Search (Ctrl K)">
+                    <button type="button" class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search the site" title="Search (Ctrl K)">
                         <i class="ri-search-2-line" aria-hidden="true"></i>
                     </button>
-                    <button class="header-theme-toggle-btn ripple-host" id="headerThemeToggleBtn" aria-label="Toggle theme">
+                    <button type="button" class="header-theme-toggle-btn ripple-host" id="headerThemeToggleBtn" aria-label="Toggle theme">
                         <i class="ri-moon-line" aria-hidden="true"></i>
                     </button>
-                    <button class="notice-btn ripple-host" aria-label="Open notices" aria-expanded="false">
+                    <button type="button" class="notice-btn ripple-host" aria-label="Open notices" aria-expanded="false">
                         <i class="ri-notification-3-line" aria-hidden="true"></i>
                         <span class="notice-badge hidden-badge" id="noticeBadge">0</span>
                     </button>
                     <div class="profile-container">
-                        <button class="profile-btn ripple-host" id="headerProfileBtn" aria-label="Open profile menu" aria-expanded="false">
+                        <button type="button" class="profile-btn ripple-host" id="headerProfileBtn" aria-label="Open profile menu" aria-expanded="false">
                             <i class="ri-user-3-line" aria-hidden="true"></i>
                         </button>
                         <div class="profile-dropdown" id="profileDropdown" role="menu">
@@ -4496,27 +3765,27 @@ body.dark .lightbox-filmstrip {
                                 </div>
                             </div>
                             <div class="dropdown-divider" role="separator"></div>
-                            <button class="dropdown-item" id="ddDocumentsBtn" role="menuitem">
+                            <button type="button" class="dropdown-item" id="ddDocumentsBtn" role="menuitem">
                                 <i class="ri-folder-3-line" aria-hidden="true"></i> Documents
                             </button>
-                            <button class="dropdown-item" id="ddCalendarBtn" role="menuitem">
+                            <button type="button" class="dropdown-item" id="ddCalendarBtn" role="menuitem">
                                 <i class="ri-calendar-2-line" aria-hidden="true"></i> Calendar
                             </button>
                             <div class="dropdown-divider" role="separator"></div>
-                            <button class="dropdown-item" id="ddStudentLogin" role="menuitem">
+                            <button type="button" class="dropdown-item" id="ddStudentLogin" role="menuitem">
                                 <i class="ri-user-3-line" aria-hidden="true"></i> Student Login
                                 <span class="login-role-tag">Student</span>
                             </button>
-                            <button class="dropdown-item" id="ddTeacherLogin" role="menuitem">
+                            <button type="button" class="dropdown-item" id="ddTeacherLogin" role="menuitem">
                                 <i class="ri-user-2-line" aria-hidden="true"></i> Teacher Login
                                 <span class="login-role-tag teacher">Teacher</span>
                             </button>
-                            <button class="dropdown-item" id="ddAdminLogin" role="menuitem">
+                            <button type="button" class="dropdown-item" id="ddAdminLogin" role="menuitem">
                                 <i class="ri-shield-user-line" aria-hidden="true"></i> Admin Login
                                 <span class="login-role-tag admin">Admin</span>
                             </button>
                             <div class="dropdown-divider" role="separator"></div>
-                            <button class="dropdown-item danger" id="ddLogoutBtn" role="menuitem">
+                            <button type="button" class="dropdown-item danger" id="ddLogoutBtn" role="menuitem">
                                 <i class="ri-logout-box-line" aria-hidden="true"></i> Logout
                             </button>
                         </div>
@@ -4537,7 +3806,7 @@ body.dark .lightbox-filmstrip {
                         <p>🌸 Radhe Radhe</p>
                     </div>
                 </div>
-                <button class="sidebar-close" aria-label="Close sidebar">
+                <button type="button" class="sidebar-close" aria-label="Close sidebar">
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
@@ -4549,7 +3818,6 @@ body.dark .lightbox-filmstrip {
                         <a href="#about" class="nav-link" data-section="about"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-information-line"></i></span><span class="nav-title">About</span></a>
                         <a href="#academics" class="nav-link" data-section="academics"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-book-2-line"></i></span><span class="nav-title">Academics</span></a>
                         <a href="#faculty" class="nav-link" data-section="faculty"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-team-line"></i></span><span class="nav-title">Faculty</span></a>
-                        <a href="#gallery" class="nav-link" data-section="gallery"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-gallery-line"></i></span><span class="nav-title">Gallery</span></a>
                         <a href="#highlights" class="nav-link" data-section="highlights"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-sparkling-2-line"></i></span><span class="nav-title">Why PSBS</span></a>
                         <a href="#admissions" class="nav-link" data-section="admissions"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span><span class="nav-title">Admissions</span></a>
                         <a href="#faq" class="nav-link" data-section="faq"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-question-line"></i></span><span class="nav-title">FAQ</span></a>
@@ -4571,6 +3839,10 @@ body.dark .lightbox-filmstrip {
                         <a class="sidebar-link-btn" href="calendar.html">
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
                             <span class="nav-title">School Calendar</span>
+                        </a>
+                        <a class="sidebar-link-btn" href="gallery.html">
+                            <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-gallery-line"></i></span>
+                            <span class="nav-title">Gallery</span>
                         </a>
                         <button class="sidebar-link-btn" id="sidebarSearchBtn" type="button" data-sq="search">
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-search-2-line"></i></span>
@@ -4633,7 +3905,7 @@ body.dark .lightbox-filmstrip {
                         <p id="rightPanelSubtitle">Stay updated</p>
                     </div>
                 </div>
-                <button class="notice-close" id="rightPanelClose" aria-label="Close panel">
+                <button type="button" class="notice-close" id="rightPanelClose" aria-label="Close panel">
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
@@ -4664,7 +3936,6 @@ body.dark .lightbox-filmstrip {
                                         <button class="doc-filter" data-filter="pdf" type="button">PDF</button>
                                         <button class="doc-filter" data-filter="doc" type="button">DOC</button>
                                         <button class="doc-filter" data-filter="ppt" type="button">PPT</button>
-                                        <button class="doc-filter" data-filter="xls" type="button">XLS</button>
                                         <button class="doc-filter" data-filter="other" type="button">Other</button>
                                     </div>
                                 </div>
@@ -4721,18 +3992,7 @@ body.dark .lightbox-filmstrip {
                         <p class="hero-description">
                             A disciplined, supportive and student-centered learning community — nurturing academic
                             excellence, confidence and strong character for a brighter future.</p>
-
-                        <div class="hero-actions">
-                            
-                            <a href="calendar.html" class="hero-action-btn primary"><i class="ri-calendar-2-line" aria-hidden="true"></i><span>View Calendar</span></a>
-                            <a href="#quick" class="hero-action-btn glass"><i class="ri-compass-3-line" aria-hidden="true"></i><span>Explore Campus</span></a>
-                        </div>
-
-                        <div class="hero-stats-mini">
-                            <div class="hero-stat-mini"><span class="stat-dot" aria-hidden="true"></span><span class="num" id="heroStudents">1050+</span><span class="label">Students</span></div>
-                            <div class="hero-stat-mini"><span class="stat-dot" aria-hidden="true"></span><span class="num" id="heroTeachers">35+</span><span class="label">Teachers</span></div>
-                            <div class="hero-stat-mini"><span class="stat-dot" aria-hidden="true"></span><span class="num" id="heroYears">43+</span><span class="label">Years</span></div>
-                        </div>
+</div>
                         </div>
                     </div>
                 </div>
@@ -4751,7 +4011,7 @@ body.dark .lightbox-filmstrip {
                         <span class="qc-icon" aria-hidden="true"><i class="ri-folder-3-line"></i></span>
                         <span class="qc-title">Documents</span><span class="qc-sub" id="qcDocSub">Notes &amp; files</span>
                     </button>
-                    <a href="#gallery" class="quick-card ripple-host" style="--qc: 16, 185, 129;">
+                    <a href="gallery.html" class="quick-card ripple-host" style="--qc: 16, 185, 129;">
                         <span class="qc-icon" aria-hidden="true"><i class="ri-image-2-line"></i></span>
                         <span class="qc-title">Gallery</span><span class="qc-sub">Campus life photos</span>
                     </a>
@@ -4759,9 +4019,9 @@ body.dark .lightbox-filmstrip {
                         <span class="qc-icon" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span>
                         <span class="qc-title">Student Login</span><span class="qc-sub">Student portal</span>
                     </a>
-                    <a href="teacher-login.html" class="quick-card ripple-host" style="--qc: 232, 93, 117;">
-                        <span class="qc-icon" aria-hidden="true"><i class="ri-presentation-line"></i></span>
-                        <span class="qc-title">Teacher Login</span><span class="qc-sub">Teacher portal</span>
+                    <a href="calendar.html" class="quick-card ripple-host" style="--qc: 139, 92, 246;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
+                        <span class="qc-title">Calendar</span><span class="qc-sub">Events, holidays and exams</span>
                     </a>
                     <a href="#contact" class="quick-card ripple-host" style="--qc: 139, 92, 246;">
                         <span class="qc-icon" aria-hidden="true"><i class="ri-customer-service-2-line"></i></span>
@@ -4910,21 +4170,6 @@ body.dark .lightbox-filmstrip {
                 </div>
             </section>
 
-            <!-- ===== GALLERY ===== -->
-            <section id="gallery" class="section" aria-label="Photo gallery">
-                <div class="container">
-                    <span class="section-tag">Gallery</span>
-                    <h2 class="section-title">Campus Life Memories</h2>
-                    <p class="section-description">Explore our modern classrooms, labs, sports meets, and memorable celebrations.</p>
-                    <div class="gallery-grid" id="galleryGrid"></div>
-                    <div class="gallery-pagination">
-                        <button id="galleryPrev" class="ripple-host" aria-label="Previous page">‹ Prev</button>
-                        <span class="page-indicator" id="galleryPageIndicator">Page 1 / 1</span>
-                        <button id="galleryNext" class="ripple-host" aria-label="Next page">Next ›</button>
-                    </div>
-                </div>
-            </section>
-
             <!-- ===== WHY PSBS ===== -->
             <section id="highlights" class="section" aria-label="Why choose PSBS">
                 <div class="container">
@@ -4939,34 +4184,31 @@ body.dark .lightbox-filmstrip {
                         <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧭</span><h3>Career Guidance</h3><p>Counseling that helps students plan their next step with clarity.</p></article>
                         <article class="hl-card"><span class="hl-icon" aria-hidden="true">🌱</span><h3>Character Building</h3><p>Discipline, moral values, and leadership woven into everyday school life.</p></article>
                     </div>
-                    <div class="cta-row">
-                        <a href="#admissions" class="btn-glossy ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Start Admission Inquiry</a>
-                        <a href="#academics" class="btn-glass ripple-host"><i class="ri-book-open-line" aria-hidden="true"></i> View Programs</a>
-                    </div>
-                </div>
+</div>
             </section>
-
-            <!-- ===== ADMISSIONS ===== -->
-            <section id="admissions" class="section" aria-label="Admissions">
+                    <!-- Admissions is integrated into the Why PSBS section -->
+                                <section id="admissions" class="section" aria-label="Admissions">
                 <div class="container">
-                    <span class="section-tag">Admissions</span>
-                    <h2 class="section-title">Join the PSBS Family</h2>
-                    <p class="section-description">Getting started is simple. Reach out to our office and we will guide you through the next steps.</p>
-                    <ol class="steps">
-                        <li class="step"><span class="step-num" aria-hidden="true">1</span><h3>Get in Touch</h3><p>Call us, send an email, or use the inquiry form to tell us which class you are interested in.</p></li>
-                        <li class="step"><span class="step-num" aria-hidden="true">2</span><h3>Visit the Campus</h3><p>Meet our team at DSM – 6, Doti during office hours and talk through the right grade and programme.</p></li>
-                        <li class="step"><span class="step-num" aria-hidden="true">3</span><h3>Complete Enrollment</h3><p>Finish the enrollment formalities with the school office and get ready for a great school year.</p></li>
-                    </ol>
-                    <div class="adm-chips">
-                        <span>🎓 Play Group – Grade 10</span>
-                        <span>🕐 Mon–Fri · 10:00 AM – 4:00 PM</span>
-                        <span>📍 DSM – 6, Doti, Nepal</span>
+                        <div class="admissions-heading">
+                            <span class="section-tag">Admissions</span>
+                            <h2 class="section-title">Join the PSBS Family</h2>
+                            <p class="section-description">Getting started is simple. Reach out to our office and we will guide you through the next steps.</p>
+                        </div>
+                        <ol class="steps">
+                            <li class="step"><span class="step-num" aria-hidden="true">1</span><h3>Contact Us</h3><p>Tell us the grade you are interested in.</p></li>
+                            <li class="step"><span class="step-num" aria-hidden="true">2</span><h3>Visit PSBS</h3><p>Meet our team at DSM – 6, Doti.</p></li>
+                            <li class="step"><span class="step-num" aria-hidden="true">3</span><h3>Enroll</h3><p>Complete the formalities with our office.</p></li>
+                        </ol>
+                        <div class="adm-chips">
+                            <span>🎓 Play Group – Grade 10</span>
+                            <span>🕐 Mon–Fri · 10 AM–4 PM</span>
+                            <span>📍 DSM – 6, Doti</span>
+                        </div>
+                      <div class="cta-row">
+                        <a href="#contact" class="btn-glossy ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Start Admission Inquiry</a>
+                        <a href="#academics" class="btn-glass ripple-host"><i class="ri-book-open-line" aria-hidden="true"></i> View Programs</a>
+                      </div>
                     </div>
-                    <div class="cta-row">
-                        <a href="tel:+977-094-411035" class="btn-glossy ripple-host"><i class="ri-phone-fill" aria-hidden="true"></i> Call Admissions Office</a>
-                        <a href="#contact" class="btn-glass ripple-host"><i class="ri-mail-send-line" aria-hidden="true"></i> Send an Inquiry</a>
-                    </div>
-                </div>
             </section>
 
             <!-- ===== FAQ ===== -->
@@ -5111,7 +4353,7 @@ body.dark .lightbox-filmstrip {
                         <li><a href="#about"><i class="ri-information-line" aria-hidden="true"></i>About</a></li>
                         <li><a href="#academics"><i class="ri-book-2-line" aria-hidden="true"></i>Academics</a></li>
                         <li><a href="#faculty"><i class="ri-team-line" aria-hidden="true"></i>Faculty</a></li>
-                        <li><a href="#gallery"><i class="ri-gallery-line" aria-hidden="true"></i>Gallery</a></li>
+                        <li><a href="gallery.html"><i class="ri-gallery-line" aria-hidden="true"></i>Gallery</a></li>
                         <li><a href="#highlights"><i class="ri-sparkling-2-line" aria-hidden="true"></i>Why PSBS</a></li>
                         <li><a href="#admissions"><i class="ri-graduation-cap-line" aria-hidden="true"></i>Admissions</a></li>
                         <li><a href="#faq"><i class="ri-question-line" aria-hidden="true"></i>FAQ</a></li>
@@ -5130,14 +4372,11 @@ body.dark .lightbox-filmstrip {
             </div>
             <div class="footer-bottom">
                 <p>© <span id="footerYear"></span> Pabitra Secondary Boarding School | Developed by <strong>Harish</strong> | 🌸 Radhe Radhe</p>
-                <button type="button" class="footer-to-top ripple-host" id="footerToTop" aria-label="Back to top">
-                    <i class="ri-arrow-up-line" aria-hidden="true"></i><span>Top</span>
-                </button>
             </div>
         </footer>
 
         <div class="fab-container">
-            <button class="fab-btn ripple-host" id="fabTop" aria-label="Back to top"><span class="fab-progress" aria-hidden="true"></span>
+            <button type="button" class="fab-btn ripple-host" id="fabTop" aria-label="Back to top"><span class="fab-progress" aria-hidden="true"></span>
                 <i class="ri-arrow-up-line" aria-hidden="true"></i>
             </button>
         </div>
@@ -5184,6 +4423,13 @@ body.dark .lightbox-filmstrip {
 
         // -------------------- HELPERS --------------------
         const Helpers = {
+            safeUrl: function (raw) {
+                if (!raw) return '';
+                try {
+                    const u = new URL(String(raw).trim(), window.location.href);
+                    return (u.protocol === 'https:' || u.protocol === 'http:') ? u.href : '';
+                } catch (e) { return ''; }
+            },
             sanitize: function (input) {
                 const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' };
                 return String(input == null ? '' : input).replace(/[&<>"'/]/g, function (s) { return map[s] || s; });
@@ -5390,10 +4636,8 @@ body.dark .lightbox-filmstrip {
             verticalSwipeLock: false,
             touchInsideRightPanel: false,
             profile: null,
-            lightboxOpen: false, lightboxImages: [], lightboxIndex: 0, lightboxIsTransitioning: false, lightboxHintShown: false,
             openCount: 0,
-            galleryCurrentPage: 0,
-            notices: [], faculty: [], galleryImages: [], documents: [],
+            notices: [], faculty: [], documents: [],
             docSearchQuery: '', docFilter: 'all',
             schoolInfo: null,
         };
@@ -5435,20 +4679,9 @@ body.dark .lightbox-filmstrip {
             contactForm: $('#contactForm'), contactName: $('#contactName'),
             contactEmail: $('#contactEmail'), contactMessage: $('#contactMessage'),
             footerYear: $('#footerYear'),
-            galleryGrid: $('#galleryGrid'), galleryPrev: $('#galleryPrev'),
-            galleryNext: $('#galleryNext'), galleryPageIndicator: $('#galleryPageIndicator'),
             facultyContainer: $('#facultyContainer'),
-            heroStudents: $('#heroStudents'), heroTeachers: $('#heroTeachers'), heroYears: $('#heroYears'),
             heroMotto: $('#heroMotto'), heroContainer: $('#hero'),
             fabTop: $('#fabTop'),
-            lightboxOverlay: $('#lightboxOverlay'),
-            lightboxImgCurrent: $('#lightboxImgCurrent'), lightboxImgNext: $('#lightboxImgNext'),
-            lightboxClose: $('#lightboxClose'), lightboxPrev: $('#lightboxPrev'),
-            lightboxNext: $('#lightboxNext'), lightboxCounter: $('#lightboxCounter'),
-            lightboxImgWrap: $('#lightboxImgWrap'), lightboxSpinner: $('#lightboxSpinner'),
-lightboxDownloadBtn: $('#lightboxDownloadBtn'),
-            lightboxFilmstrip: $('#lightboxFilmstrip'), lightboxHint: $('#lightboxHint'),
-            lightboxBackdropA: $('#lightboxBackdropA'), lightboxBackdropB: $('#lightboxBackdropB'),
             themePresetsModal: $('#themePresetsModal'), themePresetsGrid: $('#themePresetsGrid'),
             themePresetsCloseBtn: $('#themePresetsCloseBtn'), themePresetsApplyBtn: $('#themePresetsApplyBtn'),
             sidebarShareBtn: $('#sidebarShareBtn'),
@@ -5616,7 +4849,7 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                 closeAllDocMenus();
 
                 if (!State.isSidebarOpen && !State.isDropdownOpen && !State.isEditModalOpen &&
-                    !State.isSearchOpen && !State.isThemePresetsOpen && !State.lightboxOpen &&
+                    !State.isSearchOpen && !State.isThemePresetsOpen &&
                     !State.isNameModalOpen && !State.isWelcomeOpen) {
                     document.body.style.overflow = '';
                 }
@@ -5947,18 +5180,9 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                 const { data, error } = await window.db.from('school_info').select('*').eq('id', 1).maybeSingle();
                 if (!error && data) {
                     State.schoolInfo = data;
-                    updateHeroStats(data);
+                    
                 }
             } catch (e) { console.warn('school_info fetch failed', e); }
-        }
-
-        function updateHeroStats(data) {
-            if (DOM.heroStudents) DOM.heroStudents.textContent = (data.students_count || 1050) + '+';
-            if (DOM.heroTeachers) DOM.heroTeachers.textContent = (data.teachers_count || 38) + '+';
-            if (DOM.heroYears) {
-                const age = CURRENT_BS_YEAR - (data.established_year || 2040);
-                DOM.heroYears.textContent = age + '+';
-            }
         }
 
         async function fetchNotices() {
@@ -6046,92 +5270,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             }
             container.innerHTML = html;
         }
-
-        async function fetchGallery() {
-            try {
-                const { data, error } = await window.db.from('gallery').select('*').order('order', { ascending: true });
-                if (error) throw error;
-                State.galleryImages = (data || []).map(function (item) { return item.image_url; });
-                // Warm the entire viewer cache so switching feels immediate.
-                State.galleryImages.forEach(function (src) {
-                    var warm = new Image();
-                    warm.decoding = 'async';
-                    warm.src = src;
-                });
-
-                State.galleryCurrentPage = 0;
-                renderGalleryPage(0);
-            } catch (e) {
-                console.warn('Gallery fetch error:', e);
-                State.galleryImages = [];
-                renderGalleryPage(0);
-            }
-        }
-
-        // ===== GALLERY PAGINATION =====
-        const BATCH_SIZE = 4;
-        function totalPages() { return Math.max(1, Math.ceil(State.galleryImages.length / BATCH_SIZE)); }
-
-        function renderGalleryPage(page) {
-            const grid = DOM.galleryGrid;
-            const images = State.galleryImages;
-            if (!images || images.length === 0) {
-                grid.innerHTML =
-                    '<p style="text-align:center;color:var(--text-light);padding:40px 0;grid-column:1/-1;">No images in gallery.</p>';
-                DOM.galleryPrev.disabled = true;
-                DOM.galleryNext.disabled = true;
-                DOM.galleryPageIndicator.textContent = 'Page 0 / 0';
-                return;
-            }
-            const start = page * BATCH_SIZE;
-            const end = Math.min(start + BATCH_SIZE, images.length);
-            let html = '';
-            for (let i = start; i < end; i++) {
-                const img = images[i];
-                const idx = i + 1;
-                const safeSrc = Helpers.sanitize(img);
-                html += '<div class="gallery-item" data-src="' + safeSrc + '" style="animation: fadeUp 0.55s ' + ((i - start) * 60) + 'ms both cubic-bezier(0.16,1,0.3,1);">';
-                html += '<img src="' + safeSrc + '" alt="PSBS campus scene ' + idx +
-                    '" loading="lazy" decoding="async" width="300" height="400">';
-                html += '<div class="gallery-loader" aria-hidden="true"></div>';
-                html += '</div>';
-            }
-            grid.innerHTML = html;
-            grid.querySelectorAll('.gallery-item img').forEach(function (img) {
-                if (img.complete) img.classList.add('loaded');
-                else {
-                    img.addEventListener('load', function () { img.classList.add('loaded'); });
-                    img.addEventListener('error', function () { img.classList.add('loaded'); });
-                }
-            });
-            grid.querySelectorAll('.gallery-item').forEach(function (item) {
-                item.addEventListener('click', function () {
-                    const src = item.getAttribute('data-src');
-                    if (!src) return;
-                    const idx = State.galleryImages.indexOf(src);
-                    openLightbox(State.galleryImages.slice(), idx >= 0 ? idx : 0);
-                });
-            });
-            const total = totalPages();
-            DOM.galleryPrev.disabled = (page === 0);
-            DOM.galleryNext.disabled = (page >= total - 1);
-            DOM.galleryPageIndicator.textContent = (page + 1) + ' / ' + total;
-            State.galleryCurrentPage = page;
-        }
-
-        DOM.galleryPrev.addEventListener('click', function () {
-            if (State.galleryCurrentPage > 0) {
-                State.galleryCurrentPage--;
-                renderGalleryPage(State.galleryCurrentPage);
-            }
-        });
-        DOM.galleryNext.addEventListener('click', function () {
-            const total = totalPages();
-            if (State.galleryCurrentPage < total - 1) {
-                State.galleryCurrentPage++;
-                renderGalleryPage(State.galleryCurrentPage);
-            }
-        });
 
         // ============================================================
         // DOCUMENTS
@@ -6416,8 +5554,8 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
         }
 
         function viewDocument(doc) {
-            const url = doc.file_url;
-            if (!url) { Toast.error('File link is not available.'); return; }
+            const url = Helpers.safeUrl(doc.file_url);
+            if (!url) { Toast.error('File link is not available or is invalid.'); return; }
             const ext = getDocExtension(doc);
             const officeExts = ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'];
             const imageExts = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
@@ -6428,7 +5566,7 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                 const win = window.open(viewerUrl, '_blank', 'noopener,noreferrer');
                 if (!win) Toast.warning('Popup blocked. Please allow popups to preview files.');
             } else if (imageExts.indexOf(ext) !== -1) {
-                openLightbox([url], 0);
+                window.open(url, '_blank', 'noopener');
             } else {
                 Toast.info('📂 Opening file...');
                 const win = window.open(url, '_blank', 'noopener,noreferrer');
@@ -6442,8 +5580,8 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
 
         async function downloadDocument(doc, opts) {
             opts = opts || {};
-            const url = doc.file_url;
-            if (!url) { Toast.error('File link is not available.'); return false; }
+            const url = Helpers.safeUrl(doc.file_url);
+            if (!url) { Toast.error('File link is not available or is invalid.'); return false; }
 
             const rawName = doc.title ||
                 decodeURIComponent(String(url).split('/').pop().split('?')[0]) || 'document';
@@ -6520,15 +5658,15 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
         }
 
         // ===== REALTIME =====
+        let realtimeStarted = false;
         function setupRealtime() {
+            if (realtimeStarted) return;
+            realtimeStarted = true;
             window.db.channel('notices_changes')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'notices' }, function () { fetchNotices(); })
                 .subscribe();
             window.db.channel('faculty_changes')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'faculty' }, function () { fetchFaculty(); })
-                .subscribe();
-            window.db.channel('gallery_changes')
-                .on('postgres_changes', { event: '*', schema: 'public', table: 'gallery' }, function () { fetchGallery(); })
                 .subscribe();
             window.db.channel('documents_changes')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'documents' }, function () { fetchDocuments(); })
@@ -6884,7 +6022,7 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             if (!DOM.rightPanel.classList.contains('active')) {
                 DOM.sidebarOverlay.classList.remove('active');
                 if (!State.isDropdownOpen && !State.isEditModalOpen && !State.isSearchOpen &&
-                    !State.isThemePresetsOpen && !State.lightboxOpen &&
+                    !State.isThemePresetsOpen &&
                     !State.isNameModalOpen && !State.isWelcomeOpen) {
                     document.body.style.overflow = '';
                 }
@@ -6934,7 +6072,7 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             document.body.classList.remove('dropdown-active');
             if (!State.isSidebarOpen && !State.isNoticeOpen && !State.isDocumentsOpen &&
                 !State.isEditModalOpen && !State.isNameModalOpen && !State.isWelcomeOpen &&
-                !State.isSearchOpen && !State.isThemePresetsOpen && !State.lightboxOpen) {
+                !State.isSearchOpen && !State.isThemePresetsOpen) {
                 document.body.style.overflow = '';
             }
             if (State.openCount > 0) State.openCount--;
@@ -7141,502 +6279,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             }
         }, true);
 
-        // ===== LIGHTBOX =====
-        var lbBackdropShowingA = true;
-        function setLightboxBackdrop(src) {
-            if (!DOM.lightboxBackdropA || !DOM.lightboxBackdropB || !src) return;
-            const showEl = lbBackdropShowingA ? DOM.lightboxBackdropB : DOM.lightboxBackdropA;
-            const hideEl = lbBackdropShowingA ? DOM.lightboxBackdropA : DOM.lightboxBackdropB;
-            showEl.style.backgroundImage = 'url("' + src + '")';
-            showEl.classList.add('show');
-            hideEl.classList.remove('show');
-            lbBackdropShowingA = !lbBackdropShowingA;
-        }
-
-        function openLightbox(images, index) {
-            if (!images || images.length === 0) return;
-            State.lightboxImages = images;
-            State.lightboxIndex = Math.min(index, images.length - 1);
-            State.lightboxOpen = true;
-            State.openCount++;
-            State.lightboxHistoryEntry = true;
-            try { history.pushState({ psbsLightbox: true }, ''); } catch (e) {}
-            const current = DOM.lightboxImgCurrent;
-            const next = DOM.lightboxImgNext;
-            const initialSrc = images[State.lightboxIndex];
-            current.src = initialSrc;
-            setLightboxBackdrop(initialSrc);
-            loadLightboxImage(initialSrc, true);
-            current.className = 'lightbox-img active';
-            current.style.transition = '';
-            current.style.opacity = '';
-            next.className = 'lightbox-img';
-            next.style.opacity = '';
-            next.src = '';
-            updateLightboxCounter();
-            buildLightboxFilmstrip();
-            requestAnimationFrame(function () {
-                var activeThumb = DOM.lightboxFilmstrip && DOM.lightboxFilmstrip.querySelector('.lightbox-thumb.active');
-                if (activeThumb) activeThumb.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
-          requestAnimationFrame(() => {
-            const rail = DOM.lightboxFilmstrip;
-            if (rail && activeThumb) {
-              const target = activeThumb.offsetLeft - (rail.clientWidth - activeThumb.offsetWidth) / 2;
-              rail.scrollLeft = Math.max(0, target);
-              activeThumb.classList.add('is-centered');
-            }
-          });
-            });
-            showLightboxSpinner(!(current.complete && current.naturalHeight !== 0));
-            DOM.lightboxOverlay.classList.add('active');
-            document.body.classList.add('lightbox-open');
-            document.body.style.overflow = 'hidden';
-            preloadLightboxNeighbours();
-            if (!State.lightboxHintShown && DOM.lightboxHint) {
-                State.lightboxHintShown = true;
-                DOM.lightboxHint.classList.add('show');
-                setTimeout(function () { DOM.lightboxHint.classList.remove('show'); }, 2600);
-            }
-        }
-
-        function showLightboxSpinner(show) {
-            if (DOM.lightboxSpinner) DOM.lightboxSpinner.classList.toggle('show', !!show);
-        }
-
-        // Image cache: current image + two images on each side are decoded with priority.
-        // Remaining images are warmed progressively in the background.
-        const lightboxImageCache = new Map();
-        let lightboxWarmToken = 0;
-
-        function loadLightboxImage(src, priority) {
-            if (!src) return Promise.resolve(null);
-            const cached = lightboxImageCache.get(src);
-            if (cached) return cached.promise;
-
-            const img = new Image();
-            img.decoding = 'async';
-            if (priority) img.fetchPriority = 'high';
-            img.src = src;
-
-            const promise = new Promise(function (resolve) {
-                let done = false;
-                function finish() {
-                    if (done) return;
-                    done = true;
-                    resolve(img);
-                }
-                img.onload = function () {
-                    if (img.decode) {
-                        img.decode().catch(function () {}).then(finish);
-                    } else {
-                        finish();
-                    }
-                };
-                img.onerror = finish;
-                if (img.complete && img.naturalWidth) {
-                    if (img.decode) img.decode().catch(function () {}).then(finish);
-                    else finish();
-                }
-            });
-
-            lightboxImageCache.set(src, { img: img, promise: promise });
-            return promise;
-        }
-
-        function preloadLightboxNeighbours() {
-            const imgs = State.lightboxImages;
-            if (!imgs || !imgs.length) return;
-
-            const token = ++lightboxWarmToken;
-            const center = State.lightboxIndex;
-            const priorityIndexes = [center, center - 1, center + 1, center - 2, center + 2]
-                .filter(function (i, pos, arr) {
-                    return i >= 0 && i < imgs.length && arr.indexOf(i) === pos;
-                });
-
-            // Current + two on either side: fully load/decode with priority.
-            Promise.all(priorityIndexes.map(function (i) {
-                return loadLightboxImage(imgs[i], true);
-            })).then(function () {
-                if (token !== lightboxWarmToken) return;
-
-                // Then progressively warm the rest, one at a time, so bandwidth/CPU
-                // stays available for the images the user is most likely to view next.
-                let distance = 3;
-                function warmNextRing() {
-                    if (token !== lightboxWarmToken) return;
-                    const indexes = [center - distance, center + distance]
-                        .filter(function (i) { return i >= 0 && i < imgs.length; });
-                    if (!indexes.length) return;
-                    Promise.all(indexes.map(function (i) {
-                        return loadLightboxImage(imgs[i], false);
-                    })).then(function () {
-                        distance++;
-                        setTimeout(warmNextRing, 0);
-                    });
-                }
-                warmNextRing();
-            });
-        }
-
-        function buildLightboxFilmstrip() {
-            const strip = DOM.lightboxFilmstrip;
-            if (!strip) return;
-            const imgs = State.lightboxImages || [];
-            if (imgs.length < 2) { strip.innerHTML = ''; strip.style.display = 'none'; return; }
-            strip.style.display = 'flex';
-            strip.innerHTML = imgs.map(function (src, i) {
-                return '<button type="button" class="lightbox-thumb' + (i === State.lightboxIndex ? ' active' : '') +
-                    '" data-idx="' + i + '" aria-label="Go to image ' + (i + 1) + '"><img src="' + src + '" alt="" loading="eager" decoding="async"></button>';
-            }).join('');
-        }
-
-        function updateLightboxFilmstripActive() {
-            const strip = DOM.lightboxFilmstrip;
-            if (!strip) return;
-            const thumbs = strip.querySelectorAll('.lightbox-thumb');
-            thumbs.forEach(function (t, i) {
-                const on = i === State.lightboxIndex;
-                t.classList.toggle('active', on);
-                if (on && !strip.classList.contains('is-dragging')) {
-                    const target = t.offsetLeft - (strip.clientWidth - t.offsetWidth) / 2;
-                    strip.scrollTo({ left: Math.max(0, target), behavior: 'auto' });
-                }
-            });
-        }
-
-        function updateLightboxNavState() {
-            if (DOM.lightboxPrev) DOM.lightboxPrev.disabled = State.lightboxIndex <= 0;
-            if (DOM.lightboxNext) DOM.lightboxNext.disabled = State.lightboxIndex >= State.lightboxImages.length - 1;
-        }
-
-        function closeLightbox(fromPopState) {
-            if (!State.lightboxOpen) return;
-            if (!fromPopState && State.lightboxHistoryEntry) {
-                State.lightboxHistoryEntry = false;
-                try { history.back(); } catch (e) {}
-            } else {
-                State.lightboxHistoryEntry = false;
-            }
-            DOM.lightboxOverlay.classList.remove('active', 'dismiss-dragging');
-            DOM.lightboxOverlay.style.transform = '';
-            DOM.lightboxOverlay.style.background = '';
-            document.body.classList.remove('lightbox-open');
-            document.body.style.overflow = '';
-            State.lightboxOpen = false;
-            DOM.lightboxImgCurrent.className = 'lightbox-img active';
-            DOM.lightboxImgNext.className = 'lightbox-img';
-            DOM.lightboxImgCurrent.style.transition = '';
-            DOM.lightboxImgCurrent.style.opacity = '';
-            DOM.lightboxImgNext.style.transition = '';
-            DOM.lightboxImgNext.style.opacity = '';
-            DOM.lightboxImgNext.style.transform = 'translate(-50%, -50%) scale(1)';
-            showLightboxSpinner(false);
-            if (State.openCount > 0) State.openCount--;
-        }
-
-        function jumpToLightbox(newIndex) {
-            if (!State.lightboxImages || newIndex === State.lightboxIndex) return;
-            if (newIndex < 0 || newIndex >= State.lightboxImages.length) return;
-            navigateLightboxTo(newIndex);
-        }
-
-        function navigateLightbox(direction) {
-            if (!State.lightboxImages || State.lightboxImages.length === 0) return;
-            const newIndex = State.lightboxIndex + direction;
-            if (newIndex < 0 || newIndex >= State.lightboxImages.length) {
-                Toast.info(direction > 0 ? '📸 Last image' : '📸 First image');
-                return;
-            }
-            navigateLightboxTo(newIndex);
-        }
-
-        function navigateLightboxTo(newIndex) {
-            if (State.lightboxIsTransitioning) return;
-            State.lightboxIsTransitioning = true;
-
-            const current = DOM.lightboxImgCurrent;
-            const next = DOM.lightboxImgNext;
-            const targetSrc = State.lightboxImages[newIndex];
-
-            next.className = 'lightbox-img';
-            next.style.transition = 'none';
-            next.style.opacity = '0';
-            next.style.transform = 'translate(-50%, -50%) scale(1)';
-            next.src = targetSrc;
-            showLightboxSpinner(!(next.complete && next.naturalHeight !== 0));
-            setLightboxBackdrop(targetSrc);
-
-            const doSwap = function () {
-                showLightboxSpinner(false);
-                current.src = targetSrc;
-                current.style.transition = 'none';
-                current.style.opacity = '1';
-                current.style.transform = 'translate(-50%, -50%) scale(1)';
-                next.style.transition = 'none';
-                next.style.opacity = '0';
-                next.style.transform = 'translate(-50%, -50%) scale(1)';
-                next.src = '';
-                State.lightboxIndex = newIndex;
-                updateLightboxCounter();
-                updateLightboxFilmstripActive();
-                updateLightboxNavState();
-                preloadLightboxNeighbours();
-                State.lightboxIsTransitioning = false;
-            };
-
-            const cachedTarget = lightboxImageCache.get(targetSrc);
-            if (cachedTarget) {
-                cachedTarget.promise.then(function () {
-                    // The browser may still need one frame to attach the decoded resource.
-                    if (next.src !== targetSrc) next.src = targetSrc;
-                    requestAnimationFrame(doSwap);
-                });
-            } else if (next.complete && next.naturalHeight !== 0) {
-                if (next.decode) {
-                    next.decode().catch(function () {}).then(function () {
-                        requestAnimationFrame(doSwap);
-                    });
-                } else {
-                    doSwap();
-                }
-            } else {
-                let settled = false;
-                const finish = function () {
-                    if (settled) return;
-                    settled = true;
-                    next.onload = null;
-                    next.onerror = null;
-                    doSwap();
-                };
-                next.onload = function () {
-                    if (next.decode) next.decode().catch(function () {}).then(finish);
-                    else finish();
-                };
-                next.onerror = finish;
-                setTimeout(finish, 1800);
-                loadLightboxImage(targetSrc, true).then(function () {
-                    if (!settled) finish();
-                });
-            }
-        }
-
-        function updateLightboxCounter() {
-            if (DOM.lightboxCounter) {
-                DOM.lightboxCounter.textContent = (State.lightboxIndex + 1) + ' / ' + State.lightboxImages.length;
-            }
-            updateLightboxNavState();
-        }
-
-        DOM.lightboxClose.addEventListener('click', closeLightbox);
-        DOM.lightboxOverlay.addEventListener('click', function (e) {
-            if (e.target === DOM.lightboxOverlay) closeLightbox();
-        });
-
-        if (DOM.lightboxDownloadBtn) {
-            DOM.lightboxDownloadBtn.addEventListener('click', function () {
-                const src = State.lightboxImages[State.lightboxIndex];
-                if (!src) return;
-                const a = document.createElement('a');
-                a.href = src;
-                a.download = 'psbs-gallery-' + (State.lightboxIndex + 1) + '.jpg';
-                a.target = '_blank';
-                a.rel = 'noopener';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                Helpers.vibrate(8);
-            });
-        }
-
-        if (DOM.lightboxFilmstrip) {
-            DOM.lightboxFilmstrip.addEventListener('click', function (e) {
-                const btn = e.target.closest('.lightbox-thumb');
-                if (!btn) return;
-                jumpToLightbox(parseInt(btn.getAttribute('data-idx'), 10));
-            });
-        }
-
-        (function () {
-            // Finger-following image navigation only. Zoom gestures are intentionally disabled.
-            let sx = 0, sy = 0, active = false, moved = false;
-            let swipeDir = 0, swipeWidth = 0;
-
-            function imgAt(index) { return State.lightboxImages && State.lightboxImages[index]; }
-
-            function prepNeighbour(dir) {
-                const idx = State.lightboxIndex + dir;
-                const src = imgAt(idx);
-                const next = DOM.lightboxImgNext;
-                if (!src || !next) return false;
-                next.className = 'lightbox-img';
-                next.style.transition = 'none';
-                next.style.opacity = '1';
-                next.style.transform = 'translate(calc(-50% + ' + (dir * swipeWidth) + 'px), -50%) scale(1)';
-                next.src = src;
-                return true;
-            }
-
-            function resetFingerSwipe() {
-                const current = DOM.lightboxImgCurrent, next = DOM.lightboxImgNext;
-                current.style.transition = 'transform .28s var(--snap), opacity .22s ease';
-                current.style.transform = 'translate(-50%, -50%) scale(1)';
-                current.style.opacity = '1';
-                next.style.transition = 'transform .28s var(--snap), opacity .22s ease';
-                next.style.transform = 'translate(calc(-50% + ' + (swipeDir * swipeWidth) + 'px), -50%) scale(1)';
-                next.style.opacity = '0';
-                setTimeout(function () {
-                    next.style.transition = '';
-                    next.style.transform = 'translate(-50%,-50%) scale(1)';
-                    next.style.opacity = '0';
-                    next.src = '';
-                }, 290);
-            }
-
-            function finishFingerSwipe(dir) {
-                const current = DOM.lightboxImgCurrent, next = DOM.lightboxImgNext;
-                const target = imgAt(State.lightboxIndex + dir);
-                if (!target) { resetFingerSwipe(); return; }
-
-                State.lightboxIsTransitioning = true;
-                current.style.transition = 'transform .24s cubic-bezier(.22,1,.36,1), opacity .18s ease';
-                next.style.transition = 'transform .24s cubic-bezier(.22,1,.36,1), opacity .18s ease';
-                current.style.transform = 'translate(calc(-50% + ' + (-dir * swipeWidth) + 'px), -50%) scale(1)';
-                current.style.opacity = '0';
-                next.style.transform = 'translate(-50%, -50%) scale(1)';
-                next.style.opacity = '1';
-
-                setTimeout(function () {
-                    current.src = target;
-                    current.style.transition = 'none';
-                    current.style.transform = 'translate(-50%, -50%) scale(1)';
-                    current.style.opacity = '1';
-                    next.style.transition = 'none';
-                    next.style.transform = 'translate(-50%, -50%) scale(1)';
-                    next.style.opacity = '0';
-                    next.src = '';
-                    State.lightboxIndex += dir;
-                    updateLightboxCounter();
-                    updateLightboxFilmstripActive();
-                    updateLightboxNavState();
-                    preloadLightboxNeighbours();
-                    setLightboxBackdrop(target);
-                    State.lightboxIsTransitioning = false;
-                }, 250);
-            }
-
-            DOM.lightboxImgWrap.addEventListener('touchstart', function (e) {
-                if (!State.lightboxOpen || State.lightboxIsTransitioning || DOM.lightboxOverlay.classList.contains('is-zoomed') || e.touches.length !== 1) return;
-                sx = e.touches[0].clientX;
-                sy = e.touches[0].clientY;
-                swipeWidth = DOM.lightboxImgWrap.getBoundingClientRect().width;
-                active = true;
-                moved = false;
-                swipeDir = 0;
-            }, { passive: true });
-
-            DOM.lightboxImgWrap.addEventListener('touchmove', function (e) {
-                if (!active || !State.lightboxOpen || DOM.lightboxOverlay.classList.contains('is-zoomed') || e.touches.length !== 1) return;
-
-                const t = e.touches[0];
-                const dx = t.clientX - sx, dy = t.clientY - sy;
-                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) moved = true;
-
-                if (Math.abs(dx) >= Math.abs(dy) && Math.abs(dx) > 5) {
-                    swipeDir = dx < 0 ? 1 : -1;
-                    const atEdge =
-                        (swipeDir === 1 && State.lightboxIndex >= State.lightboxImages.length - 1) ||
-                        (swipeDir === -1 && State.lightboxIndex <= 0);
-
-                    let follow = dx;
-                    if (atEdge) follow *= 0.18;
-
-                    if (!DOM.lightboxImgNext.src || DOM.lightboxImgNext.dataset.swipeDir !== String(swipeDir)) {
-                        if (prepNeighbour(swipeDir)) DOM.lightboxImgNext.dataset.swipeDir = String(swipeDir);
-                    }
-
-                    DOM.lightboxOverlay.classList.add('lb-hswipe');
-                    DOM.lightboxImgCurrent.style.transition = 'none';
-                    DOM.lightboxImgNext.style.transition = 'none';
-                    DOM.lightboxImgCurrent.style.transform =
-                        'translate(calc(-50% + ' + follow.toFixed(1) + 'px), -50%) scale(1)';
-                    DOM.lightboxImgCurrent.style.opacity =
-                        String(Math.max(0.58, 1 - Math.abs(follow) / 900));
-
-                    if (!atEdge) {
-                        DOM.lightboxImgNext.style.transform =
-                            'translate(calc(-50% + ' + (follow + swipeDir * swipeWidth).toFixed(1) + 'px), -50%) scale(1)';
-                        DOM.lightboxImgNext.style.opacity =
-                            String(Math.min(1, Math.max(0, Math.abs(follow) / Math.max(1, swipeWidth * .62))));
-                    }
-                }
-            }, { passive: true });
-
-            DOM.lightboxImgWrap.addEventListener('touchend', function (e) {
-                if (!active || !State.lightboxOpen || DOM.lightboxOverlay.classList.contains('is-zoomed')) return;
-
-                active = false;
-                DOM.lightboxOverlay.classList.remove('lb-hswipe');
-                const t = e.changedTouches[0];
-                const dx = t.clientX - sx, dy = t.clientY - sy;
-
-                if (Math.abs(dy) > 76 && Math.abs(dy) > Math.abs(dx) * 1.15) {
-                    closeLightbox();
-                    Helpers.vibrate(6);
-                    return;
-                }
-
-                if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.15 && swipeDir) {
-                    const target = State.lightboxIndex + swipeDir;
-                    if (target >= 0 && target < State.lightboxImages.length) {
-                        finishFingerSwipe(swipeDir);
-                        Helpers.vibrate(6);
-                        return;
-                    }
-                    DOM.lightboxImgWrap.classList.add('lb-edge-bounce');
-                    setTimeout(function () {
-                        DOM.lightboxImgWrap.classList.remove('lb-edge-bounce');
-                    }, 400);
-                }
-
-                resetFingerSwipe();
-            }, { passive: true });
-        })();
-
-        document.addEventListener('keydown', function (e) {
-            if (!State.lightboxOpen) return;
-            if (e.key === 'Escape') { closeLightbox(); return; }
-            if (e.key === 'ArrowLeft') { navigateLightbox(-1); e.preventDefault(); return; }
-            if (e.key === 'ArrowRight') { navigateLightbox(1); e.preventDefault(); return; }
-        });
-
-        window.addEventListener('popstate', function () {
-            if (State.lightboxOpen) closeLightbox(true);
-        });
-
-
-        // Downward swipe on the thumbnail rail dismisses the previewer.
-        (function () {
-            if (!DOM.lightboxFilmstrip) return;
-            var sy = 0, sx = 0, tracking = false;
-            DOM.lightboxFilmstrip.addEventListener('touchstart', function (e) {
-                if (!State.lightboxOpen || e.touches.length !== 1) return;
-                sx = e.touches[0].clientX;
-                sy = e.touches[0].clientY;
-                tracking = true;
-            }, { passive: true });
-            DOM.lightboxFilmstrip.addEventListener('touchend', function (e) {
-                if (!tracking || !State.lightboxOpen) return;
-                tracking = false;
-                var t = e.changedTouches[0];
-                var dx = t.clientX - sx, dy = t.clientY - sy;
-                if (dy > 64 && Math.abs(dy) > Math.abs(dx) * 1.15) {
-                    closeLightbox();
-                    Helpers.vibrate(6);
-                }
-            }, { passive: true });
-        })();
-
         // ===== HEADER SCROLL =====
         let headerScrollTimer = null;
         let headerLastScrollTop = 0;
@@ -7674,7 +6316,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             if (exclude.indexOf('edit') === -1) closeEditNameModal();
             if (exclude.indexOf('search') === -1) closeSearch();
             if (exclude.indexOf('themePresets') === -1) closeThemePresets();
-            if (exclude.indexOf('lightbox') === -1) { if (State.lightboxOpen) closeLightbox(); }
             closeAllDocMenus();
 
             if (!DOM.sidebar.classList.contains('active') &&
@@ -7682,13 +6323,13 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                 DOM.sidebarOverlay.classList.remove('active');
             }
 
-            if (!State.lightboxOpen && !State.isSidebarOpen && !State.isNoticeOpen &&
+            if (!State.isSidebarOpen && !State.isNoticeOpen &&
                 !State.isDocumentsOpen && !State.isDropdownOpen && !State.isEditModalOpen &&
                 !State.isNameModalOpen && !State.isWelcomeOpen && !State.isSearchOpen &&
                 !State.isThemePresetsOpen) {
                 document.body.style.overflow = '';
                 document.body.classList.remove('modal-active', 'sidebar-active', 'right-panel-active',
-                    'dropdown-active', 'welcome-active', 'lightbox-open');
+                    'dropdown-active', 'welcome-active');
             }
         }
 
@@ -7697,7 +6338,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
 
         window.addEventListener('popstate', function () {
             if (State.openCount <= 0) return;
-            if (State.lightboxOpen) { closeLightbox(); history.pushState({ psbs: true }, ''); return; }
             if (State.isThemePresetsOpen) { closeThemePresets(); history.pushState({ psbs: true }, ''); return; }
             if (State.isSearchOpen) { closeSearch(); history.pushState({ psbs: true }, ''); return; }
             if (State.isWelcomeOpen) { closeWelcomeCard(); history.pushState({ psbs: true }, ''); return; }
@@ -7729,7 +6369,7 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
             },
             onTouchStart: function (e) {
                 this._computeEdgeHint();
-                if (State.isSearchOpen || State.lightboxOpen) return;
+                if (State.isSearchOpen) return;
                 const touch = e.touches[0];
                 State.touchStartX = touch.clientX;
                 State.touchStartY = touch.clientY;
@@ -7743,7 +6383,7 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                     DOM.rightPanel.classList.contains('active'));
             },
             onTouchMove: function (e) {
-                if (State.isSearchOpen || State.lightboxOpen) return;
+                if (State.isSearchOpen) return;
                 if (State.touchInsideRightPanel) return;
 
                 const touch = e.touches[0];
@@ -7863,7 +6503,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                 return;
             }
             if (e.key === 'Escape') {
-                if (State.lightboxOpen) { closeLightbox(); return; }
                 if (document.querySelector('.doc-menu')) { closeAllDocMenus(); return; }
                 if (State.isEditModalOpen) closeEditNameModal();
                 else if (State.isWelcomeOpen) closeWelcomeCard();
@@ -7920,39 +6559,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
         }
 
         // ===== HERO STATS ANIMATION =====
-        function animateHeroStats() {
-            if (DOM.heroStudents) {
-                const target = (State.schoolInfo && State.schoolInfo.students_count) || 1050;
-                let current = 0;
-                const step = Math.ceil(target / 60);
-                const interval = setInterval(function () {
-                    current += step;
-                    if (current >= target) { current = target; clearInterval(interval); }
-                    DOM.heroStudents.textContent = current + '+';
-                }, 25);
-            }
-            if (DOM.heroTeachers) {
-                const target = (State.schoolInfo && State.schoolInfo.teachers_count) || 38;
-                let current = 0;
-                const step = Math.ceil(target / 30);
-                const interval = setInterval(function () {
-                    current += step;
-                    if (current >= target) { current = target; clearInterval(interval); }
-                    DOM.heroTeachers.textContent = current + '+';
-                }, 30);
-            }
-            if (DOM.heroYears) {
-                const establishedBS = (State.schoolInfo && State.schoolInfo.established_year) || 2040;
-                const target = CURRENT_BS_YEAR - establishedBS;
-                let current = 0;
-                const step = Math.ceil(target / 40);
-                const interval = setInterval(function () {
-                    current += step;
-                    if (current >= target) { current = target; clearInterval(interval); }
-                    DOM.heroYears.textContent = current + '+';
-                }, 30);
-            }
-        }
 
         // ===== SECTION ANIMATIONS =====
         if ('IntersectionObserver' in window) {
@@ -8036,14 +6642,6 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
         // ===== FOOTER YEAR =====
         if (DOM.footerYear) DOM.footerYear.textContent = new Date().getFullYear();
 
-        var footerToTopBtn = $('#footerToTop');
-        if (footerToTopBtn) {
-            footerToTopBtn.addEventListener('click', function () {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                Helpers.vibrate(6);
-            });
-        }
-
         // ===== INIT =====
         // 11. Discourage password-manager / autofill suggestion bars on every text field,
         // including ones rendered later (faculty search, contact form, etc.).
@@ -8090,11 +6688,9 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
                 fetchSchoolInfo(),
                 fetchNotices(),
                 fetchFaculty(),
-                fetchGallery(),
                 fetchDocuments()
             ]);
 
-            animateHeroStats();
             updateDocTabBadge();
 
             const profile = Profile.get();
@@ -8492,319 +7088,184 @@ lightboxDownloadBtn: $('#lightboxDownloadBtn'),
     <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 
-<script id="thumbnail-live-sync">
-(function () {
-    var rail = document.getElementById('lightboxFilmstrip');
-    if (!rail) return;
-    var raf = 0, settleTimer = 0, dragging = false, moved = false;
-    var lastFocus = -1, microIndex = -1, lastMicroTime = 0, thumbs = [], step = 0, centerOffset = 0;
 
-    function refreshMetrics() {
-        thumbs = Array.prototype.slice.call(rail.querySelectorAll('.lightbox-thumb'));
-        if (!thumbs.length) return;
-        var a = thumbs[0].getBoundingClientRect();
-        var b = thumbs[1] ? thumbs[1].getBoundingClientRect() : null;
-        step = b ? Math.max(1, b.left - a.left) : Math.max(1, a.width + 10);
-        centerOffset = rail.clientWidth / 2;
-        rail.style.setProperty('--edge-pad', Math.max(0, centerOffset - a.width / 2) + 'px');
-    }
-    function nearestThumbIndexFast() {
-        if (!thumbs.length || !step) return -1;
-        var first = thumbs[0].offsetLeft + thumbs[0].offsetWidth / 2;
-        var idx = Math.round((rail.scrollLeft + centerOffset - first) / step);
-        return Math.max(0, Math.min(thumbs.length - 1, idx));
-    }
-    function updateDragFocus(idx) {
-        if (idx === lastFocus) return;
-        lastFocus = idx;
-        for (var i = 0; i < thumbs.length; i++) thumbs[i].classList.toggle('drag-focus', i === idx);
-    }
-    function paintMicroImage(idx) {
-        if (!document.body.classList.contains('lightbox-open') || idx < 0 || idx >= State.lightboxImages.length) return;
-        var now = performance.now();
-        if (idx === microIndex || now - lastMicroTime < 24) return;
-        microIndex = idx; lastMicroTime = now;
-        var src = State.lightboxImages[idx];
-        var cached = lightboxImageCache.get(src);
-        var apply = function () {
-            if (!dragging || microIndex !== idx) return;
-            requestAnimationFrame(function () {
-                if (!dragging || microIndex !== idx) return;
-                DOM.lightboxImgCurrent.src = src;
-                State.lightboxIndex = idx;
-                updateLightboxCounter(); updateLightboxNavState(); setLightboxBackdrop(src);
-            });
-        };
-        if (cached && cached.img && cached.img.complete && cached.img.naturalWidth) apply();
-        else loadLightboxImage(src, true).then(apply);
-    }
-    function settle() {
-        if (!document.body.classList.contains('lightbox-open')) return;
-        var idx = nearestThumbIndexFast();
-        if (idx < 0 || !thumbs[idx]) return;
-        var target = parseInt(thumbs[idx].getAttribute('data-idx'), 10);
-        if (Number.isFinite(target) && target !== State.lightboxIndex) jumpToLightbox(target);
-        rail.classList.remove('is-dragging'); dragging = false; moved = false; microIndex = -1;
-    }
-    rail.addEventListener('pointerdown', function (e) {
-        if (e.pointerType === 'mouse') return;
-        dragging = true; moved = false; microIndex = State.lightboxIndex; lastFocus = -1;
-        rail.classList.add('is-dragging');
-    }, { passive: true });
-    rail.addEventListener('pointermove', function () { if (dragging) moved = true; }, { passive: true });
-    rail.addEventListener('pointerup', function (e) {
-        if (!dragging) return;
-        var tappedThumb = e.target && e.target.closest ? e.target.closest('.lightbox-thumb') : null;
-        if (tappedThumb && !moved) {
-            dragging = false; rail.classList.remove('is-dragging'); clearTimeout(settleTimer); microIndex = -1; return;
-        }
-        clearTimeout(settleTimer); settleTimer = setTimeout(settle, 18);
-    }, { passive: true });
-    rail.addEventListener('scroll', function () {
-        if (!document.body.classList.contains('lightbox-open')) return;
-        if (!raf) raf = requestAnimationFrame(function () {
-            raf = 0;
-            var idx = nearestThumbIndexFast(); updateDragFocus(idx);
-            if (dragging && idx >= 0) paintMicroImage(parseInt(thumbs[idx].getAttribute('data-idx'), 10));
-        });
-        clearTimeout(settleTimer); settleTimer = setTimeout(settle, 24);
-    }, { passive: true });
-    if ('onscrollend' in rail) rail.addEventListener('scrollend', function () {
-        clearTimeout(settleTimer); settleTimer = setTimeout(settle, 12);
-    }, { passive: true });
-    window.addEventListener('resize', refreshMetrics, { passive: true });
-    new MutationObserver(function () { refreshMetrics(); updateDragFocus(nearestThumbIndexFast()); }).observe(rail, { childList: true });
-    refreshMetrics();
-})();
-</script>
+<style id="opposite-corner-button-glints">
+/* Subtle edge lighting: only the top-left and bottom-right corners glow. */
+.hero-action-btn.primary, .submit-btn, .contact-btn, .welcome-card .welcome-btn,
+.edit-modal-card .modal-actions .save-btn, .gallery-pagination button, .btn-glossy {
+    background-image:
+        linear-gradient(rgba(255,255,255,.98), rgba(255,255,255,.55)),
+        linear-gradient(rgba(255,255,255,.98), rgba(255,255,255,.55)),
+        linear-gradient(rgba(255,255,255,.82), rgba(255,255,255,.35)),
+        linear-gradient(rgba(255,255,255,.82), rgba(255,255,255,.35)),
+        var(--primary-gradient);
+    background-position: left top, left top, right bottom, right bottom, center;
+    background-size: 22px 2px, 2px 22px, 22px 2px, 2px 22px, auto;
+    background-repeat: no-repeat;
+}
+/* Keep the corner glints restrained in dark mode too. */
+body.dark .hero-action-btn.primary, body.dark .submit-btn, body.dark .contact-btn,
+body.dark .welcome-card .welcome-btn, body.dark .edit-modal-card .modal-actions .save-btn,
+body.dark .gallery-pagination button, body.dark .btn-glossy {
+    background-image:
+        linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,.28)),
+        linear-gradient(rgba(255,255,255,.8), rgba(255,255,255,.28)),
+        linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.22)),
+        linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.22)),
+        var(--primary-gradient);
+}
 
 
-<style id="lightbox-gloss-final-v4">
-/* Final viewer polish: clean counter, glassy white controls, restrained zoom */
-.lightbox-topbar{gap:12px!important}
-.lightbox-counter-pill{
-  min-width:88px!important;height:42px!important;padding:0 16px!important;border-radius:999px!important;
-  display:inline-flex!important;align-items:center;justify-content:center;gap:7px!important;
-  font-size:.88rem!important;font-weight:850!important;letter-spacing:.025em!important;
-  color:rgb(var(--primary-rgb))!important;
-  background:linear-gradient(180deg,rgba(255,255,255,.995),rgba(255,255,255,.88) 48%,rgba(241,245,249,.94))!important;
-  border:1px solid rgba(255,255,255,.99)!important;
-  box-shadow:0 12px 28px rgba(15,23,42,.14),0 2px 6px rgba(15,23,42,.07),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(15,23,42,.055)!important;
-  text-shadow:0 1px 0 #fff;backdrop-filter:blur(18px) saturate(170%)!important;-webkit-backdrop-filter:blur(18px) saturate(170%)!important;
+/* Remove only the glossy top-sheen and moving shine overlays. Keep all button
+   fills, glass effects, borders, shadows, and opposite-corner highlights intact. */
+.glossy-btn::before,
+.hero-action-btn::before,
+.hero-action-btn::after,
+.submit-btn::before,
+.submit-btn::after,
+.contact-btn::before,
+.contact-btn::after,
+.welcome-card .welcome-btn::before,
+.welcome-card .welcome-btn::after,
+.edit-modal-card .modal-actions .save-btn::before,
+.edit-modal-card .modal-actions .save-btn::after,
+.gallery-pagination button::before,
+.gallery-pagination button::after,
+.btn-glossy::before,
+.btn-glossy::after,
+.panel-tab::before,
+.panel-tab.active::before,
+.doc-filter::before,
+.doc-filter.active::before,
+.header-theme-presets-btn::before,
+.header-theme-toggle-btn::before,
+.header-search-btn::before,
+.menu-btn::before,
+.notice-btn::before {
+    content: none !important;
+    display: none !important;
+    animation: none !important;
 }
-.lightbox-counter-pill::before{inset:2px 10% 54%!important;border-radius:999px!important;opacity:1!important}
-.lightbox-actions{gap:9px!important}
-.lightbox-overlay .lightbox-icon-btn,.lightbox-overlay .lightbox-nav{
-  width:44px!important;height:44px!important;min-width:44px!important;border-radius:15px!important;
-  display:grid!important;place-items:center!important;position:relative!important;overflow:hidden!important;
-  color:rgb(var(--primary-rgb))!important;
-  background:linear-gradient(180deg,#fff 0%,#fff 40%,#f3f7fb 100%)!important;
-  border:1px solid rgba(255,255,255,.99)!important;
-  box-shadow:0 12px 28px rgba(15,23,42,.14),0 2px 6px rgba(15,23,42,.06),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(15,23,42,.06)!important;
-  backdrop-filter:blur(16px) saturate(165%)!important;-webkit-backdrop-filter:blur(16px) saturate(165%)!important;
-  transition:transform .16s cubic-bezier(.22,1,.36,1),box-shadow .16s ease,filter .16s ease!important;
-}
-.lightbox-overlay .lightbox-icon-btn::after,.lightbox-overlay .lightbox-nav::after{
-  content:'';position:absolute;left:9%;right:9%;top:4px;height:36%;border-radius:999px;
-  background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(255,255,255,0));pointer-events:none;
-}
-.lightbox-overlay .lightbox-icon-btn i,.lightbox-overlay .lightbox-nav i{position:relative;z-index:1;font-size:1.15rem;filter:drop-shadow(0 1px 0 #fff)}
-.lightbox-overlay .lightbox-icon-btn:hover,.lightbox-overlay .lightbox-nav:hover{transform:translateY(-2px) scale(1.035)!important;filter:saturate(1.08);box-shadow:0 16px 34px rgba(15,23,42,.17),inset 0 1px 0 #fff!important}
-.lightbox-overlay .lightbox-icon-btn:active,.lightbox-overlay .lightbox-nav:active{transform:translateY(1px) scale(.965)!important}
-.lightbox-filmstrip .lightbox-thumb .thumb-index{display:none!important}
-#lightboxImgWrap{touch-action:none;overflow:hidden!important}
-.lightbox-img{cursor:zoom-in;transform-origin:center center;will-change:transform}
-.lightbox-overlay.is-zoomed .lightbox-img{cursor:grab}
-.lightbox-overlay.is-zoomed .lightbox-img:active{cursor:grabbing}
-#lightboxZoomBtn.is-active{background:linear-gradient(180deg,#fff 0%,#eef6ff 100%)!important;box-shadow:0 14px 30px rgba(var(--primary-rgb),.20),inset 0 1px 0 #fff!important}
-@media(max-width:600px){
- .lightbox-counter-pill{height:38px!important;min-width:78px!important;padding:0 13px!important;font-size:.82rem!important}
- .lightbox-overlay .lightbox-icon-btn{width:40px!important;height:40px!important;min-width:40px!important;border-radius:13px!important}
- .lightbox-overlay .lightbox-icon-btn i{font-size:1.05rem}
-}
+
 </style>
-<script id="lightbox-restrained-zoom-v4">
-(function(){
-  var wrap=document.getElementById('lightboxImgWrap'), overlay=document.getElementById('lightboxOverlay'), btn=document.getElementById('lightboxZoomBtn');
-  if(!wrap||!overlay) return;
-  var scale=1, min=1, max=1.6, pinchStart=1, pinchDistance=0, pinching=false, panX=0, panY=0, panStartX=0, panStartY=0, panBaseX=0, panBaseY=0;
-  function currentImg(){ return document.getElementById('lightboxImgCurrent'); }
-  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
-  function apply(animated){
-    var img=currentImg(); if(!img) return;
-    img.style.transition=animated?'transform .18s cubic-bezier(.22,1,.36,1)':'none';
-    if(scale<=1.001){panX=panY=0;}
-    var maxPan=Math.max(0,(scale-1)*Math.min(wrap.clientWidth,wrap.clientHeight)*.48);
-    panX=clamp(panX,-maxPan,maxPan); panY=clamp(panY,-maxPan,maxPan);
-    img.style.transform='translate(calc(-50% + '+panX.toFixed(1)+'px), calc(-50% + '+panY.toFixed(1)+'px)) scale('+scale.toFixed(3)+')';
-    overlay.classList.toggle('is-zoomed',scale>1.001);
-    if(btn) btn.classList.toggle('is-active',scale>1.001);
-  }
-  function setZoom(v,animated){scale=clamp(v,min,max);apply(!!animated);}
-  function reset(){doubleTapStage=0;setZoom(1,true);}
-  if(btn) btn.addEventListener('click',function(){setZoom(scale<=1.01?1.28:1,true);});
-  /* Three-stage double-tap cycle: normal -> gentle zoom -> deeper zoom -> normal. */
-  var lastTap=0, tapX=0, tapY=0, tapTimer=0;
-  var doubleTapZooms=[1.28,1.52,1];
-  var doubleTapStage=0;
-  wrap.addEventListener('touchend',function(e){
-    if(!State.lightboxOpen || pinching || e.changedTouches.length!==1) return;
-    var t=e.changedTouches[0], now=Date.now();
-    var dx=t.clientX-tapX, dy=t.clientY-tapY;
-    var closeEnough=Math.hypot(dx,dy)<32;
-    if(now-lastTap<320 && closeEnough){
-      clearTimeout(tapTimer);
-      doubleTapStage=(doubleTapStage+1)%doubleTapZooms.length;
-      setZoom(doubleTapZooms[doubleTapStage],true);
-      lastTap=0;
-      Helpers.vibrate(4);
-    } else {
-      lastTap=now; tapX=t.clientX; tapY=t.clientY;
-      clearTimeout(tapTimer);
-      tapTimer=setTimeout(function(){lastTap=0;},330);
-    }
-  },{passive:true});
-  wrap.addEventListener('wheel',function(e){
-    if(!State.lightboxOpen) return;
-    e.preventDefault();
-    var step=Math.sign(e.deltaY)*-0.055;
-    setZoom(scale+step,false);
-  },{passive:false});
-  wrap.addEventListener('touchstart',function(e){
-    if(!State.lightboxOpen) return;
-    if(e.touches.length===2){
-      pinching=true; pinchStart=scale;
-      var a=e.touches[0],b=e.touches[1],dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;
-      pinchDistance=Math.hypot(dx,dy); e.preventDefault();
-    } else if(e.touches.length===1 && scale>1.01){
-      var t=e.touches[0]; panStartX=t.clientX; panStartY=t.clientY; panBaseX=panX; panBaseY=panY;
-    }
-  },{passive:false});
-  wrap.addEventListener('touchmove',function(e){
-    if(e.touches.length===2){
-      pinching=true; var a=e.touches[0],b=e.touches[1],dx=a.clientX-b.clientX,dy=a.clientY-b.clientY,d=Math.hypot(dx,dy);
-      if(pinchDistance>0){ var ratio=(d-pinchDistance)/Math.max(120,pinchDistance); setZoom(pinchStart+ratio*.72,false); }
-      e.preventDefault(); return;
-    }
-    if(e.touches.length===1 && scale>1.01){
-      var t=e.touches[0]; panX=panBaseX+(t.clientX-panStartX)*.72; panY=panBaseY+(t.clientY-panStartY)*.72; apply(false); e.preventDefault();
-    }
-  },{passive:false});
-  wrap.addEventListener('touchend',function(e){if(e.touches.length<2) pinching=false; if(e.touches.length===0&&scale>1.01) apply(true);},{passive:false});
-  document.addEventListener('keydown',function(e){if(!State.lightboxOpen)return;if(e.key==='0')reset();});
-  var observer=new MutationObserver(function(){if(State.lightboxOpen&&State.lightboxIndex>=0){setTimeout(reset,0);}});
-  observer.observe(document.getElementById('lightboxImgCurrent'),{attributes:true,attributeFilter:['src']});
-  window.addEventListener('resize',function(){if(scale>1)apply(false);},{passive:true});
-})();
-</script>
+
+
+<style id="gallery-pagination-cleanup">
+/* Gallery pagination: clean, restrained controls, independent of the global glossy-button system. */
+.gallery-pagination button {
+  min-height: 42px !important; min-width: 96px !important; padding: 0 17px !important;
+  border-radius: 13px !important; border: 1px solid var(--card-ring, var(--border)) !important;
+  color: var(--text) !important; background: var(--glass-fill, var(--surface)) !important;
+  background-image: none !important; text-shadow: none !important;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, .08), inset 0 1px 0 rgba(255,255,255,.55) !important;
+  font-size: .875rem !important; font-weight: 650 !important; letter-spacing: .01em;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease !important;
+}
+.gallery-pagination button::before, .gallery-pagination button::after {
+  content: none !important; display: none !important; animation: none !important;
+}
+.gallery-pagination button:hover:not(:disabled) {
+  border-color: var(--primary) !important;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, .12) !important;
+  transform: translateY(-1px);
+}
+.gallery-pagination button:active:not(:disabled) { transform: scale(.98) !important; }
+.gallery-pagination button:disabled { opacity: .42 !important; box-shadow: none !important; }
+.gallery-pagination .page-indicator {
+  min-height: 38px; padding: 0 14px; border-radius: 11px; box-shadow: none;
+}
+body.dark .gallery-pagination button {
+  background: var(--glass-fill, var(--surface)) !important;
+  border-color: var(--card-ring, var(--border)) !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.16) !important;
+}
+
+/* Final polish: compact merged admissions and glossy outlined contact actions */
+#admissions.admissions-subsection { border: 0 !important; background: transparent !important; box-shadow: none !important; }
+#admissions .admissions-heading { padding-top: 2px; }
+#admissions .steps { gap: 12px; }
+#contact .contact-btn,
+#contact a.btn-glossy,
+#contact a.btn-glass,
+#contact button.btn-glossy,
+#contact button.btn-glass {
+    border: 1px solid rgba(255,255,255,.72) !important;
+    outline: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
+    outline-offset: -3px;
+    box-shadow: 0 8px 22px rgba(15,23,42,.11), inset 0 1px 0 rgba(255,255,255,.62), inset 0 -1px 0 rgba(255,255,255,.12) !important;
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+}
+#contact .contact-btn { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; }
+#contact a.btn-glossy, #contact button.btn-glossy { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; }
+#contact a.btn-glass, #contact button.btn-glass { background: linear-gradient(135deg, var(--surface-solid), var(--surface)); color: var(--text); border-color: color-mix(in srgb, var(--primary) 48%, white) !important; }
+#contact .contact-btn:hover, #contact a.btn-glossy:hover, #contact a.btn-glass:hover, #contact button.btn-glossy:hover, #contact button.btn-glass:hover {
+    transform: translateY(-2px); border-color: rgba(255,255,255,.95) !important;
+    box-shadow: 0 12px 28px rgba(15,23,42,.17), inset 0 1px 0 rgba(255,255,255,.78) !important;
+}
+#contact .contact-btn:focus-visible, #contact a.btn-glossy:focus-visible, #contact a.btn-glass:focus-visible, #contact button:focus-visible { outline: 3px solid var(--primary-light); outline-offset: 3px; }
+@media (max-width: 520px) {
+    #admissions.admissions-subsection { margin-top: 22px; }
+    #contact .contact-btn, #contact a.btn-glossy, #contact a.btn-glass, #contact button.btn-glossy, #contact button.btn-glass { max-width: 100%; }
+}
+
+
+/* ---------- Final refinement: compact footer + premium floating top control ---------- */
+.footer {
+    margin-top: 24px !important;
+    padding: 28px var(--container-padding) 12px !important;
+    border-radius: 28px 28px 0 0 !important;
+}
+.footer-container { gap: 18px !important; }
+.footer-brand { gap: 9px !important; margin-bottom: 7px !important; }
+.footer-brand img { width: 38px !important; height: 38px !important; }
+.footer-box p { line-height: 1.5 !important; margin-bottom: 0 !important; }
+.footer-social { margin-top: 9px !important; gap: 8px !important; }
+.footer-social a { width: 34px !important; height: 34px !important; font-size: 1rem !important; }
+.footer-cta { margin-top: 10px !important; gap: 7px !important; }
+.footer-box h3 { margin-bottom: 6px !important; }
+.footer-links { gap: 5px !important; }
+.footer-links a, .footer-links li { font-size: .82rem !important; line-height: 1.35 !important; }
+.footer-bottom { margin-top: 12px !important; padding-top: 10px !important; }
+.footer-bottom p { font-size: .75rem !important; line-height: 1.45 !important; margin: 0 !important; }
+
+/* Compact two-column quick links on phones to reduce footer height. */
+@media (max-width: 767px) {
+    .footer { padding-top: 22px !important; }
+    .footer-container { gap: 16px !important; }
+    .footer-box.links-box .footer-links { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; row-gap: 6px !important; }
+    .footer-box.contact-box .footer-links { gap: 5px !important; }
+}
+
+/* Floating back-to-top: compact glass button with a clear progress halo. */
+.fab-container { right: 18px !important; bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important; }
+.fab-btn {
+    width: 48px !important; height: 48px !important; border-radius: 50% !important;
+    color: #fff !important; font-size: 1.15rem !important;
+    border: 2px solid rgba(255,255,255,.78) !important;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--primary-light) 88%, white), var(--primary)) !important;
+    box-shadow: 0 8px 24px rgba(var(--primary-rgb), .38), inset 0 1px 0 rgba(255,255,255,.72), inset 0 -2px 5px rgba(0,0,0,.12) !important;
+    isolation: isolate;
+}
+/* Remove the reflective sheen overlay only; retain the glossy border and progress ring. */
+.fab-btn::before { content: none !important; display: none !important; }
+.fab-btn::after {
+    content: ""; position: absolute; inset: -4px; border-radius: inherit; padding: 2px;
+    background: conic-gradient(from -90deg, rgba(255,255,255,.98) calc(var(--scroll-pct, 0) * 1%), rgba(255,255,255,.2) 0);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: -1;
+}
+.fab-btn .fab-progress { inset: 4px !important; border: 1px solid rgba(255,255,255,.3) !important; }
+.fab-btn i { filter: drop-shadow(0 1px 2px rgba(0,0,0,.22)); }
+.fab-btn.show { animation: fabEnter .28s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes fabEnter { from { opacity: 0; transform: translateY(10px) scale(.86); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (hover: hover) and (pointer: fine) {
+    .fab-btn.show:hover { transform: translateY(-3px) scale(1.04) !important; box-shadow: 0 12px 28px rgba(var(--primary-rgb), .48), inset 0 1px 0 rgba(255,255,255,.78) !important; }
+}
+.fab-btn:focus-visible { outline: 3px solid var(--primary-light) !important; outline-offset: 4px !important; }
+@media (prefers-reduced-motion: reduce) { .fab-btn.show { animation: none !important; } }
+
+</style>
 
 </body>
 
 </html>
-<style id="lightbox-fluent-filmstrip-v5">
-/* Fluent thumbnail rail — center-focused, glossy, continuous motion */
-#lightboxFilmstrip {
-  --fluent-ease: cubic-bezier(.16,1,.3,1);
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.985),rgba(248,250,252,.94) 55%,rgba(241,245,249,.90)) !important;
-  border:1px solid rgba(255,255,255,.98) !important;
-  box-shadow:
-    0 -14px 36px rgba(15,23,42,.08),
-    inset 0 1px 0 rgba(255,255,255,1),
-    inset 0 -1px 0 rgba(15,23,42,.035) !important;
-  padding-top:14px !important;
-  padding-bottom:16px !important;
-}
-#lightboxFilmstrip .lightbox-thumb {
-  --focus:0;
-  --distance:999px;
-  transform:
-    translate3d(0, calc(var(--focus) * -7px), 0)
-    scale(calc(.94 + var(--focus) * .17)) !important;
-  opacity:calc(.48 + var(--focus) * .52) !important;
-  filter:saturate(calc(.72 + var(--focus) * .42)) brightness(calc(.97 + var(--focus) * .03)) !important;
-  border-color:rgba(255,255,255,.98) !important;
-  box-shadow:
-    0 7px 17px rgba(15,23,42,calc(.08 + var(--focus) * .18)),
-    0 0 calc(var(--focus) * 16px) rgba(var(--primary-rgb),calc(var(--focus) * .24)),
-    inset 0 1px 0 #fff !important;
-  transition:
-    transform 90ms linear,
-    opacity 90ms linear,
-    filter 90ms linear,
-    box-shadow 90ms linear,
-    border-color 90ms linear !important;
-}
-#lightboxFilmstrip .lightbox-thumb::after {
-  opacity:calc(.18 + var(--focus) * .58) !important;
-  transition:opacity 90ms linear !important;
-}
-#lightboxFilmstrip .lightbox-thumb.active {
-  border:2px solid rgb(var(--primary-rgb)) !important;
-  box-shadow:
-    0 15px 30px rgba(var(--primary-rgb),.28),
-    0 0 0 3px rgba(255,255,255,.98),
-    0 0 0 5px rgba(var(--primary-rgb),.20),
-    inset 0 1px 0 #fff !important;
-}
-#lightboxFilmstrip .lightbox-thumb.active::before {
-  opacity:1 !important;
-  transform:scale(1) !important;
-  box-shadow:0 0 20px rgba(var(--primary-rgb),.16);
-}
-#lightboxFilmstrip.is-dragging .lightbox-thumb {
-  transition:none !important;
-}
-@media (prefers-reduced-motion: reduce) {
-  #lightboxFilmstrip .lightbox-thumb { transition:none !important; }
-}
-</style>
-
-<script id="lightbox-fluent-center-v5">
-(function () {
-  var rail = document.getElementById('lightboxFilmstrip');
-  if (!rail) return;
-  var raf = 0, lastCenter = -1, thumbs = [];
-
-  function refresh() {
-    thumbs = Array.prototype.slice.call(rail.querySelectorAll('.lightbox-thumb'));
-    update(true);
-  }
-
-  function update(force) {
-    if (!thumbs.length) return;
-    var railRect = rail.getBoundingClientRect();
-    var center = railRect.left + railRect.width / 2;
-    var maxDistance = Math.max(42, Math.min(150, railRect.width * .22));
-    var nearest = -1, nearestDistance = Infinity;
-
-    for (var i = 0; i < thumbs.length; i++) {
-      var rect = thumbs[i].getBoundingClientRect();
-      var thumbCenter = rect.left + rect.width / 2;
-      var distance = Math.abs(thumbCenter - center);
-      if (distance < nearestDistance) { nearestDistance = distance; nearest = i; }
-      var focus = Math.max(0, 1 - distance / maxDistance);
-      focus = focus * focus * (3 - 2 * focus); /* smoothstep */
-      thumbs[i].style.setProperty('--focus', focus.toFixed(3));
-      thumbs[i].style.setProperty('--distance', distance.toFixed(1) + 'px');
-    }
-
-    if (nearest !== lastCenter || force) {
-      lastCenter = nearest;
-      for (var j = 0; j < thumbs.length; j++) {
-        thumbs[j].classList.toggle('drag-focus', j === nearest);
-      }
-    }
-  }
-
-  function schedule() {
-    if (raf) return;
-    raf = requestAnimationFrame(function () { raf = 0; update(false); });
-  }
-
-  rail.addEventListener('scroll', schedule, { passive:true });
-  window.addEventListener('resize', refresh, { passive:true });
-  new MutationObserver(refresh).observe(rail, { childList:true });
-  refresh();
-})();
-</script>

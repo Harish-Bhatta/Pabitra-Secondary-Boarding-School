@@ -793,6 +793,68 @@
             color: #fff !important; border-color: transparent !important;
         }
 
+        /* ===== GLOSSY SIDEBAR BUTTONS + ACTIVE RESOURCE STATE ===== */
+        .sidebar-links .sidebar-link-btn {
+            border: 1px solid rgba(255,255,255,0.28);
+            background: linear-gradient(180deg, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.14) 48%, rgba(255,255,255,0.05) 100%);
+            box-shadow: 0 5px 14px rgba(15,23,42,0.07), inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(15,23,42,0.04);
+            backdrop-filter: blur(12px) saturate(160%);
+            -webkit-backdrop-filter: blur(12px) saturate(160%);
+        }
+        .sidebar-links .sidebar-link-btn::before {
+            content: ''; position: absolute; left: 7%; right: 7%; top: 5%; height: 38%;
+            border-radius: 999px; pointer-events: none;
+            background: linear-gradient(180deg, rgba(255,255,255,0.68), rgba(255,255,255,0));
+            opacity: .7; transition: opacity .3s ease;
+        }
+        .sidebar-links .sidebar-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(15,23,42,0.11), inset 0 1px 0 rgba(255,255,255,0.85);
+            border-color: rgba(255,255,255,0.55);
+        }
+        .sidebar-links .sidebar-link-btn:active { transform: translateY(0) scale(.975); }
+        .sidebar-links .sidebar-link-btn.active {
+            color: #fff;
+            background: var(--primary-gradient) !important;
+            border-color: transparent !important;
+            box-shadow: 0 9px 24px rgba(243,156,18,.34), inset 0 1px 0 rgba(255,255,255,.48);
+            transform: translateY(-1px);
+        }
+        .sidebar-links .sidebar-link-btn.active::before { opacity: .85; }
+        .sidebar-links .sidebar-link-btn.active .nav-title { color: #fff !important; font-weight: 700; }
+        .sidebar-links .sidebar-link-btn.active .nav-icon-wrapper {
+            color: #fff !important; background: rgba(255,255,255,.17) !important;
+            border-color: rgba(255,255,255,.18) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+        }
+        body.dark .sidebar-links .sidebar-link-btn {
+            border-color: rgba(255,255,255,.08);
+            background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.025));
+            box-shadow: 0 5px 16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.12);
+        }
+        body.dark .sidebar-links .sidebar-link-btn.active {
+            background: var(--primary-gradient) !important;
+            box-shadow: 0 10px 28px rgba(243,156,18,.42), inset 0 1px 0 rgba(255,255,255,.3);
+        }
+
+        /* Remove decorative shine overlays while preserving button borders and layout. */
+        .sidebar-links .sidebar-link-btn::before,
+        .panel-tab::before,
+        .doc-filter::before,
+        .school-header::after {
+            display: none !important;
+            animation: none !important;
+            content: none !important;
+        }
+        .panel-tab.active::before,
+        .doc-filter.active::before,
+        .sidebar-links .sidebar-link-btn.active::before { display: none !important; }
+
+        /* Keep the glossy treatment consistent across sidebar/header controls. */
+        .sidebar-close, .sidebar-link-btn, .panel-tab, .notice-close, .doc-close {
+            -webkit-font-smoothing: antialiased;
+        }
+
         .sidebar-footer-wrap {
             padding: 8px var(--sb-inner-padding) 12px;
             display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
@@ -1639,11 +1701,6 @@
         }
         .sidebar-action-footer { gap: 10px !important; }
         .sidebar-action-footer .action-pill-btn { height: 46px !important; font-size: 0.875rem !important; gap: 8px !important; }
-        .sidebar-action-footer .action-pill-btn:first-child {
-            background: var(--primary-gradient) !important; color: #fff !important;
-            box-shadow: 0 12px 24px -10px rgba(var(--primary-rgb), 0.7) !important;
-            border-color: rgba(255, 255, 255, 0.3) !important;
-        }
         .glossy-btn::before { z-index: -1; }
 
         .update-card { background: var(--card-bg); box-shadow: var(--card-shadow); border-radius: 18px; border: 1px solid var(--card-border); border-left: 4px solid var(--primary); }
@@ -1719,7 +1776,28 @@
         .panel-tab:active { transform: none !important; }
         .panel-tab::after { display: none !important; content: none !important; }
         .panel-tab i, .panel-tab > span:not(.ripple), .panel-tab-badge { position: relative; z-index: 1; }
-    </style>
+    
+        /* ===== SIDEBAR CALL BUTTON — match Documents' active All filter ===== */
+        .sidebar-action-footer { gap: 6px !important; }
+        .sidebar-action-footer .call-active-filter {
+            background: var(--primary-gradient) !important;
+            color: #fff !important;
+            border: 1px solid transparent !important;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: transform 0.35s var(--spring), box-shadow 0.35s var(--snap), background 0.35s ease !important;
+        }
+        .sidebar-action-footer .call-active-filter::before { display: none !important; content: none !important; }
+        .sidebar-action-footer .call-active-filter:active { transform: scale(0.94) !important; }
+        body.dark .sidebar-action-footer .call-active-filter {
+            background: var(--primary-gradient) !important;
+            color: #fff !important;
+            border-color: transparent !important;
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+        }
+
+        </style>
 
     <!-- ============================================================
          CALENDAR INTEGRATION STYLE
@@ -2535,6 +2613,7 @@
                 <nav class="sidebar-group" aria-label="Resources">
                     <div class="sidebar-group-title"><span>Resources</span><span class="title-line" aria-hidden="true"></span></div>
                     <div class="sidebar-links">
+                        <a href="gallery.html" class="nav-link"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-image-2-line"></i></span><span class="nav-title">Gallery</span></a>
                         <button class="sidebar-link-btn" id="sidebarDocumentsBtn" type="button">
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-folder-3-line"></i></span>
                             <span class="nav-title">Documents</span>
@@ -2571,7 +2650,7 @@
                 </nav>
 
                 <div class="sidebar-action-footer" style="display:flex;gap:6px;margin-top:auto;padding-top:6px;">
-                    <a href="tel:+977-094-411035" class="action-pill-btn glossy-btn" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;height:40px;border-radius:999px;color:var(--text);font-size:0.8rem;font-weight:700;text-decoration:none;">
+                    <a href="tel:+977-094-411035" class="action-pill-btn call-active-filter" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:999px;color:#fff;font-size:0.875rem;font-weight:700;text-decoration:none;">
                         <i class="ri-phone-fill" aria-hidden="true"></i> Call
                     </a>
                     <a href="mailto:info@psbs.edu.np" class="action-pill-btn glossy-btn" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;height:40px;border-radius:999px;color:var(--text);font-size:0.8rem;font-weight:700;text-decoration:none;">
@@ -3063,6 +3142,7 @@
             themePresetsCloseBtn: $('#themePresetsCloseBtn'), themePresetsApplyBtn: $('#themePresetsApplyBtn'),
             sidebarShareBtn: $('#sidebarShareBtn'),
             sidebarDocumentsBtn: $('#sidebarDocumentsBtn'),
+            sidebarNoticesBtn: $('#sidebarNoticesBtn'),
             headerThemePresetsBtn: $('#headerThemePresetsBtn'),
             headerThemeToggleBtn: $('#headerThemeToggleBtn'),
             dragTrail: $('#dragTrail'),
@@ -3153,6 +3233,7 @@
 
                 State.isNoticeOpen = (which === 'notice');
                 State.isDocumentsOpen = (which === 'documents');
+                syncSidebarResourceActive(which);
 
                 if (which === 'notice') {
                     NoticeManager.markAllAsRead();
@@ -3202,6 +3283,7 @@
                 State.panelOpen = false;
                 this._isOpen = false;
                 this.current = null;
+                syncSidebarResourceActive(null);
 
                 if (DOM.docSearchInput) DOM.docSearchInput.blur();
                 closeAllDocMenus();
@@ -3215,6 +3297,11 @@
                 if (wasOpen && State.openCount > 0) State.openCount--;
             }
         };
+
+        function syncSidebarResourceActive(which) {
+            if (DOM.sidebarDocumentsBtn) DOM.sidebarDocumentsBtn.classList.toggle('active', which === 'documents');
+            if (DOM.sidebarNoticesBtn) DOM.sidebarNoticesBtn.classList.toggle('active', which === 'notice');
+        }
 
         document.querySelectorAll('.panel-tab').forEach(function (btn, i, arr) {
             btn.addEventListener('click', function (e) {
@@ -3257,6 +3344,10 @@
         if (DOM.sidebarDocumentsBtn) DOM.sidebarDocumentsBtn.addEventListener('click', function () {
             closeSidebar();
             setTimeout(function () { RightPanel.open('documents'); }, 120);
+        });
+        if (DOM.sidebarNoticesBtn) DOM.sidebarNoticesBtn.addEventListener('click', function () {
+            closeSidebar();
+            setTimeout(function () { RightPanel.open('notice'); }, 120);
         });
         if (DOM.ddDocumentsBtn) DOM.ddDocumentsBtn.addEventListener('click', function (e) {
             e.stopPropagation();

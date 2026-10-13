@@ -3997,6 +3997,14 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
             <!-- ===== NOTICE TICKER + QUICK ACCESS ===== -->
             <div class="quick-wrap" id="quick">
                 <nav class="quick-grid" aria-label="Quick access">
+                  <a href="calendar.html" class="quick-card ripple-host" style="--qc: 139, 92, 246;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
+                        <span class="qc-title">Calendar</span><span class="qc-sub">Events, holidays and exams</span>
+                  </a>
+                  <a href="gallery.html" class="quick-card ripple-host" style="--qc: 16, 185, 129;">
+                        <span class="qc-icon" aria-hidden="true"><i class="ri-image-2-line"></i></span>
+                        <span class="qc-title">Gallery</span><span class="qc-sub">Campus life photos</span>
+                    </a>
                     <button type="button" class="quick-card ripple-host" data-qa="notices">
                         <span class="qc-badge" id="qcNoticeBadge" hidden>0</span>
                         <span class="qc-icon" aria-hidden="true"><i class="ri-notification-3-line"></i></span>
@@ -4006,17 +4014,9 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                         <span class="qc-icon" aria-hidden="true"><i class="ri-folder-3-line"></i></span>
                         <span class="qc-title">Documents</span><span class="qc-sub" id="qcDocSub">Notes &amp; files</span>
                     </button>
-                    <a href="gallery.html" class="quick-card ripple-host" style="--qc: 16, 185, 129;">
-                        <span class="qc-icon" aria-hidden="true"><i class="ri-image-2-line"></i></span>
-                        <span class="qc-title">Gallery</span><span class="qc-sub">Campus life photos</span>
-                    </a>
                     <a href="student-login.html" class="quick-card ripple-host" style="--qc: 6, 182, 212;">
                         <span class="qc-icon" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span>
                         <span class="qc-title">Student Login</span><span class="qc-sub">Student portal</span>
-                    </a>
-                    <a href="calendar.html" class="quick-card ripple-host" style="--qc: 139, 92, 246;">
-                        <span class="qc-icon" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
-                        <span class="qc-title">Calendar</span><span class="qc-sub">Events, holidays and exams</span>
                     </a>
                     <a href="#contact" class="quick-card ripple-host" style="--qc: 139, 92, 246;">
                         <span class="qc-icon" aria-hidden="true"><i class="ri-customer-service-2-line"></i></span>
@@ -4179,10 +4179,13 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                         <article class="hl-card"><span class="hl-icon" aria-hidden="true">🧭</span><h3>Career Guidance</h3><p>Counseling that helps students plan their next step with clarity.</p></article>
                         <article class="hl-card"><span class="hl-icon" aria-hidden="true">🌱</span><h3>Character Building</h3><p>Discipline, moral values, and leadership woven into everyday school life.</p></article>
                     </div>
+                  <div class="cta-row">
+                        <a href="#contact" class="btn-glossy ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Start Admission Inquiry</a>
+                        <a href="#academics" class="btn-glass ripple-host"><i class="ri-book-open-line" aria-hidden="true"></i> View Programs</a>
+                  </div>
 </div>
             </section>
 
-          
             <!-- ===== FAQ ===== -->
             <section id="faq" class="section" aria-label="Frequently asked questions">
                 <div class="container">

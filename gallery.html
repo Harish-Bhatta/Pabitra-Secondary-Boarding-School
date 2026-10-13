@@ -3791,6 +3791,10 @@ body.dark .gx-pager .page-indicator {
                 <nav class="sidebar-group" aria-label="Resources">
                     <div class="sidebar-group-title"><span>Resources</span><span class="title-line" aria-hidden="true"></span></div>
                     <div class="sidebar-links">
+                        <a class="sidebar-link-btn" href="calendar.html">
+                            <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
+                            <span class="nav-title">Calendar</span>
+                         </a>
                         <button class="sidebar-link-btn" id="sidebarDocumentsBtn" type="button">
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-folder-3-line"></i></span>
                             <span class="nav-title">Documents</span>
@@ -3799,10 +3803,6 @@ body.dark .gx-pager .page-indicator {
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-notification-3-line"></i></span>
                             <span class="nav-title">Notice Board</span>
                         </button>
-                        <a class="sidebar-link-btn" href="calendar.html">
-                            <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-calendar-2-line"></i></span>
-                            <span class="nav-title">School Calendar</span>
-                        </a>
                         <button class="sidebar-link-btn" id="sidebarSearchBtn" type="button" data-sq="search">
                             <span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-search-2-line"></i></span>
                             <span class="nav-title">Search</span><span class="nav-kbd" aria-hidden="true">Ctrl K</span>
@@ -7370,137 +7370,146 @@ body.dark .gx-pager > button:disabled {
 
 
 <style id="shared-primary-action-button-style">
-  /* Match the four primary actions to the polished buttons used on the calendar page. */
-  #nameForm button[type="submit"],
-  #welcomeCard #welcomeCloseBtn,
-  #themePresetsModal #themePresetsApplyBtn,
-  #editNameSaveBtn {
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    box-sizing: border-box !important;
-    min-height: 46px !important;
-    height: 46px !important;
-    padding: 0 22px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    border-radius: 999px !important;
-    background: var(--primary-gradient) !important;
-    background-image: var(--primary-gradient) !important;
-    background-color: var(--primary) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255,255,255,.38) !important;
-    font-family: inherit !important;
-    font-size: .9rem !important;
-    font-weight: 700 !important;
-    line-height: 1 !important;
-    letter-spacing: .01em !important;
-    text-decoration: none !important;
-    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
-    box-shadow:
-      0 8px 20px color-mix(in srgb, var(--primary) 34%, transparent),
-      0 2px 5px rgba(15,23,42,.08),
-      inset 0 1px 0 rgba(255,255,255,.48),
-      inset 0 -1px 0 rgba(0,0,0,.06) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    position: relative !important;
-    overflow: hidden !important;
-    cursor: pointer !important;
-    transform: translateY(0);
-    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease !important;
-  }
-
-  /* Primary actions occupy their normal available width; Save stays beside Cancel. */
-  #nameForm button[type="submit"],
-  #themePresetsModal #themePresetsApplyBtn {
-    width: 100% !important;
-  }
-  #welcomeCard #welcomeCloseBtn {
-    min-width: 0 !important;
-    max-width: 100% !important;
-  }
-  #editNameSaveBtn {
-    width: auto !important;
-    min-width: 0 !important;
-    flex: 2 1 0 !important;
-  }
-
-  #nameForm button[type="submit"]::before,
-  #nameForm button[type="submit"]::after,
-  #welcomeCard #welcomeCloseBtn::before,
-  #welcomeCard #welcomeCloseBtn::after,
-  #themePresetsModal #themePresetsApplyBtn::before,
-  #themePresetsModal #themePresetsApplyBtn::after,
-  #editNameSaveBtn::before,
-  #editNameSaveBtn::after {
-    content: none !important;
-    display: none !important;
-    animation: none !important;
-  }
-
-  #nameForm button[type="submit"]:hover,
-  #welcomeCard #welcomeCloseBtn:hover,
-  #themePresetsModal #themePresetsApplyBtn:hover,
-  #editNameSaveBtn:hover {
-    filter: brightness(1.06) saturate(1.08) !important;
-    transform: translateY(-2px) !important;
-    box-shadow:
-      0 0 0 2px rgba(255,255,255,.65),
-      0 0 15px color-mix(in srgb, var(--primary) 44%, transparent),
-      0 11px 25px color-mix(in srgb, var(--primary) 35%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.56) !important;
-  }
-
-  #nameForm button[type="submit"]:active,
-  #welcomeCard #welcomeCloseBtn:active,
-  #themePresetsModal #themePresetsApplyBtn:active,
-  #editNameSaveBtn:active {
-    transform: translateY(0) scale(.97) !important;
-    filter: brightness(.99) !important;
-  }
-
-  #nameForm button[type="submit"]:focus-visible,
-  #welcomeCard #welcomeCloseBtn:focus-visible,
-  #themePresetsModal #themePresetsApplyBtn:focus-visible,
-  #editNameSaveBtn:focus-visible {
-    outline: 3px solid var(--primary-light) !important;
-    outline-offset: 3px !important;
-  }
-
-  body.dark #nameForm button[type="submit"],
-  body.dark #welcomeCard #welcomeCloseBtn,
-  body.dark #themePresetsModal #themePresetsApplyBtn,
-  body.dark #editNameSaveBtn {
-    background: var(--primary-gradient) !important;
-    background-image: var(--primary-gradient) !important;
-    color: #fff !important;
-    border-color: rgba(255,255,255,.22) !important;
-    box-shadow:
-      0 8px 21px color-mix(in srgb, var(--primary) 40%, transparent),
-      inset 0 1px 0 rgba(255,255,255,.3) !important;
-  }
-
-  @media (max-width: 420px) {
-    #nameForm button[type="submit"],
-    #welcomeCard #welcomeCloseBtn,
-    #themePresetsModal #themePresetsApplyBtn {
-      min-height: 44px !important;
-      height: 44px !important;
-      padding: 0 16px !important;
-      font-size: .86rem !important;
-    }
-    #editNameSaveBtn { padding: 0 12px !important; font-size: .82rem !important; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #nameForm button[type="submit"],
-    #welcomeCard #welcomeCloseBtn,
-    #themePresetsModal #themePresetsApplyBtn,
-    #editNameSaveBtn { transition: none !important; }
-  }
+/* One exact shared appearance for all four primary action buttons. */
+#nameForm button[type="submit"],
+#welcomeCard #welcomeCloseBtn,
+#themePresetsModal #themePresetsApplyBtn,
+#editNameModal #editNameSaveBtn,
+body.dark #nameForm button[type="submit"],
+body.dark #welcomeCard #welcomeCloseBtn,
+body.dark #themePresetsModal #themePresetsApplyBtn,
+body.dark #editNameModal #editNameSaveBtn {
+  -webkit-appearance: none !important; appearance: none !important;
+  box-sizing: border-box !important;
+  min-height: 48px !important; height: auto !important;
+  padding: 12px 20px !important; border-radius: 999px !important;
+  display: inline-flex !important; align-items: center !important;
+  justify-content: center !important; gap: 6px !important;
+  font-family: inherit !important; font-size: .9rem !important;
+  font-weight: 700 !important; line-height: 1.4 !important; white-space: normal !important; text-align: center !important;
+  color: #fff !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.19), transparent 55%), var(--primary-gradient) !important;
+  background-size: 100% 100%, 100% 100% !important;
+  background-position: center !important; background-repeat: no-repeat !important;
+  border: 1px solid rgba(255,255,255,.30) !important;
+  outline: none !important;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--primary) 32%, transparent), inset 0 1px 0 rgba(255,255,255,.40) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,.15) !important;
+  position: relative !important; overflow: visible !important;
+  isolation: isolate !important; cursor: pointer !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  filter: none !important; transform: none !important;
+  transition: transform .35s var(--spring), box-shadow .35s var(--snap) !important;
+}
+#nameForm button[type="submit"], #themePresetsModal #themePresetsApplyBtn { width: 100% !important; }
+#welcomeCard #welcomeCloseBtn { max-width: 100% !important; }
+#editNameModal .modal-actions { width: 100%; align-items: stretch; overflow: visible; }
+#editNameModal .modal-actions .cancel-btn { min-height: 48px; }
+#editNameModal #editNameSaveBtn { flex: 2 1 auto !important; width: auto !important; min-width: 0 !important; }
+#editNameModal #editNameSaveBtn i { flex-shrink: 0; font-size: 1rem; }
+#nameForm button[type="submit"]::before, #nameForm button[type="submit"]::after,
+#welcomeCard #welcomeCloseBtn::before, #welcomeCard #welcomeCloseBtn::after,
+#themePresetsModal #themePresetsApplyBtn::before, #themePresetsModal #themePresetsApplyBtn::after,
+#editNameModal #editNameSaveBtn::before, #editNameModal #editNameSaveBtn::after {
+  content: none !important; display: none !important; animation: none !important;
+}
+#nameForm button[type="submit"]:active:not(:disabled), #welcomeCard #welcomeCloseBtn:active:not(:disabled),
+#themePresetsModal #themePresetsApplyBtn:active:not(:disabled), #editNameModal #editNameSaveBtn:active:not(:disabled) {
+  transform: scale(.95) !important;
+}
+#nameForm button[type="submit"]:focus-visible, #welcomeCard #welcomeCloseBtn:focus-visible,
+#themePresetsModal #themePresetsApplyBtn:focus-visible, #editNameModal #editNameSaveBtn:focus-visible {
+  outline: 3px solid var(--primary-light) !important; outline-offset: 2px !important;
+}
+#editNameModal #editNameSaveBtn:disabled { opacity: .6 !important; cursor: not-allowed !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  #nameForm button[type="submit"], #welcomeCard #welcomeCloseBtn,
+  #themePresetsModal #themePresetsApplyBtn, #editNameModal #editNameSaveBtn { transition: none !important; }
+}
 </style>
 
+<style id="edit-name-cancel-button-fix">
+/* Keep Cancel fully visible and visually coordinated with Save Changes. */
+#editNameModal .modal-actions { display:flex !important; gap:10px !important; align-items:stretch !important; overflow:visible !important; }
+#editNameModal .modal-actions #editNameCancelBtn,
+body.dark #editNameModal .modal-actions #editNameCancelBtn {
+  box-sizing:border-box !important; appearance:none !important; -webkit-appearance:none !important;
+  flex:1 1 0 !important; min-width:0 !important; width:auto !important;
+  min-height:48px !important; height:auto !important; padding:12px 10px !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  border-radius:999px !important; font:700 .9rem/1.4 var(--font-family) !important;
+  white-space:nowrap !important; text-align:center !important; overflow:visible !important;
+  color:var(--primary) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.05)), color-mix(in srgb,var(--primary) 12%,var(--surface-solid)) !important;
+  border:1px solid color-mix(in srgb,var(--primary) 48%,transparent) !important;
+  box-shadow:0 4px 13px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.5) !important;
+  text-shadow:none !important; cursor:pointer !important;
+  transition:transform .3s var(--spring),box-shadow .3s var(--snap) !important;
+}
+#editNameModal .modal-actions #editNameCancelBtn:active { transform:scale(.96) !important; }
+#editNameModal .modal-actions #editNameCancelBtn:focus-visible { outline:3px solid var(--primary-light) !important; outline-offset:2px !important; }
+#editNameModal .modal-actions #editNameCancelBtn::before,
+#editNameModal .modal-actions #editNameCancelBtn::after { content:none !important; display:none !important; }
+@media(max-width:340px){#editNameModal .modal-actions {gap:8px !important;} #editNameModal .modal-actions #editNameCancelBtn {padding-inline:8px !important; font-size:.82rem !important;}}
+</style>
+<style id="edit-name-equal-action-widths">
+/* Equal-width Cancel and Save Changes, without changing their individual finishes. */
+#editNameModal .modal-actions { display:flex !important; gap:10px !important; align-items:stretch !important; width:100% !important; }
+#editNameModal .modal-actions > #editNameCancelBtn,
+#editNameModal .modal-actions > #editNameSaveBtn {
+  flex:1 1 0 !important; width:0 !important; min-width:0 !important;
+  box-sizing:border-box !important; min-height:48px !important;
+  padding-inline:8px !important; justify-content:center !important;
+}
+#editNameModal .modal-actions > #editNameSaveBtn { font-size:clamp(.76rem, 3.3vw, .9rem) !important; gap:5px !important; }
+</style>
+<style id="exact-sidebar-call-match-final">
+/* Match the real sidebar Call button's primary fill, border, shadow and press. */
+#nameForm button[type="submit"],
+#welcomeCard #welcomeCloseBtn,
+#themePresetsModal #themePresetsApplyBtn,
+#editNameModal #editNameSaveBtn,
+body.dark #nameForm button[type="submit"],
+body.dark #welcomeCard #welcomeCloseBtn,
+body.dark #themePresetsModal #themePresetsApplyBtn,
+body.dark #editNameModal #editNameSaveBtn {
+  background: var(--primary-gradient) !important;
+  background-image: var(--primary-gradient) !important;
+  background-color: var(--primary) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255,255,255,.30) !important;
+  box-shadow: var(--btn-shadow) !important;
+  text-shadow: none !important;
+  border-radius: 999px !important;
+  min-height: 48px !important;
+  height: auto !important;
+  padding-block: 11px !important;
+  line-height: 1.35 !important;
+  overflow: visible !important;
+  filter: none !important;
+  transform: none !important;
+  transition: transform .35s var(--spring), box-shadow .35s var(--snap) !important;
+}
+@media (hover:hover) and (pointer:fine) {
+  #nameForm button[type="submit"]:hover:not(:disabled),
+  #welcomeCard #welcomeCloseBtn:hover:not(:disabled),
+  #themePresetsModal #themePresetsApplyBtn:hover:not(:disabled),
+  #editNameModal #editNameSaveBtn:hover:not(:disabled) {
+    box-shadow: var(--btn-shadow-hover) !important;
+    transform: translateY(-2px) !important;
+  }
+}
+#nameForm button[type="submit"]:active:not(:disabled),
+#welcomeCard #welcomeCloseBtn:active:not(:disabled),
+#themePresetsModal #themePresetsApplyBtn:active:not(:disabled),
+#editNameModal #editNameSaveBtn:active:not(:disabled) { transform: scale(.95) !important; }
+/* Keep Edit Name actions the same width and height. */
+#editNameModal .modal-actions > #editNameCancelBtn,
+#editNameModal .modal-actions > #editNameSaveBtn {
+  flex: 1 1 0 !important; width: 0 !important; min-width: 0 !important;
+  min-height: 48px !important; box-sizing: border-box !important;
+}
+</style>
 </body>
 
 </html>

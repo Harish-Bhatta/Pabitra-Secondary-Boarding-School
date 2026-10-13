@@ -3599,6 +3599,31 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
   .hero-text-col 
   }
 </style>
+
+<style id="unified-welcome-theme-actions">
+/* Match the Save Changes pill for the two welcome actions and Apply Theme. */
+.welcome-card .submit-btn,
+.welcome-card .welcome-btn,
+#themePresetsApplyBtn {
+    min-height: 46px !important; padding: 0 22px !important;
+    border-radius: 999px !important; font-size: .9rem !important; font-weight: 700 !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important;
+    position: relative !important; overflow: hidden !important;
+    color: #fff !important; background: var(--primary-gradient) !important;
+    border: 1px solid rgba(255,255,255,.3) !important;
+    box-shadow: 0 12px 24px -10px rgba(var(--primary-rgb),.7), 0 2px 4px rgba(var(--primary-rgb),.25), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 0 rgba(0,0,0,.08) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.2) !important;
+    filter: none !important; transition: transform .3s var(--snap), box-shadow .3s var(--snap) !important;
+}
+.welcome-card .submit-btn::before, .welcome-card .submit-btn::after,
+.welcome-card .welcome-btn::before, .welcome-card .welcome-btn::after,
+#themePresetsApplyBtn::before, #themePresetsApplyBtn::after { content: none !important; }
+@media (hover:hover) and (pointer:fine) {
+    .welcome-card .submit-btn:hover, .welcome-card .welcome-btn:hover, #themePresetsApplyBtn:hover { transform: translateY(-2px) !important; filter: none !important; }
+}
+.welcome-card .submit-btn:active, .welcome-card .welcome-btn:active, #themePresetsApplyBtn:active { transform: scale(.97) !important; }
+.welcome-card .submit-btn:focus-visible, .welcome-card .welcome-btn:focus-visible, #themePresetsApplyBtn:focus-visible { outline: 2px solid var(--primary-light) !important; outline-offset: 3px !important; }
+</style>
 </head>
 
 <body>
@@ -7401,5 +7426,54 @@ body.dark .welcome-card .welcome-btn {
 }
 @media (prefers-reduced-motion: reduce) {
     .submit-btn, .welcome-card .welcome-btn { transition: none !important; }
+}
+</style>
+
+<style id="matched-save-action-buttons">
+/* Scope the Save Changes appearance to precisely the three requested actions. */
+#nameForm > button.submit-btn,
+#welcomeCloseBtn,
+#themePresetsApplyBtn {
+    min-height: 46px !important;
+    padding: 0 22px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    position: relative !important;
+    isolation: isolate !important;
+    overflow: hidden !important;
+    font-size: .9rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    background: var(--primary-gradient) !important;
+    border: 1px solid rgba(255,255,255,.3) !important;
+    box-shadow: 0 12px 24px -10px rgba(var(--primary-rgb),.7),
+                0 2px 4px rgba(var(--primary-rgb),.25),
+                inset 0 1px 0 rgba(255,255,255,.55),
+                inset 0 -2px 0 rgba(0,0,0,.08) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.2) !important;
+    filter: none !important;
+    transition: transform .3s var(--snap), box-shadow .3s var(--snap) !important;
+}
+#nameForm > button.submit-btn::before, #nameForm > button.submit-btn::after,
+#welcomeCloseBtn::before, #welcomeCloseBtn::after,
+#themePresetsApplyBtn::before, #themePresetsApplyBtn::after { content: none !important; }
+@media (hover:hover) and (pointer:fine) {
+    #nameForm > button.submit-btn:hover, #welcomeCloseBtn:hover, #themePresetsApplyBtn:hover {
+        transform: translateY(-2px) !important; filter: none !important;
+        box-shadow: 0 12px 24px -10px rgba(var(--primary-rgb),.7),
+                    0 2px 4px rgba(var(--primary-rgb),.25),
+                    inset 0 1px 0 rgba(255,255,255,.55),
+                    inset 0 -2px 0 rgba(0,0,0,.08) !important;
+    }
+}
+#nameForm > button.submit-btn:active, #welcomeCloseBtn:active, #themePresetsApplyBtn:active { transform: scale(.97) !important; }
+#nameForm > button.submit-btn:focus-visible, #welcomeCloseBtn:focus-visible, #themePresetsApplyBtn:focus-visible {
+    outline: 2px solid var(--primary-light) !important; outline-offset: 3px !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    #nameForm > button.submit-btn, #welcomeCloseBtn, #themePresetsApplyBtn { transition: none !important; }
 }
 </style>

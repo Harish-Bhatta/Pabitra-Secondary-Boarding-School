@@ -3451,6 +3451,7 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
 
 .gxv{
   --gx-pad:0px;
+  --gx-gap:16px;
   --gxv-btn:46px;
   --gxv-ease:var(--snap,cubic-bezier(.16,1,.3,1));
   --gxv-pop:var(--spring,cubic-bezier(.34,1.2,.64,1));
@@ -3595,11 +3596,13 @@ body.dark .gxv{
 @supports(height:100dvh){.gxv-details{max-height:min(72dvh,560px)}}
 .gxv-details.on{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition:transform .46s var(--gxv-pop),opacity .22s ease,visibility 0s}
 .gxv-details.dragging{transition:none}
+.gxv-details{touch-action:none}
 .gxv-d-grab{flex:0 0 auto;padding-top:8px;touch-action:none;cursor:grab}
 .gxv-handle{display:block;width:40px;height:5px;margin:0 auto 6px;border-radius:5px;background:color-mix(in srgb,var(--text) 24%,transparent)}
 .gxv-d-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 0 8px}
 .gxv-d-head h3{font-size:1.05rem;font-weight:700;color:var(--text)}
-.gxv-d-body{margin:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
+.gxv-d-body{margin:0;overflow-y:auto;overscroll-behavior:contain;touch-action:none;-webkit-overflow-scrolling:touch}
+.gxv-details.scrolls .gxv-d-body{touch-action:pan-y}
 .gxv-d-row{display:flex;align-items:flex-start;gap:12px;padding:11px 2px}
 .gxv-d-row+.gxv-d-row{border-top:1px solid var(--gxv-hair)}
 .gxv-d-row>i{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:rgba(var(--primary-rgb),.15);color:var(--primary);font-size:1.1rem}
@@ -3622,12 +3625,15 @@ body.dark .gxv{
 /* ---------- stage / slides ---------- */
 .gxv-stage{position:relative;z-index:1;flex:1;min-height:0;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
 .gxv-stage.zoomed{cursor:grab}
-.gxv-track{position:absolute;top:0;bottom:0;left:-100%;width:300%;display:flex}
-.gxv-slide{position:relative;flex:0 0 33.3333%;display:flex;align-items:center;justify-content:center;padding:0 var(--gx-pad);overflow:hidden}
+/* Each slide is one stage-width plus a fixed gap, so neighbours are always the same distance apart: the gap simply appears as you swipe. */
+.gxv-track{position:absolute;top:0;bottom:0;left:calc(-100% - var(--gx-gap));width:calc(300% + 3*var(--gx-gap));display:flex}
+.gxv-slide{position:relative;flex:0 0 33.3333%;display:flex;align-items:center;justify-content:center;padding:0 calc(var(--gx-pad) + var(--gx-gap)) 0 var(--gx-pad);overflow:hidden}
 .gxv-slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:var(--radius-sm);box-shadow:0 14px 44px rgba(15,23,42,.22);-webkit-user-drag:none}
 body.dark .gxv-slide img{box-shadow:0 14px 44px rgba(0,0,0,.5)}
 .gxv-stage.zoomed .gxv-slide:nth-child(2) img{will-change:transform}
 .gxv-slide.is-empty img{display:none}
+.gxv-slide img{transition:opacity .28s ease}
+.gxv-slide.is-load img{opacity:0}
 .gxv-spin{position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px;border:3px solid color-mix(in srgb,var(--text) 16%,transparent);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;opacity:0;pointer-events:none}
 .gxv-slide.is-load .gxv-spin{opacity:1}
 .gxv-fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:var(--text-light)}
@@ -3636,11 +3642,15 @@ body.dark .gxv-slide img{box-shadow:0 14px 44px rgba(0,0,0,.5)}
 .gxv-fb button{min-height:44px;padding:0 18px;border:1px solid var(--border);border-radius:999px;background:var(--gxv-fill-strong);color:var(--text);font:600 .85rem var(--font-family);cursor:pointer}
 @keyframes gxPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
 .gxv-stage.pop .gxv-slide:nth-child(2) img{transform-origin:var(--ox,50%) var(--oy,50%);animation:gxPop .34s cubic-bezier(.22,1,.36,1) both}
-@media(min-width:768px),(hover:hover) and (pointer:fine){.gxv{--gx-pad:72px}}
+@media(min-width:768px),(hover:hover) and (pointer:fine){.gxv{--gx-pad:0px;--gx-gap:24px}} /* side padding was only there for the old arrow buttons */
 
 /* gesture/exit motion: one language — soft ease out, restrained spring on return */
 .gxv.is-dragging .gxv-stage{will-change:transform}
+.gxv.details-shift .gxv-stage{transition:transform .46s var(--gxv-pop)}
+.gxv.details-shift .gxv-info{opacity:0;pointer-events:none}
+.gxv.sheet-drag .gxv-stage{transition:none}
 .gxv.is-settling .gxv-stage{transition:transform .46s var(--gxv-pop)}
+.gxv.sync-sheet .gxv-stage{transition:transform .36s var(--gxv-ease)}
 .gxv.is-settling .gxv-backdrop{transition:opacity .34s ease}
 .gxv.is-closing{pointer-events:none}
 .gxv.is-closing .gxv-stage{transition:transform .24s cubic-bezier(.2,.8,.2,1),opacity .2s ease-out}
@@ -5367,12 +5377,13 @@ body.dark .gx-pager .page-indicator {
             function settle() { if (settleFn) { const f = settleFn; settleFn = null; f(); } }
             function snap() { track.style.transition = gxReduce.matches ? 'none' : 'transform .26s ' + 'cubic-bezier(.22,1,.36,1)'; track.style.transform = ''; markStrip(true); }
             track.addEventListener('transitionend', function (e) { if (e.target === track) track.style.willChange = ''; });
-            function go(d) {
+            const gapPx = function () { return parseFloat(getComputedStyle($v).getPropertyValue('--gx-gap')) || 0; };
+            function go(d, fromDx) {
                 settle(); closePopup();
                 const l = L(), n = S.idx + d;
                 if (n < 0 || n >= l.length) { snap(); return false; }
                 resetZoom(false); S.idx = n; ui(true);
-                const dur = gxReduce.matches ? 0 : 280, W = stage.clientWidth;
+                const step = stage.clientWidth + gapPx(), left = fromDx == null ? 1 : clamp(1 - Math.abs(fromDx) / step, .1, 1), dur = gxReduce.matches ? 0 : Math.round(190 + 130 * left); // finishes sooner when you've already dragged most of the way
                 const fin = function () {
                     clearTimeout(tm); settleFn = null; track.style.transition = 'none'; track.style.transform = ''; track.style.willChange = '';
                     if (d > 0) { track.appendChild(slides[0].el); slides.push(slides.shift()); load(slides[2], L()[S.idx + 1]); }
@@ -5382,7 +5393,7 @@ body.dark .gx-pager .page-indicator {
                 if (!dur) { fin(); return true; }
                 settleFn = fin; tm = setTimeout(settle, dur + 40);
                 track.style.willChange = 'transform';
-                track.style.transition = 'transform ' + dur + 'ms cubic-bezier(.22,1,.36,1)'; track.style.transform = 'translate3d(' + (-d * W) + 'px,0,0)';
+                track.style.transition = 'transform ' + dur + 'ms cubic-bezier(.22,1,.36,1)'; track.style.transform = 'translate3d(' + (-d * step) + 'px,0,0)';
                 return true;
             }
             function jump(i) {
@@ -5409,11 +5420,40 @@ body.dark .gx-pager .page-indicator {
                 det.classList.toggle('on', name === 'details'); setInert(det, name !== 'details');
                 bMore.setAttribute('aria-expanded', String(name === 'menu'));
                 if (name === 'menu') { const it = cur(); if (it && navigator.share && navigator.canShare) getBlob(it).catch(function () { }); if (byKey) { const f = menu.querySelector('.gxv-mi'); if (f) f.focus({ preventScroll: true }); } }
-                if (name === 'details') { renderDetails(); if (hadFocus || byKey) bDetClose.focus({ preventScroll: true }); }
+                if (name === 'details') { if (S.z.s > 1) resetZoom(false); renderDetails(); if (hadFocus || byKey) bDetClose.focus({ preventScroll: true }); }
+                layoutDetails();
                 if (!name && hadFocus) bMore.focus({ preventScroll: true });
             }
             const closePopup = function () { setPopup(null); };
             const togglePopup = function (n, byKey) { setPopup(S.popup === n ? null : n, byKey); };
+
+            // ---- on phones the photo slides up and shrinks to fit above the details sheet ----
+            function calcShift() { // where the photo must end up so it sits centered above the sheet
+                const sh = stage.offsetHeight, ih = slides[1].img.offsetHeight || 1, vh = $v.clientHeight;
+                const top = bar.getBoundingClientRect().bottom + 6, sheetTop = vh - det.offsetHeight;
+                const rh = Math.max(80, sheetTop - 10 - top), c = top + rh / 2;
+                return { ty: c - sh / 2, sc: Math.min(1, rh / ih) };
+            }
+            function layoutDetails() {
+                const on = S.popup === 'details' && mqSheet.matches;
+                const was = $v.classList.contains('details-shift');
+                $v.classList.toggle('details-shift', on);
+                if (!on) {
+                    if (was && !S.closing && !S.g) {
+                        $v.classList.add('sync-sheet'); stage.style.transform = '';
+                        clearTimeout(settleTm); settleTm = setTimeout(function () { $v.classList.remove('sync-sheet'); }, gxReduce.matches ? 0 : 420);
+                    }
+                    return;
+                }
+                const f = calcShift(), sc = f.sc, ty = f.ty; S.shift = f; // width only changes if the photo is too tall to fit
+                det.classList.toggle('scrolls', detBody.scrollHeight > detBody.clientHeight + 1);
+                stage.style.transform = 'translate3d(0,' + ty.toFixed(1) + 'px,0) scale(' + sc.toFixed(4) + ')';
+            }
+            function releaseSheet() { // hand a finger-dragged sheet back to the CSS states
+                if (!det.classList.contains('dragging') || sheet) return;
+                det.classList.remove('dragging'); void det.offsetWidth;
+                det.style.transform = ''; det.style.visibility = ''; det.style.opacity = '';
+            }
 
             // ---- details content (never invented: unknown values say so) ----
             const EXT = /\.(jpe?g|png|gif|webp|avif|bmp|svg|heic|heif|tiff?)$/i;
@@ -5432,6 +5472,8 @@ body.dark .gx-pager .page-indicator {
                 const meta = [it.cat, it.date].filter(Boolean).join(' • ');
                 if (meta) h += row('ri-calendar-event-line', 'Album', meta);
                 detBody.innerHTML = h;
+                det.classList.toggle('scrolls', detBody.scrollHeight > detBody.clientHeight + 1);
+                if (S.popup === 'details') layoutDetails();
             }
             function fetchSize(it) {
                 const src = it.src; if (sizes.has(src)) return Promise.resolve();
@@ -5504,7 +5546,7 @@ body.dark .gx-pager .page-indicator {
 
             // ================= visuals =================
             function resetVisuals() {
-                $v.classList.remove('is-dragging', 'is-settling', 'is-closing', 'ui-off');
+                $v.classList.remove('is-dragging', 'is-settling', 'is-closing', 'ui-off', 'sheet-drag', 'details-shift', 'sync-sheet');
                 stage.style.transition = ''; stage.style.transform = ''; stage.style.opacity = ''; backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
                 track.style.transition = 'none'; track.style.transform = ''; track.style.willChange = '';
                 S.controls = true; setInert(bar, false); setInert(strip, false);
@@ -5512,14 +5554,27 @@ body.dark .gx-pager .page-indicator {
             function renderDismiss() {
                 const g = S.g; if (!g || g.mode !== 'dismiss') return;
                 const p = clamp(Math.abs(g.dy) / (g.H * .5), 0, 1);
+                if (g.dy < 0) { // swipe up
+                    backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
+                    if (mqSheet.matches) {
+                        // one progress value drives both, so photo and card arrive at their resting places at the same instant
+                        if (!g.f) { renderDetails(); g.f = calcShift(); g.sh = det.offsetHeight || 1; } // fill the card first so its real height is known
+                        const k = clamp(-g.dy / g.sh, 0, 1);
+                        stage.style.transform = 'translate3d(' + (g.dx * (1 - k)).toFixed(1) + 'px,' + (g.f.ty * k).toFixed(1) + 'px,0) scale(' + (1 + (g.f.sc - 1) * k).toFixed(4) + ')';
+                        det.classList.add('dragging'); det.style.visibility = 'visible'; det.style.opacity = '1';
+                        det.style.transform = 'translate3d(0,' + (g.sh * (1 - k)).toFixed(1) + 'px,0)'; g.sheetOn = true;
+                    } else stage.style.transform = 'translate3d(' + g.dx + 'px,' + g.dy + 'px,0)';
+                    return;
+                }
+                if (g.sheetOn) { g.sheetOn = false; det.style.transform = ''; det.style.visibility = ''; det.style.opacity = ''; det.classList.remove('dragging'); }
                 stage.style.transform = 'translate3d(' + g.dx + 'px,' + g.dy + 'px,0) scale(' + (1 - p * .26).toFixed(4) + ')';
                 backdrop.style.opacity = (1 - p * .92).toFixed(3);
                 $v.style.setProperty('--gxv-p', p.toFixed(3));
             }
-            function settleBack() {
-                $v.classList.remove('is-dragging'); $v.classList.add('is-settling');
+            function settleBack(up) {
+                $v.classList.remove('is-dragging'); $v.classList.add('is-settling'); if (up) $v.classList.add('sync-sheet'); releaseSheet();
                 stage.style.transform = ''; backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
-                clearTimeout(settleTm); settleTm = setTimeout(function () { $v.classList.remove('is-settling'); }, gxReduce.matches ? 0 : 500);
+                clearTimeout(settleTm); settleTm = setTimeout(function () { $v.classList.remove('is-settling', 'sync-sheet'); }, gxReduce.matches ? 0 : 500);
             }
             function renderSwipe() {
                 const g = S.g; if (!g || g.mode !== 'swipe') return;
@@ -5589,11 +5644,16 @@ body.dark .gx-pager .page-indicator {
                 dropFrame(); S.g = null;
                 if (g.mode === 'swipe') {
                     const adx = Math.abs(g.dx), v = adx / Math.max(1, performance.now() - g.t0), W = stage.clientWidth;
-                    if (!cancel && (adx > Math.min(90, W * .2) || (v > .45 && adx > 28))) go(g.dx < 0 ? 1 : -1); else snap();
+                    if (!cancel && (adx > Math.min(90, W * .2) || (v > .45 && adx > 28))) go(g.dx < 0 ? 1 : -1, g.dx); else snap();
                 } else if (g.mode === 'dismiss') {
                     const dy = g.dy, v = g.vy, adx = Math.abs(dy);
-                    const far = adx > Math.min(140, g.H * .2), fast = Math.abs(v) > .55 && adx > 24 && Math.sign(v) === Math.sign(dy), back = Math.abs(v) > .4 && Math.sign(v) !== Math.sign(dy);
-                    if (!cancel && !back && (far || fast)) close(false, dy < 0 ? -1 : 1, g.dx); else settleBack();
+                    const far = adx > Math.min(140, g.H * .2, g.sh ? g.sh * .4 : 1e9), fast = Math.abs(v) > .55 && adx > 24 && Math.sign(v) === Math.sign(dy), back = Math.abs(v) > .4 && Math.sign(v) !== Math.sign(dy);
+                    if (!cancel && !back && (far || fast)) {
+                        if (dy < 0) { // swipe up → Image Details (photo slides up to sit above the card)
+                            $v.classList.remove('is-dragging'); releaseSheet(); backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
+                            setPopup('details');
+                        } else close(false, 1, g.dx); // swipe down → close
+                    } else settleBack(dy < 0);
                 } else if (g.mode === 'pan') { applyZ(false); }
                 else if (g.mode === 'pinch') settleZoom();
                 else if (g.mode === 'pend' && !cancel && e.pointerType !== 'mouse') {
@@ -5612,27 +5672,45 @@ body.dark .gx-pager .page-indicator {
             // Keep viewer swipes from also driving the page-level sidebar / panel gestures.
             ['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach(function (t) { $v.addEventListener(t, function (e) { e.stopPropagation(); }, { passive: true }); });
 
-            // ---- details bottom-sheet: finger-following drag-to-dismiss (never reaches the stage) ----
-            detGrab.addEventListener('pointerdown', function (e) {
-                if (!mqSheet.matches || e.target.closest('button') || (e.pointerType === 'mouse' && e.button > 0)) return;
-                try { detGrab.setPointerCapture(e.pointerId); } catch (x) { }
-                const t = performance.now(); sheet = { id: e.pointerId, y0: e.clientY, dy: 0, vy: 0, ly: e.clientY, lt: t }; det.classList.add('dragging');
-            });
-            detGrab.addEventListener('pointermove', function (e) {
-                if (!sheet || e.pointerId !== sheet.id) return;
-                const raw = e.clientY - sheet.y0; sheet.dy = raw < 0 ? raw * .15 : raw;
-                const t = performance.now(), dt = t - sheet.lt; if (dt > 0) { sheet.vy = sheet.vy * .6 + ((e.clientY - sheet.ly) / dt) * .4; sheet.ly = e.clientY; sheet.lt = t; }
-                if (!sheetRaf) sheetRaf = requestAnimationFrame(function () { sheetRaf = 0; if (sheet) det.style.transform = 'translate3d(0,' + sheet.dy + 'px,0)'; });
-            });
-            function sheetUp(e) {
-                if (!sheet || e.pointerId !== sheet.id) return;
-                if (sheetRaf) { cancelAnimationFrame(sheetRaf); sheetRaf = 0; }
-                const s = sheet; sheet = null;
-                det.style.transform = 'translate3d(0,' + s.dy + 'px,0)'; det.classList.remove('dragging'); void det.offsetWidth;
-                det.style.transform = '';
-                if (e.type !== 'pointercancel' && (s.dy > 90 || (s.vy > .5 && s.dy > 20))) closePopup();
+            // ---- details bottom-sheet: swipe down anywhere on the card to dismiss (finger-following) ----
+            function sheetStart(id, y) { sheet = { id: id, y0: y, dy: 0, vy: 0, ly: y, lt: performance.now() }; det.classList.add('dragging'); $v.classList.add('sheet-drag'); }
+            function sheetMove(y) {
+                if (!sheet) return;
+                const raw = y - sheet.y0; sheet.dy = raw < 0 ? raw * .15 : raw;
+                const t = performance.now(), dt = t - sheet.lt; if (dt > 0) { sheet.vy = sheet.vy * .6 + ((y - sheet.ly) / dt) * .4; sheet.ly = y; sheet.lt = t; }
+                if (!sheetRaf) sheetRaf = requestAnimationFrame(function () {
+                    sheetRaf = 0; if (!sheet) return;
+                    det.style.transform = 'translate3d(0,' + sheet.dy + 'px,0)';
+                    if (S.shift) { const k = clamp(sheet.dy / (det.offsetHeight || 1), 0, 1); stage.style.transform = 'translate3d(0,' + (S.shift.ty * (1 - k)).toFixed(1) + 'px,0) scale(' + (S.shift.sc + (1 - S.shift.sc) * k).toFixed(4) + ')'; } // photo eases back to center with the card
+                });
             }
-            detGrab.addEventListener('pointerup', sheetUp); detGrab.addEventListener('pointercancel', sheetUp);
+            function sheetEnd(cancel) {
+                if (!sheet) return;
+                if (sheetRaf) { cancelAnimationFrame(sheetRaf); sheetRaf = 0; }
+                const s0 = sheet; sheet = null;
+                det.style.transform = 'translate3d(0,' + s0.dy + 'px,0)'; det.classList.remove('dragging'); $v.classList.remove('sheet-drag'); void det.offsetWidth;
+                det.style.transform = '';
+                if (!cancel && (s0.dy > 90 || (s0.vy > .5 && s0.dy > 20))) closePopup(); else layoutDetails();
+            }
+            det.addEventListener('pointerdown', function (e) {
+                if (!mqSheet.matches || e.target.closest('button') || (e.pointerType === 'mouse' && e.button > 0)) return;
+                if (det.classList.contains('scrolls') && e.target.closest('#gxvDBody')) return; // long content: scrolling wins; pull-down at the top is handled below
+                try { det.setPointerCapture(e.pointerId); } catch (x) { }
+                sheetStart(e.pointerId, e.clientY);
+            });
+            det.addEventListener('pointermove', function (e) { if (sheet && sheet.id === e.pointerId) sheetMove(e.clientY); });
+            det.addEventListener('pointerup', function (e) { if (sheet && sheet.id === e.pointerId) sheetEnd(false); });
+            det.addEventListener('pointercancel', function (e) { if (sheet && sheet.id === e.pointerId) sheetEnd(true); });
+            let tY = 0, tDrag = false;
+            detBody.addEventListener('touchstart', function (e) { tY = e.touches[0].clientY; tDrag = false; }, { passive: true });
+            detBody.addEventListener('touchmove', function (e) {
+                if (!mqSheet.matches) return;
+                const y = e.touches[0].clientY;
+                if (!tDrag && detBody.scrollTop <= 0 && y - tY > 6) { tDrag = true; sheetStart('touch', y); }
+                if (tDrag) { e.preventDefault(); sheetMove(y); }
+            }, { passive: false });
+            detBody.addEventListener('touchend', function () { if (tDrag) { tDrag = false; sheetEnd(false); } });
+            detBody.addEventListener('touchcancel', function () { if (tDrag) { tDrag = false; sheetEnd(true); } });
 
             // ================= controls =================
             bIn.addEventListener('click', function () { const c = center(); zoomAt(S.z.s * 1.6, c[0], c[1], true); });
@@ -5680,7 +5758,7 @@ body.dark .gx-pager .page-indicator {
                     else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
                 }
             }
-            const onResize = function () { clampZ(); applyZ(false); centerStrip(false); };
+            const onResize = function () { clampZ(); applyZ(false); centerStrip(false); layoutDetails(); };
 
             // ================= open / close =================
             function openV(i, from) {
@@ -5708,7 +5786,7 @@ body.dark .gx-pager .page-indicator {
                 if (!S.open) return;
                 S.open = false; S.closing = true; settle(); dropFrame(); ptrs.clear(); S.g = null;
                 clearTimeout(tapTm); clearTimeout(settleTm); clearTimeout(popTm); stage.classList.remove('pop');
-                if (sheetRaf) { cancelAnimationFrame(sheetRaf); sheetRaf = 0; } sheet = null;
+                if (sheetRaf) { cancelAnimationFrame(sheetRaf); sheetRaf = 0; } sheet = null; det.classList.remove('dragging'); det.style.transform = '';
                 closePopup();
                 $v.classList.remove('is-dragging', 'is-settling'); $v.classList.add('is-closing');
                 // every exit (swipe up/down, back arrow, browser back, Escape): glide to center and pinch in (shrink) fast while fading
@@ -5745,7 +5823,7 @@ body.dark .gx-pager .page-indicator {
                 if (!S.open) return;
                 const cur0 = slides[1].src, n = L().findIndex(function (it) { return it.src === cur0; });
                 if (n < 0) { close(false); return; }
-                settle(); S.idx = n; fill(); ui(false);
+                settle(); S.idx = n; fill(); ui(false); layoutDetails();
             }
             return { open: openV, sync: sync, isOpen: function () { return S.open; } };
         })();

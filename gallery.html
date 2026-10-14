@@ -2929,7 +2929,7 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
         border-radius: 999px; background: var(--surface-hover); border: 1px solid var(--border);
         color: var(--text-light); font-size: 18px; cursor: pointer;
     }
-    .header-search-btn::after { content: "Search notices, documents, pages…"; font-size: 0.9rem; font-weight: 500; }
+    .header-search-btn::after { content: "Search photos by caption…"; font-size: 0.9rem; font-weight: 500; }
     .header-theme-presets-btn { order: 2; }
     .header-theme-toggle-btn { order: 3; }
     .notice-btn { order: 4; }
@@ -3147,31 +3147,6 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
 
 }
 
-/* ---------- 12. Own scroll indicator on PC: a slim right-edge dot rail ---------- */
-#pcScrollDots {
-  display: none;
-}
-@media (min-width: 1200px) {
-  #pcScrollDots {
-    display: flex; flex-direction: column; align-items: center; gap: 14px;
-    position: fixed; right: 22px; top: 50%; transform: translateY(-50%);
-    z-index: var(--z-header);
-  }
-  #pcScrollDots .psd-dot {
-    width: 9px; height: 9px; border-radius: 50%; cursor: pointer; padding: 0; border: none;
-    background: var(--border); position: relative;
-    transition: transform .25s cubic-bezier(.22,1,.36,1), background .25s ease;
-  }
-  #pcScrollDots .psd-dot::after {
-    content: attr(data-label); position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-    font-size: .72rem; font-weight: 700; white-space: nowrap; color: var(--text);
-    background: var(--surface-solid); padding: 4px 10px; border-radius: 8px;
-    box-shadow: 0 8px 20px -10px rgba(0,0,0,.3); opacity: 0; pointer-events: none;
-    transition: opacity .2s ease, transform .2s ease;
-  }
-  #pcScrollDots .psd-dot:hover::after { opacity: 1; transform: translateY(-50%) translateX(-4px); }
-  #pcScrollDots .psd-dot.active { background: var(--primary); transform: scale(1.35); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .18); }
-}
 
 /* ---------- 15. Hero logo: a touch smaller on PC + a nicer shine sweep ---------- */
 @media (min-width: 1200px) {
@@ -3731,6 +3706,53 @@ body.dark .gx-pager .page-indicator {
 @media(prefers-reduced-motion:reduce) { .gx-pager > button { transition:none; } }
 </style>
 
+<style id="gallery-search-smooth">
+/* ---- gallery: quick searches + active filter ---- */
+.gx-tools{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;scroll-margin-top:calc(var(--header-height) + 12px)}
+.gx-quick{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 1px;margin-inline:-2px}
+.gx-quick::-webkit-scrollbar{display:none}
+@media(min-width:700px){.gx-quick{flex-wrap:wrap;overflow:visible}}
+.gx-chip-search{display:inline-flex;align-items:center;gap:6px}
+.gx-chip-search i{color:var(--primary);font-size:1rem}
+.gx-active{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid rgba(var(--primary-rgb),.3);border-radius:14px;background:rgba(var(--primary-rgb),.08);color:var(--text);font-size:.86rem;font-weight:600}
+.gx-active[hidden]{display:none}
+.gx-tools:not(:has(.gx-active:not([hidden]),.gx-chips:not([hidden]))){display:none}
+.gx-clear{display:inline-flex;align-items:center;gap:4px;flex:0 0 auto;min-height:34px;padding:0 12px;border:0;border-radius:999px;background:var(--text);color:var(--background);font:700 .78rem var(--font-family);cursor:pointer}
+#searchInput,#docSearchInput{-webkit-appearance:none;appearance:none}
+#searchInput::-webkit-search-cancel-button,#searchInput::-webkit-search-decoration,#docSearchInput::-webkit-search-cancel-button,#docSearchInput::-webkit-search-decoration{display:none;-webkit-appearance:none}
+input::-webkit-contacts-auto-fill-button,input::-webkit-credentials-auto-fill-button,input::-webkit-caps-lock-indicator{visibility:hidden!important;display:none!important;pointer-events:none!important;position:absolute;right:0}
+input::-webkit-list-button,input::-webkit-calendar-picker-indicator{display:none!important}
+.gx-featured{margin:0 0 clamp(18px,3vw,30px)}
+@media(min-width:800px){.gx-feat-img{aspect-ratio:16/10;min-height:0;max-height:none;height:auto}.gx-featured{align-items:center}}
+
+/* ---- search overlay (gallery caption search) ---- */
+/* search card stays pinned at the top: it no longer glides up/down when the keyboard opens or closes */
+.search-overlay{align-items:flex-start!important;padding-top:max(72px,11vh)!important;padding-bottom:12px!important;overscroll-behavior:contain;transition:opacity .4s var(--snap),visibility .4s var(--snap)!important}
+.search-overlay .search-box{margin:0 auto!important}
+.search-box .search-results{max-height:min(400px,42vh)}
+#searchInput::-webkit-search-cancel-button{display:none}
+.search-box .sq-title{padding:4px 6px 8px;color:var(--text-light);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.search-box .sq-chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 4px 6px}
+.sq-chip{min-height:42px;padding:0 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface-solid);color:var(--text);font:600 .86rem var(--font-family);cursor:pointer;transition:transform .25s,background .25s,border-color .25s,box-shadow .25s}
+@media(hover:hover){.sq-chip:hover{border-color:var(--primary);box-shadow:0 6px 16px rgba(var(--primary-rgb),.2)}}
+.sq-chip:active{transform:scale(.95)}
+.sq-hint{padding:18px 0 6px}
+.sq-all{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:46px;margin-bottom:8px;padding:0 16px;border:1px solid rgba(var(--primary-rgb),.3);border-radius:14px;background:rgba(var(--primary-rgb),.1);color:var(--text);font:700 .86rem var(--font-family);cursor:pointer;text-align:left;transition:transform .25s,background .25s}
+.sq-all:active{transform:scale(.98)}
+.sq-all i{color:var(--primary);font-size:1.1rem}
+.sri-thumb{flex:0 0 52px;width:52px;height:52px;border-radius:12px;overflow:hidden;background:rgba(148,163,184,.2)}
+.sri-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.search-result-item .sri-text h4{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@keyframes sqIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.search-box .search-results>*{animation:sqIn .32s cubic-bezier(.22,1,.36,1) both}
+
+/* ---- smoothness everywhere: one soft easing curve ---- */
+html{scroll-behavior:smooth}
+.gx-chip,.gx-btn,.gx-clear,.sq-chip,.sq-all,.search-result-item,.gx-pager>button,.gxv-b,.gxv-mi{transition-timing-function:cubic-bezier(.22,1,.36,1)}
+.gx-quick,.gx-chips,.search-results{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.search-box .search-results>*{animation:none}}
+</style>
+
 </head>
 
 <body>
@@ -3767,7 +3789,7 @@ body.dark .gx-pager .page-indicator {
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="userNameInput" class="sr-only">Enter your name</label>
-                    <input type="text" id="userNameInput" placeholder="Enter your name" required autofocus
+                    <input autocomplete="nope" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="text" id="userNameInput" placeholder="Enter your name" required autofocus
                         aria-required="true" maxlength="50" pattern="^[a-zA-Z\s\-']+$"
                         title="Please enter a valid name (letters, spaces, hyphens, and apostrophes only)"
                         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
@@ -3802,7 +3824,7 @@ body.dark .gx-pager .page-indicator {
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="editNameInput" class="sr-only">Enter your name</label>
-                    <input type="text" id="editNameInput" placeholder="Enter your name" required maxlength="50"
+                    <input autocomplete="nope" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="text" id="editNameInput" placeholder="Enter your name" required maxlength="50"
                         pattern="^[a-zA-Z\s\-']+$" autocomplete="off" autocorrect="off"
                         autocapitalize="off" spellcheck="false" name="psbs-edit-name" data-form-type="other">
                     <div class="input-error" id="editNameError" role="alert"></div>
@@ -3835,13 +3857,12 @@ body.dark .gx-pager .page-indicator {
         <div class="search-box">
             <div class="search-input-wrap">
                 <i class="ri-search-2-line" style="color:var(--text-light);"></i>
-                <input type="text" id="searchInput" placeholder="Search pages, notices, documents, and memories..."
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    name="psbs-search" data-form-type="other">
+                <input autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="searchInput" placeholder="Search photos by caption…" aria-label="Search photos by caption"
+                    role="searchbox" name="psbs-q-nofill" inputmode="search" enterkeyhint="search">
                 <button type="button" class="search-clear" id="searchClearBtn" aria-label="Clear search" title="Clear search">✕</button>
             </div>
             <div class="search-results" id="searchResults">
-                <div class="search-empty">🔍 Type to start searching...</div>
+                <div class="search-empty">🔍 Search photos by caption…</div>
             </div>
         </div>
     </div>
@@ -3862,7 +3883,7 @@ body.dark .gx-pager .page-indicator {
                     </button>
                 </div>
                 <div class="nav-right">
-                    <button class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search the site" title="Search (Ctrl K)">
+                    <button class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search photos" title="Search photos (Ctrl K)">
                         <i class="ri-search-2-line" aria-hidden="true"></i>
                     </button>
                     <button class="header-theme-toggle-btn ripple-host" id="headerThemeToggleBtn" aria-label="Toggle theme">
@@ -4049,9 +4070,8 @@ body.dark .gx-pager .page-indicator {
                                     <div class="doc-search-wrap">
                                         <i class="ri-search-2-line" aria-hidden="true"></i>
                                         <label for="docSearchInput" class="sr-only">Search documents</label>
-                                        <input type="text" id="docSearchInput" placeholder="Search..."
-                                            autocomplete="off" autocorrect="off" autocapitalize="off"
-                                            spellcheck="false" name="psbs-doc-search" data-form-type="other">
+                                        <input autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="docSearchInput" placeholder="Search..."
+                                            name="psbs-doc-search" inputmode="search" enterkeyhint="search" role="searchbox">
                                     </div>
                                     <div class="doc-filters" id="docFilters" role="tablist">
                                         <button class="doc-filter active" data-filter="all" type="button">All</button>
@@ -4099,7 +4119,8 @@ body.dark .gx-pager .page-indicator {
                     <p class="gx-count" id="gxCount" aria-live="polite"></p>
                 </header>
                 <div class="gx-featured" id="gxFeatured" hidden></div>
-                <div class="gx-tools" id="gxTools" hidden>
+                <div class="gx-tools" id="gxTools">
+                    <div class="gx-active" id="gxActive" hidden></div>
                     <div class="gx-chips" id="gxChips" role="group" aria-label="Filter by category" hidden></div>
                 </div>
                 <div class="gx-grid" id="galleryGrid" aria-busy="true"></div>
@@ -4142,9 +4163,7 @@ body.dark .gx-pager .page-indicator {
                 <div class="gxv-desk">
                     <button type="button" class="gxv-b sm" id="gxvOut" aria-label="Zoom out"><i class="ri-zoom-out-line" aria-hidden="true"></i></button>
                     <button type="button" class="gxv-b sm" id="gxvIn" aria-label="Zoom in"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
-                    <button type="button" class="gxv-b sm" id="gxvFit" aria-label="Fit to screen" hidden><i class="ri-aspect-ratio-line" aria-hidden="true"></i></button>
                     <button type="button" class="gxv-b sm" id="gxvFull" aria-label="Toggle fullscreen" hidden><i class="ri-fullscreen-line" aria-hidden="true"></i></button>
-                    <a class="gxv-b sm" id="gxvOpen" href="#" target="_blank" rel="noopener" aria-label="Open original in new tab"><i class="ri-external-link-line" aria-hidden="true"></i></a>
                 </div>
                 <button type="button" class="gxv-b gxv-fav" id="gxvFav" aria-label="Add to favorites" aria-pressed="false"><i class="ri-heart-line" aria-hidden="true"></i></button>
                 <div class="gxv-menu-wrap">
@@ -5069,6 +5088,10 @@ body.dark .gx-pager .page-indicator {
         const gxEl = function (id) { return document.getElementById(id); };
         const gxEsc = function (t) { return Helpers.sanitize(t == null ? '' : String(t)); };
         const gxReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const GX_DEFAULT_SEARCHES = ['radha krishna', 'teachers', 'picnic', 'kabaddi', 'farewell', 'musical chair'];
+        const gxPretty = function (t) { return String(t).replace(/(^|\s)(\S)/g, function (m, a, b) { return a + b.toUpperCase(); }); };
+        const gxTok = function (q) { return String(q || '').toLowerCase().trim().split(/\s+/).filter(Boolean); };
+        const gxHit = function (it, toks) { return toks.every(function (t) { return it.hay.indexOf(t) > -1; }); };
 
         function gxNorm(r) {
             const s = function (ks) { for (let i = 0; i < ks.length; i++) { const v = r[ks[i]]; if (typeof v === 'string' && v.trim()) return v.trim(); } return ''; };
@@ -5102,12 +5125,23 @@ body.dark .gx-pager .page-indicator {
 
         function gxApply(keepPage) {
             const q = GX.q.trim().toLowerCase();
-            GX.list = GX.all.filter(function (it) { return (GX.cat === 'all' || it.cat === GX.cat) && (!q || it.hay.indexOf(q) > -1); });
+            const toks = gxTok(q);
+            GX.list = GX.all.filter(function (it) { return (GX.cat === 'all' || it.cat === GX.cat) && (!toks.length || gxHit(it, toks)); });
             State.galleryImages = GX.list.map(function (it) { return it.src; });
             const c = gxEl('gxCount'), n = GX.all.length, m = GX.list.length;
             if (c) c.textContent = (GX.status !== 'ready' || !n) ? '' : (m === n ? n + (n === 1 ? ' photograph' : ' photographs') : m + ' of ' + n + ' photographs');
+            gxSyncQuick();
             gxFeatured();
             renderGalleryPage(keepPage ? GX.page : 0);
+        }
+
+        function gxSyncQuick() {
+            const q = GX.q.trim().toLowerCase();
+            document.querySelectorAll('#gxQuick [data-q]').forEach(function (b) { b.setAttribute('aria-pressed', String(!!q && b.dataset.q === q)); });
+            const a = gxEl('gxActive'); if (!a) return;
+            if (!q) { a.hidden = true; a.innerHTML = ''; return; }
+            a.hidden = false;
+            a.innerHTML = '<span>Showing photos for “' + gxEsc(GX.q.trim()) + '”</span><button type="button" class="gx-clear" data-act="clear"><i class="ri-close-line" aria-hidden="true"></i> Clear</button>';
         }
 
         function gxTools() {
@@ -5122,7 +5156,7 @@ body.dark .gx-pager .page-indicator {
                     return '<button type="button" class="gx-chip" data-cat="' + gxEsc(c) + '" aria-pressed="' + (c === GX.cat) + '">' + (c === 'all' ? 'All memories' : gxEsc(c)) + '</button>';
                 }).join('');
             }
-            wrap.hidden = cats.length < 2;
+            wrap.hidden = false;
         }
 
         function gxFeatured() {
@@ -5186,6 +5220,10 @@ body.dark .gx-pager .page-indicator {
             root.addEventListener('click', function (e) {
                 const a = e.target.closest('[data-act]');
                 if (a) { if (a.dataset.act === 'retry') fetchGallery(); else gxClear(); return; }
+                const os = e.target.closest('[data-open-search]');
+                if (os) { openSearch(); return; }
+                const qb = e.target.closest('[data-q]');
+                if (qb) { const v = qb.dataset.q; GX.q = GX.q.trim().toLowerCase() === v ? '' : v; GX.cat = 'all'; gxApply(false); return; }
                 const chip = e.target.closest('.gx-chip');
                 if (chip) { GX.cat = chip.dataset.cat; root.querySelectorAll('.gx-chip').forEach(function (b) { b.setAttribute('aria-pressed', String(b === chip)); }); gxApply(false); return; }
                 const c = e.target.closest('[data-i]');
@@ -5214,7 +5252,7 @@ body.dark .gx-pager .page-indicator {
             if (!$v) return { open: function () { }, sync: function () { }, isOpen: function () { return false; } };
             const stage = gxEl('gxvStage'), track = gxEl('gxvTrack'), pos = gxEl('gxvPos'), info = gxEl('gxvInfo'), strip = gxEl('gxvStrip'), live = gxEl('gxvLive');
             const bar = gxEl('gxvBar'), backdrop = gxEl('gxvBackdrop');
-            const bIn = gxEl('gxvIn'), bOut = gxEl('gxvOut'), bFit = gxEl('gxvFit'), bFull = gxEl('gxvFull'), bOpen = gxEl('gxvOpen'), bClose = gxEl('gxvClose');
+            const bIn = gxEl('gxvIn'), bOut = gxEl('gxvOut'), bFull = gxEl('gxvFull'), bClose = gxEl('gxvClose');
             const bFav = gxEl('gxvFav'), bMore = gxEl('gxvMore'), menu = gxEl('gxvMenu');
             const det = gxEl('gxvDetails'), detBody = gxEl('gxvDBody'), detGrab = gxEl('gxvDGrab'), bDetClose = gxEl('gxvDClose');
             const MAX = 5, FAV_KEY = CONFIG.GALLERY_FAV_KEY || 'psbs_gallery_favorites';
@@ -5237,6 +5275,7 @@ body.dark .gx-pager .page-indicator {
             let settleFn = null, tm = null, ignorePop = false, hideTm = 0, settleTm = 0, tapTm = 0, popTm = 0;
             let lastTap = 0, lastTapX = 0, lastTapY = 0, lastToggle = 0, raf = 0, job = null, sheet = null, sheetRaf = 0;
             let stripList = null, stripLen = -1, stripOn = null;
+            let wTarget = 1, wRaf = 0, wLast = 1;
             const ready = new Set(), inflight = new Map(), blobs = new Map(), blobPending = new Map(), sizes = new Map(), sizePending = new Map();
             const cur = function () { return L()[S.idx]; };
             const mqSheet = window.matchMedia('(max-width:699.98px)');
@@ -5339,7 +5378,6 @@ body.dark .gx-pager .page-indicator {
             function ui(smooth) {
                 const l = L(), it = l[S.idx]; if (!it) return;
                 pos.textContent = (S.idx + 1) + ' / ' + l.length; pos.setAttribute('aria-label', 'Photo ' + (S.idx + 1) + ' of ' + l.length);
-                bOpen.href = it.src;
                 const meta = [it.cat, it.date].filter(Boolean).join(' • ');
                 info.hidden = !(it.title || it.caption || meta);
                 info.innerHTML = (it.title ? '<h2>' + gxEsc(it.title) + '</h2>' : '') + (meta ? '<p class="m">' + gxEsc(meta) + '</p>' : '') + (it.caption ? '<p>' + gxEsc(it.caption) + '</p>' : '');
@@ -5349,10 +5387,10 @@ body.dark .gx-pager .page-indicator {
             }
 
             // ================= zoom =================
-            function zoomUI() { bFit.hidden = S.z.s === 1; bIn.disabled = S.z.s >= MAX; bOut.disabled = S.z.s <= 1; stage.classList.toggle('zoomed', S.z.s > 1); }
+            function zoomUI() { bIn.disabled = S.z.s >= MAX; bOut.disabled = S.z.s <= 1; stage.classList.toggle('zoomed', S.z.s > 1); }
             function applyZ(anim) {
                 const im = slides[1].img, z = S.z;
-                im.style.transition = anim && !gxReduce.matches ? 'transform .22s ease' : 'none';
+                im.style.transition = anim && !gxReduce.matches ? 'transform .34s cubic-bezier(.22,1,.36,1)' : 'none';
                 im.style.transform = (z.s === 1 && !z.x && !z.y) ? '' : 'translate3d(' + z.x + 'px,' + z.y + 'px,0) scale(' + z.s + ')';
                 zoomUI();
             }
@@ -5553,6 +5591,7 @@ body.dark .gx-pager .page-indicator {
             }
             function renderDismiss() {
                 const g = S.g; if (!g || g.mode !== 'dismiss') return;
+                if (g.dy < 0 && !mqSheet.matches) return; // PC: swiping up does nothing (details live in the ⋮ menu)
                 const p = clamp(Math.abs(g.dy) / (g.H * .5), 0, 1);
                 if (g.dy < 0) { // swipe up
                     backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
@@ -5648,12 +5687,12 @@ body.dark .gx-pager .page-indicator {
                 } else if (g.mode === 'dismiss') {
                     const dy = g.dy, v = g.vy, adx = Math.abs(dy);
                     const far = adx > Math.min(140, g.H * .2, g.sh ? g.sh * .4 : 1e9), fast = Math.abs(v) > .55 && adx > 24 && Math.sign(v) === Math.sign(dy), back = Math.abs(v) > .4 && Math.sign(v) !== Math.sign(dy);
-                    if (!cancel && !back && (far || fast)) {
+                    if (!cancel && !back && (far || fast) && !(dy < 0 && !mqSheet.matches)) {
                         if (dy < 0) { // swipe up → Image Details (photo slides up to sit above the card)
                             $v.classList.remove('is-dragging'); releaseSheet(); backdrop.style.opacity = ''; $v.style.removeProperty('--gxv-p');
                             setPopup('details');
                         } else close(false, 1, g.dx); // swipe down → close
-                    } else settleBack(dy < 0);
+                    } else settleBack(dy < 0 && mqSheet.matches);
                 } else if (g.mode === 'pan') { applyZ(false); }
                 else if (g.mode === 'pinch') settleZoom();
                 else if (g.mode === 'pend' && !cancel && e.pointerType !== 'mouse') {
@@ -5668,7 +5707,24 @@ body.dark .gx-pager .page-indicator {
             stage.addEventListener('pointerup', function (e) { up(e, false); });
             stage.addEventListener('pointercancel', function (e) { up(e, true); });
             stage.addEventListener('dblclick', function (e) { if (performance.now() - lastToggle > 400 && !e.target.closest('button,a')) toggleZoom(e.clientX, e.clientY); });
-            stage.addEventListener('wheel', function (e) { if (!e.ctrlKey) return; e.preventDefault(); zoomAt(S.z.s * Math.exp(-e.deltaY * .01), e.clientX, e.clientY, false); }, { passive: false });
+            // Mouse wheel / trackpad: smooth zoom in & out, always balanced around the centre of the photo.
+            function wheelStep() {
+                wRaf = 0;
+                if (!S.open || S.closing || S.z.s !== wLast) return;          // closed, or something else changed the zoom
+                const c = center(), diff = wTarget - S.z.s;
+                if (Math.abs(diff) < .003 || gxReduce.matches) zoomAt(wTarget, c[0], c[1], false);
+                else { zoomAt(S.z.s + diff * .2, c[0], c[1], false); wRaf = requestAnimationFrame(wheelStep); }
+                wLast = S.z.s;
+            }
+            stage.addEventListener('wheel', function (e) {
+                if (!S.open || S.closing) return;
+                e.preventDefault();
+                if (S.g) return;                                               // a drag / pinch owns the photo right now
+                const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * 120 : e.deltaY;
+                const base = wRaf ? wTarget : S.z.s;
+                wTarget = clamp(base * Math.exp(-dy * (e.ctrlKey ? .01 : .0016)), 1, MAX);
+                if (!wRaf) { wLast = S.z.s; wRaf = requestAnimationFrame(wheelStep); }
+            }, { passive: false });
             // Keep viewer swipes from also driving the page-level sidebar / panel gestures.
             ['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach(function (t) { $v.addEventListener(t, function (e) { e.stopPropagation(); }, { passive: true }); });
 
@@ -5715,7 +5771,6 @@ body.dark .gx-pager .page-indicator {
             // ================= controls =================
             bIn.addEventListener('click', function () { const c = center(); zoomAt(S.z.s * 1.6, c[0], c[1], true); });
             bOut.addEventListener('click', function () { const c = center(); zoomAt(S.z.s / 1.6, c[0], c[1], true); });
-            bFit.addEventListener('click', function () { resetZoom(true); });
             bClose.addEventListener('click', function () { close(false); });
             bFav.addEventListener('click', function () { closePopup(); toggleFav(); });
             bMore.addEventListener('click', function () { togglePopup('menu'); });
@@ -6476,14 +6531,21 @@ body.dark .gx-pager .page-indicator {
         });
 
         // ===== SEARCH =====
+        function searchHome() {
+            DOM.searchResults.innerHTML = '<div class="sq-title">Popular searches</div><div class="sq-chips">' +
+                GX_DEFAULT_SEARCHES.map(function (q) { return '<button type="button" class="sq-chip" data-q="' + gxEsc(q) + '">' + gxEsc(gxPretty(q)) + '</button>'; }).join('') +
+                '</div><div class="search-empty sq-hint">Type a caption to find photos.</div>';
+        }
         function openSearch() {
             DOM.searchOverlay.classList.add('active');
             State.isSearchOpen = true;
             State.panelOpen = true;
             State.openCount++;
             document.body.classList.add('modal-active');
-            setTimeout(function () { DOM.searchInput.focus(); }, 300);
-            DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
+            DOM.searchInput.value = GX.q || '';
+            DOM.searchInput.removeAttribute('readonly');
+            performSearch(DOM.searchInput.value);
+            setTimeout(function () { DOM.searchInput.focus({ preventScroll: true }); DOM.searchInput.select(); }, 300);
         }
 
         function closeSearch() {
@@ -6499,50 +6561,66 @@ body.dark .gx-pager .page-indicator {
             if (e.target === DOM.searchOverlay) closeSearch();
         });
 
+        const gxHitHTML = function (it, k) {
+            const meta = [it.cat, it.date].filter(Boolean).join(' • ');
+            return '<div class="search-result-item" role="button" tabindex="0" data-k="' + k + '">' +
+                '<span class="sri-thumb"><img src="' + gxEsc(it.thumb || it.src) + '" alt="" loading="lazy" decoding="async"></span>' +
+                '<div class="sri-text"><h4>' + gxEsc(it.caption || it.title || 'School photo') + '</h4>' + (meta ? '<p>' + gxEsc(meta) + '</p>' : '') + '</div></div>';
+        };
         function performSearch(query) {
-            const data = Helpers.getSearchData();
-            const q = query.toLowerCase().trim();
-            const container = DOM.searchResults;
-            if (!q) {
-                container.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
-                return;
-            }
-            const results = data.filter(function (item) {
-                return item.title.toLowerCase().includes(q) ||
-                    item.desc.toLowerCase().includes(q) ||
-                    item.id.toLowerCase().includes(q);
-            });
-            if (results.length === 0) {
-                container.innerHTML = '<div class="search-empty">😕 No results found for "' + Helpers.sanitize(q) + '"</div>';
-                return;
-            }
-            let html = '';
-            for (let i = 0; i < results.length; i++) {
-                const r = results[i];
-                html += '<div class="search-result-item" data-id="' + r.id + '" style="animation: fadeUp 0.35s ' + (i * 40) + 'ms both cubic-bezier(0.16,1,0.3,1);">';
-                html += '<span class="sri-icon">' + r.icon + '</span>';
-                html += '<div class="sri-text"><h4>' + Helpers.sanitize(r.title) + '</h4><p>' + Helpers.sanitize(r.desc) + '</p></div>';
-                html += '</div>';
-            }
-            container.innerHTML = html;
-            container.querySelectorAll('.search-result-item').forEach(function (el) {
-                el.addEventListener('click', function () {
-                    const id = el.getAttribute('data-id');
-                    const target = document.getElementById(id);
-                    if (target) {
-                        closeSearch();
-                        target.scrollIntoView({ behavior: 'smooth' });
-                        setTimeout(function () { target.classList.add('visible'); }, 100);
-                    }
-                });
-            });
+            const q = String(query || '').trim(), box = DOM.searchResults;
+            if (!q) { searchHome(); return; }
+            if (GX.status === 'loading') { box.innerHTML = '<div class="search-empty">Loading photos…</div>'; return; }
+            const toks = gxTok(q), hits = [];
+            GX.all.forEach(function (it, k) { if (gxHit(it, toks)) hits.push([it, k]); });
+            if (!hits.length) { box.innerHTML = '<div class="search-empty">😕 No photos found for “' + gxEsc(q) + '”</div>'; return; }
+            box.innerHTML = '<button type="button" class="sq-all" data-all="1"><span>Show all ' + hits.length + (hits.length === 1 ? ' photo' : ' photos') + ' in gallery</span><i class="ri-arrow-right-line" aria-hidden="true"></i></button>' +
+                hits.slice(0, 30).map(function (h) { return gxHitHTML(h[0], h[1]); }).join('');
         }
+        // Apply a caption search to the gallery grid itself and bring the grid into view.
+        function applyGallerySearch(q) {
+            q = String(q || '').trim();
+            closeSearch();
+            setTimeout(function () {
+                GX.q = q; GX.cat = 'all'; gxApply(false);
+                const t = gxEl('gxTools'); if (t) t.scrollIntoView({ behavior: gxReduce.matches ? 'auto' : 'smooth', block: 'start' });
+            }, 160);
+        }
+        // Open one search hit in the photo viewer (the viewer then pages through the matching photos).
+        function openSearchHit(k) {
+            const it = GX.all[k]; if (!it) return;
+            const q = DOM.searchInput.value.trim();
+            closeSearch();
+            setTimeout(function () {
+                GX.q = q; GX.cat = 'all'; gxApply(false);
+                const i = GX.list.indexOf(it); if (i < 0) return;
+                GXV.open(i, DOM.galleryGrid ? DOM.galleryGrid.querySelector('[data-i="' + i + '"]') : null);
+            }, 160);
+        }
+        DOM.searchResults.addEventListener('click', function (e) {
+            const chip = e.target.closest('.sq-chip');
+            if (chip) { applyGallerySearch(chip.dataset.q); return; }
+            if (e.target.closest('.sq-all')) { applyGallerySearch(DOM.searchInput.value); return; }
+            const r = e.target.closest('.search-result-item[data-k]');
+            if (r) openSearchHit(+r.dataset.k);
+        });
+        DOM.searchResults.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            const r = e.target.closest('.search-result-item[data-k]');
+            if (r) { e.preventDefault(); r.click(); }
+        });
+        DOM.searchInput.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            const v = DOM.searchInput.value.trim();
+            if (v) { DOM.searchInput.blur(); applyGallerySearch(v); }
+        });
         DOM.searchInput.addEventListener('input', function () { performSearch(this.value); });
         function clearSearchInput(e) {
             if (e) { e.preventDefault(); e.stopPropagation(); }
             if (!DOM.searchInput) return;
             DOM.searchInput.value = '';
-            DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
+            searchHome();
             DOM.searchInput.focus({ preventScroll: true });
         }
         if (DOM.searchClearBtn) {
@@ -7141,26 +7219,7 @@ body.dark .gx-pager .page-indicator {
             if (el) sections.push({ id: sectionId, element: el, link: link });
         });
 
-        // ---- Own PC scroll indicator: a right-edge dot rail synced to sections ----
         var pcScrollDotsEl = null, pcScrollDotButtons = [];
-        (function buildPcScrollDots() {
-            if (!sections.length) return;
-            pcScrollDotsEl = document.createElement('nav');
-            pcScrollDotsEl.id = 'pcScrollDots';
-            pcScrollDotsEl.setAttribute('aria-label', 'Page section indicator');
-            pcScrollDotsEl.innerHTML = sections.map(function (s) {
-                var label = (s.link.querySelector('.nav-title') || {}).textContent || s.id;
-                return '<button type="button" class="psd-dot" data-id="' + s.id + '" data-label="' + label + '" aria-label="Go to ' + label + '"></button>';
-            }).join('');
-            document.body.appendChild(pcScrollDotsEl);
-            pcScrollDotButtons = Array.prototype.slice.call(pcScrollDotsEl.querySelectorAll('.psd-dot'));
-            pcScrollDotsEl.addEventListener('click', function (e) {
-                const btn = e.target.closest('.psd-dot');
-                if (!btn) return;
-                const el = document.getElementById(btn.getAttribute('data-id'));
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        })();
 
         var lastActiveSectionId = null;
         function updateActiveSection() {
@@ -7211,6 +7270,7 @@ body.dark .gx-pager .page-indicator {
             (root || document).querySelectorAll('input, textarea').forEach(function (el) {
                 if (el.type === 'checkbox' || el.type === 'radio' || el.type === 'file' || el.type === 'submit') return;
                 el.setAttribute('autocomplete', 'off');
+                if (el.form) el.form.setAttribute('autocomplete', 'off');
                 el.setAttribute('autocorrect', 'off');
                 el.setAttribute('autocapitalize', 'off');
                 el.setAttribute('spellcheck', 'false');
@@ -7399,148 +7459,7 @@ body.dark .gx-pager .page-indicator {
                 window.renderFaculty = function () { var r = _rf.apply(this, arguments); safe(applyFaculty); return r; };
             }
 
-            /* ---------- 5. Smarter search: sections, FAQ, teachers, notices, documents, actions ---------- */
-            Helpers.getSearchData = function () {
-                return [
-                    { id: 'hero', title: 'Home', desc: 'Welcome to PSBS Portal', icon: '🏠' },
-                    { id: 'about', title: 'About Us', desc: 'Mission, vision and principal\'s message', icon: 'ℹ️' },
-                    { id: 'academics', title: 'Academics', desc: 'Play Group to Grade 10 programs', icon: '📚' },
-                    { id: 'highlights', title: 'Why PSBS', desc: 'Labs, computer education, mock tests, career guidance', icon: '✨' },
-                    { id: 'faculty', title: 'Faculty', desc: 'Meet our dedicated teachers', icon: '👨‍🏫' },
-                    { id: 'gallery', title: 'Gallery', desc: 'Campus life photos', icon: '🖼️' },
-                    { id: 'admissions', title: 'Admissions', desc: 'How to join Pabitra Secondary Boarding School', icon: '🎓' },
-                    { id: 'faq', title: 'FAQ', desc: 'Answers to common questions', icon: '❓' },
-                    { id: 'contact', title: 'Contact', desc: 'Phone, email, address and map', icon: '📞' }
-                ];
-            };
-            function actionItems() {
-                return [
-                    { kind: 'action', title: 'School Calendar', desc: 'Events, holidays and exams', icon: '📅', tag: 'Page', run: function () { location.href = CONFIG.CALENDAR_PAGE; } },
-                    { kind: 'action', title: 'Notice Board', desc: 'Latest school notices', icon: '📢', tag: 'Open', run: actions.notices },
-                    { kind: 'action', title: 'Documents', desc: 'Notes, PDFs and slides', icon: '📁', tag: 'Open', run: actions.documents },
-                    { kind: 'action', title: 'Theme Presets', desc: 'Change the colour theme', icon: '🎨', tag: 'Action', run: function () { openThemePresets(); } },
-                    { kind: 'action', title: 'Toggle Dark Mode', desc: 'Switch between light and dark', icon: '🌙', tag: 'Action', run: function () { var dk = Helpers.toggleDark(); Toast.info(dk ? '🌙 Dark mode enabled' : '☀️ Light mode enabled'); } },
-                    { kind: 'action', title: 'Student Login', desc: 'Go to the student portal', icon: '🎓', tag: 'Page', run: function () { location.href = CONFIG.LOGIN_BASE + CONFIG.LOGIN_STUDENT; } },
-                    { kind: 'action', title: 'Teacher Login', desc: 'Go to the teacher portal', icon: '🧑‍🏫', tag: 'Page', run: function () { location.href = CONFIG.LOGIN_BASE + CONFIG.LOGIN_TEACHER; } },
-                    { kind: 'action', title: 'Share this Page', desc: 'Send the link to a friend', icon: '🔗', tag: 'Action', run: function () { Helpers.sharePage(); } }
-                ];
-            }
-            var current = [];
-            function match(q, hay) { return String(hay || '').toLowerCase().indexOf(q) > -1; }
-            function collect(q) {
-                var out = [];
-                Helpers.getSearchData().forEach(function (s) {
-                    if (match(q, s.title + ' ' + s.desc + ' ' + s.id)) out.push({ kind: 'section', id: s.id, title: s.title, desc: s.desc, icon: s.icon, tag: 'Section' });
-                });
-                actionItems().forEach(function (a) { if (match(q, a.title + ' ' + a.desc)) out.push(a); });
-                $$('.faq-item').forEach(function (el) {
-                    var sm = $('summary span', el), p = $('p', el);
-                    var title = sm ? sm.textContent : '', body = p ? p.textContent : '';
-                    if (match(q, title + ' ' + body)) out.push({ kind: 'faq', el: el, title: title, desc: body.slice(0, 80) + (body.length > 80 ? '…' : ''), icon: '❓', tag: 'FAQ' });
-                });
-                (State.faculty || []).forEach(function (f) {
-                    if (match(q, (f.name || '') + ' ' + (f.subject || ''))) out.push({ kind: 'faculty', title: f.name || 'Teacher', desc: 'Faculty · ' + (f.subject || ''), icon: f.emoji || '👨‍🏫', tag: 'Teacher' });
-                });
-                (State.notices || []).forEach(function (n) {
-                    if (match(q, (n.title || '') + ' ' + (n.description || ''))) out.push({ kind: 'notice', title: n.title, desc: Helpers.formatDate(n.date), icon: '📢', tag: 'Notice' });
-                });
-                (State.documents || []).forEach(function (dc) {
-                    if (match(q, (dc.title || '') + ' ' + (dc.subject || ''))) out.push({ kind: 'doc', title: dc.title || 'Document', desc: dc.subject || 'Study document', icon: '📄', tag: 'Document' });
-                });
-                // Search real Supabase gallery records through the same shared search UI.
-                // Store the actual record, then resolve its current index when the result is opened.
-                (GX.all || []).forEach(function (memory) {
-                    var hay = [memory.title, memory.caption, memory.cat, memory.date].join(' ');
-                    if (match(q, hay)) {
-                        out.push({ kind: 'memory', memory: memory, title: memory.title || memory.caption || 'School memory',
-                            desc: [memory.cat, memory.date, memory.caption].filter(Boolean).join(' · ').slice(0, 100) || 'Open this school photograph',
-                            icon: '🖼️', tag: 'Memory' });
-                    }
-                });
-                return out.slice(0, 14);
-            }
-            function paint(items, heading) {
-                current = items;
-                var box = DOM.searchResults;
-                if (!items.length) return false;
-                var html = heading ? '<div class="search-group-title">' + esc(heading) + '</div>' : '';
-                items.forEach(function (it, i) {
-                    html += '<div class="search-result-item" role="button" tabindex="0" data-i="' + i + '" style="animation: fadeUp 0.3s ' + Math.min(i * 30, 240) + 'ms backwards cubic-bezier(0.16,1,0.3,1);">' +
-                        '<span class="sri-icon">' + esc(it.icon) + '</span>' +
-                        '<div class="sri-text"><h4>' + esc(it.title) + '</h4><p>' + esc(it.desc) + '</p></div>' +
-                        '<span class="sri-tag">' + esc(it.tag || '') + '</span></div>';
-                });
-                box.innerHTML = html;
-                return true;
-            }
-            function suggestions() {
-                var picks = [
-                    { kind: 'action', title: 'Notice Board', desc: 'Latest school notices', icon: '📢', tag: 'Open', run: actions.notices },
-                    { kind: 'action', title: 'Documents', desc: 'Notes, PDFs and slides', icon: '📁', tag: 'Open', run: actions.documents },
-                    { kind: 'action', title: 'School Calendar', desc: 'Events, holidays and exams', icon: '📅', tag: 'Page', run: function () { location.href = CONFIG.CALENDAR_PAGE; } },
-                    { kind: 'section', id: 'admissions', title: 'Admissions', desc: 'How to join PSBS', icon: '🎓', tag: 'Section' },
-                    { kind: 'section', id: 'contact', title: 'Contact', desc: 'Phone, email, address and map', icon: '📞', tag: 'Section' }
-                ];
-                paint(picks, 'Quick jump');
-            }
-            function scrollToId(id) {
-                var el = d.getElementById(id);
-                if (el) { el.classList.add('visible'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-            }
-            function runItem(it) {
-                closeSearch();
-                setTimeout(function () {
-                    safe(function () {
-                        if (it.kind === 'section') scrollToId(it.id);
-                        else if (it.kind === 'memory' && it.memory) {
-                            GX.q = ''; GX.cat = 'all'; gxApply(false);
-                            var memoryIndex = GX.list.findIndex(function (m) { return m.src === it.memory.src; });
-                            if (memoryIndex >= 0 && typeof GXV !== 'undefined') {
-                                var card = DOM.galleryGrid && DOM.galleryGrid.querySelector('[data-i="' + memoryIndex + '"]');
-                                GXV.open(memoryIndex, card || null);
-                            }
-                        }
-                        else if (it.kind === 'faculty') { scrollToId('faculty'); if (fIn) { fIn.value = it.title; applyFaculty(); } }
-                        else if (it.kind === 'faq') { scrollToId('faq'); if (it.el) it.el.open = true; }
-                        else if (it.kind === 'notice') RightPanel.open('notice');
-                        else if (it.kind === 'doc') {
-                            RightPanel.open('documents');
-                            if (DOM.docSearchInput) {
-                                DOM.docSearchInput.value = it.title;
-                                DOM.docSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
-                            }
-                        } else if (it.run) it.run();
-                    });
-                }, 220);
-            }
-            window.performSearch = function (query) {
-                var q = String(query || '').toLowerCase().trim();
-                if (!q) { suggestions(); return; }
-                var res = collect(q);
-                if (!paint(res, res.length + (res.length === 1 ? ' result' : ' results'))) {
-                    current = [];
-                    DOM.searchResults.innerHTML = '<div class="search-empty">😕 No results found for "' + esc(q) + '"</div>';
-                }
-            };
-            var _os = window.openSearch;
-            window.openSearch = function () { _os.apply(this, arguments); suggestions(); };
-            if (DOM.searchResults) {
-                DOM.searchResults.addEventListener('click', function (e) {
-                    var el = e.target.closest('.search-result-item');
-                    if (el && current[+el.getAttribute('data-i')]) runItem(current[+el.getAttribute('data-i')]);
-                });
-                DOM.searchResults.addEventListener('keydown', function (e) {
-                    if (e.key !== 'Enter') return;
-                    var el = e.target.closest('.search-result-item');
-                    if (el) el.click();
-                });
-            }
-            if (DOM.searchInput) {
-                DOM.searchInput.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter') { var first = $('.search-result-item', DOM.searchResults); if (first) first.click(); }
-                });
-            }
-            /* Clear button is handled by the single authoritative handler above. */
+            /* Search is handled by the gallery search above (captions). */
 
             /* ---------- 6. Contact helpers ---------- */
             // 6a. Live office status (Nepal time, Mon–Fri 10:00–16:00)
@@ -8080,6 +7999,50 @@ body.dark #editNameModal #editNameSaveBtn {
   min-height: 48px !important; box-sizing: border-box !important;
 }
 </style>
+    <script id="no-autofill-js">
+    /* Turns off autofill, autocorrect and the keyboard's suggestion strip on every text field, now and when added later. */
+    (function () {
+        var SKIP = { file: 1, hidden: 1, checkbox: 1, radio: 1, range: 1, button: 1, submit: 1, reset: 1, image: 1, color: 1 };
+        function harden(el) {
+            if (!el || el.nodeType !== 1) return;
+            var tag = el.tagName;
+            if (tag === 'FORM') { el.setAttribute('autocomplete', 'off'); return; }
+            if (tag !== 'INPUT' && tag !== 'TEXTAREA') return;
+            if (tag === 'INPUT' && SKIP[(el.getAttribute('type') || 'text').toLowerCase()]) return;
+            if (el.getAttribute('data-nofill') === '1') return;
+            var risky = /^(name|email|username|user|mail)$/i.test(el.name || '') || (el.type === 'email') || /name|email/i.test(el.id || '');
+            el.setAttribute('autocomplete', risky ? 'nope' : 'off');
+            el.setAttribute('autocorrect', 'off');
+            el.setAttribute('autocapitalize', 'none');
+            el.setAttribute('spellcheck', 'false');
+            el.setAttribute('aria-autocomplete', 'none');
+            el.setAttribute('data-lpignore', 'true');
+            el.setAttribute('data-1p-ignore', '');
+            el.setAttribute('data-bwignore', '');
+            el.setAttribute('data-form-type', 'other');
+            el.setAttribute('data-gramm', 'false');
+            el.setAttribute('data-gramm_editor', 'false');
+            el.setAttribute('data-enable-grammarly', 'false');
+            el.setAttribute('data-nofill', '1');
+        }
+        function sweep(root) {
+            if (!root || !root.querySelectorAll) return;
+            harden(root);
+            var all = root.querySelectorAll('input, textarea, form');
+            for (var i = 0; i < all.length; i++) harden(all[i]);
+        }
+        sweep(document);
+        if (window.MutationObserver) {
+            new MutationObserver(function (list) {
+                for (var i = 0; i < list.length; i++) {
+                    var added = list[i].addedNodes;
+                    for (var j = 0; j < added.length; j++) sweep(added[j]);
+                }
+            }).observe(document.documentElement, { childList: true, subtree: true });
+        }
+        document.addEventListener('focusin', function (e) { harden(e.target); }, true);
+    })();
+    </script>
 </body>
 
 </html>

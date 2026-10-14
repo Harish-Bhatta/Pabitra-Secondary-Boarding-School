@@ -49,7 +49,7 @@
             --accent-dark: #d68910;
             --accent-gradient: linear-gradient(135deg, #f39c12, #f5b041);
 
-            --background: #F8FAFC;
+            --background: #F7F7F8;
             --surface: rgba(255, 255, 255, 0.75);
             --surface-solid: #FFFFFF;
             --surface-hover: #F1F5F9;
@@ -8255,6 +8255,48 @@ body.dark .gallery-pagination button {
   #hero .hero-left > .hero-title { width: 100%; }
   #hero .hero-left > .hero-meta { width: 100%; }
   #hero .hero-left > .hero-description { max-width: 42rem; }
+}
+</style>
+
+
+<style id="hero-card-width-and-shadow-polish">
+/* Premium hero refinement: widen the desktop card while keeping its contents neatly contained. */
+@media (min-width: 1025px) {
+  #hero .hero-copy-card {
+    width: 132% !important;
+    max-width: none !important;
+    box-shadow: 0 26px 64px rgba(15,23,42,.19),
+                0 8px 24px rgba(var(--primary-rgb),.10),
+                inset 0 1px 0 rgba(255,255,255,.98),
+                0 0 0 1px rgba(255,255,255,.28) !important;
+  }
+  #hero .hero-copy-card .hero-meta {
+    width: 100%; max-width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 10px;
+  }
+}
+/* Soft, layered shadow around the school logo for better separation from the background. */
+#hero .hv-frame {
+  filter: drop-shadow(0 18px 24px rgba(15,23,42,.16))
+          drop-shadow(0 5px 12px rgba(var(--primary-rgb),.14));
+}
+#hero .hv-frame img.hv-logo {
+  box-shadow: 0 0 0 1px rgba(var(--primary-rgb),.20),
+              0 0 0 5px rgba(255,255,255,.98),
+              0 0 0 8px rgba(var(--primary-rgb),.24),
+              0 0 0 12px rgba(255,255,255,.72),
+              0 28px 58px -16px rgba(var(--primary-rgb),.58),
+              0 14px 30px -10px rgba(15,23,42,.24),
+              inset 0 2px 0 rgba(255,255,255,1),
+              inset 0 -2px 3px rgba(0,0,0,.06),
+              inset 0 0 22px rgba(var(--primary-rgb),.10) !important;
+}
+@media (max-width: 1024px) {
+  #hero .hv-frame { filter: drop-shadow(0 12px 18px rgba(15,23,42,.15)) drop-shadow(0 4px 10px rgba(var(--primary-rgb),.12)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #hero .hv-frame img.hv-logo { animation: none !important; }
 }
 </style>
 

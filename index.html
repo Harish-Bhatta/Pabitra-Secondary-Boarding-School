@@ -4465,6 +4465,21 @@ body.dark .hero-copy-card {
 }
 </style>
 
+
+<style id="hero-school-name-center-alignment">
+/* Center only the school name within the hero section across screen sizes. */
+#hero .hero-title {
+    width: 100%;
+    max-width: none !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+#hero .hero-title .hero-title-line {
+    text-align: center !important;
+}
+</style>
+
 </head>
 
 <body>
@@ -5260,7 +5275,6 @@ body.dark .hero-copy-card {
                         <li><a href="#faculty"><i class="ri-team-line" aria-hidden="true"></i>Faculty</a></li>
                         <li><a href="gallery.html"><i class="ri-gallery-line" aria-hidden="true"></i>Gallery</a></li>
                         <li><a href="#highlights"><i class="ri-sparkling-2-line" aria-hidden="true"></i>Why PSBS</a></li>
-                        <li><a href="#admissions"><i class="ri-graduation-cap-line" aria-hidden="true"></i>Admissions</a></li>
                         <li><a href="#faq"><i class="ri-question-line" aria-hidden="true"></i>FAQ</a></li>
                         <li><a href="#contact"><i class="ri-phone-line" aria-hidden="true"></i>Contact</a></li>
                     </ul>
@@ -6183,7 +6197,6 @@ body.dark .hero-copy-card {
             pdf: { cls: 'pdf', label: 'PDF' },
             doc: { cls: 'doc', label: 'DOC' }, docx: { cls: 'doc', label: 'DOC' },
             ppt: { cls: 'ppt', label: 'PPT' }, pptx: { cls: 'ppt', label: 'PPT' },
-            xls: { cls: 'xls', label: 'XLS' }, xlsx: { cls: 'xls', label: 'XLS' }, csv: { cls: 'xls', label: 'CSV' },
             txt: { cls: 'other', label: 'TXT' },
             zip: { cls: 'zip', label: 'ZIP' }, rar: { cls: 'zip', label: 'RAR' },
             png: { cls: 'img', label: 'IMG' }, jpg: { cls: 'img', label: 'IMG' },
@@ -7751,7 +7764,6 @@ body.dark .hero-copy-card {
                     { id: 'highlights', title: 'Why PSBS', desc: 'Labs, computer education, mock tests, career guidance', icon: '✨' },
                     { id: 'faculty', title: 'Faculty', desc: 'Meet our dedicated teachers', icon: '👨‍🏫' },
                     { id: 'gallery', title: 'Gallery', desc: 'Campus life photos', icon: '🖼️' },
-                    { id: 'admissions', title: 'Admissions', desc: 'How to join Pabitra Secondary Boarding School', icon: '🎓' },
                     { id: 'faq', title: 'FAQ', desc: 'Answers to common questions', icon: '❓' },
                     { id: 'contact', title: 'Contact', desc: 'Phone, email, address and map', icon: '📞' }
                 ];
@@ -7811,7 +7823,7 @@ body.dark .hero-copy-card {
                     { kind: 'action', title: 'Notice Board', desc: 'Latest school notices', icon: '📢', tag: 'Open', run: actions.notices },
                     { kind: 'action', title: 'Documents', desc: 'Notes, PDFs and slides', icon: '📁', tag: 'Open', run: actions.documents },
                     { kind: 'action', title: 'School Calendar', desc: 'Events, holidays and exams', icon: '📅', tag: 'Page', run: function () { location.href = CONFIG.CALENDAR_PAGE; } },
-                    { kind: 'section', id: 'admissions', title: 'Admissions', desc: 'How to join PSBS', icon: '🎓', tag: 'Section' },
+                    { kind: 'section', id: 'academics', title: 'Academics', desc: 'Education from PG to Grade 10', icon: '🎓', tag: 'Section' },
                     { kind: 'section', id: 'contact', title: 'Contact', desc: 'Phone, email, address and map', icon: '📞', tag: 'Section' }
                 ];
                 paint(picks, 'Quick jump');

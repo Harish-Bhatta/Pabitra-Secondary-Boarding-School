@@ -27,6 +27,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Mukta:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/png" href="school.jpg" />
     <link rel="apple-touch-icon" href="school.jpg" />
     <title>Calendar | Pabitra Secondary Boarding School</title>
@@ -3327,6 +3328,517 @@
         }
     </style>
 
+    <style id="month-nav-upgrade">
+        /* ==========================================================================
+           MONTH SWITCHER UPGRADE — nav card + month dropdown + page dots.
+           Only visual overrides; markup and JS are untouched. Theme-aware via
+           --primary / --primary-rgb, and dark-mode aware.
+           ========================================================================== */
+
+        /* ---------- Nav card ---------- */
+        body .app-container .cal-top .controls-card {
+            position: relative;
+            background:
+                radial-gradient(90% 120% at 100% 0%, rgba(var(--primary-rgb), .16), transparent 60%),
+                radial-gradient(70% 100% at 0% 100%, rgba(var(--primary-rgb), .08), transparent 60%),
+                var(--pm-glass);
+            border: 1px solid rgba(var(--primary-rgb), .2);
+            border-radius: 22px;
+            box-shadow: 0 22px 44px -28px rgba(var(--primary-rgb), .7), 0 2px 6px rgba(15, 23, 42, .05), inset 0 1px 0 rgba(255, 255, 255, .9);
+        }
+        body.dark .app-container .cal-top .controls-card {
+            background:
+                radial-gradient(90% 120% at 100% 0%, rgba(var(--primary-rgb), .2), transparent 60%),
+                var(--pm-glass);
+            border-color: rgba(var(--primary-rgb), .26);
+            box-shadow: 0 22px 44px -26px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .08);
+        }
+        body .app-container .cal-top .controls-card::after {
+            content: ''; position: absolute; left: 22px; right: 22px; top: 0; height: 3px;
+            border-radius: 0 0 6px 6px; background: var(--primary-gradient); opacity: .9; pointer-events: none;
+        }
+
+        /* Prev / next */
+        body .app-container .cal-top .month-btn {
+            width: 48px; height: 48px; border-radius: 16px; font-size: .95rem;
+            color: var(--primary-dark);
+            background: linear-gradient(180deg, #fff, rgba(var(--primary-rgb), .12));
+            border: 1px solid rgba(var(--primary-rgb), .24);
+            box-shadow: 0 8px 16px -10px rgba(var(--primary-rgb), .85), inset 0 1px 0 #fff;
+            transition: transform .25s var(--spring), box-shadow .25s ease, background .25s ease, color .2s ease;
+        }
+        body.dark .app-container .cal-top .month-btn {
+            color: var(--primary-light);
+            background: linear-gradient(180deg, rgba(71, 85, 105, .7), rgba(30, 41, 59, .85));
+            border-color: rgba(255, 255, 255, .1);
+            box-shadow: 0 8px 16px -10px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .1);
+        }
+        body .app-container .cal-top .month-btn i { transition: transform .25s var(--spring); }
+        body .app-container .cal-top #prevMonthBtn:hover i { transform: translateX(-3px); }
+        body .app-container .cal-top #nextMonthBtn:hover i { transform: translateX(3px); }
+        body .app-container .cal-top .month-btn:hover {
+            color: #fff; border-color: transparent; transform: translateY(-2px);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+            box-shadow: 0 14px 22px -10px rgba(var(--primary-rgb), .9), inset 0 1px 0 rgba(255, 255, 255, .6);
+        }
+        body .app-container .cal-top .month-btn:active { transform: scale(.9); box-shadow: inset 0 3px 6px rgba(0, 0, 0, .2); }
+
+        /* Month pill (opens the dropdown) */
+        body .app-container .cal-top .month-dropdown-wrapper::before,
+        body .app-container .cal-top .month-dropdown-wrapper::after {
+            position: absolute; top: 50%; z-index: 2; width: 30px; height: 30px; border: 0;
+            display: grid; place-items: center; border-radius: 50%; pointer-events: none;
+            font: 900 .72rem/1 "Font Awesome 6 Free", "Font Awesome 5 Free", sans-serif; color: var(--primary);
+            background: rgba(var(--primary-rgb), .14);
+        }
+        body .app-container .cal-top .month-dropdown-wrapper::before {
+            content: '\f073'; left: 9px; transform: translateY(-50%);
+        }
+        body .app-container .cal-top .month-dropdown-wrapper::after {
+            content: '\f078'; right: 9px; opacity: 1;
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform .35s var(--spring), background .2s ease, color .2s ease;
+        }
+        body .app-container .cal-top .month-dropdown-wrapper:has(.month-dropdown-btn[aria-expanded="true"])::after {
+            transform: translateY(-50%) rotate(180deg); background: var(--primary-gradient); color: #fff;
+        }
+        body .app-container .cal-top .month-dropdown-btn {
+            height: 52px; line-height: 52px; padding: 0 48px; border-radius: 18px;
+            font-size: clamp(1.1rem, 3.6vw, 1.45rem); font-weight: 800; letter-spacing: .01em;
+            color: var(--text);
+            background: linear-gradient(180deg, #fff, rgba(var(--primary-rgb), .08));
+            border: 1.5px solid rgba(var(--primary-rgb), .32);
+            box-shadow: 0 10px 20px -14px rgba(var(--primary-rgb), .9), inset 0 1px 0 #fff;
+        }
+        body.dark .app-container .cal-top .month-dropdown-btn {
+            background: linear-gradient(180deg, rgba(71, 85, 105, .6), rgba(30, 41, 59, .8));
+            box-shadow: 0 10px 20px -14px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .08);
+        }
+        body .app-container .cal-top .month-dropdown-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 14px 26px -14px rgba(var(--primary-rgb), .95), 0 0 0 4px rgba(var(--primary-rgb), .1), inset 0 1px 0 #fff;
+        }
+        body .app-container .cal-top .month-dropdown-btn[aria-expanded="true"] {
+            border-color: var(--primary); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .2);
+        }
+
+        /* Clock + Today */
+        body .app-container .cal-top .live-clock {
+            border-radius: 999px; padding: 7px 14px; font-weight: 700; letter-spacing: .02em;
+            background: rgba(var(--primary-rgb), .1); border: 1px solid rgba(var(--primary-rgb), .2);
+        }
+        body .app-container .cal-top .btn-today {
+            position: relative; overflow: hidden; border-radius: 999px; padding: 8px 20px;
+            transition: transform .25s var(--spring), box-shadow .25s ease;
+        }
+        body .app-container .cal-top .btn-today::after {
+            content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .55), transparent);
+            transform: skewX(-20deg); transition: left .6s ease; pointer-events: none;
+        }
+        body .app-container .cal-top .btn-today:hover::after { left: 130%; }
+
+        /* ---------- Dropdown panel ---------- */
+        .dropdown-backdrop { background: rgba(15, 23, 42, .28); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+
+        body .month-dropdown-panel-portal {
+            counter-reset: mo;
+            padding: 0 0 10px; border-radius: 24px;
+            background:
+                radial-gradient(120% 60% at 100% 0%, rgba(var(--primary-rgb), .14), transparent 60%),
+                linear-gradient(180deg, #fff, #fffdf8);
+            border: 1px solid rgba(var(--primary-rgb), .22);
+            box-shadow: 0 30px 60px -18px rgba(15, 23, 42, .35), 0 0 0 1px rgba(255, 255, 255, .6) inset;
+            backdrop-filter: none; -webkit-backdrop-filter: none;
+            transform-origin: center; overscroll-behavior: contain;
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        body.dark .month-dropdown-panel-portal {
+            background:
+                radial-gradient(120% 60% at 100% 0%, rgba(var(--primary-rgb), .2), transparent 60%),
+                linear-gradient(180deg, #1e293b, #0f172a);
+            border-color: rgba(var(--primary-rgb), .3);
+            box-shadow: 0 30px 60px -18px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .05) inset;
+        }
+        body .month-dropdown-panel-portal.open { animation: pmDrop .32s var(--spring) both; }
+        @keyframes pmDrop {
+            0% { opacity: 0; transform: translateY(-10px) scale(.94); }
+            100% { opacity: 1; transform: none; }
+        }
+        body .month-dropdown-panel-portal::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+        /* Sticky title */
+        body .month-dropdown-panel-portal::before {
+            content: 'महिना छान्नुहोस्';
+            position: sticky; top: 0; z-index: 3; display: block; margin-bottom: 4px;
+            padding: 17px 20px 14px 58px; font-size: .64rem; font-weight: 700; color: var(--text-light);
+            background: linear-gradient(180deg, #fff 70%, rgba(255, 255, 255, .9));
+            border-bottom: 1px solid rgba(var(--primary-rgb), .14);
+        }
+        body.dark .month-dropdown-panel-portal::before { background: linear-gradient(180deg, #1e293b 70%, rgba(30, 41, 59, .92)); }
+
+        /* Options */
+        body .month-dropdown-panel-portal .month-option {
+            counter-increment: mo;
+            display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 14px;
+            margin: 4px 10px; padding: 9px 12px; border: 0; border-radius: 16px;
+            font-size: .8rem; color: var(--text);
+            transition: background .18s ease, transform .22s var(--spring), box-shadow .2s ease;
+        }
+        body .month-dropdown-panel-portal .month-option::before {
+            content: counter(mo, devanagari);
+            display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px;
+            font-size: .68rem; font-weight: 700; color: var(--primary-dark);
+            background: rgba(var(--primary-rgb), .12);
+            transition: background .2s ease, color .2s ease, transform .25s var(--spring);
+        }
+        body.dark .month-dropdown-panel-portal .month-option::before { color: var(--primary-light); }
+        body .month-dropdown-panel-portal .month-option .month-label { font-weight: 700; font-size: .8rem; }
+        body .month-dropdown-panel-portal .month-option .month-sub {
+            padding: 3px 10px; border-radius: 999px; font-size: .58rem; font-weight: 600; white-space: nowrap;
+            color: var(--text-light); background: rgba(148, 163, 184, .16);
+        }
+        body .month-dropdown-panel-portal .month-option:hover {
+            background: rgba(var(--primary-rgb), .1); transform: translateX(3px);
+        }
+        body .month-dropdown-panel-portal .month-option:hover::before { transform: scale(1.08) rotate(-4deg); }
+        body .month-dropdown-panel-portal .month-option:focus-visible {
+            outline: none; box-shadow: 0 0 0 2px var(--primary) inset; background: rgba(var(--primary-rgb), .1);
+        }
+        body .month-dropdown-panel-portal .month-option.active-option {
+            border: 0; color: #fff; transform: none;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+            box-shadow: 0 12px 20px -10px rgba(var(--primary-rgb), .9), inset 0 1px 0 rgba(255, 255, 255, .5);
+        }
+        body .month-dropdown-panel-portal .month-option.active-option::before {
+            color: var(--primary-dark); background: #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+        }
+        body .month-dropdown-panel-portal .month-option.active-option .month-sub {
+            color: #fff; background: rgba(255, 255, 255, .24);
+        }
+        body .month-dropdown-panel-portal.open .month-option { animation: pmItem .3s var(--spring) backwards; }
+        body .month-dropdown-panel-portal.open .month-option:nth-child(2) { animation-delay: .02s; }
+        body .month-dropdown-panel-portal.open .month-option:nth-child(3) { animation-delay: .04s; }
+        body .month-dropdown-panel-portal.open .month-option:nth-child(4) { animation-delay: .06s; }
+        body .month-dropdown-panel-portal.open .month-option:nth-child(5) { animation-delay: .08s; }
+        body .month-dropdown-panel-portal.open .month-option:nth-child(n+6) { animation-delay: .1s; }
+        @keyframes pmItem { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: none; } }
+
+
+        /* ---------- Close button (same look as the clock card) ---------- */
+        .month-dd-close {
+            position: fixed; z-index: 10003; display: none; place-items: center;
+            width: 34px; height: 34px; padding: 0; border-radius: 50%;
+            cursor: pointer; color: var(--primary); font-size: .8rem; font-weight: 700;
+            background: rgba(var(--primary-rgb), .1);
+            border: 1px solid rgba(var(--primary-rgb), .2);
+            box-shadow: none;
+            transition: background .2s ease, color .2s ease, transform .25s var(--spring), border-color .2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .month-dd-close.show { display: grid; animation: pmClosePop .3s var(--spring) .06s backwards; }
+        .month-dd-close i { transition: transform .3s var(--spring); }
+        .month-dd-close:hover { background: var(--primary-gradient); color: #fff; border-color: transparent; }
+        .month-dd-close:hover i { transform: rotate(90deg); }
+        .month-dd-close:active { transform: scale(.92); }
+        .month-dd-close:focus-visible { outline: 3px solid rgba(var(--primary-rgb), .55); outline-offset: 2px; }
+        @keyframes pmClosePop { 0% { opacity: 0; transform: scale(.7); } 100% { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) {
+            .month-dd-close.show { animation: none; }
+            .month-dd-close, .month-dd-close i { transition: none; }
+        }
+
+        /* ---------- Page dots ---------- */
+        .month-dots { gap: 7px; }
+        .mdot { width: 7px; height: 7px; background: rgba(var(--primary-rgb), .22); transition: width .4s var(--spring), background .3s, transform .2s; }
+        .mdot:hover { background: rgba(var(--primary-rgb), .55); transform: scale(1.25); }
+        .mdot.on { width: 26px; background: var(--primary-gradient); box-shadow: 0 3px 10px rgba(var(--primary-rgb), .55); }
+
+        @media (max-width: 640px) {
+            body .month-dropdown-panel-portal .month-option { font-size: .8rem; padding: 9px 12px; }
+            body .app-container .cal-top .month-btn { width: 44px; height: 44px; border-radius: 15px; }
+            body .app-container .cal-top .month-dropdown-btn { height: 48px; line-height: 48px; padding: 0 42px; }
+            body .app-container .cal-top .month-dropdown-wrapper::before,
+            body .app-container .cal-top .month-dropdown-wrapper::after { width: 28px; height: 28px; }
+        }
+        @media (max-width: 359px) {
+            body .app-container .cal-top .month-dropdown-wrapper::before { display: none; }
+            body .app-container .cal-top .month-dropdown-btn { padding: 0 40px 0 12px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            body .month-dropdown-panel-portal.open, body .month-dropdown-panel-portal.open .month-option { animation: none; }
+            body .app-container .cal-top .month-btn, body .app-container .cal-top .month-btn i,
+            body .app-container .cal-top .month-dropdown-wrapper::after, body .app-container .cal-top .btn-today,
+            body .month-dropdown-panel-portal .month-option, .mdot { transition: none; }
+            body .app-container .cal-top .btn-today::after { display: none; }
+        }
+    </style>
+
+    <style id="month-nav-tweaks">
+        /* ---------- Month name: display font + colour ---------- */
+        body .app-container .cal-top .month-dropdown-btn {
+            font-family: 'Yatra One', 'Mukta', 'Noto Sans Devanagari', sans-serif;
+            font-weight: 400; letter-spacing: .02em;
+            font-size: clamp(1.15rem, 3.8vw, 1.5rem);
+            color: var(--primary-dark);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, .8), 0 3px 10px rgba(var(--primary-rgb), .28);
+            transition: box-shadow .18s ease, border-color .18s ease, transform .22s var(--spring), color .2s ease;
+        }
+        body.dark .app-container .cal-top .month-dropdown-btn {
+            color: var(--primary-light);
+            text-shadow: 0 2px 12px rgba(var(--primary-rgb), .45);
+        }
+
+        /* ---------- Tap feedback: quick press-in (negative scale) ---------- */
+        body .app-container .cal-top .month-dropdown-btn:active { transform: scale(.94); transition-duration: .08s; }
+        body .app-container .cal-top .month-btn:active { transform: scale(.86); transition-duration: .08s; }
+        body .app-container .cal-top .btn-today:active { transform: scale(.92); transition-duration: .08s; }
+        .month-dd-close:active { transform: scale(.82); transition-duration: .08s; }
+        body .month-dropdown-panel-portal .month-option:active { transform: scale(.96); transition-duration: .08s; }
+        .mdot:active { transform: scale(.7); }
+
+        @media (prefers-reduced-motion: reduce) {
+            body .app-container .cal-top .month-dropdown-btn:active,
+            body .app-container .cal-top .month-btn:active,
+            body .app-container .cal-top .btn-today:active,
+            .month-dd-close:active,
+            body .month-dropdown-panel-portal .month-option:active,
+            .mdot:active { transform: none; }
+        }
+
+        /* ---------- Clock: digital font + gradient colour ---------- */
+        body .app-container .cal-top .live-clock { gap: 8px; }
+        body .app-container .cal-top #clockDisplay {
+            font-family: 'Orbitron', 'Share Tech Mono', ui-monospace, monospace;
+            font-weight: 700; font-size: .78rem; letter-spacing: .08em; font-variant-numeric: tabular-nums;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 6px rgba(var(--primary-rgb), .3));
+        }
+        body .app-container .cal-top .live-clock i {
+            color: var(--primary); filter: drop-shadow(0 0 5px rgba(var(--primary-rgb), .55));
+        }
+        body.dark .app-container .cal-top #clockDisplay {
+            background: linear-gradient(90deg, var(--primary-light), #fff);
+            -webkit-background-clip: text; background-clip: text;
+        }
+    </style>
+    <style id="calendar-polish">
+        /* ==========================================================================
+           CALENDAR POLISH — swipe gap, day cells, headings, summary cards, detail
+           panel, programs, legend, quote, school header. Visual only; theme-aware
+           (--primary / --primary-rgb) and dark-mode aware.
+           ========================================================================== */
+        :root { --swipe-gap: 16px; --font-display: 'Yatra One', 'Mukta', 'Noto Sans Devanagari', sans-serif; --font-digital: 'Orbitron', 'Share Tech Mono', ui-monospace, monospace; }
+
+        /* ---------- 1. Swipe gap: real spacing between month panes, so it is only seen while swiping ---------- */
+        .month-track { width: calc(300% + 2 * var(--swipe-gap)); gap: var(--swipe-gap); }
+        .month-pane { flex: 0 0 calc((100% - 2 * var(--swipe-gap)) / 3); position: relative; transition: opacity .3s ease; }
+        body.is-dragging .month-pane { transition: none; }
+        .month-pane + .month-pane::before {
+            content: ''; position: absolute; left: calc(var(--swipe-gap) / -2 - 1px); top: 6%; bottom: 6%; width: 2px; border-radius: 2px;
+            background: linear-gradient(180deg, transparent, rgba(var(--primary-rgb), .4), transparent); pointer-events: none;
+        }
+
+        /* ---------- 2. Month title row ---------- */
+        body #calendarWrapper .month-header-details { border-bottom: 1px dashed rgba(var(--primary-rgb), .28); padding-bottom: 10px; }
+        body #calendarWrapper .month-title-bs {
+            font-family: var(--font-display); font-weight: 400; letter-spacing: .02em;
+            font-size: clamp(1.25rem, 5.2vw, 1.55rem); line-height: 1.25;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 6px rgba(var(--primary-rgb), .25));
+        }
+        body #calendarWrapper .month-title-ad {
+            display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px;
+            font-size: .72rem; font-weight: 700; color: var(--primary-dark); letter-spacing: .02em;
+            background: rgba(var(--primary-rgb), .1); border: 1px solid rgba(var(--primary-rgb), .22);
+        }
+        body #calendarWrapper .month-title-ad::before { content: '\f073'; font: 900 .62rem/1 "Font Awesome 6 Free", "Font Awesome 5 Free", sans-serif; color: var(--primary); }
+        body.dark #calendarWrapper .month-title-ad { color: var(--primary-light); }
+
+        /* ---------- 3. Weekday header ---------- */
+        body #calendarWrapper .day-header {
+            border: 0; border-radius: 12px; box-shadow: none; font-weight: 700;
+            color: var(--primary-dark); background: rgba(var(--primary-rgb), .08);
+        }
+        body #calendarWrapper .day-header span { color: var(--text-muted); font-weight: 600; }
+        body #calendarWrapper .day-header.saturday, body #calendarWrapper .day-header.sunday {
+            color: var(--holiday-red); background: rgba(239, 68, 68, .1); border: 0;
+        }
+        body.dark #calendarWrapper .day-header { color: var(--primary-light); background: rgba(var(--primary-rgb), .14); }
+        body.dark #calendarWrapper .day-header.saturday, body.dark #calendarWrapper .day-header.sunday { color: #F87171; background: rgba(248, 113, 113, .14); }
+
+        /* ---------- 4. Day cells ---------- */
+        body #calendarWrapper .calendar-cell {
+            border-radius: 14px;
+            background: linear-gradient(180deg, #fff, #fcfbf8);
+            border: 1px solid rgba(var(--primary-rgb), .1);
+            box-shadow: 0 6px 12px -9px rgba(15, 23, 42, .38), inset 0 1px 0 #fff;
+            transition: transform .24s var(--spring), box-shadow .2s ease, background .2s ease, border-color .2s ease;
+        }
+        body.dark #calendarWrapper .calendar-cell {
+            background: linear-gradient(180deg, rgba(71, 85, 105, .55), rgba(30, 41, 59, .6));
+            border-color: rgba(255, 255, 255, .07); box-shadow: 0 6px 12px -8px rgba(0, 0, 0, .7), inset 0 1px 0 rgba(255, 255, 255, .08);
+        }
+        body #calendarWrapper .calendar-cell:hover {
+            transform: translateY(-2px); border-color: rgba(var(--primary-rgb), .4);
+            box-shadow: 0 14px 20px -12px rgba(var(--primary-rgb), .75), inset 0 1px 0 #fff;
+        }
+        body #calendarWrapper .calendar-cell:active { transform: scale(.9); transition-duration: .08s; }
+        body #calendarWrapper .bs-day { font-weight: 700; color: var(--text); }
+        body #calendarWrapper .ad-day {
+            font-weight: 600; color: var(--text-light); background: rgba(var(--primary-rgb), .09); border-radius: 6px;
+        }
+        body #calendarWrapper .tithi-text { color: var(--text-muted); font-weight: 600; }
+
+        body #calendarWrapper .calendar-cell.holiday {
+            background: linear-gradient(180deg, #fff6f6, #ffe3e5);
+            border-color: rgba(239, 68, 68, .28);
+        }
+        body #calendarWrapper .calendar-cell.holiday .bs-day { color: var(--holiday-red); }
+        body #calendarWrapper .calendar-cell.holiday .ad-day { background: rgba(239, 68, 68, .1); color: #b91c1c; }
+        body.dark #calendarWrapper .calendar-cell.holiday {
+            background: linear-gradient(180deg, rgba(153, 27, 27, .34), rgba(69, 10, 10, .38)); border-color: rgba(248, 113, 113, .32);
+        }
+        body.dark #calendarWrapper .calendar-cell.holiday .ad-day { color: #fca5a5; background: rgba(248, 113, 113, .14); }
+
+        body #calendarWrapper .calendar-cell.today {
+            background: linear-gradient(180deg, #fff, rgba(var(--primary-rgb), .2));
+            border: 1.5px solid var(--primary);
+            box-shadow: 0 10px 18px -10px rgba(var(--primary-rgb), .85), inset 0 1px 0 #fff;
+        }
+        body.dark #calendarWrapper .calendar-cell.today { background: linear-gradient(180deg, rgba(var(--primary-rgb), .32), rgba(var(--primary-rgb), .12)); }
+        body #calendarWrapper .calendar-cell.today::after { inset: -4px; border-radius: 17px; border: 2px solid rgba(var(--primary-rgb), .35); }
+        body #calendarWrapper .calendar-cell.today .bs-day { color: var(--primary-dark); }
+        body.dark #calendarWrapper .calendar-cell.today .bs-day { color: var(--primary-light); }
+
+        body #calendarWrapper .calendar-cell.selected,
+        body.dark #calendarWrapper .calendar-cell.selected {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .36), rgba(255, 255, 255, 0) 55%), var(--primary-gradient);
+            border: 1.5px solid rgba(255, 255, 255, .75);
+            box-shadow: 0 14px 22px -10px rgba(var(--primary-rgb), .95), 0 0 0 3px rgba(var(--primary-rgb), .18), inset 0 1px 0 rgba(255, 255, 255, .65);
+            transform: translateY(-1px);
+        }
+        body #calendarWrapper .calendar-cell.selected .bs-day, body #calendarWrapper .calendar-cell.selected .tithi-text { color: #fff; }
+        body #calendarWrapper .calendar-cell.selected .ad-day { background: rgba(255, 255, 255, .28); color: #fff; }
+        body #calendarWrapper .calendar-cell.selected:active { transform: scale(.9); }
+        body #calendarWrapper .calendar-cell.empty.ghost { opacity: .42; }
+        body #calendarWrapper .calendar-cell.empty.ghost:hover { opacity: .75; }
+        body #calendarWrapper .calendar-cell.empty:not(.ghost) { background: transparent; border: 1px dashed rgba(var(--primary-rgb), .16); box-shadow: none; }
+        body #calendarWrapper .dot { box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .9); }
+
+        /* ---------- 5. Legend ---------- */
+        body #calendarWrapper .legend-bar { gap: 8px; border-top: 1px dashed rgba(var(--primary-rgb), .25); justify-content: center; flex-wrap: wrap; }
+        body #calendarWrapper .legend-item {
+            display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px;
+            font-weight: 600; color: var(--text-light); background: rgba(var(--primary-rgb), .07); border: 1px solid rgba(var(--primary-rgb), .14);
+        }
+
+        /* ---------- 6. Summary cards ---------- */
+        body .app-container .stat-card {
+            position: relative; overflow: hidden; border-radius: 18px;
+            border: 1px solid color-mix(in srgb, var(--c) 24%, transparent);
+            background: linear-gradient(135deg, color-mix(in srgb, var(--c) 9%, #fff), #fff 70%);
+            box-shadow: 0 12px 22px -16px color-mix(in srgb, var(--c) 70%, transparent), inset 0 1px 0 #fff;
+        }
+        body.dark .app-container .stat-card {
+            background: linear-gradient(135deg, color-mix(in srgb, var(--c) 18%, #1e293b), #1e293b 75%);
+            box-shadow: 0 12px 22px -16px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .06);
+        }
+        body .app-container .stat-card::after {
+            content: ''; position: absolute; right: -18px; top: -18px; width: 64px; height: 64px; border-radius: 50%;
+            background: radial-gradient(closest-side, color-mix(in srgb, var(--c) 12%, transparent), transparent); pointer-events: none;
+        }
+        body .app-container .stat-icon { color: #fff; box-shadow: 0 8px 14px -8px var(--c); }
+        body .app-container .stat-icon::before { opacity: 1; background: linear-gradient(145deg, color-mix(in srgb, var(--c) 70%, #fff), var(--c)); }
+        body .app-container .stat-icon::after {
+            content: ''; position: absolute; left: 14%; right: 14%; top: 6%; height: 42%; border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0)); pointer-events: none;
+        }
+        body .app-container .stat-label { font-weight: 700; color: var(--text-light); }
+        body .app-container .stat-value { font-family: var(--font-display); font-weight: 400; letter-spacing: .02em; color: var(--text); }
+
+        /* ---------- 7. Detail panel ---------- */
+        body .app-container .detail-panel {
+            border-radius: 22px; border-left-width: 5px;
+            background: radial-gradient(90% 70% at 100% 0%, rgba(var(--primary-rgb), .1), transparent 60%), var(--surface-solid);
+        }
+        body .app-container .detail-date-bs { font-family: var(--font-display); font-weight: 400; letter-spacing: .01em; color: var(--primary-dark); }
+        body.dark .app-container .detail-date-bs { color: var(--primary-light); }
+        body .app-container .detail-date-ad {
+            display: inline-block; font-weight: 700; color: var(--primary-dark);
+            background: rgba(var(--primary-rgb), .1); border: 1px solid rgba(var(--primary-rgb), .22); border-radius: 999px;
+        }
+        body.dark .app-container .detail-date-ad { color: var(--primary-light); }
+        body .app-container .days-diff {
+            border-radius: 999px; font-weight: 700; color: var(--primary-dark);
+            background: rgba(var(--primary-rgb), .1); border: 1px solid rgba(var(--primary-rgb), .22); box-shadow: none;
+        }
+        body.dark .app-container .days-diff { color: var(--primary-light); }
+        body .app-container .days-diff i { color: var(--primary); }
+        body .app-container .detail-box {
+            --bx: var(--primary); border-radius: 16px;
+            background: color-mix(in srgb, var(--bx) 6%, var(--surface-solid));
+            border: 1px solid color-mix(in srgb, var(--bx) 20%, transparent); border-left: 4px solid var(--bx);
+        }
+        body .app-container .detail-box:nth-child(1) { --bx: #6366f1; }
+        body .app-container .detail-box:nth-child(2) { --bx: var(--holiday-red); }
+        body .app-container .detail-box:nth-child(3) { --bx: var(--prog-green); }
+        body .app-container .detail-box-title { font-weight: 700; color: var(--bx); display: flex; align-items: center; gap: 8px; }
+        body .app-container .detail-box-title i {
+            display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 8px; font-size: .72rem;
+            color: #fff; background: linear-gradient(145deg, color-mix(in srgb, var(--bx) 65%, #fff), var(--bx));
+        }
+        body .app-container .detail-box-content { font-weight: 600; }
+
+        /* ---------- 8. Programs card ---------- */
+        body .app-container .programs-card {
+            border-radius: 22px;
+            background: radial-gradient(90% 60% at 0% 0%, rgba(var(--primary-rgb), .09), transparent 60%), var(--surface-solid);
+        }
+        body .app-container .programs-header { display: flex; align-items: center; gap: 10px; }
+        body .app-container .programs-header i {
+            display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 auto; border-radius: 12px; font-size: .85rem;
+            color: #fff; background: var(--primary-gradient); box-shadow: 0 8px 14px -8px rgba(var(--primary-rgb), .9), inset 0 1px 0 rgba(255, 255, 255, .5);
+        }
+        body .app-container .programs-header h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: .01em; color: var(--primary-dark); }
+        body.dark .app-container .programs-header h3 { color: var(--primary-light); }
+        body .app-container .program-item {
+            display: flex; align-items: center; gap: 10px; border-radius: 14px; font-weight: 600;
+            background: rgba(var(--primary-rgb), .07); border: 1px solid rgba(var(--primary-rgb), .14); border-left: 4px solid var(--primary);
+            transition: transform .22s var(--spring), background .2s ease;
+        }
+        body .app-container .program-item i { color: var(--prog-green); }
+        body .app-container .program-item:active { transform: scale(.97); transition-duration: .08s; }
+        body .app-container .muhurta-box { border-radius: 14px; }
+
+        /* ---------- 9. Quote ---------- */
+        body .app-container .footer-quote {
+            display: flex; align-items: center; justify-content: center; gap: 12px; border-radius: 22px; text-align: left;
+            background: radial-gradient(90% 120% at 0% 50%, rgba(var(--primary-rgb), .12), transparent 60%), var(--surface-solid);
+        }
+        body .app-container .footer-quote i {
+            display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 auto; border-radius: 50%; font-size: .85rem; opacity: 1;
+            color: #fff; background: var(--primary-gradient); box-shadow: 0 8px 14px -8px rgba(var(--primary-rgb), .9), inset 0 1px 0 rgba(255, 255, 255, .5);
+        }
+        body .app-container .footer-quote #quoteText { font-family: var(--font-display); font-weight: 400; line-height: 1.6; letter-spacing: .01em; color: var(--text); }
+
+        /* ---------- 10. School header ---------- */
+        body .app-container .cal-top .school-header { border-radius: 22px; }
+        body .app-container .cal-top .school-contacts span { transition: transform .22s var(--spring), background .2s ease; cursor: default; }
+        body .app-container .cal-top .school-contacts span:hover { transform: translateY(-2px); }
+        body .app-container .cal-top .school-contacts span:active { transform: scale(.92); transition-duration: .08s; }
+        body .app-container .cal-top .school-logo-wrap { box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(var(--primary-rgb), .45), 0 10px 20px -8px rgba(var(--primary-rgb), .7); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .month-pane { transition: none; }
+            body #calendarWrapper .calendar-cell:hover, body #calendarWrapper .calendar-cell:active,
+            body #calendarWrapper .calendar-cell.selected:active, body .app-container .program-item:active,
+            body .app-container .cal-top .school-contacts span:hover, body .app-container .cal-top .school-contacts span:active { transform: none; }
+        }
+    </style>
 </head>
 
 <body>
@@ -3684,6 +4196,7 @@
 
             <div class="dropdown-backdrop" id="dropdownBackdrop"></div>
             <div class="month-dropdown-panel-portal" id="monthDropdownPortal" role="listbox"></div>
+            <button type="button" class="month-dd-close" id="monthDdClose" aria-label="Close month list" title="Close (Esc)"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
 
             <div class="app-container">
 
@@ -5685,6 +6198,10 @@
 
         window.addEventListener('popstate', function () {
             syncPanelState();
+            // Month list open: Back closes it and keeps the user on the page
+            if (window.PSBSCalendarDropdownOpen && window.PSBSCalendarDropdownOpen()) {
+                window.PSBSCalendarCloseDropdown(); history.pushState({ psbs: true }, ''); return;
+            }
             if (State.openCount <= 0) {
                 if (!(history.state && history.state.psbs)) history.back();
                 return;
@@ -6145,6 +6662,7 @@
         const dropdownBtn = $id('monthDropdownBtn');
         const dropdownPortal = $id('monthDropdownPortal');
         const dropdownBackdrop = $id('dropdownBackdrop');
+        const ddClose = $id('monthDdClose');
         let dropdownOpen = false;
         let dropdownBuiltFor = null;
         dropdownBtn.setAttribute('aria-haspopup', 'listbox');
@@ -6196,16 +6714,17 @@
         });
 
         function placeDropdown(rect) {
+            // Centered in the viewport, independent of the button position
             const vw = window.innerWidth, vh = window.innerHeight;
-            let left = rect.left, top = rect.bottom + 6, width = Math.min(rect.width, 260);
-            if (left + width > vw - 10) left = vw - width - 10;
-            if (left < 10) left = 10;
-            const panelHeight = Math.min(260, MONTHS.length * 44 + 16);
-            if (top + panelHeight > vh - 10) { top = rect.top - panelHeight - 6; if (top < 10) top = 10; }
-            dropdownPortal.style.left = left + 'px';
-            dropdownPortal.style.top = top + 'px';
+            const width = Math.min(320, vw - 20);
+            const height = Math.min(460, vh - 20);
+            dropdownPortal.style.left = Math.round((vw - width) / 2) + 'px';
+            dropdownPortal.style.top = Math.round((vh - height) / 2) + 'px';
             dropdownPortal.style.width = width + 'px';
-            dropdownPortal.style.maxHeight = Math.min(260, vh - top - 20) + 'px';
+            dropdownPortal.style.maxHeight = height + 'px';
+            const cl = ddClose, cs = 32;
+            cl.style.left = (Math.round((vw - width) / 2) + 12) + 'px';
+            cl.style.top = (Math.round((vh - height) / 2) + 5) + 'px';
         }
         function openDropdown() {
             if (dropdownOpen || !MONTHS.length) return;
@@ -6213,6 +6732,7 @@
             placeDropdown(dropdownBtn.getBoundingClientRect());   // measured before the scroll lock, which no longer moves the page
             dropdownBackdrop.classList.add('show');
             dropdownPortal.classList.add('open');
+            ddClose.classList.add('show');
             dropdownBtn.setAttribute('aria-expanded', 'true');
             ScrollLock.lock();
             markActiveOption(currentMonthIdx);
@@ -6225,16 +6745,23 @@
             const hadFocusInside = dropdownPortal.contains(document.activeElement);
             dropdownBackdrop.classList.remove('show');
             dropdownPortal.classList.remove('open');
+            ddClose.classList.remove('show');
             dropdownBtn.setAttribute('aria-expanded', 'false');
             ScrollLock.unlock();
             if (restoreFocus === true || hadFocusInside) dropdownBtn.focus({ preventScroll: true });
         }
         window.PSBSCalendarCloseDropdown = function () { closeDropdown(); };
+        window.PSBSCalendarDropdownOpen = function () { return dropdownOpen; };
+        ddClose.addEventListener('click', function (e) { e.stopPropagation(); closeDropdown(true); });
 
         dropdownBtn.addEventListener('click', function (e) { e.stopPropagation(); dropdownOpen ? closeDropdown() : openDropdown(); });
         dropdownBackdrop.addEventListener('click', function (e) { e.stopPropagation(); closeDropdown(); });
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && dropdownOpen) closeDropdown(true);
+            if (!dropdownOpen) return;
+            // Esc, Ctrl + Left Arrow, Ctrl + Backspace all close the month list
+            if (e.key === 'Escape' || ((e.ctrlKey || e.metaKey) && (e.key === 'ArrowLeft' || e.key === 'Backspace'))) {
+                e.preventDefault(); closeDropdown(true);
+            }
         });
         let resizeTimer;
         window.addEventListener('resize', function () {
@@ -6339,11 +6866,11 @@
         const track = $id('monthTrack');
         const dotsEl = $id('monthDots');
         const EASE = 'cubic-bezier(.22,1,.36,1)';
-        let W = 0, H = [0, 0, 0], curX = 0, drag = null, raf = 0, settling = null, clickBlock = 0;
+        let W = 0, STEP = 0, H = [0, 0, 0], curX = 0, drag = null, raf = 0, settling = null, clickBlock = 0;
         let dotsBuiltFor = null;
 
         function setX(x) { curX = x; track.style.transform = 'translate3d(' + x + 'px,0,0)'; }
-        function measure() { W = gridBox.clientWidth; for (let i = 0; i < 3; i++) H[i] = track.children[i] ? track.children[i].offsetHeight : 0; }
+        function measure() { W = gridBox.clientWidth; STEP = W + (parseFloat(getComputedStyle(track).getPropertyValue('--swipe-gap')) || 0); for (let i = 0; i < 3; i++) H[i] = track.children[i] ? track.children[i].offsetHeight : 0; }
         function fitTo(i) { gridBox.style.height = (H[i] || H[1]) + 'px'; }
 
         function paneHTML(mi, interactive) {
@@ -6378,7 +6905,7 @@
             const c = currentMonthIdx;
             track.style.transition = 'none'; gridBox.style.transition = 'none';
             track.innerHTML = [c - 1, c, c + 1].map(i => '<section class="month-pane" aria-hidden="' + (i !== c) + '">' + paneHTML(i, i === c) + '</section>').join('');
-            measure(); setX(-W); fitTo(1);
+            measure(); setX(-STEP); fitTo(1);
             if (dotsBuiltFor !== MONTHS) {                 // dots only change when the data does
                 dotsEl.innerHTML = MONTHS.map((m, i) => '<button class="mdot" role="tab" data-i="' + i + '" aria-label="' + esc(m.nameBS) + '"></button>').join('');
                 dotsBuiltFor = MONTHS;
@@ -6415,17 +6942,22 @@
         }
 
         function follow(dx) {
-            setX(-W + dx);
+            setX(-STEP + dx);
             const nb = dx < 0 ? 2 : 0, has = nb === 2 ? currentMonthIdx < MONTH_COUNT - 1 : currentMonthIdx > 0;
-            if (has && H[nb] !== H[1]) gridBox.style.height = (H[1] + (H[nb] - H[1]) * Math.min(Math.abs(dx) / W, 1)) + 'px';
+            if (has && H[nb] !== H[1]) gridBox.style.height = (H[1] + (H[nb] - H[1]) * Math.min(Math.abs(dx) / STEP, 1)) + 'px';
+            // soft cross-fade while dragging
+            const p = Math.min(Math.abs(dx) / STEP, 1), pc = track.children;
+            if (pc[1]) pc[1].style.opacity = String(1 - p * 0.45);
+            if (pc[nb]) pc[nb].style.opacity = String(0.55 + p * 0.45);
         }
         function settle(dir, vx, day) {
             if (settling) return;
-            const target = -W - dir * W, dist = Math.abs(target - curX);
+            const target = -STEP - dir * STEP, dist = Math.abs(target - curX);
             const dur = Math.round(Math.max(200, Math.min(380, dist / Math.max(Math.abs(vx || 0), 0.9))));
             isAnimatingSwipe = true;
             settling = { dir, day, t: setTimeout(finalize, dur + 70) };
             track.style.transition = 'transform ' + dur + 'ms ' + EASE;
+            { const pc = track.children; if (pc[1]) pc[1].style.opacity = dir ? '.55' : '1'; if (dir && pc[1 + dir]) pc[1 + dir].style.opacity = '1'; if (!dir) { if (pc[0]) pc[0].style.opacity = ''; if (pc[2]) pc[2].style.opacity = ''; } }
             gridBox.style.transition = 'height ' + dur + 'ms ' + EASE;
             setX(target); fitTo(dir > 0 ? 2 : dir < 0 ? 0 : 1);
         }
@@ -6437,7 +6969,7 @@
                 const ni = currentMonthIdx + s.dir;
                 // applySelection (not selectDate): a scroll-lock must never leave a finished swipe half-applied
                 applySelection(ni, s.day || (ni === TODAY.monthIdx ? TODAY.dayBS : 1));
-            } else { setX(-W); fitTo(1); }
+            } else { setX(-STEP); fitTo(1); for (let i = 0; i < track.children.length; i++) track.children[i].style.opacity = ''; }
             isAnimatingSwipe = false;
         }
         track.addEventListener('transitionend', e => { if (e.target === track && e.propertyName === 'transform') finalize(); });
@@ -6497,7 +7029,7 @@
             drag.lx = e.clientX; drag.lt = e.timeStamp;
             const dx = e.clientX - drag.x0;
             const edge = (dx > 0 && currentMonthIdx === 0) || (dx < 0 && currentMonthIdx === MONTH_COUNT - 1);
-            drag.dx = edge ? dx * 0.3 : Math.max(-W, Math.min(W, dx));
+            drag.dx = edge ? dx * 0.3 : Math.max(-STEP, Math.min(STEP, dx));
             if (!raf) raf = requestAnimationFrame(() => { raf = 0; if (drag) follow(drag.dx); });
         });
         function endDrag(e) {
@@ -6559,7 +7091,7 @@
                 if (drag || settling || !MONTHS.length || track.children.length !== 3) return;
                 const oldW = W, oldH = H[1];
                 measure();
-                if (W !== oldW || H[1] !== oldH) { setX(-W); fitTo(1); }   // skip the write when nothing moved
+                if (W !== oldW || H[1] !== oldH) { setX(-STEP); fitTo(1); }   // skip the write when nothing moved
             }).observe(track);
         }
 
@@ -6872,6 +7404,31 @@
     })();
     </script>
 
+
+    <script>
+    /* Count-up for the four summary numbers (cosmetic only; the page still writes the real values) */
+    (function () {
+        var ids = ['statHolidays', 'statSchoolDays', 'statPrograms', 'statEvents'];
+        if (!window.MutationObserver || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+        ids.forEach(function (id) {
+            var el = document.getElementById(id); if (!el) return;
+            var last = null, raf = 0;
+            new MutationObserver(function () {
+                var t = el.textContent.trim();
+                if (t === last || !/^[0-9\u0966-\u096F]+$/.test(t)) return;
+                var nep = /[\u0966-\u096F]/.test(t);
+                var n = +t.replace(/[\u0966-\u096F]/g, function (c) { return c.charCodeAt(0) - 2406; }), t0 = performance.now();
+                cancelAnimationFrame(raf);
+                (function step(now) {
+                    var k = Math.min((now - t0) / 550, 1), v = k >= 1 ? n : Math.round(n * (1 - Math.pow(1 - k, 3)));
+                    last = nep ? String(v).replace(/\d/g, function (d) { return String.fromCharCode(2406 + +d); }) : String(v);
+                    el.textContent = last;
+                    if (k < 1) raf = requestAnimationFrame(step);
+                })(t0);
+            }).observe(el, { childList: true, characterData: true, subtree: true });
+        });
+    })();
+    </script>
 </body>
 
 </html>

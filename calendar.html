@@ -4604,6 +4604,100 @@
         #searchInput::-webkit-search-cancel-button, #searchInput::-webkit-search-decoration,
         #searchInput::-webkit-search-results-button, #searchInput::-webkit-search-results-decoration { display: none; -webkit-appearance: none; }
     </style>
+
+    <style id="calendar-desktop-v2">
+        /* ==========================================================================
+           PC LAYOUT v2 (>=1024px only). Phones and tablets keep their current design:
+           the wrapper below is "display: contents" there, so nothing moves.
+           Left half: slim month bar -> calendar -> the four summary cards.
+           Right half: selected date + programs.
+           ========================================================================== */
+        .info-col { display: contents; }
+
+        @media (min-width: 1024px) {
+            /* name modal sits at the top on PC */
+            body #nameModal.modal-overlay { align-items: flex-start; padding-top: clamp(24px, 7vh, 72px); }
+
+            body .app-container {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+                grid-template-areas:
+                    "head  head"
+                    "nav   info"
+                    "cal   info"
+                    "stats info"
+                    "quote quote" !important;
+                align-items: start;
+            }
+            /* "Calendar — holidays, festivals and school programs in one place" heading removed */
+            body .app-container .cal-page-heading { display: none !important; }
+            body .app-container .month-stats { grid-area: stats; }
+            body .app-container .controls-card { grid-area: nav; }
+            body .app-container #calendarWrapper { grid-area: cal; }
+
+            /* right column: both cards stacked, always exactly as tall as the left column (the list scrolls) */
+            body .app-container .info-col {
+                grid-area: info; display: flex; flex-direction: column; gap: var(--dk-gap);
+                align-self: stretch; min-height: 0; contain: size;
+            }
+            body .app-container .info-col .detail-panel { flex: 0 0 auto; }
+            body .app-container .info-col .programs-card { flex: 1 1 0; min-height: 0; overflow: hidden; }
+            body .app-container .info-col .program-list { flex: 1 1 0; min-height: 0; max-height: none !important; overflow-y: auto; }
+            body .app-container .info-col .muhurta-box { flex: 0 0 auto; }
+
+            /* ---------- slim month bar: [<] month [>] | clock | today — one thin row ---------- */
+            body .app-container .cal-top .controls-card {
+                flex-direction: row !important; align-items: center !important; justify-content: space-between;
+                gap: 10px !important; padding: 7px 10px !important; border-radius: 16px !important; min-height: 0;
+            }
+            body .app-container .cal-top .nav-row { flex: 1 1 auto !important; min-width: 0; gap: 8px !important; flex-wrap: nowrap !important; }
+            body .app-container .cal-top .month-btn { width: 36px !important; height: 36px !important; border-radius: 12px !important; flex: 0 0 auto; }
+            body .app-container .cal-top .month-dropdown-btn {
+                height: 36px !important; line-height: 36px !important; font-size: .98rem !important; border-radius: 12px !important; padding-top: 0 !important; padding-bottom: 0 !important;
+            }
+            body .app-container .cal-top .month-dropdown-wrapper::before, body .app-container .cal-top .month-dropdown-wrapper::after { width: 24px !important; height: 24px !important; }
+            body .app-container .cal-top .action-row {
+                flex: 0 0 auto !important; flex-wrap: nowrap !important; gap: 8px !important;
+                padding: 0 0 0 12px !important; border-top: 0 !important; border-left: 1px solid var(--dk-line) !important;
+            }
+            body .app-container .cal-top .live-clock { padding: 5px 11px !important; min-height: 0; font-size: .8rem !important; border-radius: 11px !important; gap: 6px !important; white-space: nowrap; }
+            body .app-container .cal-top .live-clock i { font-size: .7rem !important; }
+            body .app-container .cal-top .btn-today { min-height: 34px !important; padding: 5px 14px !important; font-size: .78rem !important; border-radius: 11px !important; white-space: nowrap; }
+
+            /* ---------- the four summary cards, slim, under the calendar ---------- */
+            body .app-container .month-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+            body .app-container .stat-card {
+                min-height: 54px !important; padding: 8px 10px !important; gap: 8px !important; border-radius: 15px;
+            }
+            body .app-container .stat-icon { width: 32px !important; height: 32px !important; border-radius: 10px !important; font-size: .82rem !important; }
+            body .app-container .stat-label { font-size: .68rem !important; }
+            body .app-container .stat-value { font-size: 1.15rem !important; }
+            body .app-container .stat-go { display: none; }
+            body .app-container .stat-card .stat-body { padding-right: 0; }
+
+            /* calendar fills its half */
+            body #calendarWrapper.calendar-wrapper { padding: 14px 14px 12px !important; }
+        }
+        @media (min-width: 1024px) and (max-width: 1279px) {
+            body .app-container .cal-top .live-clock { display: none !important; }
+            body .app-container .stat-label { font-size: .62rem !important; }
+        }
+        @media (min-width: 1600px) {
+            body .app-container { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; }
+            body #calendarWrapper .calendar-cell { min-height: 56px; }
+        }
+    </style>
+    <style id="no-autofill-css">
+        /* search fields: no native clear / magnifier chrome, no autofill look */
+        #searchInput, #facultySearch { -webkit-appearance: none; appearance: none; }
+        #searchInput::-webkit-search-cancel-button, #searchInput::-webkit-search-decoration,
+        #facultySearch::-webkit-search-cancel-button, #facultySearch::-webkit-search-decoration { display: none; -webkit-appearance: none; }
+        /* if a browser still autofills, keep the field looking normal */
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0 1000px var(--surface-solid, #fff) inset !important;
+            -webkit-text-fill-color: var(--text, #1e293b) !important;
+            transition: background-color 99999s ease-out 0s;
+        }
+    </style>
 </head>
 
 <body>
@@ -4635,15 +4729,15 @@
             <span class="modal-icon" aria-hidden="true">👋</span>
             <h2 id="nameModalTitle">Welcome to PSBS Portal</h2>
             <p>Please enter your name to personalize your experience</p>
-            <form id="nameForm" novalidate autocomplete="off" data-autofill="off">
+            <form autocomplete="off" id="nameForm" novalidate data-autofill="off">
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="userNameInput" class="sr-only">Enter your name</label>
-                    <input type="text" id="userNameInput" placeholder="Enter your name" required autofocus
+                    <input autocomplete="nope" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="text" id="userNameInput" placeholder="Enter your name" required autofocus
                         aria-required="true" maxlength="50" pattern="^[a-zA-Z\s\-']+$"
                         title="Please enter a valid name"
-                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                        name="psbs-username" data-form-type="other">
+                       
+                        name="psbs-username">
                     <div class="input-error" id="nameError" role="alert"></div>
                 </div>
                 <button type="submit" class="submit-btn ripple-host">Continue <i class="ri-arrow-right-line" aria-hidden="true"></i></button>
@@ -4670,13 +4764,13 @@
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
-            <form id="editNameForm" novalidate autocomplete="off" data-autofill="off">
+            <form autocomplete="off" id="editNameForm" novalidate data-autofill="off">
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="editNameInput" class="sr-only">Enter your name</label>
-                    <input type="text" id="editNameInput" placeholder="Enter your name" required maxlength="50"
-                        pattern="^[a-zA-Z\s\-']+$" autocomplete="off" autocorrect="off"
-                        autocapitalize="off" spellcheck="false" name="psbs-edit-name" data-form-type="other">
+                    <input autocomplete="nope" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="text" id="editNameInput" placeholder="Enter your name" required maxlength="50"
+                        pattern="^[a-zA-Z\s\-']+$"
+                        name="psbs-edit-name">
                     <div class="input-error" id="editNameError" role="alert"></div>
                 </div>
                 <div class="modal-actions">
@@ -4714,9 +4808,9 @@
             </div>
             <div class="search-input-wrap">
                 <i class="ri-search-2-line" aria-hidden="true"></i>
-                <input type="search" id="searchInput" placeholder="Search festivals & events..." aria-label="Search festivals and events"
-                    autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox"
-                    name="psbs-q-nofill" data-form-type="other" inputmode="search" enterkeyhint="search" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false">
+                <input autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="searchInput" placeholder="Search festivals & events..." aria-label="Search festivals and events"
+                    role="searchbox"
+                    name="psbs-q-nofill" inputmode="search" enterkeyhint="search">
                 <button type="button" class="search-clear" id="searchClearBtn" aria-label="Clear search" title="Clear search">✕</button>
             </div>
             <div class="search-results" id="searchResults">
@@ -4927,9 +5021,9 @@
                                     <div class="doc-search-wrap">
                                         <i class="ri-search-2-line" aria-hidden="true"></i>
                                         <label for="docSearchInput" class="sr-only">Search documents</label>
-                                        <input type="text" id="docSearchInput" placeholder="Search..."
-                                            autocomplete="off" autocorrect="off" autocapitalize="off"
-                                            spellcheck="false" name="psbs-doc-search" data-form-type="other" inputmode="search" enterkeyhint="search" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore>
+                                        <input autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="docSearchInput" placeholder="Search..."
+                                           
+                                            name="psbs-doc-search" inputmode="search" enterkeyhint="search" role="searchbox">
                                     </div>
                                     <div class="doc-filters" id="docFilters" role="tablist">
                                         <button class="doc-filter active" data-filter="all" type="button">All</button>
@@ -5067,6 +5161,7 @@
                         </div>
                     </section>
               
+                <div class="info-col">
                 <!-- ===== DETAIL PANEL ===== -->
                 <div class="detail-panel" id="detailPanel">
                     <div class="detail-header">
@@ -5103,6 +5198,7 @@
                     <ul class="program-list" id="programList"></ul>
                     <div class="muhurta-box" id="muhurtaBox"></div>
                 </div>
+                </div><!-- /info-col -->
 
                 <!-- ===== FOOTER QUOTE ===== -->
                 <footer class="footer-quote">
@@ -8615,6 +8711,53 @@
                 })(t0);
             }).observe(el, { childList: true, characterData: true, subtree: true });
         });
+    })();
+    </script>
+
+    <script id="no-autofill-js">
+    /* Turns off autofill, autocorrect and the keyboard's suggestion strip on every text field: the ones in the page
+       now and any added later. (Browsers decide the final behaviour; these are the strongest hints they honour.) */
+    (function () {
+        var SKIP = { file: 1, hidden: 1, checkbox: 1, radio: 1, range: 1, button: 1, submit: 1, reset: 1, image: 1, color: 1 };
+        function harden(el) {
+            if (!el || el.nodeType !== 1) return;
+            var tag = el.tagName;
+            if (tag === 'FORM') { el.setAttribute('autocomplete', 'off'); return; }
+            if (tag !== 'INPUT' && tag !== 'TEXTAREA') return;
+            if (tag === 'INPUT' && SKIP[(el.getAttribute('type') || 'text').toLowerCase()]) return;
+            if (el.getAttribute('data-nofill') === '1') return;
+            var risky = /^(name|email|username|user|mail)$/i.test(el.name || '') || (el.type === 'email') || /name|email/i.test(el.id || '');
+            el.setAttribute('autocomplete', risky ? 'nope' : 'off');
+            el.setAttribute('autocorrect', 'off');
+            el.setAttribute('autocapitalize', 'none');
+            el.setAttribute('spellcheck', 'false');
+            el.setAttribute('aria-autocomplete', 'none');
+            el.setAttribute('data-lpignore', 'true');
+            el.setAttribute('data-1p-ignore', '');
+            el.setAttribute('data-bwignore', '');
+            el.setAttribute('data-form-type', 'other');
+            el.setAttribute('data-gramm', 'false');
+            el.setAttribute('data-gramm_editor', 'false');
+            el.setAttribute('data-enable-grammarly', 'false');
+            el.setAttribute('data-nofill', '1');
+        }
+        function sweep(root) {
+            if (!root || !root.querySelectorAll) return;
+            harden(root);
+            var all = root.querySelectorAll('input, textarea, form');
+            for (var i = 0; i < all.length; i++) harden(all[i]);
+        }
+        sweep(document);
+        if (window.MutationObserver) {
+            new MutationObserver(function (list) {
+                for (var i = 0; i < list.length; i++) {
+                    var added = list[i].addedNodes;
+                    for (var j = 0; j < added.length; j++) sweep(added[j]);
+                }
+            }).observe(document.documentElement, { childList: true, subtree: true });
+        }
+        // last line of defence: anything that gets focus is hardened before the keyboard reads it
+        document.addEventListener('focusin', function (e) { harden(e.target); }, true);
     })();
     </script>
 </body>

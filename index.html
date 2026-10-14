@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="description"
         content="Pabitra Secondary Boarding School - Quality Education since 2040 B.S. Official portal with notices, documents and gallery." />
     <meta name="theme-color" content="#f39c12" />
@@ -626,7 +626,7 @@
         }
         .nav-left { display: flex; align-items: center; gap: 6px; flex: 1; }
         .nav-left .logo {
-            width: 36px !important; height: 36px !important;
+            width: 30px !important; height: 30px !important;
             border-radius: var(--radius-full); object-fit: cover; flex-shrink: 0;
             box-shadow: 0 4px 12px rgba(243, 156, 18, 0.18);
         }
@@ -1503,7 +1503,7 @@
         }
         .hero-title {
             position: relative; isolation: isolate;
-            font-size: clamp(2rem, 5vw, 3.65rem);
+            font-size: clamp(2.4rem, 5.5vw, 4rem);
             line-height: 1.08; margin: 0 auto 15px;
             font-weight: 800; letter-spacing: -0.035em;
             color: #fff;
@@ -2584,7 +2584,7 @@ body.dark .header { background: rgba(15, 23, 42, 0.8); box-shadow: inset 0 1px 0
 .nav-left .logo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(var(--primary-rgb), 0.4), 0 8px 16px -4px rgba(var(--primary-rgb), 0.5); }
 body.dark .nav-left .logo { box-shadow: 0 0 0 2px #1e293b, 0 0 0 4px rgba(var(--primary-rgb), 0.5), 0 8px 16px -4px rgba(var(--primary-rgb), 0.5); }
 .brand-text { display: none; flex-direction: column; line-height: 1.12; margin: 0 4px 0 2px; min-width: 0; }
-.brand-text strong { font-size: 0.9375rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
+.brand-text strong { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; }
 .brand-text span { font-size: 0.7rem; font-weight: 700; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
 @media (min-width: 560px) { .brand-text { display: flex; } }
 
@@ -3435,12 +3435,12 @@ body.dark .open-status.closed { color: #fca5a5; background: linear-gradient(180d
   #pcScrollDots .psd-dot.active { background: var(--primary); transform: scale(1.35); box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .18); }
 }
 
-/* ---------- 15. Hero logo: a touch smaller on PC + a nicer shine sweep ---------- */
+/* ---------- 15. Hero logo: slightly more compact on PC + a nicer shine sweep ---------- */
 @media (min-width: 1200px) {
-  .hero-content > .hero-logo-wrap { flex: 0 0 240px; width: 240px; height: 240px; }
+  .hero-content > .hero-logo-wrap { flex: 0 0 225px; width: 225px; height: 225px; }
 }
 @media (min-width: 1440px) {
-  .hero-content > .hero-logo-wrap { flex-basis: 260px; width: 260px; height: 260px; }
+  .hero-content > .hero-logo-wrap { flex-basis: 245px; width: 245px; height: 245px; }
 }
 
 /* ---------- 17. Footer: interactive links, socials, and a "Top" pill ---------- */
@@ -3624,6 +3624,847 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
 .welcome-card .submit-btn:active, .welcome-card .welcome-btn:active, #themePresetsApplyBtn:active { transform: scale(.97) !important; }
 .welcome-card .submit-btn:focus-visible, .welcome-card .welcome-btn:focus-visible, #themePresetsApplyBtn:focus-visible { outline: 2px solid var(--primary-light) !important; outline-offset: 3px !important; }
 </style>
+
+    
+<style id="premium-redesign-2026">
+/* ============================================================
+   PSBS PREMIUM REDESIGN — Desktop Hero First
+   Scoped to #hero and main content. Header / sidebars untouched.
+   ============================================================ */
+
+/* Reset hero from old styles */
+#hero {
+    position: relative !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    display: block !important;
+    background: var(--surface-solid) !important;
+    color: var(--text) !important;
+    border-radius: 0 0 40px 40px !important;
+    overflow: hidden !important;
+    isolation: isolate !important;
+    text-align: left !important;
+}
+#hero::before, #hero::after {
+    content: none !important;
+}
+#hero .hero-aurora, #hero .hero-overlay, #hero .hero-content, #hero .hero-logo-wrap, #hero .hero-float-chip, #hero .hero-scroll {
+    display: none !important;
+}
+
+/* Background treatment - subtle, premium, theme-aware */
+.hero-premium-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.hero-premium-bg .hero-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(0px);
+    will-change: auto;
+}
+.hero-premium-bg .g1 {
+    width: 680px; height: 680px;
+    left: -120px; top: -220px;
+    background: radial-gradient(circle at 50% 50%, rgba(var(--primary-rgb), 0.10) 0%, rgba(var(--primary-rgb), 0.04) 35%, transparent 70%);
+}
+.hero-premium-bg .g2 {
+    width: 520px; height: 520px;
+    right: -120px; top: 10%;
+    background: radial-gradient(circle at 50% 50%, rgba(var(--primary-rgb), 0.08) 0%, transparent 68%);
+}
+.hero-premium-bg .hero-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 0%, transparent 70%);
+}
+body.dark .hero-premium-bg .g1 {
+    background: radial-gradient(circle at 50% 50%, rgba(var(--primary-rgb), 0.16) 0%, rgba(var(--primary-rgb), 0.06) 38%, transparent 72%);
+}
+body.dark .hero-premium-bg .g2 {
+    background: radial-gradient(circle at 50% 50%, rgba(var(--primary-rgb), 0.12) 0%, transparent 70%);
+}
+body.dark .hero-premium-bg .hero-grid { opacity: 0.06; }
+
+/* Inner layout */
+/* Left */
+.hero-left {
+    min-width: 0;
+}
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.68));
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255,255,255,0.75);
+    box-shadow: 0 4px 18px rgba(15,23,42,0.06), 0 1px 0 rgba(255,255,255,0.9) inset, 0 0 0 1px rgba(226,232,240,0.55), 0 0 0 3px rgba(var(--primary-rgb),0.08);
+    border-radius: 999px;
+    padding: 7px 14px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+.hero-eyebrow::before {
+    content: "";
+    position: absolute;
+    left: 6%; right: 6%; top: 0; height: 52%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0));
+    pointer-events: none;
+    z-index: -1;
+}
+/* Dark mode for small glossy Welcome box */
+body.dark .hero-eyebrow {
+    background: linear-gradient(180deg, rgba(30,41,59,0.9), rgba(30,41,59,0.7));
+    border-color: rgba(255,255,255,0.12);
+    color: var(--text);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.06);
+}
+.hero-eyebrow .eb-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.14);
+    flex-shrink: 0;
+}
+.hero-eyebrow .eb-line {
+    width: 28px; height: 1px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+.hero-title {
+    margin: 0 0 14px;
+    font-size: clamp(2.5rem, 4.2vw, 3.85rem) !important;
+    line-height: 0.98 !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em !important;
+    color: var(--text) !important;
+    -webkit-text-fill-color: var(--text) !important;
+    text-shadow: none !important;
+    filter: none !important;
+    max-width: 14ch;
+}
+.hero-title-line { display: block; }
+.hero-title-line.accent { font-weight: 800; color: var(--text); }
+.hero-title::before, .hero-title::after { content: none !important; }
+
+.hero-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 6px 12px 6px 8px;
+    border-radius: 999px;
+    background: var(--surface-solid);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 4px 12px -8px rgba(15,23,42,0.12);
+}
+body.dark .hero-meta {
+    background: rgba(30,41,59,0.7);
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: none;
+}
+.hm-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+.hm-item i { font-size: 1rem; color: var(--primary); }
+.hm-dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--border);
+}
+
+#hero .hero-motto {
+    margin: 0 0 14px !important;
+    font-size: clamp(1.15rem, 1.9vw, 1.45rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.01em !important;
+    color: var(--primary) !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: var(--primary) !important;
+    filter: none !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    min-height: auto !important;
+}
+#hero .hero-motto::after { content: none !important; }
+
+.hero-description {
+    max-width: 54ch !important;
+    margin: 0 0 26px !important;
+    font-size: 1rem !important;
+    line-height: 1.72 !important;
+    color: var(--text-light) !important;
+    text-shadow: none !important;
+    letter-spacing: 0.01em;
+}
+
+/* Highlights */
+.hero-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+}
+.hh {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 12px;
+    border-radius: 16px;
+    background: var(--surface-solid);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 0 #fff inset, 0 2px 10px -8px rgba(15,23,42,0.08);
+    transition: transform 0.25s var(--snap), box-shadow 0.25s var(--snap), border-color 0.25s ease;
+}
+body.dark .hh {
+    background: rgba(30,41,59,0.6);
+    box-shadow: none;
+}
+.hh:hover {
+    transform: translateY(-1px);
+    border-color: rgba(var(--primary-rgb), 0.22);
+    box-shadow: 0 6px 18px -12px rgba(var(--primary-rgb),0.35), 0 1px 0 #fff inset;
+}
+body.dark .hh:hover {
+    box-shadow: 0 8px 22px -14px rgba(0,0,0,0.5);
+}
+.hh-icon {
+    width: 36px; height: 36px;
+    border-radius: 11px;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    font-size: 1.05rem;
+    color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.10);
+    border: 1px solid rgba(var(--primary-rgb), 0.14);
+}
+.hh-text { min-width: 0; }
+.hh-text strong {
+    display: block;
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.hh-text span {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--text-light);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Actions */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+.hero-btn {
+    min-height: 46px;
+    padding: 0 20px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    isolation: isolate;
+    transition: transform 0.22s var(--snap), box-shadow 0.22s var(--snap), background 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+    white-space: nowrap;
+}
+.hero-btn i { font-size: 1.1em; }
+.hero-btn.primary {
+    color: #fff !important;
+    background: var(--primary-gradient) !important;
+    border: 1px solid rgba(255,255,255,0.32) !important;
+    box-shadow: 0 10px 22px -12px rgba(var(--primary-rgb),0.55), 0 2px 6px -2px rgba(var(--primary-rgb),0.35), inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.08) !important;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.18);
+}
+.hero-btn.primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px -14px rgba(var(--primary-rgb),0.6), 0 4px 10px -4px rgba(var(--primary-rgb),0.4), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+}
+.hero-btn.secondary {
+    color: var(--text) !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 4px 12px -8px rgba(15,23,42,0.12) !important;
+}
+body.dark .hero-btn.secondary {
+    background: rgba(30,41,59,0.8) !important;
+    border-color: rgba(255,255,255,0.10) !important;
+    color: var(--text) !important;
+    box-shadow: none !important;
+}
+.hero-btn.secondary:hover {
+    border-color: rgba(var(--primary-rgb),0.28) !important;
+    color: var(--primary-dark) !important;
+    transform: translateY(-1px);
+}
+.hero-btn:active { transform: scale(0.97) !important; }
+.hero-btn:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+}
+
+/* Trust */
+.hero-trust {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+.trust-avatars {
+    display: inline-flex;
+    align-items: center;
+}
+.ta {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--surface-solid);
+    margin-left: -8px;
+    background: var(--surface-hover);
+    box-shadow: 0 2px 6px rgba(15,23,42,0.08);
+}
+.ta:first-child { margin-left: 0; }
+.ta1 { background: linear-gradient(135deg, #fde68a, #f59e0b); }
+.ta2 { background: linear-gradient(135deg, #a7f3d0, #10b981); }
+.ta3 { background: linear-gradient(135deg, #bfdbfe, #6366f1); }
+body.dark .ta { border-color: #1e293b; }
+
+/* Right visual */
+body.dark .hv-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+    transition: transform 0.6s var(--snap);
+}
+.hv-frame:hover img { transform: scale(1.02); }
+body.dark body.dark body.dark .hv-badge-icon {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--primary-gradient);
+    color: #fff;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 16px -10px rgba(var(--primary-rgb),0.6), inset 0 1px 0 rgba(255,255,255,0.5);
+    flex-shrink: 0;
+}
+.hv-badge-text strong {
+    display: block;
+    font-size: 0.86rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.15;
+}
+.hv-badge-text span {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin-top: 1px;
+}
+body.dark .hv-stat i { color: var(--primary); font-size: 1rem; }
+
+/* Quick wrap refinement - deliberate controlled overlap */
+.quick-wrap {
+    position: relative !important;
+    z-index: 3 !important;
+    width: calc(100% - 40px) !important;
+    max-width: 1280px !important;
+    margin: -36px auto 0 !important;
+}
+.quick-grid {
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0,1fr)) !important;
+    gap: 14px !important;
+}
+.quick-card {
+    padding: 18px 10px 16px !important;
+    border-radius: 20px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 10px 24px -18px rgba(15,23,42,0.14) !important;
+    min-height: 132px;
+}
+body.dark .quick-card {
+    background: rgba(30,41,59,0.86) !important;
+    box-shadow: 0 10px 24px -18px rgba(0,0,0,0.35) !important;
+}
+.quick-card::before {
+    height: 2px !important;
+    opacity: 0.7;
+}
+.qc-icon {
+    width: 44px !important; height: 44px !important;
+    border-radius: 14px !important;
+    margin-bottom: 6px !important;
+    font-size: 1.25rem !important;
+}
+.qc-title { font-size: 0.875rem !important; font-weight: 700 !important; }
+.qc-sub { font-size: 0.72rem !important; line-height: 1.3 !important; margin-top: 2px; }
+
+/* Sections refinement */
+.section {
+    width: calc(100% - 40px) !important;
+    max-width: 1280px !important;
+    margin: 28px auto !important;
+    padding: 56px 0 !important;
+    border-radius: 28px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 16px 40px -28px rgba(15,23,42,0.14) !important;
+}
+body.dark .section {
+    background: rgba(30,41,59,0.6) !important;
+    box-shadow: 0 16px 40px -28px rgba(0,0,0,0.45) !important;
+}
+.section::before { content: none !important; }
+.section .container {
+    max-width: 1120px !important;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+}
+.section-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase;
+    background: rgba(var(--primary-rgb),0.10) !important;
+    border: 1px solid rgba(var(--primary-rgb),0.16) !important;
+    color: var(--primary-dark) !important;
+    border-radius: 999px !important;
+    margin-bottom: 14px !important;
+    box-shadow: none !important;
+}
+body.dark .section-tag {
+    background: rgba(var(--primary-rgb),0.14) !important;
+    color: var(--primary-light) !important;
+}
+.section-title {
+    font-size: clamp(1.55rem, 2.8vw, 2.15rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.08 !important;
+    margin-bottom: 10px !important;
+}
+.section-title::after {
+    width: 48px !important;
+    height: 3px !important;
+    margin: 14px auto 0 !important;
+    border-radius: 999px !important;
+    background: var(--primary) !important;
+    box-shadow: none !important;
+}
+.section-description {
+    max-width: 62ch !important;
+    margin: 0 auto 32px !important;
+    font-size: 0.95rem !important;
+    line-height: 1.7 !important;
+    color: var(--text-light) !important;
+}
+
+/* About */
+.about-grid {
+    gap: 48px !important;
+    align-items: center !important;
+}
+#about .about-content h2 {
+    font-size: clamp(1.4rem, 2.6vw, 2rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.1 !important;
+    margin-bottom: 14px !important;
+}
+#about .about-content p {
+    font-size: 0.94rem !important;
+    line-height: 1.75 !important;
+    color: var(--text-light) !important;
+    margin-bottom: 12px !important;
+}
+.about-image img {
+    border-radius: 24px !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 0 0 1px rgba(15,23,42,0.04), 0 20px 40px -24px rgba(15,23,42,0.18) !important;
+    aspect-ratio: 4/3 !important;
+    object-fit: cover !important;
+}
+.about-badge {
+    left: 18px !important;
+    bottom: -16px !important;
+    padding: 12px 16px !important;
+    border-radius: 16px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+    box-shadow: 0 12px 28px -16px rgba(15,23,42,0.22), 0 1px 0 #fff inset !important;
+}
+body.dark .about-badge {
+    background: #1e293b !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+.about-badge strong { color: var(--primary) !important; }
+.feature {
+    padding: 14px 14px !important;
+    border-radius: 16px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 6px 18px -14px rgba(15,23,42,0.12) !important;
+}
+.feature span {
+    width: 42px !important; height: 42px !important;
+    border-radius: 12px !important;
+    font-size: 1.2rem !important;
+}
+.mvv-grid { gap: 16px !important; margin-top: 36px !important; }
+.mvv-card {
+    padding: 22px 20px !important;
+    border-radius: 20px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 8px 24px -18px rgba(15,23,42,0.12) !important;
+}
+.mvv-card::after { display: none !important; }
+.mvv-icon { width: 42px !important; height: 42px !important; border-radius: 12px !important; font-size: 1.25rem !important; }
+
+/* Academics */
+.academics-grid { gap: 16px !important; }
+.academic-card {
+    padding: 22px 16px 18px !important;
+    border-radius: 20px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 8px 24px -18px rgba(15,23,42,0.12) !important;
+    text-align: left !important;
+}
+.academic-card::before {
+    top: 14px !important; right: 16px !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    color: var(--text-light) !important;
+    opacity: 0.6;
+}
+.academic-card::after { height: 2px !important; opacity: 0.7; }
+.academic-icon {
+    width: 48px !important; height: 48px !important;
+    margin: 0 0 12px !important;
+    border-radius: 14px !important;
+    font-size: 1.4rem !important;
+}
+.academic-card h3 { font-size: 0.95rem !important; font-weight: 700 !important; margin-bottom: 6px !important; }
+.academic-card p { font-size: 0.84rem !important; line-height: 1.6 !important; min-height: auto !important; color: var(--text-light) !important; }
+
+/* Highlights */
+.hl-grid { gap: 16px !important; }
+.hl-card {
+    padding: 20px 18px !important;
+    border-radius: 20px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 8px 24px -18px rgba(15,23,42,0.12) !important;
+}
+.hl-icon { width: 42px !important; height: 42px !important; border-radius: 12px !important; font-size: 1.25rem !important; }
+
+/* Faculty */
+.faculty-card {
+    padding: 20px 14px 16px !important;
+    border-radius: 20px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 8px 24px -18px rgba(15,23,42,0.12) !important;
+}
+
+/* Gallery */
+.gallery-grid { gap: 14px !important; }
+.gallery-item {
+    border-radius: 16px !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 10px 24px -18px rgba(15,23,42,0.14) !important;
+}
+
+/* Contact */
+.contact-grid { gap: 28px !important; }
+.contact-card {
+    padding: 14px 14px !important;
+    border-radius: 16px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 6px 18px -14px rgba(15,23,42,0.12) !important;
+}
+.contact-form {
+    border-radius: 20px !important;
+    padding: 22px 20px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 12px 32px -20px rgba(15,23,42,0.14) !important;
+}
+
+/* Footer */
+.footer {
+    margin-top: 48px !important;
+    padding: 48px 28px 24px !important;
+    border-radius: 32px 32px 0 0 !important;
+}
+
+/* Responsive */
+@media (min-width: 1440px) {
+    .section { max-width: 1320px !important; }
+}
+@media (max-width: 1280px) {
+    .hero-highlights { gap: 10px; }
+}
+@media (max-width: 1024px) {
+    .hero-title { font-size: clamp(2rem, 3.8vw, 2.8rem) !important; }
+    .hero-highlights { grid-template-columns: 1fr; }
+    .quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+}
+@media (max-width: 900px) {
+    .hero-left { order: 1; }
+    .quick-wrap { margin: -20px auto 0 !important; width: calc(100% - 24px) !important; }
+}
+@media (max-width: 768px) {
+    #hero { border-radius: 0 0 28px 28px !important; }
+    .hero-title { max-width: 100%; font-size: clamp(1.9rem, 7vw, 2.4rem) !important; }
+    .hero-meta { flex-wrap: wrap; }
+    .hero-highlights { grid-template-columns: 1fr; }
+    .hh { padding: 14px 14px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-btn { width: 100%; }
+    .quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; gap: 10px !important; }
+    .quick-card { min-height: 110px !important; padding: 14px 8px 12px !important; }
+    .qc-sub { display: none !important; }
+    .section { width: calc(100% - 20px) !important; padding: 40px 0 !important; border-radius: 22px !important; }
+    .section .container { padding-left: 18px !important; padding-right: 18px !important; }
+    .about-grid { gap: 28px !important; }
+}
+@media (max-width: 430px) {
+    .hero-eyebrow { font-size: 0.72rem; }
+    .hero-description { font-size: 0.92rem !important; }
+    .quick-grid { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+}
+@media (max-width: 360px) {
+    .hero-title { font-size: 1.75rem !important; }
+    .hm-item { font-size: 0.74rem; }
+}
+
+/* Performance & reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .hv-frame img { transition: none !important; }
+}
+
+/* Theme presets - ensure gold accents respect theme */
+body.theme-cyan .hero-btn.primary,
+body.theme-coral .hero-btn.primary,
+body.theme-indigo .hero-btn.primary,
+body.theme-red .hero-btn.primary,
+body.theme-rose .hero-btn.primary,
+body.theme-teal .hero-btn.primary,
+body.theme-yellow .hero-btn.primary {
+    background: var(--primary-gradient) !important;
+}
+body.theme-cyan #hero .hero-motto,
+body.theme-coral #hero .hero-motto,
+body.theme-indigo #hero .hero-motto,
+body.theme-red #hero .hero-motto,
+body.theme-rose #hero .hero-motto,
+body.theme-teal #hero .hero-motto,
+body.theme-yellow #hero .hero-motto {
+    color: var(--primary) !important;
+    -webkit-text-fill-color: var(--primary) !important;
+}
+
+/* Ensure header/sidebars not affected */
+.header, .sidebar, .right-panel { /* preserve */ }
+
+/* Button system polish for rest of site */
+.btn-glossy, .btn-glass, .contact-btn, .submit-btn {
+    min-height: 46px;
+    border-radius: 999px !important;
+}
+
+/* Notice ticker polish */
+.notice-ticker {
+    border-radius: 999px !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 1px 0 #fff inset, 0 10px 24px -18px rgba(15,23,42,0.14) !important;
+    margin-bottom: 16px !important;
+}
+
+/* Remove expensive filters for performance */
+.nebula-bg .orb { filter: none !important; will-change: auto !important; }
+@media (max-width: 768px) { .nebula-bg .orb { animation: none !important; } }
+
+/* Ensure images optimized */
+img[loading="lazy"] { content-visibility: auto; }
+
+
+/* ===== RESTORED: School name FONT COLOR var(--primary) glossy smaller + Logo bigger centred + Icons only glossy ===== */
+#hero .hero-title {
+    margin: 0 0 14px !important;
+    font-size: clamp(1.9rem, 3.2vw, 2.9rem) !important;
+    line-height: 0.90 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.05em !important;
+    max-width: 14ch !important;
+    position: relative !important;
+    isolation: isolate !important;
+    color: var(--primary) !important;
+    -webkit-text-fill-color: var(--primary) !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.96), 0 1.5px 0 rgba(255,255,255,0.88), 0 6px 14px rgba(var(--primary-rgb),0.18) !important;
+    filter: drop-shadow(0 1px 0 rgba(255,255,255,1)) drop-shadow(0 8px 18px rgba(var(--primary-rgb),0.22)) drop-shadow(0 16px 28px rgba(var(--primary-rgb),0.14)) !important;
+    -webkit-text-stroke: 0.45px rgba(255,255,255,0.75) !important;
+}
+#hero .hero-title::before {
+    content: "" !important;
+    position: absolute !important;
+    left: -2% !important; right: -2% !important; top: -2% !important; height: 48% !important;
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0) 70%) !important;
+    filter: blur(9px) !important; opacity: 0.92 !important; mix-blend-mode: overlay !important;
+    pointer-events: none !important; z-index: 2 !important; display: block !important; border-radius: 18px !important;
+}
+.hero-title-line { display: block !important; color: inherit !important; -webkit-text-fill-color: inherit !important; }
+.hero-inner { position: relative; z-index: 1; width: 100%; max-width: 1280px; margin: 0 auto; padding: 108px 28px 96px; display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 64px; align-items: center; }
+.hero-right { display: grid !important; place-items: center !important; width: 100% !important; justify-content: center !important; align-items: center !important; }
+.hero-visual { position: relative !important; width: 100% !important; max-width: 440px !important; margin: 0 auto !important; display: grid !important; place-items: center !important; aspect-ratio: 1 / 1 !important; }
+.hv-frame { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 auto !important; width: 84% !important; max-width: 340px !important; aspect-ratio: 1 / 1 !important; display: grid !important; place-items: center !important; position: relative !important; z-index: 2 !important; overflow: visible !important; }
+.hv-frame img.hv-logo {
+    width: 100% !important; height: 100% !important; max-width: 340px !important; object-fit: contain !important; border-radius: 50% !important;
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #fffdf7 38%, #ffffff 100%) !important;
+    padding: 16px !important; border: 1.5px solid rgba(255,255,255,0.95) !important;
+    box-shadow: 0 0 0 1px rgba(var(--primary-rgb),0.16), 0 0 0 5px rgba(255,255,255,0.96), 0 0 0 7px rgba(var(--primary-rgb),0.22), 0 0 0 11px rgba(255,255,255,0.78), 0 24px 48px -16px rgba(var(--primary-rgb),0.52), 0 10px 22px -10px rgba(15,23,42,0.14), inset 0 2px 0 rgba(255,255,255,1), inset 0 -2px 3px rgba(0,0,0,0.06), inset 0 0 20px rgba(var(--primary-rgb),0.08) !important;
+    animation: logoShine 4.5s ease-in-out infinite !important;
+}
+@keyframes logoShine { 0%,100% { filter: brightness(1) saturate(1); } 50% { filter: brightness(1.08) saturate(1.1); } }
+.hv-shine-ring { position: absolute !important; left: 50% !important; top: 50% !important; width: 92% !important; aspect-ratio: 1 / 1 !important; transform: translate(-50%, -50%) !important; border-radius: 50% !important; border: 1px dashed rgba(var(--primary-rgb),0.18) !important; z-index: 1 !important; pointer-events: none !important; animation: spinSlow 24s linear infinite !important; }
+@keyframes spinSlow { to { transform: translate(-50%, -50%) rotate(360deg); } }
+.hv-shine-dot { position: absolute !important; width: 6px !important; height: 6px !important; border-radius: 50% !important; background: var(--primary) !important; box-shadow: 0 0 0 3px rgba(var(--primary-rgb),0.18), 0 0 10px rgba(var(--primary-rgb),0.55) !important; z-index: 3 !important; }
+.hv-shine-dot.d1 { left: 8% !important; top: 22% !important; animation: twinkle 2.8s ease-in-out infinite; }
+.hv-shine-dot.d2 { right: 10% !important; top: 18% !important; animation: twinkle 3.2s ease-in-out infinite 0.6s; }
+.hv-shine-dot.d3 { left: 18% !important; bottom: 18% !important; animation: twinkle 2.6s ease-in-out infinite 1.2s; }
+@keyframes twinkle { 0%,100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.35); } }
+.hv-corner { position: absolute !important; display: grid !important; place-items: center !important; padding: 0 !important; border-radius: 12px !important; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.86)) !important; border: 1px solid rgba(255,255,255,0.95) !important; box-shadow: 0 0 0 1px rgba(var(--primary-rgb),0.10), 0 8px 18px -10px rgba(15,23,42,0.22), 0 3px 8px -6px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,1) !important; backdrop-filter: blur(14px) !important; -webkit-backdrop-filter: blur(14px) !important; z-index: 4 !important; width: 44px !important; height: 44px !important; min-width: 0 !important; }
+.hv-corner.icon-only .hvc-text { display: none !important; }
+.hvc-icon { width: 32px !important; height: 32px !important; border-radius: 9px !important; display: grid !important; place-items: center !important; background: var(--primary-gradient) !important; color: #fff !important; font-size: 1.05rem !important; box-shadow: 0 4px 10px -6px rgba(var(--primary-rgb),0.5), inset 0 1px 0 rgba(255,255,255,0.5) !important; }
+.hv-c1 { left: 2% !important; top: 8% !important; }
+.hv-c2 { right: 2% !important; top: 50% !important; transform: translateY(-50%) !important; }
+.hv-c3 { left: 8% !important; bottom: 8% !important; }
+@media (max-width: 1024px) { .hero-inner { grid-template-columns: 1fr 0.9fr; gap: 32px; padding: 96px 22px 80px; } .hero-visual { max-width: 360px !important; } }
+@media (max-width: 768px) { .hero-inner { grid-template-columns: 1fr; gap: 36px; padding: 92px 20px 72px; } .hero-visual { max-width: 320px !important; } .hv-frame { max-width: 300px !important; width: 80% !important; } .hv-corner { width: 40px !important; height: 40px !important; } }
+</style>
+
+
+
+<style id="keyboard-aware">
+:root { --kb: 0px; }
+.modal-overlay, .search-overlay, .welcome-card-overlay { bottom: var(--kb, 0px); transition: bottom .2s ease, opacity .4s var(--snap), visibility .4s var(--snap); }
+.modal-card { max-height: calc(100% - 8px); }
+.search-results { max-height: min(52vh, 430px); }
+input, textarea { scroll-margin: 90px; }
+</style>
+
+<style id="unified-hero-copy-card">
+/* The complete left-side hero content lives in one card on desktop and mobile. */
+.hero-copy-card {
+  width: 100%; min-width: 0; box-sizing: border-box;
+  padding: clamp(22px, 2.8vw, 36px);
+  border: 1px solid rgba(255,255,255,.58); border-radius: 26px;
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(248,250,252,.72));
+  box-shadow: 0 22px 55px rgba(15,23,42,.13), inset 0 1px 0 rgba(255,255,255,.94), 0 0 0 1px rgba(255,255,255,.10);
+  backdrop-filter: blur(18px) saturate(145%); -webkit-backdrop-filter: blur(18px) saturate(145%);
+}
+body.dark .hero-copy-card {
+  background: linear-gradient(145deg, rgba(30,41,59,.91), rgba(15,23,42,.84));
+  border-color: rgba(255,255,255,.14); box-shadow: 0 22px 55px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.06);
+}
+@media (max-width: 767px) {
+  /* Keep the same centered mobile alignment, but remove the card appearance. */
+  .hero-copy-card {
+    padding: 0; border: 0; border-radius: 0; background: transparent;
+    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+    text-align: center;
+  }
+  body.dark .hero-copy-card { background: transparent; border-color: transparent; box-shadow: none; }
+  .hero-eyebrow { margin-left: auto; margin-right: auto; justify-content: center; }
+  .hero-title, .hero-motto, .hero-description { text-align: center !important; }
+  .hero-meta { justify-content: center !important; text-align: center; flex-wrap: wrap; }
+  .hero-actions { justify-content: center !important; }
+  .hero-trust { justify-content: center !important; text-align: center; flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-copy-card { backdrop-filter: none; -webkit-backdrop-filter: none; } }
+</style>
+
+
+<style id="mobile-hero-logo-size-refinement">
+/* Mobile only: make the hero logo more compact; desktop/tablet sizing stays unchanged. */
+@media (max-width: 767px) {
+  #hero .hero-content > .hero-logo-wrap {
+    flex: 0 0 108px !important;
+    width: 108px !important;
+    height: 108px !important;
+    margin: 6px auto 10px !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
@@ -3656,15 +4497,11 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
             <span class="modal-icon" aria-hidden="true">👋</span>
             <h2 id="nameModalTitle">Welcome to PSBS Portal</h2>
             <p>Please enter your name to personalize your experience</p>
-            <form id="nameForm" novalidate autocomplete="off" data-autofill="off">
+            <form autocomplete="off" id="nameForm" novalidate data-autofill="off">
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="userNameInput" class="sr-only">Enter your name</label>
-                    <input type="text" id="userNameInput" placeholder="Enter your name" required autofocus
-                        aria-required="true" maxlength="50" pattern="^[a-zA-Z\s\-']+$"
-                        title="Please enter a valid name (letters, spaces, hyphens, and apostrophes only)"
-                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                        name="psbs-username" data-form-type="other">
+                    <input autocomplete="off" type="text" id="userNameInput" name="user_name" placeholder="Enter your name" required autofocus aria-required="true" maxlength="50" pattern="^[a-zA-Z\s\-']+$" title="Please enter a valid name (letters, spaces, hyphens, and apostrophes only)" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
                     <div class="input-error" id="nameError" role="alert"></div>
                 </div>
                 <button type="submit" class="submit-btn ripple-host">Continue <i class="ri-arrow-right-line" aria-hidden="true"></i></button>
@@ -3691,13 +4528,11 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                     <i class="ri-close-large-line" aria-hidden="true"></i>
                 </button>
             </div>
-            <form id="editNameForm" novalidate autocomplete="off" data-autofill="off">
+            <form autocomplete="off" id="editNameForm" novalidate data-autofill="off">
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="editNameInput" class="sr-only">Enter your name</label>
-                    <input type="text" id="editNameInput" placeholder="Enter your name" required maxlength="50"
-                        pattern="^[a-zA-Z\s\-']+$" autocomplete="off" autocorrect="off"
-                        autocapitalize="off" spellcheck="false" name="psbs-edit-name" data-form-type="other">
+                    <input autocomplete="off" type="text" id="editNameInput" name="edit_name" placeholder="Enter your name" required maxlength="50" pattern="^[a-zA-Z\s\-']+$" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
                     <div class="input-error" id="editNameError" role="alert"></div>
                 </div>
                 <div class="modal-actions">
@@ -3728,9 +4563,9 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
         <div class="search-box">
             <div class="search-input-wrap">
                 <i class="ri-search-2-line" style="color:var(--text-light);"></i>
-                <input type="text" id="searchInput" placeholder="Search for information..."
-                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                    name="psbs-search" data-form-type="other">
+                <input autocomplete="chrome-off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="chrome-off" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="searchInput" placeholder="Search for information..."
+                   
+                    name="psbs-search" inputmode="search" enterkeyhint="search" role="searchbox">
                 <button type="button" class="search-clear" id="searchClearBtn" aria-label="Clear search" title="Clear search">✕</button>
             </div>
             <div class="search-results" id="searchResults">
@@ -3947,9 +4782,9 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                                     <div class="doc-search-wrap">
                                         <i class="ri-search-2-line" aria-hidden="true"></i>
                                         <label for="docSearchInput" class="sr-only">Search documents</label>
-                                        <input type="text" id="docSearchInput" placeholder="Search..."
-                                            autocomplete="off" autocorrect="off" autocapitalize="off"
-                                            spellcheck="false" name="psbs-doc-search" data-form-type="other">
+                                        <input autocomplete="chrome-off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="chrome-off" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="docSearchInput" placeholder="Search..."
+                                           
+                                            name="psbs-doc-search" inputmode="search" enterkeyhint="search" role="searchbox">
                                     </div>
                                     <div class="doc-filters" id="docFilters" role="tablist">
                                         <button class="doc-filter active" data-filter="all" type="button">All</button>
@@ -3988,36 +4823,112 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
         <main id="main-content" role="main">
 
             <!-- ===== HERO ===== -->
+            
+            <!-- ===== HERO — PREMIUM REDESIGN ===== -->
             <section id="hero" aria-label="Hero banner">
-                <div class="hero-aurora" aria-hidden="true">
-                    <span class="aurora-blob a1"></span>
-                    <span class="aurora-blob a2"></span>
-                    <span class="aurora-blob a3"></span>
+                <div class="hero-premium-bg" aria-hidden="true">
+                    <span class="hero-glow g1"></span>
+                    <span class="hero-glow g2"></span>
+                    <span class="hero-grid" aria-hidden="true"></span>
                 </div>
-                <div class="hero-overlay" aria-hidden="true"></div>
-                <div class="container">
-                    <div class="hero-content">
-                        <div class="hero-logo-wrap">
-                            <img src="logo.png" class="hero-logo" alt="Pabitra Secondary School Logo" width="140" height="140" fetchpriority="high" decoding="async">
-                            <span class="hero-float-chip chip-1" aria-hidden="true"><i class="ri-book-open-line"></i></span>
-                            <span class="hero-float-chip chip-2" aria-hidden="true"><i class="ri-award-line"></i></span>
-                            <span class="hero-float-chip chip-3" aria-hidden="true"><i class="ri-graduation-cap-line"></i></span>
+                <div class="hero-inner">
+                    <div class="hero-left">
+                        <!-- One unified hero card: welcome, school identity, motto, description, actions and trust. -->
+                        <div class="hero-copy-card">
+                        <div class="hero-eyebrow">
+                            <span class="eb-dot" aria-hidden="true"></span>
+                            <span>Welcome to PSBS</span>
+                            <span class="eb-line" aria-hidden="true"></span>
                         </div>
-                        <div class="hero-text-col">
-                        <h1 class="hero-title" data-reflection="Pabitra Secondary Boarding School">
-    <span class="hero-title-main">Pabitra Secondary Boarding School</span>
-</h1>
-                      <p class="hero-badge"><span aria-hidden="true">🏫</span> Estd.: 2040 B.S. <span class="hero-badge-dot" aria-hidden="true"></span> Doti, Nepal</p>
+
+                        <h1 class="hero-title">
+                            <span class="hero-title-line">Pabitra Secondary</span>
+                            <span class="hero-title-line accent">Boarding School</span>
+                        </h1>
+
+                        <div class="hero-meta">
+                            <span class="hm-item"><i class="ri-map-pin-2-line" aria-hidden="true"></i> Doti, Nepal</span>
+                            <span class="hm-dot" aria-hidden="true"></span>
+                            <span class="hm-item"><i class="ri-calendar-event-line" aria-hidden="true"></i> Estd. 2040 B.S.</span>
+                        </div>
+
                         <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.</h2>
+
                         <p class="hero-description">
-                            A disciplined, supportive and student-centered learning community — nurturing academic
-                            excellence, confidence and strong character for a brighter future.</p>
-</div>
+                            A disciplined, supportive and student-centered learning community — nurturing academic excellence, confidence and strong character for a brighter future.
+                        </p>
+
+                        <div class="hero-highlights">
+                            <div class="hh">
+                                <span class="hh-icon" aria-hidden="true"><i class="ri-star-line"></i></span>
+                                <div class="hh-text">
+                                    <strong>Quality Education</strong>
+                                    <span>Learning with excellence</span>
+                                </div>
+                            </div>
+                            <div class="hh">
+                                <span class="hh-icon" aria-hidden="true"><i class="ri-team-line"></i></span>
+                                <div class="hh-text">
+                                    <strong>Dedicated Faculty</strong>
+                                    <span>Supporting every learner</span>
+                                </div>
+                            </div>
+                            <div class="hh">
+                                <span class="hh-icon" aria-hidden="true"><i class="ri-building-4-line"></i></span>
+                                <div class="hh-text">
+                                    <strong>Modern Infrastructure</strong>
+                                    <span>State-of-the-art facilities</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hero-actions">
+                            <a href="#about" class="hero-btn primary">
+                                <span>Explore Campus</span>
+                                <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                            </a>
+                            <a href="gallery.html" class="hero-btn secondary">
+                                <i class="ri-gallery-line" aria-hidden="true"></i>
+                                <span>Explore Memories</span>
+                            </a>
+                        </div>
+
+                        <div class="hero-trust">
+                            <div class="trust-avatars" aria-hidden="true">
+                                <span class="ta ta1"></span>
+                                <span class="ta ta2"></span>
+                                <span class="ta ta3"></span>
+                            </div>
+                            <span>Trusted by 1000+ families in Doti</span>
+                        </div>
+                        </div><!-- /.hero-copy-card -->
+                    </div>
+
+                    
+                    <div class="hero-right">
+                        <div class="hero-visual">
+                            <div class="hv-frame">
+                                <img class="hv-logo" src="logo.png" alt="Pabitra Secondary Boarding School Logo" width="360" height="360" fetchpriority="high" decoding="async">
+                            </div>
+                            <!-- Only icons - no text, glossy -->
+                            <div class="hv-corner hv-c1 icon-only" style="--corner: 1;">
+                                <div class="hvc-icon"><i class="ri-shield-check-line" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="hv-corner hv-c2 icon-only" style="--corner: 2;">
+                                <div class="hvc-icon"><i class="ri-heart-3-line" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="hv-corner hv-c3 icon-only" style="--corner: 3;">
+                                <div class="hvc-icon"><i class="ri-star-smile-line" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="hv-shine-ring" aria-hidden="true"></div>
+                            <div class="hv-shine-dot d1" aria-hidden="true"></div>
+                            <div class="hv-shine-dot d2" aria-hidden="true"></div>
+                            <div class="hv-shine-dot d3" aria-hidden="true"></div>
                         </div>
                     </div>
                 </div>
-                <a href="#quick" class="hero-scroll" aria-label="Scroll down to explore"><span></span></a>
             </section>
+
 
             <!-- ===== NOTICE TICKER + QUICK ACCESS ===== -->
             <div class="quick-wrap" id="quick">
@@ -4056,7 +4967,7 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                     <div class="about-grid">
                         <div class="about-image">
                             <img src="school.jpg" alt="Pabitra Secondary Boarding School campus view" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="about-badge" aria-hidden="true"><strong>2040</strong><span>B.S.</span><em>Established</em></div>
+                            <div class="about-badge" aria-label="Established in 2040 B.S."><span class="about-badge-kicker">OUR LEGACY</span><div class="about-badge-year"><strong>2040</strong><span>B.S.</span></div><em><i class="ri-award-line" aria-hidden="true"></i> ESTABLISHED</em></div>
                         </div>
                         <div class="about-content">
                             <span class="section-tag">About PSBS</span>
@@ -4180,7 +5091,7 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                         <div class="faculty-search">
                             <i class="ri-search-2-line" aria-hidden="true"></i>
                             <label for="facultySearch" class="sr-only">Search teachers or subjects</label>
-                            <input type="search" id="facultySearch" placeholder="Search teachers or subjects…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="psbs-faculty-search" data-form-type="other">
+                            <input autocomplete="chrome-off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="chrome-off" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="facultySearch" placeholder="Search teachers or subjects…" name="psbs-faculty-search">
                             <button type="button" id="facultySearchClear" aria-label="Clear teacher search" hidden><i class="ri-close-line" aria-hidden="true"></i></button>
                         </div>
                         <span class="faculty-count" id="facultyCount" aria-live="polite"></span>
@@ -4270,31 +5181,25 @@ body.dark .notice-ticker .nt-item{background:rgba(255,255,255,.045)}
                             <div data-fs-success></div>
                             <div data-fs-error></div>
 
-                            <form id="contactForm" novalidate autocomplete="off" data-autofill="off">
+                            <form autocomplete="off" id="contactForm" novalidate data-autofill="off">
                                 <div class="input-group">
                                     <span aria-hidden="true">👤</span>
                                     <label for="contactName" class="sr-only">Your Full Name</label>
-                                    <input type="text" id="contactName" name="name" placeholder="Your Full Name"
-                                        data-fs-field required autocomplete="off" autocorrect="off"
-                                        autocapitalize="off" spellcheck="false" data-form-type="other">
+                                    <input autocomplete="off" type="text" id="contactName" name="contactName" placeholder="Your Full Name" data-fs-field required data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
                                     <span data-fs-error="name" class="input-error" role="alert"></span>
                                 </div>
 
                                 <div class="input-group">
                                     <span aria-hidden="true">📧</span>
                                     <label for="contactEmail" class="sr-only">Email Address</label>
-                                    <input type="email" id="contactEmail" name="email" placeholder="Email Address"
-                                        data-fs-field required autocomplete="off" autocorrect="off"
-                                        autocapitalize="off" spellcheck="false" data-form-type="other">
+                                    <input autocomplete="off" type="email" id="contactEmail" name="contactEmail" placeholder="Your email" data-fs-field required data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" inputmode="email">
                                     <span data-fs-error="email" class="input-error" role="alert"></span>
                                 </div>
 
                                 <div class="input-group textarea-group">
                                     <span aria-hidden="true">💬</span>
                                     <label for="contactMessage" class="sr-only">Your message</label>
-                                    <textarea id="contactMessage" name="message" placeholder="Write your message..."
-                                        data-fs-field required autocomplete="off" autocorrect="off"
-                                        autocapitalize="off" spellcheck="false" data-form-type="other"></textarea>
+                                    <textarea autocomplete="off" id="contactMessage" name="message" placeholder="Write your message..." data-fs-field required data-lpignore="true" data-1p-ignore="true" data-form-type="other"></textarea>
                                     <span data-fs-error="message" class="input-error" role="alert"></span>
                                 </div>
 
@@ -7300,6 +8205,59 @@ body.dark .gallery-pagination button {
         .edit-modal-card .modal-actions .save-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 </style>
 
+
+    
+<script id="keyboard-aware-js">
+(function(){
+  var vv=window.visualViewport, root=document.documentElement;
+  function upd(){
+    if(!vv) return;
+    var kb=Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    root.style.setProperty('--kb', (kb>80?kb:0)+'px');
+  }
+  if(vv){ vv.addEventListener('resize',upd); vv.addEventListener('scroll',upd); upd(); }
+  function isField(t){ return t && /^(INPUT|TEXTAREA)$/.test(t.tagName) && t.type!=='file'; }
+  document.addEventListener('focusin',function(e){
+    var t=e.target; if(!isField(t)) return;
+    [150,350,600].forEach(function(d){
+      setTimeout(function(){
+        if(document.activeElement===t) t.scrollIntoView({block:'center',behavior:'smooth'});
+      },d);
+    });
+  });
+  document.addEventListener('focusout',function(){ setTimeout(upd,100); });
+})();
+</script>
+<script id="contact-formdata-map">
+(function(){
+  var f=document.getElementById('contactForm'); if(!f) return;
+  f.addEventListener('formdata',function(e){
+    var d=e.formData;
+    d.set('name',(d.get('psbs_c_a81')||''));  d.delete('psbs_c_a81');
+    d.set('email',(d.get('psbs_c_b52')||'')); d.delete('psbs_c_b52');
+  });
+})();
+</script>
+
+<style id="mobile-hero-copy-centering">
+/* Mobile: center the core school introduction while leaving the existing mobile layout intact. */
+@media (max-width: 767px) {
+  #hero .hero-left > .hero-eyebrow,
+  #hero .hero-left > .hero-title,
+  #hero .hero-left > .hero-meta,
+  #hero .hero-left > .hero-motto,
+  #hero .hero-left > .hero-description {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center !important;
+  }
+  #hero .hero-left > .hero-title { width: 100%; }
+  #hero .hero-left > .hero-meta { width: 100%; }
+  #hero .hero-left > .hero-description { max-width: 42rem; }
+}
+</style>
+
 </body>
 
 </html>
@@ -7476,4 +8434,134 @@ body.dark .welcome-card .welcome-btn {
 @media (prefers-reduced-motion: reduce) {
     #nameForm > button.submit-btn, #welcomeCloseBtn, #themePresetsApplyBtn { transition: none !important; }
 }
+</style>
+
+
+<style id="desktop-hero-card-width-center">
+/* PC: make the unified hero card visibly wider than the original text column. */
+@media (min-width: 1025px) {
+  #hero .hero-left {
+    width: 100%; min-width: 0; display: flex; justify-content: center; align-items: center;
+  }
+  #hero .hero-copy-card {
+    width: 120%; max-width: none; margin-inline: 0; position: relative; left: 50%; transform: translateX(-50%);
+    box-sizing: border-box; text-align: center;
+  }
+  /* Hide the three feature tiles on PC only; keep them on mobile/tablet. */
+  #hero .hero-copy-card .hero-highlights { display: none !important; }
+  #hero .hero-copy-card .hero-eyebrow { margin-inline: auto; justify-content: center; }
+  #hero .hero-copy-card .hero-title,
+  #hero .hero-copy-card .hero-meta,
+  #hero .hero-copy-card .hero-motto,
+  #hero .hero-copy-card .hero-description,
+  #hero .hero-copy-card .hero-trust {
+    width: 100%; margin-left: auto; margin-right: auto; text-align: center !important; justify-content: center !important;
+  }
+  #hero .hero-copy-card .hero-actions { justify-content: center !important; flex-wrap: wrap; }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  #hero .hero-left { width: 100%; min-width: 0; }
+  #hero .hero-copy-card { width: 100%; max-width: none; text-align: center; }
+  #hero .hero-copy-card .hero-eyebrow { margin-inline: auto; justify-content: center; }
+  #hero .hero-copy-card .hero-actions { justify-content: center !important; flex-wrap: wrap; }
+}
+
+
+/* ---------- Premium 2040 B.S. heritage badge ---------- */
+#about .about-image .about-badge {
+    left: 20px !important;
+    bottom: -18px !important;
+    min-width: 150px;
+    padding: 11px 16px 10px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .62) !important;
+    border-radius: 16px !important;
+    color: #fff !important;
+    text-align: left;
+    line-height: 1.05;
+    background: var(--primary-gradient, linear-gradient(135deg, var(--primary, #f39c12), var(--primary-light, #f5b041))) !important;
+    box-shadow: 0 16px 34px -12px rgba(10, 42, 76, .48), 0 1px 0 rgba(255,255,255,.24) inset !important;
+    isolation: isolate;
+}
+#about .about-image .about-badge::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(155deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.12) 17%, transparent 42%, transparent 68%, rgba(0,0,0,.08) 100%);
+}
+#about .about-image .about-badge > * { position: relative; z-index: 1; }
+#about .about-image .about-badge::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 88px;
+    height: 88px;
+    right: -30px;
+    top: -34px;
+    border: 1px solid rgba(255, 214, 126, .38);
+    border-radius: 50%;
+    box-shadow: 0 0 0 9px rgba(255,255,255,.035), 0 0 0 19px rgba(255,255,255,.025);
+}
+#about .about-image .about-badge-kicker {
+    display: block;
+    color: rgba(255,255,255,.96) !important;
+    font-size: .54rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .19em !important;
+    line-height: 1.2;
+}
+#about .about-image .about-badge-year {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+}
+#about .about-image .about-badge-year strong {
+    color: #fff !important;
+    font-size: 1.8rem !important;
+    font-weight: 850 !important;
+    letter-spacing: -.055em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+#about .about-image .about-badge-year span {
+    color: rgba(255,255,255,.96) !important;
+    font-size: .78rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .11em !important;
+}
+#about .about-image .about-badge em {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.9) !important;
+    font-size: .57rem !important;
+    font-style: normal;
+    font-weight: 750 !important;
+    letter-spacing: .12em !important;
+}
+#about .about-image .about-badge em i { color: rgba(255,255,255,.98); font-size: .88rem; }
+body.dark #about .about-image .about-badge {
+    background: var(--primary-gradient, linear-gradient(135deg, var(--primary, #f39c12), var(--primary-light, #f5b041))) !important;
+    border-color: rgba(255, 255, 255, .58) !important;
+}
+@media (max-width: 480px) {
+    #about .about-image .about-badge {
+        left: 12px !important;
+        bottom: -14px !important;
+        min-width: 136px;
+        padding: 9px 12px 9px !important;
+        border-radius: 14px !important;
+    }
+    #about .about-image .about-badge-year strong { font-size: 1.6rem !important; }
+}
+
 </style>

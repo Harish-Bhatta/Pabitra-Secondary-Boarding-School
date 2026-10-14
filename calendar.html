@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <meta name="description"
         content="Pabitra Secondary Boarding School - Quality Education since 2040 B.S. Official portal with notices, documents and gallery." />
     <meta name="theme-color" content="#f39c12" />
@@ -4688,7 +4688,8 @@
     </style>
     <style id="no-autofill-css">
         /* search fields: no native clear / magnifier chrome, no autofill look */
-        #searchInput, #facultySearch { -webkit-appearance: none; appearance: none; }
+        #searchInput, #facultySearch, #userNameInput, #editNameInput, #docSearchInput { -webkit-appearance: none; appearance: none; }
+        #userNameInput::-webkit-search-cancel-button, #userNameInput::-webkit-search-decoration, #editNameInput::-webkit-search-cancel-button, #editNameInput::-webkit-search-decoration, #docSearchInput::-webkit-search-decoration { display: none; -webkit-appearance: none; }
         #searchInput::-webkit-search-cancel-button, #searchInput::-webkit-search-decoration,
         #facultySearch::-webkit-search-cancel-button, #facultySearch::-webkit-search-decoration { display: none; -webkit-appearance: none; }
         /* if a browser still autofills, keep the field looking normal */
@@ -4697,6 +4698,17 @@
             -webkit-text-fill-color: var(--text, #1e293b) !important;
             transition: background-color 99999s ease-out 0s;
         }
+    </style>
+    <style id="kb-aware-overlays">
+        /* Keyboard-aware cards (search card, name modals): the overlay always matches the VISIBLE screen area,
+           so the centred card rises by itself when the keyboard opens - same as inside an app WebView. */
+        html .modal-overlay, html .search-overlay {
+            top: var(--vv-top, 0px) !important; bottom: auto !important; height: var(--vv-h, 100%) !important;
+            transition: top .28s cubic-bezier(.22, 1, .36, 1), height .28s cubic-bezier(.22, 1, .36, 1), padding-top .28s cubic-bezier(.22, 1, .36, 1), opacity .4s ease, visibility .4s ease !important;
+            overscroll-behavior: contain;
+        }
+        html .modal-overlay .modal-card { max-height: min(85vh, calc(var(--vv-h, 100vh) - 24px)); }
+        html .search-overlay .search-box { max-height: calc(var(--vv-h, 100vh) - 16px); }
     </style>
 </head>
 
@@ -4733,11 +4745,11 @@
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="userNameInput" class="sr-only">Enter your name</label>
-                    <input autocomplete="nope" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="text" id="userNameInput" placeholder="Enter your name" required autofocus
+                    <input autocomplete="nope" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="userNameInput" placeholder="Enter your name" required autofocus
                         aria-required="true" maxlength="50" pattern="^[a-zA-Z\s\-']+$"
                         title="Please enter a valid name"
                        
-                        name="psbs-username">
+                        name="psbs-n-user" inputmode="text" enterkeyhint="done" role="textbox">
                     <div class="input-error" id="nameError" role="alert"></div>
                 </div>
                 <button type="submit" class="submit-btn ripple-host">Continue <i class="ri-arrow-right-line" aria-hidden="true"></i></button>
@@ -4768,9 +4780,9 @@
                 <div class="input-wrapper">
                     <i class="ri-user-3-line" aria-hidden="true"></i>
                     <label for="editNameInput" class="sr-only">Enter your name</label>
-                    <input autocomplete="nope" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="text" id="editNameInput" placeholder="Enter your name" required maxlength="50"
+                    <input autocomplete="nope" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="editNameInput" placeholder="Enter your name" required maxlength="50"
                         pattern="^[a-zA-Z\s\-']+$"
-                        name="psbs-edit-name">
+                        name="psbs-n-edit" inputmode="text" enterkeyhint="done" role="textbox">
                     <div class="input-error" id="editNameError" role="alert"></div>
                 </div>
                 <div class="modal-actions">
@@ -7358,9 +7370,9 @@
         function hardenInputsAgainstAutofill(root) {
             (root || document).querySelectorAll('input, textarea').forEach(function (el) {
                 if (el.type === 'checkbox' || el.type === 'radio' || el.type === 'file' || el.type === 'submit') return;
-                el.setAttribute('autocomplete', 'off');
+                el.setAttribute('autocomplete', (/name|email/i.test(el.id || '') || /^(name|email|username|user|mail)$/i.test(el.name || '') || el.type === 'email') ? 'nope' : 'off');
                 el.setAttribute('autocorrect', 'off');
-                el.setAttribute('autocapitalize', 'off');
+                el.setAttribute('autocapitalize', 'none');
                 el.setAttribute('spellcheck', 'false');
                 el.setAttribute('aria-autocomplete', 'none');
                 el.setAttribute('data-autofill', 'off');
@@ -7372,6 +7384,11 @@
                 el.setAttribute('data-gramm', 'false');
                 el.setAttribute('data-gramm_editor', 'false');
                 el.setAttribute('data-enable-grammarly', 'false');
+                if (el.id === 'userNameInput' || el.id === 'editNameInput') {
+                    el.setAttribute('name', 'f' + Math.random().toString(36).slice(2, 10));
+                    el.setAttribute('inputmode', 'text');
+                    el.setAttribute('enterkeyhint', 'done');
+                }
                 if (el.id === 'searchInput' || el.id === 'docSearchInput') {
                     // a fresh, meaningless name each load stops the browser matching saved form history
                     el.setAttribute('name', 'q' + Math.random().toString(36).slice(2, 10));
@@ -7387,9 +7404,9 @@
             var el = e.target;
             if (!el || !el.matches || !el.matches('input, textarea')) return;
             if (el.type === 'checkbox' || el.type === 'radio' || el.type === 'file' || el.type === 'submit') return;
-            el.setAttribute('autocomplete', 'off');
+            el.setAttribute('autocomplete', (/name|email/i.test(el.id || '') || /^(name|email|username|user|mail)$/i.test(el.name || '') || el.type === 'email') ? 'nope' : 'off');
             el.setAttribute('autocorrect', 'off');
-            el.setAttribute('autocapitalize', 'off');
+            el.setAttribute('autocapitalize', 'none');
             el.setAttribute('spellcheck', 'false');
             el.setAttribute('aria-autocomplete', 'none');
         });
@@ -8722,7 +8739,7 @@
         function harden(el) {
             if (!el || el.nodeType !== 1) return;
             var tag = el.tagName;
-            if (tag === 'FORM') { el.setAttribute('autocomplete', 'off'); return; }
+            if (tag === 'FORM') { el.setAttribute('autocomplete', (/name|email/i.test(el.id || '') || /^(name|email|username|user|mail)$/i.test(el.name || '') || el.type === 'email') ? 'nope' : 'off'); return; }
             if (tag !== 'INPUT' && tag !== 'TEXTAREA') return;
             if (tag === 'INPUT' && SKIP[(el.getAttribute('type') || 'text').toLowerCase()]) return;
             if (el.getAttribute('data-nofill') === '1') return;
@@ -8758,6 +8775,25 @@
         }
         // last line of defence: anything that gets focus is hardened before the keyboard reads it
         document.addEventListener('focusin', function (e) { harden(e.target); }, true);
+    })();
+    </script>
+    <script id="kb-aware-overlays-js">
+    (function () {
+        var vv = window.visualViewport, root = document.documentElement, raf = 0;
+        function sync() {
+            raf = 0;
+            var h = vv ? vv.height : window.innerHeight, t = vv ? vv.offsetTop : 0;
+            root.style.setProperty('--vv-h', Math.round(h) + 'px');
+            root.style.setProperty('--vv-top', Math.round(t) + 'px');
+        }
+        function req() { if (!raf) raf = requestAnimationFrame(sync); }
+        if (vv) { vv.addEventListener('resize', req); vv.addEventListener('scroll', req); }
+        window.addEventListener('resize', req);
+        window.addEventListener('orientationchange', req);
+        // some browsers report the keyboard a moment late, so re-check a few times after focus changes
+        document.addEventListener('focusin', function () { req(); setTimeout(req, 120); setTimeout(req, 320); setTimeout(req, 650); }, true);
+        document.addEventListener('focusout', function () { setTimeout(req, 60); setTimeout(req, 360); }, true);
+        sync();
     })();
     </script>
 </body>

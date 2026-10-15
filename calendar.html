@@ -4867,7 +4867,8 @@
                         </button>
                         <div class="profile-dropdown" id="profileDropdown" role="menu">
                             <div class="dropdown-profile-header">
-                                <div class="dropdown-avatar-wrap" id="ddAvatarWrap" role="button" tabindex="0" aria-label="Change profile photo">
+                                <div class="dropdown-avatar-wrap" id="ddAvatarWrap" role="button" tabindex="0"
+                                    aria-label="Change profile photo">
                                     <div class="dropdown-avatar" id="ddAvatar" aria-hidden="true">G</div>
                                     <div class="avatar-edit-badge" aria-hidden="true">
                                         <i class="ri-camera-line"></i>
@@ -4885,28 +4886,24 @@
                                 </div>
                             </div>
                             <div class="dropdown-divider" role="separator"></div>
+                            <a class="dropdown-item" href="gallery.html" role="menuitem" id="ddGalleryLink">
+                                <i class="ri-gallery-line" aria-hidden="true"></i> Gallery
+                            </a>
                             <button class="dropdown-item" id="ddDocumentsBtn" role="menuitem">
                                 <i class="ri-folder-3-line" aria-hidden="true"></i> Documents
                             </button>
-                            <button class="dropdown-item" id="ddNoticesBtn" role="menuitem">
-                                <i class="ri-notification-3-line" aria-hidden="true"></i> Notices
-                                <span class="dropdown-item-badge" id="ddNoticeBadge">View</span>
                             </button>
                             <div class="dropdown-divider" role="separator"></div>
-                            <button class="dropdown-item" id="ddStudentLogin" role="menuitem">
-                                <i class="ri-user-3-line" aria-hidden="true"></i> Student Login
-                                <span class="login-role-tag">Student</span>
+                            <button type="button" class="dropdown-item" id="ddShareBtn" role="menuitem">
+                                <i class="ri-share-line" aria-hidden="true"></i> Share Page
                             </button>
-                            <button class="dropdown-item" id="ddTeacherLogin" role="menuitem">
-                                <i class="ri-user-2-line" aria-hidden="true"></i> Teacher Login
-                                <span class="login-role-tag teacher">Teacher</span>
-                            </button>
-                            <button class="dropdown-item" id="ddAdminLogin" role="menuitem">
+                            <div class="dropdown-divider" role="separator"></div>
+                            <button type="button" class="dropdown-item" id="ddAdminLogin" role="menuitem">
                                 <i class="ri-shield-user-line" aria-hidden="true"></i> Admin Login
                                 <span class="login-role-tag admin">Admin</span>
                             </button>
                             <div class="dropdown-divider" role="separator"></div>
-                            <button class="dropdown-item danger" id="ddLogoutBtn" role="menuitem">
+                            <button type="button" class="dropdown-item danger" id="ddLogoutBtn" role="menuitem">
                                 <i class="ri-logout-box-line" aria-hidden="true"></i> Logout
                             </button>
                         </div>
@@ -7010,7 +7007,22 @@
         }
         if (DOM.ddStudentLogin) DOM.ddStudentLogin.addEventListener('click', function (e) { e.preventDefault(); navigateLogin(CONFIG.LOGIN_STUDENT); });
         if (DOM.ddTeacherLogin) DOM.ddTeacherLogin.addEventListener('click', function (e) { e.preventDefault(); navigateLogin(CONFIG.LOGIN_TEACHER); });
-        if (DOM.ddAdminLogin) DOM.ddAdminLogin.addEventListener('click', function (e) { e.preventDefault(); navigateLogin(CONFIG.LOGIN_ADMIN); });
+        if (DOM.ddAdminLogin) DOM.ddAdminLogin.addEventListener('click', function (e) {
+            e.preventDefault();
+            closeProfileDropdown();
+
+            // Match index.html: use the saved admin session when available.
+            // The dashboard must still validate the session with Supabase.
+            var adminToken = null;
+            try { adminToken = localStorage.getItem('psbs_admin_session_token'); } catch (storageError) {}
+            if (!adminToken) {
+                try { adminToken = sessionStorage.getItem('psbs_admin_session_token'); } catch (storageError) {}
+            }
+
+            window.location.href = adminToken
+                ? CONFIG.LOGIN_BASE + 'admin-dashboard.html'
+                : CONFIG.LOGIN_BASE + CONFIG.LOGIN_ADMIN;
+        });
         if (DOM.ddNoticesBtn) DOM.ddNoticesBtn.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();

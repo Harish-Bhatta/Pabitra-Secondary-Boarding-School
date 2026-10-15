@@ -2,133 +2,924 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login – PSBS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <title>Admin Login · PSBS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+    <link rel="icon" type="image/png" href="school.jpg" />
     <style>
-        * {
-            box-sizing: border-box;
+        /* ===== PALETTE (mirrors main portal) ===== */
+        :root {
+            --primary: #f39c12;
+            --primary-dark: #d68910;
+            --primary-light: #f5b041;
+            --primary-gradient: linear-gradient(135deg, #f39c12, #f5b041);
+            --secondary: #f39c12;
+            --secondary-light: #f7dc6f;
+            --accent: #f39c12;
+            --accent-dark: #d68910;
+
+            --background: #F8FAFC;
+            --surface: rgba(255, 255, 255, 0.75);
+            --surface-solid: #FFFFFF;
+            --surface-hover: #F1F5F9;
+            --text: #1E293B;
+            --text-light: #64748B;
+            --text-inverse: #FFFFFF;
+            --border: rgba(226, 232, 240, 0.6);
+            --border-light: #F1F5F9;
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --radius-full: 50%;
+
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.09);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.10);
+
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+            --font-family: 'Poppins', sans-serif;
+            --z-toast: 99999;
+
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+
+            --nebula-color-1: #f39c12;
+            --nebula-color-2: #f5b041;
+            --nebula-color-3: #f1c40f;
+        }
+
+        /* Dark mode */
+        body.dark {
+            --background: #0F172A;
+            --surface: rgba(30, 41, 59, 0.82);
+            --surface-solid: #1E293B;
+            --surface-hover: #2D3A52;
+            --text: #F1F5F9;
+            --text-light: #94A3B8;
+            --text-inverse: #1E293B;
+            --border: rgba(51, 65, 85, 0.5);
+            --border-light: #1E293B;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.06);
+            --glass-bg: rgba(30, 41, 59, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Theme presets */
+        body.theme-cyan {
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --primary-light: #67e8f9;
+            --primary-gradient: linear-gradient(135deg, #06b6d4, #67e8f9);
+            --secondary: #06b6d4;
+            --nebula-color-1: #06b6d4;
+            --nebula-color-2: #67e8f9;
+            --nebula-color-3: #0891b2;
+            --shadow-glow: 0 0 40px rgba(6, 182, 212, 0.12);
+        }
+
+        body.theme-coral {
+            --primary: #e85d75;
+            --primary-dark: #c0394b;
+            --primary-light: #f1948a;
+            --primary-gradient: linear-gradient(135deg, #e85d75, #f1948a);
+            --secondary: #e85d75;
+            --nebula-color-1: #e85d75;
+            --nebula-color-2: #f1948a;
+            --nebula-color-3: #f5b7b1;
+            --shadow-glow: 0 0 40px rgba(232, 93, 117, 0.12);
+        }
+
+        body.theme-indigo {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #4f46e5, #818cf8);
+            --secondary: #4f46e5;
+            --nebula-color-1: #4f46e5;
+            --nebula-color-2: #818cf8;
+            --nebula-color-3: #a5b4fc;
+            --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.12);
+        }
+
+        body.theme-red {
+            --primary: #e74c3c;
+            --primary-dark: #c0392b;
+            --primary-light: #f1948a;
+            --primary-gradient: linear-gradient(135deg, #e74c3c, #f1948a);
+            --secondary: #e74c3c;
+            --nebula-color-1: #e74c3c;
+            --nebula-color-2: #f1948a;
+            --nebula-color-3: #f5b7b1;
+            --shadow-glow: 0 0 40px rgba(231, 76, 60, 0.12);
+        }
+
+        body.theme-rose {
+            --primary: #e11d48;
+            --primary-dark: #be123c;
+            --primary-light: #fb7185;
+            --primary-gradient: linear-gradient(135deg, #e11d48, #fb7185);
+            --secondary: #e11d48;
+            --nebula-color-1: #e11d48;
+            --nebula-color-2: #fb7185;
+            --nebula-color-3: #fda4af;
+            --shadow-glow: 0 0 40px rgba(225, 29, 72, 0.12);
+        }
+
+        body.theme-teal {
+            --primary: #27ae9e;
+            --primary-dark: #1f8a7a;
+            --primary-light: #48c9b0;
+            --primary-gradient: linear-gradient(135deg, #27ae9e, #48c9b0);
+            --secondary: #27ae9e;
+            --nebula-color-1: #27ae9e;
+            --nebula-color-2: #48c9b0;
+            --nebula-color-3: #a3e4d7;
+            --shadow-glow: 0 0 40px rgba(39, 174, 158, 0.12);
+        }
+
+        body.theme-yellow {
+            --primary: #f1c40f;
+            --primary-dark: #d4ac0d;
+            --primary-light: #f7dc6f;
+            --primary-gradient: linear-gradient(135deg, #f1c40f, #f7dc6f);
+            --secondary: #f1c40f;
+            --nebula-color-1: #f1c40f;
+            --nebula-color-2: #f7dc6f;
+            --nebula-color-3: #f9e79f;
+            --shadow-glow: 0 0 40px rgba(241, 196, 15, 0.12);
+        }
+
+        body.theme-gold {
+            --primary: #f39c12;
+            --primary-dark: #d68910;
+            --primary-light: #f5b041;
+            --primary-gradient: linear-gradient(135deg, #f39c12, #f5b041);
+            --secondary: #f39c12;
+            --nebula-color-1: #f39c12;
+            --nebula-color-2: #f5b041;
+            --nebula-color-3: #f1c40f;
+            --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.12);
+        }
+
+        /* ===== RESET ===== */
+        *,
+        *::before,
+        *::after {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #F8FAFC;
+            font-family: var(--font-family);
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            transition: background 0.4s ease, color 0.4s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== NEBULA ===== */
+        .nebula-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.5;
+            transition: opacity 0.8s ease;
+        }
+
+        body.dark .nebula-bg {
+            opacity: 0.7;
+        }
+
+        .nebula-bg .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            will-change: transform;
+            animation: nebulaFloat 20s ease-in-out infinite alternate;
+        }
+
+        .nebula-bg .orb:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            left: -200px;
+            background: radial-gradient(circle, var(--nebula-color-1), transparent 70%);
+            animation-duration: 22s;
+            animation-delay: -2s;
+        }
+
+        .nebula-bg .orb:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            right: -150px;
+            background: radial-gradient(circle, var(--nebula-color-2), transparent 70%);
+            animation-duration: 26s;
+            animation-delay: -5s;
+        }
+
+        .nebula-bg .orb:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, var(--nebula-color-3), transparent 70%);
+            animation-duration: 30s;
+            animation-delay: -10s;
+            opacity: 0.3;
+        }
+
+        @keyframes nebulaFloat {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(40px, -30px) scale(1.1) rotate(5deg);
+            }
+
+            66% {
+                transform: translate(-20px, 40px) scale(0.95) rotate(-3deg);
+            }
+
+            100% {
+                transform: translate(30px, -10px) scale(1.05) rotate(2deg);
+            }
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px) scale(0.92);
+            padding: 14px 22px;
+            background: var(--surface-solid);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+            border: 1px solid var(--border);
+            z-index: var(--z-toast);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            pointer-events: none;
+            max-width: 480px;
+            width: 90%;
+            background: var(--surface);
+            border-left: 4px solid var(--primary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .toast.active {
+            transform: translateX(-50%) translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast-success {
+            border-left-color: #10B981;
+        }
+
+        .toast-error {
+            border-left-color: #EF4444;
+        }
+
+        .toast-warning {
+            border-left-color: #f39c12;
+        }
+
+        .toast-info {
+            border-left-color: #06b6d4;
+        }
+
+        /* ===== CARD ===== */
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .login-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #e9edf2;
+            background: var(--surface);
+            backdrop-filter: blur(32px) saturate(180%);
+            -webkit-backdrop-filter: blur(32px) saturate(180%);
+            border-radius: var(--radius-xl);
+            padding: 32px 24px 28px;
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+            border: 1px solid var(--glass-border);
+            transition: background var(--transition), border var(--transition);
         }
 
-        .login-card h1 {
-            font-size: 1.6rem;
-            margin-bottom: 6px;
-            color: #1E293B;
+        .login-brand {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .login-card p {
-            color: #64748B;
-            margin-bottom: 24px;
-            font-size: 0.9rem;
+        .login-brand .logo-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 68px;
+            height: 68px;
+            border-radius: var(--radius-full);
+            background: var(--primary-gradient);
+            box-shadow: 0 8px 32px rgba(243, 156, 18, 0.25);
+            margin-bottom: 10px;
+            transition: transform 0.4s ease;
         }
 
-        .input-group {
-            margin-bottom: 18px;
+        .login-brand .logo-wrap:hover {
+            transform: scale(1.04) rotate(-2deg);
         }
 
-        .input-group label {
-            display: block;
+        .login-brand .logo-wrap img {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+        }
+
+        .login-brand h1 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .login-brand h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-brand p {
             font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        /* ===== TABS ===== */
+        .tab-bar {
+            display: flex;
+            border-radius: var(--radius-sm);
+            background: var(--background);
+            padding: 4px;
+            margin-bottom: 22px;
+            border: 1px solid var(--border);
+        }
+
+        .tab-bar button {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
             font-weight: 600;
-            margin-bottom: 4px;
-            color: #1E293B;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            font-family: var(--font-family);
+            position: relative;
+        }
+
+        .tab-bar button.active-tab {
+            background: var(--surface-solid);
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab-bar button:hover:not(.active-tab) {
+            color: var(--text);
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .tab-panel.active-panel {
+            display: block;
+        }
+
+        /* ===== FORM ===== */
+        .input-group {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .input-group .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            color: var(--text-light);
+            pointer-events: none;
+            transition: color 0.3s ease;
         }
 
         .input-group input {
             width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            padding: 14px 14px 14px 46px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--background);
+            color: var(--text);
             font-size: 0.95rem;
-            transition: 0.2s;
-            background: #F8FAFC;
+            font-family: var(--font-family);
+            outline: none;
+            transition: all 0.3s ease;
         }
 
         .input-group input:focus {
-            border-color: #f39c12;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.08);
         }
 
-        .btn {
+        .input-group input:focus+.input-icon,
+        .input-group input:focus~.input-icon {
+            color: var(--primary);
+        }
+
+        .input-group input[aria-invalid="true"] {
+            border-color: #EF4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+        }
+
+        .input-error {
+            color: #EF4444;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 4px;
+            min-height: 20px;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 6px 0 20px;
+            font-size: 0.8rem;
+        }
+
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .form-options label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .form-options a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .form-options a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .login-btn {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #f39c12, #f5b041);
-            color: #fff;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
+            background: var(--primary-gradient);
+            color: #fff;
             font-size: 1rem;
             font-weight: 700;
+            font-family: var(--font-family);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(243, 156, 18, 0.25);
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
+        .login-btn:hover:not(:disabled) {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 6px 32px rgba(243, 156, 18, 0.35);
         }
 
-        .btn:disabled {
+        .login-btn:active:not(:disabled) {
+            transform: scale(0.97);
+        }
+
+        .login-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
 
-        .error-msg {
-            color: #EF4444;
-            font-size: 0.85rem;
-            margin-top: 12px;
+        .login-btn .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .login-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .login-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-footer {
             text-align: center;
-            min-height: 24px;
+            margin-top: 18px;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .login-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .login-footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* ===== THEME TOGGLE (floating) ===== */
+        .theme-toggle-float {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: var(--surface);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            color: var(--text);
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle-float:hover {
+            background: var(--primary-gradient);
+            color: #fff;
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 24px 16px 20px;
+            }
+
+            .login-brand .logo-wrap {
+                width: 56px;
+                height: 56px;
+            }
+
+            .login-brand .logo-wrap img {
+                width: 36px;
+                height: 36px;
+            }
+
+            .login-brand h1 {
+                font-size: 1rem;
+            }
+
+            .input-group input {
+                padding: 12px 12px 12px 40px;
+                font-size: 0.9rem;
+            }
+
+            .login-btn {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .theme-toggle-float {
+                top: 12px;
+                right: 12px;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .tab-bar button {
+                font-size: 0.75rem;
+                padding: 8px 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .login-container {
+                max-width: 460px;
+            }
+
+            .login-card {
+                padding: 40px 32px 32px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+
+            .nebula-bg,
+            .theme-toggle-float,
+            .toast {
+                display: none !important;
+            }
+
+            body {
+                background: #fff !important;
+            }
+
+            .login-card {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
         }
     </style>
-</head>
+<style>
+/* Refined portal finishing touches, matching the main PSBS experience */
+.login-container{max-width:470px}
+.login-card{position:relative;overflow:hidden;box-shadow:var(--shadow-xl),var(--shadow-glow);border-color:var(--glass-border)}
+.login-card:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--primary-gradient)}
+.login-brand .logo-wrap{width:76px;height:76px;border-radius:24px;transform:rotate(-3deg);box-shadow:0 12px 34px rgba(243,156,18,.28)}
+.login-brand .logo-wrap img{width:50px;height:50px;border-radius:50%}
+.login-brand h1{letter-spacing:-.6px;font-size:1.35rem}
+.tab-bar{border-radius:13px}
+.tab-bar button{border-radius:10px;min-height:44px}
+.input-group input{border-radius:12px;min-height:52px}
+.login-btn{border-radius:12px;min-height:52px}
+.portal-assurance{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:17px 8px 0;color:var(--text-light);font-size:.72rem}
+.portal-assurance span{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(12px);border-radius:999px}
+.portal-assurance i{color:var(--primary);font-size:.95rem}
+.portal-caption{text-align:center;color:var(--text-light);font-size:.72rem;margin:10px 0 0;letter-spacing:.2px}
+.theme-toggle-float{box-shadow:var(--shadow-md);backdrop-filter:blur(14px)}
+@media(max-width:480px){body{padding:14px}.login-card{padding:28px 19px 23px}.portal-assurance{gap:7px}.portal-assurance span{font-size:.66rem;padding:6px 8px}}
+@media(prefers-reduced-motion:reduce){.nebula-bg .orb{animation:none!important}}
+</style>
+<style id="psbs-premium-login">
+:root{--radius-sm:13px;--radius-md:18px;--radius-lg:25px;--radius-xl:32px;--shadow-glow:0 24px 80px rgba(171,111,13,.13)}
+body{background:radial-gradient(ellipse at 12% 12%,rgba(245,176,65,.18),transparent 34%),radial-gradient(ellipse at 88% 82%,rgba(247,220,111,.18),transparent 32%),var(--background)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;background-image:radial-gradient(rgba(177,126,35,.22) .7px,transparent .7px);background-size:19px 19px;mask-image:linear-gradient(120deg,#000,transparent 72%)}
+.login-container{max-width:468px;padding:18px;position:relative;z-index:1}
+.login-card{position:relative;overflow:hidden;padding:clamp(25px,5vw,38px) clamp(20px,5vw,34px) 30px;border:1px solid rgba(255,255,255,.82);background:linear-gradient(145deg,rgba(255,255,255,.91),rgba(255,255,255,.68));box-shadow:0 32px 90px rgba(93,66,20,.12),0 8px 24px rgba(93,66,20,.06),inset 0 1px 0 #fff;border-radius:32px}
+.login-card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,#d68910,#f7dc6f,#f39c12);opacity:.95}
+.login-card:after{content:"";position:absolute;right:-72px;top:86px;width:170px;height:170px;border-radius:50%;border:1px solid rgba(243,156,18,.12);box-shadow:0 0 0 22px rgba(243,156,18,.025),0 0 0 46px rgba(243,156,18,.02);pointer-events:none}
+.login-brand,.tab-bar,.tab-panel,.login-card form{position:relative;z-index:1}.login-brand{margin-bottom:25px}
+.login-brand .logo-wrap{width:78px;height:78px;border-radius:25px;transform:rotate(-3deg);box-shadow:0 13px 28px rgba(211,137,16,.25),inset 0 1px 0 rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.7)}
+.login-brand .logo-wrap img{border-radius:17px;width:49px;height:49px}.login-brand h1{font-size:clamp(1.18rem,4vw,1.42rem);letter-spacing:-.045em}
+.login-brand p{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:7px 12px;border-radius:999px;background:rgba(243,156,18,.09);border:1px solid rgba(243,156,18,.14);font-size:.76rem;letter-spacing:.015em}
+.tab-bar{padding:5px;border-radius:15px;background:rgba(148,163,184,.11);border:1px solid rgba(148,163,184,.13)}.tab-bar button{border-radius:11px;padding:12px 8px;font-size:.88rem}
+.tab-bar button.active-tab{background:var(--surface-solid);box-shadow:0 5px 14px rgba(30,41,59,.07);border-color:rgba(243,156,18,.18)}
+.input-group{margin-bottom:16px}.input-group input{height:54px;border-radius:15px!important;border:1px solid rgba(148,163,184,.25)!important;background:rgba(255,255,255,.54)!important;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
+.input-group input:focus{border-color:rgba(243,156,18,.72)!important;box-shadow:0 0 0 4px rgba(243,156,18,.11)!important;transform:translateY(-1px)}.input-icon{left:16px}
+.login-btn{min-height:54px;border-radius:15px;box-shadow:0 12px 24px rgba(211,137,16,.2),inset 0 1px 0 rgba(255,255,255,.25);letter-spacing:.01em}.login-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 16px 30px rgba(211,137,16,.26)}
+.form-options{margin:4px 0 19px}.theme-toggle-float{width:44px;height:44px;border-radius:15px!important;border:1px solid rgba(255,255,255,.8)!important;box-shadow:0 8px 24px rgba(50,40,20,.1);backdrop-filter:blur(18px)}
+@media(max-width:480px){.login-container{padding:14px;width:100%}.login-card{padding:28px 20px 24px;border-radius:26px}.login-brand .logo-wrap{width:68px;height:68px}.login-brand .logo-wrap img{width:43px;height:43px}.input-group input{height:51px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+body.dark .login-card{background:linear-gradient(145deg,rgba(30,41,59,.94),rgba(15,23,42,.9));border-color:rgba(255,255,255,.08)}body.dark .input-group input{background:rgba(15,23,42,.42)!important}
+</style></head>
 
 <body>
 
-    <div class="login-card">
-        <h1>🔐 Admin Login</h1>
-        <p>Enter your credentials to manage the school website.</p>
-
-        <form id="loginForm" novalidate>
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="admin@psbs.edu.np" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="••••••••" required>
-            </div>
-            <button class="btn" id="loginBtn" type="submit">Log In</button>
-            <div class="error-msg" id="loginError"></div>
-        </form>
+    <!-- ===== NEBULA ===== -->
+    <div class="nebula-bg" aria-hidden="true">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
     </div>
 
-    <!-- Supabase CDN -->
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast" role="alert" aria-live="polite">
+        <span class="toast-icon" aria-hidden="true">✅</span>
+        <span class="toast-message"></span>
+        <button class="toast-close" aria-label="Close notification"
+            style="background:none;border:none;font-size:1.2rem;color:var(--text-light);cursor:pointer;padding:0 4px;">✕</button>
+    </div>
+
+    <!-- ===== THEME TOGGLE ===== -->
+    <button class="theme-toggle-float" id="themeToggle" aria-label="Toggle theme">
+        <i class="ri-moon-line" id="themeIcon" aria-hidden="true"></i>
+    </button>
+
+    <!-- ===== LOGIN CONTAINER ===== -->
+    <div class="login-container">
+        <div class="login-card">
+
+            <div class="login-brand">
+                <div class="logo-wrap">
+                    <img src="logo.png" alt="PSBS Logo" width="48" height="48" />
+                </div>
+                <h1>Pabitra <span>Secondary</span></h1>
+                <p>🏫 Admin Portal · Secure Access</p>
+            </div>
+
+            <!-- ===== TABS ===== -->
+            <div class="tab-bar" role="tablist">
+                <button class="active-tab" data-tab="signin" role="tab" aria-selected="true">Sign In</button>
+                <button data-tab="signup" role="tab" aria-selected="false">Request Access</button>
+            </div>
+
+            <!-- ===== SIGN IN PANEL ===== -->
+            <div class="tab-panel active-panel" id="panel-signin" role="tabpanel">
+                <form id="loginForm" novalidate>
+                    <div class="input-group">
+                        <input type="email" id="emailInput" placeholder="admin@psbs.edu.np" required autofocus
+                            aria-required="true" autocomplete="username" />
+                        <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+                        <div class="input-error" id="emailError" role="alert"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="passwordInput" placeholder="Enter your password" required
+                            aria-required="true" autocomplete="current-password" />
+                        <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
+                        <div class="input-error" id="passwordError" role="alert"></div>
+                    </div>
+
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="rememberMe" checked />
+                            Remember me
+                        </label>
+                        <a href="#" id="forgotLink">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn" id="loginBtn">
+                        <span class="spinner" aria-hidden="true"></span>
+                        <span class="btn-text"><i class="ri-shield-keyhole-line" aria-hidden="true"></i> Sign In</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- ===== REQUEST ACCESS PANEL ===== -->
+            <div class="tab-panel" id="panel-signup" role="tabpanel">
+                <form id="signupForm" novalidate>
+                    <div class="input-group">
+                        <input type="text" id="signupName" placeholder="Your Full Name" required aria-required="true"
+                            autocomplete="name" />
+                        <span class="input-icon" aria-hidden="true"><i class="ri-user-3-line"></i></span>
+                        <div class="input-error" id="signupNameError" role="alert"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="email" id="signupEmail" placeholder="admin@psbs.edu.np" required
+                            aria-required="true" autocomplete="username" />
+                        <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+                        <div class="input-error" id="signupEmailError" role="alert"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)"
+                            required aria-required="true" autocomplete="new-password" />
+                        <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
+                        <div class="input-error" id="signupPasswordError" role="alert"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="signupConfirm" placeholder="Confirm password" required
+                            aria-required="true" autocomplete="new-password" />
+                        <span class="input-icon" aria-hidden="true"><i class="ri-check-double-line"></i></span>
+                        <div class="input-error" id="signupConfirmError" role="alert"></div>
+                    </div>
+
+                    <p style="font-size:0.7rem;color:var(--text-light);margin:-6px 0 14px;">
+                        <i class="ri-information-line"></i> Your request will be sent to senior admins for approval.
+                    </p>
+
+                    <button type="submit" class="login-btn" id="signupBtn">
+                        <span class="spinner" aria-hidden="true"></span>
+                        <span class="btn-text"><i class="ri-send-plane-2-line" aria-hidden="true"></i> Request
+                            Access</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="login-footer">
+                <p>🌸 Radhe Radhe · <a href="index.html">← Back to Home</a></p>
+            </div>
+        </div>
+        <div class="portal-assurance"><span><i class="ri-shield-check-line"></i> Protected admin access</span><span><i class="ri-sparkling-line"></i> PSBS digital campus</span></div>
+        <p class="portal-caption">Quality education, thoughtfully connected.</p>
+    </div>
+
+    <!-- ============================================================
+    SUPABASE
+    ============================================================ -->
+    <!-- ============================================================
+    SUPABASE SETUP (placeholders – replace with your actual keys)
+    ============================================================ -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // 🔁 Your actual keys
+        // Your actual keys
         const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
 
@@ -136,64 +927,153 @@
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Make it globally accessible (and keep the same name 'supabase')
-        window.supabase = supabaseClient;
-
-        // ---------- DOM refs ----------
-        const form = document.getElementById('loginForm');
-        const emailEl = document.getElementById('email');
-        const passwordEl = document.getElementById('password');
-        const loginBtn = document.getElementById('loginBtn');
-        const errorEl = document.getElementById('loginError');
-
-        // ---------- If already logged in, redirect to dashboard ----------
-        (async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                window.location.href = 'admin-dashboard.html';
-            }
-        })();
-
-        // ---------- Login handler ----------
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            errorEl.textContent = '';
-            loginBtn.disabled = true;
-            loginBtn.textContent = 'Logging in…';
-
-            const email = emailEl.value.trim();
-            const password = passwordEl.value;
-
-            try {
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email,
-                    password
-                });
-
-                if (error) throw error;
-
-                // After sign in, verify the user is an admin (by checking the admins table)
-                const { data: adminCheck, error: adminError } = await supabase
-                    .from('admins')
-                    .select('email')
-                    .eq('email', data.user.email)
-                    .maybeSingle();
-
-                if (adminError || !adminCheck) {
-                    // Not an admin – sign out immediately
-                    await supabase.auth.signOut();
-                    throw new Error('You are not authorized as an admin.');
-                }
-
-                // Success – redirect to dashboard
-                window.location.href = 'admin-dashboard.html';
-
-            } catch (err) {
-                errorEl.textContent = err.message || 'Login failed. Please try again.';
-                loginBtn.disabled = false;
-                loginBtn.textContent = 'Log In';
-            }
-        });
+        // Keep the library namespace intact; use the explicit client variable below.
     </script>
+    <script>
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        const Helpers = {
+            getTheme: function () { return localStorage.getItem('psbs_theme') || 'light'; },
+            getThemePreset: function () { return localStorage.getItem('psbs_theme_preset') || 'gold'; },
+            applyTheme: function () {
+                const theme = this.getTheme();
+                const preset = this.getThemePreset();
+                const body = document.body;
+                const icon = document.getElementById('themeIcon');
+                if (theme === 'dark') {
+                    body.classList.add('dark');
+                    if (icon) icon.className = 'ri-sun-line';
+                } else {
+                    body.classList.remove('dark');
+                    if (icon) icon.className = 'ri-moon-line';
+                }
+                body.className = body.className.split(' ').filter(function (c) {
+                    return !c.startsWith('theme-');
+                }).join(' ');
+                if (preset !== 'default') body.classList.add('theme-' + preset);
+            },
+            toggleTheme: function () {
+                const isDark = document.body.classList.contains('dark');
+                const icon = document.getElementById('themeIcon');
+                if (isDark) {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('psbs_theme', 'light');
+                    if (icon) icon.className = 'ri-moon-line';
+                } else {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('psbs_theme', 'dark');
+                    if (icon) icon.className = 'ri-sun-line';
+                }
+                const preset = this.getThemePreset();
+                document.body.className = document.body.className.split(' ').filter(function (c) {
+                    return !c.startsWith('theme-');
+                }).join(' ');
+                if (preset !== 'default') document.body.classList.add('theme-' + preset);
+            },
+            showToast: function (message, type) {
+                const el = document.getElementById('toast');
+                const msgEl = el.querySelector('.toast-message');
+                const iconEl = el.querySelector('.toast-icon');
+                const closeBtn = el.querySelector('.toast-close');
+                const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+                msgEl.textContent = message;
+                el.className = 'toast toast-' + (type || 'info');
+                if (iconEl) iconEl.textContent = icons[type] || icons.info;
+                el.classList.add('active');
+                clearTimeout(el._timeout);
+                closeBtn.onclick = function () { el.classList.remove('active'); };
+                el._timeout = setTimeout(function () { el.classList.remove('active'); }, 4000);
+            },
+            sanitize: function (input) {
+                const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' };
+                return String(input).replace(/[&<>"'/]/g, function (s) { return map[s] || s; });
+            }
+        };
+
+        function showToast(msg, type) { Helpers.showToast(msg, type); }
+
+        // THEME
+        document.getElementById('themeToggle').addEventListener('click', function () { Helpers.toggleTheme(); });
+        Helpers.applyTheme();
+
+        const tabs = document.querySelectorAll('.tab-bar button');
+        const panels = { signin: document.getElementById('panel-signin'), signup: document.getElementById('panel-signup') };
+        tabs.forEach(btn => btn.addEventListener('click', function () {
+            const tab = this.getAttribute('data-tab');
+            tabs.forEach(b => { b.classList.remove('active-tab'); b.setAttribute('aria-selected','false'); });
+            this.classList.add('active-tab'); this.setAttribute('aria-selected','true');
+            Object.values(panels).forEach(p => p.classList.remove('active-panel'));
+            panels[tab].classList.add('active-panel');
+            document.querySelectorAll('.input-error').forEach(el => el.textContent='');
+        }));
+
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const loginBtn = document.getElementById('loginBtn');
+        const rememberMe = document.getElementById('rememberMe');
+        const savedEmail = localStorage.getItem('psbs_admin_email');
+        if (savedEmail) { emailInput.value = savedEmail; rememberMe.checked = true; }
+        emailInput.type='email'; passwordInput.autocomplete='current-password';
+
+        loginForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const email=emailInput.value.trim().toLowerCase(), password=passwordInput.value;
+            emailError.textContent=''; passwordError.textContent='';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailError.textContent='Enter a valid admin email.'; return; }
+            if (!password) { passwordError.textContent='Password is required.'; return; }
+            loginBtn.disabled=true; loginBtn.classList.add('loading');
+            try {
+                const {data,error}=await supabaseClient.rpc('admin_login',{p_email:email,p_password:password});
+                if(error) throw error;
+                const admin=Array.isArray(data)?data[0]:data;
+                if(!admin || admin.success!==true || !admin.session_token) { showToast('Invalid email or password, or the admin account is disabled.','error'); return; }
+                sessionStorage.setItem('psbs_admin_session_token',admin.session_token);
+                sessionStorage.setItem('psbs_admin_name',admin.name||'Admin');
+                if(rememberMe.checked) localStorage.setItem('psbs_admin_email',email); else localStorage.removeItem('psbs_admin_email');
+                showToast('Welcome! Redirecting…','success');
+                setTimeout(()=>window.location.replace('admin-dashboard.html'),600);
+            } catch(err) { console.error(err); showToast('Login error: '+(err.message||'Check SQL setup.'),'error'); }
+            finally { loginBtn.disabled=false; loginBtn.classList.remove('loading'); }
+        });
+
+        // Request Access uses a custom SQL RPC, never Supabase Auth signUp.
+        const signupForm=document.getElementById('signupForm');
+        const signupName=document.getElementById('signupName');
+        const signupEmail=document.getElementById('signupEmail');
+        const signupPassword=document.getElementById('signupPassword');
+        const signupConfirm=document.getElementById('signupConfirm');
+        const signupBtn=document.getElementById('signupBtn');
+        signupForm.addEventListener('submit', async e=>{
+            e.preventDefault();
+            const name=signupName.value.trim(), email=signupEmail.value.trim().toLowerCase();
+            const password=signupPassword.value;
+            document.querySelectorAll('#panel-signup .input-error').forEach(el=>el.textContent='');
+            let valid=true;
+            if(name.length<2){document.getElementById('signupNameError').textContent='Enter your full name.';valid=false;}
+            if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('signupEmailError').textContent='Enter a valid email.';valid=false;}
+            if(password.length<8){document.getElementById('signupPasswordError').textContent='Use at least 8 characters.';valid=false;}
+            if(password!==signupConfirm.value){document.getElementById('signupConfirmError').textContent='Passwords do not match.';valid=false;}
+            if(!valid) return;
+            signupBtn.disabled=true; signupBtn.classList.add('loading');
+            try {
+                const {data,error}=await supabaseClient.rpc('submit_admin_request',{p_name:name,p_email:email,p_password:password});
+                if(error) throw error;
+                const result=Array.isArray(data)?data[0]:data;
+                if(!result || result.success!==true) { showToast(result?.message||'Could not submit request.','error'); return; }
+                showToast('Request submitted. An administrator must approve it before you can sign in.','success');
+                signupForm.reset();
+                setTimeout(()=>{tabs[0]?.click(); emailInput.value=email;},1200);
+            } catch(err) { console.error('Request access error:',err); showToast('Request failed: '+(err.message||'Check SQL setup.'),'error'); }
+            finally {signupBtn.disabled=false; signupBtn.classList.remove('loading');}
+        });
+        document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){const active=document.querySelector('.tab-panel.active-panel');if(active?.id==='panel-signin')loginForm.requestSubmit();else if(active?.id==='panel-signup')signupForm.requestSubmit();}});
+        // Custom sessions are checked server-side by protected RPCs; do not trust a local flag.
+    </script>
+
 </body>
 
 </html>

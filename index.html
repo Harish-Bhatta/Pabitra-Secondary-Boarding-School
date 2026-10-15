@@ -7057,7 +7057,13 @@ body.dark .hero-copy-card {
         }
         DOM.ddStudentLogin.addEventListener('click', function (e) { e.preventDefault(); navigateLogin(CONFIG.LOGIN_STUDENT); });
         DOM.ddTeacherLogin.addEventListener('click', function (e) { e.preventDefault(); navigateLogin(CONFIG.LOGIN_TEACHER); });
-        DOM.ddAdminLogin.addEventListener('click', function (e) { e.preventDefault(); navigateLogin(CONFIG.LOGIN_ADMIN); });
+        DOM.ddAdminLogin.addEventListener('click', function (e) {
+            e.preventDefault();
+            closeProfileDropdown();
+            // A stored token is only a convenience; admin-dashboard.html validates it with Supabase.
+            const adminToken = localStorage.getItem('psbs_admin_session_token') || sessionStorage.getItem('psbs_admin_session_token');
+            window.location.href = adminToken ? 'admin-dashboard.html' : CONFIG.LOGIN_ADMIN;
+        });
         DOM.ddCalendarBtn.addEventListener('click', function (e) {
             e.preventDefault();
             closeProfileDropdown();

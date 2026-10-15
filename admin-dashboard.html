@@ -5708,7 +5708,129 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 .admin-footer p { margin:4px 0; font-size:12px; }
 .admin-footer strong { color:var(--primary); }
 
+
+/* ============================================================
+   PREMIUM PENDING BADGE — beautiful & attractive
+   ============================================================ */
+.sidebar-link-btn[data-view="pending"]{
+  position:relative;
+}
+.nav-badge{
+  margin-left:auto;
+  min-width:28px;
+  height:28px;
+  padding:0 9px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.74rem;
+  font-weight:800;
+  letter-spacing:.02em;
+  line-height:1;
+  flex-shrink:0;
+  transition:all .35s cubic-bezier(.22,1,.36,1);
+}
+#pendingBadgeSidebar{
+  min-width:32px;
+  height:28px;
+  padding:0 11px;
+  font-size:.78rem;
+  font-weight:850;
+  color:#fff;
+  background:linear-gradient(135deg,#ff3b30 0%,#ff6a2a 42%,#ff9f1c 100%);
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:
+    0 8px 18px rgba(255,59,48,.34),
+    0 3px 8px rgba(255,120,40,.26),
+    inset 0 1px 0 rgba(255,255,255,.88),
+    inset 0 -1px 0 rgba(0,0,0,.08);
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  transform-origin:center;
+  backdrop-filter:saturate(140%);
+}
+#pendingBadgeSidebar::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(180deg,rgba(255,255,255,.58) 0%,rgba(255,255,255,0) 56%);
+  pointer-events:none;
+  z-index:1;
+}
+#pendingBadgeSidebar::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-50%;
+  width:42%;
+  height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.72),transparent);
+  transform:skewX(-18deg) translateX(0);
+  z-index:2;
+  pointer-events:none;
+  transition:transform .55s ease;
+}
+.sidebar-link-btn:hover #pendingBadgeSidebar::after{
+  transform:skewX(-18deg) translateX(220px);
+}
+#pendingBadgeSidebar.has-count{
+  animation:pendingPop .58s cubic-bezier(.34,1.56,.64,1) both,
+            pendingGlow 2.6s ease-in-out infinite .7s;
+}
+#pendingBadgeSidebar.is-zero,
+#pendingBadgeSidebar[data-zero="true"]{
+  background:var(--surface-solid);
+  color:var(--text-light);
+  border-color:var(--border);
+  box-shadow:0 1px 0 #fff inset,0 0 0 1px var(--border);
+  opacity:.72;
+  animation:none;
+}
+#pendingBadgeSidebar.is-zero::before,
+#pendingBadgeSidebar.is-zero::after{ display:none; }
+
+@keyframes pendingPop{
+  0%{ transform:scale(.42); opacity:0; }
+  55%{ transform:scale(1.22); opacity:1; }
+  100%{ transform:scale(1); }
+}
+@keyframes pendingGlow{
+  0%,100%{
+    box-shadow:0 8px 18px rgba(255,59,48,.34),0 3px 8px rgba(255,120,40,.26),inset 0 1px 0 rgba(255,255,255,.88),0 0 0 0 rgba(255,59,48,.42);
+  }
+  50%{
+    box-shadow:0 11px 24px rgba(255,59,48,.46),0 5px 12px rgba(255,120,40,.34),inset 0 1px 0 rgba(255,255,255,.94),0 0 0 9px rgba(255,59,48,0);
+  }
+}
+
+/* Active state — inverts to white pill with red text for contrast */
+.sidebar-link-btn.active #pendingBadgeSidebar{
+  background:#fff;
+  color:#ff3b30;
+  border-color:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.18),inset 0 1px 0 #fff;
+}
+.sidebar-link-btn.active #pendingBadgeSidebar.has-count{ animation:none; }
+.sidebar-link-btn.active #pendingBadgeSidebar::before{ background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,0)); }
+
+/* Small dot when there are pending users */
+#pendingBadgeSidebar.has-count::before{
+  /* keep glossy but add tiny live indicator */
+}
+#pendingBadgeSidebar.has-count{
+  padding-right:12px;
+}
+
+/* When sidebar is collapsed on desktop, keep badge visible */
+@media (min-width:1200px){
+  #pendingBadgeSidebar{ min-width:32px; }
+}
+
 </style>
+
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -5765,8 +5887,8 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
         <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="collection" data-table="faculty"><span class="nav-icon-wrapper"><i class="ri-graduation-cap-line"></i></span><span class="nav-title">Faculty</span></button>
         <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="collection" data-table="calendar_data"><span class="nav-icon-wrapper"><i class="ri-calendar-event-line"></i></span><span class="nav-title">Calendar</span></button>
         <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="collection" data-table="school_info"><span class="nav-icon-wrapper"><i class="ri-community-line"></i></span><span class="nav-title">School Info</span></button>
-        <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="pending"><span class="nav-icon-wrapper"><i class="ri-user-follow-line"></i></span><span class="nav-title">Pending Users</span><span class="nav-badge" id="pendingBadgeSidebar">—</span></button>
-        <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="admins" id="adminsNavSidebar" hidden><span class="nav-icon-wrapper"><i class="ri-shield-user-line"></i></span><span class="nav-title">Administrators</span></button>
+        <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="pending" data-admin-nav="pending"><span class="nav-icon-wrapper"><i class="ri-user-follow-line"></i></span><span class="nav-title">Pending Users</span><span class="nav-badge" id="pendingBadgeSidebar">—</span></button>
+        <button type="button" class="sidebar-link-btn nav-link ripple-host" data-view="admins" data-admin-nav="admins" id="adminsNavSidebar" hidden><span class="nav-icon-wrapper"><i class="ri-shield-user-line"></i></span><span class="nav-title">Administrators</span></button>
       </div>
     </nav>
     <nav class="sidebar-group" aria-label="Resources">
@@ -5820,17 +5942,14 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
             <div class="dropdown-avatar-wrap" id="ddAvatarWrap"><div class="dropdown-avatar" id="ddAvatar">A</div><div class="avatar-edit-badge"><i class="ri-camera-line"></i></div></div>
             <div class="dropdown-user-meta">
               <div class="name-row"><h4 id="ddName">Administrator</h4></div>
-              <span id="ddRole">Verified admin session</span>
             </div>
           </div>
           <div class="dropdown-divider"></div>
-          <button type="button" class="dropdown-item ripple-host" data-admin-nav="overview"><i class="ri-layout-grid-line"></i> Dashboard Overview</button>
           <button type="button" class="dropdown-item ripple-host" data-admin-nav="notices"><i class="ri-megaphone-line"></i> Manage Notices</button>
           <button type="button" class="dropdown-item ripple-host" data-admin-nav="documents"><i class="ri-file-paper-2-line"></i> Manage Documents</button>
           <button type="button" class="dropdown-item ripple-host" data-admin-nav="gallery"><i class="ri-image-line"></i> Gallery Management</button>
           <button type="button" class="dropdown-item ripple-host" data-admin-nav="faculty"><i class="ri-graduation-cap-line"></i> Faculty Management</button>
           <a class="dropdown-item ripple-host" href="index.html"><i class="ri-home-5-line"></i> Public Website</a>
-          <button type="button" class="dropdown-item ripple-host" id="shareDashboard"><i class="ri-share-line"></i> Share Link</button>
           <div class="dropdown-divider"></div>
           <button type="button" class="dropdown-item logout-menu-item ripple-host" id="logoutMenu"><i class="ri-logout-box-r-line"></i> Log out</button>
         </div>
@@ -6657,9 +6776,19 @@ async function loadPendingCount(){
     const rows=Array.isArray(data)?data:(data?.records||data?.data||[]);
     const pending=rows.filter(r=>!r.is_approved);
     allProfiles=rows;
-    if($('overviewPending')) $('overviewPending').textContent = String(pending.length);
-    const pb=$('pendingBadge'); if(pb) pb.textContent=String(pending.length);
-    const pbs=$('pendingBadgeSidebar'); if(pbs) pbs.textContent=String(pending.length);
+    const count=pending.length;
+    const display = count>99 ? '99+' : String(count);
+    if($('overviewPending')) $('overviewPending').textContent = String(count);
+    const pb=$('pendingBadge'); if(pb){ pb.textContent=display; pb.classList.toggle('has-count', count>0); }
+    const pbs=$('pendingBadgeSidebar');
+    if(pbs){
+      pbs.textContent = count===0 ? '0' : display;
+      pbs.classList.toggle('has-count', count>0);
+      pbs.classList.toggle('is-zero', count===0);
+      pbs.setAttribute('data-zero', count===0 ? 'true' : 'false');
+      pbs.setAttribute('title', count>0 ? count + ' pending user'+(count>1?'s':'')+' awaiting approval' : 'No pending users');
+      pbs.setAttribute('aria-label', count>0 ? count + ' pending' : 'no pending');
+    }
   }catch{}
 }
 async function loadPending(){

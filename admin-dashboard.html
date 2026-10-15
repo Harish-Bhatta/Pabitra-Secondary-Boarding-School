@@ -5887,6 +5887,118 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 
 </style>
 
+<style id="admin-redesign">
+/* ===== PSBS admin redesign — scoped to management views, editor & viewer. Overview untouched. ===== */
+#view-collection,#view-pending,#view-admins{--r-pad:clamp(16px,2.4vw,28px)}
+#view-collection .panel,#view-pending .panel,#view-admins .panel{padding:var(--r-pad);border-radius:20px}
+#view-collection .eyebrow,#view-pending .eyebrow,#view-admins .eyebrow{font-size:13px!important;letter-spacing:0!important;text-transform:none!important;font-weight:600!important;color:var(--primary-dark,#d68910)!important}
+#view-collection .section-head,#view-pending .section-head,#view-admins .section-head{gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
+#view-collection .section-head>div,#view-pending .section-head>div,#view-admins .section-head>div{min-width:0;flex:1 1 280px}
+#view-collection .section-head h2,#view-pending .section-head h2,#view-admins .section-head h2{font-size:clamp(22px,3vw,30px);letter-spacing:-.02em;margin:4px 0 6px;line-height:1.2}
+#view-collection .section-head p,#view-pending .section-head p,#view-admins .section-head p{font-size:15px;line-height:1.5}
+#view-collection>.section-head h2{font-size:clamp(18px,2.2vw,22px)}
+#recordCount{font-size:13px;padding:6px 12px;border-radius:999px;font-weight:600;background:rgba(var(--primary-rgb),.12);color:var(--primary-dark,#d68910)}
+/* Buttons: one system, no clipping */
+.admin-content .btn,#editor .btn,#viewer .btn{box-sizing:border-box;min-height:44px;padding:10px 18px;font-size:14.5px;line-height:1.25;white-space:nowrap;flex-shrink:0;font-family:inherit;text-align:center}
+.admin-content .btn.slim,#viewer .btn.slim{min-height:40px;padding:8px 14px;font-size:14px}
+.admin-content .btn i,#editor .btn i,#viewer .btn i{font-size:18px;line-height:1;flex-shrink:0}
+.admin-content .btn.primary,#editor .btn.primary,#viewer .btn.primary{background:var(--primary);color:#fff;border-color:var(--primary-dark,#d68910);box-shadow:0 4px 12px rgba(var(--primary-rgb),.28)}
+.admin-content .btn.primary:hover,#editor .btn.primary:hover,#viewer .btn.primary:hover{background:var(--primary-dark,#d68910)}
+.admin-content .btn.danger,#editor .btn.danger,#viewer .btn.danger{color:#dc2626;border-color:rgba(220,38,38,.4);background:rgba(220,38,38,.06)}
+.admin-content .btn.danger:hover,#editor .btn.danger:hover{background:#dc2626;color:#fff}
+.btn::before,.btn::after{pointer-events:none}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+.admin-content :focus-visible,#editor :focus-visible,#viewer :focus-visible{outline:3px solid rgba(var(--primary-rgb),.55);outline-offset:2px}
+/* Toolbar */
+#view-collection .toolbar{gap:12px}
+#view-collection .search-wrap{flex:1 1 260px}
+#view-collection .search-wrap input{height:48px;font-size:15px;padding-left:46px;border-radius:14px}
+#view-collection .search-wrap i{left:16px;font-size:19px}
+/* Records */
+.record-grid{gap:16px}
+#records[data-table="notices"],#records[data-table="documents"],#records[data-table="calendar_data"],#records[data-table="school_info"],#pendingList,#adminsList{grid-template-columns:minmax(0,1fr)}
+@media(min-width:1100px){#pendingList,#adminsList{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#records[data-table="faculty"]{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+#records[data-table="gallery"]{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media(min-width:700px){#records[data-table="gallery"]{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1200px){#records[data-table="gallery"]{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:340px){#records[data-table="gallery"]{grid-template-columns:1fr}}
+.record-card{padding:18px;border-radius:16px;gap:16px;align-items:flex-start;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"thumb info" "actions actions"}
+.record-card .record-thumb{grid-area:thumb;width:56px;height:56px;flex:none;font-size:26px;border-radius:14px}
+.record-card .record-info{grid-area:info;min-width:0}
+.record-card .record-actions{grid-area:actions;display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.record-card .record-actions .btn{flex:1 1 90px}
+.record-info b{font-size:17px;line-height:1.35;font-weight:700}
+.record-info p{font-size:14.5px;line-height:1.55;margin:6px 0 10px;white-space:normal;color:var(--text-light);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+#pendingList .record-info p,#adminsList .record-info p{-webkit-line-clamp:unset;display:block}
+#pendingList .record-actions{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+#pendingList .record-card,#adminsList .record-card{display:flex}
+.tag{font-size:12.5px;padding:4px 10px;border-radius:999px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(min-width:760px){
+ #records:not([data-table="gallery"]):not([data-table="faculty"]) .record-card{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"thumb info actions";align-items:center}
+ #records:not([data-table="gallery"]):not([data-table="faculty"]) .record-actions .btn{flex:0 0 auto}
+}
+#records[data-table="gallery"] .record-card{grid-template-columns:1fr;grid-template-areas:"thumb" "info" "actions";padding:0;gap:0;overflow:hidden}
+#records[data-table="gallery"] .record-thumb{width:100%;height:auto;aspect-ratio:4/3;border-radius:0}
+#records[data-table="gallery"] .record-info,#records[data-table="gallery"] .record-actions{padding:12px 14px}
+#records[data-table="gallery"] .record-actions{padding-top:0;gap:6px}
+#records[data-table="gallery"] .record-actions .btn{padding:8px 6px;font-size:13px;min-height:40px}
+#records[data-table="gallery"] .record-actions .btn span{display:none}
+@media(min-width:420px){#records[data-table="gallery"] .record-actions .btn span{display:inline}}
+.record-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.record-thumb .emoji{font-size:30px;line-height:1}
+.empty{padding:48px 16px;font-size:15px}
+.empty .btn{margin-top:16px}
+.empty i{font-size:40px}
+.role-banner{font-size:14px;line-height:1.5;padding:14px 16px}
+/* Editor & viewer */
+.editor{z-index:var(--z-modal,10000);justify-content:flex-end;align-items:stretch}
+.editor-sheet{display:flex;flex-direction:column;overflow:hidden;padding:0;width:min(760px,100%);height:100vh;height:100dvh;background:var(--surface-solid,#fff)}
+.editor-top{margin:0;padding:22px 26px 18px;border-bottom:1px solid var(--glass-border,#e7eaf0);padding-top:max(22px,env(safe-area-inset-top))}
+.editor-top h2{font-size:clamp(21px,3vw,26px);letter-spacing:-.02em;margin:2px 0 4px}
+#editorEyebrow{font-size:12.5px!important;letter-spacing:.02em!important;font-weight:700!important;color:var(--primary-dark,#d68910)!important}
+#editorDescription{font-size:14px!important;margin:0}
+#editor .editor-category-icon{flex-shrink:0}
+#recordForm{display:flex;flex-direction:column;flex:1;min-height:0}
+.editor-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:22px 26px}
+.form-intro{font-size:13px!important;flex-wrap:wrap;margin-bottom:18px!important}
+.form-grid{gap:18px 16px}
+.form-field label{font-size:14px;font-weight:600;margin-bottom:7px}
+.form-field .hint{font-size:12.5px;margin-top:6px;line-height:1.4}
+#editor .field,#editor select,#editor textarea{min-height:46px;padding:12px 14px;font-size:15px;border-radius:12px;font-family:inherit}
+#editor textarea{min-height:130px;line-height:1.5}
+#editor textarea.json{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;min-height:280px;white-space:pre;overflow:auto;tab-size:2}
+.form-field:has(input[type=checkbox]){display:flex;align-items:center;gap:10px}
+.form-field input[type=checkbox]{width:22px;height:22px;accent-color:var(--primary)}
+.form-group-title{grid-column:1/-1;padding-top:8px;border-top:1px solid var(--glass-border,#e7eaf0)}
+.form-group-title:first-child{border-top:0;padding-top:0}
+.form-group-title h3{margin:0;font-size:16px;color:var(--text)}
+.form-group-title p{margin:2px 0 0;font-size:13px;color:var(--text-light)}
+.field-error{color:#dc2626;font-size:13px;margin-top:6px;font-weight:600}
+.img-preview{margin-top:10px;border:1px dashed var(--glass-border);border-radius:12px;min-height:60px;display:grid;place-items:center;overflow:hidden;color:var(--text-light);font-size:13px;background:rgba(148,163,184,.08)}
+.img-preview img{display:block;max-width:100%;max-height:240px;object-fit:contain}
+.form-actions{position:static;flex-shrink:0;flex-wrap:wrap;margin:0;gap:10px;padding:14px 26px calc(14px + env(safe-area-inset-bottom,0px));background:var(--surface-solid,#fff);border-top:1px solid var(--glass-border,#e7eaf0)}
+.form-actions .btn.primary{flex:1 1 180px;order:1}
+#cancelEditor{order:2}.form-actions-spacer{display:none}#deleteRecord{order:3}
+#deleteRecord[hidden]{display:none}
+.viewer-list{display:grid;gap:0}
+.viewer-row{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);gap:6px 16px;padding:14px 0;border-bottom:1px solid var(--glass-border,#e7eaf0)}
+.viewer-row dt{font-weight:600;font-size:14px;color:var(--text-light)}
+.viewer-row dd{margin:0;font-size:15.5px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+.viewer-row dd a{color:var(--primary-dark,#d68910);font-weight:600;text-decoration:underline}
+.viewer-row dd pre{margin:0;padding:14px;max-height:340px;overflow:auto;border-radius:12px;background:rgba(148,163,184,.12);font-size:13px;white-space:pre}
+.viewer-row dd img{display:block;max-width:100%;max-height:360px;border-radius:12px;margin:0 auto}
+@media(max-width:640px){
+ .form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}
+ .editor-sheet{width:100%}.editor-top,.editor-body{padding-left:16px;padding-right:16px}.form-actions{padding-left:16px;padding-right:16px}
+ .form-actions .btn{flex:1 1 100%}.viewer-row{grid-template-columns:1fr}
+ .admin-content .section-head>.btn{width:100%}
+ .record-card{padding:16px}
+}
+.profile-dropdown{max-width:calc(100vw - 24px)}.profile-dropdown h4,.profile-dropdown span{overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){.editor,.editor-sheet,.view,.record-card{transition:none!important;animation:none!important}}
+</style>
+
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -7319,5 +7431,133 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 
 </script>
+<script>
+/* ===== Admin redesign layer: richer record cards, View dialog, editor polish. Data/RPC contracts unchanged. ===== */
+(function(){
+const MONTHS=['Baisakh','Jestha','Ashadh','Shrawan','Bhadra','Ashwin','Kartik','Mangsir','Poush','Magh','Falgun','Chaitra'];
+const NOUN={notices:'notice',documents:'document',gallery:'gallery photo',faculty:'faculty member',calendar_data:'calendar month',school_info:'school information'};
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const mk=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;};
+const tagEl=txt=>mk('span','tag',txt);
+const host=u=>{try{return new URL(u).hostname.replace(/^www\./,'');}catch(e){return '';}};
+const tok=()=>localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey);
+function summary(t,row){
+  if(t==='documents') return row.subject||'';
+  if(t==='calendar_data'){const d=row.data;const n=Array.isArray(d)?d.length:(d&&typeof d==='object'?Object.keys(d).length:0);return 'B.S. '+(row.year_bs??'—')+' · '+(MONTHS[row.month_idx]||'Month '+row.month_idx)+(n?' · '+n+' entries':'');}
+  return recordSummary(t,row);
+}
+renderRecords=function(t,rows,target,emptyEl,editable=true){
+  if(!target) return;
+  target.replaceChildren(); target.dataset.table=t;
+  if(!rows.length){ if(emptyEl) emptyEl.hidden=false; return; }
+  if(emptyEl) emptyEl.hidden=true;
+  rows.forEach(row=>{
+    const card=mk('article','record-card');
+    const thumb=mk('div','record-thumb');
+    const safe=t==='gallery'?Helpers.safeUrl(row.image_url):'';
+    if(safe){const im=document.createElement('img');im.src=safe;im.alt=row.caption||'Gallery photo';im.loading='lazy';im.onerror=()=>{thumb.innerHTML='<i class="ri-image-line"></i>';};thumb.append(im);}
+    else if(t==='faculty'&&row.emoji){thumb.append(mk('span','emoji',row.emoji));}
+    else thumb.innerHTML='<i class="'+iconFor(t)+'"></i>';
+    const info=mk('div','record-info');
+    const meta=mk('div','record-meta');
+    if(row.date) meta.append(tagEl(Helpers.formatDate(row.date)));
+    if(row.label) meta.append(tagEl(row.label));
+    if(row.file_type) meta.append(tagEl(row.file_type));
+    if(t==='documents'&&row.file_url) meta.append(tagEl(host(row.file_url)||'Linked file'));
+    if(row.order!==undefined&&row.order!==null&&row.order!=='') meta.append(tagEl('Order '+row.order));
+    if(t==='calendar_data') meta.append(tagEl('Month '+row.month_idx));
+    const p=mk('p',null,String(summary(t,row)).slice(0,230)); if(!p.textContent) p.hidden=true;
+    info.append(mk('b',null,recordTitle(t,row)),p,meta);
+    card.append(thumb,info);
+    if(editable){
+      const acts=mk('div','record-actions');
+      const btn=(cls,icon,label,fn)=>{const b=mk('button','btn slim '+cls);b.type='button';b.setAttribute('aria-label',label+' '+recordTitle(t,row));b.title=label;b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i><span>'+label+'</span>';b.onclick=fn;return b;};
+      const view=btn('','ri-eye-line','View',()=>openViewer(row,t));
+      const edit=btn('','ri-edit-line','Edit',()=>openEditor(row,t));
+      const del=btn('danger','ri-delete-bin-line','Delete',async()=>{
+        if(!confirm('Delete this record? This cannot be undone.')) return;
+        try{
+          await rpc(ADMIN_CONFIG.rpc.remove,{p_session_token:tok(),p_table:t,p_primary_key:'id',p_record_id:String(row.id)});
+          showBanner('Record deleted.','success'); Toast.show('Record deleted','success'); loadRecords();
+        }catch(err){ showBanner(err.message||'Delete failed','error'); Toast.show('Delete failed: '+(err.message||''),'error'); }
+      });
+      acts.append(view,edit,del); card.append(acts);
+    }
+    target.append(card);
+  });
+};
+/* View dialog (read-only, reuses editor chrome) */
+const v=document.createElement('div');
+v.className='editor';v.id='viewer';v.setAttribute('aria-hidden','true');
+v.innerHTML='<div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="viewerTitle"><div class="editor-top"><div><div id="viewerEyebrow" style="font-size:12.5px;font-weight:700;color:var(--primary-dark,#d68910)"></div><h2 id="viewerTitle"></h2></div><button type="button" class="icon-btn" id="closeViewer" aria-label="Close details"><i class="ri-close-line"></i></button></div><div class="editor-body"><dl class="viewer-list" id="viewerBody"></dl></div><div class="form-actions"><button type="button" class="btn primary" id="viewerEdit"><i class="ri-edit-line"></i> Edit</button><button type="button" class="btn" id="viewerClose">Close</button></div></div>';
+document.body.append(v);
+let viewRow=null,viewTable=null,lastFocus=null;
+window.openViewer=function(row,t){
+  viewRow=row;viewTable=t;lastFocus=document.activeElement;
+  $('viewerEyebrow').textContent=SCHEMAS[t].title;$('viewerTitle').textContent=recordTitle(t,row);
+  const body=$('viewerBody');body.replaceChildren();
+  fieldsFor(t).forEach(([key,label,type])=>{
+    const val=row[key];const dt=mk('dt',null,label);const dd=document.createElement('dd');
+    const empty=val===null||val===undefined||val==='';
+    if(empty) dd.textContent='—';
+    else if(type==='json'){const pre=document.createElement('pre');try{pre.textContent=JSON.stringify(val,null,2);}catch(e){pre.textContent=String(val);}dd.append(pre);}
+    else if(type==='checkbox') dd.textContent=val?'Yes':'No';
+    else if(type==='date') dd.textContent=Helpers.formatDate(val);
+    else if(type==='url'||key==='file_url'){const u=Helpers.safeUrl(val);if(u){const a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(val);dd.append(a);}else dd.textContent=String(val);
+      if(key==='image_url'&&u){const im=document.createElement('img');im.src=u;im.alt=row.caption||'Gallery photo';im.style.marginTop='10px';im.onerror=()=>im.remove();dd.append(im);}}
+    else dd.textContent=String(val);
+    const r=mk('div','viewer-row');r.append(dt,dd);body.append(r);
+  });
+  v.classList.add('open');v.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  setTimeout(()=>$('viewerEdit').focus({preventScroll:true}),80);
+};
+function closeViewer(){v.classList.remove('open');v.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true});}catch(e){}}
+$('closeViewer').onclick=closeViewer;$('viewerClose').onclick=closeViewer;
+v.addEventListener('click',e=>{if(e.target===v)closeViewer();});
+$('viewerEdit').onclick=()=>{const r=viewRow,t=viewTable;v.classList.remove('open');v.setAttribute('aria-hidden','true');document.body.style.overflow='';openEditor(r,t);};
+/* Back button and Escape close the viewer/editor first */
+window.addEventListener('popstate',e=>{if(v.classList.contains('open')){e.stopImmediatePropagation();closeViewer();psbsPushBackGuard();}},{capture:true});
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape'||State.isSearchOpen||State.isThemePresetsOpen) return;
+  if(v.classList.contains('open')) closeViewer();
+  else if($('editor').classList.contains('open')) closeEditor();
+});
+/* Editor polish: titles, widths, groups, image preview, inline JSON error */
+const _open=openEditor;
+openEditor=function(row,table){
+  _open.apply(this,arguments);
+  const t=currentTable,noun=NOUN[t]||SCHEMAS[t].title.toLowerCase();
+  $('editorTitle').textContent=(row?'Edit ':'Add ')+noun;
+  $('editorEyebrow').textContent=row?'Editing an existing record':'Creating a new record';
+  const fullKeys=['title','description','subject','file_url','image_url','caption','address','motto','school_name','data','name'];
+  const w=k=>$('f_'+k)?.closest('.form-field');
+  fieldsFor(t).forEach(([key,,type])=>{const f=w(key);if(f&&(fullKeys.includes(key)||type==='url'))f.classList.add('full');});
+  if(t==='school_info'){
+    [['school_name','School identity','Name and motto shown across the public website.'],['address','Contact and location','How visitors can find and reach the school.'],['students_count','School statistics','Figures displayed on the public homepage.']].forEach(([k,h,d])=>{
+      const f=w(k);if(!f)return;const g=mk('div','form-group-title');g.append(mk('h3',null,h),mk('p',null,d));f.before(g);});
+  }
+  if(t==='gallery'){
+    const f=w('image_url'),inp=$('f_image_url');
+    if(f&&inp){const pv=mk('div','img-preview');f.append(pv);
+      const upd=()=>{pv.replaceChildren();const u=Helpers.safeUrl(inp.value);if(!u){pv.textContent='Image preview appears here';return;}
+        const im=document.createElement('img');im.alt='Preview';im.onerror=()=>{pv.textContent='This image could not be loaded';};im.src=u;pv.append(im);};
+      inp.addEventListener('input',upd);upd();}
+  }
+};
+$('recordForm').addEventListener('submit',()=>{
+  const j=$('f_data');if(!j||currentTable!=='calendar_data')return;
+  j.parentElement.querySelectorAll('.field-error').forEach(n=>n.remove());
+  try{JSON.parse(j.value||'{}');}catch(err){const m=mk('div','field-error','Invalid JSON: '+err.message);m.setAttribute('role','alert');j.after(m);j.focus();}
+},true);
+$('formFields').addEventListener('focusin',e=>{setTimeout(()=>e.target.scrollIntoView?.({block:'center',behavior:'smooth'}),300);});
+/* Restore focus when editor closes */
+let edFocus=null;
+new MutationObserver(()=>{const o=$('editor').classList.contains('open');if(o&&!edFocus)edFocus=document.activeElement;else if(!o&&edFocus){try{edFocus.focus({preventScroll:true});}catch(e){}edFocus=null;}}).observe($('editor'),{attributes:true,attributeFilter:['class']});
+/* Helpful empty state + subtitle */
+if($('recordsSub')) $('recordsSub').textContent='Use View to read details, Edit to update, or Delete to remove a record.';
+const em=$('empty');if(em){const b=mk('button','btn primary');b.type='button';b.innerHTML='<i class="ri-add-line"></i> Add new';b.onclick=()=>openEditor();em.append(b);}
+})();
+</script>
+
 </body>
 </html>

@@ -5696,6 +5696,19 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 }
 
 </style>
+<style>
+
+/* Requested admin refinements: hide header while scrolling down, reveal while scrolling up. */
+.header.header-hidden { transform: translateY(-100%); }
+@media (min-width: 1024px) { .header.header-hidden { transform: none; } }
+.overview-back-row { display:flex; justify-content:flex-start; margin: 0 0 12px; }
+.overview-back-btn { display:inline-flex; align-items:center; gap:8px; border:1px solid var(--border); background:var(--surface); color:var(--text); border-radius:999px; padding:9px 14px; box-shadow:var(--shadow-xs); }
+.overview-back-btn:hover { border-color:var(--primary); transform:translateY(-1px); }
+.admin-footer { margin:28px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom, 0px)); text-align:center; border-top:1px solid var(--border); color:var(--text-light); font-size:12px; }
+.admin-footer p { margin:4px 0; font-size:12px; }
+.admin-footer strong { color:var(--primary); }
+
+</style>
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -5827,8 +5840,6 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 </header>
 
 <main class="admin-content" id="main-content" role="main">
-  <!-- NOTICE TICKER - same markup/classes as index.html; filled from the notices table by buildAdminTicker() -->
-  <div class="notice-ticker" id="noticeTicker" role="status" aria-label="Latest notices" hidden><div class="nt-move" id="ntMove"></div></div>
 
   <section class="panel" id="gate"><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c38211;">Secure workspace</div><h1 id="gateTitle" style="margin:8px 0 6px;">Verifying your administrator session…</h1><p class="muted" id="gateText" style="color:var(--text-light);font-size:12px;">Checking your existing login securely.</p><button class="btn primary" id="returnLogin" hidden onclick="location.href='admin-login.html'">Return to sign in</button></section>
 
@@ -5836,6 +5847,7 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
     <div id="notice" class="notice" role="status" aria-live="polite"></div>
 
     <section class="view" id="view-overview">
+      <div class="overview-back-row"><button type="button" class="btn slim overview-back-btn" id="overviewBackBtn"><i class="ri-home-4-line" aria-hidden="true"></i> Back to website</button></div>
       <div class="hero-admin"><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:#f9c65e;">Pabitra Secondary Boarding School</div><h1 id="welcome">A better way to manage your school.</h1><p>One calm, beautifully organised workspace for the school's notices, documents, gallery, calendar, faculty and information. Designed to make everyday updates simple.</p><div class="hero-foot"><span class="pill"><span class="live-dot"></span> Session verified</span><span class="pill"><i class="ri-smartphone-line"></i> Mobile friendly</span><span class="pill"><i class="ri-hand-coin-line"></i> Easy editing</span></div></div>
       <div class="stats">
         <div class="stat"><div class="stat-top">Content areas <span class="stat-icon"><i class="ri-apps-2-line"></i></span></div><strong>6</strong><small>Public website collections</small></div>
@@ -5863,7 +5875,6 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
       <div class="panel"><div class="section-head"><div><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Super administrator only</div><h2>All administrators</h2><p>Safe directory view — password hashes and session tokens are never displayed.</p></div><button class="btn ripple-host" id="refreshAdmins"><i class="ri-refresh-line"></i> Refresh</button></div><div class="role-banner">This list uses the dedicated <code>admin_list_admins</code> Supabase RPC. It will only show data if that secure function exists and validates the super-admin role.</div><div id="adminsList" class="record-grid"></div><div id="adminsEmpty" class="empty" hidden><i class="ri-shield-user-line"></i><b>Administrator directory unavailable</b><br id="adminsError">Your database may need a dedicated role-checked RPC.</div></div>
     </section>
 
-    <div class="footer">PSBS Admin Studio · Changes are saved to your connected Supabase project. 🌸 Radhe Radhe</div>
   </div>
 </main>
 
@@ -6779,6 +6790,8 @@ $('deleteRecord')?.addEventListener('click', async ()=>{
 });
 async function initAuth(){
   const gateTitle=$('gateTitle'), gateText=$('gateText'), returnLogin=$('returnLogin'), app=$('app'), gate=$('gate');
+  /* Keep an existing session across tab/page visits. Server-side expiry/revocation still applies. */
+  try { if(!localStorage.getItem(tokenKey) && sessionStorage.getItem(tokenKey)) localStorage.setItem(tokenKey, sessionStorage.getItem(tokenKey)); } catch(e) {}
   const token=localStorage.getItem(tokenKey) || sessionStorage.getItem(tokenKey);
   if(!token){
     if(gateTitle) gateTitle.textContent='No administrator session found';
@@ -6909,6 +6922,38 @@ window.addEventListener('popstate', function(){
   // Preserve localStorage/session token. Go to the public site, not browser exit.
   window.location.href = new URL('index.html', window.location.href).href;
 });
+// Explicit overview back button does not depend on browser history state.
+document.getElementById('overviewBackBtn')?.addEventListener('click', function(){
+  window.location.href = new URL('index.html', window.location.href).href;
+});
+
+// Match index.html: hide header when scrolling down and reveal it when scrolling up.
+(function(){
+  const header=document.querySelector('.header');
+  if(!header) return;
+  let lastY=window.scrollY||0, timer=0;
+  window.addEventListener('scroll', function(){
+    window.clearTimeout(timer);
+    const y=window.scrollY||document.documentElement.scrollTop||0;
+    timer=window.setTimeout(function(){
+      if(y<=80 || y<lastY-10) header.classList.remove('header-hidden');
+      else if(y>lastY+10) header.classList.add('header-hidden');
+      lastY=y;
+    },120);
+  },{passive:true});
+})();
+
+// Compact footer consistent with the public school website.
+(function(){
+  const main=document.querySelector('main.admin-content');
+  if(!main || document.getElementById('adminFooter')) return;
+  const footer=document.createElement('footer');
+  footer.className='admin-footer'; footer.id='adminFooter'; footer.setAttribute('role','contentinfo');
+  footer.innerHTML='<p>© <span id="adminFooterYear"></span> Pabitra Secondary Boarding School</p><p>Quality Education since 2040 B.S. · <strong>🌸 Radhe Radhe</strong></p><p><a href="index.html">Return to school website</a></p>';
+  main.appendChild(footer);
+  const year=document.getElementById('adminFooterYear'); if(year) year.textContent=String(new Date().getFullYear());
+})();
+
 initAuth();
 
 </script>

@@ -4845,6 +4845,14 @@ body.dark .hero-copy-card {
                     <span class="hero-glow g1"></span>
                     <span class="hero-glow g2"></span>
                     <span class="hero-grid" aria-hidden="true"></span>
+                    <i class="hero-doodle ri-book-open-line" style="left:6%;top:12%;font-size:64px;--rot:-12deg" aria-hidden="true"></i>
+                    <i class="hero-doodle ri-pencil-ruler-2-line" style="left:90%;top:10%;font-size:58px;--rot:10deg" aria-hidden="true"></i>
+                    <i class="hero-doodle ri-graduation-cap-line" style="left:4%;top:72%;font-size:70px;--rot:8deg" aria-hidden="true"></i>
+                    <i class="hero-doodle ri-medal-line" style="left:93%;top:68%;font-size:54px;--rot:-8deg" aria-hidden="true"></i>
+                    <i class="hero-doodle ri-flask-line" style="left:47%;top:6%;font-size:44px;--rot:6deg" aria-hidden="true"></i>
+                    <i class="hero-doodle ri-bookmark-line" style="left:24%;top:88%;font-size:46px;--rot:-6deg" aria-hidden="true"></i>
+                    <i class="hero-doodle ri-compass-3-line" style="left:76%;top:86%;font-size:50px;--rot:12deg" aria-hidden="true"></i>
+
                 </div>
                 <div class="hero-inner">
                     <div class="hero-left">
@@ -4897,25 +4905,6 @@ body.dark .hero-copy-card {
                             </div>
                         </div>
 
-                        <div class="hero-actions">
-                            <a href="#about" class="hero-btn primary">
-                                <span>Explore Campus</span>
-                                <i class="ri-arrow-right-line" aria-hidden="true"></i>
-                            </a>
-                            <a href="gallery.html" class="hero-btn secondary">
-                                <i class="ri-gallery-line" aria-hidden="true"></i>
-                                <span>Explore Memories</span>
-                            </a>
-                        </div>
-
-                        <div class="hero-trust">
-                            <div class="trust-avatars" aria-hidden="true">
-                                <span class="ta ta1"></span>
-                                <span class="ta ta2"></span>
-                                <span class="ta ta3"></span>
-                            </div>
-                            <span>Trusted by 1000+ families in Doti</span>
-                        </div>
                         </div><!-- /.hero-copy-card -->
                     </div>
 
@@ -5259,11 +5248,6 @@ body.dark .hero-copy-card {
                         <a href="https://www.facebook.com/share/18GjZUzYQm/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="ri-facebook-box-fill"></i></a>
                         <a href="#" aria-label="Instagram"><i class="ri-instagram-fill"></i></a>
                         <a href="#" aria-label="Twitter"><i class="ri-twitter-x-fill"></i></a>
-                    </div>
-                    <div class="footer-cta">
-                        <a href="calendar.html" class="btn-glass on-dark btn-sm ripple-host"><i class="ri-calendar-2-line" aria-hidden="true"></i> Calendar</a>
-                        <button type="button" class="btn-glass on-dark btn-sm ripple-host" data-qa="documents"><i class="ri-folder-3-line" aria-hidden="true"></i> Documents</button>
-                        <button type="button" class="btn-glass on-dark btn-sm ripple-host" data-qa="notices"><i class="ri-notification-3-line" aria-hidden="true"></i> Notices</button>
                     </div>
                 </div>
                 <div class="footer-box links-box">
@@ -8619,3 +8603,452 @@ body.dark #about .about-image .about-badge {
 }
 
 </style>
+
+<style id="mobile-hero-logo-smaller-name-bigger">
+/* Mobile-only tweak: smaller hero logo, bigger school name */
+@media (max-width: 768px) {
+  /* --- Logo smaller on small screens only --- */
+  #hero .hero-visual {
+    max-width: 260px !important;
+  }
+  #hero .hv-frame {
+    max-width: 220px !important;
+    width: 70% !important;
+  }
+  #hero .hv-frame img.hv-logo,
+  #hero img.hv-logo,
+  #hero .hv-logo {
+    max-width: 220px !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 12px !important;
+  }
+  /* fallback for older .hero-logo variant */
+  #hero .hero-logo,
+  .hero-logo {
+    width: 96px !important;
+    height: 96px !important;
+  }
+
+  /* --- School name a few bigger on small screens only --- */
+  #hero .hero-title {
+    font-size: clamp(2.25rem, 9vw, 2.95rem) !important;
+    line-height: 0.96 !important;
+    letter-spacing: -0.045em !important;
+    max-width: 100% !important;
+  }
+  #hero .hero-title .hero-title-line,
+  #hero .hero-title span {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
+}
+
+/* Extra small devices: keep logo compact but name still prominent */
+@media (max-width: 480px) {
+  #hero .hero-visual {
+    max-width: 220px !important;
+  }
+  #hero .hv-frame {
+    max-width: 190px !important;
+    width: 64% !important;
+  }
+  #hero .hv-frame img.hv-logo,
+  #hero img.hv-logo,
+  #hero .hv-logo {
+    max-width: 190px !important;
+    padding: 10px !important;
+  }
+  #hero .hero-logo,
+  .hero-logo {
+    width: 84px !important;
+    height: 84px !important;
+  }
+  #hero .hero-title {
+    font-size: clamp(2.05rem, 8.8vw, 2.65rem) !important;
+    line-height: 0.94 !important;
+  }
+}
+</style>
+
+<style id="hero-circles-closer-bigger-and-boxes-round">
+/* Make logo/circles slightly bigger, bring circles closer, and make 3 boxes round */
+#hero .hero-visual {
+  max-width: 380px !important; /* slightly bigger than 340 */
+}
+#hero .hv-frame {
+  max-width: 360px !important; /* slightly bigger */
+  width: 86% !important;
+}
+#hero .hv-frame img.hv-logo,
+#hero img.hv-logo,
+#hero .hv-logo {
+  max-width: 360px !important;
+}
+
+/* Circles: bigger + round + closer to logo */
+#hero .hv-corner {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50% !important; /* make round */
+}
+#hero .hv-corner .hvc-icon {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important; /* make icon round */
+  font-size: 1.2rem !important;
+}
+
+/* Bring closer: move from edges inward */
+#hero .hv-corner.hv-c1 {
+  left: 8% !important;
+  top: 10% !important;
+}
+#hero .hv-corner.hv-c2 {
+  right: 8% !important;
+  top: 50% !important;
+}
+#hero .hv-corner.hv-c3 {
+  left: 12% !important;
+  bottom: 12% !important;
+}
+
+/* Three feature boxes = round pill cards */
+#hero .hero-highlights {
+  gap: 12px !important;
+}
+#hero .hero-highlights .hh,
+#hero .hh {
+  border-radius: 999px !important; /* fully round */
+  padding: 14px 18px !important;
+  align-items: center !important;
+}
+#hero .hh .hh-icon {
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* On mobile, keep round but adjust size and closeness */
+@media (max-width: 768px) {
+  #hero .hero-visual {
+    max-width: 300px !important;
+  }
+  #hero .hv-frame {
+    max-width: 250px !important;
+    width: 72% !important;
+  }
+  #hero .hv-frame img.hv-logo,
+  #hero img.hv-logo,
+  #hero .hv-logo {
+    max-width: 250px !important;
+  }
+  #hero .hv-corner {
+    width: 46px !important;
+    height: 46px !important;
+  }
+  #hero .hv-corner .hvc-icon {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  /* bring even closer on mobile so they don't fly off */
+  #hero .hv-corner.hv-c1 { left: 6% !important; top: 6% !important; }
+  #hero .hv-corner.hv-c2 { right: 4% !important; }
+  #hero .hv-corner.hv-c3 { left: 8% !important; bottom: 6% !important; }
+
+  #hero .hero-highlights .hh {
+    border-radius: 24px !important; /* round but not too pill on stacked layout */
+  }
+}
+
+@media (max-width: 480px) {
+  #hero .hero-visual { max-width: 260px !important; }
+  #hero .hv-frame { max-width: 220px !important; }
+  #hero .hv-frame img.hv-logo { max-width: 220px !important; }
+  #hero .hv-corner { width: 42px !important; height: 42px !important; }
+  #hero .hv-corner .hvc-icon { width: 30px !important; height: 30px !important; }
+  #hero .hv-corner.hv-c1 { left: 2% !important; top: 4% !important; }
+  #hero .hv-corner.hv-c2 { right: 2% !important; }
+  #hero .hv-corner.hv-c3 { left: 4% !important; bottom: 4% !important; }
+}
+</style>
+
+
+
+<style id="hero-school-theme">
+/* ===== School-style hero: notebook paper, doodles, stitched label card (all static) ===== */
+#hero {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.55) 100%),
+    repeating-linear-gradient(0deg, transparent 0 35px, rgba(var(--primary-rgb), .10) 35px 36px),
+    radial-gradient(circle at 12% 18%, rgba(var(--primary-rgb), .22), transparent 38%),
+    radial-gradient(circle at 90% 82%, rgba(56,140,255,.16), transparent 40%),
+    linear-gradient(160deg, #fff8e6 0%, #fffdf6 45%, #eaf4ff 100%) !important;
+  color: #1c2540;
+}
+/* Red notebook margin line */
+#hero::before {
+  content: ""; position: absolute; inset: 0 auto 0 clamp(18px, 5vw, 70px); width: 2px; z-index: 0;
+  background: rgba(231,76,60,.28); pointer-events: none; transform: none !important; animation: none !important;
+}
+#hero::after { display: none !important; }
+#hero .hero-overlay { display: none !important; }
+#hero .hero-premium-bg .hero-grid { opacity: .10 !important; }
+
+/* School doodles */
+#hero .hero-doodle {
+  position: absolute; z-index: 0; color: rgb(var(--primary-rgb)); opacity: .17; pointer-events: none;
+  transform: rotate(var(--rot, 0deg)); line-height: 1;
+}
+
+/* Copy card = stitched school label */
+#hero .hero-copy-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,251,240,.92)) !important;
+  border: 1px solid rgba(var(--primary-rgb), .28) !important;
+  border-top: 6px solid var(--primary) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 30px 70px -28px rgba(var(--primary-rgb), .55), 0 10px 26px -14px rgba(15,23,42,.25), inset 0 1px 0 #fff !important;
+  outline: 2px dashed rgba(var(--primary-rgb), .38); outline-offset: -12px;
+  padding: clamp(28px, 4vw, 46px) clamp(22px, 3.4vw, 44px) !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+}
+/* Eyebrow = ribbon */
+#hero .hero-eyebrow {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+  color: #fff !important; border: none !important; border-radius: 999px !important;
+  padding: 8px 20px !important; font-weight: 700 !important; letter-spacing: .06em; text-transform: uppercase; font-size: .78rem !important;
+  box-shadow: 0 10px 22px -10px rgba(var(--primary-rgb), .9), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+#hero .hero-eyebrow .eb-dot { background: #fff !important; }
+#hero .hero-eyebrow .eb-line { background: rgba(255,255,255,.6) !important; }
+#hero .hero-eyebrow::before { display: none !important; }
+
+/* Title with highlighter marker */
+#hero .hero-title { color: var(--primary) !important; text-shadow: none !important; font-weight: 900 !important; }
+#hero .hero-title .hero-title-line { color: var(--primary) !important; -webkit-text-fill-color: var(--primary) !important; background: none !important; }
+#hero .hero-title .hero-title-line.accent {
+  color: var(--primary) !important; -webkit-text-fill-color: var(--primary) !important;
+  display: inline-block; padding: 0 .12em;
+  background: linear-gradient(180deg, transparent 58%, rgba(var(--primary-rgb), .18) 58% 92%, transparent 92%) !important;
+  border-radius: 6px;
+}
+/* Meta chips */
+#hero .hero-meta { gap: 10px !important; }
+#hero .hero-meta .hm-item {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px;
+  background: #fff; color: #3a4466 !important; font-weight: 600;
+  border: 1px solid rgba(var(--primary-rgb), .3); box-shadow: 0 6px 14px -8px rgba(15,23,42,.3);
+}
+#hero .hero-meta .hm-item i { color: var(--primary-dark); }
+#hero .hero-meta .hm-dot { display: none !important; }
+/* Motto as a quote */
+#hero .hero-motto {
+  color: var(--primary-dark) !important; font-family: Georgia, "Times New Roman", serif !important;
+  font-style: italic; font-weight: 700 !important; text-shadow: none !important;
+}
+#hero .hero-motto::before { content: "\201C"; margin-right: .15em; opacity: .55; }
+#hero .hero-motto::after  { content: "\201D"; margin-left: .1em; opacity: .55; }
+#hero .hero-description { color: #46506f !important; text-shadow: none !important; }
+/* Buttons */
+#hero .hero-btn.primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important; color: #fff !important;
+  border: 1px solid rgba(255,255,255,.7) !important; border-radius: 16px !important; font-weight: 800 !important;
+  box-shadow: 0 16px 30px -14px rgba(var(--primary-rgb), .95), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+#hero .hero-btn.secondary {
+  background: #fff !important; color: #16203d !important; border: 2px solid rgba(var(--primary-rgb), .55) !important;
+  border-radius: 16px !important; font-weight: 800 !important; box-shadow: 0 10px 22px -14px rgba(15,23,42,.4) !important;
+}
+#hero .hero-btn.secondary i { color: var(--primary-dark); }
+/* Trust strip */
+#hero .hero-trust {
+  display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 999px;
+  background: rgba(var(--primary-rgb), .12); border: 1px dashed rgba(var(--primary-rgb), .5);
+  color: #3a4466 !important; font-weight: 600;
+}
+
+/* Dark mode */
+body.dark #hero {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 35px, rgba(255,255,255,.05) 35px 36px),
+    radial-gradient(circle at 12% 18%, rgba(var(--primary-rgb), .22), transparent 40%),
+    linear-gradient(160deg, #141a2e 0%, #10162a 55%, #0d1a30 100%) !important;
+  color: #f4f6ff;
+}
+body.dark #hero .hero-doodle { opacity: .14; }
+body.dark #hero .hero-copy-card { background: linear-gradient(180deg, rgba(28,35,60,.96), rgba(22,28,50,.94)) !important; }
+body.dark #hero .hero-title,
+body.dark #hero .hero-title .hero-title-line,
+body.dark #hero .hero-title .hero-title-line.accent { color: var(--primary) !important; -webkit-text-fill-color: var(--primary) !important; }
+body.dark #hero .hero-description, body.dark #hero .hero-trust { color: #c9d0ea !important; }
+body.dark #hero .hero-meta .hm-item { background: rgba(255,255,255,.08); color: #e6eaff !important; }
+body.dark #hero .hero-btn.secondary { background: rgba(255,255,255,.08) !important; color: #fff !important; }
+body.dark #hero .hero-motto { color: var(--primary-light) !important; }
+
+@media (max-width: 768px) {
+  #hero .hero-copy-card { outline-offset: -8px; border-radius: 22px !important; }
+  #hero .hero-doodle:nth-of-type(n+5) { display: none; }
+  #hero .hero-doodle { font-size: 40px !important; }
+}
+</style>
+<style id="hero-school-theme-mobile">
+/* ===== Small-screen refinement: lighter, roomier card that fits narrow phones ===== */
+@media (max-width: 768px) {
+  #hero .hero-inner { padding: 84px 14px 64px !important; gap: 28px !important; }
+  #hero::before { inset: 0 auto 0 10px; opacity: .7; }
+  #hero .hero-copy-card {
+    width: 100% !important; left: auto !important; transform: none !important; margin: 0 !important;
+    outline: none !important; border: 1px solid rgba(var(--primary-rgb), .22) !important;
+    border-top: 4px solid var(--primary) !important; border-radius: 20px !important;
+    padding: 24px 16px 22px !important;
+    box-shadow: 0 18px 40px -22px rgba(var(--primary-rgb), .55), 0 6px 16px -10px rgba(15,23,42,.22), inset 0 1px 0 #fff !important;
+  }
+  #hero .hero-eyebrow { padding: 6px 14px !important; font-size: .68rem !important; letter-spacing: .05em; margin-bottom: 14px !important; }
+  #hero .hero-eyebrow .eb-line { display: none !important; }
+  #hero .hero-title {
+    font-size: clamp(1.75rem, 8.4vw, 2.4rem) !important; line-height: 1.12 !important;
+    letter-spacing: -0.02em !important; margin-bottom: 14px !important;
+  }
+  #hero .hero-title .hero-title-line { display: block; }
+  #hero .hero-title .hero-title-line.accent { display: inline-block; margin-top: 2px; }
+  #hero .hero-meta { gap: 8px !important; margin-bottom: 14px !important; }
+  #hero .hero-meta .hm-item { padding: 6px 12px; font-size: .8rem; }
+  #hero .hero-motto { font-size: 1.12rem !important; line-height: 1.35 !important; margin-bottom: 10px !important; }
+  #hero .hero-description { font-size: .93rem !important; line-height: 1.6 !important; margin-bottom: 18px !important; }
+  #hero .hero-actions { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; width: 100%; }
+  #hero .hero-actions .hero-btn { width: 100%; justify-content: center; padding: 13px 16px !important; }
+  #hero .hero-trust { width: 100%; justify-content: center; padding: 9px 12px; font-size: .8rem; text-align: center; margin-top: 14px; }
+  #hero .hero-trust .trust-avatars { flex: 0 0 auto; }
+  #hero .hero-doodle { opacity: .12; }
+}
+@media (max-width: 380px) {
+  #hero .hero-copy-card { padding: 22px 12px 18px !important; }
+  #hero .hero-title { font-size: 1.6rem !important; }
+  #hero .hero-meta .hm-item { font-size: .76rem; padding: 6px 10px; }
+}
+</style>
+<style id="hero-mobile-no-box">
+/* Phones/small screens only: no box around the hero text */
+@media (max-width: 768px) {
+  #hero .hero-copy-card,
+  body.dark #hero .hero-copy-card {
+    background: transparent !important; border: none !important; border-top: none !important;
+    box-shadow: none !important; outline: none !important; border-radius: 0 !important;
+    padding: 0 4px !important;
+  }
+}
+</style>
+<style id="hero-highlights-mobile-only">
+/* Feature tiles (Quality Education / Dedicated Faculty / Modern Infrastructure): phones only */
+@media (min-width: 768px) {
+  #hero .hero-highlights { display: none !important; }
+}
+</style>
+<style id="hero-logo-premium-upgrade">
+/* ===== Premium hero logo: static, elegant, smooth tap-to-glow (no movement) ===== */
+/* One animatable "glow level" (0 = off, 1 = full) drives every effect so on/off blends smoothly */
+@property --hv-t { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+#hero .hv-frame {
+  overflow: visible !important; filter: none !important; animation: none !important;
+  cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent;
+  --hv-gap: 14px; --hv-t: 0;
+  transition: --hv-t .9s cubic-bezier(.4, 0, .2, 1);
+}
+/* Gold gradient ring */
+#hero .hv-frame::before {
+  content: ""; position: absolute; inset: calc(var(--hv-gap) * -1); border-radius: 50%;
+  background: conic-gradient(from 200deg,
+    rgba(var(--primary-rgb), .95), #fff 14%, rgba(var(--primary-rgb), .9) 28%,
+    rgba(var(--primary-rgb), .25) 50%, rgba(var(--primary-rgb), .95) 68%,
+    #fff 84%, rgba(var(--primary-rgb), .95));
+  --r: calc(3px + var(--hv-t) * 3px);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--r) - 1px), #000 calc(100% - var(--r)));
+          mask: radial-gradient(farthest-side, transparent calc(100% - var(--r) - 1px), #000 calc(100% - var(--r)));
+  z-index: 1; pointer-events: none;
+  filter: drop-shadow(0 0 calc(6px + var(--hv-t) * 16px) rgba(var(--primary-rgb), calc(.5 + var(--hv-t) * .45)));
+}
+/* Aura */
+#hero .hv-frame::after {
+  content: ""; position: absolute; inset: -24%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--primary-rgb), .42) 0%, rgba(var(--primary-rgb), .16) 40%, transparent 68%);
+  filter: blur(18px); opacity: calc(.7 + var(--hv-t) * .3);
+  z-index: 0; pointer-events: none;
+}
+/* Medallion: one fixed shadow list, values driven by --hv-t */
+#hero .hv-frame img.hv-logo {
+  position: relative; z-index: 2; padding: 18px !important; border: none !important;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 42%),
+    radial-gradient(circle at 50% 50%, #fffdf8 0%, #fff6e0 70%, #ffedc2 100%) !important;
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 calc(5px + var(--hv-t) * 2px) rgba(var(--primary-rgb), calc(.55 + var(--hv-t) * .45)),
+    0 0 0 calc(10px + var(--hv-t) * 2px) rgba(255,255,255, calc(.5 + var(--hv-t) * .2)),
+    0 0 calc(var(--hv-t) * 80px) rgba(var(--primary-rgb), calc(var(--hv-t) * .75)),
+    0 28px 60px -18px rgba(var(--primary-rgb), calc(.75 + var(--hv-t) * .15)),
+    0 14px 28px -12px rgba(15,23,42,.35),
+    inset 0 3px 6px #fff,
+    inset 0 -10px 22px rgba(var(--primary-rgb), calc(.16 + var(--hv-t) * .08)) !important;
+  filter: brightness(calc(1 + var(--hv-t) * .04)) saturate(calc(1 + var(--hv-t) * .1));
+  animation: none !important; transform: none !important;
+}
+/* Static decorative rings/dots */
+#hero .hero-visual .hv-shine-ring {
+  animation: none !important; width: 114% !important; z-index: 1 !important;
+  border: 1px dashed rgba(var(--primary-rgb), calc(.3 + var(--hv-t) * .45)) !important;
+}
+#hero .hv-shine-dot { animation: none !important; opacity: .85; box-shadow: 0 0 10px rgba(var(--primary-rgb), .8); }
+/* Icon circles glow via one animatable level (no background/shadow swapping, so nothing flashes) */
+#hero .hv-corner {
+  z-index: 3 !important; animation: none !important; cursor: pointer;
+  --hv-t: 0;
+  transition: --hv-t .9s cubic-bezier(.4, 0, .2, 1) !important;
+  filter: drop-shadow(0 0 calc(var(--hv-t) * 12px) rgba(var(--primary-rgb), calc(var(--hv-t) * .85)))
+          brightness(calc(1 + var(--hv-t) * .06));
+}
+
+/* ---- Interactions (state changes only, nothing moves) ---- */
+@media (hover: hover) {
+  #hero .hv-frame:hover { --hv-t: .6; }
+  #hero .hv-corner:hover { --hv-t: .7; }
+}
+#hero .hv-frame:focus-visible { --hv-t: .6; }
+/* Tap toggles the lit state */
+#hero .hv-frame.hv-lit, #hero .hv-frame.hv-lit:hover { --hv-t: 1; }
+#hero .hv-frame.hv-lit ~ .hv-corner { --hv-t: 1; }
+
+/* Heart button: nudged a little to the right */
+#hero .hv-corner.hv-c2 { right: calc(8% - 18px) !important; }
+
+body.dark #hero .hv-frame img.hv-logo {
+  background: radial-gradient(circle at 30% 22%, #fff 0%, rgba(255,255,255,0) 42%), radial-gradient(circle, #fffdf8, #f3e9d2) !important;
+}
+@media (max-width: 768px) {
+  #hero .hv-frame { --hv-gap: 10px; }
+  #hero .hv-frame img.hv-logo { padding: 12px !important; }
+  #hero .hv-frame::after { filter: blur(12px); }
+  #hero .hv-corner.hv-c2 { right: calc(4% - 12px) !important; }
+}
+@media (max-width: 480px) {
+  #hero .hv-corner.hv-c2 { right: calc(2% - 8px) !important; }
+}
+</style>
+<script id="hero-logo-interact">
+(function () {
+  var f = document.querySelector('#hero .hv-frame');
+  if (!f) return;
+  f.setAttribute('tabindex', '0');
+  f.setAttribute('role', 'button');
+  f.setAttribute('aria-pressed', 'false');
+  f.setAttribute('aria-label', 'Highlight school logo');
+  function toggle() {
+    var on = f.classList.toggle('hv-lit');
+    f.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  f.addEventListener('click', toggle);
+  f.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+})();
+</script>

@@ -1031,9 +1031,20 @@ body.dark .login-card{background:linear-gradient(145deg,rgba(30,41,59,.94),rgba(
                 if(error) throw error;
                 const admin=Array.isArray(data)?data[0]:data;
                 if(!admin || admin.success!==true || !admin.session_token) { showToast('Invalid email or password, or the admin account is disabled.','error'); return; }
-                sessionStorage.setItem('psbs_admin_session_token',admin.session_token);
-                sessionStorage.setItem('psbs_admin_name',admin.name||'Admin');
-                if(rememberMe.checked) localStorage.setItem('psbs_admin_email',email); else localStorage.removeItem('psbs_admin_email');
+                // Remember-me stores the session token persistently on this device; the server still validates expiry/revocation.
+                if(rememberMe.checked) {
+                    localStorage.setItem('psbs_admin_session_token',admin.session_token);
+                    localStorage.setItem('psbs_admin_name',admin.name||'Admin');
+                    sessionStorage.removeItem('psbs_admin_session_token');
+                    sessionStorage.removeItem('psbs_admin_name');
+                    localStorage.setItem('psbs_admin_email',email);
+                } else {
+                    sessionStorage.setItem('psbs_admin_session_token',admin.session_token);
+                    sessionStorage.setItem('psbs_admin_name',admin.name||'Admin');
+                    localStorage.removeItem('psbs_admin_session_token');
+                    localStorage.removeItem('psbs_admin_name');
+                    localStorage.removeItem('psbs_admin_email');
+                }
                 showToast('Welcome! Redirecting…','success');
                 setTimeout(()=>window.location.replace('admin-dashboard.html'),600);
             } catch(err) { console.error(err); showToast('Login error: '+(err.message||'Check SQL setup.'),'error'); }

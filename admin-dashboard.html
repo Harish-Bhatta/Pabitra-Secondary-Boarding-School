@@ -5510,6 +5510,62 @@ body.dark #hero .hv-frame img.hv-logo {
   #hero .hv-corner.hv-c2 { right: calc(2% - 8px) !important; }
 }
 
+
+/* ===== Profile Edit Modal ===== */
+.profile-edit-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}
+.profile-edit-modal.active{display:flex}
+.profile-edit-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(8px)}
+.profile-edit-sheet{position:relative;width:100%;max-width:440px;background:var(--surface-solid);border-radius:24px;box-shadow:0 24px 64px rgba(0,0,0,.18);border:1px solid var(--border);overflow:hidden;animation:popIn .4s cubic-bezier(.22,1,.36,1)}
+.profile-edit-top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border-light)}
+.profile-edit-top h3{font-size:16px;font-weight:800;margin:0}
+.profile-edit-body{padding:20px;display:flex;flex-direction:column;gap:18px}
+.avatar-preview-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 0}
+.avatar-preview{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#f39c12,#f5b041);display:grid;place-items:center;color:#fff;font-size:32px;font-weight:800;overflow:hidden;position:relative;box-shadow:0 8px 24px rgba(243,156,18,.28);border:3px solid #fff}
+.avatar-preview img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar-preview-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.avatar-preview-actions .btn.slim{padding:7px 14px;font-size:12px}
+.profile-field{display:flex;flex-direction:column;gap:6px}
+.profile-field label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light)}
+.profile-field input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface-solid);font-size:14px;font-weight:500;outline:none;transition:border .2s}
+.profile-field input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(243,156,18,.12)}
+.profile-field small{font-size:11px;color:var(--text-light)}
+@keyframes popIn{0%{transform:scale(.92) translateY(10px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
+.dropdown-avatar{cursor:pointer;transition:transform .2s}
+.dropdown-avatar-wrap{cursor:pointer;position:relative}
+.avatar-edit-badge{position:absolute;bottom:0;right:0;width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:14px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+#headerProfileBtn.has-image{padding:0;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+#headerProfileBtn.has-image img{width:100%;height:100%;object-fit:cover;display:block}
+
+
+/* ===== Edit Name Modal — matched to index.html ===== */
+.dropdown-user-meta .name-row .edit-name-icon{flex:0 0 20px!important;width:20px!important;height:20px!important;padding:2px!important;border-radius:50%!important;background:var(--primary)!important;color:#fff!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-size:.8rem!important;border:0!important;box-shadow:none!important;cursor:pointer!important;transition:all .3s var(--spring)}
+.dropdown-user-meta .name-row .edit-name-icon:hover{transform:scale(1.05)}
+.dropdown-user-meta .name-row .edit-name-icon:active{transform:scale(.9)}
+.dropdown-avatar-wrap{cursor:pointer}
+.profile-name-modal{position:fixed;inset:0;background:rgba(15,23,42,.24);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(28px) saturate(180%);display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px;opacity:0;visibility:hidden;transition:all .4s var(--snap);overflow-y:auto}
+.profile-name-modal.active{opacity:1;visibility:visible}
+.profile-name-modal .modal-card{background:var(--surface);backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);width:100%;max-width:420px;border-radius:var(--radius-xl);padding:32px 28px;box-shadow:var(--shadow-xl);border:1px solid var(--glass-border);transform:scale(.92) translateY(24px);transition:transform .5s var(--spring),opacity .4s var(--snap);opacity:0;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;margin:0}
+.profile-name-modal.active .modal-card{transform:scale(1) translateY(0);opacity:1}
+.profile-name-modal .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.profile-name-modal .modal-header h2{font-size:1.15rem;font-weight:700;margin:0;background:var(--primary-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.profile-name-modal .modal-close-btn{width:36px;height:36px;border-radius:var(--radius-full);display:grid;place-items:center;background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text);transition:all .3s var(--snap);font-size:1.1rem;cursor:pointer}
+.profile-name-modal .modal-close-btn:active{background:rgba(239,68,68,.1);color:#EF4444}
+.profile-name-modal .input-wrapper{position:relative;margin-bottom:14px}
+.profile-name-modal .input-wrapper>i{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--text-light);pointer-events:none}
+.profile-name-modal .input-wrapper input{width:100%;padding:12px 14px 12px 42px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--background);color:var(--text);font-size:1rem;outline:none;transition:all .3s ease}
+.profile-name-modal .input-wrapper input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(243,156,18,.08)}
+.profile-name-modal .input-wrapper input[aria-invalid="true"]{border-color:#EF4444}
+.profile-name-modal .input-error{color:#EF4444;font-size:.8125rem;font-weight:500;margin-top:4px;min-height:20px}
+.profile-name-modal .modal-actions{display:flex;gap:10px;margin-top:18px}
+.profile-name-modal .modal-actions .cancel-btn{flex:1;padding:10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:transparent;color:var(--text);font-weight:600;font-size:.9rem;transition:all .3s ease;cursor:pointer}
+.profile-name-modal .modal-actions .cancel-btn:hover{background:var(--border)}
+.profile-name-modal .modal-actions .save-btn{flex:2;padding:10px;border-radius:var(--radius-sm);background:var(--primary-gradient);color:#fff;font-weight:700;font-size:.9rem;transition:all .3s var(--snap);box-shadow:0 4px 16px rgba(243,156,18,.25);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;border:none}
+.profile-name-modal .modal-actions .save-btn:active{transform:scale(.97)}
+.profile-name-modal .modal-actions .save-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+@media(max-width:480px){.profile-name-modal{padding:16px}.profile-name-modal .modal-card{padding:26px 20px}}
+@keyframes cardPop{0%{transform:scale(.94) translateY(8px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
+@media (max-width:360px){.name-edit-sheet{max-width:88vw}}
+
 </style>
 <style>
 
@@ -5917,7 +5973,6 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
       <div class="footer-meta-flex">
         <div class="spiritual-branding"><span class="heart-pulse-icon"><i class="ri-heart-3-fill"></i></span><span class="gradient-signature-text">🌸 Radhe Radhe 💝</span></div>
       </div>
-      <div style="padding:8px 16px 0; font-size:10px; color:var(--text-light);">Quality Education since 2040 B.S. · Protected workspace uses Supabase permission checks.</div>
     </div>
   </div>
 </aside>
@@ -5941,7 +5996,11 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
           <div class="dropdown-profile-header">
             <div class="dropdown-avatar-wrap" id="ddAvatarWrap"><div class="dropdown-avatar" id="ddAvatar">A</div><div class="avatar-edit-badge"><i class="ri-camera-line"></i></div></div>
             <div class="dropdown-user-meta">
-              <div class="name-row"><h4 id="ddName">Administrator</h4></div>
+              <div class="name-row" style="display:flex;align-items:center;gap:8px;width:100%;min-width:0">
+                <h4 id="ddName" style="flex:1;min-width:0;margin:0;font-size:0.92rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Administrator</h4>
+                <button id="editNameInlineBtn" class="edit-name-icon ripple-host" title="Edit name"><i class="ri-edit-2-fill"></i></button>
+              </div>
+              <span id="ddRole" style="margin-top:4px;font-size:0.7rem;font-weight:600;color:var(--primary);background:rgba(243,156,18,.08);padding:2px 10px;border-radius:16px;width:max-content">Verified</span>
             </div>
           </div>
           <div class="dropdown-divider"></div>
@@ -5996,6 +6055,29 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 
   </div>
 </main>
+
+
+<!-- ===== EDIT NAME MODAL — same layout and button styling as index.html ===== -->
+<div class="profile-name-modal" id="nameEditCard" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="nameEditTitle">
+  <div class="modal-card edit-modal-card">
+    <div class="modal-header">
+      <h2 id="nameEditTitle">✏️ Edit Name</h2>
+      <button type="button" class="modal-close-btn ripple-host" id="closeNameCard" aria-label="Close edit name dialog"><i class="ri-close-large-line" aria-hidden="true"></i></button>
+    </div>
+    <form autocomplete="off" id="nameEditForm" novalidate>
+      <div class="input-wrapper">
+        <i class="ri-user-3-line" aria-hidden="true"></i>
+        <label for="nameCardInput" class="sr-only">Enter your name</label>
+        <input autocomplete="off" type="text" id="nameCardInput" name="edit_name" placeholder="Enter your name" required maxlength="50" pattern="^[a-zA-Z\s\-']+$" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
+        <div class="input-error" id="nameEditError" role="alert"></div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn ripple-host" id="cancelNameCard">Cancel</button>
+        <button type="button" class="save-btn ripple-host" id="saveNameCard"><i class="ri-save-3-line" aria-hidden="true"></i> Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="editor" id="editor" aria-hidden="true"><div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-top"><div class="editor-heading-wrap" style="display:flex;gap:12px;align-items:flex-start;"><div class="editor-category-icon" id="editorCategoryIcon" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(var(--primary-rgb),0.12);color:var(--primary);font-size:22px;"><i class="ri-edit-box-line"></i></div><div><div class="eyebrow" id="editorEyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">NEW CONTENT</div><h2 id="editorTitle">Add a notice</h2><p class="muted small" id="editorDescription" style="color:var(--text-light);font-size:11px;">Complete the fields below to publish your update.</p></div></div><button class="icon-btn ripple-host" id="closeEditor" aria-label="Close editor"><i class="ri-close-line"></i></button></div><form id="recordForm"><div class="editor-body"><div class="form-intro" style="display:flex;justify-content:space-between;gap:8px;margin-bottom:14px;font-size:11px;color:var(--text-light);"><span><strong id="formCollectionName">Notices</strong> · Your changes are saved to the connected school website.</span><span class="required-note">Fields marked * are required</span></div><div class="form-grid" id="formFields"></div></div><div class="form-actions"><button type="submit" class="btn primary ripple-host" id="saveRecord"><i class="ri-check-line"></i> Save changes</button><button type="button" class="btn ripple-host" id="cancelEditor">Cancel</button><span class="form-actions-spacer" style="flex:1;"></span><button type="button" class="btn danger ripple-host" id="deleteRecord" hidden><i class="ri-delete-bin-line"></i> Delete</button></div></form></div></div>
 
@@ -6937,9 +7019,9 @@ async function initAuth(){
     superAdmin = !!(identity.is_super_admin || identity.role==='super_admin' || identity.is_super || identity.is_super_admin===true);
     if($('adminsNavSidebar')) $('adminsNavSidebar').hidden = !superAdmin;
     if($('adminsNav')) $('adminsNav').hidden = !superAdmin;
-    if($('ddName')) $('ddName').textContent = identity.email || identity.username || 'Administrator';
+    if($('ddName')) $('ddName').textContent = identity.name || identity.full_name || identity.display_name || identity.username || 'Administrator';
     if($('ddRole')) $('ddRole').textContent = superAdmin ? 'Super Administrator · Verified' : 'Administrator · Verified session';
-    if($('ddAvatar')){ const av=$('ddAvatar'); const name=identity.email||'A'; av.textContent=Helpers.initials(name); av.style.backgroundColor=Helpers.colorFromName(name); }
+    if($('ddAvatar')){ const av=$('ddAvatar'); const name=identity.name||identity.full_name||identity.display_name||identity.username||'Administrator'; av.textContent=Helpers.initials(name); av.style.backgroundColor=Helpers.colorFromName(name); }
     const profileBtn=$('headerProfileBtn');
     if(profileBtn){
       if(identity.email){
@@ -7084,6 +7166,157 @@ document.getElementById('overviewBackBtn')?.addEventListener('click', function()
 })();
 
 initAuth();
+
+
+// ===== Profile Edit Feature =====
+let currentAvatarUrl = null;
+function openProfileEdit(){
+  const modal=$('profileEditModal');
+  if(!modal) return;
+  // populate
+  const name = identity.name || identity.full_name || 'Administrator';
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  closeProfileDropdown();
+}
+function closeProfileEdit(){
+  const modal=$('profileEditModal');
+  if(modal){ modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); }
+  document.body.style.overflow='';
+}
+function updateAvatarPreview(url, nameForInitials){
+  const preview=$('avatarPreview');
+  const initialsEl=$('avatarPreviewInitials');
+  const displayName = nameForInitials || $('editNameInput')?.value || identity.email || 'A';
+  const initials = Helpers.initials(displayName);
+  if(!preview) return;
+  if(url){
+    preview.innerHTML = '<img src="'+Helpers.sanitize(url)+'" alt="Avatar" onerror="this.remove(); document.getElementById(\'avatarPreviewInitials\').style.display=\'grid\'"> <span id="avatarPreviewInitials" style="display:none">'+initials+'</span>';
+  } else {
+    preview.innerHTML = '<span id="avatarPreviewInitials">'+initials+'</span>';
+    preview.style.backgroundColor = Helpers.colorFromName(displayName);
+  }
+}
+function updateHeaderAvatarUI(){
+  const name = identity.name || identity.full_name || identity.display_name || identity.username || 'Administrator';
+  const avatarUrl = identity.avatar_url || identity.avatar || '';
+  // dropdown avatar
+  const ddAv=$('ddAvatar');
+  if(ddAv){
+    if(avatarUrl){
+      ddAv.innerHTML='<img src="'+Helpers.sanitize(avatarUrl)+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:50%">';
+      ddAv.style.backgroundColor='transparent';
+    } else {
+      ddAv.textContent=Helpers.initials(name);
+      ddAv.style.backgroundColor=Helpers.colorFromName(name);
+    }
+  }
+  if($('ddName')) $('ddName').textContent = identity.name || identity.full_name || identity.display_name || identity.username || 'Administrator';
+  // header button
+  const btn=$('headerProfileBtn');
+  if(btn){
+    if(avatarUrl){
+      btn.innerHTML='<img src="'+Helpers.sanitize(avatarUrl)+'" alt="">';
+      btn.classList.add('has-image');
+      btn.style.backgroundColor='transparent';
+      btn.style.backgroundImage='none';
+    } else {
+      btn.classList.remove('has-image');
+      btn.textContent=Helpers.initials(name);
+      btn.style.backgroundColor=Helpers.colorFromName(name);
+      btn.style.color='#fff';
+      btn.style.display='grid';
+      btn.style.placeItems='center';
+      btn.style.fontWeight='800';
+    }
+  }
+}
+
+// Small Name Card Logic
+document.addEventListener('DOMContentLoaded', ()=>{
+  const avatarWrap=document.getElementById('ddAvatarWrap');
+  const editIcon=document.getElementById('editNameInlineBtn');
+  const card=document.getElementById('nameEditCard');
+  const backdrop=card;
+  const closeBtn=document.getElementById('closeNameCard');
+  const cancelBtn=document.getElementById('cancelNameCard');
+  const saveBtn=document.getElementById('saveNameCard');
+  const input=document.getElementById('nameCardInput');
+  const nameError=document.getElementById('nameEditError');
+
+  let fileInput=document.getElementById('avatarFileInputDirect');
+  if(!fileInput){
+    fileInput=document.createElement('input');
+    fileInput.type='file'; fileInput.id='avatarFileInputDirect'; fileInput.accept='image/*'; fileInput.hidden=true;
+    document.body.appendChild(fileInput);
+    fileInput.addEventListener('change', async (e)=>{
+      const file=e.target.files?.[0]; if(!file) return;
+      if(file.size>4*1024*1024){ Toast.show('Max 4MB','error'); return; }
+      try{
+        Toast.show('Uploading...','info');
+        const ext=file.name.split('.').pop()||'jpg';
+        const path=(identity.id||'admin')+'/'+Date.now()+'.'+ext;
+        let publicUrl=null;
+        try{
+          const {data,error}=await db.storage.from('admin_avatars').upload(path,file,{upsert:true});
+          if(error) throw error;
+          const {data:urlData}=db.storage.from('admin_avatars').getPublicUrl(path);
+          publicUrl=urlData?.publicUrl;
+        }catch(se){
+          publicUrl=await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); });
+        }
+        if(publicUrl){
+          const token=localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey);
+          try{ await rpc('admin_update_profile',{p_token:token,p_name:identity.name||'',p_avatar_url:publicUrl}); }
+          catch(err){ await rpc(ADMIN_CONFIG.rpc.save,{p_session_token:token,p_table:'admin_accounts',p_primary_key:'id',p_record:{avatar_url:publicUrl,updated_at:new Date().toISOString()},p_is_update:true,p_original_id:String(identity.id)}); }
+          identity.avatar_url=publicUrl; identity.avatar=publicUrl;
+          const ddAv=document.getElementById('ddAvatar');
+          if(ddAv) ddAv.innerHTML='<img src="'+Helpers.sanitize(publicUrl)+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+          const btn=document.getElementById('headerProfileBtn');
+          if(btn){ btn.innerHTML='<img src="'+Helpers.sanitize(publicUrl)+'" style="width:100%;height:100%;object-fit:cover">'; btn.classList.add('has-image'); }
+          Toast.show('Photo updated ✨','success');
+        }
+      }catch(err){ Toast.show('Failed','error'); }
+      finally{ e.target.value=''; }
+    });
+  }
+
+  function openCard(){
+    const cur=identity.name||identity.full_name||identity.display_name||identity.username||document.getElementById('ddName')?.textContent||'Administrator';
+    input.value=cur; if(nameError) nameError.textContent=''; input?.setAttribute('aria-invalid','false');
+    card.classList.add('active'); card.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; document.body.classList.add('modal-active');
+    setTimeout(()=>{ input.focus(); input.select(); }, 300);
+    closeProfileDropdown();
+  }
+  function closeCard(){ card.classList.remove('active'); card.setAttribute('aria-hidden','true'); document.body.style.overflow=''; document.body.classList.remove('modal-active'); }
+
+  avatarWrap?.addEventListener('click',(e)=>{ e.stopPropagation(); fileInput.click(); });
+  editIcon?.addEventListener('click',(e)=>{ e.stopPropagation(); openCard(); });
+  backdrop?.addEventListener('click', (e)=>{ if(e.target===card) closeCard(); });
+  closeBtn?.addEventListener('click', closeCard);
+  cancelBtn?.addEventListener('click', closeCard);
+  input?.addEventListener('input',()=>{ if(nameError) nameError.textContent=''; input.setAttribute('aria-invalid','false'); });
+  saveBtn?.addEventListener('click', async ()=>{
+    const newName=input?.value?.trim();
+    if(!newName||newName.length<2||newName.length>50||!/^[a-zA-Z\s\-']+$/.test(newName)){
+      if(nameError) nameError.textContent=!newName?'Name is required':newName.length<2?'Name must be at least 2 characters':newName.length>50?'Name is too long (max 50)':'Name contains invalid characters';
+      input?.setAttribute('aria-invalid','true'); return;
+    }
+    if(nameError) nameError.textContent=''; input?.setAttribute('aria-invalid','false');
+    const old=saveBtn.innerHTML; saveBtn.innerHTML='Saving...'; saveBtn.disabled=true;
+    try{
+      const token=localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey);
+      try{ await rpc('admin_update_profile',{p_token:token,p_name:newName,p_avatar_url:identity.avatar_url||''}); }
+      catch(err){ await rpc(ADMIN_CONFIG.rpc.save,{p_session_token:token,p_table:'admin_accounts',p_primary_key:'id',p_record:{name:newName,updated_at:new Date().toISOString()},p_is_update:true,p_original_id:String(identity.id)}); }
+      identity.name=newName; document.getElementById('ddName').textContent=newName; updateHeaderAvatarUI();
+      closeCard(); Toast.show('Saved ✨','success');
+    }catch(err){ Toast.show('Failed','error'); }
+    finally{ saveBtn.innerHTML=old; saveBtn.disabled=false; }
+  });
+  input?.addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ e.preventDefault(); saveBtn.click(); } if(e.key==='Escape') closeCard(); });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&card?.classList.contains('active')) closeCard(); });
+});
 
 </script>
 </body>

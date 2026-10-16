@@ -6957,14 +6957,34 @@ body.dark .hero-copy-card {
             openEditNameModal();
         });
 
+        // ===== DOCUMENTS TOOLBAR: same delayed hide/show as the header =====
+        (function () {
+            const body = document.getElementById('documentsContainer');
+            const bar = DOM.docToolbar;
+            if (!body || !bar) return;
+            let timer = null, last = 0;
+            body.addEventListener('scroll', function () {
+                const current = Math.max(0, body.scrollTop);
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    const focused = DOM.docSearchInput && document.activeElement === DOM.docSearchInput;
+                    if (current <= 80 || focused) bar.classList.remove('is-hidden');
+                    else if (current > last + 10) bar.classList.add('is-hidden');
+                    else if (current < last - 10) bar.classList.remove('is-hidden');
+                    last = current;
+                }, 120);
+            }, { passive: true });
+        })();
+
         // ===== SEARCH =====
         function openSearch() {
             DOM.searchOverlay.classList.add('active');
             State.isSearchOpen = true;
             State.panelOpen = true;
             State.openCount++;
-            document.body.classList.add('modal-active');
-            setTimeout(function () { DOM.searchInput.focus(); }, 300);
+            document.body.classList.add('modal-active', 'search-open');
+            DOM.searchOverlay.querySelector('.search-box').classList.remove('has-query');
+            setTimeout(function () { DOM.searchInput.focus(); }, 120);
             DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
         }
 
@@ -6972,7 +6992,8 @@ body.dark .hero-copy-card {
             DOM.searchOverlay.classList.remove('active');
             State.isSearchOpen = false;
             State.panelOpen = false;
-            document.body.classList.remove('modal-active');
+            document.body.classList.remove('modal-active', 'search-open');
+            DOM.searchOverlay.querySelector('.search-box').classList.remove('has-query');
             DOM.searchInput.value = '';
             if (State.openCount > 0) State.openCount--;
         }
@@ -6985,6 +7006,7 @@ body.dark .hero-copy-card {
             const data = Helpers.getSearchData();
             const q = query.toLowerCase().trim();
             const container = DOM.searchResults;
+            DOM.searchOverlay.querySelector('.search-box').classList.toggle('has-query', !!q);
             if (!q) {
                 container.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
                 return;
@@ -7024,6 +7046,7 @@ body.dark .hero-copy-card {
             if (e) { e.preventDefault(); e.stopPropagation(); }
             if (!DOM.searchInput) return;
             DOM.searchInput.value = '';
+            DOM.searchOverlay.querySelector('.search-box').classList.remove('has-query');
             DOM.searchResults.innerHTML = '<div class="search-empty">🔍 Type to start searching...</div>';
             DOM.searchInput.focus({ preventScroll: true });
         }
@@ -9299,4 +9322,257 @@ body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
 /* Description block centred inside the hero card */
 #hero .hero-copy-card .hero-description { margin-left: auto !important; margin-right: auto !important; text-align: center !important; }
 </style>
+
+<style id="psbs-v4">
+/* =====================================================================
+   1) DOCUMENTS toolbar — floating over the list with a white blurry
+      gradient from the top; search / All / PDF… have no background.
+   ===================================================================== */
+.right-panel .panel-pane[data-pane="documents"] { position: relative; }
+.right-panel .doc-toolbar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+  pointer-events: none;
+  transition: transform .4s var(--snap);
+  will-change: transform;
+}
+.right-panel .doc-toolbar.is-hidden { transform: translateY(-100%); }
+.right-panel .doc-toolbar::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; bottom: -22px; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--surface-solid) 94%, transparent) 0%,
+    color-mix(in srgb, var(--surface-solid) 72%, transparent) 55%,
+    transparent 100%);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+}
+.right-panel .doc-toolbar-scroll { pointer-events: auto; padding-top: 14px; padding-bottom: 12px; }
+.right-panel #documentsContainer { padding-top: 70px !important; }
+
+
+/* =====================================================================
+   2) SEARCH — one card: input + results below it (no second card).
+   ===================================================================== */
+.search-overlay .search-box .search-results { display: block; overflow-y: auto; }
+.search-overlay .search-box .search-results:empty { display: none; }
+
+/* ---- Large screens: card sits exactly where the header search pill is.
+        No blur, sidebar stays sharp and untouched. ---- */
+@media (min-width: 1200px) {
+  .search-overlay {
+    left: var(--rail); padding: 12px 32px;
+    align-items: flex-start; justify-content: flex-start;
+    background: rgba(15,23,42,.10) !important;
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  .search-overlay .search-box {
+    width: min(560px, 60vw); max-width: none; padding: 0; border-radius: 24px;
+    transform-origin: top left;
+  }
+  .search-overlay .search-box .search-input-wrap {
+    min-height: 44px; height: 44px; padding: 0 8px 0 18px; gap: 12px;
+    border: 0 !important; border-radius: 24px; background: transparent !important; box-shadow: none !important;
+  }
+  .search-overlay .search-box .search-input-wrap input { padding: 0; font-size: .95rem; }
+  .search-overlay .search-box .search-input-wrap { border-radius: 24px 24px 0 0; }
+  .search-overlay .search-box .search-results {
+    margin: 0; padding: 8px 10px 10px; border-radius: 0;
+    max-height: min(62vh, 470px);
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to bottom, rgba(var(--primary-rgb), .045), transparent 60px);
+  }
+}
+
+/* ---- Phones / tablets: the header turns into a search bar, a floating
+        result card drops below it, the page behind is paused. ---- */
+@media (max-width: 1199px) {
+  body.search-open { overflow: hidden; }
+  .search-overlay {
+    padding: 0; align-items: flex-start; justify-content: stretch;
+    background:
+      radial-gradient(90% 40% at 15% 0%, rgba(var(--primary-rgb), .14), transparent 65%),
+      linear-gradient(180deg, rgba(255,255,255,.26) 0%, rgba(241,245,249,.18) 55%, rgba(15,23,42,.14) 100%) !important;
+    -webkit-backdrop-filter: blur(5px) saturate(150%) !important;
+    backdrop-filter: blur(5px) saturate(150%) !important;
+    overscroll-behavior: contain; touch-action: none;
+  }
+  body.dark .search-overlay {
+    background:
+      radial-gradient(90% 40% at 15% 0%, rgba(var(--primary-rgb), .16), transparent 65%),
+      linear-gradient(180deg, rgba(30,41,59,.32) 0%, rgba(15,23,42,.40) 100%) !important;
+  }
+  /* soft diagonal gloss sweep over the blurred page */
+  .search-overlay::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 68%, rgba(255,255,255,.12) 100%);
+    opacity: 0; transition: opacity .5s ease;
+  }
+  .search-overlay.active::before { opacity: 1; }
+  body.dark .search-overlay::before { opacity: 0 !important; }
+  .search-overlay .search-box {
+    width: 100%; max-width: none; padding: 0; overflow: visible; border-radius: 0;
+    background: transparent !important; border: 0 !important; box-shadow: none !important;
+    touch-action: auto; transform: none !important; opacity: 1 !important;
+  }
+  .search-overlay .search-box::before, .search-overlay .search-box::after { display: none; }
+
+  /* --- Search bar = the header itself: same surface, glossy round buttons, pill input --- */
+  .search-overlay .search-box { padding-top: 0; }
+  .search-overlay .search-box::before { display: none !important; }
+  .search-overlay .search-box .search-input-wrap {
+    --sb-btn: 44px;
+    height: calc(var(--header-height) + 10px + env(safe-area-inset-top, 0px)); min-height: 0; margin: 0; gap: 9px;
+    padding: env(safe-area-inset-top, 0px) var(--container-padding) 0;
+    border: 0 !important; border-radius: 0 0 24px 24px;
+    background: var(--surface) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid var(--glass-border) !important;
+    box-shadow: 0 14px 34px -22px rgba(15,23,42,.5), 0 2px 30px rgba(0,0,0,.03) !important;
+    clip-path: none; opacity: 0; transition: opacity .25s ease;
+  }
+  body.dark .search-overlay .search-box .search-input-wrap { background: var(--surface) !important; border-color: transparent !important; }
+  .search-overlay.active .search-box .search-input-wrap { opacity: 1; clip-path: none; }
+  .search-overlay .search-box .search-input-wrap:focus-within { box-shadow: 0 14px 34px -22px rgba(15,23,42,.5), 0 2px 30px rgba(0,0,0,.03) !important; }
+
+  /* leading search button — glossy circle like the header buttons */
+  .search-overlay .search-box .search-input-wrap > i {
+    position: relative; overflow: hidden;
+    flex: 0 0 var(--sb-btn) !important; width: var(--sb-btn) !important; height: var(--sb-btn) !important;
+    border-radius: 50% !important; font-size: 19px !important; color: var(--primary) !important;
+    background: var(--glass-fill) !important; border: 1px solid var(--card-ring) !important;
+    box-shadow: 0 8px 16px -8px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05) !important;
+    transform: scale(.4) rotate(-90deg); opacity: 0;
+  }
+  .search-overlay .search-box .search-input-wrap > i::before { position: relative; z-index: 1; }
+  .search-overlay .search-box .search-input-wrap > i::after {
+    display: block; content: ""; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%; border-radius: 50% / 65%;
+    background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,0)); pointer-events: none;
+  }
+  body.dark .search-overlay .search-box .search-input-wrap > i::after { background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0)); }
+  .search-overlay.active .search-box .search-input-wrap > i { transform: none; opacity: 1; transition: transform .5s var(--spring) .05s, opacity .3s ease .05s; }
+
+  /* input = glossy pill that grows out from the right edge */
+  .search-overlay .search-box .search-input-wrap input {
+    flex: 1; min-width: 0; height: var(--sb-btn); padding: 0 18px; border-radius: 999px;
+    font-size: 1rem; font-weight: 600; color: var(--text);
+    background: var(--glass-fill) !important; border: 1px solid var(--card-ring) !important;
+    box-shadow: 0 8px 16px -10px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05) !important;
+    clip-path: inset(0 0 0 calc(100% - 44px) round 999px); opacity: 0;
+    transition: clip-path .55s var(--snap) .08s, opacity .2s ease .08s, box-shadow .25s ease, border-color .25s ease;
+  }
+  .search-overlay.active .search-box .search-input-wrap input { clip-path: inset(0 0 0 0 round 999px); opacity: 1; }
+  .search-overlay .search-box .search-input-wrap input:focus {
+    border-color: rgba(var(--primary-rgb), .45) !important;
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .12), 0 10px 20px -10px rgba(var(--primary-rgb), .5), inset 0 1px 0 rgba(255,255,255,.95) !important;
+  }
+  .search-overlay .search-box .search-input-wrap input::-webkit-search-cancel-button { display: none; }
+
+  /* close button — glossy circle */
+  .search-overlay .search-box .search-input-wrap .search-clear {
+    position: relative; overflow: hidden;
+    flex: 0 0 var(--sb-btn); width: var(--sb-btn); height: var(--sb-btn);
+    border-radius: 50%; font-size: 16px; font-weight: 700; color: var(--text); opacity: 0;
+    border: 1px solid var(--card-ring); background: var(--glass-fill);
+    box-shadow: 0 8px 16px -8px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05);
+    transform: scale(.4) rotate(90deg);
+  }
+  .search-overlay .search-box .search-input-wrap .search-clear::before {
+    display: block; content: ""; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%; border-radius: 50% / 65%;
+    background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,0)); pointer-events: none;
+  }
+  body.dark .search-overlay .search-box .search-input-wrap .search-clear::before { background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0)); }
+  .search-overlay.active .search-box .search-input-wrap .search-clear { opacity: 1; transform: none; transition: transform .5s var(--spring) .15s, opacity .3s ease .15s; }
+  .search-overlay .search-box .search-input-wrap .search-clear:active { transform: scale(.9); }
+
+  /* --- Floating result card --- */
+  .search-overlay .search-box .search-results {
+    position: relative; margin: 12px 12px 0; padding: 6px 6px 8px; overflow-y: auto;
+    border-radius: 26px; border: 1px solid var(--border);
+    background:
+      linear-gradient(180deg, rgba(var(--primary-rgb), .07), transparent 90px),
+      var(--surface-solid);
+    box-shadow:
+      0 34px 60px -28px rgba(15,23,42,.65),
+      0 0 0 1px rgba(var(--primary-rgb), .06),
+      inset 0 1px 0 rgba(255,255,255,.6);
+    max-height: calc(100dvh - var(--header-height) - 10px - env(safe-area-inset-top, 0px) - var(--kb, 0px) - 44px);
+    overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; animation: srCardIn .42s var(--snap) both;
+  }
+  .search-overlay .search-box .search-results::-webkit-scrollbar { display: none; }
+  @keyframes srCardIn { from { opacity: 0; transform: translateY(-14px) scale(.97); } to { opacity: 1; transform: none; } }
+
+  /* group heading */
+  .search-overlay .search-group-title {
+    display: flex; align-items: center; gap: 8px; padding: 12px 12px 6px;
+    font-size: .68rem; font-weight: 800; letter-spacing: .14em; color: var(--text-light);
+  }
+  .search-overlay .search-group-title::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--primary-gradient);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), .16);
+  }
+  .search-overlay .search-group-title::after {
+    content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* result rows */
+  .search-overlay .search-result-item {
+    display: flex; align-items: center; gap: 12px; margin: 0; padding: 10px 10px 10px 12px;
+    border: 0; border-radius: 18px; background: transparent; box-shadow: none;
+    transition: background .2s ease, transform .2s var(--spring);
+  }
+  .search-overlay .search-result-item + .search-result-item::before {
+    content: ""; position: absolute; left: 70px; right: 12px; top: 0; height: 1px; background: var(--border); opacity: .7;
+  }
+  .search-overlay .search-result-item:active { background: rgba(var(--primary-rgb), .10); transform: scale(.985); }
+  .search-overlay .search-result-item .sri-icon {
+    flex: 0 0 46px; width: 46px; height: 46px; border-radius: 15px; font-size: 1.35rem;
+    background: linear-gradient(145deg, rgba(var(--primary-rgb), .20), rgba(var(--primary-rgb), .06));
+    border: 1px solid rgba(var(--primary-rgb), .16);
+    box-shadow: 0 10px 18px -12px rgba(var(--primary-rgb), .7), inset 0 1px 0 rgba(255,255,255,.55);
+  }
+  .search-overlay .search-result-item .sri-text { min-width: 0; }
+  .search-overlay .search-result-item .sri-text h4 {
+    font-size: .95rem; font-weight: 750; line-height: 1.25; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .search-overlay .search-result-item .sri-text p {
+    margin-top: 3px; font-size: .78rem; color: var(--text-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .search-overlay .search-result-item .sri-tag {
+    flex: 0 0 auto; font-size: .62rem; padding: 4px 9px;
+    border: 1px solid rgba(var(--primary-rgb), .18);
+    background: rgba(var(--primary-rgb), .09);
+  }
+  .search-overlay .search-result-item::after {
+    content: "\ea6e"; font-family: "remixicon"; flex: 0 0 auto; margin-left: -4px;
+    font-size: 1.15rem; color: var(--text-light); opacity: .6;
+  }
+
+  /* empty / no-result state */
+  .search-overlay .search-empty {
+    margin: 6px; padding: 34px 18px; border-radius: 20px; text-align: center;
+    font-size: .92rem; font-weight: 600; color: var(--text-light);
+    background: radial-gradient(circle at 50% 0%, rgba(var(--primary-rgb), .10), transparent 70%);
+    border: 1px dashed rgba(var(--primary-rgb), .22);
+  }
+}
+
+/* ---- Tablets (768–1199px): same mobile design, but a centered floating card
+        (input + results) — not full screen width. ---- */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .search-overlay { padding: 12px 20px; justify-content: center; }
+  .search-overlay .search-box { width: min(680px, 100%); }
+  .search-overlay .search-box .search-input-wrap {
+    height: var(--header-height); padding: 0 14px; border-radius: 26px;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 22px 44px -24px rgba(15,23,42,.55), 0 2px 30px rgba(0,0,0,.03) !important;
+  }
+  .search-overlay .search-box .search-results {
+    margin: 10px 0 0; max-height: calc(100dvh - var(--header-height) - var(--kb, 0px) - 64px);
+  }
+}
+</style>
+
 

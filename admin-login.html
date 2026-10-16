@@ -71,12 +71,13 @@ kbd{font:600 11px/1 'Poppins',system-ui,sans-serif;padding:3px 6px;border-radius
 .orbit::after{content:"";position:absolute;top:46px;left:50%;width:9px;height:9px;margin-left:-4px;border-radius:50%;background:var(--p-light);box-shadow:0 0 0 5px rgba(var(--p-rgb),.18),0 0 24px 4px rgba(var(--p-rgb),.7)}
 @keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(26px,18px,0) scale(1.08)}}
 
-.brand{display:inline-flex;align-items:center;gap:12px;width:fit-content;text-decoration:none;color:#fff}
-.logo-wrap{position:relative;flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:23px;color:var(--p-light);background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);overflow:hidden;box-shadow:0 10px 24px -12px rgba(var(--p-rgb),.8)}
-.logo-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff}
+.brand-inner{display:flex;flex-direction:column;gap:22px;flex:1;min-width:0}
+.brand{display:inline-flex;align-items:center;gap:14px;width:fit-content;text-decoration:none;color:#fff}
+.logo-wrap{--logo:54px;position:relative;flex:none;width:var(--logo);height:var(--logo);display:grid;place-items:center;font-size:calc(var(--logo)*.72);color:var(--p-light);filter:drop-shadow(0 8px 18px rgba(var(--p-rgb),.4))}
+.logo-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .brand-txt{display:flex;flex-direction:column;line-height:1.2}
-.brand-txt b{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:-.01em}
-.brand-txt small{font-size:11px;color:#9fb0cc;letter-spacing:.04em}
+.brand-txt b{font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:-.015em}
+.brand-txt small{font-size:11.5px;color:#9fb0cc;letter-spacing:.04em}
 
 .brand-body{display:flex;flex-direction:column;gap:16px;margin:auto 0}
 .eyebrow{display:none;align-items:center;gap:8px;width:fit-content;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--p-light);background:rgba(var(--p-rgb),.12);border:1px solid rgba(var(--p-rgb),.3)}
@@ -124,7 +125,9 @@ kbd{font:600 11px/1 'Poppins',system-ui,sans-serif;padding:3px 6px;border-radius
 .tab-bar::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:13px;background:var(--card);border:1px solid var(--line);box-shadow:0 8px 16px -10px rgba(15,23,42,.5);transition:transform .34s var(--ease)}
 body.dark .tab-bar::before{background:rgba(255,255,255,.09)}
 .tab-bar[data-active="signup"]::before{transform:translateX(100%)}
-.tab-bar button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 8px;border:0;border-radius:13px;background:none;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:color .2s}
+.tab-bar button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:0;padding:10px 6px;border:0;border-radius:13px;background:none;font-size:13.5px;font-weight:600;white-space:nowrap;color:var(--muted);cursor:pointer;transition:color .2s}
+.tab-bar button i{flex:none;font-size:16px}
+@media(max-width:360px){.tab-bar button{font-size:12.5px;gap:4px}.tab-bar button i{font-size:15px}}
 .tab-bar button.active-tab{color:var(--text)}
 .tab-bar button.active-tab i{color:var(--p)}
 
@@ -183,7 +186,7 @@ body.dark .caps-hint{color:#fbbf24}
 .login-btn:hover{transform:translateY(-2px);box-shadow:0 26px 38px -14px rgba(var(--p-rgb),1),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.08)}
 .login-btn:active{transform:scale(.985)}
 .login-btn:disabled{cursor:progress;filter:saturate(.8)}
-.btn-text{display:inline-flex;align-items:center;gap:8px}
+.btn-text{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
 .btn-text i{font-size:19px}
 .btn-text .arr{transition:transform .25s var(--ease)}
 .login-btn:hover .arr{transform:translateX(4px)}
@@ -228,6 +231,7 @@ body.dark .caps-hint{color:#fbbf24}
 .kb-open .shell{padding-bottom:var(--kb,0px)}
 html{scroll-padding:80px 0 120px}
 .kb-open .brand-side{padding-bottom:70px;gap:0}
+.kb-open .brand-inner{gap:0}
 
 /* ---------- tablet ---------- */
 @media(min-width:640px){
@@ -238,7 +242,12 @@ html{scroll-padding:80px 0 120px}
 
 /* ---------- desktop: split screen ---------- */
 @media(min-width:980px){
-  .brand-side{padding:44px 56px 36px;gap:0}
+  .brand-side{padding:44px 56px 36px;gap:0;overscroll-behavior:none}
+  .brand-inner{gap:0;min-height:0}
+  .brand{gap:16px}
+  .logo-wrap{--logo:72px}
+  .brand-txt b{font-size:25px}
+  .brand-txt small{font-size:12.5px}
   .brand-body{gap:18px;max-width:560px}
   .eyebrow{display:inline-flex}
   .brand-body h2{font-size:clamp(38px,3.5vw,52px)}
@@ -316,8 +325,6 @@ html{scroll-padding:80px 0 120px}
   .theme-toggle{position:fixed}
 }
 /* shorter laptop screens: drop the preview so nothing gets cramped */
-@media(min-width:980px) and (max-height:760px){.stage{display:none}.points{margin-top:8px}}
-@media(min-width:980px) and (max-height:600px){.points,.lead{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.pv-chart .ln{stroke-dashoffset:0}.pv-chart .area{opacity:1}}
 </style>
 </head>
@@ -337,8 +344,9 @@ html{scroll-padding:80px 0 120px}
   <section class="brand-side">
     <div class="fx" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="glow g3"></span><span class="orbit"></span><i class="ri-shield-keyhole-fill watermark"></i></div>
 
+    <div class="brand-inner">
     <a class="brand" href="index.html" aria-label="Pabitra School home">
-      <span class="logo-wrap"><i class="ri-graduation-cap-fill" aria-hidden="true"></i><img src="logo.png" alt="" width="46" height="46" onerror="this.style.display='none'" /></span>
+      <span class="logo-wrap"><i class="ri-graduation-cap-fill" aria-hidden="true"></i><img src="logo.png" alt="" width="64" height="64" onerror="this.style.display='none'" /></span>
       <span class="brand-txt"><b>Pabitra Secondary</b><small>Boarding School · Admin Console</small></span>
     </a>
 
@@ -389,6 +397,7 @@ html{scroll-padding:80px 0 120px}
     </div>
 
     <div class="brand-foot"><span>Quality education, thoughtfully connected.</span><b><i class="ri-time-line" aria-hidden="true"></i><span id="clock"></span></b></div>
+    </div>
   </section>
 
   <!-- ===== SIGN-IN SIDE ===== -->
@@ -405,7 +414,7 @@ html{scroll-padding:80px 0 120px}
 
       <div class="tab-bar" role="tablist" data-active="signin">
         <button class="active-tab" data-tab="signin" role="tab" aria-selected="true"><i class="ri-login-circle-line" aria-hidden="true"></i> Sign In</button>
-        <button data-tab="signup" role="tab" aria-selected="false"><i class="ri-user-add-line" aria-hidden="true"></i> Request</button>
+        <button data-tab="signup" role="tab" aria-selected="false"><i class="ri-user-add-line" aria-hidden="true"></i> Request Access</button>
       </div>
 
       <!-- SIGN IN -->
@@ -826,6 +835,33 @@ html{scroll-padding:80px 0 120px}
       [title,sub].forEach(function(el){el.style.animation='none';void el.offsetWidth;el.style.animation='';});
     });
   });
+
+  /* Enter moves to the next field; Enter in the last field submits (Sign In / Request Access) */
+  ['loginForm','signupForm'].forEach(function(id){
+    var f=document.getElementById(id);if(!f)return;
+    var items=Array.prototype.slice.call(f.querySelectorAll('.field input'));
+    items.forEach(function(inp,i){
+      inp.setAttribute('enterkeyhint',i<items.length-1?'next':(id==='loginForm'?'go':'send'));
+      inp.addEventListener('keydown',function(e){
+        if(e.key!=='Enter'||e.isComposing||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+        if(i<items.length-1){e.preventDefault();var n=items[i+1];n.focus();if(n.select)n.select();}
+        else{e.preventDefault();f.requestSubmit();}
+      });
+    });
+  });
+
+  /* keep the left visual panel on one screen: shrink it proportionally (nothing is removed, nothing scrolls) */
+  var side=document.querySelector('.brand-side'),inner=document.querySelector('.brand-inner'),desk=matchMedia('(min-width:980px)');
+  function fit(){
+    if(!side||!inner)return;
+    inner.style.zoom='';
+    if(!desk.matches)return;
+    var z=1;
+    for(var i=0;i<30&&side.scrollHeight>side.clientHeight+1&&z>.4;i++){z=Math.max(.4,z-.025);inner.style.zoom=z;}
+  }
+  fit();addEventListener('resize',fit);addEventListener('load',fit);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+  setTimeout(fit,400);
 })();
 </script>
 

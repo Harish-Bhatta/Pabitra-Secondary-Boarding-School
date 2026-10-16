@@ -34,6 +34,35 @@
     <link rel="icon" type="image/png" href="school.jpg" />
     <link rel="apple-touch-icon" href="school.jpg" />
     <title>Pabitra Secondary Boarding School</title>
+    <script>
+        /* Boot veil: the page is revealed once (fonts + school data ready) so nothing flickers on refresh. */
+        (function () {
+            var h = document.documentElement; h.classList.add('is-booting');
+            var done = false;
+            function reveal() {
+                if (done) return; done = true;
+                requestAnimationFrame(function () { requestAnimationFrame(function () { h.classList.remove('is-booting'); }); });
+            }
+            window.__psbsReveal = function () {
+                var f = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+                Promise.race([f, new Promise(function (r) { setTimeout(r, 700); })]).then(reveal);
+            };
+            setTimeout(reveal, 2200);
+        })();
+    </script>
+    <style id="boot-veil">
+        html.is-booting body { opacity: 0; }
+        html.is-booting *, html.is-booting *::before, html.is-booting *::after { animation-play-state: paused !important; }
+        html:not(.is-booting) body { animation: bootIn .32s ease; }
+        @keyframes bootIn { from { opacity: 0; } to { opacity: 1; } }
+        /* school-info placeholders (shown only on a first visit, before data arrives) */
+        .si-hide { display: none !important; }
+        [data-si]:empty:not([data-si-done])::before { content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0"; display: inline-block; min-width: 7ch; border-radius: 8px; background: linear-gradient(90deg, rgba(148,163,184,.16), rgba(148,163,184,.34), rgba(148,163,184,.16)); background-size: 200% 100%; animation: siShimmer 1.2s linear infinite; }
+        html.si-failed [data-si]:empty { display: none; }
+        @keyframes siShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+        @media (prefers-reduced-motion: reduce) { html:not(.is-booting) body { animation: none; } }
+    </style>
+    <noscript><style>html.is-booting body { opacity: 1 !important; }</style></noscript>
     <style>
         /* ============================================================
            MODERN LIGHT PALETTE
@@ -4483,6 +4512,7 @@ body.dark .hero-copy-card {
 </head>
 
 <body>
+<script>(function(){try{var b=document.body,t=localStorage.getItem('psbs_theme'),p=localStorage.getItem('psbs_theme_preset')||'gold';if(t==='dark')b.classList.add('dark');if(p&&p!=='default')b.classList.add('theme-'+p);}catch(e){}})();</script>
 
     <!-- ===== NEBULA ===== -->
     <div class="nebula-bg" aria-hidden="true">
@@ -4510,7 +4540,7 @@ body.dark .hero-copy-card {
     <div id="nameModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
         <div class="modal-card name-modal-card">
             <span class="modal-icon" aria-hidden="true">👋</span>
-            <h2 id="nameModalTitle">Welcome to PSBS Portal</h2>
+            <h2 id="nameModalTitle">Welcome to <span data-si="acronym"></span> Portal</h2>
             <p>Please enter your name to personalize your experience</p>
             <form autocomplete="off" id="nameForm" novalidate data-autofill="off">
                 <div class="input-wrapper">
@@ -4529,7 +4559,7 @@ body.dark .hero-copy-card {
         <div class="welcome-card">
             <div class="welcome-avatar" id="welcomeAvatar" aria-hidden="true">👤</div>
             <h2 id="welcomeTitle">Welcome!</h2>
-            <p id="welcomeMessage">We're glad to have you here at PSBS Portal.</p>
+            <p id="welcomeMessage">We're glad to have you here at <span data-si="acronym"></span> Portal.</p>
             <button type="button" class="welcome-btn ripple-host" id="welcomeCloseBtn">Continue to Dashboard</button>
         </div>
     </div>
@@ -4598,8 +4628,8 @@ body.dark .hero-copy-card {
                     <button type="button" class="menu-btn ripple-host" aria-label="Open menu" aria-expanded="false">
                         <i class="ri-menu-3-line" aria-hidden="true"></i>
                     </button>
-                    <img src="logo.png" alt="Pabitra Secondary Boarding School Logo" class="logo" width="42" height="42">
-                    <div class="brand-text" aria-hidden="true"><strong>Pabitra School</strong><span>Est. 2040 B.S. · Doti</span></div>
+                    <img src="logo.png" alt="School logo" data-si-alt="logo" class="logo" width="42" height="42">
+                    <div class="brand-text" aria-hidden="true"><strong data-si="short_title"></strong><span data-si="brand_sub"></span></div>
                     <button type="button" class="header-theme-presets-btn ripple-host" id="headerThemePresetsBtn" aria-label="Theme presets">
                         <i class="ri-palette-line" aria-hidden="true"></i>
                     </button>
@@ -4671,9 +4701,9 @@ body.dark .hero-copy-card {
         <aside class="sidebar" role="navigation" aria-label="Sidebar navigation">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <img src="logo.png" alt="Pabitra Secondary School Logo" class="sidebar-logo" width="42" height="42">
+                    <img src="logo.png" alt="School logo" data-si-alt="logo" class="sidebar-logo" width="42" height="42">
                     <div class="sidebar-text">
-                        <h2>Pabitra</h2>
+                        <h2 data-si="short_name"></h2>
                         <p>🌸 Radhe Radhe</p>
                     </div>
                 </div>
@@ -4689,7 +4719,7 @@ body.dark .hero-copy-card {
                         <a href="#about" class="nav-link" data-section="about"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-information-line"></i></span><span class="nav-title">About</span></a>
                         <a href="#academics" class="nav-link" data-section="academics"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-book-2-line"></i></span><span class="nav-title">Academics</span></a>
                         <a href="#faculty" class="nav-link" data-section="faculty"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-team-line"></i></span><span class="nav-title">Faculty</span></a>
-                        <a href="#highlights" class="nav-link" data-section="highlights"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-sparkling-2-line"></i></span><span class="nav-title">Why PSBS</span></a>
+                        <a href="#highlights" class="nav-link" data-section="highlights"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-sparkling-2-line"></i></span><span class="nav-title">Why <span data-si="acronym"></span></span></a>
                         <a href="#faq" class="nav-link" data-section="faq"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-question-line"></i></span><span class="nav-title">FAQ</span></a>
                         <a href="#contact" class="nav-link" data-section="contact"><span class="nav-icon-wrapper" aria-hidden="true"><i class="ri-phone-line"></i></span><span class="nav-title">Contact</span></a>
                     </div>
@@ -4728,11 +4758,11 @@ body.dark .hero-copy-card {
                 </nav>
 
                 <div class="sidebar-action-footer" style="display:flex;gap:6px;margin-top:auto;padding-top:6px;">
-                    <a href="tel:+977-094-411035" class="action-pill-btn glossy-btn"
+                    <a href="#" data-si-href="tel" data-si-hide-empty class="action-pill-btn glossy-btn"
                         style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;height:40px;border-radius:999px;color:var(--text);font-size:0.8rem;font-weight:700;text-decoration:none;">
                         <i class="ri-phone-fill" aria-hidden="true"></i> Call
                     </a>
-                    <a href="mailto:info@psbs.edu.np" class="action-pill-btn glossy-btn"
+                    <a href="#" data-si-href="mailto" data-si-hide-empty class="action-pill-btn glossy-btn"
                         style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;height:40px;border-radius:999px;color:var(--text);font-size:0.8rem;font-weight:700;text-decoration:none;">
                         <i class="ri-mail-fill" aria-hidden="true"></i> Email
                     </a>
@@ -4846,22 +4876,22 @@ body.dark .hero-copy-card {
                         <div class="hero-copy-card">
                         <div class="hero-eyebrow">
                             <span class="eb-dot" aria-hidden="true"></span>
-                            <span>Welcome to PSBS</span>
+                            <span>Welcome to <span data-si="acronym"></span></span>
                             <span class="eb-line" aria-hidden="true"></span>
                         </div>
 
                         <h1 class="hero-title">
-                            <span class="hero-title-line">Pabitra Secondary</span>
-                            <span class="hero-title-line accent">Boarding School</span>
+                            <span class="hero-title-line" data-si="title_l1"></span>
+                            <span class="hero-title-line accent" data-si="title_l2" data-si-hide-empty></span>
                         </h1>
 
                         <div class="hero-meta">
-                            <span class="hm-item"><i class="ri-map-pin-2-line" aria-hidden="true"></i> Doti, Nepal</span>
+                            <span class="hm-item" data-si-group><i class="ri-map-pin-2-line" aria-hidden="true"></i> <span data-si="locality"></span></span>
                             <span class="hm-dot" aria-hidden="true"></span>
-                            <span class="hm-item"><i class="ri-calendar-event-line" aria-hidden="true"></i> Estd. 2040 B.S.</span>
+                            <span class="hm-item" data-si-group><i class="ri-calendar-event-line" aria-hidden="true"></i> <span data-si="est_line"></span></span>
                         </div>
 
-                        <h2 class="hero-motto" id="heroMotto">Quality Education is our Motto.</h2>
+                        <h2 class="hero-motto" id="heroMotto" data-si="motto" data-si-hide-empty></h2>
 
                         <p class="hero-description">
                             A disciplined, supportive and student-centered learning community — nurturing academic excellence, confidence and strong character for a brighter future.
@@ -4891,6 +4921,11 @@ body.dark .hero-copy-card {
                             </div>
                         </div>
 
+                        <div class="hero-cta-m">
+                            <button type="button" class="hcm-btn primary ripple-host" data-qa="notices"><i class="ri-notification-3-line" aria-hidden="true"></i> Notices</button>
+                            <a href="#contact" class="hcm-btn ripple-host"><i class="ri-graduation-cap-line" aria-hidden="true"></i> Admission</a>
+                        </div>
+
                         </div><!-- /.hero-copy-card -->
                     </div>
 
@@ -4898,7 +4933,7 @@ body.dark .hero-copy-card {
                     <div class="hero-right">
                         <div class="hero-visual">
                             <div class="hv-frame">
-                                <img class="hv-logo" src="logo.png" alt="Pabitra Secondary Boarding School Logo" width="360" height="360" fetchpriority="high" decoding="async">
+                                <img class="hv-logo" src="logo.png" alt="School logo" data-si-alt="logo" width="360" height="360" fetchpriority="high" decoding="async">
                             </div>
                             <!-- Only icons - no text, glossy -->
                             <div class="hv-corner hv-c1 icon-only" style="--corner: 1;">
@@ -4956,16 +4991,20 @@ body.dark .hero-copy-card {
                 <div class="container">
                     <div class="about-grid">
                         <div class="about-image">
-                            <img src="school.jpg" alt="Pabitra Secondary Boarding School campus view" loading="lazy" decoding="async" width="600" height="400">
-                            <div class="about-badge" aria-label="Established in 2040 B.S."><span class="about-badge-kicker">OUR LEGACY</span><div class="about-badge-year"><strong>2040</strong><span>B.S.</span></div><em><i class="ri-award-line" aria-hidden="true"></i> ESTABLISHED</em></div>
+                            <img src="school.jpg" alt="School campus view" data-si-alt="campus" loading="lazy" decoding="async" width="600" height="400">
+                            <div class="about-badge" data-si-aria="est" aria-label="Established"><span class="about-badge-kicker">OUR LEGACY</span><div class="about-badge-year"><strong data-si="established_year"></strong><span>B.S.</span></div><em><i class="ri-award-line" aria-hidden="true"></i> ESTABLISHED</em></div>
                         </div>
                         <div class="about-content">
-                            <span class="section-tag">About PSBS</span>
-                            <h2>Pabitra Secondary Boarding School</h2>
-                            <p>Established in <strong>2040 B.S.</strong>, PSBS is committed to providing global standard
+                            <span class="section-tag">About <span data-si="acronym"></span></span>
+                            <h2 data-si="school_name"></h2>
+                            <p>Established in <strong><span data-si="established_year"></span> B.S.</strong>, <span data-si="acronym"></span> is committed to providing global standard
                                 education in a disciplined, supportive, and student-centered environment.</p>
                             <p>We nurture every learner to achieve academic excellence, confidence, and strong moral
                                 characters with modern digital integrations.</p>
+                            <div class="si-stats si-hide" data-si-wrap>
+                                <div class="si-stat" data-si-group><strong data-si="students_count"></strong><span>Students</span></div>
+                                <div class="si-stat" data-si-group><strong data-si="teachers_count"></strong><span>Teachers</span></div>
+                            </div>
                             <div class="about-features">
                                 <div class="feature"><span aria-hidden="true">⭐</span>
                                     <div>
@@ -5012,7 +5051,7 @@ body.dark .hero-copy-card {
                         <div class="principal-content">
                             <span class="section-tag">Message from the Principal</span>
                             <h3>Mr. Binod Kumar Mishra</h3>
-                            <p>Welcome to Pabitra Secondary Boarding School. We are committed to nurturing discipline,
+                            <p>Welcome to <span data-si="school_name"></span>. We are committed to nurturing discipline,
                                 academic focus, and global values across every student's journey. Our dedicated team
                                 works tirelessly to ensure each student reaches their full potential.</p>
                         </div>
@@ -5092,9 +5131,9 @@ body.dark .hero-copy-card {
             </section>
 
             <!-- ===== WHY PSBS ===== -->
-            <section id="highlights" class="section" aria-label="Why choose PSBS">
+            <section id="highlights" class="section" aria-label="Why choose us">
                 <div class="container">
-                    <span class="section-tag">Why PSBS</span>
+                    <span class="section-tag">Why <span data-si="acronym"></span></span>
                     <h2 class="section-title">Learning That Goes Beyond the Classroom</h2>
                     <p class="section-description">From the first Montessori steps to SEE success, every stage is built around care, discipline, and curiosity.</p>
                     <div class="hl-grid">
@@ -5119,11 +5158,11 @@ body.dark .hero-copy-card {
                     <h2 class="section-title">Quick Answers</h2>
                     <p class="section-description">Everything you need to know at a glance.</p>
                     <div class="faq-list">
-                        <details class="faq-item" name="faq"><summary><span>Which classes does PSBS offer?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>We teach from Play Group to Grade 10, including intensive SEE preparation with mock tests and career counseling for Grades 9–10.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>Which classes does <span data-si="acronym"></span> offer?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>We teach from Play Group to Grade 10, including intensive SEE preparation with mock tests and career counseling for Grades 9–10.</p></details>
                         <details class="faq-item" name="faq"><summary><span>When is the school office open?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>The office is open Monday to Friday, 10:00 AM – 4:00 PM. You can see the live open/closed status in the Contact section.</p></details>
-                        <details class="faq-item" name="faq"><summary><span>Where is the school located?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>We are at DSM – 6, Doti, Nepal. Use the “Get Directions” button in the Contact section to open the route in your maps app.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>Where is the school located?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>We are at <span data-si="address"></span>. Use the “Get Directions” button in the Contact section to open the route in your maps app.</p></details>
                         <details class="faq-item" name="faq"><summary><span>Where can I find notices and study documents?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Tap the bell icon in the top bar for the latest notices, or open Documents from the menu for PDFs, slides, and study material you can search and download.</p></details>
-                        <details class="faq-item" name="faq"><summary><span>How can I contact the school?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Call 094-411035, email info@psbs.edu.np, or send a message using the contact form at the bottom of this page.</p></details>
+                        <details class="faq-item" name="faq"><summary><span>How can I contact the school?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Call <span data-si="phone"></span>, email <span data-si="email"></span>, or send a message using the contact form at the bottom of this page.</p></details>
                         <details class="faq-item" name="faq"><summary><span>Is there a school calendar?</span><i class="ri-add-line" aria-hidden="true"></i></summary><p>Yes. Open <a href="calendar.html" style="color:var(--primary);font-weight:600;">School Calendar</a> for events, holidays, and exam dates.</p></details>
                     </div>
                 </div>
@@ -5138,25 +5177,25 @@ body.dark .hero-copy-card {
                     <div class="contact-grid">
                         <div class="contact-info">
                             <div class="open-status closed" id="openStatus" role="status"><span class="os-dot" aria-hidden="true"></span><span class="os-text">Checking office hours…</span></div>
-                            <div class="contact-card">
+                            <div class="contact-card" data-si-group>
                                 <div class="contact-icon" aria-hidden="true">📞</div>
                                 <div>
                                     <h3>Phone</h3>
-                                    <p><a href="tel:094-411035">094-411035</a></p>
+                                    <p><a href="#" data-si-href="tel" data-si="phone"></a></p>
                                 </div>
                             </div>
-                            <div class="contact-card">
+                            <div class="contact-card" data-si-group>
                                 <div class="contact-icon" aria-hidden="true">📍</div>
                                 <div>
                                     <h3>Address</h3>
-                                    <p>DSM – 6, Doti, Nepal</p>
+                                    <p data-si="address"></p>
                                 </div>
                             </div>
-                            <div class="contact-card">
+                            <div class="contact-card" data-si-group>
                                 <div class="contact-icon" aria-hidden="true">✉️</div>
                                 <div>
                                     <h3>Email</h3>
-                                    <p><a href="mailto:info@psbs.edu.np">info@psbs.edu.np</a></p>
+                                    <p><a href="#" data-si-href="mailto" data-si="email"></a></p>
                                 </div>
                             </div>
                             <div class="contact-card">
@@ -5203,15 +5242,15 @@ body.dark .hero-copy-card {
 
                     <div class="contact-extra">
                         <div class="contact-actions">
-                            <a class="btn-glossy ripple-host" href="tel:+977-094-411035"><i class="ri-phone-fill" aria-hidden="true"></i> Call Now</a>
-                            <a class="btn-glass ripple-host" href="mailto:info@psbs.edu.np"><i class="ri-mail-fill" aria-hidden="true"></i> Email Us</a>
-                            <a class="btn-glass ripple-host" href="https://www.google.com/maps/search/?api=1&amp;query=Pabitra+Secondary+Boarding+School+Doti+Nepal" target="_blank" rel="noopener noreferrer"><i class="ri-direction-fill" aria-hidden="true"></i> Get Directions</a>
+                            <a class="btn-glossy ripple-host" href="#" data-si-href="tel" data-si-hide-empty><i class="ri-phone-fill" aria-hidden="true"></i> Call Now</a>
+                            <a class="btn-glass ripple-host" href="#" data-si-href="mailto" data-si-hide-empty><i class="ri-mail-fill" aria-hidden="true"></i> Email Us</a>
+                            <a class="btn-glass ripple-host" href="#" data-si-href="map" data-si-hide-empty target="_blank" rel="noopener noreferrer"><i class="ri-direction-fill" aria-hidden="true"></i> Get Directions</a>
                         </div>
                         <div class="map-card" id="mapCard">
                             <div class="map-placeholder" id="mapPlaceholder">
                                 <i class="ri-map-pin-2-fill" aria-hidden="true"></i>
                                 <h3>Find us on the map</h3>
-                                <p>DSM – 6, Doti, Nepal</p>
+                                <p data-si="address"></p>
                                 <button type="button" class="btn-glossy ripple-host" id="loadMapBtn"><i class="ri-map-2-line" aria-hidden="true"></i> Load Interactive Map</button>
                             </div>
                         </div>
@@ -5227,9 +5266,9 @@ body.dark .hero-copy-card {
                 <div class="footer-box info-box">
                     <div class="footer-brand">
                         <img src="logo.png" alt="" width="46" height="46" loading="lazy" decoding="async">
-                        <h3>Pabitra Secondary Boarding School</h3>
+                        <h3 data-si="school_name"></h3>
                     </div>
-                    <p>Providing high-end quality education, robust discipline, and exceptional leadership skills since 2040 B.S.</p>
+                    <p>Providing high-end quality education, robust discipline, and exceptional leadership skills<span data-si-group> since <span data-si="established_year"></span> B.S.</span>.</p>
                     <div class="footer-social">
                         <a href="https://www.facebook.com/share/18GjZUzYQm/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="ri-facebook-box-fill"></i></a>
                         <a href="#" aria-label="Instagram"><i class="ri-instagram-fill"></i></a>
@@ -5244,7 +5283,7 @@ body.dark .hero-copy-card {
                         <li><a href="#academics"><i class="ri-book-2-line" aria-hidden="true"></i>Academics</a></li>
                         <li><a href="#faculty"><i class="ri-team-line" aria-hidden="true"></i>Faculty</a></li>
                         <li><a href="gallery.html"><i class="ri-gallery-line" aria-hidden="true"></i>Gallery</a></li>
-                        <li><a href="#highlights"><i class="ri-sparkling-2-line" aria-hidden="true"></i>Why PSBS</a></li>
+                        <li><a href="#highlights"><i class="ri-sparkling-2-line" aria-hidden="true"></i>Why <span data-si="acronym"></span></a></li>
                         <li><a href="#faq"><i class="ri-question-line" aria-hidden="true"></i>FAQ</a></li>
                         <li><a href="#contact"><i class="ri-phone-line" aria-hidden="true"></i>Contact</a></li>
                     </ul>
@@ -5252,15 +5291,15 @@ body.dark .hero-copy-card {
                 <div class="footer-box contact-box">
                     <h3>Contact Info</h3>
                     <ul class="footer-links">
-                        <li><a href="tel:+977-094-411035">📞 094-411035</a></li>
-                        <li><a href="mailto:info@psbs.edu.np">✉️ info@psbs.edu.np</a></li>
-                        <li>📍 DSM – 6, Doti, Nepal</li>
+                        <li data-si-group><a href="#" data-si-href="tel">📞 <span data-si="phone"></span></a></li>
+                        <li data-si-group><a href="#" data-si-href="mailto">✉️ <span data-si="email"></span></a></li>
+                        <li data-si-group>📍 <span data-si="address"></span></li>
                         <li>🕐 Mon–Fri: 10:00 AM – 4:00 PM</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© <span id="footerYear"></span> Pabitra Secondary Boarding School | Developed by <strong>Harish</strong> | 🌸 Radhe Radhe</p>
+                <p>© <span id="footerYear"></span> <span data-si="school_name"></span> | Developed by <strong>Harish</strong> | 🌸 Radhe Radhe</p>
             </div>
         </footer>
 
@@ -5271,6 +5310,98 @@ body.dark .hero-copy-card {
         </div>
 
     </div>
+
+    <script>
+        /* =====================================================================
+           SCHOOL INFO — every school detail comes from Supabase (school_info).
+           The last known row is cached locally so repeat visits render instantly.
+           ===================================================================== */
+        (function () {
+            'use strict';
+            var KEY = 'psbs_school_info_v1', root = document.documentElement, cur = null;
+            var STOP = { of: 1, and: 1, the: 1, for: 1, in: 1, at: 1 };
+            function str(v) { return v == null ? '' : String(v).trim(); }
+            function num(v) { var n = Number(v); return isFinite(n) && n > 0 ? n : 0; }
+            function derive(d) {
+                var name = str(d.school_name), words = name.split(/\s+/).filter(Boolean);
+                var l1 = name, l2 = '';
+                if (words.length > 2) { l1 = words.slice(0, -2).join(' '); l2 = words.slice(-2).join(' '); }
+                else if (words.length === 2) { l1 = words[0]; l2 = words[1]; }
+                var acr = words.filter(function (w) { return !STOP[w.toLowerCase()]; }).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
+                if (words.length < 2) acr = name.toUpperCase();
+                var addr = str(d.address), parts = addr.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+                var city = parts.length > 1 ? parts[1] : (parts[0] || '');
+                var locality = parts.length > 1 ? parts.slice(1).join(', ') : addr;
+                var year = str(d.established_year);
+                var st = num(d.students_count), te = num(d.teachers_count);
+                return {
+                    school_name: name, name: name, motto: str(d.motto), address: addr, phone: str(d.phone), email: str(d.email),
+                    established_year: year, acronym: acr || name, short_name: words[0] || name, short_title: words[0] ? words[0] + ' School' : name,
+                    title_l1: l1, title_l2: l2, locality: locality, city: city,
+                    est_line: year ? 'Estd. ' + year + ' B.S.' : '',
+                    brand_sub: (year ? 'Est. ' + year + ' B.S.' : '') + (year && city ? ' · ' : '') + city,
+                    students_count: st ? st.toLocaleString('en-US') : '', teachers_count: te ? te.toLocaleString('en-US') : ''
+                };
+            }
+            function hide(el, on) { el.classList.toggle('si-hide', !!on); }
+            function apply(d) {
+                var v = derive(d), i, el, k, list;
+                list = document.querySelectorAll('[data-si]');
+                for (i = 0; i < list.length; i++) {
+                    el = list[i]; k = el.getAttribute('data-si');
+                    el.textContent = v[k] == null ? '' : v[k];
+                    el.setAttribute('data-si-done', '');
+                    if (el.hasAttribute('data-si-hide-empty')) hide(el, !el.textContent);
+                }
+                list = document.querySelectorAll('[data-si-href]');
+                for (i = 0; i < list.length; i++) {
+                    el = list[i]; k = el.getAttribute('data-si-href'); var url = '';
+                    if (k === 'tel' && v.phone) url = 'tel:' + v.phone.replace(/[^\d+]/g, '');
+                    else if (k === 'mailto' && v.email) url = 'mailto:' + v.email;
+                    else if (k === 'map' && v.name) url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((v.name + ' ' + v.address).trim());
+                    if (url) { el.setAttribute('href', url); hide(el, false); } else { el.removeAttribute('href'); hide(el, el.hasAttribute('data-si-hide-empty')); }
+                }
+                list = document.querySelectorAll('[data-si-alt]');
+                for (i = 0; i < list.length; i++) {
+                    el = list[i]; k = el.getAttribute('data-si-alt');
+                    el.setAttribute('alt', k === 'campus' ? v.name + ' campus view' : v.name + ' Logo');
+                }
+                list = document.querySelectorAll('[data-si-aria="est"]');
+                for (i = 0; i < list.length; i++) list[i].setAttribute('aria-label', v.established_year ? 'Established in ' + v.established_year + ' B.S.' : 'Established');
+                list = document.querySelectorAll('[data-si-group]');
+                for (i = 0; i < list.length; i++) {
+                    var kids = list[i].matches('[data-si]') ? [list[i]] : list[i].querySelectorAll('[data-si]'), any = false;
+                    for (var j = 0; j < kids.length; j++) if (kids[j].textContent.trim()) any = true;
+                    hide(list[i], !any);
+                }
+                list = document.querySelectorAll('[data-si-wrap]');
+                for (i = 0; i < list.length; i++) hide(list[i], !list[i].querySelector('[data-si-group]:not(.si-hide)'));
+                if (v.name) {
+                    document.title = v.name;
+                    var desc = v.name + (v.motto ? ' — ' + v.motto : '') + '. Official portal with notices, documents and gallery.';
+                    var m = { 'meta[name="description"]': desc, 'meta[property="og:title"]': v.name, 'meta[property="og:description"]': desc, 'meta[property="og:image:alt"]': v.name, 'meta[name="twitter:title"]': v.name, 'meta[name="twitter:description"]': desc };
+                    for (var sel in m) { var t = document.querySelector(sel); if (t) t.setAttribute('content', m[sel]); }
+                }
+            }
+            function reveal() { if (window.__psbsReveal) window.__psbsReveal(); }
+            window.SchoolInfo = {
+                set: function (d) {
+                    if (!d) return; cur = d;
+                    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) { }
+                    root.classList.remove('si-failed'); apply(d); reveal();
+                },
+                fail: function () { if (!cur) root.classList.add('si-failed'); reveal(); },
+                get: function () { return cur; },
+                name: function () { return cur ? str(cur.school_name) : ''; },
+                address: function () { return cur ? str(cur.address) : ''; },
+                acr: function () { return cur ? derive(cur).acronym : 'School'; }
+            };
+            try {
+                var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+                if (c && c.school_name) { cur = c; apply(c); reveal(); }
+            } catch (e) { }
+        })();
+    </script>
 
     <!-- ============================================================
     SUPABASE SETUP
@@ -5347,21 +5478,44 @@ body.dark .hero-copy-card {
             },
             formatDate: function (dateStr) {
                 try {
-                    const d = new Date(dateStr);
+                    const d = new Date(this.parseTs(dateStr));
                     if (isNaN(d.getTime())) return dateStr || '';
                     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 } catch (e) { return dateStr || ''; }
             },
+            // Date-only values ("2026-10-16", or midnight with no zone) are calendar days; zone-less timestamps are UTC.
+            isDateOnly: function (v) {
+                const s = String(v == null ? '' : v).trim();
+                return /^\d{4}-\d{2}-\d{2}$/.test(s) || /^\d{4}-\d{2}-\d{2}[T ]00:00(:00(\.0+)?)?$/.test(s);
+            },
+            parseTs: function (v) {
+                if (v == null || v === '') return NaN;
+                if (v instanceof Date) return v.getTime();
+                let s = String(v).trim();
+                if (this.isDateOnly(s)) { const p = s.slice(0, 10).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).getTime(); }
+                if (/^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}/.test(s) && !/(Z|[+-]\d{2}(:?\d{2})?)$/.test(s)) s = s.replace(' ', 'T') + 'Z';
+                return new Date(s).getTime();
+            },
             timeAgo: function (dateStr) {
-                const then = new Date(dateStr).getTime();
+                const then = this.parseTs(dateStr);
                 if (isNaN(then)) return '';
+                if (this.isDateOnly(dateStr)) {
+                    const t0 = new Date(); t0.setHours(0, 0, 0, 0);
+                    const days = Math.round((t0.getTime() - then) / 86400000);
+                    if (days <= 0) return 'Today';
+                    if (days === 1) return 'Yesterday';
+                    if (days < 7) return days + 'd ago';
+                    return new Date(then).toLocaleDateString();
+                }
                 const diff = Math.floor((Date.now() - then) / 1000);
                 if (diff < 60) return 'just now';
                 if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
                 if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
                 if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
-                return new Date(dateStr).toLocaleDateString();
+                return new Date(then).toLocaleDateString();
             },
+            // "Published" time of a notice: the real created_at timestamp when available, else its date.
+            noticeAgo: function (n) { return this.timeAgo(n && (n.created_at || n.date)); },
             formatBytes: function (bytes) {
                 const n = Number(bytes);
                 if (!n || n <= 0 || isNaN(n)) return '';
@@ -5415,8 +5569,8 @@ body.dark .hero-copy-card {
             sharePage: function () {
                 if (navigator.share) {
                     navigator.share({
-                        title: 'PSBS Portal',
-                        text: 'Check out Pabitra Secondary Boarding School portal!',
+                        title: SchoolInfo.acr() + ' Portal',
+                        text: 'Check out ' + (SchoolInfo.name() || 'our school') + ' portal!',
                         url: window.location.href
                     }).catch(function () { });
                 } else if (navigator.clipboard) {
@@ -5431,8 +5585,8 @@ body.dark .hero-copy-card {
             },
             getSearchData: function () {
                 return [
-                    { id: 'hero', title: 'Home', desc: 'Welcome to PSBS Portal', icon: '🏠' },
-                    { id: 'about', title: 'About Us', desc: 'Learn about Pabitra Secondary Boarding School', icon: 'ℹ️' },
+                    { id: 'hero', title: 'Home', desc: 'Welcome to the school portal', icon: '🏠' },
+                    { id: 'about', title: 'About Us', desc: 'Learn more about our school', icon: 'ℹ️' },
                     { id: 'academics', title: 'Academics', desc: 'Our academic programs and curriculum', icon: '📚' },
                     { id: 'faculty', title: 'Faculty', desc: 'Meet our dedicated teachers', icon: '👨‍🏫' },
                     { id: 'gallery', title: 'Gallery', desc: 'Campus life photos', icon: '🖼️' },
@@ -6063,16 +6217,19 @@ body.dark .hero-copy-card {
                 const { data, error } = await window.db.from('school_info').select('*').eq('id', 1).maybeSingle();
                 if (!error && data) {
                     State.schoolInfo = data;
-                    
-                }
-            } catch (e) { console.warn('school_info fetch failed', e); }
+                    SchoolInfo.set(data);
+                } else { SchoolInfo.fail(); }
+            } catch (e) { console.warn('school_info fetch failed', e); SchoolInfo.fail(); }
         }
 
         async function fetchNotices() {
             try {
                 const { data, error } = await window.db.from('notices').select('*').order('date', { ascending: false });
                 if (error) throw error;
-                State.notices = data || [];
+                State.notices = (data || []).slice().sort(function (a, b) {
+                    const d = (Helpers.parseTs(b.date) || 0) - (Helpers.parseTs(a.date) || 0);
+                    return d || ((Helpers.parseTs(b.created_at) || 0) - (Helpers.parseTs(a.created_at) || 0));
+                });
                 renderNotices(State.notices);
                 NoticeManager.updateBadge();
             } catch (e) {
@@ -6109,7 +6266,7 @@ body.dark .hero-copy-card {
                 html += '<span class="update-label ' + safeLabel + '">' + labelText + '</span>';
                 html += '<h3>' + Helpers.sanitize(n.title) + '</h3>';
                 html += '<p>' + Helpers.sanitize(n.description) + '</p>';
-                html += '<div class="update-date">📅 ' + Helpers.formatDate(n.date) + ' • ' + Helpers.timeAgo(n.date) + '</div>';
+                html += '<div class="update-date">📅 ' + Helpers.formatDate(n.date) + ' • ' + Helpers.noticeAgo(n) + '</div>';
                 html += '</div>';
             }
             container.innerHTML = html;
@@ -6716,11 +6873,11 @@ body.dark .hero-copy-card {
             DOM.welcomeAvatar.textContent = Helpers.initials(name);
             DOM.welcomeAvatar.style.backgroundColor = Helpers.colorFromName(name);
             const messages = [
-                "We're thrilled to have you at PSBS Portal! 🎉",
+                "We're thrilled to have you at " + SchoolInfo.acr() + " Portal! 🎉",
                 "Your journey to excellence starts here! 🌟",
                 "Together we learn, grow, and achieve! 📚",
-                "Welcome to the PSBS family! 💙",
-                "Great things await you at PSBS! 🏆",
+                "Welcome to the " + SchoolInfo.acr() + " family! 💙",
+                "Great things await you at " + SchoolInfo.acr() + "! 🏆",
                 "🌸 Radhe Radhe! May you shine bright! 💝",
                 "Every day is a new opportunity to learn! 🌈",
                 "You are now part of something extraordinary! ✨",
@@ -7669,7 +7826,7 @@ body.dark .hero-copy-card {
                     return '<button type="button" class="nt-item" data-qa="notices">' +
                         '<span class="nt-index">' + (i+1) + '</span>' +
                         '<span class="nt-copy"><span class="nt-title">' + esc(n.title) + '</span>' +
-                        '<em>' + esc(Helpers.timeAgo(n.date)) + '</em></span>' +
+                        '<em>' + esc(Helpers.noticeAgo(n)) + '</em></span>' +
                         '<i class="ri-arrow-right-up-line nt-arrow" aria-hidden="true"></i></button>';
                 }).join('');
                 wrap.hidden = false;
@@ -7726,10 +7883,10 @@ body.dark .hero-copy-card {
             /* ---------- 5. Smarter search: sections, FAQ, teachers, notices, documents, actions ---------- */
             Helpers.getSearchData = function () {
                 return [
-                    { id: 'hero', title: 'Home', desc: 'Welcome to PSBS Portal', icon: '🏠' },
+                    { id: 'hero', title: 'Home', desc: 'Welcome to the school portal', icon: '🏠' },
                     { id: 'about', title: 'About Us', desc: 'Mission, vision and principal\'s message', icon: 'ℹ️' },
                     { id: 'academics', title: 'Academics', desc: 'Play Group to Grade 10 programs', icon: '📚' },
-                    { id: 'highlights', title: 'Why PSBS', desc: 'Labs, computer education, mock tests, career guidance', icon: '✨' },
+                    { id: 'highlights', title: 'Why Us', desc: 'Labs, computer education, mock tests, career guidance', icon: '✨' },
                     { id: 'faculty', title: 'Faculty', desc: 'Meet our dedicated teachers', icon: '👨‍🏫' },
                     { id: 'gallery', title: 'Gallery', desc: 'Campus life photos', icon: '🖼️' },
                     { id: 'faq', title: 'FAQ', desc: 'Answers to common questions', icon: '❓' },
@@ -7932,9 +8089,9 @@ body.dark .hero-copy-card {
                 var card = $('#mapCard'), ph = $('#mapPlaceholder');
                 if (!card) return;
                 var f = d.createElement('iframe');
-                f.src = 'https://www.google.com/maps?q=Pabitra+Secondary+Boarding+School+Doti+Nepal&output=embed';
+                f.src = 'https://www.google.com/maps?q=' + encodeURIComponent((SchoolInfo.name() + ' ' + SchoolInfo.address()).trim()) + '&output=embed';
                 f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade';
-                f.title = 'Map showing Pabitra Secondary Boarding School'; f.setAttribute('allowfullscreen', '');
+                f.title = 'Map showing ' + (SchoolInfo.name() || 'the school'); f.setAttribute('allowfullscreen', '');
                 card.appendChild(f);
                 if (ph) ph.remove();
             });
@@ -9036,3 +9193,110 @@ body.dark #hero .hv-frame img.hv-logo {
   });
 })();
 </script>
+
+<style id="psbs-hero-v2">
+/* ===== Hero meta: no outer box — each chip is its own beautiful box ===== */
+#hero .hero-meta, body.dark #hero .hero-meta {
+  background: none !important; border: 0 !important; box-shadow: none !important; padding: 0 !important;
+  border-radius: 0 !important; display: flex !important; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px !important;
+}
+#hero .hm-dot { display: none !important; }
+
+/* About: live student / teacher counts */
+.si-stats { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin: 18px 0 6px; }
+.si-stat { padding: 14px 16px; border-radius: 18px; background: var(--surface-solid); border: 1px solid var(--border); box-shadow: 0 10px 22px -16px rgba(var(--primary-rgb), .55); text-align: center; }
+.si-stat strong { display: block; font-size: 1.6rem; line-height: 1.1; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.si-stat span { display: block; margin-top: 4px; font-size: .78rem; font-weight: 700; color: var(--text-light); letter-spacing: .04em; text-transform: uppercase; }
+body.dark .si-stat { background: rgba(30,41,59,.65); }
+
+.hero-cta-m { display: none; }
+
+/* ===== Mobile hero: logo first, centred stack, compact tiles, clear actions ===== */
+@media (max-width: 767px) {
+  #hero { min-height: 0 !important; }
+  #hero .hero-inner { display: flex !important; flex-direction: column; align-items: center; gap: 0 !important; padding: 84px 18px 64px !important; }
+  #hero .hero-right { order: -1; width: 100% !important; margin: 0 0 16px; }
+  #hero .hero-left { order: 0; width: 100%; }
+  #hero .hero-visual { max-width: 196px !important; }
+  #hero .hv-frame { width: 100% !important; max-width: 172px !important; }
+  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 172px !important; padding: 10px !important; }
+  #hero .hv-corner { width: 34px !important; height: 34px !important; border-radius: 11px !important; }
+  #hero .hvc-icon { width: 24px !important; height: 24px !important; font-size: .9rem !important; border-radius: 8px !important; }
+
+  #hero .hero-copy-card .hero-eyebrow { margin: 0 auto 14px; padding: 6px 13px; font-size: .68rem; }
+  #hero .hero-copy-card .hero-eyebrow .eb-line { width: 18px; }
+  #hero .hero-copy-card .hero-title { font-size: clamp(1.9rem, 8.8vw, 2.5rem) !important; line-height: 1.04 !important; letter-spacing: -.035em !important; margin: 0 0 14px !important; }
+  #hero .hero-copy-card .hero-meta { margin: 0 0 16px !important; gap: 8px !important; }
+  #hero .hero-copy-card .hero-motto { font-size: 1.12rem !important; line-height: 1.3 !important; margin: 0 auto 10px !important; max-width: 30ch; }
+  #hero .hero-copy-card .hero-description { font-size: .92rem !important; line-height: 1.65 !important; max-width: 34ch !important; margin: 0 auto 20px !important; }
+
+  #hero .hero-highlights { display: grid !important; grid-template-columns: repeat(3, minmax(0,1fr)) !important; gap: 8px !important; margin: 0 0 18px !important; }
+  #hero .hh { flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 12px 6px 11px !important; border-radius: 18px; }
+  #hero .hh-icon { width: 38px; height: 38px; border-radius: 12px; }
+  #hero .hh-text strong { white-space: normal; font-size: .72rem; line-height: 1.25; }
+  #hero .hh-text span { display: none; }
+
+  .hero-cta-m { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 2px; }
+  .hcm-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px; border-radius: 16px; border: 1px solid var(--border);
+    font: inherit; font-size: .9rem; font-weight: 700; color: var(--text); text-decoration: none; cursor: pointer;
+    background: var(--surface-solid); box-shadow: 0 8px 18px -14px rgba(15,23,42,.4);
+  }
+  .hcm-btn.primary { color: #fff; border-color: transparent; background: var(--primary-gradient); box-shadow: 0 12px 22px -12px rgba(var(--primary-rgb), .85), inset 0 1px 0 rgba(255,255,255,.35); }
+  .hcm-btn i { font-size: 1.1rem; }
+  body.dark .hcm-btn:not(.primary) { background: rgba(30,41,59,.7); border-color: rgba(255,255,255,.1); }
+}
+@media (max-width: 360px) {
+  #hero .hero-visual { max-width: 168px !important; }
+  #hero .hv-frame, #hero .hv-frame img.hv-logo { max-width: 148px !important; }
+  #hero .hh-text strong { font-size: .68rem; }
+}
+</style>
+
+<style id="psbs-v3">
+/* ===== Notices / Documents tabs: floating pills over the cards ===== */
+.right-panel .panel-tabbar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 5;
+  padding: 26px 14px calc(16px + env(safe-area-inset-bottom, 0px)); pointer-events: none;
+}
+.right-panel .panel-tabbar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to top, color-mix(in srgb, var(--surface-solid) 78%, transparent) 0%, transparent 100%);
+}
+.right-panel .panel-tab {
+  pointer-events: auto; --tab-base: rgba(255,255,255,.82);
+  background: color-mix(in srgb, #fff calc(var(--swipe-p) * 100%), var(--tab-base)) !important;
+  backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%);
+  box-shadow: 0 10px 24px -8px rgba(15,23,42,calc(.22 + var(--swipe-p) * .12)), 0 2px 6px rgba(15,23,42,.08) !important;
+}
+body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
+.right-panel .panel-pane-body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important; }
+
+/* ===== Hero logo corner icons: no white card, placed farther from the logo ===== */
+#hero .hv-corner, body.dark #hero .hv-corner {
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  backdrop-filter: none !important; -webkit-backdrop-filter: none !important; padding: 0 !important;
+}
+#hero .hv-corner.hv-c1 { left: -9% !important; top: -1% !important; }
+#hero .hv-corner.hv-c2 { right: -13% !important; top: 50% !important; }
+#hero .hv-corner.hv-c3 { left: -5% !important; bottom: -3% !important; }
+
+/* ===== Two-column heroes: wider info card, smaller logo ===== */
+@media (min-width: 769px) {
+  #hero .hero-inner { grid-template-columns: 1.3fr .7fr !important; gap: 32px !important; }
+  #hero .hero-visual { max-width: 250px !important; }
+  #hero .hv-frame { width: 76% !important; max-width: 190px !important; }
+  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 190px !important; padding: 12px !important; }
+  #hero .hv-corner.hv-c1 { left: -8% !important; top: -5% !important; } #hero .hv-corner.hv-c2 { right: -10% !important; } #hero .hv-corner.hv-c3 { left: -4% !important; bottom: -8% !important; }
+  #hero .hero-copy-card { width: 100% !important; max-width: none !important; left: 0 !important; transform: none !important; }
+}
+@media (min-width: 1025px) {
+  #hero .hero-inner { grid-template-columns: 1.4fr .6fr !important; gap: 40px !important; }
+  #hero .hero-visual { max-width: 280px !important; }
+  #hero .hv-frame { width: 72% !important; max-width: 210px !important; }
+  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 210px !important; }
+}
+/* Description block centred inside the hero card */
+#hero .hero-copy-card .hero-description { margin-left: auto !important; margin-right: auto !important; text-align: center !important; }
+</style>
+

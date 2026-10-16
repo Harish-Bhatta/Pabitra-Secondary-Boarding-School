@@ -1,1078 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
-    <title>Admin Login · PSBS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
-    <link rel="icon" type="image/png" href="school.jpg" />
-    <style>
-        /* ===== PALETTE (mirrors main portal) ===== */
-        :root {
-            --primary: #f39c12;
-            --primary-dark: #d68910;
-            --primary-light: #f5b041;
-            --primary-gradient: linear-gradient(135deg, #f39c12, #f5b041);
-            --secondary: #f39c12;
-            --secondary-light: #f7dc6f;
-            --accent: #f39c12;
-            --accent-dark: #d68910;
-
-            --background: #F8FAFC;
-            --surface: rgba(255, 255, 255, 0.75);
-            --surface-solid: #FFFFFF;
-            --surface-hover: #F1F5F9;
-            --text: #1E293B;
-            --text-light: #64748B;
-            --text-inverse: #FFFFFF;
-            --border: rgba(226, 232, 240, 0.6);
-            --border-light: #F1F5F9;
-
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            --radius-full: 50%;
-
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.09);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.12);
-            --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.10);
-
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-
-            --font-family: 'Poppins', sans-serif;
-            --z-toast: 99999;
-
-            --glass-bg: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
-
-            --nebula-color-1: #f39c12;
-            --nebula-color-2: #f5b041;
-            --nebula-color-3: #f1c40f;
-        }
-
-        /* Dark mode */
-        body.dark {
-            --background: #0F172A;
-            --surface: rgba(30, 41, 59, 0.82);
-            --surface-solid: #1E293B;
-            --surface-hover: #2D3A52;
-            --text: #F1F5F9;
-            --text-light: #94A3B8;
-            --text-inverse: #1E293B;
-            --border: rgba(51, 65, 85, 0.5);
-            --border-light: #1E293B;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
-            --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.6);
-            --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.06);
-            --glass-bg: rgba(30, 41, 59, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.03);
-        }
-
-        /* Theme presets */
-        body.theme-cyan {
-            --primary: #06b6d4;
-            --primary-dark: #0891b2;
-            --primary-light: #67e8f9;
-            --primary-gradient: linear-gradient(135deg, #06b6d4, #67e8f9);
-            --secondary: #06b6d4;
-            --nebula-color-1: #06b6d4;
-            --nebula-color-2: #67e8f9;
-            --nebula-color-3: #0891b2;
-            --shadow-glow: 0 0 40px rgba(6, 182, 212, 0.12);
-        }
-
-        body.theme-coral {
-            --primary: #e85d75;
-            --primary-dark: #c0394b;
-            --primary-light: #f1948a;
-            --primary-gradient: linear-gradient(135deg, #e85d75, #f1948a);
-            --secondary: #e85d75;
-            --nebula-color-1: #e85d75;
-            --nebula-color-2: #f1948a;
-            --nebula-color-3: #f5b7b1;
-            --shadow-glow: 0 0 40px rgba(232, 93, 117, 0.12);
-        }
-
-        body.theme-indigo {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --primary-light: #818cf8;
-            --primary-gradient: linear-gradient(135deg, #4f46e5, #818cf8);
-            --secondary: #4f46e5;
-            --nebula-color-1: #4f46e5;
-            --nebula-color-2: #818cf8;
-            --nebula-color-3: #a5b4fc;
-            --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.12);
-        }
-
-        body.theme-red {
-            --primary: #e74c3c;
-            --primary-dark: #c0392b;
-            --primary-light: #f1948a;
-            --primary-gradient: linear-gradient(135deg, #e74c3c, #f1948a);
-            --secondary: #e74c3c;
-            --nebula-color-1: #e74c3c;
-            --nebula-color-2: #f1948a;
-            --nebula-color-3: #f5b7b1;
-            --shadow-glow: 0 0 40px rgba(231, 76, 60, 0.12);
-        }
-
-        body.theme-rose {
-            --primary: #e11d48;
-            --primary-dark: #be123c;
-            --primary-light: #fb7185;
-            --primary-gradient: linear-gradient(135deg, #e11d48, #fb7185);
-            --secondary: #e11d48;
-            --nebula-color-1: #e11d48;
-            --nebula-color-2: #fb7185;
-            --nebula-color-3: #fda4af;
-            --shadow-glow: 0 0 40px rgba(225, 29, 72, 0.12);
-        }
-
-        body.theme-teal {
-            --primary: #27ae9e;
-            --primary-dark: #1f8a7a;
-            --primary-light: #48c9b0;
-            --primary-gradient: linear-gradient(135deg, #27ae9e, #48c9b0);
-            --secondary: #27ae9e;
-            --nebula-color-1: #27ae9e;
-            --nebula-color-2: #48c9b0;
-            --nebula-color-3: #a3e4d7;
-            --shadow-glow: 0 0 40px rgba(39, 174, 158, 0.12);
-        }
-
-        body.theme-yellow {
-            --primary: #f1c40f;
-            --primary-dark: #d4ac0d;
-            --primary-light: #f7dc6f;
-            --primary-gradient: linear-gradient(135deg, #f1c40f, #f7dc6f);
-            --secondary: #f1c40f;
-            --nebula-color-1: #f1c40f;
-            --nebula-color-2: #f7dc6f;
-            --nebula-color-3: #f9e79f;
-            --shadow-glow: 0 0 40px rgba(241, 196, 15, 0.12);
-        }
-
-        body.theme-gold {
-            --primary: #f39c12;
-            --primary-dark: #d68910;
-            --primary-light: #f5b041;
-            --primary-gradient: linear-gradient(135deg, #f39c12, #f5b041);
-            --secondary: #f39c12;
-            --nebula-color-1: #f39c12;
-            --nebula-color-2: #f5b041;
-            --nebula-color-3: #f1c40f;
-            --shadow-glow: 0 0 40px rgba(243, 156, 18, 0.12);
-        }
-
-        /* ===== RESET ===== */
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background: var(--background);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            min-height: 100dvh;
-            transition: background 0.4s ease, color 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ===== NEBULA ===== */
-        .nebula-bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-            opacity: 0.5;
-            transition: opacity 0.8s ease;
-        }
-
-        body.dark .nebula-bg {
-            opacity: 0.7;
-        }
-
-        .nebula-bg .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            will-change: transform;
-            animation: nebulaFloat 20s ease-in-out infinite alternate;
-        }
-
-        .nebula-bg .orb:nth-child(1) {
-            width: 600px;
-            height: 600px;
-            top: -200px;
-            left: -200px;
-            background: radial-gradient(circle, var(--nebula-color-1), transparent 70%);
-            animation-duration: 22s;
-            animation-delay: -2s;
-        }
-
-        .nebula-bg .orb:nth-child(2) {
-            width: 500px;
-            height: 500px;
-            bottom: -150px;
-            right: -150px;
-            background: radial-gradient(circle, var(--nebula-color-2), transparent 70%);
-            animation-duration: 26s;
-            animation-delay: -5s;
-        }
-
-        .nebula-bg .orb:nth-child(3) {
-            width: 400px;
-            height: 400px;
-            top: 40%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: radial-gradient(circle, var(--nebula-color-3), transparent 70%);
-            animation-duration: 30s;
-            animation-delay: -10s;
-            opacity: 0.3;
-        }
-
-        @keyframes nebulaFloat {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
-
-            33% {
-                transform: translate(40px, -30px) scale(1.1) rotate(5deg);
-            }
-
-            66% {
-                transform: translate(-20px, 40px) scale(0.95) rotate(-3deg);
-            }
-
-            100% {
-                transform: translate(30px, -10px) scale(1.05) rotate(2deg);
-            }
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 28px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px) scale(0.92);
-            padding: 14px 22px;
-            background: var(--surface-solid);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-xl), var(--shadow-glow);
-            border: 1px solid var(--border);
-            z-index: var(--z-toast);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-                opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0;
-            pointer-events: none;
-            max-width: 480px;
-            width: 90%;
-            background: var(--surface);
-            border-left: 4px solid var(--primary);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .toast.active {
-            transform: translateX(-50%) translateY(0) scale(1);
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .toast-success {
-            border-left-color: #10B981;
-        }
-
-        .toast-error {
-            border-left-color: #EF4444;
-        }
-
-        .toast-warning {
-            border-left-color: #f39c12;
-        }
-
-        .toast-info {
-            border-left-color: #06b6d4;
-        }
-
-        /* ===== CARD ===== */
-        .login-container {
-            width: 100%;
-            max-width: 440px;
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.96);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .login-card {
-            background: var(--surface);
-            backdrop-filter: blur(32px) saturate(180%);
-            -webkit-backdrop-filter: blur(32px) saturate(180%);
-            border-radius: var(--radius-xl);
-            padding: 32px 24px 28px;
-            box-shadow: var(--shadow-xl), var(--shadow-glow);
-            border: 1px solid var(--glass-border);
-            transition: background var(--transition), border var(--transition);
-        }
-
-        .login-brand {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .login-brand .logo-wrap {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 68px;
-            height: 68px;
-            border-radius: var(--radius-full);
-            background: var(--primary-gradient);
-            box-shadow: 0 8px 32px rgba(243, 156, 18, 0.25);
-            margin-bottom: 10px;
-            transition: transform 0.4s ease;
-        }
-
-        .login-brand .logo-wrap:hover {
-            transform: scale(1.04) rotate(-2deg);
-        }
-
-        .login-brand .logo-wrap img {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-full);
-            object-fit: cover;
-        }
-
-        .login-brand h1 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text);
-            line-height: 1.2;
-        }
-
-        .login-brand h1 span {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .login-brand p {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-top: 2px;
-        }
-
-        /* ===== TABS ===== */
-        .tab-bar {
-            display: flex;
-            border-radius: var(--radius-sm);
-            background: var(--background);
-            padding: 4px;
-            margin-bottom: 22px;
-            border: 1px solid var(--border);
-        }
-
-        .tab-bar button {
-            flex: 1;
-            padding: 10px 0;
-            border: none;
-            background: transparent;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            font-family: var(--font-family);
-            position: relative;
-        }
-
-        .tab-bar button.active-tab {
-            background: var(--surface-solid);
-            color: var(--primary);
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--glass-border);
-        }
-
-        .tab-bar button:hover:not(.active-tab) {
-            color: var(--text);
-        }
-
-        .tab-panel {
-            display: none;
-            animation: fadeUp 0.3s ease;
-        }
-
-        .tab-panel.active-panel {
-            display: block;
-        }
-
-        /* ===== FORM ===== */
-        .input-group {
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .input-group .input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.1rem;
-            color: var(--text-light);
-            pointer-events: none;
-            transition: color 0.3s ease;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 14px 14px 46px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: var(--background);
-            color: var(--text);
-            font-size: 0.95rem;
-            font-family: var(--font-family);
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.08);
-        }
-
-        .input-group input:focus+.input-icon,
-        .input-group input:focus~.input-icon {
-            color: var(--primary);
-        }
-
-        .input-group input[aria-invalid="true"] {
-            border-color: #EF4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
-        }
-
-        .input-error {
-            color: #EF4444;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-top: 4px;
-            min-height: 20px;
-        }
-
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 6px 0 20px;
-            font-size: 0.8rem;
-        }
-
-        .form-options label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-light);
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .form-options label input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        .form-options a {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .form-options a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: var(--radius-sm);
-            background: var(--primary-gradient);
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            font-family: var(--font-family);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 20px rgba(243, 156, 18, 0.25);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-btn:hover:not(:disabled) {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 6px 32px rgba(243, 156, 18, 0.35);
-        }
-
-        .login-btn:active:not(:disabled) {
-            transform: scale(0.97);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .login-btn .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
-        .login-btn.loading .spinner {
-            display: inline-block;
-        }
-
-        .login-btn.loading .btn-text {
-            display: none;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 0.75rem;
-            color: var(--text-light);
-        }
-
-        .login-footer a {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .login-footer a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-
-        /* ===== THEME TOGGLE (floating) ===== */
-        .theme-toggle-float {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-full);
-            background: var(--surface);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            color: var(--text);
-            display: grid;
-            place-items: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .theme-toggle-float:hover {
-            background: var(--primary-gradient);
-            color: #fff;
-            border-color: transparent;
-            transform: scale(1.05);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 24px 16px 20px;
-            }
-
-            .login-brand .logo-wrap {
-                width: 56px;
-                height: 56px;
-            }
-
-            .login-brand .logo-wrap img {
-                width: 36px;
-                height: 36px;
-            }
-
-            .login-brand h1 {
-                font-size: 1rem;
-            }
-
-            .input-group input {
-                padding: 12px 12px 12px 40px;
-                font-size: 0.9rem;
-            }
-
-            .login-btn {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-
-            .theme-toggle-float {
-                top: 12px;
-                right: 12px;
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-
-            .tab-bar button {
-                font-size: 0.75rem;
-                padding: 8px 0;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .login-container {
-                max-width: 460px;
-            }
-
-            .login-card {
-                padding: 40px 32px 32px;
-            }
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--background);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-light);
-            border-radius: 999px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-
-        /* ===== PRINT ===== */
-        @media print {
-
-            .nebula-bg,
-            .theme-toggle-float,
-            .toast {
-                display: none !important;
-            }
-
-            body {
-                background: #fff !important;
-            }
-
-            .login-card {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+<meta name="theme-color" content="#0a1224" />
+<title>Admin Login · PSBS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+<link rel="icon" type="image/png" href="school.jpg" />
 <style>
-/* Refined portal finishing touches, matching the main PSBS experience */
-.login-container{max-width:470px}
-.login-card{position:relative;overflow:hidden;box-shadow:var(--shadow-xl),var(--shadow-glow);border-color:var(--glass-border)}
-.login-card:before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--primary-gradient)}
-.login-brand .logo-wrap{width:76px;height:76px;border-radius:24px;transform:rotate(-3deg);box-shadow:0 12px 34px rgba(243,156,18,.28)}
-.login-brand .logo-wrap img{width:50px;height:50px;border-radius:50%}
-.login-brand h1{letter-spacing:-.6px;font-size:1.35rem}
-.tab-bar{border-radius:13px}
-.tab-bar button{border-radius:10px;min-height:44px}
-.input-group input{border-radius:12px;min-height:52px}
-.login-btn{border-radius:12px;min-height:52px}
-.portal-assurance{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:17px 8px 0;color:var(--text-light);font-size:.72rem}
-.portal-assurance span{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(12px);border-radius:999px}
-.portal-assurance i{color:var(--primary);font-size:.95rem}
-.portal-caption{text-align:center;color:var(--text-light);font-size:.72rem;margin:10px 0 0;letter-spacing:.2px}
-.theme-toggle-float{box-shadow:var(--shadow-md);backdrop-filter:blur(14px)}
-@media(max-width:480px){body{padding:14px}.login-card{padding:28px 19px 23px}.portal-assurance{gap:7px}.portal-assurance span{font-size:.66rem;padding:6px 8px}}
-@media(prefers-reduced-motion:reduce){.nebula-bg .orb{animation:none!important}}
-</style>
-<style id="psbs-premium-login">
-:root{--radius-sm:13px;--radius-md:18px;--radius-lg:25px;--radius-xl:32px;--shadow-glow:0 24px 80px rgba(171,111,13,.13)}
-body{background:radial-gradient(ellipse at 12% 12%,rgba(245,176,65,.18),transparent 34%),radial-gradient(ellipse at 88% 82%,rgba(247,220,111,.18),transparent 32%),var(--background)}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.23;background-image:radial-gradient(rgba(177,126,35,.22) .7px,transparent .7px);background-size:19px 19px;mask-image:linear-gradient(120deg,#000,transparent 72%)}
-.login-container{max-width:468px;padding:18px;position:relative;z-index:1}
-.login-card{position:relative;overflow:hidden;padding:clamp(25px,5vw,38px) clamp(20px,5vw,34px) 30px;border:1px solid rgba(255,255,255,.82);background:linear-gradient(145deg,rgba(255,255,255,.91),rgba(255,255,255,.68));box-shadow:0 32px 90px rgba(93,66,20,.12),0 8px 24px rgba(93,66,20,.06),inset 0 1px 0 #fff;border-radius:32px}
-.login-card:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,#d68910,#f7dc6f,#f39c12);opacity:.95}
-.login-card:after{content:"";position:absolute;right:-72px;top:86px;width:170px;height:170px;border-radius:50%;border:1px solid rgba(243,156,18,.12);box-shadow:0 0 0 22px rgba(243,156,18,.025),0 0 0 46px rgba(243,156,18,.02);pointer-events:none}
-.login-brand,.tab-bar,.tab-panel,.login-card form{position:relative;z-index:1}.login-brand{margin-bottom:25px}
-.login-brand .logo-wrap{width:78px;height:78px;border-radius:25px;transform:rotate(-3deg);box-shadow:0 13px 28px rgba(211,137,16,.25),inset 0 1px 0 rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.7)}
-.login-brand .logo-wrap img{border-radius:17px;width:49px;height:49px}.login-brand h1{font-size:clamp(1.18rem,4vw,1.42rem);letter-spacing:-.045em}
-.login-brand p{display:inline-flex;align-items:center;gap:7px;margin-top:10px;padding:7px 12px;border-radius:999px;background:rgba(243,156,18,.09);border:1px solid rgba(243,156,18,.14);font-size:.76rem;letter-spacing:.015em}
-.tab-bar{padding:5px;border-radius:15px;background:rgba(148,163,184,.11);border:1px solid rgba(148,163,184,.13)}.tab-bar button{border-radius:11px;padding:12px 8px;font-size:.88rem}
-.tab-bar button.active-tab{background:var(--surface-solid);box-shadow:0 5px 14px rgba(30,41,59,.07);border-color:rgba(243,156,18,.18)}
-.input-group{margin-bottom:16px}.input-group input{height:54px;border-radius:15px!important;border:1px solid rgba(148,163,184,.25)!important;background:rgba(255,255,255,.54)!important;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
-.input-group input:focus{border-color:rgba(243,156,18,.72)!important;box-shadow:0 0 0 4px rgba(243,156,18,.11)!important;transform:translateY(-1px)}.input-icon{left:16px}
-.login-btn{min-height:54px;border-radius:15px;box-shadow:0 12px 24px rgba(211,137,16,.2),inset 0 1px 0 rgba(255,255,255,.25);letter-spacing:.01em}.login-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 16px 30px rgba(211,137,16,.26)}
-.form-options{margin:4px 0 19px}.theme-toggle-float{width:44px;height:44px;border-radius:15px!important;border:1px solid rgba(255,255,255,.8)!important;box-shadow:0 8px 24px rgba(50,40,20,.1);backdrop-filter:blur(18px)}
-@media(max-width:480px){.login-container{padding:14px;width:100%}.login-card{padding:28px 20px 24px;border-radius:26px}.login-brand .logo-wrap{width:68px;height:68px}.login-brand .logo-wrap img{width:43px;height:43px}.input-group input{height:51px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
-body.dark .login-card{background:linear-gradient(145deg,rgba(30,41,59,.94),rgba(15,23,42,.9));border-color:rgba(255,255,255,.08)}body.dark .input-group input{background:rgba(15,23,42,.42)!important}
-</style><style id="psbs-login-v2">
-/* ===== Layout: split hero (desktop) + card; keyboard-safe on mobile ===== */
-html{height:100%}
-body{gap:clamp(32px,7vw,96px);min-height:var(--vvh,100dvh);overflow-x:hidden;position:relative}
-.login-container{margin:auto 0}
-.login-hero{display:none}
-@media(min-width:960px){
-  .login-hero{display:flex;flex-direction:column;gap:22px;position:relative;z-index:1;flex:1 1 0;max-width:500px;animation:rise .8s cubic-bezier(.16,1,.3,1) both}
-  .login-container{flex:0 0 468px;width:468px}
+/* =====================================================================
+   PSBS Admin Login — one coherent stylesheet
+   Layout: dark "control room" brand panel + clean sign-in card.
+   Theme presets (gold, cyan, coral, indigo, red, rose, teal, yellow) and light/dark are preserved.
+   ===================================================================== */
+:root{
+  --p:#f39c12; --p-dark:#d68910; --p-light:#f5b041; --p-rgb:243,156,18; --on-p:#2a1b00;
+  --bg:#f3f5fa; --card:#ffffff; --field:#f6f8fc; --line:#e1e6ef;
+  --text:#0f172a; --muted:#64748b; --link:#b86e00;
+  --display:'Plus Jakarta Sans','Poppins',system-ui,sans-serif;
 }
-.hero-badge{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.22);color:var(--primary-dark);font-weight:600;font-size:.82rem}
-.login-hero h2{margin:0;font-size:clamp(2.2rem,3.6vw,3.2rem);line-height:1.1;letter-spacing:-.04em;font-weight:800}
-.login-hero h2 em{font-style:normal;background:linear-gradient(90deg,#d68910,#f5b041,#d68910);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 5s linear infinite}
-.login-hero>p{margin:0;font-size:1.02rem;color:var(--text-light);line-height:1.65;max-width:44ch}
-.hero-points{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:12px}
-.hero-points li{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:18px;background:var(--surface);border:1px solid var(--border);backdrop-filter:blur(14px);box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s}
-.hero-points li:hover{transform:translateX(6px);box-shadow:var(--shadow-md)}
-.hero-points i{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:22px;flex:none;color:#fff;background:var(--primary-gradient);box-shadow:0 8px 18px rgba(243,156,18,.3)}
-.hero-points b{display:block;font-size:.98rem}.hero-points span{font-size:.86rem;color:var(--text-light)}
-.hero-float{position:absolute;font-size:2rem;opacity:.9;filter:drop-shadow(0 10px 14px rgba(0,0,0,.12));animation:bob 6s ease-in-out infinite}
-.hero-float.f1{right:4%;top:-6%}.hero-float.f2{right:-4%;bottom:8%;animation-delay:-2s}.hero-float.f3{left:46%;bottom:-8%;animation-delay:-4s}
-@keyframes bob{50%{transform:translateY(-14px) rotate(6deg)}}
-@keyframes sheen{to{background-position:200% center}}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
-.shake{animation:shake .45s}
-/* Card: staggered entrance */
-.login-brand,.tab-bar,.login-footer{animation:rise .6s both}
-.login-brand{animation-delay:.1s}.tab-bar{animation-delay:.2s}.login-footer{animation-delay:.55s}
-.tab-panel.active-panel .input-group,.tab-panel.active-panel .form-options,.tab-panel.active-panel .login-btn,.tab-panel.active-panel p{animation:rise .5s both}
-.tab-panel.active-panel .input-group:nth-of-type(1){animation-delay:.28s}.tab-panel.active-panel .input-group:nth-of-type(2){animation-delay:.34s}
-.tab-panel.active-panel .input-group:nth-of-type(3){animation-delay:.4s}.tab-panel.active-panel .input-group:nth-of-type(4){animation-delay:.46s}
-.tab-panel.active-panel .form-options,.tab-panel.active-panel p{animation-delay:.46s}.tab-panel.active-panel .login-btn{animation-delay:.52s}
-.login-brand p.greet{margin:12px 0 0;padding:0;border:0;background:none;display:block;font-size:.88rem;color:var(--text-light);font-weight:500;letter-spacing:0}
-.logo-wrap{animation:bob 7s ease-in-out infinite}
-.login-card.is-success .logo-wrap{animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
-@keyframes pop{40%{transform:scale(1.25) rotate(8deg)}}
-/* Sliding tab indicator */
-.tab-bar{position:relative;display:grid!important;grid-template-columns:1fr 1fr}
-.tab-bar::before{content:"";position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:11px;background:var(--surface-solid);box-shadow:0 6px 16px rgba(30,41,59,.1);transition:transform .45s cubic-bezier(.2,1.1,.3,1)}
-.tab-bar:has(.active-tab[data-tab="signup"])::before{transform:translateX(100%)}
-.tab-bar button,.tab-bar button.active-tab{position:relative;z-index:1;background:transparent!important;box-shadow:none!important;border-color:transparent!important}
-.tab-bar button.active-tab{color:var(--primary-dark)}
-/* Inputs: 16px stops mobile zoom, room for the eye button */
-.input-group input{font-size:16px!important}
-.input-group input[type="password"],.input-group input.has-toggle{padding-right:54px}
-.pw-toggle{position:absolute;right:4px;top:0;height:54px;width:46px;border:0;background:none;border-radius:14px;color:var(--text-light);cursor:pointer;display:grid;place-items:center;font-size:1.2rem;transition:color .2s,transform .2s}
-.pw-toggle:hover,.pw-toggle:focus-visible{color:var(--primary);transform:scale(1.1);outline:none}
-.input-group.focus-in .input-icon{transform:translateY(-50%) scale(1.15)}
-.input-group input[aria-invalid="true"]{border-color:#ef4444!important;box-shadow:0 0 0 4px rgba(239,68,68,.1)!important}
-.caps-hint{display:none;align-items:center;gap:6px;margin:-2px 0 6px;font-size:.76rem;color:#b45309;font-weight:600}
+body.dark{
+  --bg:#080e1c; --card:#101a2f; --field:rgba(255,255,255,.04); --line:rgba(255,255,255,.1);
+  --text:#e9eef8; --muted:#94a3b8; --link:var(--p-light);
+}
+body.theme-cyan  {--p:#06b6d4;--p-dark:#0891b2;--p-light:#67e8f9;--p-rgb:6,182,212;--on-p:#042f3a;--link:#0e7490}
+body.theme-coral {--p:#e85d75;--p-dark:#c0394b;--p-light:#f1948a;--p-rgb:232,93,117;--on-p:#fff;--link:#c0394b}
+body.theme-indigo{--p:#4f46e5;--p-dark:#4338ca;--p-light:#818cf8;--p-rgb:79,70,229;--on-p:#fff;--link:#4338ca}
+body.theme-red   {--p:#e74c3c;--p-dark:#c0392b;--p-light:#f1948a;--p-rgb:231,76,60;--on-p:#fff;--link:#c0392b}
+body.theme-rose  {--p:#e11d48;--p-dark:#be123c;--p-light:#fb7185;--p-rgb:225,29,72;--on-p:#fff;--link:#be123c}
+body.theme-teal  {--p:#27ae9e;--p-dark:#1f8a7a;--p-light:#48c9b0;--p-rgb:39,174,158;--on-p:#04231f;--link:#1f8a7a}
+body.theme-yellow{--p:#f1c40f;--p-dark:#d4ac0d;--p-light:#f7dc6f;--p-rgb:241,196,15;--on-p:#2e2500;--link:#946f00}
+body.theme-gold  {--p:#f39c12;--p-dark:#d68910;--p-light:#f5b041;--p-rgb:243,156,18;--on-p:#2a1b00;--link:#b86e00}
+body.dark.theme-cyan,body.dark.theme-coral,body.dark.theme-indigo,body.dark.theme-red,body.dark.theme-rose,
+body.dark.theme-teal,body.dark.theme-yellow,body.dark.theme-gold{--link:var(--p-light)}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s,color .3s}
+button,input{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p);outline-offset:3px}
+
+/* ---------- shell ---------- */
+.shell{position:relative;min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr)}
+@media(min-width:980px){.shell{grid-template-columns:minmax(0,1.04fr) minmax(0,1fr)}}
+
+/* ---------- brand panel (always dark: the "control room") ---------- */
+.brand-side{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;gap:22px;color:#e8edf7;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 22px 84px;
+  background:linear-gradient(160deg,#08101f 0%,#0f1b36 55%,#16264b 100%)}
+.fx{position:absolute;inset:0;z-index:-1;pointer-events:none;transition:transform .4s ease-out}
+.fx::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(85% 75% at 25% 25%,#000,transparent);mask-image:radial-gradient(85% 75% at 25% 25%,#000,transparent)}
+.glow{position:absolute;border-radius:50%;animation:drift 16s ease-in-out infinite alternate}
+.g1{width:420px;height:420px;top:-170px;right:-120px;background:radial-gradient(circle,rgba(var(--p-rgb),.5),transparent 68%)}
+.g2{width:360px;height:360px;bottom:-140px;left:-120px;background:radial-gradient(circle,rgba(70,100,255,.38),transparent 68%);animation-delay:-7s}
+.watermark{position:absolute;right:-34px;bottom:-40px;font-size:280px;line-height:1;color:rgba(255,255,255,.035)}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(26px,18px,0) scale(1.08)}}
+
+.brand{display:inline-flex;align-items:center;gap:12px;width:fit-content;text-decoration:none;color:#fff}
+.logo-wrap{position:relative;flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:23px;color:var(--p-light);background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);overflow:hidden}
+.logo-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6px;background:#fff}
+.brand-txt{display:flex;flex-direction:column;line-height:1.2}
+.brand-txt b{font-family:var(--display);font-size:16px;font-weight:800;letter-spacing:-.01em}
+.brand-txt small{font-size:11px;color:#9fb0cc;letter-spacing:.04em}
+
+.brand-body{display:flex;flex-direction:column;gap:16px;margin:auto 0}
+.eyebrow{display:none;align-items:center;gap:8px;width:fit-content;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--p-light);background:rgba(var(--p-rgb),.12);border:1px solid rgba(var(--p-rgb),.3)}
+.live{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.brand-body h2{font-family:var(--display);font-size:clamp(24px,6vw,30px);font-weight:800;line-height:1.12;letter-spacing:-.03em;color:#fff}
+.brand-body h2 em{font-style:normal;background:linear-gradient(90deg,var(--p-light),#fff 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead,.points,.chips,.brand-foot{display:none}
+
+/* ---------- form side ---------- */
+.form-side{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin-top:-60px;padding:0 14px calc(26px + env(safe-area-inset-bottom,0px))}
+.theme-toggle{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:20;width:42px;height:42px;display:grid;place-items:center;border-radius:14px;cursor:pointer;font-size:19px;
+  color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .2s,background .2s}
+.theme-toggle:hover{transform:rotate(14deg)}
+
+.login-card{position:relative;width:100%;max-width:440px;padding:28px 22px 22px;border-radius:26px;background:var(--card);border:1px solid var(--line);
+  box-shadow:0 30px 60px -28px rgba(8,16,40,.45),0 2px 0 rgba(255,255,255,.04) inset;transition:background .3s,border-color .3s}
+.login-card::before{content:"";position:absolute;top:-1px;left:34px;right:34px;height:3px;border-radius:0 0 6px 6px;background:linear-gradient(90deg,transparent,var(--p),transparent)}
+.card-head{text-align:center;margin-bottom:4px}
+.shield{position:relative;width:64px;height:64px;margin:0 auto 14px;display:grid;place-items:center;border-radius:20px;font-size:30px;color:var(--on-p);
+  background:linear-gradient(135deg,var(--p),var(--p-light));box-shadow:0 16px 30px -12px rgba(var(--p-rgb),.85),inset 0 1px 0 rgba(255,255,255,.45)}
+.shield::after{content:"";position:absolute;inset:-7px;border-radius:26px;border:1.5px solid rgba(var(--p-rgb),.35);animation:ring 3s ease-out infinite}
+@keyframes ring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.2);opacity:0}}
+.card-head h1{font-family:var(--display);font-size:25px;font-weight:800;letter-spacing:-.025em;line-height:1.2}
+.card-sub{margin-top:2px;font-size:13px;color:var(--muted)}
+.greet{margin-top:8px;font-size:12.5px;color:var(--muted)}
+
+/* tabs: segmented control with a sliding thumb */
+.tab-bar{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;margin:18px 0 20px;border-radius:16px;background:var(--field);border:1px solid var(--line)}
+.tab-bar::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:12px;background:var(--card);border:1px solid var(--line);box-shadow:0 6px 14px -8px rgba(15,23,42,.45);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+body.dark .tab-bar::before{background:rgba(255,255,255,.09)}
+.tab-bar[data-active="signup"]::before{transform:translateX(100%)}
+.tab-bar button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 8px;border:0;border-radius:12px;background:none;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:color .2s}
+.tab-bar button.active-tab{color:var(--text)}
+.tab-bar button.active-tab i{color:var(--p)}
+
+.tab-panel{display:none}
+.tab-panel.active-panel{display:block;animation:panelIn .35s ease both}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* fields */
+.input-group{margin-bottom:14px}
+.input-group>label{display:block;margin:0 0 6px 2px;font-size:12.5px;font-weight:600}
+.field{position:relative}
+.field input[type="text"],.field input[type="email"],.field input[type="password"]{width:100%;height:50px;padding:0 46px 0 46px;border-radius:14px;border:1.5px solid var(--line);background:var(--field);color:var(--text);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.field input::placeholder{color:var(--muted);opacity:.65}
+.field input:focus{border-color:var(--p);background:var(--card);box-shadow:0 0 0 4px rgba(var(--p-rgb),.16)}
+.field input[aria-invalid="true"]{border-color:#ef4444;box-shadow:0 0 0 4px rgba(239,68,68,.12)}
+.input-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--muted);pointer-events:none;transition:color .2s}
+.input-group.focus-in .input-icon{color:var(--p)}
+.pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:10px;background:none;color:var(--muted);font-size:18px;cursor:pointer;transition:background .2s,color .2s}
+.pw-toggle:hover{background:rgba(var(--p-rgb),.12);color:var(--link)}
+.input-error{margin:6px 0 0 2px;font-size:12px;font-weight:500;color:#ef4444}
+.input-error:empty{display:none}
+.caps-hint{display:none;align-items:center;gap:6px;margin:-6px 0 12px 2px;font-size:12px;font-weight:500;color:#b45309}
+body.dark .caps-hint{color:#fbbf24}
 .caps-hint.show{display:flex}
-.strength{display:flex;align-items:center;gap:6px;margin:-8px 0 8px}
-.strength i{flex:1;height:5px;border-radius:9px;background:rgba(148,163,184,.25);transition:background .3s}
-.strength span{font-size:.74rem;font-weight:700;min-width:48px;text-align:right;color:var(--text-light)}
-.strength[data-l="1"] i:nth-child(-n+1){background:#ef4444}.strength[data-l="2"] i:nth-child(-n+2){background:#f59e0b}
-.strength[data-l="3"] i:nth-child(-n+3){background:#84cc16}.strength[data-l="4"] i{background:#16a34a}
-/* Button polish */
-.login-btn{position:relative;overflow:hidden}
-.login-btn::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-90px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);pointer-events:none;transition:left .7s}
-.login-btn:hover:not(:disabled)::after{left:calc(100% + 30px)}
-.login-btn:active:not(:disabled){transform:scale(.98)}
-.confetti{position:fixed;z-index:100000;pointer-events:none;font-size:20px;animation:conf 1s cubic-bezier(.2,.8,.3,1) forwards}
-@keyframes conf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
-/* Keyboard open: the page becomes a scroller sized to the visible area */
-html.kb-open{overflow:hidden}
-.kb-open body{position:fixed;left:0;right:0;top:var(--vvt,0px);height:var(--vvh);min-height:0;overflow-y:auto;overscroll-behavior:contain;align-items:flex-start;padding-top:12px;padding-bottom:16px}
-.kb-open .login-container{margin:auto}
-.kb-open .login-brand{margin-bottom:12px}.kb-open .greet,.kb-open .login-brand p,.kb-open .portal-assurance,.kb-open .portal-caption,.kb-open .login-hero{display:none}
-.kb-open .login-brand .logo-wrap{width:48px;height:48px;animation:none}.kb-open .login-brand .logo-wrap img{width:30px;height:30px}
-.kb-open .theme-toggle-float{top:calc(var(--vvt,0px) + 10px)}
-.login-card form{scroll-margin:20px}
-@media(max-width:480px){.pw-toggle{height:51px}.login-card{margin-top:44px}.kb-open .login-card{margin-top:0}}
-body.dark .login-hero h2{color:#f1f5f9}body.dark .tab-bar::before{background:rgba(255,255,255,.1)}body.dark .pw-toggle{color:#94a3b8}
-body.dark .hero-badge{color:var(--primary-light)}
-@media(prefers-reduced-motion:reduce){.hero-float,.logo-wrap,.login-hero h2 em{animation:none!important}}
-</style>
+.hint{display:flex;gap:8px;align-items:flex-start;margin:2px 0 16px;padding:10px 12px;border-radius:12px;font-size:12px;color:var(--muted);background:rgba(var(--p-rgb),.08);border:1px solid rgba(var(--p-rgb),.2)}
+.hint i{color:var(--p);font-size:15px;margin-top:1px}
 
-<style id="psbs-login-v3">
-/* ===== No card: form sits directly on the page, aligned on a full-screen stage ===== */
-body{display:block!important;padding:0!important;gap:0!important}
-.login-card{background:none!important;border:0!important;box-shadow:none!important;padding:0!important;border-radius:0!important;overflow:visible!important;margin-top:0!important;backdrop-filter:none!important}
-.login-card::before,.login-card::after{display:none!important}
-.stage{display:flex;align-items:center;justify-content:center;gap:clamp(32px,8vw,120px);max-width:1280px;margin:0 auto;min-height:calc(var(--vvh,100dvh) - 82px);padding:clamp(8px,3vw,28px) clamp(18px,4vw,48px) 44px}
-.login-container{flex:0 1 430px;width:100%;max-width:440px;margin:0!important;padding:0!important;position:relative}
-.login-container::before{content:"";position:absolute;inset:-40px -12px;z-index:-1;background:radial-gradient(closest-side,rgba(243,156,18,.14),transparent);pointer-events:none}
-@media(min-width:960px){.login-hero{flex:1 1 0;max-width:520px}.login-container{flex:0 0 430px}}
-/* Form header: left-aligned with the fields; the logo lives in the site header now */
-.login-brand{text-align:left!important;margin-bottom:22px}
-.login-brand .logo-wrap{display:none}
-.login-brand h1{font-size:clamp(1.7rem,4.6vw,2.2rem)!important;letter-spacing:-.04em;margin:0 0 10px}
-.login-brand p{margin-left:0!important}
-.login-footer{text-align:left!important;margin-top:20px}
-.portal-assurance{justify-content:flex-start;margin:20px 0 0}.portal-caption{text-align:left;margin-top:10px}
-/* Scrollable site header + menu (scrolls away with the page) */
-.site-header{position:relative;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1280px;margin:0 auto;padding:16px clamp(18px,4vw,48px);animation:rise .6s both}
-.sh-brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;min-width:0}
-.sh-brand .lg{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;flex:none;overflow:hidden;background:var(--primary-gradient);box-shadow:0 8px 20px rgba(243,156,18,.3)}
-.sh-brand .lg img{width:30px;height:30px;border-radius:50%;object-fit:cover}
-.sh-txt{min-width:0}.sh-brand b{display:block;font-size:1.05rem;line-height:1.15;letter-spacing:-.02em;white-space:nowrap}
-.sh-brand .sh-sub{display:block;font-size:.74rem;font-weight:600;color:var(--primary-dark)}
-.sh-right{display:flex;align-items:center;gap:8px}
-.sh-nav{display:flex;align-items:center;gap:4px}
-.sh-nav a,.sh-nav .sh-cta{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border-radius:13px;color:var(--text);font:600 .9rem var(--font-family);text-decoration:none;border:0;background:none;cursor:pointer;transition:background .2s,color .2s,transform .2s}
-.sh-nav a:hover,.sh-nav a:focus-visible{background:rgba(var(--primary-rgb,243,156,18),.12);color:var(--primary-dark);outline:none}
-.sh-nav a i,.sh-nav .sh-cta i{font-size:1.1rem;color:var(--primary)}
-.sh-nav .sh-cta{background:var(--primary-gradient);color:#fff;box-shadow:0 8px 18px rgba(243,156,18,.28);margin-left:6px}
-.sh-nav .sh-cta i{color:#fff}.sh-nav .sh-cta:hover{transform:translateY(-2px)}
-.site-header .theme-toggle-float{position:static!important;top:auto;right:auto;width:44px;height:44px;flex:none}
-.sh-menu-btn{display:none;width:44px;height:44px;border-radius:15px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(14px);color:var(--text);font-size:1.4rem;cursor:pointer;place-items:center}
-@media(max-width:820px){
-  .sh-menu-btn{display:grid}
-  .sh-nav{position:absolute;top:calc(100% - 4px);right:clamp(18px,4vw,48px);width:min(290px,calc(100vw - 36px));flex-direction:column;align-items:stretch;gap:2px;padding:8px;border-radius:22px;background:var(--surface-solid);border:1px solid var(--border);box-shadow:0 24px 60px rgba(15,23,42,.22);opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);transform-origin:top right;transition:opacity .2s,transform .2s,visibility .2s}
-  .sh-nav.open{opacity:1;visibility:visible;transform:none}
-  .sh-nav a,.sh-nav .sh-cta{min-height:50px;font-size:.95rem;border-radius:14px}.sh-nav .sh-cta{margin:6px 0 0;justify-content:center}
-  .stage{min-height:0;padding-top:4px;align-items:flex-start}
-  .login-container{max-width:480px;flex-basis:auto}
+.strength{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:5px;align-items:center;margin:-6px 0 14px}
+.strength i{height:4px;border-radius:4px;background:var(--line);transition:background .25s}
+.strength span{min-width:46px;text-align:right;font-size:11px;font-weight:600;color:var(--muted)}
+.strength[data-l="1"] i:nth-child(-n+1){background:#ef4444}
+.strength[data-l="2"] i:nth-child(-n+2){background:#f59e0b}
+.strength[data-l="3"] i:nth-child(-n+3){background:#84cc16}
+.strength[data-l="4"] i:nth-child(-n+4){background:#22c55e}
+
+.form-options{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 18px;font-size:13px}
+.form-options label{display:inline-flex;align-items:center;gap:9px;color:var(--muted);cursor:pointer;user-select:none}
+.form-options input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:19px;height:19px;border-radius:6px;border:1.5px solid var(--line);background:var(--field);display:grid;place-items:center;cursor:pointer;transition:all .2s}
+.form-options input[type="checkbox"]::after{content:"";width:9px;height:5px;border:2px solid var(--on-p);border-top:0;border-right:0;transform:rotate(-45deg) scale(0);margin-top:-2px;transition:transform .15s}
+.form-options input[type="checkbox"]:checked{background:linear-gradient(135deg,var(--p),var(--p-light));border-color:var(--p)}
+.form-options input[type="checkbox"]:checked::after{transform:rotate(-45deg) scale(1)}
+.form-options a{font-weight:600;color:var(--link);text-decoration:none}
+.form-options a:hover{text-decoration:underline}
+
+.login-btn{position:relative;overflow:hidden;width:100%;height:52px;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:15px;cursor:pointer;font-size:15.5px;font-weight:700;letter-spacing:.01em;color:var(--on-p);
+  background:linear-gradient(135deg,var(--p),var(--p-light));box-shadow:0 18px 30px -14px rgba(var(--p-rgb),.95),inset 0 1px 0 rgba(255,255,255,.45);transition:transform .2s,box-shadow .2s,filter .2s}
+.login-btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.login-btn:hover::after{left:130%}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 22px 34px -14px rgba(var(--p-rgb),1),inset 0 1px 0 rgba(255,255,255,.45)}
+.login-btn:active{transform:scale(.985)}
+.login-btn:disabled{cursor:progress;filter:saturate(.8)}
+.btn-text{display:inline-flex;align-items:center;gap:8px}
+.btn-text i{font-size:19px}
+.spinner{display:none;width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(0,0,0,.18);border-top-color:currentColor;animation:spin .7s linear infinite}
+.login-btn.loading .spinner{display:block}
+.login-btn.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.switch-note{margin-top:16px;text-align:center;font-size:13px;color:var(--muted)}
+.switch-note button{border:0;background:none;font-weight:700;color:var(--link);cursor:pointer}
+.switch-note button:hover{text-decoration:underline}
+
+.assure{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;font-size:12px;color:var(--muted)}
+.assure span{display:inline-flex;align-items:center;gap:6px}
+.assure i{color:#22c55e;font-size:15px}
+.form-foot{text-align:center;font-size:12.5px;color:var(--muted)}
+.form-foot a{text-decoration:none;font-weight:600;color:var(--link)}
+.form-foot a:hover{text-decoration:underline}
+.foot-links{display:flex;gap:14px;justify-content:center;margin-top:6px}
+
+/* states */
+.shake{animation:shake .45s cubic-bezier(.36,.07,.19,.97)}
+@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+.login-card.is-success{animation:okpulse .9s ease}
+@keyframes okpulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}100%{box-shadow:0 0 0 22px rgba(34,197,94,0)}}
+.confetti{position:fixed;z-index:99998;font-size:18px;pointer-events:none;animation:confetti 1s ease-out forwards}
+@keyframes confetti{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+
+/* toast */
+.toast{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;z-index:99999;display:flex;align-items:center;gap:10px;width:max-content;min-width:min(92vw,300px);max-width:min(92vw,420px);padding:13px 14px 13px 18px;
+  border-radius:16px;background:var(--card);color:var(--text);border:1px solid var(--line);box-shadow:0 24px 44px -18px rgba(0,0,0,.5);
+  opacity:0;visibility:hidden;transform:translate(-50%,-130%);transition:transform .38s cubic-bezier(.2,.9,.3,1.15),opacity .25s,visibility .25s}
+.toast.active{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.toast::before{content:"";position:absolute;left:0;top:11px;bottom:11px;width:4px;border-radius:0 4px 4px 0;background:var(--p)}
+.toast-success::before{background:#22c55e}.toast-error::before{background:#ef4444}.toast-warning::before{background:#f59e0b}.toast-info::before{background:#3b82f6}
+.toast-icon{font-size:18px;flex:none}
+.toast-message{flex:1;font-size:13.5px;font-weight:500;line-height:1.4}
+.toast-close{flex:none;border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:2px 4px;cursor:pointer}
+
+/* keyboard open on phones: give the form the room */
+.kb-open .brand-body,.kb-open .assure{display:none}
+.kb-open .shell{padding-bottom:var(--kb,0px)}
+html{scroll-padding:80px 0 120px}
+.kb-open .brand-side{padding-bottom:70px;gap:0}
+
+/* ---------- tablet ---------- */
+@media(min-width:640px){
+  .brand-side{padding:calc(26px + env(safe-area-inset-top,0px)) 40px 96px}
+  .brand-body h2{font-size:34px}
+  .login-card{padding:32px 30px 26px}
 }
-@media(max-width:380px){.sh-brand .sh-sub{display:none}.sh-brand b{font-size:.98rem}}
-.kb-open .stage{min-height:0;align-items:flex-start;padding-bottom:24px}.kb-open .site-header{padding-bottom:6px}
-body.dark .sh-nav a,body.dark .sh-nav .sh-cta{color:#e2e8f0}body.dark .sh-nav .sh-cta{color:#fff}
+
+/* ---------- desktop: split screen ---------- */
+@media(min-width:980px){
+  .brand-side{padding:44px 56px 40px;gap:0}
+  .brand-body{gap:20px;max-width:540px}
+  .eyebrow{display:inline-flex}
+  .brand-body h2{font-size:clamp(38px,3.6vw,52px)}
+  .lead{display:block;max-width:470px;font-size:15px;line-height:1.65;color:#a9b7d0}
+  .points{display:grid;gap:12px;list-style:none;margin-top:6px}
+  .points li{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .25s,border-color .25s,background .25s}
+  .points li:hover{transform:translateX(4px);border-color:rgba(var(--p-rgb),.4);background:rgba(255,255,255,.07)}
+  .points i{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;font-size:20px;color:var(--p-light);background:rgba(var(--p-rgb),.14)}
+  .points b{display:block;font-size:14px;color:#fff}
+  .points span{font-size:12.5px;color:#9fb0cc}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips span{padding:6px 12px;border-radius:999px;font-size:12px;font-weight:500;color:#c4d0e6;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+  .brand-foot{display:block;margin-top:28px;font-size:12px;color:#7d8dab}
+
+  .form-side{margin-top:0;padding:56px 40px;background:radial-gradient(60% 50% at 100% 0%,rgba(var(--p-rgb),.1),transparent 70%),var(--bg)}
+  .theme-toggle{top:24px;right:28px;color:var(--text);background:var(--card);border-color:var(--line);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 8px 20px -12px rgba(15,23,42,.4)}
+  .kb-open .brand-body{display:flex}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
-
 </head>
-
 <body>
 
-    <!-- ===== NEBULA ===== -->
-    <div class="nebula-bg" aria-hidden="true">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
+<div class="toast" id="toast" role="alert" aria-live="polite">
+  <span class="toast-icon" aria-hidden="true">✅</span>
+  <span class="toast-message"></span>
+  <button type="button" class="toast-close" aria-label="Close notification">✕</button>
+</div>
+
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="ri-moon-line" id="themeIcon" aria-hidden="true"></i></button>
+
+<main class="shell" id="main">
+
+  <!-- ===== BRAND PANEL ===== -->
+  <section class="brand-side">
+    <div class="fx" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><i class="ri-shield-keyhole-fill watermark"></i></div>
+
+    <a class="brand" href="index.html" aria-label="Pabitra School home">
+      <span class="logo-wrap"><i class="ri-graduation-cap-fill" aria-hidden="true"></i><img src="logo.png" alt="" width="46" height="46" onerror="this.style.display='none'" /></span>
+      <span class="brand-txt"><b>Pabitra Secondary</b><small>Boarding School · Admin Console</small></span>
+    </a>
+
+    <div class="brand-body">
+      <span class="eyebrow"><span class="live" aria-hidden="true"></span> Secure admin access</span>
+      <h2>Welcome back,<br /><em>administrator.</em></h2>
+      <p class="lead">One calm workspace to keep the school's notices, documents, gallery, faculty and calendar up to date.</p>
+      <ul class="points">
+        <li><i class="ri-shield-check-line" aria-hidden="true"></i><div><b>Server-verified sessions</b><span>Every dashboard action is checked on the server.</span></div></li>
+        <li><i class="ri-user-follow-line" aria-hidden="true"></i><div><b>Approval-based access</b><span>New admins are approved by a senior administrator.</span></div></li>
+        <li><i class="ri-layout-grid-line" aria-hidden="true"></i><div><b>Everything in one place</b><span>Publish and edit the public website in a few taps.</span></div></li>
+      </ul>
+      <div class="chips" aria-hidden="true"><span>📢 Notices</span><span>📄 Documents</span><span>🖼️ Gallery</span><span>🎓 Faculty</span><span>📅 Calendar</span></div>
     </div>
 
-    <!-- ===== TOAST ===== -->
-    <div class="toast" id="toast" role="alert" aria-live="polite">
-        <span class="toast-icon" aria-hidden="true">✅</span>
-        <span class="toast-message"></span>
-        <button class="toast-close" aria-label="Close notification"
-            style="background:none;border:none;font-size:1.2rem;color:var(--text-light);cursor:pointer;padding:0 4px;">✕</button>
+    <p class="brand-foot">Quality education, thoughtfully connected.</p>
+  </section>
+
+  <!-- ===== SIGN-IN SIDE ===== -->
+  <section class="form-side">
+    <div class="login-card">
+
+      <div class="card-head">
+        <div class="shield" aria-hidden="true"><i class="ri-shield-user-fill"></i></div>
+        <h1>Admin sign in</h1>
+        <p class="card-sub">Secure access to the PSBS dashboard</p>
+        <p class="greet" id="greet"></p>
+      </div>
+
+      <div class="tab-bar" role="tablist" data-active="signin">
+        <button class="active-tab" data-tab="signin" role="tab" aria-selected="true"><i class="ri-login-circle-line" aria-hidden="true"></i> Sign In</button>
+        <button data-tab="signup" role="tab" aria-selected="false"><i class="ri-user-add-line" aria-hidden="true"></i> Request Access</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div class="tab-panel active-panel" id="panel-signin" role="tabpanel">
+        <form id="loginForm" novalidate autocomplete="off">
+          <div class="input-group">
+            <label for="emailInput">Admin email</label>
+            <div class="field">
+              <input type="email" id="emailInput" placeholder="admin@psbs.edu.np" required autofocus aria-required="true" autocomplete="off" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+            </div>
+            <div class="input-error" id="emailError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="passwordInput">Password</label>
+            <div class="field">
+              <input type="password" id="passwordInput" placeholder="Enter your password" required aria-required="true" autocomplete="new-password" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-lock-password-line"></i></span>
+            </div>
+            <div class="input-error" id="passwordError" role="alert"></div>
+          </div>
+
+          <div class="form-options">
+            <label><input type="checkbox" id="rememberMe" checked /> Remember me</label>
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text"><i class="ri-shield-keyhole-line" aria-hidden="true"></i> Sign In</span>
+          </button>
+        </form>
+        <p class="switch-note">Need an account? <button type="button" id="goSignup">Request access</button></p>
+      </div>
+
+      <!-- REQUEST ACCESS -->
+      <div class="tab-panel" id="panel-signup" role="tabpanel">
+        <form id="signupForm" novalidate autocomplete="off">
+          <div class="input-group">
+            <label for="signupName">Full name</label>
+            <div class="field">
+              <input type="text" id="signupName" placeholder="Your full name" required aria-required="true" autocomplete="off" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-user-3-line"></i></span>
+            </div>
+            <div class="input-error" id="signupNameError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupEmail">Email address</label>
+            <div class="field">
+              <input type="email" id="signupEmail" placeholder="admin@psbs.edu.np" required aria-required="true" autocomplete="off" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+            </div>
+            <div class="input-error" id="signupEmailError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupPassword">Create a password</label>
+            <div class="field">
+              <input type="password" id="signupPassword" placeholder="Create a password (min 8 chars)" required aria-required="true" autocomplete="new-password" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
+            </div>
+            <div class="input-error" id="signupPasswordError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupConfirm">Confirm password</label>
+            <div class="field">
+              <input type="password" id="signupConfirm" placeholder="Confirm password" required aria-required="true" autocomplete="new-password" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-check-double-line"></i></span>
+            </div>
+            <div class="input-error" id="signupConfirmError" role="alert"></div>
+          </div>
+
+          <p class="hint"><i class="ri-information-line" aria-hidden="true"></i><span>Your request will be sent to senior admins for approval.</span></p>
+
+          <button type="submit" class="login-btn" id="signupBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text"><i class="ri-send-plane-2-line" aria-hidden="true"></i> Request Access</span>
+          </button>
+        </form>
+        <p class="switch-note">Already approved? <button type="button" id="goSignin">Sign in</button></p>
+      </div>
+
     </div>
 
-
-
-    <!-- ===== SITE HEADER (scrolls with the page) ===== -->
-    <header class="site-header">
-        <a class="sh-brand" href="index.html" aria-label="Pabitra School home">
-            <span class="lg"><img src="logo.png" alt="" width="30" height="30" onerror="this.style.display='none'" /></span>
-            <span class="sh-txt"><b>Pabitra School</b><span class="sh-sub">Admin Portal</span></span>
-        </a>
-        <div class="sh-right">
-            <nav class="sh-nav" id="shNav" aria-label="Site menu">
-                <a href="index.html"><i class="ri-home-4-line" aria-hidden="true"></i> Home</a>
-                <a href="calendar.html"><i class="ri-calendar-line" aria-hidden="true"></i> Calendar</a>
-                <a href="gallery.html"><i class="ri-gallery-line" aria-hidden="true"></i> Gallery</a>
-                <button type="button" class="sh-cta" id="shRequest"><i class="ri-user-add-line" aria-hidden="true"></i> Request access</button>
-            </nav>
-            <button class="theme-toggle-float" id="themeToggle" aria-label="Toggle theme">
-                <i class="ri-moon-line" id="themeIcon" aria-hidden="true"></i>
-            </button>
-            <button type="button" class="sh-menu-btn" id="shMenuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="shNav"><i class="ri-menu-3-line" aria-hidden="true"></i></button>
-        </div>
-    </header>
-
-    <main class="stage" id="main">
-
-    <!-- ===== HERO (desktop only, decorative) ===== -->
-    <aside class="login-hero" aria-hidden="true">
-        <div class="hero-badge"><i class="ri-sparkling-line"></i> PSBS Admin Studio</div>
-        <h2>Run your school <em>beautifully</em>.</h2>
-        <p>One calm workspace for notices, documents, gallery, faculty, calendar and school information.</p>
-        <ul class="hero-points">
-            <li><i class="ri-megaphone-line"></i><div><b>Notices &amp; documents</b><span>Publish announcements and share resources.</span></div></li>
-            <li><i class="ri-image-line"></i><div><b>Gallery &amp; faculty</b><span>Keep campus life and staff up to date.</span></div></li>
-            <li><i class="ri-calendar-event-line"></i><div><b>Calendar &amp; school info</b><span>Edit B.S. calendar data and contacts.</span></div></li>
-        </ul>
-        <span class="hero-float f1">📢</span><span class="hero-float f2">🎓</span><span class="hero-float f3">📅</span>
-    </aside>
-
-    <!-- ===== LOGIN CONTAINER ===== -->
-    <div class="login-container">
-        <div class="login-card">
-
-            <div class="login-brand">
-                <div class="logo-wrap">
-                    <img src="logo.png" alt="PSBS Logo" width="48" height="48" />
-                </div>
-                <h1>Pabitra <span>Secondary</span></h1>
-                <p>🏫 Admin Portal · Secure Access</p>
-            </div>
-
-            <!-- ===== TABS ===== -->
-            <div class="tab-bar" role="tablist">
-                <button class="active-tab" data-tab="signin" role="tab" aria-selected="true">Sign In</button>
-                <button data-tab="signup" role="tab" aria-selected="false">Request Access</button>
-            </div>
-
-            <!-- ===== SIGN IN PANEL ===== -->
-            <div class="tab-panel active-panel" id="panel-signin" role="tabpanel">
-                <form id="loginForm" novalidate autocomplete="off">
-                    <div class="input-group">
-                        <input type="email" id="emailInput" placeholder="admin@psbs.edu.np" required autofocus
-                            aria-required="true" autocomplete="off" />
-                        <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
-                        <div class="input-error" id="emailError" role="alert"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="password" id="passwordInput" placeholder="Enter your password" required
-                            aria-required="true" autocomplete="new-password" />
-                        <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
-                        <div class="input-error" id="passwordError" role="alert"></div>
-                    </div>
-
-                    <div class="form-options">
-                        <label>
-                            <input type="checkbox" id="rememberMe" checked />
-                            Remember me
-                        </label>
-                        <a href="#" id="forgotLink">Forgot password?</a>
-                    </div>
-
-                    <button type="submit" class="login-btn" id="loginBtn">
-                        <span class="spinner" aria-hidden="true"></span>
-                        <span class="btn-text"><i class="ri-shield-keyhole-line" aria-hidden="true"></i> Sign In</span>
-                    </button>
-                </form>
-            </div>
-
-            <!-- ===== REQUEST ACCESS PANEL ===== -->
-            <div class="tab-panel" id="panel-signup" role="tabpanel">
-                <form id="signupForm" novalidate autocomplete="off">
-                    <div class="input-group">
-                        <input type="text" id="signupName" placeholder="Your Full Name" required aria-required="true"
-                            autocomplete="off" />
-                        <span class="input-icon" aria-hidden="true"><i class="ri-user-3-line"></i></span>
-                        <div class="input-error" id="signupNameError" role="alert"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="email" id="signupEmail" placeholder="admin@psbs.edu.np" required
-                            aria-required="true" autocomplete="off" />
-                        <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
-                        <div class="input-error" id="signupEmailError" role="alert"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="password" id="signupPassword" placeholder="Create a password (min 8 chars)"
-                            required aria-required="true" autocomplete="new-password" />
-                        <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
-                        <div class="input-error" id="signupPasswordError" role="alert"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="password" id="signupConfirm" placeholder="Confirm password" required
-                            aria-required="true" autocomplete="new-password" />
-                        <span class="input-icon" aria-hidden="true"><i class="ri-check-double-line"></i></span>
-                        <div class="input-error" id="signupConfirmError" role="alert"></div>
-                    </div>
-
-                    <p style="font-size:0.7rem;color:var(--text-light);margin:-6px 0 14px;">
-                        <i class="ri-information-line"></i> Your request will be sent to senior admins for approval.
-                    </p>
-
-                    <button type="submit" class="login-btn" id="signupBtn">
-                        <span class="spinner" aria-hidden="true"></span>
-                        <span class="btn-text"><i class="ri-send-plane-2-line" aria-hidden="true"></i> Request
-                            Access</span>
-                    </button>
-                </form>
-            </div>
-
-            <div class="login-footer">
-                <p>🌸 Radhe Radhe · <a href="index.html">← Back to Home</a></p>
-            </div>
-        </div>
-        <div class="portal-assurance"><span><i class="ri-shield-check-line"></i> Protected admin access</span><span><i class="ri-sparkling-line"></i> PSBS digital campus</span></div>
-        <p class="portal-caption">Quality education, thoughtfully connected.</p>
+    <div class="assure"><span><i class="ri-shield-check-fill" aria-hidden="true"></i> Protected admin access</span><span><i class="ri-server-line" aria-hidden="true"></i> Server-checked sessions</span></div>
+    <div class="form-foot">
+      <p>🌸 Radhe Radhe · <a href="index.html"><i class="ri-arrow-left-line" aria-hidden="true"></i> Back to website</a></p>
+      <div class="foot-links"><a href="calendar.html">Calendar</a><a href="gallery.html">Gallery</a></div>
     </div>
-    </main>
+  </section>
+</main>
 
-    <!-- ============================================================
-    SUPABASE
-    ============================================================ -->
-    <!-- ============================================================
-    SUPABASE SETUP (placeholders – replace with your actual keys)
-    ============================================================ -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Your actual keys
@@ -1157,6 +455,7 @@ body.dark .sh-nav a,body.dark .sh-nav .sh-cta{color:#e2e8f0}body.dark .sh-nav .s
         const panels = { signin: document.getElementById('panel-signin'), signup: document.getElementById('panel-signup') };
         tabs.forEach(btn => btn.addEventListener('click', function () {
             const tab = this.getAttribute('data-tab');
+            this.parentNode.setAttribute('data-active', tab);
             tabs.forEach(b => { b.classList.remove('active-tab'); b.setAttribute('aria-selected','false'); });
             this.classList.add('active-tab'); this.setAttribute('aria-selected','true');
             Object.values(panels).forEach(p => p.classList.remove('active-panel'));
@@ -1245,6 +544,7 @@ body.dark .sh-nav a,body.dark .sh-nav .sh-cta{color:#e2e8f0}body.dark .sh-nav .s
 /* ===== Login experience layer (does not touch the sign-in / request-access logic) ===== */
 (function(){
   var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+
   /* 1) Autofill off at the root, re-applied if anything changes it */
   var SKIP=['checkbox','radio','button','submit','hidden'];
   function off(el){
@@ -1258,42 +558,59 @@ body.dark .sh-nav a,body.dark .sh-nav .sh-cta{color:#e2e8f0}body.dark .sh-nav .s
   function sweep(r){if(r.nodeType!==1)return;off(r);$$('input,textarea,select,form',r).forEach(off);}
   sweep(document.documentElement);
   new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==='attributes')off(m.target);else m.addedNodes.forEach(sweep);});}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['autocomplete']});
-  /* 2) Keyboard: track the visible viewport so the card rises above the keyboard in every browser */
+
+  /* 2) Keyboard: lift the form above the on-screen keyboard in every environment.
+        - Acode WebView: layout does not resize, visualViewport does.
+        - Chrome/Firefox (resizes-content): the layout viewport itself shrinks, so visualViewport.height === innerHeight.
+        - iOS Safari: keyboard overlays; only visualViewport shrinks.
+     We remember the full height while no field is focused and compare against it, so all three are detected. */
   var vv=window.visualViewport,root=document.documentElement;
+  var isField=function(el){return !!(el&&el.matches&&el.matches('input,textarea,select'));};
+  var base=Math.max(innerHeight,vv?vv.height:0),scrollT=0;
+  function ensureVisible(){
+    var a=document.activeElement;if(!isField(a))return;
+    var vh=(vv&&vv.scale<=1.01)?vv.height:innerHeight,r=a.getBoundingClientRect();
+    if(r.bottom>vh-24||r.top<72)a.scrollIntoView({block:'center',behavior:'smooth'});
+  }
   function sync(){
-    var zoomed=vv&&vv.scale>1.01,h=(vv&&!zoomed)?vv.height:innerHeight,t=(vv&&!zoomed)?vv.offsetTop:0;
-    root.style.setProperty('--vvh',h+'px');root.style.setProperty('--vvt',t+'px');
-    var kb=(innerHeight-h-t>80)||h<innerHeight*.75;
+    var zoomed=vv&&vv.scale>1.01,vh=(vv&&!zoomed)?vv.height:innerHeight,vt=(vv&&!zoomed)?vv.offsetTop:0;
+    var focused=isField(document.activeElement);
+    if(!focused)base=Math.max(innerHeight,vh);
+    var shrunk=(base-vh-vt>120)||(base-innerHeight>120);
+    var kb=shrunk||(focused&&matchMedia('(pointer:coarse)').matches&&innerWidth<980);
+    root.style.setProperty('--vvh',vh+'px');root.style.setProperty('--vvt',vt+'px');
+    root.style.setProperty('--kb',Math.max(0,innerHeight-vh-vt)+'px');
     root.classList.toggle('kb-open',!!kb);
-    var a=document.activeElement;
-    if(kb&&a&&a.matches&&a.matches('input'))setTimeout(function(){a.scrollIntoView({block:'center',behavior:'smooth'});},80);
+    if(kb){clearTimeout(scrollT);scrollT=setTimeout(ensureVisible,120);}
   }
   if(vv){vv.addEventListener('resize',sync);vv.addEventListener('scroll',sync);}
-  addEventListener('resize',sync);addEventListener('orientationchange',sync);
-  document.addEventListener('focusin',function(){setTimeout(sync,320);});
+  addEventListener('resize',sync);
+  addEventListener('orientationchange',function(){base=0;setTimeout(sync,350);});
+  document.addEventListener('focusin',function(){sync();setTimeout(sync,350);});
   document.addEventListener('focusout',function(){setTimeout(sync,320);});
   sync();
+
   /* 3) Friendly greeting */
   var h=new Date().getHours(),g=h<5?['Still up?','🌙']:h<12?['Good morning','🌅']:h<17?['Good afternoon','☀️']:h<21?['Good evening','🌆']:['Good night','🌙'];
-  var p=document.createElement('p');p.className='greet';p.id='greet';p.textContent='Namaste 🙏 '+g[0]+' '+g[1]+' · welcome back!';
-  var br=$('.login-brand');if(br)br.appendChild(p);
-  /* 4) Labels, eye buttons, caps-lock hint, focus glow */
-  var labels={emailInput:'Admin email',passwordInput:'Password',signupName:'Full name',signupEmail:'Email address',signupPassword:'Create a password',signupConfirm:'Confirm password'};
-  Object.keys(labels).forEach(function(id){var e=document.getElementById(id);if(e&&!e.getAttribute('aria-label'))e.setAttribute('aria-label',labels[id]);});
+  var gr=$('#greet'); if(gr) gr.textContent='Namaste 🙏 '+g[0]+' '+g[1]+' · welcome back!';
+
+  /* 4) Eye buttons, caps-lock hint, focus state, clear errors while typing */
   $$('.input-group').forEach(function(gp){
     var inp=$('input',gp);if(!inp)return;
     inp.addEventListener('focus',function(){gp.classList.add('focus-in');});
     inp.addEventListener('blur',function(){gp.classList.remove('focus-in');});
     inp.addEventListener('input',function(){inp.removeAttribute('aria-invalid');var er=$('.input-error',gp);if(er&&er.textContent)er.textContent='';});
     if(inp.type!=='password')return;
+    var field=$('.field',gp)||gp;
     var b=document.createElement('button');b.type='button';b.className='pw-toggle';b.setAttribute('aria-label','Show password');b.innerHTML='<i class="ri-eye-line" aria-hidden="true"></i>';
     b.addEventListener('click',function(){var s=inp.type==='password';inp.type=s?'text':'password';b.firstChild.className=s?'ri-eye-off-line':'ri-eye-line';b.setAttribute('aria-label',s?'Hide password':'Show password');inp.focus({preventScroll:true});});
-    gp.appendChild(b);
-    var cap=document.createElement('div');cap.className='caps-hint';cap.innerHTML='<i class="ri-arrow-up-circle-line"></i> Caps Lock is on';gp.after(cap);
+    field.appendChild(b);
+    var cap=document.createElement('div');cap.className='caps-hint';cap.innerHTML='<i class="ri-arrow-up-circle-line" aria-hidden="true"></i> Caps Lock is on';gp.after(cap);
     var chk=function(e){if(e.getModifierState)cap.classList.toggle('show',e.getModifierState('CapsLock'));};
     inp.addEventListener('keydown',chk);inp.addEventListener('keyup',chk);inp.addEventListener('blur',function(){cap.classList.remove('show');});
   });
-  /* 5) Password strength (signup) */
+
+  /* 5) Password strength (request access) */
   var sp=document.getElementById('signupPassword');
   if(sp){
     var m=document.createElement('div');m.className='strength';m.dataset.l='0';m.setAttribute('aria-live','polite');m.innerHTML='<i></i><i></i><i></i><i></i><span></span>';
@@ -1303,14 +620,15 @@ body.dark .sh-nav a,body.dark .sh-nav .sh-cta{color:#e2e8f0}body.dark .sh-nav .s
       if(!v)s=0;m.dataset.l=s;m.lastChild.textContent=['','Weak','Okay','Good','Strong'][s];
     });
   }
-  var ph=document.getElementById('signupPassword');if(ph)ph.placeholder='Create a password (min 8 chars)';
-  /* 6) Shake on validation errors */
+
+  /* 6) Shake the field on validation errors */
   $$('.input-error').forEach(function(er){
     new MutationObserver(function(){
       if(!er.textContent)return;var gp=er.closest('.input-group'),inp=$('input',gp);
       if(inp)inp.setAttribute('aria-invalid','true');gp.classList.remove('shake');void gp.offsetWidth;gp.classList.add('shake');
     }).observe(er,{childList:true,characterData:true,subtree:true});
   });
+
   /* 7) Celebrate success, nudge on error (watches the existing toast) */
   var card=$('.login-card'),toast=$('#toast');
   function burst(){
@@ -1326,32 +644,23 @@ body.dark .sh-nav a,body.dark .sh-nav .sh-cta{color:#e2e8f0}body.dark .sh-nav .s
     if(toast.classList.contains('toast-success')){card.classList.add('is-success');burst();setTimeout(function(){card.classList.remove('is-success');},900);}
     else if(toast.classList.contains('toast-error')){card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');}
   }).observe(toast,{attributes:true,attributeFilter:['class']});
+
   /* 8) Forgot password: there is no automated reset flow, so say so clearly */
   var fl=document.getElementById('forgotLink');
   if(fl)fl.addEventListener('click',function(e){e.preventDefault();showToast('Password resets are handled by a senior administrator. Please contact one.','info');});
-  /* 9) Gentle parallax on the background glow (desktop pointers only) */
-  var neb=$('.nebula-bg');
-  if(neb&&matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches)
-    addEventListener('pointermove',function(e){neb.style.transform='translate3d('+((e.clientX/innerWidth-.5)*-26)+'px,'+((e.clientY/innerHeight-.5)*-26)+'px,0)';},{passive:true});
-})();
-</script>
 
-<script>
-/* Header menu: toggle on phones, close on outside tap / Escape / link; "Request access" opens that tab */
-(function(){
-  var nav=document.getElementById('shNav'),btn=document.getElementById('shMenuBtn'),req=document.getElementById('shRequest');
-  function setOpen(o){nav.classList.toggle('open',o);btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Close menu':'Open menu');btn.firstChild.className=o?'ri-close-line':'ri-menu-3-line';}
-  btn.addEventListener('click',function(e){e.stopPropagation();setOpen(!nav.classList.contains('open'));});
-  document.addEventListener('click',function(e){if(nav.classList.contains('open')&&!nav.contains(e.target))setOpen(false);});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('open')){setOpen(false);btn.focus();}});
-  nav.addEventListener('click',function(e){if(e.target.closest('a'))setOpen(false);});
-  req.addEventListener('click',function(){
-    setOpen(false);var t=document.querySelector('.tab-bar button[data-tab="signup"]');if(t)t.click();
-    var bar=document.querySelector('.tab-bar');if(bar)setTimeout(function(){bar.scrollIntoView({behavior:'smooth',block:'center'});},120);
-  });
+  /* 9) Tab switch links inside the card */
+  function goTab(t){var b=$('.tab-bar button[data-tab="'+t+'"]');if(b)b.click();}
+  var gs=document.getElementById('goSignup'),gi=document.getElementById('goSignin');
+  if(gs)gs.addEventListener('click',function(){goTab('signup');});
+  if(gi)gi.addEventListener('click',function(){goTab('signin');});
+
+  /* 10) Gentle parallax on the background glow (desktop pointers only) */
+  var fx=$('.fx');
+  if(fx&&matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches)
+    addEventListener('pointermove',function(e){fx.style.transform='translate3d('+((e.clientX/innerWidth-.5)*-22)+'px,'+((e.clientY/innerHeight-.5)*-22)+'px,0)';},{passive:true});
 })();
 </script>
 
 </body>
-
 </html>

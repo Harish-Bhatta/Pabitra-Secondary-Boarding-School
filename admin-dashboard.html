@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#f39c12">
 <title>Admin Studio · Pabitra Secondary Boarding School</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -6127,6 +6127,78 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 }
 </style>
 
+<style id="quick-notice-card">
+.quick-notice-wrap{container-type:inline-size;width:100%;margin:0 0 14px}
+.quick-notice-row{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.quick-notice-card{--qc:243,156,18;position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;gap:12px;width:100%;min-width:0;padding:10px;border-radius:18px;border:1px solid rgba(var(--qc),.28);background:linear-gradient(135deg,rgba(var(--qc),.14),rgba(var(--qc),.04) 60%),var(--surface);box-shadow:0 10px 24px -14px rgba(var(--qc),.65),inset 0 1px 0 rgba(255,255,255,.7);color:var(--text);text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.quick-notice-card:hover{transform:translateY(-2px);border-color:rgb(var(--qc));box-shadow:0 16px 28px -14px rgba(var(--qc),.75),inset 0 1px 0 rgba(255,255,255,.8)}
+.quick-notice-card:active{transform:scale(.98)}
+.quick-notice-card:focus-visible{outline:2px solid rgb(var(--qc));outline-offset:3px}
+.qn-glow{position:absolute;z-index:-1;right:-28px;top:-34px;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle,rgba(var(--qc),.28),transparent 70%);pointer-events:none}
+.qn-icon{flex:0 0 42px;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:21px;color:#fff;background:linear-gradient(135deg,rgb(var(--qc)),rgba(var(--qc),.7));box-shadow:0 8px 16px -8px rgba(var(--qc),.9),inset 0 1px 0 rgba(255,255,255,.4)}
+.qn-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.qn-text small{font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgb(var(--qc))}
+.qn-text b{font-size:15px;font-weight:800;letter-spacing:-.01em;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qn-text em{font-style:normal;font-size:11.5px;color:var(--text-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qn-go{flex:0 0 32px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:18px;color:rgb(var(--qc));background:rgba(255,255,255,.7);border:1px solid rgba(var(--qc),.3);transition:transform .25s ease,background .25s ease,color .25s ease}
+.quick-notice-card:hover .qn-go{transform:rotate(90deg);background:rgb(var(--qc));color:#fff}
+#quickPending:hover .qn-go{transform:translateX(2px)}
+.qn-count{flex:0 0 auto;min-width:22px;height:22px;padding:0 7px;border-radius:999px;display:inline-grid;place-items:center;font-size:11px;font-weight:800;color:#fff;background:rgb(var(--qc));box-shadow:0 0 0 3px rgba(var(--qc),.18)}
+.qn-count[hidden]{display:none}
+body.dark .quick-notice-card{box-shadow:0 10px 24px -14px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06)}
+body.dark .qn-go{background:rgba(255,255,255,.08)}
+/* Show more shortcuts as the available width grows */
+.quick-notice-card:nth-child(n+2){display:none}
+@container (min-width:560px){.quick-notice-row{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-notice-card:nth-child(-n+2){display:flex}}
+@container (min-width:800px){.quick-notice-row{grid-template-columns:repeat(3,minmax(0,1fr))}.quick-notice-card:nth-child(-n+3){display:flex}}
+@container (min-width:1040px){.quick-notice-row{grid-template-columns:repeat(4,minmax(0,1fr))}.quick-notice-card:nth-child(-n+4){display:flex}}
+@container (min-width:1280px){.quick-notice-row{grid-template-columns:repeat(5,minmax(0,1fr))}.quick-notice-card:nth-child(-n+5){display:flex}}
+@media(prefers-reduced-motion:reduce){.quick-notice-card,.qn-go{transition:none}}
+</style>
+<style id="hero-v2">
+.hero-v2{background:radial-gradient(120% 140% at 100% 0%,color-mix(in srgb,var(--primary) 55%,transparent),transparent 55%),linear-gradient(135deg,#17233a,#1f3150 62%,color-mix(in srgb,var(--primary-dark) 55%,#1f3150));border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:clamp(18px,3.5vw,32px);box-shadow:0 22px 44px -22px rgba(var(--primary-rgb,243,156,18),.55),inset 0 1px 0 rgba(255,255,255,.14)}
+.hero-v2:before{display:none}
+.hero-v2:after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.5px) 0 0/18px 18px;-webkit-mask-image:linear-gradient(100deg,transparent 35%,#000);mask-image:linear-gradient(100deg,transparent 35%,#000);font-size:0}
+.hv2-orb{position:absolute;z-index:-1;right:-60px;bottom:-90px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%)}
+.hv2-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hv2-school{display:inline-flex;align-items:center;gap:7px;font-family:"Plus Jakarta Sans","Poppins",sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--primary-light,#f5b041)}
+.hv2-school i{font-size:14px}
+.hv2-date{font-family:"Plus Jakarta Sans","Poppins",sans-serif;font-size:11px;font-weight:600;color:#cbd5e1;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.hv2-greet{margin:16px 0 2px;font-size:13px;font-weight:500;color:#e2e8f0}
+.hero-v2 h1{font-family:"Plus Jakarta Sans","Poppins",sans-serif;font-size:clamp(22px,3.6vw,34px);font-weight:800;letter-spacing:-.035em;line-height:1.18;margin:0 0 10px;max-width:560px;color:#fff}
+.hero-v2 h1 span{background:linear-gradient(90deg,var(--primary-light,#f5b041),#fff 140%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-v2 p{max-width:520px;font-size:13px;line-height:1.6;color:#cbd5e1;margin:0}
+.hero-v2 .hero-foot{margin-top:18px;gap:8px}
+.hero-v2 .pill{font-size:11px;font-weight:600;padding:7px 12px;background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.hero-v2 .pill i{color:var(--primary-light,#f5b041)}
+@media(max-width:480px){.hero-v2{border-radius:20px}.hero-v2 p{font-size:12.5px}}
+</style>
+<style id="exit-card-style">
+.dlg-card.exit{position:relative;overflow:hidden;padding:30px 22px 22px;border-radius:26px}
+.dlg-card.exit:before{content:"";position:absolute;inset:0 0 auto 0;height:96px;background:radial-gradient(120% 100% at 50% 0%,rgba(var(--primary-rgb),.22),transparent 70%);pointer-events:none}
+.dlg-card.exit .dlg-icon{position:relative;width:68px;height:68px;border-radius:22px;font-size:30px;color:#fff;background:var(--primary-gradient);box-shadow:0 14px 26px -10px rgba(var(--primary-rgb),.8),inset 0 1px 0 rgba(255,255,255,.4)}
+.dlg-card.exit h3{position:relative;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.dlg-card.exit .dlg-msg{position:relative;margin-bottom:22px}
+.dlg-card.exit .dlg-actions{gap:12px}
+.dlg-card.exit .dlg-actions .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;border-radius:15px;font-size:15px;font-weight:700;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.dlg-card.exit .dlg-actions .btn:active{transform:scale(.97)}
+.dlg-card.exit #dlgCancel{background:rgba(var(--primary-rgb),.1);border:1.5px solid rgba(var(--primary-rgb),.35);color:var(--primary-dark,#d68910)}
+.dlg-card.exit #dlgCancel:hover{background:rgba(var(--primary-rgb),.18)}
+.dlg-card.exit #dlgOk{background:linear-gradient(135deg,#ef4444,#e11d48);border:1px solid rgba(190,18,60,.6);color:#fff;box-shadow:0 12px 22px -10px rgba(225,29,72,.7),inset 0 1px 0 rgba(255,255,255,.3)}
+.dlg-card.exit #dlgOk:hover{transform:translateY(-1px);box-shadow:0 16px 26px -10px rgba(225,29,72,.8),inset 0 1px 0 rgba(255,255,255,.3)}
+.dlg-card.exit .btn i{font-size:18px}
+body.dark .dlg-card.exit #dlgCancel{color:var(--primary-light,#f5b041)}
+</style>
+<style id="ov-notice-overflow-fix">
+.ov-panel,.ov-grid>*{min-width:0}
+.ov-list{grid-template-columns:minmax(0,1fr)}
+.ov-item{min-width:0;max-width:100%;box-sizing:border-box}
+.ov-item .tx{min-width:0;overflow:hidden}
+#ovNotices .ov-item{align-items:flex-start}
+#ovNotices .ov-item b{white-space:normal;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow-wrap:anywhere;word-break:break-word}
+#ovNotices .ov-item small{display:block;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#ovNotices .ov-item>i:last-child{align-self:center}
+</style>
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -6196,6 +6268,12 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
         <button class="sidebar-link-btn ripple-host" id="sidebarSearchBtn" type="button"><span class="nav-icon-wrapper"><i class="ri-search-2-line"></i></span><span class="nav-title">Search</span><span class="nav-kbd">Ctrl K</span></button>
       </div>
     </nav>
+    <nav class="sidebar-group" aria-label="Share">
+      <div class="sidebar-group-title"><span>Community</span><span class="title-line"></span></div>
+      <div class="sidebar-links">
+        <button class="sidebar-link-btn ripple-host" id="sidebarShareBtn" type="button"><span class="nav-icon-wrapper"><i class="ri-share-line"></i></span><span class="nav-title">Share Page</span></button>
+      </div>
+    </nav>
     <nav class="sidebar-group" aria-label="Connect">
       <div class="sidebar-group-title"><span>Connect</span><span class="title-line"></span></div>
       <div class="sidebar-links">
@@ -6259,8 +6337,8 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
     <div id="notice" class="notice" role="status" aria-live="polite"></div>
 
     <section class="view" id="view-overview">
-      <div class="overview-back-row"><button type="button" class="btn slim overview-back-btn" id="overviewBackBtn"><i class="ri-home-4-line" aria-hidden="true"></i> Back to website</button></div>
-      <div class="hero-admin"><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:#f9c65e;">Pabitra Secondary Boarding School</div><h1 id="welcome">A better way to manage your school.</h1><p>One calm, beautifully organised workspace for the school's notices, documents, gallery, calendar, faculty and information. Designed to make everyday updates simple.</p><div class="hero-foot"><span class="pill"><span class="live-dot"></span> Session verified</span><span class="pill"><i class="ri-smartphone-line"></i> Mobile friendly</span><span class="pill"><i class="ri-hand-coin-line"></i> Easy editing</span></div></div>
+      <div class="quick-notice-wrap"><div class="quick-notice-row"><button type="button" class="quick-notice-card" id="quickAddNotice" style="--qc:243,156,18" aria-label="Add a notice"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-megaphone-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add a notice</b><em>Publish an announcement in seconds</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickAddGallery" style="--qc:244,114,94" aria-label="Add gallery photo"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-image-add-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add gallery photo</b><em>Add a new campus image</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickAddDocument" style="--qc:232,89,129" aria-label="Add a document"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-file-upload-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add a document</b><em>Share a file or resource</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickAddFaculty" style="--qc:224,72,72" aria-label="Add faculty"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-user-add-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add faculty</b><em>Add a teacher or staff member</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickPending" style="--qc:196,52,92" aria-label="Pending users"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-user-follow-fill"></i></span><span class="qn-text"><small>Approvals</small><b>Pending users</b><em>Review account requests</em></span><span class="qn-count" id="quickPendingCount" hidden>0</span><span class="qn-go" aria-hidden="true"><i class="ri-arrow-right-line"></i></span></button></div></div>
+      <div class="hero-admin hero-v2"><span class="hv2-orb" aria-hidden="true"></span><div class="hv2-top"><span class="hv2-school"><i class="ri-graduation-cap-fill" aria-hidden="true"></i> Pabitra Secondary Boarding School</span><span class="hv2-date" id="heroDate"></span></div><div class="hv2-greet" id="heroGreeting">Welcome back</div><h1 id="welcome">Keep your school <span>up to date</span>, effortlessly.</h1><p>Publish notices, share documents, update the gallery, calendar and faculty — all from one simple workspace.</p><div class="hero-foot"><span class="pill"><span class="live-dot"></span> Session verified</span><span class="pill"><i class="ri-smartphone-line"></i> Mobile friendly</span><span class="pill"><i class="ri-edit-2-line"></i> Easy editing</span></div></div>
       <div class="stats">
         <div class="stat"><div class="stat-top">Content areas <span class="stat-icon"><i class="ri-apps-2-line"></i></span></div><strong>6</strong><small>Public website collections</small></div>
         <div class="stat"><div class="stat-top">Current collection <span class="stat-icon"><i class="ri-database-2-line"></i></span></div><strong id="overviewRecords">—</strong><small>Records currently loaded</small></div>
@@ -7345,26 +7423,8 @@ function psbsPushBackGuard(){
   try { history.pushState({psbsAdminGuard:true}, '', window.location.href); } catch(e) {}
 }
 psbsPushBackGuard();
-window.addEventListener('popstate', function(){
-  const sidebarOpen = DOM.sidebar && DOM.sidebar.classList.contains('active');
-  const editorOpen = $('editor') && $('editor').classList.contains('open');
-  if (sidebarOpen || editorOpen || State.isSearchOpen || State.isDropdownOpen || State.isThemePresetsOpen) {
-    if (State.isSearchOpen) closeSearch();
-    if (State.isThemePresetsOpen) closeThemePresets();
-    if (State.isDropdownOpen) closeProfileDropdown();
-    if (sidebarOpen) closeSidebar();
-    if (editorOpen) closeEditor();
-    psbsPushBackGuard();
-    return;
-  }
-  if (currentView !== 'overview') {
-    navigate('overview');
-    psbsPushBackGuard();
-    return;
-  }
-  // Preserve localStorage/session token. Go to the public site, not browser exit.
-  window.location.href = new URL('index.html', window.location.href).href;
-});
+/* Back handling lives in one place (the handler near exitFlow) so Back from a section only returns to Overview
+   and the leave card shows only when Back is pressed on Overview itself. */
 // Explicit overview back button does not depend on browser history state.
 document.getElementById('overviewBackBtn')?.addEventListener('click', function(){
   window.location.href = new URL('index.html', window.location.href).href;
@@ -7706,10 +7766,11 @@ let dlgDone=null;
 function psbsDialog(o){
   return new Promise(res=>{
     dlgDone=res;
-    dlg.querySelector('.dlg-card').className='dlg-card'+(o.tone==='danger'?' danger':'');
+    dlg.querySelector('.dlg-card').className='dlg-card'+(o.tone==='danger'?' danger':o.tone==='exit'?' exit':'');
     $('dlgIcon').className=o.icon||'ri-question-line';$('dlgTitle').textContent=o.title;
     $('dlgDetail').textContent=o.detail||'';$('dlgDetail').hidden=!o.detail;$('dlgMsg').textContent=o.message||'';
     $('dlgCancel').textContent=o.cancelText||'Cancel';$('dlgOk').textContent=o.okText||'OK';
+    [['dlgCancel',o.cancelIcon],['dlgOk',o.okIcon]].forEach(([id,ic])=>{if(!ic)return;const i=document.createElement('i');i.className=ic;i.setAttribute('aria-hidden','true');$(id).prepend(i);});
     dlg.classList.add('open');dlg.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
     setTimeout(()=>$('dlgCancel').focus({preventScroll:true}),60);
   });
@@ -7756,7 +7817,7 @@ function exitTarget(){
 }
 async function exitFlow(){
   const t=exitTarget();
-  const ok=await psbsDialog({icon:'ri-logout-box-r-line',title:'Leave the admin dashboard?',message:'You will stay signed in. Choose "Go to '+t.label+'" to leave, or stay here to keep working.',okText:'Go to '+t.label,cancelText:'Stay here'});
+  const ok=await psbsDialog({tone:'exit',icon:'ri-logout-circle-r-line',title:'Leave the admin dashboard?',message:'You will stay signed in. Leaving takes you to the '+t.label+'.',okText:'Leave',okIcon:'ri-logout-box-r-line',cancelText:'Stay',cancelIcon:'ri-check-line'});
   if(ok) location.href=t.href;
 }
 document.addEventListener('pointerdown',()=>psbsPushBackGuard(),{once:true,passive:true});
@@ -7881,5 +7942,31 @@ window.addEventListener('popstate',e=>{
 })();
 </script>
 
+<script>
+(function(){
+  var go=function(t){return function(){navigate('collection',t);setTimeout(function(){openEditor(null,t);},120);};};
+  var on=function(id,fn){var el=document.getElementById(id);if(el)el.addEventListener('click',fn);};
+  on('quickAddNotice',go('notices'));
+  on('quickAddGallery',go('gallery'));
+  on('quickAddDocument',go('documents'));
+  on('quickAddFaculty',go('faculty'));
+  on('quickPending',function(){navigate('pending');});
+  // Mirror the pending-users count onto its card
+  var src=document.getElementById('overviewPending'),badge=document.getElementById('quickPendingCount');
+  if(src&&badge){
+    var sync=function(){var n=parseInt(src.textContent,10);badge.textContent=n>99?'99+':String(n);badge.hidden=!(n>0);};
+    new MutationObserver(sync).observe(src,{childList:true,characterData:true,subtree:true});sync();
+  }
+})();
+</script>
+<script>
+(function(){
+  var h=new Date().getHours();
+  var g=h<5?'Working late':h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  var ge=document.getElementById('heroGreeting'); if(ge) ge.textContent=g+' 👋';
+  var de=document.getElementById('heroDate');
+  if(de) de.textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+})();
+</script>
 </body>
 </html>

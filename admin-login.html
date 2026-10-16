@@ -222,6 +222,18 @@ html{scroll-padding:80px 0 120px}
   .form-side{margin-top:0;padding:56px 40px;background:radial-gradient(60% 50% at 100% 0%,rgba(var(--p-rgb),.1),transparent 70%),var(--bg)}
   .theme-toggle{top:24px;right:28px;color:var(--text);background:var(--card);border-color:var(--line);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 8px 20px -12px rgba(15,23,42,.4)}
   .kb-open .brand-body{display:flex}
+
+  /* Fixed split screen: the brand panel stays put, only the sign-in side scrolls */
+  html,body{height:100%;overflow:hidden}
+  .shell{height:100dvh;min-height:0;overflow:hidden}
+  .brand-side{height:100dvh;min-height:0;overflow:hidden}
+  .form-side{height:100dvh;min-height:0;overflow-y:auto;overscroll-behavior:contain;justify-content:flex-start;scrollbar-width:thin;scrollbar-color:rgba(var(--p-rgb),.35) transparent}
+  .form-side>.login-card{margin-top:auto;flex:none}
+  .form-side>.assure{flex:none}
+  .form-side>.form-foot{margin-bottom:auto;flex:none}
+  .form-side::-webkit-scrollbar{width:8px}
+  .form-side::-webkit-scrollbar-thumb{background:rgba(var(--p-rgb),.3);border-radius:8px}
+  .theme-toggle{position:fixed}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
@@ -366,7 +378,6 @@ html{scroll-padding:80px 0 120px}
     <div class="assure"><span><i class="ri-shield-check-fill" aria-hidden="true"></i> Protected admin access</span><span><i class="ri-server-line" aria-hidden="true"></i> Server-checked sessions</span></div>
     <div class="form-foot">
       <p>🌸 Radhe Radhe · <a href="index.html"><i class="ri-arrow-left-line" aria-hidden="true"></i> Back to website</a></p>
-      <div class="foot-links"><a href="calendar.html">Calendar</a><a href="gallery.html">Gallery</a></div>
     </div>
   </section>
 </main>
@@ -544,20 +555,6 @@ html{scroll-padding:80px 0 120px}
 /* ===== Login experience layer (does not touch the sign-in / request-access logic) ===== */
 (function(){
   var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
-
-  /* 1) Autofill off at the root, re-applied if anything changes it */
-  var SKIP=['checkbox','radio','button','submit','hidden'];
-  function off(el){
-    if(el.tagName==='FORM'){el.setAttribute('autocomplete','off');return;}
-    if(!/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)||SKIP.indexOf((el.type||'').toLowerCase())>-1)return;
-    var v=(el.type==='password')?'new-password':'off';
-    if(el.getAttribute('autocomplete')!==v)el.setAttribute('autocomplete',v);
-    ['data-lpignore:true','data-1p-ignore:','data-bwignore:true','data-form-type:other'].forEach(function(p){var a=p.split(':');el.setAttribute(a[0],a[1]);});
-    el.setAttribute('autocapitalize','off');el.setAttribute('autocorrect','off');el.setAttribute('spellcheck','false');
-  }
-  function sweep(r){if(r.nodeType!==1)return;off(r);$$('input,textarea,select,form',r).forEach(off);}
-  sweep(document.documentElement);
-  new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==='attributes')off(m.target);else m.addedNodes.forEach(sweep);});}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['autocomplete']});
 
   /* 2) Keyboard: lift the form above the on-screen keyboard in every environment.
         - Acode WebView: layout does not resize, visualViewport does.

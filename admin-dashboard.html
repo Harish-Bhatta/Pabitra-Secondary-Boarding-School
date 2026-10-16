@@ -7452,7 +7452,7 @@ document.getElementById('overviewBackBtn')?.addEventListener('click', function()
   if(!main || document.getElementById('adminFooter')) return;
   const footer=document.createElement('footer');
   footer.className='admin-footer'; footer.id='adminFooter'; footer.setAttribute('role','contentinfo');
-  footer.innerHTML='<p>© <span id="adminFooterYear"></span> Pabitra Secondary Boarding School</p><p>Quality Education since 2040 B.S. · <strong>🌸 Radhe Radhe</strong></p><p><a href="index.html">Return to school website</a></p>';
+  footer.innerHTML='<p>© <span id="adminFooterYear"></span> Pabitra Secondary Boarding School</p><p>Quality Education since 2040 B.S. · <strong>🌸 Radhe Radhe</strong></p>';
   main.appendChild(footer);
   const year=document.getElementById('adminFooterYear'); if(year) year.textContent=String(new Date().getFullYear());
 })();

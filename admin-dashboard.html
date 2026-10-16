@@ -5999,6 +5999,134 @@ body.dark .notice-ribbon-label { background:rgba(255,255,255,.08); }
 @media(prefers-reduced-motion:reduce){.editor,.editor-sheet,.view,.record-card{transition:none!important;animation:none!important}}
 </style>
 
+<style id="admin-redesign-2">
+/* Editor/viewer footer: always one row, two buttons; no Delete in the editor */
+#deleteRecord{display:none!important}
+#editor .form-actions,#viewer .form-actions{flex-wrap:nowrap;gap:10px}
+#editor .form-actions .btn,#viewer .form-actions .btn{flex:1 1 0;min-width:0;padding:10px 12px}
+#saveRecord,#viewerEdit{order:1}#cancelEditor,#viewerClose{order:2}
+@media(max-width:400px){#editor .form-actions,#viewer .form-actions{padding-left:12px;padding-right:12px}}
+@media(max-width:359px){#editor .form-actions .btn i,#viewer .form-actions .btn i{display:none}}
+/* Record card: three-dot trigger */
+.record-card{position:relative}
+#records article.record-card.record-card{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"thumb info"}
+#records .record-card>.record-actions{position:absolute;top:10px;right:10px;z-index:2;display:block;width:auto}
+#records .record-card>.record-info,#records .record-info{padding-right:50px}
+.admin-content .btn.more-btn{width:44px;min-width:44px;height:44px;padding:0;border-radius:50%;font-size:20px;flex:none}
+@media(min-width:760px){#records:not([data-table="gallery"]) .record-card>.record-actions{top:50%;transform:translateY(-50%)}}
+#records[data-table="gallery"] article.record-card.record-card{grid-template-columns:1fr;grid-template-areas:"thumb" "info"}
+#records[data-table="gallery"] .record-card>.record-actions{top:auto;bottom:6px;right:6px;padding:0}
+#records[data-table="gallery"] .record-info{padding:12px 56px 12px 14px;min-height:64px}
+/* Action card (like the profile dropdown) */
+#actionMenu{position:fixed;z-index:10020;width:min(290px,calc(100vw - 24px));background:var(--surface-solid,#fff);color:var(--text);border:1px solid var(--glass-border,#e7eaf0);border-radius:20px;box-shadow:0 24px 60px rgba(15,23,42,.24);padding:8px;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.97);transform-origin:top right;transition:opacity .18s,transform .18s,visibility .18s}
+#actionMenu.open{opacity:1;visibility:visible;transform:none}
+.am-head{display:flex;align-items:center;gap:10px;padding:8px 6px 10px 12px;margin-bottom:6px;border-bottom:1px solid var(--glass-border,#e7eaf0)}
+.am-head div{flex:1;min-width:0}.am-head b{display:block;font-size:15px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.am-head small{font-size:12.5px;color:var(--text-light)}
+.am-close{width:36px;height:36px;flex:none;border-radius:50%;border:1px solid var(--glass-border);background:var(--surface-solid);color:var(--text);display:grid;place-items:center;font-size:18px;cursor:pointer}
+.am-close:hover{background:rgba(220,38,38,.08);color:#dc2626}
+.am-item{display:flex;align-items:center;gap:12px;width:100%;min-height:50px;padding:0 10px;border:0;background:none;border-radius:14px;font:600 15px/1.2 inherit;font-family:inherit;color:var(--text);text-align:left;cursor:pointer}
+.am-item:hover,.am-item:focus-visible{background:rgba(var(--primary-rgb),.1)}
+.am-ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgba(var(--primary-rgb),.13);color:var(--primary);font-size:18px;flex:none}
+.am-item.danger{color:#dc2626}.am-item.danger .am-ic{background:rgba(220,38,38,.12);color:#dc2626}.am-item.danger:hover{background:rgba(220,38,38,.08)}
+/* Confirmation / exit card */
+#psbsDialog{position:fixed;inset:0;z-index:10030;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(16,24,39,.5);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
+#psbsDialog.open{opacity:1;visibility:visible}
+.dlg-card{width:min(400px,100%);background:var(--surface-solid,#fff);color:var(--text);border:1px solid var(--glass-border);border-radius:24px;padding:26px 22px 20px;text-align:center;box-shadow:0 30px 80px rgba(15,23,42,.35);transform:translateY(12px) scale(.97);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+#psbsDialog.open .dlg-card{transform:none}
+.dlg-icon{width:64px;height:64px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:rgba(var(--primary-rgb),.14);color:var(--primary)}
+.dlg-card.danger .dlg-icon{background:rgba(220,38,38,.12);color:#dc2626}
+.dlg-card h3{margin:0 0 6px;font-size:20px}
+.dlg-detail{margin:0 0 8px;font-weight:700;font-size:15px;overflow-wrap:anywhere;color:var(--text)}
+.dlg-msg{margin:0 0 20px;font-size:14.5px;line-height:1.55;color:var(--text-light)}
+.dlg-actions{display:flex;gap:10px}.dlg-actions .btn{flex:1 1 0;min-width:0;padding:10px 12px}
+.dlg-card.danger .btn.primary{background:#dc2626;border-color:#b91c1c;box-shadow:0 4px 12px rgba(220,38,38,.3)}
+@media(prefers-reduced-motion:reduce){#actionMenu,#psbsDialog,.dlg-card{transition:none}}
+</style>
+
+<style id="admin-keyboard-fix">
+/* Overlays follow the *visible* viewport so inputs rise above the on-screen keyboard */
+.editor,.profile-name-modal,#psbsDialog{inset:auto;left:0;right:0;bottom:auto;top:var(--vvt,0px);height:var(--vvh,100dvh);max-height:var(--vvh,100dvh)}
+.editor .editor-sheet{height:100%;max-height:100%}
+.profile-name-modal .modal-card{max-height:calc(var(--vvh,100dvh) - 24px);overflow-y:auto;overscroll-behavior:contain}
+.kb-open .form-actions{padding-bottom:12px}
+</style>
+
+<style id="admin-mobile-scroll-header">
+/* Phones/small tablets: the title block scrolls away with the form so fields get the full height */
+@media(max-width:768px){
+  .editor .editor-sheet{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scroll-padding-bottom:90px}
+  #editor #recordForm{display:contents}
+  .editor .editor-top{flex:none;position:static;padding:16px 16px 12px}
+  .editor .editor-body{flex:none;overflow:visible;min-height:0;padding:16px 16px 20px}
+  .editor .form-actions{flex:none;position:sticky;bottom:0;margin-top:auto;z-index:3;box-shadow:0 -6px 16px rgba(15,23,42,.08)}
+}
+</style>
+
+<style id="admin-overview-extras">
+#view-overview .ov-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-bottom:0}
+@media(min-width:960px){#view-overview .ov-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}}
+#view-overview .ov-panel{margin-bottom:18px;padding:clamp(16px,2.2vw,24px);border-radius:20px}
+#view-overview .ov-grid .ov-panel{margin-bottom:0}
+#view-overview .ov-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+#view-overview .ov-head h3{margin:0 0 4px;font-size:clamp(17px,2vw,20px);letter-spacing:-.01em}
+#view-overview .ov-head p{margin:0;font-size:14px;color:var(--text-light);line-height:1.45}
+#view-overview .ov-head .btn{min-height:40px;padding:8px 14px;font-size:14px;flex-shrink:0}
+.ov-bars{display:grid;gap:10px}
+.ov-bar{display:grid;grid-template-columns:132px minmax(0,1fr) 44px;align-items:center;gap:12px;width:100%;padding:10px 12px;border:1px solid transparent;border-radius:14px;background:none;font-family:inherit;color:var(--text);cursor:pointer;text-align:left}
+.ov-bar:hover,.ov-bar:focus-visible{background:rgba(var(--qc),.08);border-color:rgba(var(--qc),.25)}
+.ov-bar .nm{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;min-width:0}
+.ov-bar .nm i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex:none;background:rgba(var(--qc),.14);color:rgb(var(--qc))}
+.ov-bar .tr{height:10px;border-radius:99px;background:rgba(148,163,184,.2);overflow:hidden}
+.ov-bar .tr span{display:block;height:100%;width:0;border-radius:99px;background:rgb(var(--qc));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.ov-bar .ct{font-weight:700;font-size:15px;text-align:right}
+@media(max-width:480px){.ov-bar{grid-template-columns:minmax(0,1fr) auto}.ov-bar .tr{grid-column:1/-1;grid-row:2}}
+.ov-list{display:grid;gap:8px}
+.ov-item{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:1px solid var(--glass-border,#e7eaf0);border-radius:14px;background:none;font-family:inherit;color:var(--text);text-align:left;cursor:pointer}
+.ov-item:hover,.ov-item:focus-visible{border-color:var(--primary);background:rgba(var(--primary-rgb),.06)}
+.ov-item .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;background:rgba(var(--primary-rgb),.14);color:var(--primary);font-size:18px}
+.ov-item .tx{flex:1;min-width:0}.ov-item b{display:block;font-size:15px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ov-item small{font-size:13px;color:var(--text-light)}.ov-item>i:last-child{color:var(--text-light);font-size:18px;flex:none}
+.ov-empty{padding:22px 10px;text-align:center;color:var(--text-light);font-size:14.5px}
+.ov-shortcuts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.ov-shortcuts .ov-item .ic{background:rgba(var(--qc,243,156,18),.14);color:rgb(var(--qc,243,156,18))}
+.ov-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.ov-tips li{display:flex;gap:12px;padding:14px;border-radius:14px;background:rgba(148,163,184,.1);font-size:14.5px;line-height:1.5}
+.ov-tips li i{font-size:20px;color:var(--primary);flex:none}
+.ov-skel{height:46px;border-radius:14px;background:linear-gradient(90deg,rgba(148,163,184,.12),rgba(148,163,184,.24),rgba(148,163,184,.12));background-size:200% 100%;animation:ovsk 1.2s linear infinite}
+@keyframes ovsk{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.ov-skel{animation:none}.ov-bar .tr span{transition:none}}
+</style>
+
+<style id="admin-overview-spacing">
+#view-overview .quick-grid{margin-bottom:0!important}
+#view-overview #overviewExtras{margin-top:12px!important}
+#view-overview .ov-grid{gap:14px}
+#view-overview #overviewExtras>.ov-panel:last-child{margin-bottom:0}
+</style>
+<style id="admin-header-balance">
+/* Header below the desktop rail: [menu][logo][palette] ........ [search][theme][notices][profile] */
+@media(max-width:1199px){
+  .header .navbar{gap:6px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+  .header .nav-left,.header .nav-right{display:contents}
+  .header .brand-text{display:none!important}
+  .header .menu-btn{order:1}
+  .header .nav-left .logo{order:2;width:32px;height:32px;margin-left:2px;flex:none}
+  .header .header-theme-presets-btn{order:3;margin-left:4px}
+  .header .header-search-btn{order:5;margin-left:auto}.header .header-theme-toggle-btn{order:6}.header .notice-btn{order:7}.header .profile-container{order:8}
+  .header .menu-btn,.header .header-theme-presets-btn,.header .header-search-btn,.header .header-theme-toggle-btn,.header .notice-btn,.header .profile-btn{width:38px;height:38px;font-size:18px;flex:none}
+}
+@media(min-width:560px) and (max-width:1199px){
+  .header .navbar{gap:8px}
+  .header .menu-btn,.header .header-theme-presets-btn,.header .header-search-btn,.header .header-theme-toggle-btn,.header .notice-btn,.header .profile-btn{width:40px;height:40px;font-size:19px}
+}
+/* Desktop toolbar: search and icon buttons share one height */
+@media(min-width:1200px){
+  .header .header-search-btn{height:44px;width:min(460px,40vw)}
+  .header .header-theme-presets-btn,.header .header-theme-toggle-btn,.header .notice-btn,.header .profile-btn{width:44px;height:44px}
+}
+</style>
+
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -6891,9 +7019,7 @@ function refreshQuickCards(){
     {table:'gallery', title:'Gallery', sub:'Campus photos', icon:'ri-image-line', color:'16,185,129'},
     {table:'faculty', title:'Faculty', sub:'Teachers & staff', icon:'ri-graduation-cap-line', color:'6,182,212'},
     {table:'calendar_data', title:'Calendar', sub:'Events & holidays', icon:'ri-calendar-event-line', color:'139,92,246'},
-    {table:'school_info', title:'School Info', sub:'Name, motto & contacts', icon:'ri-community-line', color:'234,88,12'},
-    {table:'pending', title:'Pending Users', sub:'Approve accounts', icon:'ri-user-follow-line', color:'219,39,119'},
-    {table:'admins', title:'Admins', sub:'Super-admin only', icon:'ri-shield-user-line', color:'2,132,199'}
+    {table:'school_info', title:'School Info', sub:'Name, motto & contacts', icon:'ri-community-line', color:'234,88,12'}
   ];
   cards.filter(c=>c.table!=='admins'||superAdmin).forEach(c=>{
     const btn=document.createElement('button');
@@ -7471,17 +7597,11 @@ renderRecords=function(t,rows,target,emptyEl,editable=true){
     card.append(thumb,info);
     if(editable){
       const acts=mk('div','record-actions');
-      const btn=(cls,icon,label,fn)=>{const b=mk('button','btn slim '+cls);b.type='button';b.setAttribute('aria-label',label+' '+recordTitle(t,row));b.title=label;b.innerHTML='<i class="'+icon+'" aria-hidden="true"></i><span>'+label+'</span>';b.onclick=fn;return b;};
-      const view=btn('','ri-eye-line','View',()=>openViewer(row,t));
-      const edit=btn('','ri-edit-line','Edit',()=>openEditor(row,t));
-      const del=btn('danger','ri-delete-bin-line','Delete',async()=>{
-        if(!confirm('Delete this record? This cannot be undone.')) return;
-        try{
-          await rpc(ADMIN_CONFIG.rpc.remove,{p_session_token:tok(),p_table:t,p_primary_key:'id',p_record_id:String(row.id)});
-          showBanner('Record deleted.','success'); Toast.show('Record deleted','success'); loadRecords();
-        }catch(err){ showBanner(err.message||'Delete failed','error'); Toast.show('Delete failed: '+(err.message||''),'error'); }
-      });
-      acts.append(view,edit,del); card.append(acts);
+      const more=mk('button','btn more-btn');more.type='button';more.title='Actions';
+      more.setAttribute('aria-label','More actions for '+recordTitle(t,row));more.setAttribute('aria-haspopup','menu');more.setAttribute('aria-expanded','false');
+      more.innerHTML='<i class="ri-more-2-fill" aria-hidden="true"></i>';
+      more.onclick=ev=>{ev.stopPropagation();openActionMenu(more,row,t);};
+      acts.append(more); card.append(acts);
     }
     target.append(card);
   });
@@ -7516,10 +7636,10 @@ $('closeViewer').onclick=closeViewer;$('viewerClose').onclick=closeViewer;
 v.addEventListener('click',e=>{if(e.target===v)closeViewer();});
 $('viewerEdit').onclick=()=>{const r=viewRow,t=viewTable;v.classList.remove('open');v.setAttribute('aria-hidden','true');document.body.style.overflow='';openEditor(r,t);};
 /* Back button and Escape close the viewer/editor first */
-window.addEventListener('popstate',e=>{if(v.classList.contains('open')){e.stopImmediatePropagation();closeViewer();psbsPushBackGuard();}},{capture:true});
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape'||State.isSearchOpen||State.isThemePresetsOpen) return;
-  if(v.classList.contains('open')) closeViewer();
+  if(typeof menu!=='undefined'&&menu.classList.contains('open')) closeMenu2();
+  else if(v.classList.contains('open')) closeViewer();
   else if($('editor').classList.contains('open')) closeEditor();
 });
 /* Editor polish: titles, widths, groups, image preview, inline JSON error */
@@ -7556,6 +7676,214 @@ new MutationObserver(()=>{const o=$('editor').classList.contains('open');if(o&&!
 /* Helpful empty state + subtitle */
 if($('recordsSub')) $('recordsSub').textContent='Use View to read details, Edit to update, or Delete to remove a record.';
 const em=$('empty');if(em){const b=mk('button','btn primary');b.type='button';b.innerHTML='<i class="ri-add-line"></i> Add new';b.onclick=()=>openEditor();em.append(b);}
+/* ---- Three-dot action card ---- */
+const menu=document.createElement('div');menu.id='actionMenu';menu.setAttribute('role','menu');document.body.append(menu);
+let menuBtn=null;
+function closeMenu2(){if(!menu.classList.contains('open'))return;menu.classList.remove('open');if(menuBtn){menuBtn.setAttribute('aria-expanded','false');try{menuBtn.focus({preventScroll:true});}catch(e){}}menuBtn=null;}
+function openActionMenu(btn,row,t){
+  if(menuBtn===btn){closeMenu2();return;}
+  closeMenu2();menuBtn=btn;btn.setAttribute('aria-expanded','true');
+  menu.replaceChildren();
+  const head=mk('div','am-head');const tx=mk('div');tx.append(mk('b',null,recordTitle(t,row)),mk('small',null,SCHEMAS[t].title));
+  const x=mk('button','am-close');x.type='button';x.setAttribute('aria-label','Close menu');x.innerHTML='<i class="ri-close-line"></i>';x.onclick=closeMenu2;
+  head.append(tx,x);menu.append(head);
+  const item=(cls,icon,label,fn)=>{const b=mk('button','am-item '+cls);b.type='button';b.setAttribute('role','menuitem');b.innerHTML='<span class="am-ic"><i class="'+icon+'" aria-hidden="true"></i></span><span>'+label+'</span>';b.onclick=()=>{closeMenu2();fn();};menu.append(b);};
+  item('','ri-eye-line','View details',()=>openViewer(row,t));
+  item('','ri-edit-line','Edit',()=>openEditor(row,t));
+  item('danger','ri-delete-bin-line','Delete',()=>deleteFlow(row,t));
+  const r=btn.getBoundingClientRect(),w=menu.offsetWidth||290;
+  menu.style.visibility='hidden';menu.classList.add('open');const h=menu.offsetHeight;menu.style.visibility='';
+  const vw=innerWidth,vh=innerHeight;
+  let left=Math.min(Math.max(12,r.right-w),vw-w-12),top=r.bottom+8;
+  if(top+h>vh-12) top=r.top-h-8;
+  top=Math.min(Math.max(12,top),Math.max(12,vh-h-12));
+  menu.style.left=left+'px';menu.style.top=top+'px';
+  menu.style.transformOrigin=(r.top-h-8===top?'bottom':'top')+' right';
+  menu.querySelector('.am-item')?.focus({preventScroll:true});
+}
+document.addEventListener('pointerdown',e=>{if(menu.classList.contains('open')&&!menu.contains(e.target)&&!(menuBtn&&menuBtn.contains(e.target)))closeMenu2();},true);
+addEventListener('scroll',()=>{if(menu.classList.contains('open'))closeMenu2();},{passive:true,capture:true});
+addEventListener('resize',closeMenu2);
+/* ---- Own confirmation card (replaces browser confirm) ---- */
+const dlg=document.createElement('div');dlg.id='psbsDialog';dlg.setAttribute('aria-hidden','true');
+dlg.innerHTML='<div class="dlg-card" role="alertdialog" aria-modal="true" aria-labelledby="dlgTitle" aria-describedby="dlgMsg"><div class="dlg-icon"><i id="dlgIcon"></i></div><h3 id="dlgTitle"></h3><p class="dlg-detail" id="dlgDetail"></p><p class="dlg-msg" id="dlgMsg"></p><div class="dlg-actions"><button type="button" class="btn" id="dlgCancel"></button><button type="button" class="btn primary" id="dlgOk"></button></div></div>';
+document.body.append(dlg);
+let dlgDone=null;
+function psbsDialog(o){
+  return new Promise(res=>{
+    dlgDone=res;
+    dlg.querySelector('.dlg-card').className='dlg-card'+(o.tone==='danger'?' danger':'');
+    $('dlgIcon').className=o.icon||'ri-question-line';$('dlgTitle').textContent=o.title;
+    $('dlgDetail').textContent=o.detail||'';$('dlgDetail').hidden=!o.detail;$('dlgMsg').textContent=o.message||'';
+    $('dlgCancel').textContent=o.cancelText||'Cancel';$('dlgOk').textContent=o.okText||'OK';
+    dlg.classList.add('open');dlg.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+    setTimeout(()=>$('dlgCancel').focus({preventScroll:true}),60);
+  });
+}
+function closeDlg(v){if(!dlg.classList.contains('open'))return;dlg.classList.remove('open');dlg.setAttribute('aria-hidden','true');
+  if(!$('editor').classList.contains('open')&&!v_open())document.body.style.overflow='';
+  const d=dlgDone;dlgDone=null;if(d)d(v);}
+const v_open=()=>document.getElementById('viewer').classList.contains('open');
+$('dlgCancel').onclick=()=>closeDlg(false);$('dlgOk').onclick=()=>closeDlg(true);
+dlg.addEventListener('click',e=>{if(e.target===dlg)closeDlg(false);});
+dlg.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();closeDlg(false);}
+  if(e.key==='Tab'){const a=$('dlgCancel'),b=$('dlgOk');if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus();}else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus();}}});
+async function deleteFlow(row,t){
+  if(row._deleting) return;
+  const ok=await psbsDialog({tone:'danger',icon:'ri-delete-bin-6-line',title:'Delete this record?',detail:recordTitle(t,row),message:'This permanently removes it from the school website. This cannot be undone.',okText:'Delete',cancelText:'Cancel'});
+  if(!ok) return;
+  row._deleting=true;
+  try{
+    await rpc(ADMIN_CONFIG.rpc.remove,{p_session_token:tok(),p_table:t,p_primary_key:'id',p_record_id:String(row.id)});
+    showBanner('Record deleted.','success');Toast.show('Record deleted','success');loadRecords();
+  }catch(err){showBanner(err.message||'Delete failed','error');Toast.show('Delete failed: '+(err.message||''),'error');}
+  finally{row._deleting=false;}
+}
+/* Pending-user Reject: use our card instead of the browser confirm */
+let bypass=false;
+$('pendingList')?.addEventListener('click',async e=>{
+  const b=e.target.closest('.btn.danger');if(!b||bypass)return;
+  e.stopImmediatePropagation();e.preventDefault();
+  const name=b.closest('.record-card')?.querySelector('.record-info b')?.textContent||'this user';
+  const ok=await psbsDialog({tone:'danger',icon:'ri-user-unfollow-line',title:'Reject this user?',detail:name,message:'Their pending account will be deleted. This cannot be undone.',okText:'Reject',cancelText:'Cancel'});
+  if(!ok)return;
+  const old=window.confirm;window.confirm=()=>true;bypass=true;
+  try{b.click();}finally{bypass=false;window.confirm=old;}
+},true);
+/* ---- Back button: never leaves the dashboard without asking ---- */
+const ORIGIN_KEY='psbs_admin_origin';
+function okRef(r){try{const u=new URL(r);return u.origin===location.origin&&!/admin/i.test(u.pathname)?u.href:'';}catch(e){return '';}}
+try{const r=okRef(document.referrer);if(r)sessionStorage.setItem(ORIGIN_KEY,r);}catch(e){}
+function exitTarget(){
+  let href='';try{href=sessionStorage.getItem(ORIGIN_KEY)||'';}catch(e){}
+  if(!href) href=new URL('index.html',location.href).href;
+  const p=new URL(href).pathname.toLowerCase();
+  return {href,label:/gallery/.test(p)?'Gallery page':/calendar/.test(p)?'Calendar page':/index|\/$/.test(p)?'Public website':'Previous page'};
+}
+async function exitFlow(){
+  const t=exitTarget();
+  const ok=await psbsDialog({icon:'ri-logout-box-r-line',title:'Leave the admin dashboard?',message:'You will stay signed in. Choose "Go to '+t.label+'" to leave, or stay here to keep working.',okText:'Go to '+t.label,cancelText:'Stay here'});
+  if(ok) location.href=t.href;
+}
+document.addEventListener('pointerdown',()=>psbsPushBackGuard(),{once:true,passive:true});
+window.addEventListener('popstate',e=>{
+  e.stopImmediatePropagation();
+  psbsPushBackGuard();
+  if(dlg.classList.contains('open')){closeDlg(false);return;}
+  if(menu.classList.contains('open')){closeMenu2();return;}
+  if(v_open()){closeViewer();return;}
+  const sidebarOpen=DOM.sidebar&&DOM.sidebar.classList.contains('active');
+  const editorOpen=$('editor').classList.contains('open');
+  if(sidebarOpen||editorOpen||State.isSearchOpen||State.isDropdownOpen||State.isThemePresetsOpen){
+    if(State.isSearchOpen)closeSearch();if(State.isThemePresetsOpen)closeThemePresets();
+    if(State.isDropdownOpen)closeProfileDropdown();if(sidebarOpen)closeSidebar();if(editorOpen)closeEditor();return;
+  }
+  if(currentView!=='overview'){navigate('overview');return;}
+  exitFlow();
+},{capture:true});
+})();
+</script>
+
+<script>
+/* Root-level: (1) switch browser/password-manager autofill off everywhere, (2) track the visible viewport so
+   fields move above the keyboard in browsers that don't resize the layout (Acode's WebView already does). */
+(function(){
+  const SKIP=['checkbox','radio','button','submit','reset','file','range','color','hidden'];
+  function off(el){
+    if(el.tagName==='FORM'){el.setAttribute('autocomplete','off');return;}
+    if(!/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)||SKIP.includes((el.type||'').toLowerCase()))return;
+    el.setAttribute('autocomplete',(el.type||'')==='password'?'new-password':'off');
+    el.setAttribute('data-lpignore','true');el.setAttribute('data-1p-ignore','');
+    el.setAttribute('data-bwignore','true');el.setAttribute('data-form-type','other');
+  }
+  function sweep(root){if(root.nodeType!==1)return;off(root);root.querySelectorAll&&root.querySelectorAll('input,textarea,select,form').forEach(off);}
+  sweep(document.documentElement);
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(sweep))).observe(document.documentElement,{childList:true,subtree:true});
+  const vv=window.visualViewport,root=document.documentElement;
+  function sync(){
+    const zoomed=vv&&vv.scale>1.01;
+    const h=(vv&&!zoomed)?vv.height:innerHeight,top=(vv&&!zoomed)?vv.offsetTop:0;
+    root.style.setProperty('--vvh',h+'px');root.style.setProperty('--vvt',top+'px');
+    const kb=innerHeight-h-top>80||(screen.height&&h<innerHeight*.75);
+    root.classList.toggle('kb-open',!!kb);
+    const a=document.activeElement;
+    if(kb&&a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.closest('.editor,.profile-name-modal'))
+      setTimeout(()=>a.scrollIntoView({block:'center',behavior:'smooth'}),60);
+  }
+  if(vv){vv.addEventListener('resize',sync);vv.addEventListener('scroll',sync);}
+  addEventListener('resize',sync);addEventListener('orientationchange',sync);
+  document.addEventListener('focusin',()=>setTimeout(sync,350));
+  sync();
+})();
+</script>
+
+<script>
+/* Overview extras: live counts, latest notices, shortcuts, tips. Read-only use of the existing list RPC. */
+(function(){
+  const COLS=[['notices','Notices','ri-notification-3-line','243,156,18'],['documents','Documents','ri-file-paper-2-line','79,70,229'],['gallery','Gallery','ri-image-line','16,185,129'],['faculty','Faculty','ri-graduation-cap-line','6,182,212'],['calendar_data','Calendar','ri-calendar-event-line','139,92,246'],['school_info','School Info','ri-community-line','234,88,12']];
+  const mk=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
+  const tok=()=>localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey);
+  const rows=d=>Array.isArray(d)?d:(d?.records||d?.data||[]);
+  const host=document.getElementById('quickCards');if(!host)return;
+  const wrap=document.createElement('div');wrap.id='overviewExtras';
+  wrap.innerHTML='<div class="ov-grid"><section class="panel ov-panel" aria-labelledby="ovT1"><div class="ov-head"><div><h3 id="ovT1">Content at a glance</h3><p>Live record counts across the public website.</p></div><button type="button" class="btn slim" id="ovRefresh"><i class="ri-refresh-line"></i> Refresh</button></div><div class="ov-bars" id="ovBars"></div></section><section class="panel ov-panel" aria-labelledby="ovT2"><div class="ov-head"><div><h3 id="ovT2">Latest notices</h3><p>The most recent announcements.</p></div><button type="button" class="btn slim" id="ovAllNotices">View all</button></div><div class="ov-list" id="ovNotices"></div></section></div><section class="panel ov-panel" style="margin-top:14px" aria-labelledby="ovT3"><div class="ov-head"><div><h3 id="ovT3">Shortcuts</h3><p>Create something new or open the public website.</p></div></div><div class="ov-shortcuts" id="ovShortcuts"></div></section>';
+  host.after(wrap);
+  const $=id=>document.getElementById(id);
+  // Shortcuts
+  const sc=(icon,label,sub,color,fn)=>{const b=mk('button','ov-item');b.type='button';b.style.setProperty('--qc',color);
+    b.innerHTML='<span class="ic"><i class="'+icon+'" aria-hidden="true"></i></span><span class="tx"><b></b><small></small></span><i class="ri-arrow-right-s-line" aria-hidden="true"></i>';
+    b.querySelector('b').textContent=label;b.querySelector('small').textContent=sub;b.onclick=fn;$('ovShortcuts').append(b);};
+  const add=t=>()=>{navigate('collection',t);setTimeout(()=>openEditor(null,t),120);};
+  sc('ri-add-circle-line','Add notice','Publish an announcement','243,156,18',add('notices'));
+  sc('ri-upload-2-line','Add document','Share a file or resource','79,70,229',add('documents'));
+  sc('ri-image-add-line','Add gallery photo','Add a campus image','16,185,129',add('gallery'));
+  sc('ri-user-add-line','Add faculty','Add a teacher or staff','6,182,212',add('faculty'));
+  sc('ri-home-4-line','Public website','Open the homepage','234,88,12',()=>{location.href='index.html';});
+  sc('ri-calendar-line','Public calendar','Open calendar.html','139,92,246',()=>{location.href='calendar.html';});
+  sc('ri-gallery-line','Public gallery','Open gallery.html','16,185,129',()=>{location.href='gallery.html';});
+  $('ovAllNotices').onclick=()=>navigate('collection','notices');
+  // Data
+  let busy=false;
+  async function load(){
+    if(busy)return;busy=true;
+    const bars=$('ovBars'),nl=$('ovNotices');
+    if(!bars.children.length){for(let i=0;i<6;i++)bars.append(mk('div','ov-skel'));}
+    if(!nl.children.length){for(let i=0;i<3;i++)nl.append(mk('div','ov-skel'));}
+    try{
+      const res=await Promise.allSettled(COLS.map(c=>rpc(ADMIN_CONFIG.rpc.list,{p_session_token:tok(),p_table:c[0],p_limit:500})));
+      const data=res.map(r=>r.status==='fulfilled'?rows(r.value):null);
+      if(data.every(d=>d===null)&&(load.tries=(load.tries||0)+1)<=4){busy=false;setTimeout(load,1500);return;}
+      const max=Math.max(1,...data.map(d=>d?d.length:0));
+      bars.replaceChildren();
+      COLS.forEach((c,i)=>{
+        const n=data[i]?data[i].length:null;
+        const b=mk('button','ov-bar');b.type='button';b.style.setProperty('--qc',c[3]);
+        b.setAttribute('aria-label',c[1]+': '+(n===null?'unavailable':n+' records')+'. Open.');
+        b.innerHTML='<span class="nm"><i class="'+c[2]+'" aria-hidden="true"></i><span></span></span><span class="tr"><span></span></span><span class="ct"></span>';
+        b.querySelector('.nm span').textContent=c[1];b.querySelector('.ct').textContent=n===null?'—':n;
+        b.onclick=()=>navigate('collection',c[0]);bars.append(b);
+        requestAnimationFrame(()=>{b.querySelector('.tr span').style.width=(n?Math.max(6,n/max*100):0)+'%';});
+      });
+      nl.replaceChildren();
+      let notes=(data[0]||[]).slice();
+      notes.sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+      notes=notes.slice(0,5);
+      if(!notes.length) nl.append(mk('div','ov-empty',data[0]?'No notices yet. Add your first announcement from Shortcuts.':'Notices could not be loaded.'));
+      notes.forEach(r=>{
+        const b=mk('button','ov-item');b.type='button';
+        b.innerHTML='<span class="ic"><i class="ri-notification-3-line" aria-hidden="true"></i></span><span class="tx"><b></b><small></small></span><i class="ri-arrow-right-s-line" aria-hidden="true"></i>';
+        b.querySelector('b').textContent=recordTitle('notices',r);
+        b.querySelector('small').textContent=[r.date?Helpers.formatDate(r.date):'',r.label||''].filter(Boolean).join(' · ')||'Notice';
+        b.onclick=()=>{navigate('collection','notices');setTimeout(()=>openViewer(r,'notices'),150);};
+        nl.append(b);
+      });
+    }catch(e){bars.replaceChildren(mk('div','ov-empty','Could not load counts. Try Refresh.'));nl.replaceChildren();}
+    finally{busy=false;}
+  }
+  $('ovRefresh').onclick=load;
+  const orig=refreshOverview;
+  refreshOverview=async function(){const r=orig.apply(this,arguments);load();return r;};
+  load();
 })();
 </script>
 

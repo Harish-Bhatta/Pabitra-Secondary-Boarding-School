@@ -307,6 +307,7 @@ html{scroll-padding:80px 0 120px}
   .points span{display:block;margin-top:2px;font-size:11px;line-height:1.45;color:#9fb0cc}
   .brand-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#7d8dab}
   .brand-foot b{font-weight:600;color:#b8c5de;display:inline-flex;align-items:center;gap:7px}
+  #clock{font-variant-numeric:tabular-nums;min-width:15ch;text-align:left;white-space:nowrap}
 
   .form-side{margin-top:0;padding:56px 40px;
     background:radial-gradient(60% 50% at 100% 0%,rgba(var(--p-rgb),.12),transparent 70%),radial-gradient(var(--dot) 1px,transparent 1.2px) 0 0/22px 22px,var(--bg)}
@@ -800,13 +801,16 @@ html{scroll-padding:80px 0 120px}
 (function(){
   var reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  /* live clock in the brand panel */
-  var clock=document.getElementById('clock');
+  /* live clock in the brand panel: no seconds, but it flips exactly when the real minute changes */
+  var clock=document.getElementById('clock'),clockT=0;
   function tick(){
-    if(!clock)return;var d=new Date();
+    if(!clock)return;
+    var d=new Date();
     clock.textContent=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+d.toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'});
+    clearTimeout(clockT);clockT=setTimeout(tick,60000-(d.getSeconds()*1000+d.getMilliseconds())+50);
   }
-  tick();setInterval(tick,30000);
+  tick();
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)tick();});
 
   /* soft spotlight that follows the pointer across the card (desktop only) */
   var card=document.querySelector('.login-card');

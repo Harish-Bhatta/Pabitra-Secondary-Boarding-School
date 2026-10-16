@@ -76,8 +76,8 @@ kbd{font:600 11px/1 'Poppins',system-ui,sans-serif;padding:3px 6px;border-radius
 .logo-wrap{--logo:54px;position:relative;flex:none;width:var(--logo);height:var(--logo);display:grid;place-items:center;font-size:calc(var(--logo)*.72);color:var(--p-light);filter:drop-shadow(0 8px 18px rgba(var(--p-rgb),.4))}
 .logo-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .brand-txt{display:flex;flex-direction:column;line-height:1.2}
-.brand-txt b{font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:-.015em}
-.brand-txt small{font-size:11.5px;color:#9fb0cc;letter-spacing:.04em}
+.brand-txt b{font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:-.015em;line-height:1.15;background:linear-gradient(90deg,#fff 0%,var(--p-light) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-txt small{display:inline-flex;align-items:center;gap:8px;margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--p-light)}
 
 .brand-body{display:flex;flex-direction:column;gap:16px;margin:auto 0}
 .eyebrow{display:none;align-items:center;gap:8px;width:fit-content;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--p-light);background:rgba(var(--p-rgb),.12);border:1px solid rgba(var(--p-rgb),.3)}
@@ -237,20 +237,23 @@ html{scroll-padding:80px 0 120px}
 @media(min-width:640px){
   .brand-side{padding:calc(26px + env(safe-area-inset-top,0px)) 40px 98px}
   .brand-body h2{font-size:34px}
+  .brand-txt b{font-size:22px;white-space:nowrap}
   .login-card{padding:34px 32px 28px}
 }
 
 /* ---------- desktop: split screen ---------- */
 @media(min-width:980px){
-  .brand-side{padding:44px 56px 36px;gap:0;overscroll-behavior:none}
-  .brand-inner{gap:0;min-height:0}
+  .brand-side{padding:0;gap:0}
+  .brand-inner{gap:0;min-height:0;height:100%;padding:44px 56px 36px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}
+  .brand-inner::-webkit-scrollbar{width:8px}
+  .brand-inner::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px}
   .brand{gap:16px}
-  .logo-wrap{--logo:72px}
-  .brand-txt b{font-size:25px}
-  .brand-txt small{font-size:12.5px}
+  .logo-wrap{--logo:clamp(56px,6vw,72px)}
+  .brand-txt b{font-size:clamp(14px,1.6vw,25px);white-space:nowrap}
+  .brand-txt small{font-size:12px}
   .brand-body{gap:18px;max-width:560px}
   .eyebrow{display:inline-flex}
-  .brand-body h2{font-size:clamp(38px,3.5vw,52px)}
+  .brand-body h2{font-size:clamp(34px,3vw,44px)}
   .lead{display:block;max-width:480px;font-size:15px;line-height:1.65;color:#a9b7d0}
   .g3,.orbit{display:block}
   @keyframes orbitSpin{to{transform:rotate(360deg)}}
@@ -347,11 +350,10 @@ html{scroll-padding:80px 0 120px}
     <div class="brand-inner">
     <a class="brand" href="index.html" aria-label="Pabitra School home">
       <span class="logo-wrap"><i class="ri-graduation-cap-fill" aria-hidden="true"></i><img src="logo.png" alt="" width="64" height="64" onerror="this.style.display='none'" /></span>
-      <span class="brand-txt"><b>Pabitra Secondary</b><small>Boarding School · Admin Console</small></span>
+      <span class="brand-txt"><b>Pabitra Secondary Boarding School</b><small><span class="live" aria-hidden="true"></span> Secure admin access</small></span>
     </a>
 
     <div class="brand-body">
-      <span class="eyebrow"><span class="live" aria-hidden="true"></span> Secure admin access</span>
       <h2>Welcome back,<br /><em>administrator.</em></h2>
       <p class="lead">One calm workspace to keep the school's notices, documents, gallery, faculty and calendar up to date.</p>
 
@@ -850,18 +852,6 @@ html{scroll-padding:80px 0 120px}
     });
   });
 
-  /* keep the left visual panel on one screen: shrink it proportionally (nothing is removed, nothing scrolls) */
-  var side=document.querySelector('.brand-side'),inner=document.querySelector('.brand-inner'),desk=matchMedia('(min-width:980px)');
-  function fit(){
-    if(!side||!inner)return;
-    inner.style.zoom='';
-    if(!desk.matches)return;
-    var z=1;
-    for(var i=0;i<30&&side.scrollHeight>side.clientHeight+1&&z>.4;i++){z=Math.max(.4,z-.025);inner.style.zoom=z;}
-  }
-  fit();addEventListener('resize',fit);addEventListener('load',fit);
-  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
-  setTimeout(fit,400);
 })();
 </script>
 

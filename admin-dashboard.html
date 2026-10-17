@@ -9381,13 +9381,19 @@ function armGuard(ev){
   if(ev&&ev.type!=='pointerup'&&ev.type!=='pointerdown') lastTap=Date.now();
   topUp();
 }
+try{ if(leaving===false){ const n0=(history.state&&history.state.i)||0; if(n0<GUARD_DEPTH){ for(let k=n0;k<GUARD_DEPTH;k++) history.pushState({psbsAdminGuard:true,i:k+1},'',window.location.href); } } }catch(e){}
 ['pointerdown','pointerup','touchstart','touchend','mousedown','click','keydown'].forEach(ev=>document.addEventListener(ev,armGuard,{passive:true,capture:true}));
-/* Last line of defence: if a Back still escapes, the browser asks before the page unloads.
-   Deliberate exits (Exit card, logout, in-app shortcuts tapped just now) are let through. */
-window.addEventListener('beforeunload',function(e){
-  if(window.psbsAllowLeave||leaving) return;
-  e.preventDefault(); e.returnValue=''; return '';
-});
+/* Navigation API layer (Chromium): a Back that would leave the page is cancelled and OUR card is shown instead. */
+try{
+  if(window.navigation && navigation.addEventListener){
+    navigation.addEventListener('navigate',function(e){
+      if(e.navigationType!=='traverse'||e.destination.sameDocument) return;
+      if(window.psbsAllowLeave||leaving||!e.cancelable) return;
+      e.preventDefault();
+      if(!dlg.classList.contains('open')) exitFlow();
+    });
+  }
+}catch(err){}
 window.addEventListener('popstate',e=>{
   e.stopImmediatePropagation();
   if(leaving) return;
@@ -9408,8 +9414,8 @@ window.addEventListener('popstate',e=>{
     if(searchOpen)closeSearch();if(themeOpen)closeThemePresets();
     if(dropOpen)closeProfileDropdown();if(sidebarOpen)closeSidebar();if(editorOpen)closeEditor();return;
   }
-  /* 2) nothing left to close: from ANY section, Back asks Exit or Stay */
-  if(dlg.classList.contains('open')) return;
+  /* 2) another section goes back to Overview first; 3) Overview asks Exit or Stay (our own card) */
+  if(currentView!=='overview'){navigate('overview');return;}
   exitFlow();
 },{capture:true});
 })();

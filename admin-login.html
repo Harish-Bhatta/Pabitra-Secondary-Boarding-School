@@ -331,6 +331,76 @@ html{scroll-padding:80px 0 120px}
 /* shorter laptop screens: drop the preview so nothing gets cramped */
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.pv-chart .ln{stroke-dashoffset:0}.pv-chart .area{opacity:1}}
 </style>
+<style id="login-refresh">
+/* ===== Refresh layer: richer card, glowing button, livelier brand panel. Logic and IDs are untouched. ===== */
+
+/* --- brand panel --- */
+.brand-body h2 em{background:linear-gradient(100deg,var(--p-light) 0%,#fff 48%,var(--p-light) 96%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:lrShine 7s linear infinite}
+@keyframes lrShine{from{background-position:0 50%}to{background-position:-220% 50%}}
+.eyebrow{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px -14px rgba(var(--p-rgb),.8)}
+.points li{position:relative;overflow:hidden}
+.points li::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-light),transparent);opacity:0;transition:opacity .25s}
+.points li:hover::after{opacity:1}
+.points i{background:linear-gradient(135deg,rgba(var(--p-rgb),.3),rgba(var(--p-rgb),.08));box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 16px -10px rgba(var(--p-rgb),.9)}
+.pv{position:relative}
+.pv::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.09) 50%,transparent 65%);transform:translateX(-120%);animation:lrSheen 7s ease-in-out infinite}
+@keyframes lrSheen{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.pv-float.f3{right:34px;bottom:-24px;animation-delay:-1.6s}
+.pv-float.f3 i{color:#93c5fd;background:rgba(147,197,253,.16)}
+@media(max-width:979px){.brand-side{border-radius:0 0 36px 36px}}
+/* phones/tablets: keep the school name clear of the theme toggle (it sits in the top-right corner) */
+@media(max-width:979px){
+  .brand{max-width:calc(100% - 58px)}
+  .brand-txt{min-width:0}
+  .brand-txt b{white-space:normal;overflow-wrap:anywhere}
+}
+@media(max-width:380px){.brand{gap:10px}.logo-wrap{--logo:46px}.brand-txt b{font-size:16.5px}.brand-txt small{font-size:10px;letter-spacing:.1em}}
+
+/* --- sign-in card --- */
+.card-wrap{position:relative}
+.card-wrap::before{content:"";position:absolute;inset:6% -4% -4%;z-index:-1;border-radius:44px;background:radial-gradient(60% 60% at 50% 45%,rgba(var(--p-rgb),.38),transparent 72%);filter:blur(34px);opacity:.5;pointer-events:none}
+.login-card{border-radius:30px;box-shadow:0 44px 80px -38px rgba(8,16,40,.6),0 14px 30px -18px rgba(var(--p-rgb),.5),inset 0 1px 0 rgba(255,255,255,.75)}
+body.dark .login-card{box-shadow:0 44px 80px -38px rgba(0,0,0,.85),0 14px 30px -18px rgba(var(--p-rgb),.4),inset 0 1px 0 rgba(255,255,255,.07)}
+.login-card::before{left:30px;right:30px;height:3px;background:linear-gradient(90deg,transparent,var(--p-light),var(--p),var(--p-light),transparent);box-shadow:0 6px 18px rgba(var(--p-rgb),.55)}
+
+.shield{width:72px;height:72px;margin-bottom:20px;border-radius:24px;font-size:34px;animation:lrBob 5s ease-in-out infinite;
+  box-shadow:0 18px 32px -12px rgba(var(--p-rgb),.85),inset 0 1px 0 rgba(255,255,255,.55),0 0 0 8px rgba(var(--p-rgb),.1),0 0 0 17px rgba(var(--p-rgb),.05)}
+@keyframes lrBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.card-head h1{font-size:26px;background:linear-gradient(100deg,var(--text) 52%,var(--p) 135%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.greet{background:linear-gradient(180deg,var(--field),transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+
+.tab-bar{border-radius:19px;margin:20px 0 22px}
+.tab-bar::before{border-radius:15px;border-color:rgba(var(--p-rgb),.38);box-shadow:0 10px 20px -10px rgba(var(--p-rgb),.75)}
+.tab-bar button.active-tab{font-weight:700}
+
+.input-group>label{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.input-group.focus-in>label{color:var(--link)}
+.field input[type="text"],.field input[type="email"],.field input[type="password"]{height:54px;border-radius:17px}
+
+.login-btn{height:56px;border-radius:18px;background:linear-gradient(135deg,var(--p-dark) -25%,var(--p) 38%,var(--p-light) 115%);background-size:170% 100%;animation:lrFlow 7s ease-in-out infinite alternate}
+@keyframes lrFlow{to{background-position:100% 0}}
+.login-btn::before{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-20deg);animation:lrBtnSheen 5.5s ease-in-out infinite;pointer-events:none}
+@keyframes lrBtnSheen{0%,62%{left:-40%}100%{left:140%}}
+.login-btn:disabled::before,.login-btn.loading::before{animation:none;opacity:0}
+.btn-text .arr{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;font-size:16px;background:rgba(0,0,0,.12)}
+
+.switch-note{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)}
+.flow{border-radius:18px;background:linear-gradient(180deg,rgba(var(--p-rgb),.07),var(--field))}
+.hint{border-radius:16px;background:linear-gradient(135deg,rgba(var(--p-rgb),.12),rgba(var(--p-rgb),.04))}
+
+/* --- below the card --- */
+.assure span{padding:5px 13px 5px 6px;font-weight:500;box-shadow:0 8px 18px -14px rgba(15,23,42,.4)}
+.assure i{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;font-size:13px;background:rgba(34,197,94,.14)}
+.assure,.form-foot{animation:fadeUp .6s .25s var(--ease) both}
+
+/* --- desktop: soft glows behind the sign-in side --- */
+@media(min-width:980px){
+  .form-side::before,.form-side::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+  .form-side::before{width:340px;height:340px;top:0;right:0;background:radial-gradient(circle,rgba(var(--p-rgb),.2),transparent 68%)}
+  .form-side::after{width:300px;height:300px;bottom:0;left:0;background:radial-gradient(circle,rgba(99,102,241,.14),transparent 68%);animation-delay:-8s}
+}
+@media(prefers-reduced-motion:reduce){.shield,.login-btn,.login-btn::before,.pv::after,.brand-body h2 em{animation:none!important}}
+</style>
 </head>
 <body>
 
@@ -355,6 +425,7 @@ html{scroll-padding:80px 0 120px}
     </a>
 
     <div class="brand-body">
+      <span class="eyebrow"><span class="live" aria-hidden="true"></span> Administrator console</span>
       <h2>Welcome back,<br /><em>administrator.</em></h2>
       <p class="lead">One calm workspace to keep the school's notices, documents, gallery, faculty and calendar up to date.</p>
 
@@ -390,6 +461,7 @@ html{scroll-padding:80px 0 120px}
         </div>
         <div class="pv-float f1"><i class="ri-checkbox-circle-fill"></i> Notice published</div>
         <div class="pv-float f2"><i class="ri-image-add-fill"></i> Gallery updated</div>
+        <div class="pv-float f3"><i class="ri-user-follow-fill"></i> Access approved</div>
       </div>
 
       <ul class="points">
@@ -512,7 +584,7 @@ html{scroll-padding:80px 0 120px}
     </div>
     </div>
 
-    <div class="assure"><span><i class="ri-shield-check-fill" aria-hidden="true"></i> Protected admin access</span><span><i class="ri-server-line" aria-hidden="true"></i> Server-checked sessions</span></div>
+    <div class="assure"><span><i class="ri-shield-check-fill" aria-hidden="true"></i> Protected admin access</span><span><i class="ri-server-line" aria-hidden="true"></i> Server-checked sessions</span><span><i class="ri-lock-2-fill" aria-hidden="true"></i> Encrypted connection</span></div>
     <div class="form-foot">
       <p>🌸 Radhe Radhe · <a href="index.html"><i class="ri-arrow-left-line" aria-hidden="true"></i> Back to website</a></p>
     </div>

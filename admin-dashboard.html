@@ -6291,6 +6291,13 @@ body.dark .qn-go{background:rgba(255,255,255,.08)}
   .hero-v3:hover .hv3-chip.c4{transform:rotate(-10deg) translateY(-3px)}
 }
 </style>
+<script>
+window.psbsGo=function(u){ window.psbsAllowLeave=true; setTimeout(function(){window.psbsAllowLeave=false;},4000); window.location.href=u; };
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href]');
+  if(a&&!a.target&&/^(index|calendar|gallery)\.html/.test(a.getAttribute('href')||'')){ window.psbsAllowLeave=true; setTimeout(function(){window.psbsAllowLeave=false;},4000); }
+},true);
+</script>
 <style id="exit-card-style">
 .dlg-card.exit{position:relative;overflow:hidden;padding:30px 22px 22px;border-radius:26px}
 .dlg-card.exit:before{content:"";position:absolute;inset:0 0 auto 0;height:96px;background:radial-gradient(120% 100% at 50% 0%,rgba(var(--primary-rgb),.22),transparent 70%);pointer-events:none}
@@ -7786,7 +7793,7 @@ function renderAdminDefaults(){
     { title:'JUMP TO', items:[
       {icon:'👥', title:'Pending users', desc:'Review account requests', action:()=>navigate('pending')},
       {icon:'📅', title:'Calendar management', desc:'Edit school calendar data', action:()=>navigate('collection','calendar_data')},
-      {icon:'🌐', title:'Public website', desc:'Open the homepage', action:()=>{ window.location.href='index.html'; }}
+      {icon:'🌐', title:'Public website', desc:'Open the homepage', action:()=>{ psbsGo('index.html'); }}
     ]}
   ];
   let html='', n=0;
@@ -7814,9 +7821,9 @@ function getAdminSearchData(){
     {id:'school_info', title:'School Information', desc:'Edit school name, motto, contacts', icon:'🏫', action:()=>navigate('collection','school_info')},
     {id:'pending', title:'Pending Users', desc:'Review and approve user accounts', icon:'👥', action:()=>navigate('pending')},
     {id:'admins', title:'Administrator Management', desc:'View all administrators (super-admin)', icon:'🛡️', action:()=>navigate('admins')},
-    {id:'public-home', title:'Public Website - Home', desc:'Open public homepage', icon:'🌐', action:()=>{ window.location.href='index.html'; }},
-    {id:'public-calendar', title:'Public Calendar', desc:'Open public calendar page', icon:'🗓️', action:()=>{ window.location.href='calendar.html'; }},
-    {id:'public-gallery', title:'Public Gallery', desc:'Open public gallery page', icon:'🖼️', action:()=>{ window.location.href='gallery.html'; }}
+    {id:'public-home', title:'Public Website - Home', desc:'Open public homepage', icon:'🌐', action:()=>{ psbsGo('index.html'); }},
+    {id:'public-calendar', title:'Public Calendar', desc:'Open public calendar page', icon:'🗓️', action:()=>{ psbsGo('calendar.html'); }},
+    {id:'public-gallery', title:'Public Gallery', desc:'Open public gallery page', icon:'🖼️', action:()=>{ psbsGo('gallery.html'); }}
   ];
   if(Array.isArray(records) && records.length){
     const recItems = records.slice(0,30).map(r=>{
@@ -8827,8 +8834,17 @@ async function initAuth(){
   }
 }
 let logoutInProgress = false;
+let logoutAsking = false;
 async function handleLogout(){
-  if(logoutInProgress) return;
+  if(logoutInProgress || logoutAsking) return;
+  logoutAsking = true;
+  let confirmed = false;
+  try{
+    confirmed = (typeof window.psbsDialog==='function')
+      ? await window.psbsDialog({tone:'danger',icon:'ri-logout-box-r-line',title:'Log out?',message:'You will be signed out of Admin Studio on this device and taken to the public website.',okText:'Log out',okIcon:'ri-logout-box-r-line',cancelText:'Stay',cancelIcon:'ri-check-line'})
+      : window.confirm('Log out of Admin Studio?');
+  } finally { logoutAsking = false; }
+  if(!confirmed) return;
   logoutInProgress = true;
   const button = $('logoutMenu');
   if(button){ button.disabled = true; button.setAttribute('aria-busy','true'); }
@@ -8843,6 +8859,7 @@ async function handleLogout(){
     localStorage.removeItem('psbs_admin_name');
     sessionStorage.removeItem('psbs_admin_name');
     Toast.show('Logged out — redirecting to homepage','info');
+    window.psbsAllowLeave=true;
     setTimeout(()=>{ window.location.replace(new URL('index.html', window.location.href).href); }, 500);
   }catch(e){
     console.error('Admin logout failed:', e);
@@ -8856,10 +8873,14 @@ $('logoutMenu')?.addEventListener('click', handleLogout);
    Back closes open UI first. From another dashboard section it returns to Overview.
    From Overview it returns to the public homepage without clearing the admin token.
 */
-function psbsPushBackGuard(){
-  try { history.pushState({psbsAdminGuard:true}, '', window.location.href); } catch(e) {}
+function psbsPushBackGuard(armed){
+  try {
+    const i=((history.state&&history.state.i)||0)+1;
+    history.pushState({psbsAdminGuard:true,i:i,armed:!!armed}, '', window.location.href);
+  } catch(e) {}
 }
-psbsPushBackGuard();
+window.psbsAllowLeave=false;   /* set true only for deliberate exits (Exit card / logout) */
+/* No guard is pushed at load: a push without a tap makes the browser skip the page's own entry on Back. Guards are pushed on taps only. */
 /* Back handling lives in one place (the handler near exitFlow) so Back from a section only returns to Overview
    and the leave card shows only when Back is pressed on Overview itself. */
 // Explicit overview back button does not depend on browser history state.
@@ -9331,28 +9352,64 @@ function exitTarget(){
 async function exitFlow(){
   const t=exitTarget();
   const ok=await psbsDialog({tone:'exit',icon:'ri-logout-circle-r-line',title:'Exit or stay?',message:'You will stay signed in. Exiting takes you to the '+t.label+'.',okText:'Exit',okIcon:'ri-logout-box-r-line',cancelText:'Stay',cancelIcon:'ri-check-line'});
-  if(ok) location.href=t.href;
+  if(ok){
+    leaving=true; window.psbsAllowLeave=true;
+    const n=(history.state&&history.state.i)||0;   /* entries we added above the original page */
+    if(n>0){ history.go(-(n+1)); setTimeout(()=>location.replace(t.href),600); }
+    else location.replace(t.href);
+  }
 }
 window.psbsExitFlow=exitFlow;
-let guardFresh=false;
-function freshGuard(){ if(guardFresh) return; guardFresh=true; psbsPushBackGuard(); }
-['pointerdown','touchstart','keydown','click'].forEach(ev=>document.addEventListener(ev,freshGuard,{passive:true,capture:true}));
-window.addEventListener('pageshow',ev=>{ guardFresh=false; if(ev.persisted||!(history.state&&history.state.psbsAdminGuard)) psbsPushBackGuard(); });
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&!(history.state&&history.state.psbsAdminGuard)){ guardFresh=false; psbsPushBackGuard(); } });
+window.psbsDialog=psbsDialog;
+let leaving=false, lastTap=0;
+const GUARD_DEPTH=3;
+/* Browsers skip history entries that a page leaves/creates WITHOUT a tap. So guards are only ever pushed during a real
+   tap/key press (while the browser reports active user activation), 3 deep, and are topped up on every tap. */
+function canPush(){
+  /* The browser only skips entries when the page has NEVER had a tap; once it has, pushing is always safe. */
+  try{ if(navigator.userActivation) return navigator.userActivation.hasBeenActive; }catch(e){}
+  return true;
+}
+function topUp(){
+  if(leaving || !canPush()) return;
+  let n=(history.state&&history.state.i)||0, guard=0;
+  while(n<GUARD_DEPTH && guard++<GUARD_DEPTH){
+    try{ history.pushState({psbsAdminGuard:true,i:n+1},'',window.location.href); n++; }catch(e){ break; }
+  }
+}
+function armGuard(ev){
+  if(ev&&ev.type!=='pointerup'&&ev.type!=='pointerdown') lastTap=Date.now();
+  topUp();
+}
+['pointerdown','pointerup','touchstart','touchend','mousedown','click','keydown'].forEach(ev=>document.addEventListener(ev,armGuard,{passive:true,capture:true}));
+/* Last line of defence: if a Back still escapes, the browser asks before the page unloads.
+   Deliberate exits (Exit card, logout, in-app shortcuts tapped just now) are let through. */
+window.addEventListener('beforeunload',function(e){
+  if(window.psbsAllowLeave||leaving) return;
+  e.preventDefault(); e.returnValue=''; return '';
+});
 window.addEventListener('popstate',e=>{
   e.stopImmediatePropagation();
-  psbsPushBackGuard(); guardFresh=false;
+  if(leaving) return;
+  topUp();   /* every Back consumes one guard — put it back so the next Back is also caught */
+  /* 1) close whatever is really open — flags can go stale, so look at the real elements */
   if(dlg.classList.contains('open')){closeDlg(false);return;}
-  if(document.body.classList.contains('rp-open')){ $('rightPanelClose')?.click(); return; }
+  { const pk=document.querySelector('.pk-sheet-ov'); if(pk){ pk.click(); return; } }
+  const isOn=el=>!!(el&&el.classList.contains('active'));
+  if(document.body.classList.contains('rp-open')){
+    if(isOn($('rightPanel'))){ $('rightPanelClose')?.click(); return; }
+    document.body.classList.remove('rp-open');
+  }
   if(menu.classList.contains('open')){closeMenu2();return;}
   if(v_open()){closeViewer();return;}
-  const sidebarOpen=DOM.sidebar&&DOM.sidebar.classList.contains('active');
-  const editorOpen=$('editor').classList.contains('open');
-  if(sidebarOpen||editorOpen||State.isSearchOpen||State.isDropdownOpen||State.isThemePresetsOpen){
-    if(State.isSearchOpen)closeSearch();if(State.isThemePresetsOpen)closeThemePresets();
-    if(State.isDropdownOpen)closeProfileDropdown();if(sidebarOpen)closeSidebar();if(editorOpen)closeEditor();return;
+  const sidebarOpen=isOn(DOM.sidebar), editorOpen=$('editor').classList.contains('open');
+  const searchOpen=isOn(DOM.searchOverlay), dropOpen=isOn(DOM.profileDropdown), themeOpen=isOn(DOM.themePresetsModal);
+  if(sidebarOpen||editorOpen||searchOpen||dropOpen||themeOpen){
+    if(searchOpen)closeSearch();if(themeOpen)closeThemePresets();
+    if(dropOpen)closeProfileDropdown();if(sidebarOpen)closeSidebar();if(editorOpen)closeEditor();return;
   }
-  if(currentView!=='overview'){navigate('overview');return;}
+  /* 2) nothing left to close: from ANY section, Back asks Exit or Stay */
+  if(dlg.classList.contains('open')) return;
   exitFlow();
 },{capture:true});
 })();
@@ -9437,9 +9494,9 @@ window.addEventListener('popstate',e=>{
   sc('ri-upload-2-line','Add document','Share a file or resource','79,70,229',add('documents'));
   sc('ri-image-add-line','Add gallery photo','Add a campus image','16,185,129',add('gallery'));
   sc('ri-user-add-line','Add faculty','Add a teacher or staff','6,182,212',add('faculty'));
-  sc('ri-home-4-line','Public website','Open the homepage','234,88,12',()=>{location.href='index.html';});
-  sc('ri-calendar-line','Public calendar','Open calendar.html','139,92,246',()=>{location.href='calendar.html';});
-  sc('ri-gallery-line','Public gallery','Open gallery.html','16,185,129',()=>{location.href='gallery.html';});
+  sc('ri-home-4-line','Public website','Open the homepage','234,88,12',()=>{psbsGo('index.html');});
+  sc('ri-calendar-line','Public calendar','Open calendar.html','139,92,246',()=>{psbsGo('calendar.html');});
+  sc('ri-gallery-line','Public gallery','Open gallery.html','16,185,129',()=>{psbsGo('gallery.html');});
   $('ovAllNotices').onclick=()=>navigate('collection','notices');
   // Data
   let busy=false;

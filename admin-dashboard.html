@@ -6194,7 +6194,7 @@ body.dark .qn-go{background:rgba(255,255,255,.08)}
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
   width:auto;height:auto;right:0;top:0;border:0;box-shadow:none}
 .hero-v3 .hv2-orb{display:none}
-.hero-v3>*:not(.hv3-aurora):not(.hv3-mark):not(.hv3-art){position:relative;z-index:2}
+.hero-v3>*:not(.hv3-aurora):not(.hv3-mark):not(.hv3-art):not(.hv3-spark){position:relative;z-index:2}
 
 /* soft drifting glows */
 .hv3-aurora{position:absolute;z-index:0;border-radius:50%;filter:blur(46px);pointer-events:none;opacity:.55;will-change:transform}
@@ -6254,6 +6254,42 @@ body.dark .qn-go{background:rgba(255,255,255,.08)}
 
 @media(max-width:480px){.hero-v3{border-radius:22px}.hero-v3 p{font-size:13px}.hv3-mark{font-size:130px}.hero-v3 .hv2-date{display:none}}
 @media(prefers-reduced-motion:reduce){.hv3-aurora,.hv3-chip,.hv3-art:before,.hero-v3 h1 span,.hero-v3 .pill .live-dot,.hero-v3>*{animation:none!important}}
+</style>
+<style id="hero-v3-lite">
+.hero-v3 .pill[hidden]{display:none}
+.hero-v3 #heroEmail{display:block;max-width:min(240px,60vw);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ===== Lightweight version of the hero card: no continuous animation, no blur filters (smooth on low-power phones) ===== */
+.hv3-aurora{filter:none;animation:none;will-change:auto;opacity:1}
+.hv3-aurora.a1{width:300px;height:300px;right:-90px;top:-110px;background:radial-gradient(circle,rgba(var(--primary-rgb,243,156,18),.42),transparent 68%)}
+.hv3-aurora.a2{width:260px;height:260px;left:-80px;bottom:-130px;background:radial-gradient(circle,rgba(99,102,241,.34),transparent 68%)}
+.hero-v3 h1 span{animation:none;background-size:100% 100%;background-image:linear-gradient(100deg,var(--primary-light,#f5b041),#fff 85%)}
+.hero-v3 .pill .live-dot{animation:none}
+.hero-v3 .hv2-school,.hero-v3 .pill,.hero-v3 .hv2-date{-webkit-backdrop-filter:none;backdrop-filter:none}
+.hero-v3 .hv2-school{background:rgba(255,255,255,.1)}
+.hero-v3>.hv2-top,.hero-v3>.hv2-greet,.hero-v3>h1,.hero-v3>p,.hero-v3>.hero-foot{animation:none}
+.hero-v3 .pill{transition:none}
+
+/* special touch instead: soft static sparkles + a gradient-ring cluster of icons (drawn once, never repainted) */
+.hv3-spark{position:absolute;z-index:1;line-height:1;color:#fff;pointer-events:none;text-shadow:0 0 12px rgba(var(--primary-rgb,243,156,18),.95)}
+.hv3-spark.s1{right:16%;top:22%;font-size:20px;opacity:.75}
+.hv3-spark.s2{right:6%;top:15%;font-size:12px;opacity:.5}
+.hv3-spark.s3{right:30%;bottom:16%;font-size:14px;opacity:.45}
+@media(max-width:719px){.hv3-spark.s2,.hv3-spark.s3{display:none}.hv3-spark.s1{right:12%;top:14%;font-size:16px;opacity:.6}}
+
+@media(min-width:720px){
+  .hv3-art:before{animation:none;border:0;inset:10px;
+    background:conic-gradient(from 210deg,rgba(var(--primary-rgb,243,156,18),0),rgba(var(--primary-rgb,243,156,18),.7),rgba(255,255,255,.55),rgba(var(--primary-rgb,243,156,18),.15),rgba(var(--primary-rgb,243,156,18),0));
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
+  .hv3-chip{animation:none;box-shadow:0 14px 24px -12px rgba(var(--c),.75),inset 0 1px 0 rgba(255,255,255,.55)}
+}
+/* cheap, hover-only response on devices that have a mouse */
+@media(hover:hover) and (pointer:fine){
+  .hv3-chip{transition:transform .25s ease}
+  .hero-v3:hover .hv3-chip.c1{transform:rotate(-12deg) translateY(-3px)}
+  .hero-v3:hover .hv3-chip.c2{transform:rotate(11deg) translateY(-3px)}
+  .hero-v3:hover .hv3-chip.c3{transform:rotate(10deg) translateY(-3px)}
+  .hero-v3:hover .hv3-chip.c4{transform:rotate(-10deg) translateY(-3px)}
+}
 </style>
 <style id="exit-card-style">
 .dlg-card.exit{position:relative;overflow:hidden;padding:30px 22px 22px;border-radius:26px}
@@ -7144,6 +7180,49 @@ body.dark .toast .toast-close{
   #editor .editor-heading-wrap{gap:12px!important}
 }
 </style>
+<style id="glossy-edges">
+/* ===== Glossy edges: tappable rows/cards get a bright rim + soft top gloss so links are easy to spot (static, cheap to draw) ===== */
+body{--gl-sheen:rgba(255,255,255,.72);--gl-edge-a:rgba(255,255,255,.95);--gl-edge-b:rgba(255,255,255,.8);--gl-inset:rgba(255,255,255,.95);--gl-drop:rgba(15,23,42,.07)}
+body.dark{--gl-sheen:rgba(255,255,255,.07);--gl-edge-a:rgba(255,255,255,.34);--gl-edge-b:rgba(255,255,255,.2);--gl-inset:rgba(255,255,255,.12);--gl-drop:rgba(0,0,0,.35)}
+
+#view-overview .ov-bar,
+#view-overview .ov-item,
+.record-card,
+.quick-card,
+.record-actions .btn:not(.primary){
+  --gl:var(--qc,var(--primary-rgb,243,156,18));
+  border:1.5px solid transparent !important;
+  background:
+    linear-gradient(180deg,var(--gl-sheen),transparent 48%) padding-box,
+    linear-gradient(var(--surface-solid,#fff),var(--surface-solid,#fff)) padding-box,
+    linear-gradient(140deg,var(--gl-edge-a) 0%,rgba(var(--gl),.55) 36%,rgba(var(--gl),.22) 64%,var(--gl-edge-b) 100%) border-box !important;
+  box-shadow:inset 0 1px 0 var(--gl-inset),0 9px 18px -14px rgba(var(--gl),.75),0 1px 2px var(--gl-drop) !important;
+}
+.record-actions .btn.danger{--gl:217,76,76}
+
+/* hover / keyboard focus: tinted inside, stronger rim */
+#view-overview .ov-bar:hover,#view-overview .ov-bar:focus-visible,
+#view-overview .ov-item:hover,#view-overview .ov-item:focus-visible,
+.record-card:hover,
+.quick-card:hover,.quick-card:focus-visible,
+.record-actions .btn:not(.primary):hover{
+  background:
+    linear-gradient(180deg,var(--gl-sheen),transparent 48%) padding-box,
+    linear-gradient(rgba(var(--gl),.07),rgba(var(--gl),.07)) padding-box,
+    linear-gradient(var(--surface-solid,#fff),var(--surface-solid,#fff)) padding-box,
+    linear-gradient(140deg,var(--gl-edge-a) 0%,rgba(var(--gl),.9) 40%,rgba(var(--gl),.5) 70%,var(--gl-edge-b) 100%) border-box !important;
+  box-shadow:inset 0 1px 0 var(--gl-inset),0 12px 22px -14px rgba(var(--gl),.95),0 1px 2px var(--gl-drop) !important;
+}
+#view-overview .ov-bar:focus-visible,#view-overview .ov-item:focus-visible,.quick-card:focus-visible{outline:2px solid rgb(var(--gl));outline-offset:2px}
+#view-overview .ov-bar:active,#view-overview .ov-item:active{transform:scale(.985)}
+
+/* a clearer "this opens something" cue on the Overview rows */
+#view-overview .ov-item>i:last-child{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;font-size:17px;color:rgb(var(--gl));background:rgba(var(--gl),.12)}
+#view-overview .ov-bar .ct{min-width:34px;padding:3px 8px;text-align:center;border-radius:999px;background:rgba(var(--gl),.12);color:rgb(var(--gl))}
+
+/* the small icon tiles get a glossy rim too */
+#view-overview .ov-item .ic,#view-overview .ov-bar .nm i{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(var(--gl),.22)}
+</style>
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -7288,6 +7367,7 @@ body.dark .toast .toast-close{
       <div class="hero-admin hero-v2 hero-v3">
         <span class="hv3-aurora a1" aria-hidden="true"></span><span class="hv3-aurora a2" aria-hidden="true"></span>
         <i class="ri-graduation-cap-fill hv3-mark" aria-hidden="true"></i>
+        <span class="hv3-spark s1" aria-hidden="true">✦</span><span class="hv3-spark s2" aria-hidden="true">✦</span><span class="hv3-spark s3" aria-hidden="true">✦</span>
         <div class="hv3-art" aria-hidden="true">
           <span class="hv3-chip c1" style="--c:243,156,18"><i class="ri-megaphone-fill"></i></span>
           <span class="hv3-chip c2" style="--c:244,114,94"><i class="ri-image-add-fill"></i></span>
@@ -7298,7 +7378,7 @@ body.dark .toast .toast-close{
         <div class="hv2-greet" id="heroGreeting">Welcome back</div>
         <h1 id="welcome">Keep your school <span>up to date</span>, effortlessly.</h1>
         <p>Publish notices, share documents, update the gallery, calendar and faculty — all from one simple workspace.</p>
-        <div class="hero-foot"><span class="pill"><span class="live-dot"></span> Session verified</span><span class="pill"><i class="ri-smartphone-line"></i> Mobile friendly</span><span class="pill"><i class="ri-edit-2-line"></i> Easy editing</span></div>
+        <div class="hero-foot"><span class="pill"><span class="live-dot"></span> <span id="heroRole">Session verified</span></span><span class="pill"><i class="ri-user-follow-line" aria-hidden="true"></i> <span id="heroPending">Checking requests…</span></span><span class="pill" id="heroEmailPill" hidden><i class="ri-mail-line" aria-hidden="true"></i> <span id="heroEmail"></span></span></div>
       </div>
       <div class="stats">
         <div class="stat"><div class="stat-top">Content areas <span class="stat-icon"><i class="ri-apps-2-line"></i></span></div><strong>6</strong><small>Public website collections</small></div>
@@ -9188,6 +9268,27 @@ window.addEventListener('popstate',e=>{
   var ge=document.getElementById('heroGreeting'); if(ge) ge.textContent=g+' 👋';
   var de=document.getElementById('heroDate');
   if(de) de.textContent=new Date().toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+})();
+</script>
+<script>
+/* Welcome card: show live details (name, role, pending requests, email) from values the dashboard already loads. */
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var h=new Date().getHours(), g=h<5?'Working late':h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  function txt(id){var e=$(id);return e?(e.textContent||'').trim():'';}
+  function sync(){
+    var name=txt('ddName'), first=name&&name!=='—'?name.split(/\s+/)[0]:'';
+    var ge=$('heroGreeting'); if(ge) ge.textContent=g+(first?', '+first:'')+' 👋';
+    var role=txt('ddRole'), re=$('heroRole'); if(re) re.textContent=role?('Session verified · '+role):'Session verified';
+    var n=parseInt(txt('overviewPending'),10), pe=$('heroPending');
+    if(pe) pe.textContent=isNaN(n)?'Checking requests…':(n===0?'No pending requests':n+(n===1?' pending request':' pending requests'));
+    var mail=txt('accessSub'), mp=$('heroEmailPill'), me=$('heroEmail');
+    if(mp&&me){ var ok=mail.indexOf('@')>0; mp.hidden=!ok; if(ok) me.textContent=mail; }
+  }
+  ['ddName','ddRole','overviewPending','accessSub'].forEach(function(id){
+    var e=$(id); if(e) new MutationObserver(sync).observe(e,{childList:true,characterData:true,subtree:true});
+  });
+  sync();
 })();
 </script>
 <script>

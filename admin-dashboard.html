@@ -6802,6 +6802,275 @@ body.dark .btn.refresh-btn{ color:var(--primary-light); }
   .btn.refresh-btn.is-spinning{ opacity:.75; }
 }
 </style>
+<style id="viewer-redesign">
+/* ===== View sheet: hero header + icon cards ===== */
+#viewer .editor-sheet{background:var(--surface-solid);position:relative}
+.vw-hero{position:relative;flex:none;overflow:hidden;padding:max(22px,env(safe-area-inset-top)) 24px 22px;border-bottom:1px solid var(--glass-border,#e7eaf0);
+  background:linear-gradient(135deg,rgba(var(--primary-rgb),.20),rgba(var(--primary-rgb),.06) 55%,rgba(var(--primary-rgb),0))}
+.vw-hero::before{content:"";position:absolute;right:-70px;top:-80px;width:230px;height:230px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 35% 35%,rgba(var(--primary-rgb),.30),rgba(var(--primary-rgb),0) 70%)}
+.vw-hero::after{content:"";position:absolute;left:-40px;bottom:-60px;width:140px;height:140px;border-radius:50%;pointer-events:none;border:18px solid rgba(var(--primary-rgb),.07)}
+.vw-hero-row{position:relative;z-index:1;display:flex;gap:16px;align-items:flex-start}
+.vw-badge{width:64px;height:64px;flex:none;border-radius:20px;display:grid;place-items:center;background:var(--primary-gradient);color:#fff;font-size:30px;
+  box-shadow:0 10px 24px rgba(var(--primary-rgb),.38),inset 0 1px 0 rgba(255,255,255,.4);animation:vwPop .5s var(--spring) both}
+.vw-badge .vw-emoji{font-size:32px;line-height:1}
+.vw-headtxt{min-width:0;flex:1;padding-top:2px}
+.vw-eyebrow{display:inline-flex;align-items:center;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--primary-dark,#d68910)}
+.vw-title{margin:5px 0 0;font-size:clamp(21px,3.4vw,27px);line-height:1.22;letter-spacing:-.02em;color:var(--text);overflow-wrap:anywhere}
+.vw-close{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:20px;cursor:pointer;color:var(--primary-dark,#d68910);
+  background:rgba(var(--primary-rgb),.14);border:1px solid rgba(var(--primary-rgb),.28);transition:transform .2s,background .2s}
+body.dark .vw-close{color:var(--primary-light)}
+.vw-chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.vw-chips[hidden]{display:none}
+.vw-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:600;line-height:1.3;
+  color:var(--text);background:var(--surface-solid);border:1px solid rgba(var(--primary-rgb),.3);max-width:100%;overflow-wrap:anywhere;text-transform:capitalize}
+.vw-chip i{color:var(--primary);font-size:15px}
+.vw-chip[data-k=urgent]{color:#b91c1c;background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.35)}.vw-chip[data-k=urgent] i{color:#dc2626}
+.vw-chip[data-k=event]{color:#4338ca;background:rgba(79,70,229,.1);border-color:rgba(79,70,229,.35)}.vw-chip[data-k=event] i{color:#4f46e5}
+.vw-chip[data-k=exam]{color:#7e22ce;background:rgba(147,51,234,.1);border-color:rgba(147,51,234,.35)}.vw-chip[data-k=exam] i{color:#9333ea}
+.vw-chip[data-k=achievement]{color:#15803d;background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.35)}.vw-chip[data-k=achievement] i{color:#16a34a}
+.vw-chip[data-k=holiday]{color:#0f766e;background:rgba(13,148,136,.1);border-color:rgba(13,148,136,.35)}.vw-chip[data-k=holiday] i{color:#0d9488}
+body.dark .vw-chip[data-k=urgent]{color:#fca5a5}body.dark .vw-chip[data-k=event]{color:#a5b4fc}body.dark .vw-chip[data-k=exam]{color:#d8b4fe}
+body.dark .vw-chip[data-k=achievement]{color:#86efac}body.dark .vw-chip[data-k=holiday]{color:#5eead4}
+
+#viewer .vw-body{padding:20px 24px 28px}
+.vw-cover{position:relative;margin:0 0 16px;border-radius:20px;overflow:hidden;background:rgba(148,163,184,.12);border:1px solid rgba(148,163,184,.25);box-shadow:var(--shadow-md);animation:vwIn .45s var(--snap) both}
+.vw-cover[hidden]{display:none}
+.vw-cover a{display:block;position:relative;color:inherit}
+.vw-cover img{display:block;width:100%;max-height:400px;object-fit:cover}
+.vw-open{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:700;color:#fff;
+  background:rgba(15,23,42,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+
+.vw-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0}
+.vw-card{position:relative;margin:0;padding:14px 16px 16px;border-radius:18px;min-width:0;overflow:hidden;
+  background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.22);
+  animation:vwIn .42s var(--snap) both;animation-delay:calc(var(--i,0)*50ms);transition:border-color .2s,box-shadow .2s,transform .2s}
+.vw-card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--primary-gradient)}
+.vw-card:hover{border-color:rgba(var(--primary-rgb),.45);box-shadow:0 8px 22px rgba(var(--primary-rgb),.12);transform:translateY(-1px)}
+.vw-card.wide{grid-column:1/-1}
+.vw-label{display:flex;align-items:center;gap:9px;margin:0;padding-right:36px;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-light)}
+.vw-lic{width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;font-size:15px;color:var(--primary-dark,#d68910);background:rgba(var(--primary-rgb),.14)}
+body.dark .vw-lic{color:var(--primary-light)}
+.vw-value{margin:10px 0 0;font-size:16px;font-weight:600;line-height:1.5;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+.vw-prose .vw-value{font-weight:500;font-size:15.5px;line-height:1.7}
+.vw-card.stat .vw-value{font-size:32px;font-weight:800;letter-spacing:-.02em;line-height:1.1;color:var(--primary-dark,#d68910)}
+body.dark .vw-card.stat .vw-value{color:var(--primary-light)}
+.vw-card.is-empty{background:transparent;border-style:dashed}
+.vw-card.is-empty::before{opacity:.35}
+.vw-card.is-empty .vw-value{color:var(--text-light);font-weight:500;font-size:14.5px;font-style:italic}
+.vw-link{display:inline-flex;align-items:flex-start;gap:7px;max-width:100%;font-weight:700;color:var(--primary-dark,#d68910);text-decoration:none;overflow-wrap:anywhere;white-space:normal}
+.vw-link:hover{text-decoration:underline}.vw-link i{flex:none;margin-top:3px;font-size:16px}
+body.dark .vw-link{color:var(--primary-light)}
+.vw-value pre{margin:0;padding:14px;max-height:340px;overflow:auto;border-radius:12px;background:rgba(15,23,42,.06);font-size:13px;line-height:1.55;font-weight:500;white-space:pre;border:1px solid rgba(148,163,184,.2)}
+body.dark .vw-value pre{background:rgba(0,0,0,.28)}
+.vw-yn{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:999px;font-size:14px;font-weight:700}
+.vw-yn[data-on=true]{color:#15803d;background:rgba(22,163,74,.12)}.vw-yn[data-on=false]{color:#b91c1c;background:rgba(220,38,38,.1)}
+body.dark .vw-yn[data-on=true]{color:#86efac}body.dark .vw-yn[data-on=false]{color:#fca5a5}
+.vw-copy{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:16px;cursor:pointer;
+  color:var(--text-light);background:var(--surface-solid);border:1px solid rgba(148,163,184,.3);transition:color .2s,background .2s,border-color .2s,transform .15s}
+.vw-copy:hover{color:var(--primary-dark,#d68910);border-color:rgba(var(--primary-rgb),.5)}
+.vw-copy:active{transform:scale(.9)}
+.vw-copy.done{color:#fff;background:#16a34a;border-color:#16a34a}
+.vw-empty{grid-column:1/-1;text-align:center;padding:36px 12px;color:var(--text-light);font-size:14.5px}
+@keyframes vwIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes vwPop{from{opacity:0;transform:scale(.6) rotate(-8deg)}to{opacity:1;transform:none}}
+@media(max-width:560px){
+  .vw-hero{padding:max(16px,env(safe-area-inset-top)) 16px 18px}
+  .vw-badge{width:52px;height:52px;border-radius:16px;font-size:25px}.vw-badge .vw-emoji{font-size:27px}
+  #viewer .vw-body{padding:16px 16px 22px}
+  .vw-grid{grid-template-columns:1fr}
+  .vw-card.stat .vw-value{font-size:28px}
+}
+@media (prefers-reduced-motion: reduce){
+  .vw-card,.vw-cover,.vw-badge{animation:none!important}
+  .vw-card,.vw-close,.vw-copy{transition:none!important}.vw-close:hover{transform:none}
+}
+</style>
+<style id="close-cancel-buttons">
+/* ===== Close / Cancel buttons: raised, glossy, gradient ring (same look everywhere) ===== */
+body #viewerClose.btn,
+body #cancelEditor.btn,
+body #cancelNameCard.cancel-btn,
+body #dlgCancel.btn{
+  position:relative; isolation:isolate; overflow:hidden; cursor:pointer; -webkit-tap-highlight-color:transparent;
+  color:var(--primary-dark,#d68910); font-weight:700; border:1.5px solid transparent;
+  background:
+  linear-gradient(180deg,rgba(var(--primary-rgb),.15),rgba(var(--primary-rgb),.07)) padding-box,
+  linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,
+  linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box;
+  box-shadow:0 3px 10px rgba(var(--primary-rgb),.22);
+  backdrop-filter:none; -webkit-backdrop-filter:none;
+  transition:transform .2s var(--snap), box-shadow .25s ease;
+  border-radius:14px;
+}
+body #closeEditor.icon-btn,
+body #closeViewer.vw-close,
+body .modal-close-btn.modal-close-btn,
+body #rpClose.notice-close,
+body .toast .toast-close{
+  position:relative; isolation:isolate; overflow:hidden; cursor:pointer; -webkit-tap-highlight-color:transparent;
+  color:var(--primary-dark,#d68910); font-weight:700; border:1.5px solid transparent;
+  background:
+  linear-gradient(180deg,rgba(var(--primary-rgb),.15),rgba(var(--primary-rgb),.07)) padding-box,
+  linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,
+  linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box;
+  box-shadow:0 3px 10px rgba(var(--primary-rgb),.22);
+  backdrop-filter:none; -webkit-backdrop-filter:none;
+  transition:transform .2s var(--snap), box-shadow .25s ease;
+  display:grid; place-items:center; padding:0; border-radius:50%;
+}
+body #closeEditor.icon-btn,body #closeViewer.vw-close{ width:42px; height:42px; font-size:20px; }
+body #viewerClose.btn::before,
+body #cancelEditor.btn::before,
+body #cancelNameCard.cancel-btn::before,
+body #dlgCancel.btn::before{
+  content:""; position:absolute; inset:0 0 50% 0; z-index:-1; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0));
+}
+body #closeEditor.icon-btn::before,
+body #closeViewer.vw-close::before,
+body .modal-close-btn.modal-close-btn::before,
+body #rpClose.notice-close::before,
+body .toast .toast-close::before{
+  content:""; position:absolute; left:16%; right:16%; top:6%; height:42%; z-index:-1; border-radius:50%; pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0));
+}
+body #viewerClose.btn::after,
+body #cancelEditor.btn::after,
+body #cancelNameCard.cancel-btn::after,
+body #dlgCancel.btn::after{
+  content:""; position:absolute; top:0; bottom:0; left:-60%; width:40%; z-index:-1; pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0));
+  transform:skewX(-20deg); transition:left .6s ease;
+}
+@media (hover:hover) and (pointer:fine){
+body #viewerClose.btn:hover,
+body #cancelEditor.btn:hover,
+body #cancelNameCard.cancel-btn:hover,
+body #dlgCancel.btn:hover{ transform:translateY(-2px); box-shadow:0 9px 20px rgba(var(--primary-rgb),.32); }
+body #viewerClose.btn:hover::after,
+body #cancelEditor.btn:hover::after,
+body #cancelNameCard.cancel-btn:hover::after,
+body #dlgCancel.btn:hover::after{ left:120%; }
+body #closeEditor.icon-btn:hover,
+body #closeViewer.vw-close:hover,
+body .modal-close-btn.modal-close-btn:hover,
+body #rpClose.notice-close:hover,
+body .toast .toast-close:hover{ transform:rotate(90deg); box-shadow:0 9px 20px rgba(var(--primary-rgb),.34); }
+}
+body #viewerClose.btn:active,
+body #cancelEditor.btn:active,
+body #cancelNameCard.cancel-btn:active,
+body #dlgCancel.btn:active,
+body #closeEditor.icon-btn:active,
+body #closeViewer.vw-close:active,
+body .modal-close-btn.modal-close-btn:active,
+body #rpClose.notice-close:active,
+body .toast .toast-close:active{ transform:scale(.94); box-shadow:0 2px 6px rgba(var(--primary-rgb),.2); }
+body #viewerClose.btn:focus,
+body #cancelEditor.btn:focus,
+body #cancelNameCard.cancel-btn:focus,
+body #dlgCancel.btn:focus,
+body #closeEditor.icon-btn:focus,
+body #closeViewer.vw-close:focus,
+body .modal-close-btn.modal-close-btn:focus,
+body #rpClose.notice-close:focus,
+body .toast .toast-close:focus{ outline:none; }
+body #viewerClose.btn:focus-visible,
+body #cancelEditor.btn:focus-visible,
+body #cancelNameCard.cancel-btn:focus-visible,
+body #dlgCancel.btn:focus-visible,
+body #closeEditor.icon-btn:focus-visible,
+body #closeViewer.vw-close:focus-visible,
+body .modal-close-btn.modal-close-btn:focus-visible,
+body #rpClose.notice-close:focus-visible,
+body .toast .toast-close:focus-visible{ outline:3px solid rgba(var(--primary-rgb),.45); outline-offset:2px; }
+body.dark #viewerClose.btn,
+body.dark #cancelEditor.btn,
+body.dark #cancelNameCard.cancel-btn,
+body.dark #dlgCancel.btn,
+body.dark #closeEditor.icon-btn,
+body.dark #closeViewer.vw-close,
+body.dark .modal-close-btn.modal-close-btn,
+body.dark #rpClose.notice-close,
+body.dark .toast .toast-close{ color:var(--primary-light,#f5b041); box-shadow:0 3px 10px rgba(0,0,0,.4); }
+body.dark #viewerClose.btn::before,
+body.dark #cancelEditor.btn::before,
+body.dark #cancelNameCard.cancel-btn::before,
+body.dark #dlgCancel.btn::before{ background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0)); }
+body.dark #closeEditor.icon-btn::before,
+body.dark #closeViewer.vw-close::before,
+body.dark .modal-close-btn.modal-close-btn::before,
+body.dark #rpClose.notice-close::before,
+body.dark .toast .toast-close::before{ background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0)); }
+body.dark #viewerClose.btn::after,
+body.dark #cancelEditor.btn::after,
+body.dark #cancelNameCard.cancel-btn::after,
+body.dark #dlgCancel.btn::after{ background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.2),rgba(255,255,255,0)); }
+body #cancelNameCard.cancel-btn{ padding:11px 14px; }
+@media (prefers-reduced-motion: reduce){
+body #viewerClose.btn,
+body #cancelEditor.btn,
+body #cancelNameCard.cancel-btn,
+body #dlgCancel.btn,
+body #closeEditor.icon-btn,
+body #closeViewer.vw-close,
+body .modal-close-btn.modal-close-btn,
+body #rpClose.notice-close,
+body .toast .toast-close{ transition:none; }
+body #viewerClose.btn::after,
+body #cancelEditor.btn::after,
+body #cancelNameCard.cancel-btn::after,
+body #dlgCancel.btn::after{ display:none; }
+}
+</style>
+<style id="editor-hero-match">
+/* ===== Editor header = same hero as the View panel; X buttons = raised white glass ===== */
+body #closeEditor.icon-btn,
+body #closeViewer.vw-close,
+body .modal-close-btn.modal-close-btn,
+body #rpClose.notice-close,
+body .toast .toast-close{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.96),rgba(var(--primary-rgb),.12)) padding-box,
+    linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,
+    linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box;
+  box-shadow:0 4px 12px rgba(var(--primary-rgb),.26), inset 0 1px 0 rgba(255,255,255,.9);
+}
+body.dark #closeEditor.icon-btn,
+body.dark #closeViewer.vw-close,
+body.dark .modal-close-btn.modal-close-btn,
+body.dark #rpClose.notice-close,
+body.dark .toast .toast-close{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.16),rgba(var(--primary-rgb),.14)) padding-box,
+    linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,
+    linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box;
+  box-shadow:0 4px 12px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);
+}
+#editor .editor-top{
+  position:relative; overflow:hidden; margin:0; align-items:flex-start; gap:12px;
+  padding:max(22px,env(safe-area-inset-top)) 24px 20px;
+  border-bottom:1px solid var(--glass-border,#e7eaf0);
+  background:linear-gradient(135deg,rgba(var(--primary-rgb),.20),rgba(var(--primary-rgb),.06) 55%,rgba(var(--primary-rgb),0));
+}
+#editor .editor-top::before{content:"";position:absolute;right:-70px;top:-80px;width:230px;height:230px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 35% 35%,rgba(var(--primary-rgb),.30),rgba(var(--primary-rgb),0) 70%)}
+#editor .editor-top::after{content:"";position:absolute;left:-40px;bottom:-60px;width:140px;height:140px;border-radius:50%;pointer-events:none;border:18px solid rgba(var(--primary-rgb),.07)}
+#editor .editor-top>*{position:relative;z-index:1}
+#editor .editor-heading-wrap{align-items:center!important;gap:16px!important;min-width:0;flex:1}
+#editor .editor-heading-wrap>div:last-child{min-width:0}
+#editor .editor-category-icon{width:64px!important;height:64px!important;flex:none;border-radius:20px!important;font-size:30px!important;color:#fff!important;
+  background:var(--primary-gradient)!important;box-shadow:0 10px 24px rgba(var(--primary-rgb),.38),inset 0 1px 0 rgba(255,255,255,.4)}
+#editor #editorEyebrow{font-size:11.5px!important;font-weight:800!important;letter-spacing:.12em!important;text-transform:uppercase;color:var(--primary-dark,#d68910)!important}
+#editor .editor-top h2{margin:5px 0 0;font-size:clamp(21px,3.4vw,27px);line-height:1.22;letter-spacing:-.02em;overflow-wrap:anywhere}
+#editor #editorDescription{font-size:13.5px!important;line-height:1.45;margin:6px 0 0!important}
+@media(max-width:560px){
+  #editor .editor-top{padding:max(16px,env(safe-area-inset-top)) 16px 18px}
+  #editor .editor-category-icon{width:52px!important;height:52px!important;border-radius:16px!important;font-size:25px!important}
+  #editor .editor-heading-wrap{gap:12px!important}
+}
+</style>
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -7062,7 +7331,7 @@ body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
   </div>
 </aside>
 
-<div class="editor" id="editor" aria-hidden="true"><div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-top"><div class="editor-heading-wrap" style="display:flex;gap:12px;align-items:flex-start;"><div class="editor-category-icon" id="editorCategoryIcon" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(var(--primary-rgb),0.12);color:var(--primary);font-size:22px;"><i class="ri-edit-box-line"></i></div><div><div class="eyebrow" id="editorEyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">NEW CONTENT</div><h2 id="editorTitle">Add a notice</h2><p class="muted small" id="editorDescription" style="color:var(--text-light);font-size:11px;">Complete the fields below to publish your update.</p></div></div><button class="icon-btn ripple-host" id="closeEditor" aria-label="Close editor"><i class="ri-close-line"></i></button></div><form id="recordForm"><div class="editor-body"><div class="form-intro" style="display:flex;justify-content:space-between;gap:8px;margin-bottom:14px;font-size:11px;color:var(--text-light);"><span><strong id="formCollectionName">Notices</strong> · Your changes are saved to the connected school website.</span><span class="required-note">Fields marked * are required</span></div><div class="form-grid" id="formFields"></div></div><div class="form-actions"><button type="submit" class="btn primary ripple-host" id="saveRecord"><i class="ri-check-line"></i> Save changes</button><button type="button" class="btn ripple-host" id="cancelEditor">Cancel</button><span class="form-actions-spacer" style="flex:1;"></span><button type="button" class="btn danger ripple-host" id="deleteRecord" hidden><i class="ri-delete-bin-line"></i> Delete</button></div></form></div></div>
+<div class="editor" id="editor" aria-hidden="true"><div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-top"><div class="editor-heading-wrap" style="display:flex;gap:12px;align-items:flex-start;"><div class="editor-category-icon" id="editorCategoryIcon" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(var(--primary-rgb),0.12);color:var(--primary);font-size:22px;"><i class="ri-edit-box-line"></i></div><div><div class="eyebrow" id="editorEyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">NEW CONTENT</div><h2 id="editorTitle">Add a notice</h2><p class="muted small" id="editorDescription" style="color:var(--text-light);font-size:11px;">Complete the fields below to publish your update.</p></div></div><button class="icon-btn ripple-host" id="closeEditor" aria-label="Close editor"><i class="ri-close-line"></i></button></div><form id="recordForm"><div class="editor-body"><div class="form-intro" style="display:flex;justify-content:space-between;gap:8px;margin-bottom:14px;font-size:11px;color:var(--text-light);"><span><strong id="formCollectionName">Notices</strong> · Your changes are saved to the connected school website.</span><span class="required-note">Fields marked * are required</span></div><div class="form-grid" id="formFields"></div></div><div class="form-actions"><button type="submit" class="btn primary ripple-host" id="saveRecord"><i class="ri-check-line"></i> Save changes</button><button type="button" class="btn ripple-host" id="cancelEditor"><i class="ri-close-line" aria-hidden="true"></i> Cancel</button><span class="form-actions-spacer" style="flex:1;"></span><button type="button" class="btn danger ripple-host" id="deleteRecord" hidden><i class="ri-delete-bin-line"></i> Delete</button></div></form></div></div>
 
 <div id="toast" class="toast" role="status" aria-live="polite"><span class="toast-icon"></span><span class="toast-message"></span><button class="toast-close" aria-label="Close"><i class="ri-close-line"></i></button></div>
 
@@ -8430,26 +8699,100 @@ renderRecords=function(t,rows,target,emptyEl,editable=true){
 /* View dialog (read-only, reuses editor chrome) */
 const v=document.createElement('div');
 v.className='editor';v.id='viewer';v.setAttribute('aria-hidden','true');
-v.innerHTML='<div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="viewerTitle"><div class="editor-top"><div><div id="viewerEyebrow" style="font-size:12.5px;font-weight:700;color:var(--primary-dark,#d68910)"></div><h2 id="viewerTitle"></h2></div><button type="button" class="icon-btn" id="closeViewer" aria-label="Close details"><i class="ri-close-line"></i></button></div><div class="editor-body"><dl class="viewer-list" id="viewerBody"></dl></div><div class="form-actions"><button type="button" class="btn primary" id="viewerEdit"><i class="ri-edit-line"></i> Edit</button><button type="button" class="btn" id="viewerClose">Close</button></div></div>';
+v.innerHTML='<div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="viewerTitle"><div class="vw-hero"><div class="vw-hero-row"><div class="vw-badge" id="viewerIcon" aria-hidden="true"></div><div class="vw-headtxt"><div id="viewerEyebrow" class="vw-eyebrow"></div><h2 id="viewerTitle" class="vw-title"></h2></div><button type="button" class="vw-close" id="closeViewer" aria-label="Close details"><i class="ri-close-line"></i></button></div><div class="vw-chips" id="viewerChips"></div></div><div class="editor-body vw-body" id="viewerScroll"><div class="vw-cover" id="viewerCover" hidden></div><dl class="vw-grid" id="viewerBody"></dl></div><div class="form-actions"><button type="button" class="btn primary" id="viewerEdit"><i class="ri-edit-line"></i> Edit</button><button type="button" class="btn" id="viewerClose"><i class="ri-close-line"></i> Close</button></div></div>';
 document.body.append(v);
 let viewRow=null,viewTable=null,lastFocus=null;
+const VW_TITLE={notices:'title',documents:'title',faculty:'name',school_info:'school_name'};
+const VW_ICON={title:'ri-text',description:'ri-align-left',date:'ri-calendar-line',label:'ri-price-tag-3-line',subject:'ri-book-open-line',file_type:'ri-file-3-line',file_url:'ri-attachment-2',image_url:'ri-image-line',caption:'ri-chat-quote-line',order:'ri-sort-asc',name:'ri-user-3-line',emoji:'ri-emotion-happy-line',month_idx:'ri-calendar-2-line',year_bs:'ri-calendar-event-line',data:'ri-braces-line',school_name:'ri-building-2-line',motto:'ri-double-quotes-l',address:'ri-map-pin-2-line',phone:'ri-phone-line',email:'ri-mail-line',students_count:'ri-group-line',teachers_count:'ri-user-star-line',established_year:'ri-history-line',full_name:'ri-user-3-line',role:'ri-shield-user-line',is_approved:'ri-checkbox-circle-line'};
+function vwCopy(text){
+  const ok=()=>{if(typeof Toast!=='undefined')Toast.show('Copied to clipboard','success');};
+  const bad=()=>{if(typeof Toast!=='undefined')Toast.show('Could not copy','error');};
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok).catch(bad);return;}}catch(e){}
+  bad();
+}
+function vwIcon(cls){const i=document.createElement('i');i.className=cls;i.setAttribute('aria-hidden','true');return i;}
 window.openViewer=function(row,t){
   viewRow=row;viewTable=t;lastFocus=document.activeElement;
-  $('viewerEyebrow').textContent=SCHEMAS[t].title;$('viewerTitle').textContent=recordTitle(t,row);
+  const S=SCHEMAS[t];
+  $('viewerEyebrow').textContent=S.title;$('viewerTitle').textContent=recordTitle(t,row);
+
+  /* hero badge: emoji for faculty, otherwise the section icon */
+  const badge=$('viewerIcon');badge.replaceChildren();
+  if(t==='faculty'&&row.emoji) badge.append(mk('span','vw-emoji',row.emoji)); else badge.append(vwIcon(iconFor(t)));
+
+  /* hero chips */
+  const chips=$('viewerChips');chips.replaceChildren();
+  const chip=(txt,icon,k)=>{const c=mk('span','vw-chip');if(k)c.dataset.k=String(k).toLowerCase();if(icon)c.append(vwIcon(icon));c.append(document.createTextNode(txt));chips.append(c);};
+  if(row.date) chip(Helpers.formatDate(row.date),'ri-calendar-line');
+  if(row.label) chip(row.label,'ri-price-tag-3-line',row.label);
+  if(row.subject&&t!=='notices') chip(row.subject,'ri-book-open-line');
+  if(row.file_type) chip(row.file_type,'ri-file-3-line');
+  if(row.order!==undefined&&row.order!==null&&row.order!=='') chip('Order '+row.order,'ri-sort-asc');
+  if(t==='calendar_data'){chip('B.S. '+(row.year_bs??'—'),'ri-calendar-event-line');chip('Month '+(row.month_idx??'—'),'ri-calendar-2-line');}
+  chips.hidden=!chips.children.length;
+
+  /* gallery cover image */
+  const cover=$('viewerCover');cover.replaceChildren();cover.hidden=true;
+  if(t==='gallery'){
+    const u=Helpers.safeUrl(row.image_url);
+    if(u){
+      const a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Open full image');
+      const im=document.createElement('img');im.src=u;im.alt=row.caption||'Gallery photo';
+      im.onerror=()=>{cover.hidden=true;};
+      const op=mk('span','vw-open');op.append(vwIcon('ri-external-link-line'),document.createTextNode(' Open full image'));
+      a.append(im,op);cover.append(a);cover.hidden=false;
+    }
+  }
+
+  /* field cards */
   const body=$('viewerBody');body.replaceChildren();
+  let n=0;
   fieldsFor(t).forEach(([key,label,type])=>{
-    const val=row[key];const dt=mk('dt',null,label);const dd=document.createElement('dd');
+    if(key===VW_TITLE[t]) return;                      /* already the hero title */
+    if(t==='gallery'&&key==='caption') return;         /* already the hero title */
+    const val=row[key];
     const empty=val===null||val===undefined||val==='';
-    if(empty) dd.textContent='—';
-    else if(type==='json'){const pre=document.createElement('pre');try{pre.textContent=JSON.stringify(val,null,2);}catch(e){pre.textContent=String(val);}dd.append(pre);}
-    else if(type==='checkbox') dd.textContent=val?'Yes':'No';
+    const card=mk('div','vw-card');card.style.setProperty('--i',n++);
+    const dt=mk('dt','vw-label');const ic=mk('span','vw-lic');ic.append(vwIcon(VW_ICON[key]||'ri-information-line'));dt.append(ic,mk('span',null,label));
+    const dd=document.createElement('dd');dd.className='vw-value';
+    let copyText='';
+    if(empty){dd.textContent='Not set';card.classList.add('is-empty');}
+    else if(type==='json'){
+      card.classList.add('wide');
+      const pre=document.createElement('pre');try{pre.textContent=JSON.stringify(val,null,2);}catch(e){pre.textContent=String(val);}
+      dd.append(pre);copyText=pre.textContent;
+    }
+    else if(type==='checkbox'){const y=mk('span','vw-yn',val?'Yes':'No');y.dataset.on=val?'true':'false';y.prepend(vwIcon(val?'ri-checkbox-circle-fill':'ri-close-circle-fill'));dd.append(y);}
     else if(type==='date') dd.textContent=Helpers.formatDate(val);
-    else if(type==='url'||key==='file_url'){const u=Helpers.safeUrl(val);if(u){const a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.textContent=String(val);dd.append(a);}else dd.textContent=String(val);
-      if(key==='image_url'&&u){const im=document.createElement('img');im.src=u;im.alt=row.caption||'Gallery photo';im.style.marginTop='10px';im.onerror=()=>im.remove();dd.append(im);}}
-    else dd.textContent=String(val);
-    const r=mk('div','viewer-row');r.append(dt,dd);body.append(r);
+    else if(type==='url'||key==='file_url'){
+      card.classList.add('wide');
+      const u=Helpers.safeUrl(val);copyText=String(val);
+      if(u){const a=document.createElement('a');a.className='vw-link';a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.append(mk('span',null,String(val)),vwIcon('ri-external-link-line'));dd.append(a);}
+      else dd.textContent=String(val);
+    }
+    else if(type==='email'||type==='tel'){
+      const sv=String(val).trim();copyText=sv;
+      const a=document.createElement('a');a.className='vw-link';a.href=(type==='email'?'mailto:':'tel:')+sv;a.textContent=sv;dd.append(a);
+    }
+    else if(type==='number'){card.classList.add('stat');dd.textContent=String(val);}
+    else if(key==='label'){const c=mk('span','vw-chip',String(val));c.dataset.k=String(val).toLowerCase();dd.append(c);}
+    else{
+      const sv=String(val);dd.textContent=sv;copyText=sv;
+      if(type==='textarea'||sv.length>60||sv.indexOf('\n')>-1){card.classList.add('wide','vw-prose');}
+    }
+    card.append(dt,dd);
+    if(copyText){
+      const cb=document.createElement('button');cb.type='button';cb.className='vw-copy';cb.title='Copy';cb.setAttribute('aria-label','Copy '+label);cb.append(vwIcon('ri-file-copy-line'));
+      cb.onclick=()=>{vwCopy(copyText);cb.classList.add('done');cb.replaceChildren(vwIcon('ri-check-line'));setTimeout(()=>{cb.classList.remove('done');cb.replaceChildren(vwIcon('ri-file-copy-line'));},1400);};
+      card.append(cb);
+    }
+    body.append(card);
   });
+  if(!body.children.length){const e=mk('div','vw-empty','No further details for this record.');body.append(e);}
+
   v.classList.add('open');v.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  const sc=$('viewerScroll');if(sc)sc.scrollTop=0;
+  const sh=v.querySelector('.editor-sheet');if(sh)sh.scrollTop=0;
   setTimeout(()=>$('viewerEdit').focus({preventScroll:true}),80);
 };
 function closeViewer(){v.classList.remove('open');v.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true});}catch(e){}}

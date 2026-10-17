@@ -6456,6 +6456,352 @@ input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-se
 @media (max-height: 700px) { .dp-quick { display: none; } .dp-big { font-size: 1.55rem; margin: 6px 0 8px; } }
 @media (prefers-reduced-motion: reduce) { .dp-pop, .dp-body, .dp-backdrop { transition: none !important; animation: none !important; } }
 </style>
+<style id="psbs-v4-admin">
+/* =====================================================================
+   1) DOCUMENTS toolbar — floating over the list with a white blurry
+      gradient from the top; search / All / PDF… have no background.
+   ===================================================================== */
+.right-panel .panel-pane[data-pane="documents"] { position: relative; }
+.right-panel .doc-toolbar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+  pointer-events: none;
+  transition: transform .4s var(--snap);
+  will-change: transform;
+}
+.right-panel .doc-toolbar.is-hidden { transform: translateY(-100%); }
+.right-panel .doc-toolbar::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; bottom: -22px; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--surface-solid) 94%, transparent) 0%,
+    color-mix(in srgb, var(--surface-solid) 72%, transparent) 55%,
+    transparent 100%);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+}
+.right-panel .doc-toolbar-scroll { pointer-events: auto; padding-top: 14px; padding-bottom: 12px; }
+.right-panel #documentsContainer { padding-top: 70px !important; }
+
+
+/* =====================================================================
+   2) SEARCH — one card: input + results below it (no second card).
+   ===================================================================== */
+.search-overlay .search-box .search-results { display: block; overflow-y: auto; }
+.search-overlay .search-box .search-results:empty { display: none; }
+
+/* ---- Large screens: card sits exactly where the header search pill is.
+        No blur, sidebar stays sharp and untouched. ---- */
+@media (min-width: 1200px) {
+  .search-overlay {
+    left: var(--rail); padding: 12px 32px;
+    align-items: flex-start; justify-content: flex-start;
+    background: rgba(15,23,42,.10) !important;
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  .search-overlay .search-box {
+    width: min(560px, 60vw); max-width: none; padding: 0; border-radius: 24px;
+    transform-origin: top left;
+  }
+  .search-overlay .search-box .search-input-wrap {
+    min-height: 44px; height: 44px; padding: 0 8px 0 18px; gap: 12px;
+    border: 0 !important; border-radius: 24px; background: transparent !important; box-shadow: none !important;
+  }
+  .search-overlay .search-box .search-input-wrap input { padding: 0; font-size: .95rem; }
+  .search-overlay .search-box .search-input-wrap { border-radius: 24px 24px 0 0; }
+  .search-overlay .search-box .search-results {
+    margin: 0; padding: 8px 10px 10px; border-radius: 0;
+    max-height: min(62vh, 470px);
+    border-top: 1px solid var(--border);
+    background: linear-gradient(to bottom, rgba(var(--primary-rgb), .045), transparent 60px);
+  }
+}
+
+/* ---- Phones / tablets: the header turns into a search bar, a floating
+        result card drops below it, the page behind is paused. ---- */
+@media (max-width: 1199px) {
+  body.search-open { overflow: hidden; }
+  .search-overlay {
+    padding: 0; align-items: flex-start; justify-content: stretch;
+    background:
+      radial-gradient(90% 40% at 15% 0%, rgba(var(--primary-rgb), .14), transparent 65%),
+      linear-gradient(180deg, rgba(255,255,255,.26) 0%, rgba(241,245,249,.18) 55%, rgba(15,23,42,.14) 100%) !important;
+    -webkit-backdrop-filter: blur(5px) saturate(150%) !important;
+    backdrop-filter: blur(5px) saturate(150%) !important;
+    overscroll-behavior: contain; touch-action: none;
+  }
+  body.dark .search-overlay {
+    background:
+      radial-gradient(90% 40% at 15% 0%, rgba(var(--primary-rgb), .16), transparent 65%),
+      linear-gradient(180deg, rgba(30,41,59,.32) 0%, rgba(15,23,42,.40) 100%) !important;
+  }
+  /* soft diagonal gloss sweep over the blurred page */
+  .search-overlay::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 68%, rgba(255,255,255,.12) 100%);
+    opacity: 0; transition: opacity .5s ease;
+  }
+  .search-overlay.active::before { opacity: 1; }
+  body.dark .search-overlay::before { opacity: 0 !important; }
+  .search-overlay .search-box {
+    width: 100%; max-width: none; padding: 0; overflow: visible; border-radius: 0;
+    background: transparent !important; border: 0 !important; box-shadow: none !important;
+    touch-action: auto; transform: none !important; opacity: 1 !important;
+  }
+  .search-overlay .search-box::before, .search-overlay .search-box::after { display: none; }
+
+  /* --- Search bar = the header itself: same surface, glossy round buttons, pill input --- */
+  .search-overlay .search-box { padding-top: 0; }
+  .search-overlay .search-box::before { display: none !important; }
+  .search-overlay .search-box .search-input-wrap {
+    --sb-btn: 44px;
+    height: calc(var(--header-height) + 10px + env(safe-area-inset-top, 0px)); min-height: 0; margin: 0; gap: 9px;
+    padding: env(safe-area-inset-top, 0px) var(--container-padding) 0;
+    border: 0 !important; border-radius: 0 0 24px 24px;
+    background: var(--surface) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid var(--glass-border) !important;
+    box-shadow: 0 14px 34px -22px rgba(15,23,42,.5), 0 2px 30px rgba(0,0,0,.03) !important;
+    clip-path: none; opacity: 0; transition: opacity .25s ease;
+  }
+  body.dark .search-overlay .search-box .search-input-wrap { background: var(--surface) !important; border-color: transparent !important; }
+  .search-overlay.active .search-box .search-input-wrap { opacity: 1; clip-path: none; }
+  .search-overlay .search-box .search-input-wrap:focus-within { box-shadow: 0 14px 34px -22px rgba(15,23,42,.5), 0 2px 30px rgba(0,0,0,.03) !important; }
+
+  /* leading search button — glossy circle like the header buttons */
+  .search-overlay .search-box .search-input-wrap > i {
+    position: relative; overflow: hidden;
+    flex: 0 0 var(--sb-btn) !important; width: var(--sb-btn) !important; height: var(--sb-btn) !important;
+    border-radius: 50% !important; font-size: 19px !important; color: var(--primary) !important;
+    background: var(--glass-fill) !important; border: 1px solid var(--card-ring) !important;
+    box-shadow: 0 8px 16px -8px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05) !important;
+    transform: scale(.4) rotate(-90deg); opacity: 0;
+  }
+  .search-overlay .search-box .search-input-wrap > i::before { position: relative; z-index: 1; }
+  .search-overlay .search-box .search-input-wrap > i::after {
+    display: block; content: ""; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%; border-radius: 50% / 65%;
+    background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,0)); pointer-events: none;
+  }
+  body.dark .search-overlay .search-box .search-input-wrap > i::after { background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0)); }
+  .search-overlay.active .search-box .search-input-wrap > i { transform: none; opacity: 1; transition: transform .5s var(--spring) .05s, opacity .3s ease .05s; }
+
+  /* input = glossy pill that grows out from the right edge */
+  .search-overlay .search-box .search-input-wrap input {
+    flex: 1; min-width: 0; height: var(--sb-btn); padding: 0 18px; border-radius: 999px;
+    font-size: 1rem; font-weight: 600; color: var(--text);
+    background: var(--glass-fill) !important; border: 1px solid var(--card-ring) !important;
+    box-shadow: 0 8px 16px -10px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05) !important;
+    clip-path: inset(0 0 0 calc(100% - 44px) round 999px); opacity: 0;
+    transition: clip-path .55s var(--snap) .08s, opacity .2s ease .08s, box-shadow .25s ease, border-color .25s ease;
+  }
+  .search-overlay.active .search-box .search-input-wrap input { clip-path: inset(0 0 0 0 round 999px); opacity: 1; }
+  .search-overlay .search-box .search-input-wrap input:focus {
+    border-color: rgba(var(--primary-rgb), .45) !important;
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), .12), 0 10px 20px -10px rgba(var(--primary-rgb), .5), inset 0 1px 0 rgba(255,255,255,.95) !important;
+  }
+  .search-overlay .search-box .search-input-wrap input::-webkit-search-cancel-button { display: none; }
+
+  /* close button — glossy circle */
+  .search-overlay .search-box .search-input-wrap .search-clear {
+    position: relative; overflow: hidden;
+    flex: 0 0 var(--sb-btn); width: var(--sb-btn); height: var(--sb-btn);
+    border-radius: 50%; font-size: 16px; font-weight: 700; color: var(--text); opacity: 0;
+    border: 1px solid var(--card-ring); background: var(--glass-fill);
+    box-shadow: 0 8px 16px -8px rgba(15,23,42,.4), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05);
+    transform: scale(.4) rotate(90deg);
+  }
+  .search-overlay .search-box .search-input-wrap .search-clear::before {
+    display: block; content: ""; position: absolute; left: 14%; right: 14%; top: 5%; height: 44%; border-radius: 50% / 65%;
+    background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,0)); pointer-events: none;
+  }
+  body.dark .search-overlay .search-box .search-input-wrap .search-clear::before { background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0)); }
+  .search-overlay.active .search-box .search-input-wrap .search-clear { opacity: 1; transform: none; transition: transform .5s var(--spring) .15s, opacity .3s ease .15s; }
+  .search-overlay .search-box .search-input-wrap .search-clear:active { transform: scale(.9); }
+
+  /* --- Floating result card --- */
+  .search-overlay .search-box .search-results {
+    position: relative; margin: 12px 12px 0; padding: 6px 6px 8px; overflow-y: auto;
+    border-radius: 26px; border: 1px solid var(--border);
+    background:
+      linear-gradient(180deg, rgba(var(--primary-rgb), .07), transparent 90px),
+      var(--surface-solid);
+    box-shadow:
+      0 34px 60px -28px rgba(15,23,42,.65),
+      0 0 0 1px rgba(var(--primary-rgb), .06),
+      inset 0 1px 0 rgba(255,255,255,.6);
+    max-height: calc(100dvh - var(--header-height) - 10px - env(safe-area-inset-top, 0px) - var(--kb, 0px) - 44px);
+    overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; animation: srCardIn .42s var(--snap) both;
+  }
+  .search-overlay .search-box .search-results::-webkit-scrollbar { display: none; }
+  @keyframes srCardIn { from { opacity: 0; transform: translateY(-14px) scale(.97); } to { opacity: 1; transform: none; } }
+
+  /* group heading */
+  .search-overlay .search-group-title {
+    display: flex; align-items: center; gap: 8px; padding: 12px 12px 6px;
+    font-size: .68rem; font-weight: 800; letter-spacing: .14em; color: var(--text-light);
+  }
+  .search-overlay .search-group-title::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--primary-gradient);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), .16);
+  }
+  .search-overlay .search-group-title::after {
+    content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* result rows */
+  .search-overlay .search-result-item {
+    display: flex; align-items: center; gap: 12px; margin: 0; padding: 10px 10px 10px 12px;
+    border: 0; border-radius: 18px; background: transparent; box-shadow: none;
+    transition: background .2s ease, transform .2s var(--spring);
+  }
+  .search-overlay .search-result-item + .search-result-item::before {
+    content: ""; position: absolute; left: 70px; right: 12px; top: 0; height: 1px; background: var(--border); opacity: .7;
+  }
+  .search-overlay .search-result-item:active { background: rgba(var(--primary-rgb), .10); transform: scale(.985); }
+  .search-overlay .search-result-item .sri-icon {
+    flex: 0 0 46px; width: 46px; height: 46px; border-radius: 15px; font-size: 1.35rem;
+    background: linear-gradient(145deg, rgba(var(--primary-rgb), .20), rgba(var(--primary-rgb), .06));
+    border: 1px solid rgba(var(--primary-rgb), .16);
+    box-shadow: 0 10px 18px -12px rgba(var(--primary-rgb), .7), inset 0 1px 0 rgba(255,255,255,.55);
+  }
+  .search-overlay .search-result-item .sri-text { min-width: 0; }
+  .search-overlay .search-result-item .sri-text h4 {
+    font-size: .95rem; font-weight: 750; line-height: 1.25; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .search-overlay .search-result-item .sri-text p {
+    margin-top: 3px; font-size: .78rem; color: var(--text-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .search-overlay .search-result-item .sri-tag {
+    flex: 0 0 auto; font-size: .62rem; padding: 4px 9px;
+    border: 1px solid rgba(var(--primary-rgb), .18);
+    background: rgba(var(--primary-rgb), .09);
+  }
+  .search-overlay .search-result-item::after {
+    content: "\ea6e"; font-family: "remixicon"; flex: 0 0 auto; margin-left: -4px;
+    font-size: 1.15rem; color: var(--text-light); opacity: .6;
+  }
+
+  /* empty / no-result state */
+  .search-overlay .search-empty {
+    margin: 6px; padding: 34px 18px; border-radius: 20px; text-align: center;
+    font-size: .92rem; font-weight: 600; color: var(--text-light);
+    background: radial-gradient(circle at 50% 0%, rgba(var(--primary-rgb), .10), transparent 70%);
+    border: 1px dashed rgba(var(--primary-rgb), .22);
+  }
+}
+
+/* ---- Tablets (768–1199px): same mobile design, but a centered floating card
+        (input + results) — not full screen width. ---- */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .search-overlay { padding: 12px 20px; justify-content: center; }
+  .search-overlay .search-box { width: min(680px, 100%); }
+  .search-overlay .search-box .search-input-wrap {
+    height: var(--header-height); padding: 0 14px; border-radius: 26px;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: 0 22px 44px -24px rgba(15,23,42,.55), 0 2px 30px rgba(0,0,0,.03) !important;
+  }
+  .search-overlay .search-box .search-results {
+    margin: 10px 0 0; max-height: calc(100dvh - var(--header-height) - var(--kb, 0px) - 64px);
+  }
+}
+</style>
+<style id="psbs-v4-admin-extra">
+/* ===== Floating tabs (Notices / Documents) over the cards ===== */
+.right-panel .panel-tabbar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 5;
+  padding: 26px 14px calc(16px + env(safe-area-inset-bottom, 0px)); pointer-events: none;
+}
+.right-panel .panel-tabbar::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to top, color-mix(in srgb, var(--surface-solid) 78%, transparent) 0%, transparent 100%);
+}
+.right-panel .panel-tab {
+  pointer-events: auto;
+  backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%);
+}
+.right-panel .panel-pane-body { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+.right-panel .panel-pane { position: relative; }
+.rp-docwrap { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.rp-docwrap > .panel-pane-body { flex: 1; }
+
+/* panel chrome */
+.rp-overlay { position: fixed; inset: 0; z-index: calc(var(--z-sidebar, 1000) - 1); background: rgba(15,23,42,.38);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility .4s ease; }
+.rp-overlay.active { opacity: 1; visibility: visible; }
+.rp-head-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+.right-panel .sidebar-header { padding-right: 14px; }
+.right-panel .update-card h3 { margin-bottom: 4px; }
+body.rp-open { overflow: hidden; }
+.notice-btn .notice-badge { z-index: 3; }
+
+/* ===== Swipeable add-cards carousel on phones ===== */
+.qn-dots { display: none; }
+.quick-notice-card.qn-clone { display: none !important; }
+@container (max-width: 559.98px) { .quick-notice-card.qn-clone { display: flex !important; } }
+.search-group-title { padding: 12px 12px 6px; font-size: .68rem; font-weight: 800; letter-spacing: .14em; color: var(--text-light); }
+.search-group-title:first-child { padding-top: 6px; }
+@container (max-width: 559.98px) {
+  .quick-notice-row {
+    display: flex; grid-template-columns: none; gap: 12px; overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    overscroll-behavior-x: contain; touch-action: pan-x pan-y; padding: 6px 2px 8px; margin: 0 -2px;
+  }
+  .quick-notice-row::-webkit-scrollbar { display: none; }
+  .quick-notice-card:nth-child(n+2) { display: flex; }
+  .quick-notice-card {
+    flex: 0 0 86%; width: auto; scroll-snap-align: center; scroll-snap-stop: always;
+    transform: scale(.94); opacity: .72; transition: transform .45s var(--snap), opacity .35s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .quick-notice-card.qn-current { transform: none; opacity: 1; }
+  .quick-notice-card:active { transform: scale(.97); }
+  .qn-dots { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 4px; }
+  .qn-dot {
+    width: 7px; height: 7px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
+    background: var(--border); opacity: .9; transition: width .35s var(--snap), background .3s ease;
+  }
+  .qn-dot.active { width: 22px; background: var(--primary-gradient); }
+}
+@media (prefers-reduced-motion: reduce) { .quick-notice-card { transition: none; } }
+</style>
+
+<style id="refresh-buttons">
+/* ===== Refresh buttons: pill with a glowing icon badge ===== */
+.btn.refresh-btn,
+.admin-content .btn.refresh-btn,
+#view-overview .ov-head .btn.refresh-btn{
+  position:relative; gap:10px; min-height:44px; padding:5px 18px 5px 5px; border-radius:999px;
+  border:1.5px solid transparent; font-weight:700; font-size:14px; letter-spacing:.01em; color:var(--primary-dark);
+  background:
+    linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,
+    linear-gradient(135deg,var(--primary-light),var(--primary)) border-box;
+  box-shadow:0 3px 10px rgba(var(--primary-rgb),.18);
+  transition:transform .2s var(--snap), box-shadow .25s ease, color .2s ease;
+}
+.btn.refresh-btn .rf-ic{
+  width:32px; height:32px; flex:none; border-radius:50%; display:grid; place-items:center;
+  background:var(--primary-gradient); color:#fff;
+  box-shadow:0 3px 8px rgba(var(--primary-rgb),.38), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.admin-content .btn.refresh-btn i,#view-overview .ov-head .btn.refresh-btn i,.btn.refresh-btn i{
+  font-size:17px; line-height:1; display:block; transition:transform .55s var(--snap);
+}
+.btn.refresh-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(var(--primary-rgb),.3); }
+.btn.refresh-btn:hover .rf-ic i{ transform:rotate(180deg); }
+.btn.refresh-btn:active{ transform:scale(.96); }
+.btn.refresh-btn:focus-visible{ outline:3px solid rgba(var(--primary-rgb),.4); outline-offset:2px; }
+.btn.refresh-btn.is-spinning .rf-ic i{ animation:rfSpin .75s linear infinite; transition:none; }
+.btn.refresh-btn.is-spinning{ box-shadow:0 0 0 4px rgba(var(--primary-rgb),.15), 0 6px 16px rgba(var(--primary-rgb),.28); }
+@keyframes rfSpin{ to{ transform:rotate(360deg); } }
+body.dark .btn.refresh-btn{ color:var(--primary-light); }
+@media(max-width:560px){ .admin-content .section-head>.btn.refresh-btn{ width:100%; } }
+@media (prefers-reduced-motion: reduce){
+  .btn.refresh-btn .rf-ic i,.btn.refresh-btn:hover .rf-ic i{ transition:none; transform:none; }
+  .btn.refresh-btn.is-spinning .rf-ic i{ animation:none; }
+  .btn.refresh-btn.is-spinning{ opacity:.75; }
+}
+</style>
 </head>
 <body>
 <!-- Search overlay - identical to index.html -->
@@ -6558,7 +6904,7 @@ input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-se
     <div class="nav-right">
       <button type="button" class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search dashboard" title="Search (Ctrl K)"><i class="ri-search-2-line"></i></button>
       <button type="button" class="header-theme-toggle-btn ripple-host" id="headerThemeToggleBtn" aria-label="Toggle theme" title="Toggle theme"><i class="ri-moon-line"></i></button>
-      <button type="button" class="notice-btn ripple-host" id="noticeHeadBtn" aria-label="Open notices" aria-expanded="false" title="Notices"><i class="ri-notification-3-line"></i></button>
+      <button type="button" class="notice-btn ripple-host" id="noticeHeadBtn" aria-label="Open notices" aria-expanded="false" title="Notices"><i class="ri-notification-3-line"></i><span class="notice-badge hidden-badge" id="noticeBadge" aria-hidden="true">0</span></button>
       <div class="profile-container">
         <button type="button" class="profile-btn ripple-host" id="headerProfileBtn" aria-label="Open profile menu" aria-expanded="false"><i class="ri-user-3-line"></i></button>
         <div class="profile-dropdown" id="profileDropdown" role="menu">
@@ -6566,7 +6912,7 @@ input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-se
             <div class="dropdown-avatar-wrap" id="ddAvatarWrap"><div class="dropdown-avatar" id="ddAvatar">A</div><div class="avatar-edit-badge"><i class="ri-camera-line"></i></div></div>
             <div class="dropdown-user-meta">
               <div class="name-row" style="display:flex;align-items:center;gap:8px;width:100%;min-width:0">
-                <h4 id="ddName" style="flex:1;min-width:0;margin:0;font-size:0.92rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Administrator</h4>
+                <h4 id="ddName" style="flex:1;min-width:0;margin:0;font-size:0.92rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Admin</h4>
                 <button id="editNameInlineBtn" class="edit-name-icon ripple-host" title="Edit name"><i class="ri-edit-2-fill"></i></button>
               </div>
               <span id="ddRole" style="margin-top:4px;font-size:0.7rem;font-weight:600;color:var(--primary);background:rgba(243,156,18,.08);padding:2px 10px;border-radius:16px;width:max-content">Verified</span>
@@ -6610,18 +6956,18 @@ input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-se
 
     <section class="view" id="view-collection" hidden>
       <div class="panel"><div class="section-head"><div><div class="eyebrow" id="collectionEyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Content management</div><h2 id="collectionTitle">Notices</h2><p id="collectionDescription">Manage published school content.</p></div><button class="btn primary ripple-host" id="addRecord"><i class="ri-add-line"></i> Add new</button></div>
-        <div class="toolbar"><div class="search-wrap"><i class="ri-search-line"></i><input id="search" type="search" placeholder="Search records…" aria-label="Search records"></div><button class="btn ripple-host" id="refresh"><i class="ri-refresh-line"></i> Refresh</button></div>
+        <div class="toolbar"><div class="search-wrap"><i class="ri-search-line"></i><input id="search" type="search" placeholder="Search records…" aria-label="Search records"></div><button class="btn ripple-host refresh-btn" id="refresh"><span class="rf-ic" aria-hidden="true"><i class="ri-refresh-line"></i></span><span class="rf-tx">Refresh</span></button></div>
       </div>
       <div class="section-head"><div><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Your records</div><h2 id="recordsHeading">Latest records</h2><p id="recordsSub">Tap edit to update an item.</p></div><span class="tag" id="recordCount">Loading</span></div>
       <div id="records" class="record-grid"></div><div id="empty" class="panel empty" hidden><i class="ri-inbox-archive-line"></i><b>Nothing here yet</b><br>Use “Add new” to create the first record.</div>
     </section>
 
     <section class="view" id="view-pending" hidden>
-      <div class="panel"><div class="section-head"><div><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Account requests</div><h2>Pending users</h2><p>Review user profiles that are waiting for approval.</p></div><button class="btn ripple-host" id="refreshPending"><i class="ri-refresh-line"></i> Refresh</button></div><div class="role-banner"><i class="ri-information-line"></i> Approval is submitted through the existing protected admin record RPC. If your database blocks profile updates, the notice will explain that the server permission needs configuring.</div><div id="pendingList" class="record-grid"></div><div id="pendingEmpty" class="empty" hidden><i class="ri-user-smile-line"></i><b>No pending users found</b><br>Or your current role cannot view pending profiles.</div></div>
+      <div class="panel"><div class="section-head"><div><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Account requests</div><h2>Pending users</h2><p>Review user profiles that are waiting for approval.</p></div><button class="btn ripple-host refresh-btn" id="refreshPending"><span class="rf-ic" aria-hidden="true"><i class="ri-refresh-line"></i></span><span class="rf-tx">Refresh</span></button></div><div class="role-banner"><i class="ri-information-line"></i> Approval is submitted through the existing protected admin record RPC. If your database blocks profile updates, the notice will explain that the server permission needs configuring.</div><div id="pendingList" class="record-grid"></div><div id="pendingEmpty" class="empty" hidden><i class="ri-user-smile-line"></i><b>No pending users found</b><br>Or your current role cannot view pending profiles.</div></div>
     </section>
 
     <section class="view" id="view-admins" hidden>
-      <div class="panel"><div class="section-head"><div><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Super administrator only</div><h2>All administrators</h2><p>Promote admins to super admin, change them back, or remove access. Password hashes and session tokens are never displayed.</p></div><button class="btn ripple-host" id="refreshAdmins"><i class="ri-refresh-line"></i> Refresh</button></div><div class="role-banner">Every change is verified on the server. You can't change your own role or remove yourself, and at least one super admin always remains.</div><div id="adminsList" class="record-grid"></div><div id="adminsEmpty" class="empty" hidden><i class="ri-shield-user-line"></i><b>Administrator directory unavailable</b><p id="adminsError" role="alert" aria-live="polite" style="margin-top:10px;overflow-wrap:anywhere;"></p><p>Check the error above and the browser console for details. If the administrator-management SQL has not been installed, run <code>admin-management.sql</code> in the Supabase SQL Editor.</p></div></div>
+      <div class="panel"><div class="section-head"><div><div class="eyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">Super admin only</div><h2>All administrators</h2><p>Promote admins to super admin, change them back, or remove access. Password hashes and session tokens are never displayed.</p></div><button class="btn ripple-host refresh-btn" id="refreshAdmins"><span class="rf-ic" aria-hidden="true"><i class="ri-refresh-line"></i></span><span class="rf-tx">Refresh</span></button></div><div class="role-banner">Every change is verified on the server. You can't change your own role or remove yourself, and at least one super admin always remains.</div><div id="adminsList" class="record-grid"></div><div id="adminsEmpty" class="empty" hidden><i class="ri-shield-user-line"></i><b>Administrator directory unavailable</b><p id="adminsError" role="alert" aria-live="polite" style="margin-top:10px;overflow-wrap:anywhere;"></p><p>Check the error above and the browser console for details. If the administrator-management SQL has not been installed, run <code>admin-management.sql</code> in the Supabase SQL Editor.</p></div></div>
     </section>
 
   </div>
@@ -6650,6 +6996,72 @@ input[type=search]::-webkit-search-cancel-button, input[type=search]::-webkit-se
   </div>
 </div>
 
+
+<style id="rp-tab-index-match">
+/* Same tab-button look & motion as the public index page: colour fill follows --swipe-p */
+.right-panel .panel-tab {
+  pointer-events: auto; --tab-base: rgba(255,255,255,.82);
+  background: color-mix(in srgb, #fff calc(var(--swipe-p) * 100%), var(--tab-base)) !important;
+  backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%);
+  box-shadow: 0 10px 24px -8px rgba(15,23,42,calc(.22 + var(--swipe-p) * .12)), 0 2px 6px rgba(15,23,42,.08) !important;
+}
+body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
+</style>
+<!-- ===== NOTICES + DOCUMENTS PANEL (opens from the header notice icon) ===== -->
+<div class="rp-overlay" id="rpOverlay"></div>
+<aside class="right-panel" id="rightPanel" data-active-tab="notices" role="dialog" aria-modal="true" aria-label="Notices and documents" aria-hidden="true">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      <div class="doc-brand-icon" id="rpIcon" aria-hidden="true"><i class="ri-notification-3-line"></i></div>
+      <div class="sidebar-text"><h2 id="rpTitle">Notice Board</h2><p id="rpSubtitle">Stay updated</p></div>
+    </div>
+    <div class="rp-head-actions">
+      <button type="button" class="notice-close ripple-host" id="rpAdd" aria-label="Add a notice" title="Add notice"><i class="ri-add-line" aria-hidden="true"></i></button>
+      <button type="button" class="notice-close ripple-host" id="rpClose" data-rp-close aria-label="Close panel"><i class="ri-close-large-line" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+  <div class="panel-viewport" id="rpViewport">
+    <div class="panel-slider" id="rpSlider" data-active="notices">
+      <section class="panel-pane" data-pane="notices" aria-label="Notices">
+        <div class="panel-pane-body" id="rpNotices">
+          <div class="doc-skeleton"></div><div class="doc-skeleton"></div><div class="doc-skeleton"></div>
+        </div>
+      </section>
+
+      <section class="panel-pane" data-pane="documents" aria-label="Documents">
+        <div class="doc-toolbar" id="rpDocToolbar">
+          <div class="doc-toolbar-scroll" id="rpDocToolbarScroll">
+            <div class="doc-toolbar-inner">
+              <div class="doc-search-wrap">
+                <i class="ri-search-2-line" aria-hidden="true"></i>
+                <label for="rpDocSearch" class="sr-only">Search documents</label>
+                <input type="search" id="rpDocSearch" name="psbs-admin-doc-search" placeholder="Search..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other" inputmode="search" enterkeyhint="search" role="searchbox">
+              </div>
+              <div class="doc-filters" id="rpDocFilters" role="tablist">
+                <button class="doc-filter active" data-f="all" type="button">All</button>
+                <button class="doc-filter" data-f="pdf" type="button">PDF</button>
+                <button class="doc-filter" data-f="doc" type="button">DOC</button>
+                <button class="doc-filter" data-f="ppt" type="button">PPT</button>
+                <button class="doc-filter" data-f="xls" type="button">XLS</button>
+                <button class="doc-filter" data-f="other" type="button">Other</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-pane-body" id="documentsContainer">
+          <div class="doc-skeleton"></div><div class="doc-skeleton"></div><div class="doc-skeleton"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="panel-tabbar" id="rpTabbar" role="tablist" aria-label="Panel switcher">
+    <button class="panel-tab active ripple-host" type="button" role="tab" data-tab="notices" aria-selected="true"><i class="ri-notification-3-line" aria-hidden="true"></i><span>Notices</span><span class="panel-tab-badge hidden-badge" id="rpTabNoticeBadge">0</span></button>
+    <button class="panel-tab ripple-host" type="button" role="tab" data-tab="documents" aria-selected="false"><i class="ri-folder-3-line" aria-hidden="true"></i><span>Documents</span><span class="panel-tab-badge hidden-badge" id="rpTabDocBadge">0</span></button>
+  </div>
+</aside>
+
 <div class="editor" id="editor" aria-hidden="true"><div class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle"><div class="editor-top"><div class="editor-heading-wrap" style="display:flex;gap:12px;align-items:flex-start;"><div class="editor-category-icon" id="editorCategoryIcon" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:rgba(var(--primary-rgb),0.12);color:var(--primary);font-size:22px;"><i class="ri-edit-box-line"></i></div><div><div class="eyebrow" id="editorEyebrow" style="font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--text-light);">NEW CONTENT</div><h2 id="editorTitle">Add a notice</h2><p class="muted small" id="editorDescription" style="color:var(--text-light);font-size:11px;">Complete the fields below to publish your update.</p></div></div><button class="icon-btn ripple-host" id="closeEditor" aria-label="Close editor"><i class="ri-close-line"></i></button></div><form id="recordForm"><div class="editor-body"><div class="form-intro" style="display:flex;justify-content:space-between;gap:8px;margin-bottom:14px;font-size:11px;color:var(--text-light);"><span><strong id="formCollectionName">Notices</strong> · Your changes are saved to the connected school website.</span><span class="required-note">Fields marked * are required</span></div><div class="form-grid" id="formFields"></div></div><div class="form-actions"><button type="submit" class="btn primary ripple-host" id="saveRecord"><i class="ri-check-line"></i> Save changes</button><button type="button" class="btn ripple-host" id="cancelEditor">Cancel</button><span class="form-actions-spacer" style="flex:1;"></span><button type="button" class="btn danger ripple-host" id="deleteRecord" hidden><i class="ri-delete-bin-line"></i> Delete</button></div></form></div></div>
 
 <div id="toast" class="toast" role="status" aria-live="polite"><span class="toast-icon"></span><span class="toast-message"></span><button class="toast-close" aria-label="Close"><i class="ri-close-line"></i></button></div>
@@ -6670,7 +7082,7 @@ const ADMIN_CONFIG = {
 };
 const SCHEMAS = {
  notices:{title:'Notices',icon:'ri-megaphone-line',description:'Announcements, school updates and important dates.',fields:[['title','Notice title','text',true],['description','Description','textarea',true],['date','Notice date','date',false],['label','Label / category','select',false,['urgent','event','announcement','achievement','exam','holiday']]]},
- documents:{title:'Documents',icon:'ri-file-paper-2-line',description:'Study resources, forms, circulars and downloadable files.',fields:[['title','Document title','text',true],['subject','Subject','text',false],['file_type','File type','select',true,['PDF','DOC','DOCX','XLS','XLSX','PPT','Image','Other']],['file_url','File URL','url',true]]},
+ documents:{title:'Documents',icon:'ri-file-paper-2-line',description:'Study resources, forms, circulars and downloadable files.',fields:[['title','Document title','text',true],['subject','Subject','text',false],['file_type','File type','select',true,['PDF','DOC','DOCX','XLS','XLSX','PPT','Image','Other']],['file_url','File name','url',true]]},
  gallery:{title:'Gallery',icon:'ri-image-line',description:'School photos and captions shown in the public gallery.',fields:[['image_url','Image URL','url',true],['caption','Photo caption','text',false],['order','Display order','number',false]]},
  faculty:{title:'Faculty',icon:'ri-graduation-cap-line',description:'Teacher names, subjects, emoji and display order.',fields:[['name','Teacher name','text',true],['subject','Subject / role','text',true],['emoji','Icon / emoji','text',false],['order','Display order','number',false]]},
  calendar_data:{title:'Calendar',icon:'ri-calendar-event-line',description:'Year and month data used by the school calendar page.',fields:[['month_idx','Month index (0-11)','number',true],['year_bs','Bikram Sambat year','number',true],['data','Calendar data (JSON)','json',true]]},
@@ -6890,17 +7302,17 @@ function openSearch(){
   State.isSearchOpen=true;
   State.panelOpen=true;
   State.openCount++;
-  document.body.classList.add('modal-active');
+  document.body.classList.add('modal-active','search-open');
   document.body.style.overflow='hidden';
-  setTimeout(()=>{ if(DOM.searchInput) DOM.searchInput.focus(); }, 300);
-  if(DOM.searchResults) DOM.searchResults.innerHTML='<div class="search-empty">🔍 Type to start searching dashboard...</div>';
+  setTimeout(()=>{ if(DOM.searchInput) DOM.searchInput.focus(); }, 160);
+  renderAdminDefaults();
 }
 function closeSearch(){
   if(!DOM.searchOverlay) return;
   DOM.searchOverlay.classList.remove('active');
   State.isSearchOpen=false;
   State.panelOpen=false;
-  document.body.classList.remove('modal-active');
+  document.body.classList.remove('modal-active','search-open');
   if(DOM.searchInput) DOM.searchInput.value='';
   if(State.openCount>0) State.openCount--;
   if(!State.isSidebarOpen && !State.isDropdownOpen && !State.isThemePresetsOpen){
@@ -6919,6 +7331,36 @@ if(DOM.searchClearBtn){
 }
 const sidebarSearchBtn=$('sidebarSearchBtn');
 if(sidebarSearchBtn) sidebarSearchBtn.addEventListener('click', ()=>{ closeSidebar(); setTimeout(openSearch,160); });
+function renderAdminDefaults(){
+  const c=DOM.searchResults; if(!c) return;
+  const addRec=t=>()=>{ navigate('collection',t); setTimeout(()=>openEditor(null,t),140); };
+  const groups=[
+    { title:'QUICK ACTIONS', items:[
+      {icon:'📢', title:'Add a notice', desc:'Publish an announcement', tag:'New', action:addRec('notices')},
+      {icon:'📄', title:'Add a document', desc:'Share a file or resource', tag:'New', action:addRec('documents')},
+      {icon:'🖼️', title:'Add gallery photo', desc:'Add a new campus image', tag:'New', action:addRec('gallery')},
+      {icon:'👨‍🏫', title:'Add faculty', desc:'Add a teacher or staff member', tag:'New', action:addRec('faculty')}
+    ]},
+    { title:'JUMP TO', items:[
+      {icon:'👥', title:'Pending users', desc:'Review account requests', action:()=>navigate('pending')},
+      {icon:'📅', title:'Calendar management', desc:'Edit school calendar data', action:()=>navigate('collection','calendar_data')},
+      {icon:'🌐', title:'Public website', desc:'Open the homepage', action:()=>{ window.location.href='index.html'; }}
+    ]}
+  ];
+  let html='', n=0;
+  const flat=[];
+  groups.forEach(g=>{
+    html+='<div class="search-group-title">'+g.title+'</div>';
+    g.items.forEach(it=>{
+      html+='<div class="search-result-item" data-idx="'+n+'" style="animation: fadeUp 0.35s '+(n*35)+'ms both;"><span class="sri-icon">'+it.icon+'</span><div class="sri-text"><h4>'+Helpers.sanitize(it.title)+'</h4><p>'+Helpers.sanitize(it.desc)+'</p></div>'+(it.tag?'<span class="sri-tag">'+it.tag+'</span>':'')+'</div>';
+      flat.push(it); n++;
+    });
+  });
+  c.innerHTML=html;
+  c.querySelectorAll('.search-result-item').forEach(el=>{
+    el.addEventListener('click',()=>{ const it=flat[+el.getAttribute('data-idx')]; closeSearch(); if(it&&it.action) setTimeout(()=>{ try{ it.action(); }catch(e){ console.warn(e); } },120); });
+  });
+}
 function getAdminSearchData(){
   const sections=[
     {id:'overview', title:'Dashboard Overview', desc:'Admin overview and quick launch', icon:'📊', action:()=>navigate('overview')},
@@ -6948,7 +7390,7 @@ function performAdminSearch(query){
   const container=DOM.searchResults;
   if(!container) return;
   const q=query.toLowerCase().trim();
-  if(!q){ container.innerHTML='<div class="search-empty">🔍 Type to start searching dashboard...</div>'; return; }
+  if(!q){ renderAdminDefaults(); return; }
   const data=getAdminSearchData();
   const results=data.filter(item=> item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q) || item.id.toLowerCase().includes(q) );
   if(results.length===0){
@@ -7078,7 +7520,7 @@ const Gestures = {
     if(State.isSearchOpen) return;
     const touch=e.touches[0];
     if(!touch) return;
-    State.touchBlocked = !!(e.target.closest && e.target.closest('input,textarea,select,.editor-sheet,.table-wrap,[contenteditable="true"]'));
+    State.touchBlocked = !!(e.target.closest && e.target.closest('input,textarea,select,.editor-sheet,.table-wrap,.quick-notice-row,.right-panel,[contenteditable="true"]'));
     State.touchStartX=touch.clientX;
     State.touchStartY=touch.clientY;
     State.touchCurrentX=State.touchStartX;
@@ -7223,6 +7665,19 @@ function recordTitle(t,row){
   return row.title||row.full_name||row.email||'Untitled record';
 }
 function iconFor(t){ return SCHEMAS[t]?.icon||'ri-file-list-3-line'; }
+const DOC_BASE='https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/documents/';
+function docNameFromUrl(u){
+  u=String(u||'');
+  if(u.indexOf(DOC_BASE)===0){ const r=u.slice(DOC_BASE.length); try{ return decodeURIComponent(r); }catch(e){ return r; } }
+  return u;
+}
+function docUrlFromInput(v){
+  v=String(v||'').trim(); if(!v) return '';
+  if(/^https?:\/\//i.test(v)) return v;                 /* a full link still works */
+  v=v.replace(/^\/+/,'').replace(/^documents\//i,'');
+  try{ v=decodeURIComponent(v); }catch(e){}
+  return DOC_BASE+v.split('/').map(encodeURIComponent).join('/');
+}
 function openEditor(row=null,table=currentTable){
   if(table) currentTable=table;
   editing=row;
@@ -7254,7 +7709,7 @@ function openEditor(row=null,table=currentTable){
     } else if(type==='checkbox'){
       input=document.createElement('input'); input.type='checkbox';
     } else {
-      input=document.createElement('input'); input.type=type==='number'?'number':type; input.className='field';
+      input=document.createElement('input'); input.type=(currentTable==='documents'&&key==='file_url')?'text':(type==='number'?'number':type); input.className='field';
     }
     input.id=id; input.name=key;
     if(type==='json'){
@@ -7264,10 +7719,11 @@ function openEditor(row=null,table=currentTable){
       input.checked=!!row?.[key];
     } else {
       input.value=valueFor(row,key);
+      if(currentTable==='documents'&&key==='file_url'){ input.value=docNameFromUrl(input.value); input.autocapitalize='off'; input.autocomplete='off'; input.spellcheck=false; }
       if(currentTable==='notices' && key==='label' && !['urgent','event','announcement','achievement','exam','holiday'].includes(String(input.value).toLowerCase())) input.value=row ? 'announcement' : 'announcement';
       else if(currentTable==='notices' && key==='label') input.value=String(input.value).toLowerCase();
       if(type==='number') input.step='any';
-      if(type==='url') input.placeholder='https://…';
+      if(type==='url') input.placeholder=(currentTable==='documents'&&key==='file_url')?'example.pdf':'https://…';
       if(type==='email') input.placeholder='name@example.com';
       if(type==='tel') input.placeholder='School contact number';
     }
@@ -7276,10 +7732,21 @@ function openEditor(row=null,table=currentTable){
     else { wrap.append(lab,input); }
     const hints={title:'Use a clear title that visitors can understand quickly.',description:'Write the full message shown to visitors.',date:'Choose the date associated with this update.',label:'Choose a category to help visitors scan the notice.',file_url:'Paste the public URL of the file visitors should open.',image_url:'Paste a direct image URL. A preview appears below when available.',order:'Smaller numbers appear earlier when the website sorts by display order.',month_idx:'Use 0 for the first month, through 11 for the twelfth month.',year_bs:'Enter the Bikram Sambat year used by the calendar.',data:'Keep the calendar data in valid JSON format.'};
     if(type!=='checkbox'){
-      const hint=document.createElement('span'); hint.className='hint'; hint.textContent=hints[key]||(required?'This field is required.':'Optional — fill this in when relevant.'); wrap.append(hint);
+      const hint=document.createElement('span'); hint.className='hint'; hint.textContent=(currentTable==='documents'&&key==='file_url')?'Type only the file name, e.g. example.pdf — the storage link is added automatically.':(hints[key]||(required?'This field is required.':'Optional — fill this in when relevant.')); wrap.append(hint);
     }
     $('formFields').append(wrap);
   });
+  if(currentTable==='documents'){
+    const fu=$('f_file_url'), ft=$('f_file_type');
+    const map={pdf:'PDF',doc:'DOC',docx:'DOCX',xls:'XLS',xlsx:'XLSX',ppt:'PPT',pptx:'PPT',png:'Image',jpg:'Image',jpeg:'Image',webp:'Image',gif:'Image'};
+    if(fu&&ft){
+      ft.addEventListener('change',()=>{ ft.dataset.auto=''; });
+      fu.addEventListener('input',()=>{
+        const ext=fu.value.trim().split('.').pop().toLowerCase().replace(/[^a-z0-9]/g,'');
+        if(map[ext] && (!ft.value||ft.dataset.auto==='1')){ ft.value=map[ext]; ft.dataset.auto='1'; }
+      });
+    }
+  }
   $('deleteRecord').hidden=!row;
   $('saveRecord').innerHTML='<i class="ri-check-line"></i> '+(row?'Save changes':'Publish item');
   $('editor').classList.add('open');
@@ -7527,7 +7994,7 @@ async function loadAdmins(){
       const card=document.createElement('article'); card.className='record-card';
       const thumb=document.createElement('div'); thumb.className='record-thumb'; thumb.innerHTML=isSuper?'<i class="ri-shield-star-line"></i>':'<i class="ri-shield-user-line"></i>';
       const info=document.createElement('div'); info.className='record-info';
-      const b=document.createElement('b'); b.textContent=row.name||row.email||row.username||'Administrator';
+      const b=document.createElement('b'); b.textContent=row.name||row.email||row.username||'Admin';
       const badges=document.createElement('div'); badges.className='admin-badges';
       const rp=document.createElement('span'); rp.className='role-pill'+(isSuper?' super':''); rp.textContent=isSuper?'Super admin':'Admin'; badges.append(rp);
       if(row.is_self){ const y=document.createElement('span'); y.className='you-tag'; y.textContent='You'; badges.append(y); }
@@ -7576,6 +8043,7 @@ $('recordForm')?.addEventListener('submit', async (e)=>{
       formData[key]=el.value.trim();
     }
   });
+  if(currentTable==='documents' && formData.file_url!==undefined) formData.file_url=docUrlFromInput(formData.file_url);
   try{
     const token=localStorage.getItem(tokenKey) || sessionStorage.getItem(tokenKey);
     $('saveRecord').disabled=true;
@@ -7628,9 +8096,9 @@ async function initAuth(){
     superAdmin = !!(identity.is_super_admin || identity.role==='super_admin' || identity.is_super || identity.is_super_admin===true);
     if($('adminsNavSidebar')) $('adminsNavSidebar').hidden = !superAdmin;
     if($('adminsNav')) $('adminsNav').hidden = !superAdmin;
-    if($('ddName')) $('ddName').textContent = identity.name || identity.full_name || identity.display_name || identity.username || 'Administrator';
-    if($('ddRole')) $('ddRole').textContent = superAdmin ? 'Super Administrator · Verified' : 'Administrator · Verified session';
-    if($('ddAvatar')){ const av=$('ddAvatar'); const name=identity.name||identity.full_name||identity.display_name||identity.username||'Administrator'; av.textContent=Helpers.initials(name); av.style.backgroundColor=Helpers.colorFromName(name); }
+    if($('ddName')) $('ddName').textContent = identity.name || identity.full_name || identity.display_name || identity.username || 'Admin';
+    if($('ddRole')) $('ddRole').textContent = superAdmin ? 'Super Admin' : 'Admin';
+    if($('ddAvatar')){ const av=$('ddAvatar'); const name=identity.name||identity.full_name||identity.display_name||identity.username||'Admin'; av.textContent=Helpers.initials(name); av.style.backgroundColor=Helpers.colorFromName(name); }
     const profileBtn=$('headerProfileBtn');
     if(profileBtn){
       if(identity.email){
@@ -7665,7 +8133,7 @@ async function initAuth(){
         if(t) navigate('collection', t);
       });
     });
-    if($('noticeHeadBtn')) $('noticeHeadBtn').addEventListener('click', ()=>{ navigate('collection','notices'); });
+    if($('noticeHeadBtn')) $('noticeHeadBtn').addEventListener('click', ()=>{ if(window.psbsPanel) window.psbsPanel.toggle('notices'); else navigate('collection','notices'); });
     document.addEventListener('pointerdown', (e)=>{
       const host=e.target.closest('.ripple-host');
       if(!host) return;
@@ -7765,7 +8233,7 @@ function openProfileEdit(){
   const modal=$('profileEditModal');
   if(!modal) return;
   // populate
-  const name = identity.name || identity.full_name || 'Administrator';
+  const name = identity.name || identity.full_name || 'Admin';
   modal.classList.add('active');
   modal.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
@@ -7790,7 +8258,7 @@ function updateAvatarPreview(url, nameForInitials){
   }
 }
 function updateHeaderAvatarUI(){
-  const name = identity.name || identity.full_name || identity.display_name || identity.username || 'Administrator';
+  const name = identity.name || identity.full_name || identity.display_name || identity.username || 'Admin';
   const avatarUrl = identity.avatar_url || identity.avatar || '';
   // dropdown avatar
   const ddAv=$('ddAvatar');
@@ -7803,7 +8271,7 @@ function updateHeaderAvatarUI(){
       ddAv.style.backgroundColor=Helpers.colorFromName(name);
     }
   }
-  if($('ddName')) $('ddName').textContent = identity.name || identity.full_name || identity.display_name || identity.username || 'Administrator';
+  if($('ddName')) $('ddName').textContent = identity.name || identity.full_name || identity.display_name || identity.username || 'Admin';
   // header button
   const btn=$('headerProfileBtn');
   if(btn){
@@ -7874,7 +8342,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   function openCard(){
-    const cur=identity.name||identity.full_name||identity.display_name||identity.username||document.getElementById('ddName')?.textContent||'Administrator';
+    const cur=identity.name||identity.full_name||identity.display_name||identity.username||document.getElementById('ddName')?.textContent||'Admin';
     input.value=cur; if(nameError) nameError.textContent=''; input?.setAttribute('aria-invalid','false');
     card.classList.add('active'); card.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; document.body.classList.add('modal-active');
     setTimeout(()=>{ input.focus(); input.select(); }, 300);
@@ -8180,7 +8648,7 @@ window.addEventListener('popstate',e=>{
   const rows=d=>Array.isArray(d)?d:(d?.records||d?.data||[]);
   const host=document.getElementById('quickCards');if(!host)return;
   const wrap=document.createElement('div');wrap.id='overviewExtras';
-  wrap.innerHTML='<div class="ov-grid"><section class="panel ov-panel" aria-labelledby="ovT1"><div class="ov-head"><div><h3 id="ovT1">Content at a glance</h3><p>Live record counts across the public website.</p></div><button type="button" class="btn slim" id="ovRefresh"><i class="ri-refresh-line"></i> Refresh</button></div><div class="ov-bars" id="ovBars"></div></section><section class="panel ov-panel" aria-labelledby="ovT2"><div class="ov-head"><div><h3 id="ovT2">Latest notices</h3><p>The most recent announcements.</p></div><button type="button" class="btn slim" id="ovAllNotices">View all</button></div><div class="ov-list" id="ovNotices"></div></section></div><section class="panel ov-panel" style="margin-top:14px" aria-labelledby="ovT3"><div class="ov-head"><div><h3 id="ovT3">Shortcuts</h3><p>Create something new or open the public website.</p></div></div><div class="ov-shortcuts" id="ovShortcuts"></div></section>';
+  wrap.innerHTML='<div class="ov-grid"><section class="panel ov-panel" aria-labelledby="ovT1"><div class="ov-head"><div><h3 id="ovT1">Content at a glance</h3><p>Live record counts across the public website.</p></div><button type="button" class="btn slim refresh-btn" id="ovRefresh"><span class="rf-ic" aria-hidden="true"><i class="ri-refresh-line"></i></span><span class="rf-tx">Refresh</span></button></div><div class="ov-bars" id="ovBars"></div></section><section class="panel ov-panel" aria-labelledby="ovT2"><div class="ov-head"><div><h3 id="ovT2">Latest notices</h3><p>The most recent announcements.</p></div><button type="button" class="btn slim" id="ovAllNotices">View all</button></div><div class="ov-list" id="ovNotices"></div></section></div><section class="panel ov-panel" style="margin-top:14px" aria-labelledby="ovT3"><div class="ov-head"><div><h3 id="ovT3">Shortcuts</h3><p>Create something new or open the public website.</p></div></div><div class="ov-shortcuts" id="ovShortcuts"></div></section>';
   host.after(wrap);
   const $=id=>document.getElementById(id);
   // Shortcuts
@@ -8654,5 +9122,544 @@ window.addEventListener('popstate',e=>{
 })();
 </script>
 
+
+<script>
+/* ===== Notices + Documents panel (header notice icon) ===== */
+(function(){
+  'use strict';
+  var $=function(id){return document.getElementById(id);};
+  var panel=$('rightPanel'), overlay=$('rpOverlay'), slider=$('rpSlider'), viewport=$('rpViewport');
+  if(!panel||!slider) return;
+  var noticeBox=$('rpNotices'), docBox=$('documentsContainer'), docSearch=$('rpDocSearch'), docBar=$('rpDocToolbar');
+  var noticeBtn=$('noticeHeadBtn');
+  var state={tab:'notices', open:false, notices:[], docs:[], filter:'all', loaded:false, loading:false};
+  var KEY=(typeof ADMIN_CONFIG!=='undefined'&&ADMIN_CONFIG.RIGHT_PANEL_TAB_KEY)||'psbs_right_panel_tab';
+  var READ=(typeof ADMIN_CONFIG!=='undefined'&&ADMIN_CONFIG.NOTICE_READ_IDS_KEY)||'psbs_notice_read_ids';
+  function tok(){ return localStorage.getItem(tokenKey)||sessionStorage.getItem(tokenKey); }
+  function rows(d){ return Array.isArray(d)?d:(d&&(d.records||d.data))||[]; }
+  function readIds(){ try{ return JSON.parse(localStorage.getItem(READ)||'[]')||[]; }catch(e){ return []; } }
+  function noticeKey(n){ return String(n.id!=null?n.id:(n.title||'')+'|'+(n.date||'')); }
+  function mk(t,c,x){ var e=document.createElement(t); if(c) e.className=c; if(x!=null) e.textContent=x; return e; }
+  function fileClass(t){
+    t=String(t||'').toLowerCase();
+    if(t==='pdf') return 'pdf';
+    if(t==='doc'||t==='docx') return 'doc';
+    if(t==='ppt'||t==='pptx') return 'ppt';
+    if(t==='xls'||t==='xlsx') return 'xls';
+    if(t==='image'||t==='img'||t==='png'||t==='jpg') return 'img';
+    return 'other';
+  }
+  function labelClass(l){ l=String(l||'').toLowerCase(); return ['urgent','event','announcement','achievement','exam','holiday'].indexOf(l)>-1?l:'announcement'; }
+
+/* ---------- helpers (same logic as the public index page) ---------- */
+  var LABELS={urgent:'🔴 URGENT',event:'🎉 EVENT',announcement:'📢 ANNOUNCEMENT',achievement:'🏆 ACHIEVEMENT',exam:'📝 EXAM',holiday:'🎊 HOLIDAY'};
+  var FT={pdf:{cls:'pdf',label:'PDF'},doc:{cls:'doc',label:'DOC'},docx:{cls:'doc',label:'DOC'},ppt:{cls:'ppt',label:'PPT'},pptx:{cls:'ppt',label:'PPT'},xls:{cls:'xls',label:'XLS'},xlsx:{cls:'xls',label:'XLS'},csv:{cls:'xls',label:'CSV'},txt:{cls:'other',label:'TXT'},zip:{cls:'zip',label:'ZIP'},rar:{cls:'zip',label:'RAR'},png:{cls:'img',label:'IMG'},jpg:{cls:'img',label:'IMG'},jpeg:{cls:'img',label:'IMG'},webp:{cls:'img',label:'IMG'},image:{cls:'img',label:'IMG'}};
+  function ext(d){
+    var e=String(d.file_type||'').toLowerCase().replace(/^\./,'').trim();
+    if(!e && d.file_url){ var parts=String(d.file_url).split('?')[0].split('.'); if(parts.length>1) e=parts.pop().toLowerCase(); }
+    return e;
+  }
+  function typeInfo(e){ return FT[e]||{cls:'other',label:(e||'FILE').toUpperCase().slice(0,4)}; }
+  function bucket(e){
+    if(e==='pdf') return 'pdf';
+    if(e==='doc'||e==='docx') return 'doc';
+    if(e==='ppt'||e==='pptx') return 'ppt';
+    if(e==='xls'||e==='xlsx'||e==='csv') return 'xls';
+    return 'other';
+  }
+  function ts(v){ var t=new Date(v).getTime(); return isNaN(t)?0:t; }
+  function fmtBytes(b){ b=Number(b); if(!b||b<0) return ''; var u=['B','KB','MB','GB'],i=0; while(b>=1024&&i<u.length-1){ b/=1024; i++; } return (i?b.toFixed(1):Math.round(b))+' '+u[i]; }
+  function docKey(d){ return String(d.id!=null?d.id:(d.file_url||'')); }
+  var DL_KEY='psbs_admin_downloads';
+  function dlGet(){ try{ return JSON.parse(localStorage.getItem(DL_KEY)||'[]')||[]; }catch(e){ return []; } }
+  function dlAdd(k){ var l=dlGet(); if(l.indexOf(k)<0){ l.push(k); try{ localStorage.setItem(DL_KEY,JSON.stringify(l)); }catch(e){} } }
+  function toast(m,t){ try{ Toast.show(m,t||'info'); }catch(e){} }
+
+  /* ---------- notices ---------- */
+  function renderNotices(){
+    var list=state.notices;
+    if(!list.length){
+      noticeBox.innerHTML='<div class="doc-empty"><span class="doc-empty-icon">📭</span><h4>No notices yet</h4><p>Tap + to publish your first announcement.</p></div>';
+      return;
+    }
+    var seen=readIds(), html='';
+    list.forEach(function(n,i){
+      var id=noticeKey(n), raw=String(n.label||'').toLowerCase().trim(), lab=LABELS[raw]?raw:'announcement';
+      html+='<div class="update-card'+(seen.indexOf(id)<0?' notice-unread':'')+'" data-notice-id="'+Helpers.sanitize(id)+'" data-i="'+i+'" tabindex="0" style="animation-delay:'+Math.min(i*50,350)+'ms">'
+        +'<span class="update-label '+lab+'">'+LABELS[lab]+'</span>'
+        +'<h3>'+Helpers.sanitize(n.title)+'</h3><p>'+Helpers.sanitize(n.description)+'</p>'
+        +'<div class="update-date">📅 '+Helpers.formatDate(n.date)+' • '+Helpers.timeAgo(n.created_at||n.date)+'</div></div>';
+    });
+    noticeBox.innerHTML=html;
+  }
+  noticeBox.addEventListener('click',function(e){
+    var c=e.target.closest('.update-card'); if(!c) return;
+    var n=state.notices[+c.getAttribute('data-i')]; if(!n) return;
+    markOne(noticeKey(n)); c.classList.remove('notice-unread');
+    closePanel();
+    setTimeout(function(){ if(window.openViewer) window.openViewer(n,'notices'); else { navigate('collection','notices'); setTimeout(function(){ openEditor(n,'notices'); },150); } },320);
+  });
+  noticeBox.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('update-card')){ e.preventDefault(); e.target.click(); } });
+
+  /* ---------- documents ---------- */
+  function filteredDocs(){
+    var q=(docSearch&&docSearch.value||'').toLowerCase().trim(), f=state.filter;
+    return state.docs.filter(function(d){
+      var e=ext(d);
+      if(f!=='all' && bucket(e)!==f) return false;
+      if(!q) return true;
+      return ((d.title||'')+' '+(d.subject||'')+' '+(d.description||'')+' '+e).toLowerCase().indexOf(q)>-1;
+    });
+  }
+  var shownDocs=[];
+  function renderDocs(){
+    var list=filteredDocs(); shownDocs=list;
+    var q=(docSearch&&docSearch.value||'').trim(), filtering=q||state.filter!=='all';
+    if(state.tab==='documents') setSubtitle();
+    if(!list.length){
+      docBox.innerHTML='<div class="doc-empty"><span class="doc-empty-icon">'+(filtering?'🔍':'📂')+'</span><h4>'+(filtering?'No matching documents':'No documents yet')+'</h4><p>'+(filtering?'Try a different search or filter.':'Tap + to share your first file.')+'</p></div>';
+      return;
+    }
+    var seen=dlGet(), html='';
+    list.forEach(function(d,i){
+      var e=ext(d), info=typeInfo(e), key=docKey(d), saved=seen.indexOf(key)>-1;
+      var title=d.title||(d.file_url?decodeURIComponent(String(d.file_url).split('/').pop()):'Document');
+      var size=fmtBytes(d.file_size), date=d.created_at?Helpers.formatDate(d.created_at):(d.date?Helpers.formatDate(d.date):'');
+      html+='<div class="doc-card'+(saved?' doc-downloaded':'')+'" data-i="'+i+'" data-doc-key="'+Helpers.sanitize(key)+'" style="animation-delay:'+Math.min(i*50,350)+'ms">'
+        +'<div class="doc-file-icon '+info.cls+'" aria-hidden="true">'+info.label+'</div>'
+        +'<div class="doc-info"><h4 title="'+Helpers.sanitize(title)+'">'+Helpers.sanitize(title)+'</h4><div class="doc-meta">'
+        +(size?'<span>'+size+'</span><span class="dot"></span>':'')+(date?'<span>'+date+'</span>':'')+((!size&&!date)?'<span>Tap to open</span>':'')
+        +(saved?'<span class="downloaded-tag"><i class="ri-checkbox-circle-fill"></i> Saved</span>':'')
+        +'</div>'+(d.subject?'<span class="doc-subject-tag">'+Helpers.sanitize(d.subject)+'</span>':'')+'</div>'
+        +'<div class="doc-actions"><div class="doc-menu-wrap"><button class="doc-menu-btn" type="button" aria-label="More options" aria-haspopup="true" aria-expanded="false"><i class="ri-more-2-fill"></i></button></div></div></div>';
+    });
+    docBox.innerHTML=html;
+  }
+  function viewDoc(d){
+    var u=Helpers.safeUrl(d.file_url); if(!u){ toast('File link is not available or is invalid.','error'); return; }
+    var e=ext(d), office=['doc','docx','ppt','pptx','xls','xlsx'].indexOf(e)>-1;
+    if(office){ toast('📄 Opening preview...'); window.open('https://docs.google.com/viewer?url='+encodeURIComponent(u)+'&embedded=true','_blank','noopener,noreferrer'); }
+    else window.open(u,'_blank','noopener,noreferrer');
+  }
+  async function downloadDoc(d){
+    var u=Helpers.safeUrl(d.file_url); if(!u){ toast('File link is not available or is invalid.','error'); return false; }
+    var raw=d.title||'document', e=ext(d), name=/\.[a-z0-9]{2,5}$/i.test(raw)?raw:(raw+(e?'.'+e:''));
+    toast('⏳ Preparing download...');
+    function direct(){ var a=document.createElement('a'); a.href=u; a.download=name; a.target='_blank'; a.rel='noopener noreferrer'; document.body.appendChild(a); a.click(); a.remove(); }
+    try{
+      var r=await fetch(u,{mode:'cors'}); if(!r.ok) throw 0;
+      var b=await r.blob(), bu=URL.createObjectURL(b), a=document.createElement('a');
+      a.href=bu; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(bu); },15000); toast('📥 Downloaded: '+name,'success');
+    }catch(err){ direct(); toast('📂 Opening file for download...'); }
+    return true;
+  }
+  function closeMenus(){
+    document.querySelectorAll('.doc-menu').forEach(function(m){ m.remove(); });
+    docBox.querySelectorAll('.doc-card.menu-active').forEach(function(c){ c.classList.remove('menu-active'); });
+    docBox.querySelectorAll('.doc-menu-btn[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+  }
+  function openMenu(btn,d){
+    var was=btn.getAttribute('aria-expanded')==='true'; closeMenus(); if(was) return;
+    var m=document.createElement('div'); m.className='doc-menu open'; m.setAttribute('role','menu');
+    m.innerHTML='<button class="doc-menu-item" type="button" data-a="view" role="menuitem"><i class="ri-eye-line"></i> View</button>'
+      +'<button class="doc-menu-item" type="button" data-a="download" role="menuitem"><i class="ri-download-2-line"></i> Download</button>'
+      +'<button class="doc-menu-item" type="button" data-a="edit" role="menuitem"><i class="ri-edit-2-line"></i> Edit</button>';
+    document.body.appendChild(m);
+    var r=btn.getBoundingClientRect(), mr=m.getBoundingClientRect(), w=mr.width||165, h=mr.height||130, g=8;
+    var left=Math.max(g,Math.min(r.right-w,innerWidth-w-g)), top=r.bottom+6; if(top+h>innerHeight-g) top=r.top-h-6; if(top<g) top=g;
+    m.style.top=top+'px'; m.style.left=left+'px';
+    var card=btn.closest('.doc-card'); if(card) card.classList.add('menu-active'); btn.setAttribute('aria-expanded','true');
+    m.addEventListener('click',function(e){
+      var it=e.target.closest('.doc-menu-item'); if(!it) return; e.stopPropagation(); closeMenus();
+      var a=it.getAttribute('data-a');
+      if(a==='view') viewDoc(d);
+      else if(a==='download') downloadDoc(d).then(function(ok){ if(ok){ dlAdd(docKey(d)); renderDocs(); } });
+      else { closePanel(); setTimeout(function(){ navigate('collection','documents'); setTimeout(function(){ openEditor(d,'documents'); },150); },320); }
+    });
+  }
+  docBox.addEventListener('click',function(e){
+    var c=e.target.closest('.doc-card'); if(!c) return;
+    var d=shownDocs[+c.getAttribute('data-i')]; if(!d) return;
+    var mb=e.target.closest('.doc-menu-btn');
+    if(mb){ e.stopPropagation(); openMenu(mb,d); return; }
+    if(e.target.closest('.doc-menu-wrap')) return;
+    viewDoc(d);
+  });
+  docBox.addEventListener('scroll',closeMenus,{passive:true});
+  window.addEventListener('resize',closeMenus,{passive:true});
+  document.addEventListener('click',function(e){ if(!e.target.closest('.doc-menu,.doc-menu-btn')) closeMenus(); });
+
+  /* ---------- badges / read state ---------- */
+  function updateBadges(){
+    var seen=readIds(), unread=state.notices.filter(function(n){ return seen.indexOf(noticeKey(n))<0; }).length;
+    [$('noticeBadge'),$('rpTabNoticeBadge')].forEach(function(b){ if(!b) return; b.textContent=unread>99?'99+':String(unread); b.classList.toggle('hidden-badge',!unread); });
+    var db2=$('rpTabDocBadge'); if(db2){ db2.textContent=state.docs.length>99?'99+':String(state.docs.length); db2.classList.toggle('hidden-badge',!state.docs.length); }
+  }
+  function saveRead(ids){ try{ localStorage.setItem(READ,JSON.stringify(ids.slice(-300))); }catch(e){} }
+  function markRead(){
+    saveRead(state.notices.map(noticeKey)); updateBadges();
+    noticeBox.querySelectorAll('.notice-unread').forEach(function(el){ el.classList.remove('notice-unread'); });
+  }
+  function markOne(id){ var r=readIds(); if(r.indexOf(id)<0){ r.push(id); saveRead(r); updateBadges(); } }
+
+  /* ---------- header: icon / title / subtitle / + button follow the active tab ---------- */
+  function setSubtitle(){
+    var sub=$('rpSubtitle');
+    if(state.tab==='notices'){ sub.textContent='Stay updated'; return; }
+    var n=filteredDocs().length;
+    sub.textContent=n?(n+' file'+(n===1?'':'s')+' available'):'Notes • PDFs • Slides';
+  }
+  function setHeader(){
+    var nt=state.tab==='notices', add=$('rpAdd');
+    $('rpIcon').innerHTML=nt?'<i class="ri-notification-3-line"></i>':'<i class="ri-folder-open-line"></i>';
+    $('rpTitle').textContent=nt?'Notice Board':'Documents';
+    add.setAttribute('aria-label',nt?'Add a notice':'Add a document'); add.setAttribute('title',nt?'Add notice':'Add document');
+    setSubtitle();
+  }
+
+  /* ---------- data (+ realtime) ---------- */
+  async function load(){
+    if(state.loading) return; state.loading=true;
+    try{
+      var t=tok();
+      var res=await Promise.allSettled([
+        rpc(ADMIN_CONFIG.rpc.list,{p_session_token:t,p_table:'notices',p_limit:200}),
+        rpc(ADMIN_CONFIG.rpc.list,{p_session_token:t,p_table:'documents',p_limit:200})
+      ]);
+      if(res[0].status==='fulfilled') state.notices=rows(res[0].value).filter(function(n){return n&&n.title;}).sort(function(a,b){
+        return (ts(b.date)-ts(a.date))||(ts(b.created_at)-ts(a.created_at));
+      });
+      else if(!state.loaded) noticeBox.innerHTML='<div class="doc-empty"><span class="doc-empty-icon">📭</span><h4>Could not load notices</h4><p>Please check your connection and try again.</p></div>';
+      if(res[1].status==='fulfilled') state.docs=rows(res[1].value).filter(function(d){return d&&d.title;}).sort(function(a,b){
+        return (ts(b.created_at)-ts(a.created_at))||String(b.id||'').localeCompare(String(a.id||''));
+      });
+      else if(!state.loaded) docBox.innerHTML='<div class="doc-empty"><span class="doc-empty-icon">⚠️</span><h4>Unable to load documents</h4><p>Please check your connection and try again.</p></div>';
+      if(res[0].status==='fulfilled') renderNotices();
+      if(res[1].status==='fulfilled') renderDocs();
+      state.loaded=true;
+    }catch(e){ console.warn(e); }
+    state.loading=false;
+    updateBadges(); setSubtitle();
+    if(state.open && state.tab==='notices') markRead();
+  }
+  var rtOn=false, rtTimer=0;
+  function reloadSoon(){ clearTimeout(rtTimer); rtTimer=setTimeout(function(){ load(); },400); }
+  function startRealtime(){
+    if(rtOn||typeof db==='undefined'||!db||!db.channel) return; rtOn=true;
+    try{
+      ['notices','documents'].forEach(function(t){
+        db.channel('admin_panel_'+t).on('postgres_changes',{event:'*',schema:'public',table:t},reloadSoon).subscribe();
+      });
+    }catch(e){ console.warn('realtime unavailable',e); }
+  }
+  setInterval(function(){ if(state.open && !document.hidden) load(); },30000);
+
+  /* ---------- open / close / tabs ---------- */
+  function setTab(tab){
+    state.tab=tab==='documents'?'documents':'notices';
+    slider.setAttribute('data-active',state.tab); slider.style.transform='';
+    panel.setAttribute('data-active-tab',state.tab);
+    try{ localStorage.setItem(KEY,state.tab); }catch(e){}
+    resetFill(); setHeader(); closeMenus();
+    if(state.tab==='notices'){ if(state.open) markRead(); } else if(docSearch) docSearch.blur();
+    Helpers.vibrate(8);
+  }
+  function openPanel(tab){
+    if(typeof closeAllPanels==='function') closeAllPanels();
+    setTab(tab||state.tab);
+    state.open=true;
+    panel.classList.add('active'); overlay.classList.add('active'); panel.setAttribute('aria-hidden','false');
+    document.body.classList.add('rp-open'); document.body.style.overflow='hidden';
+    if(noticeBtn) noticeBtn.setAttribute('aria-expanded','true');
+    startRealtime(); load();
+  }
+  function closePanel(){
+    if(!state.open) return;
+    state.open=false; closeMenus();
+    panel.classList.remove('active','dragging'); overlay.classList.remove('active'); panel.setAttribute('aria-hidden','true');
+    document.body.classList.remove('rp-open');
+    if(docSearch) docSearch.blur();
+    if(!document.body.classList.contains('search-open')) document.body.style.overflow='';
+    if(noticeBtn) noticeBtn.setAttribute('aria-expanded','false');
+  }
+  function toggle(tab){ if(state.open) closePanel(); else openPanel(tab); }
+  window.psbsPanel={open:openPanel,close:closePanel,toggle:toggle,reload:function(){ return load(); }};
+
+  overlay.addEventListener('click',closePanel);
+  panel.querySelectorAll('[data-rp-close]').forEach(function(b){ b.addEventListener('click',closePanel); });
+  panel.querySelectorAll('.panel-tab').forEach(function(b){
+    b.addEventListener('click',function(){ setTab(b.getAttribute('data-tab')); });
+    b.addEventListener('keydown',function(e){
+      if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight') return; e.preventDefault();
+      var t=e.key==='ArrowRight'?'documents':'notices'; setTab(t); var n=panel.querySelector('.panel-tab[data-tab="'+t+'"]'); if(n) n.focus();
+    });
+  });
+  $('rpAdd').addEventListener('click',function(){
+    var t=state.tab==='documents'?'documents':'notices'; closePanel();
+    setTimeout(function(){ navigate('collection',t); setTimeout(function(){ openEditor(null,t); },150); },320);
+  });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && state.open) closePanel(); });
+  if(docSearch){
+    docSearch.addEventListener('input',Helpers.debounce(renderDocs,200));
+    docSearch.addEventListener('focus',function(){ var s=this; setTimeout(function(){ try{ s.select(); }catch(e){} },50); });
+  }
+  var filtersEl=$('rpDocFilters'), tbScroll=$('rpDocToolbarScroll');
+  filtersEl.addEventListener('click',function(e){
+    var b=e.target.closest('.doc-filter'); if(!b) return;
+    state.filter=b.getAttribute('data-f')||'all';
+    filtersEl.querySelectorAll('.doc-filter').forEach(function(x){ x.classList.toggle('active',x===b); });
+    renderDocs();
+    var tgt=b.offsetLeft-(tbScroll.clientWidth-b.offsetWidth)/2, max=tbScroll.scrollWidth-tbScroll.clientWidth, left=Math.max(0,Math.min(tgt,max));
+    try{ tbScroll.scrollTo({left:left,behavior:'smooth'}); }catch(err){ tbScroll.scrollLeft=left; }
+  });
+  viewport.addEventListener('scroll',function(){ if(viewport.scrollLeft) viewport.scrollLeft=0; if(viewport.scrollTop) viewport.scrollTop=0; },{passive:true});
+  setHeader();
+  /* ---------- tab colour fill: identical logic to the public index page ---------- */
+  function tabEl(t){ return panel.querySelector('.panel-tab[data-tab="'+t+'"]'); }
+  function resetFill(){
+    panel.classList.remove('tabs-dragging');
+    panel.querySelectorAll('.panel-tab').forEach(function(b){
+      b.style.removeProperty('--swipe-p');
+      var on=b.getAttribute('data-tab')===state.tab; b.classList.toggle('active',on); b.setAttribute('aria-selected',on?'true':'false');
+    });
+  }
+  function fillTabs(dragDx,limit){
+    if(!limit) return;
+    var nb=tabEl('notices'), db2=tabEl('documents'); if(!nb||!db2) return;
+    var cur=state.tab, p=Math.max(0,Math.min(1,Math.abs(dragDx)/limit));
+    var toward=(cur==='notices'&&dragDx<0)?'documents':(cur==='documents'&&dragDx>0)?'notices':null;
+    if(!toward){
+      nb.style.setProperty('--swipe-p',cur==='notices'?'1':'0'); db2.style.setProperty('--swipe-p',cur==='documents'?'1':'0'); return;
+    }
+    var curP=1-p, nextP=p;
+    nb.style.setProperty('--swipe-p',(cur==='notices'?curP:nextP).toFixed(4));
+    db2.style.setProperty('--swipe-p',(cur==='documents'?curP:nextP).toFixed(4));
+    var vis=p>=.5?toward:cur;
+    panel.querySelectorAll('.panel-tab').forEach(function(b){ var on=b.getAttribute('data-tab')===vis; b.classList.toggle('active',on); b.setAttribute('aria-selected',on?'true':'false'); });
+  }
+  /* ---------- swipe between Notices ⇄ Documents, swipe right to close ---------- */
+  var sx=0, sy=0, dx=0, tracking=false, locked=false, dragPanel=false, st=0;
+  function clearDrag(){
+    panel.classList.remove('dragging'); panel.style.transform='';
+    overlay.style.transition=''; overlay.style.opacity=''; overlay.style.visibility='';
+  }
+  viewport.addEventListener('touchstart',function(e){
+    var t=e.touches[0]; sx=t.clientX; sy=t.clientY; dx=0; tracking=true; locked=false; dragPanel=false; st=Date.now();
+    slider.style.transition='none';
+  },{passive:true});
+  viewport.addEventListener('touchmove',function(e){
+    if(!tracking) return;
+    var t=e.touches[0]; var mx=t.clientX-sx, my=t.clientY-sy;
+    if(!locked){ if(Math.abs(my)>Math.abs(mx)*1.2 && Math.abs(my)>8){ tracking=false; slider.style.transition=''; return; } if(Math.abs(mx)>10) locked=true; else return; }
+    dx=mx;
+    var w=viewport.clientWidth||1, base=state.tab==='documents'?-w:0;
+    if(state.tab==='notices' && dx>0){            /* hand-following close: the whole panel slides with the finger */
+      dragPanel=true; slider.style.transform=''; resetFill();
+      panel.classList.add('dragging'); panel.style.transform='translateX('+dx+'px)';
+      overlay.style.transition='none'; overlay.style.opacity=String(Math.max(0,1-dx/(panel.offsetWidth||w)));
+      if(e.cancelable) e.preventDefault(); return;
+    }
+    if(dragPanel){ dragPanel=false; clearDrag(); }
+    var tx=base+dx; if(tx>0) tx=tx*.25; if(tx<-w) tx=-w+(tx+w)*.25;
+    slider.style.transform='translateX('+tx+'px)';
+    fillTabs(dx,w*.5);
+    if(e.cancelable) e.preventDefault();
+  },{passive:false});
+  function endSwipe(){
+    if(!tracking) { slider.style.transition=''; resetFill(); return; }
+    tracking=false; slider.style.transition='';
+    if(dragPanel){
+      dragPanel=false; var pw=panel.offsetWidth||360, fast=dx/Math.max(1,Date.now()-st)>.55;
+      clearDrag();
+      if(dx>pw*.3||(fast&&dx>40)) closePanel();
+      return;
+    }
+    var th=(typeof ADMIN_CONFIG!=='undefined'&&ADMIN_CONFIG.PANEL_SWIPE_THRESHOLD)||55;
+    if(locked && dx<-th && state.tab==='notices') setTab('documents');
+    else if(locked && dx>th && state.tab==='documents') setTab('notices');
+    else if(locked && dx>th*1.6 && state.tab==='notices') { slider.style.transform=''; closePanel(); }
+    else slider.style.transform='';
+    resetFill();
+  }
+  viewport.addEventListener('touchend',endSwipe,{passive:true});
+  viewport.addEventListener('touchcancel',endSwipe,{passive:true});
+
+  /* ---------- swipe left on the page: Notices panel follows the finger ---------- */
+  (function(){
+    var x0=0,y0=0,t0=0,on=false,lock=false,pdx=0;
+    var blocked='input,textarea,select,.editor-sheet,.table-wrap,.quick-notice-row,.right-panel,.sidebar,[contenteditable="true"]';
+    function canStart(e){
+      if(state.open||window.innerWidth>=1200) return false;
+      var app=$('app'); if(app&&app.hidden) return false;
+      var b=document.body.classList;
+      if(b.contains('search-open')||b.contains('modal-active')||b.contains('rp-open')) return false;
+      var sb=document.querySelector('.sidebar'); if(sb&&sb.classList.contains('active')) return false;
+      var ed=$('editor'); if(ed&&ed.classList.contains('open')) return false;
+      return !(e.target.closest&&e.target.closest(blocked));
+    }
+    document.addEventListener('touchstart',function(e){
+      on=false; lock=false; pdx=0;
+      if(!e.touches[0]||!canStart(e)) return;
+      x0=e.touches[0].clientX; y0=e.touches[0].clientY; t0=Date.now(); on=true;
+    },{passive:true});
+    document.addEventListener('touchmove',function(e){
+      if(!on) return;
+      var t=e.touches[0]; var mx=t.clientX-x0, my=t.clientY-y0;
+      if(!lock){
+        if(Math.abs(my)>Math.abs(mx)*1.2&&Math.abs(my)>8){ on=false; return; }
+        if(mx>12){ on=false; return; }                  /* rightwards belongs to the sidebar */
+        if(mx<-14){ lock=true; setTab(state.tab); load(); } else return;
+      }
+      pdx=mx;
+      var W=panel.offsetWidth||360, p=Math.max(0,Math.min(1,-pdx/W));
+      panel.classList.add('dragging'); panel.style.transform='translateX('+(W*(1-p))+'px)';
+      overlay.style.transition='none'; overlay.style.visibility='visible'; overlay.style.opacity=String(p);
+      if(e.cancelable) e.preventDefault();
+    },{passive:false});
+    function end(){
+      if(!on||!lock){ on=false; return; }
+      on=false; lock=false;
+      var W=panel.offsetWidth||360, p=-pdx/W, fast=(-pdx)/Math.max(1,Date.now()-t0)>.55;
+      var go=p>.28||(fast&&-pdx>40);
+      clearDrag();
+      if(go) openPanel(state.tab);
+    }
+    document.addEventListener('touchend',end,{passive:true});
+    document.addEventListener('touchcancel',end,{passive:true});
+  })();
+
+  /* ---------- Documents toolbar hides on scroll down, returns on scroll up (delayed like the header) ---------- */
+  (function(){
+    var timer=null,last=0;
+    docBox.addEventListener('scroll',function(){
+      var cur=Math.max(0,docBox.scrollTop); clearTimeout(timer);
+      timer=setTimeout(function(){
+        var focused=docSearch&&document.activeElement===docSearch;
+        if(cur<=80||focused) docBar.classList.remove('is-hidden');
+        else if(cur>last+10) docBar.classList.add('is-hidden');
+        else if(cur<last-10) docBar.classList.remove('is-hidden');
+        last=cur;
+      },120);
+    },{passive:true});
+  })();
+
+  /* ---------- initial badge load once the dashboard is unlocked; refresh after saves ---------- */
+  var tries=0, iv=setInterval(function(){
+    var app=$('app'); tries++;
+    if(app && !app.hidden){ clearInterval(iv); load(); startRealtime(); }
+    else if(tries>60) clearInterval(iv);
+  },1000);
+  try{ var saved=localStorage.getItem(KEY); if(saved==='documents') state.tab='documents'; }catch(e){}
+  var editorEl=$('editor');
+  if(editorEl){
+    new MutationObserver(function(){ if(editorEl.getAttribute('aria-hidden')==='true' && state.loaded) { state.loaded=true; load(true); } })
+      .observe(editorEl,{attributes:true,attributeFilter:['aria-hidden']});
+  }
+})();
+</script>
+
+<script>
+/* ===== Add cards: infinite loop carousel on phones — Notice first, swipe either way, slides on its own ===== */
+(function(){
+  var row=document.querySelector('.quick-notice-row'), wrap=document.querySelector('.quick-notice-wrap');
+  if(!row||!wrap) return;
+  var real=[].slice.call(row.querySelectorAll('.quick-notice-card'));
+  var n=real.length; if(n<2) return;
+
+  function mkClone(src){
+    var c=src.cloneNode(true); c.removeAttribute('id'); c.classList.add('qn-clone');
+    c.setAttribute('aria-hidden','true'); c.tabIndex=-1;
+    c.addEventListener('click',function(){ src.click(); });
+    return c;
+  }
+  /* clones exist only while the phone carousel is showing, so the wide grid is untouched */
+  var headClone=null, tailClone=null, all=real.slice();
+  function setLoop(on){
+    if(on && !headClone){
+      headClone=mkClone(real[n-1]); tailClone=mkClone(real[0]);
+      row.insertBefore(headClone,row.firstChild); row.appendChild(tailClone);
+      all=[headClone].concat(real,[tailClone]);
+    } else if(!on && headClone){
+      headClone.remove(); tailClone.remove(); headClone=tailClone=null; all=real.slice();
+    }
+  }
+  function narrow(){ return wrap.clientWidth>0 && wrap.clientWidth<560; }
+
+  var dots=document.createElement('div'); dots.className='qn-dots'; dots.setAttribute('aria-label','Quick actions');
+  real.forEach(function(c,i){
+    var d=document.createElement('button'); d.type='button'; d.className='qn-dot'+(i===0?' active':'');
+    d.setAttribute('aria-label','Go to '+(c.getAttribute('aria-label')||('card '+(i+1))));
+    d.addEventListener('click',function(){ userTouched(); goTo(i+1,true); });
+    dots.append(d);
+  });
+  wrap.append(dots);
+
+  function active(){ return !!headClone && row.scrollWidth>row.clientWidth+4; }
+  function posFor(el){ return el.offsetLeft-(row.clientWidth-el.offsetWidth)/2; }
+  function nearest(){
+    var mid=row.scrollLeft+row.clientWidth/2, best=0, bd=1e9;
+    all.forEach(function(c,i){ var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid); if(d<bd){ bd=d; best=i; } });
+    return best;
+  }
+  function jump(el){
+    row.style.scrollSnapType='none'; row.style.scrollBehavior='auto';
+    row.scrollLeft=posFor(el);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ row.style.scrollSnapType=''; row.style.scrollBehavior=''; }); });
+  }
+  function goTo(i,smooth){ row.scrollTo({left:posFor(all[i]),behavior:smooth?'smooth':'auto'}); }
+  function markCurrent(){
+    var i=nearest(), r=i===0?n-1:(i===n+1?0:i-1);
+    [].forEach.call(dots.children,function(d,k){ d.classList.toggle('active',k===r); });
+    all.forEach(function(c,k){ c.classList.toggle('qn-current',k===i); });
+  }
+  var settle=0, raf=0;
+  row.addEventListener('scroll',function(){
+    if(!raf) raf=requestAnimationFrame(function(){ raf=0; if(active()) markCurrent(); });
+    clearTimeout(settle);
+    settle=setTimeout(function(){
+      if(!active()) return;
+      var i=nearest();
+      if(i===0) jump(real[n-1]); else if(i===n+1) jump(real[0]);
+      markCurrent();
+    },110);
+  },{passive:true});
+
+  /* start on the first real card (Notice) */
+  function init(){
+    var wasOn=!!headClone; setLoop(narrow());
+    if(active() && !wasOn){ jump(real[0]); markCurrent(); }
+  }
+  init(); window.addEventListener('resize',function(){ setTimeout(init,60); });
+  new MutationObserver(function(){ setTimeout(init,60); }).observe(document.getElementById('view-overview')||document.body,{attributes:true,attributeFilter:['hidden']});
+  if('ResizeObserver' in window) new ResizeObserver(function(){ init(); }).observe(wrap);
+
+  /* gentle auto-slide: one card after another, pauses while the person interacts */
+  var idle=0, touching=false, timer=null, reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function userTouched(){ idle=Date.now(); }
+  row.addEventListener('touchstart',function(){ touching=true; userTouched(); },{passive:true});
+  row.addEventListener('touchend',function(){ touching=false; userTouched(); },{passive:true});
+  row.addEventListener('touchcancel',function(){ touching=false; userTouched(); },{passive:true});
+  row.addEventListener('pointerdown',userTouched,{passive:true});
+  row.addEventListener('wheel',userTouched,{passive:true});
+  function tick(){
+    if(reduce||touching||document.hidden||!active()||row.offsetParent===null) return;
+    if(document.body.classList.contains('modal-active')||document.body.classList.contains('rp-open')||document.body.classList.contains('search-open')) return;
+    if(Date.now()-idle<6000) return;
+    var i=nearest(); if(i>=n+1){ jump(real[0]); i=1; }
+    goTo(i+1,true);
+  }
+  timer=setInterval(tick,4200);
+})();
+</script>
+<script>
+/* Refresh buttons: spin the icon briefly on click */
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('.refresh-btn'); if(!b) return;
+  b.classList.add('is-spinning'); b.setAttribute('aria-busy','true');
+  clearTimeout(b._rf);
+  b._rf=setTimeout(function(){ b.classList.remove('is-spinning'); b.removeAttribute('aria-busy'); },900);
+});
+</script>
 </body>
 </html>

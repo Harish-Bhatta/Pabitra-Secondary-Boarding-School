@@ -6180,6 +6180,81 @@ body.dark .qn-go{background:rgba(255,255,255,.08)}
 .hero-v2 .pill i{color:var(--primary-light,#f5b041)}
 @media(max-width:480px){.hero-v2{border-radius:20px}.hero-v2 p{font-size:12.5px}}
 </style>
+<style id="hero-v3">
+/* ===== Overview hero card — redesign: glass chips, aurora glow, gradient rim ===== */
+.hero-v3{position:relative;isolation:isolate;overflow:hidden;border:0;border-radius:28px;padding:clamp(20px,4vw,38px);
+  background:
+    radial-gradient(90% 120% at 100% 0%,color-mix(in srgb,var(--primary) 42%,transparent),transparent 58%),
+    radial-gradient(70% 90% at 0% 100%,rgba(99,102,241,.22),transparent 60%),
+    linear-gradient(135deg,#131d33,#1b2a47 58%,color-mix(in srgb,var(--primary-dark) 40%,#1b2a47));
+  box-shadow:0 30px 60px -28px rgba(var(--primary-rgb,243,156,18),.6),0 10px 30px -18px rgba(15,23,42,.6),inset 0 1px 0 rgba(255,255,255,.16)}
+/* gradient rim */
+.hero-v3:before{content:"";display:block!important;position:absolute;inset:0;z-index:0;border-radius:inherit;padding:1.2px;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.06) 28%,rgba(var(--primary-rgb,243,156,18),.55) 62%,rgba(255,255,255,.08));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  width:auto;height:auto;right:0;top:0;border:0;box-shadow:none}
+.hero-v3 .hv2-orb{display:none}
+.hero-v3>*:not(.hv3-aurora):not(.hv3-mark):not(.hv3-art){position:relative;z-index:2}
+
+/* soft drifting glows */
+.hv3-aurora{position:absolute;z-index:0;border-radius:50%;filter:blur(46px);pointer-events:none;opacity:.55;will-change:transform}
+.hv3-aurora.a1{width:260px;height:260px;right:-70px;top:-90px;background:rgba(var(--primary-rgb,243,156,18),.55);animation:hv3Drift 14s ease-in-out infinite alternate}
+.hv3-aurora.a2{width:220px;height:220px;left:-60px;bottom:-110px;background:rgba(99,102,241,.5);animation:hv3Drift 18s ease-in-out infinite alternate-reverse}
+@keyframes hv3Drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-26px,22px,0) scale(1.14)}}
+
+/* big faint cap watermark */
+.hv3-mark{position:absolute;z-index:0;right:-18px;bottom:-34px;font-size:168px;line-height:1;color:#fff;opacity:.06;transform:rotate(-12deg);pointer-events:none}
+
+/* top row */
+.hero-v3 .hv2-school{gap:9px;padding:5px 12px 5px 5px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);letter-spacing:.1em;color:#fde7b8}
+.hero-v3 .hv2-school i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;color:#1b2a47;background:linear-gradient(135deg,var(--primary-light,#f5b041),var(--primary,#f39c12));box-shadow:0 0 0 3px rgba(var(--primary-rgb,243,156,18),.22),0 6px 14px -4px rgba(var(--primary-rgb,243,156,18),.8)}
+.hero-v3 .hv2-date{display:inline-flex;align-items:center;gap:6px}
+.hero-v3 .hv2-date i{font-size:13px;color:var(--primary-light,#f5b041)}
+
+/* greeting + title */
+.hero-v3 .hv2-greet{display:flex;align-items:center;gap:10px;margin:22px 0 6px;font-size:13px;font-weight:600;letter-spacing:.02em;color:#e8eefc}
+.hero-v3 .hv2-greet:before{content:"";width:26px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--primary-light,#f5b041),transparent)}
+.hero-v3 h1{font-size:clamp(26px,4.4vw,42px);line-height:1.12;letter-spacing:-.04em;margin:0 0 12px;max-width:560px;text-shadow:0 8px 28px rgba(0,0,0,.35)}
+.hero-v3 h1 span{background:linear-gradient(100deg,var(--primary-light,#f5b041) 0%,#fff 45%,var(--primary-light,#f5b041) 90%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:hv3Shine 6s linear infinite}
+@keyframes hv3Shine{from{background-position:0 50%}to{background-position:-220% 50%}}
+.hero-v3 p{max-width:520px;font-size:13.5px;line-height:1.7;color:#cfd8e8}
+
+/* footer pills */
+.hero-v3 .hero-foot{margin-top:22px;padding-top:18px;gap:9px;border-top:1px solid rgba(255,255,255,.1)}
+.hero-v3 .pill{padding:7px 13px 7px 8px;font-size:11.5px;font-weight:600;color:#f1f5ff;background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.18);transition:transform .25s ease,background .25s ease}
+.hero-v3 .pill i{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:#1b2a47;background:linear-gradient(135deg,var(--primary-light,#f5b041),var(--primary,#f39c12))}
+.hero-v3 .pill .live-dot{margin:0 3px 0 4px;animation:hv3Pulse 2s ease-in-out infinite}
+@keyframes hv3Pulse{0%,100%{box-shadow:0 0 0 3px rgba(101,214,168,.22)}50%{box-shadow:0 0 0 7px rgba(101,214,168,.04)}}
+@media(hover:hover){.hero-v3 .pill:hover{transform:translateY(-2px);background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.08))}}
+
+/* floating glass chips (wide screens only) */
+.hv3-art{display:none}
+@media(min-width:720px){
+  .hv3-art{display:block;position:absolute;z-index:1;right:clamp(22px,6%,64px);top:50%;width:200px;height:200px;transform:translateY(-50%);pointer-events:none}
+  .hv3-art:before{content:"";position:absolute;inset:14px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.2);animation:hv3Spin 40s linear infinite}
+  .hv3-art:after{content:"";position:absolute;inset:50px;border-radius:50%;background:radial-gradient(circle,rgba(var(--primary-rgb,243,156,18),.38),transparent 70%)}
+  .hv3-chip{position:absolute;display:grid;place-items:center;width:62px;height:62px;border-radius:20px;font-size:27px;color:#fff;
+    background:linear-gradient(145deg,rgba(var(--c),.95),rgba(var(--c),.55));border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 18px 30px -12px rgba(var(--c),.8),inset 0 1px 0 rgba(255,255,255,.55);animation:hv3Float 5.5s ease-in-out infinite}
+  .hv3-chip:before{content:"";position:absolute;left:8%;right:8%;top:6%;height:42%;border-radius:16px 16px 40px 40px;background:linear-gradient(180deg,rgba(255,255,255,.45),transparent);pointer-events:none}
+  .hv3-chip.c1{left:0;top:6px;transform:rotate(-8deg)}
+  .hv3-chip.c2{right:0;top:0;width:70px;height:70px;font-size:31px;animation-delay:-1.4s;transform:rotate(7deg)}
+  .hv3-chip.c3{left:6px;bottom:0;animation-delay:-2.8s;transform:rotate(6deg)}
+  .hv3-chip.c4{right:4px;bottom:8px;animation-delay:-4.1s;transform:rotate(-6deg)}
+  .hero-v3 h1,.hero-v3 p{max-width:min(520px,calc(100% - 250px))}
+}
+@media(min-width:720px) and (max-width:900px){.hv3-art{transform:translateY(-50%) scale(.82);transform-origin:right center}.hero-v3 h1,.hero-v3 p{max-width:calc(100% - 215px)}}
+@keyframes hv3Float{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes hv3Spin{to{transform:rotate(360deg)}}
+
+/* gentle entrance */
+.hero-v3>.hv2-top,.hero-v3>.hv2-greet,.hero-v3>h1,.hero-v3>p,.hero-v3>.hero-foot{animation:hv3In .7s cubic-bezier(.16,1,.3,1) both}
+.hero-v3>.hv2-greet{animation-delay:.06s}.hero-v3>h1{animation-delay:.12s}.hero-v3>p{animation-delay:.18s}.hero-v3>.hero-foot{animation-delay:.24s}
+@keyframes hv3In{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+@media(max-width:480px){.hero-v3{border-radius:22px}.hero-v3 p{font-size:13px}.hv3-mark{font-size:130px}.hero-v3 .hv2-date{display:none}}
+@media(prefers-reduced-motion:reduce){.hv3-aurora,.hv3-chip,.hv3-art:before,.hero-v3 h1 span,.hero-v3 .pill .live-dot,.hero-v3>*{animation:none!important}}
+</style>
 <style id="exit-card-style">
 .dlg-card.exit{position:relative;overflow:hidden;padding:30px 22px 22px;border-radius:26px}
 .dlg-card.exit:before{content:"";position:absolute;inset:0 0 auto 0;height:96px;background:radial-gradient(120% 100% at 50% 0%,rgba(var(--primary-rgb),.22),transparent 70%);pointer-events:none}
@@ -6737,7 +6812,6 @@ body.rp-open { overflow: hidden; }
 .notice-btn .notice-badge { z-index: 3; }
 
 /* ===== Swipeable add-cards carousel on phones ===== */
-.qn-dots { display: none; }
 .quick-notice-card.qn-clone { display: none !important; }
 @container (max-width: 559.98px) { .quick-notice-card.qn-clone { display: flex !important; } }
 .search-group-title { padding: 12px 12px 6px; font-size: .68rem; font-weight: 800; letter-spacing: .14em; color: var(--text-light); }
@@ -6746,22 +6820,21 @@ body.rp-open { overflow: hidden; }
   .quick-notice-row {
     display: flex; grid-template-columns: none; gap: 12px; overflow-x: auto; overflow-y: hidden;
     scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-    overscroll-behavior-x: contain; touch-action: pan-x pan-y; padding: 6px 2px 8px; margin: 0 -2px;
+    overscroll-behavior-x: contain; touch-action: pan-x pan-y; padding: 6px 0 8px; margin: 0;
   }
   .quick-notice-row::-webkit-scrollbar { display: none; }
   .quick-notice-card:nth-child(n+2) { display: flex; }
   .quick-notice-card {
-    flex: 0 0 86%; width: auto; scroll-snap-align: center; scroll-snap-stop: always;
-    transform: scale(.94); opacity: .72; transition: transform .45s var(--snap), opacity .35s ease, box-shadow .3s ease, border-color .3s ease;
+    flex: 0 0 100%; width: 100%; min-width: 100%; scroll-snap-align: center; scroll-snap-stop: always;
+    transform: none; opacity: 1;
   }
-  .quick-notice-card.qn-current { transform: none; opacity: 1; }
-  .quick-notice-card:active { transform: scale(.97); }
-  .qn-dots { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 4px; }
-  .qn-dot {
-    width: 7px; height: 7px; padding: 0; border: 0; border-radius: 999px; cursor: pointer;
-    background: var(--border); opacity: .9; transition: width .35s var(--snap), background .3s ease;
-  }
-  .qn-dot.active { width: 22px; background: var(--primary-gradient); }
+  .quick-notice-card:active { transform: scale(.98); }
+  /* a clone and its original must look identical at every moment: no sticky-hover differences, no transitions */
+  .quick-notice-card, .qn-go { transition: none !important; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .quick-notice-card:hover { transform: none; border-color: rgba(var(--qc),.28); box-shadow: 0 10px 24px -14px rgba(var(--qc),.65), inset 0 1px 0 rgba(255,255,255,.7); }
+  body.dark .quick-notice-card:hover { box-shadow: 0 10px 24px -14px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06); }
+  .quick-notice-card:hover .qn-go, #quickPending:hover .qn-go { transform: none; background: rgba(255,255,255,.7); color: rgb(var(--qc)); }
+  body.dark .quick-notice-card:hover .qn-go { background: rgba(255,255,255,.08); }
 }
 @media (prefers-reduced-motion: reduce) { .quick-notice-card { transition: none; } }
 </style>
@@ -7212,7 +7285,21 @@ body.dark .toast .toast-close{
 
     <section class="view" id="view-overview">
       <div class="quick-notice-wrap"><div class="quick-notice-row"><button type="button" class="quick-notice-card" id="quickAddNotice" style="--qc:243,156,18" aria-label="Add a notice"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-megaphone-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add a notice</b><em>Publish an announcement in seconds</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickAddGallery" style="--qc:244,114,94" aria-label="Add gallery photo"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-image-add-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add gallery photo</b><em>Add a new campus image</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickAddDocument" style="--qc:232,89,129" aria-label="Add a document"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-file-upload-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add a document</b><em>Share a file or resource</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickAddFaculty" style="--qc:224,72,72" aria-label="Add faculty"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-user-add-fill"></i></span><span class="qn-text"><small>Quick action</small><b>Add faculty</b><em>Add a teacher or staff member</em></span><span class="qn-go" aria-hidden="true"><i class="ri-add-line"></i></span></button><button type="button" class="quick-notice-card" id="quickPending" style="--qc:196,52,92" aria-label="Pending users"><span class="qn-glow" aria-hidden="true"></span><span class="qn-icon" aria-hidden="true"><i class="ri-user-follow-fill"></i></span><span class="qn-text"><small>Approvals</small><b>Pending users</b><em>Review account requests</em></span><span class="qn-count" id="quickPendingCount" hidden>0</span><span class="qn-go" aria-hidden="true"><i class="ri-arrow-right-line"></i></span></button></div></div>
-      <div class="hero-admin hero-v2"><span class="hv2-orb" aria-hidden="true"></span><div class="hv2-top"><span class="hv2-school"><i class="ri-graduation-cap-fill" aria-hidden="true"></i> Pabitra Secondary Boarding School</span><span class="hv2-date" id="heroDate"></span></div><div class="hv2-greet" id="heroGreeting">Welcome back</div><h1 id="welcome">Keep your school <span>up to date</span>, effortlessly.</h1><p>Publish notices, share documents, update the gallery, calendar and faculty — all from one simple workspace.</p><div class="hero-foot"><span class="pill"><span class="live-dot"></span> Session verified</span><span class="pill"><i class="ri-smartphone-line"></i> Mobile friendly</span><span class="pill"><i class="ri-edit-2-line"></i> Easy editing</span></div></div>
+      <div class="hero-admin hero-v2 hero-v3">
+        <span class="hv3-aurora a1" aria-hidden="true"></span><span class="hv3-aurora a2" aria-hidden="true"></span>
+        <i class="ri-graduation-cap-fill hv3-mark" aria-hidden="true"></i>
+        <div class="hv3-art" aria-hidden="true">
+          <span class="hv3-chip c1" style="--c:243,156,18"><i class="ri-megaphone-fill"></i></span>
+          <span class="hv3-chip c2" style="--c:244,114,94"><i class="ri-image-add-fill"></i></span>
+          <span class="hv3-chip c3" style="--c:232,89,129"><i class="ri-file-upload-fill"></i></span>
+          <span class="hv3-chip c4" style="--c:196,52,92"><i class="ri-user-add-fill"></i></span>
+        </div>
+        <div class="hv2-top"><span class="hv2-school"><i class="ri-graduation-cap-fill" aria-hidden="true"></i> Pabitra Secondary Boarding School</span><span class="hv2-date"><i class="ri-calendar-2-line" aria-hidden="true"></i><span id="heroDate"></span></span></div>
+        <div class="hv2-greet" id="heroGreeting">Welcome back</div>
+        <h1 id="welcome">Keep your school <span>up to date</span>, effortlessly.</h1>
+        <p>Publish notices, share documents, update the gallery, calendar and faculty — all from one simple workspace.</p>
+        <div class="hero-foot"><span class="pill"><span class="live-dot"></span> Session verified</span><span class="pill"><i class="ri-smartphone-line"></i> Mobile friendly</span><span class="pill"><i class="ri-edit-2-line"></i> Easy editing</span></div>
+      </div>
       <div class="stats">
         <div class="stat"><div class="stat-top">Content areas <span class="stat-icon"><i class="ri-apps-2-line"></i></span></div><strong>6</strong><small>Public website collections</small></div>
         <div class="stat"><div class="stat-top">Current collection <span class="stat-icon"><i class="ri-database-2-line"></i></span></div><strong id="overviewRecords">—</strong><small>Records currently loaded</small></div>
@@ -8950,34 +9037,59 @@ window.addEventListener('popstate',e=>{
 </script>
 
 <script>
-/* Root-level: (1) switch browser/password-manager autofill off everywhere, (2) track the visible viewport so
-   fields move above the keyboard in browsers that don't resize the layout (Acode's WebView already does). */
+/* Root-level: (1) switch browser/password-manager autofill off everywhere (removes the keyboard's autofill row),
+   (2) track the visible viewport + keyboard height so every field/overlay moves above the on-screen keyboard
+   in browsers that don't resize the layout (Acode's WebView already does). */
 (function(){
   const SKIP=['checkbox','radio','button','submit','reset','file','range','color','hidden'];
+  const FIELD=/^(INPUT|TEXTAREA|SELECT)$/;
   function off(el){
-    if(el.tagName==='FORM'){el.setAttribute('autocomplete','off');return;}
-    if(!/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)||SKIP.includes((el.type||'').toLowerCase()))return;
-    el.setAttribute('autocomplete',(el.type||'')==='password'?'new-password':'off');
+    if(el.tagName==='FORM'){if(el.getAttribute('autocomplete')!=='off')el.setAttribute('autocomplete','off');return;}
+    if(!FIELD.test(el.tagName)||SKIP.includes((el.type||'').toLowerCase()))return;
+    const v=(el.type||'')==='password'?'new-password':'off';
+    if(el.getAttribute('autocomplete')!==v)el.setAttribute('autocomplete',v);
     el.setAttribute('data-lpignore','true');el.setAttribute('data-1p-ignore','');
     el.setAttribute('data-bwignore','true');el.setAttribute('data-form-type','other');
   }
   function sweep(root){if(root.nodeType!==1)return;off(root);root.querySelectorAll&&root.querySelectorAll('input,textarea,select,form').forEach(off);}
   sweep(document.documentElement);
-  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(sweep))).observe(document.documentElement,{childList:true,subtree:true});
+  new MutationObserver(ms=>ms.forEach(m=>{
+    if(m.type==='attributes'){off(m.target);return;}
+    m.addedNodes.forEach(sweep);
+  })).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['autocomplete','type']});
+  /* Re-assert on focus too, in case a field was touched by other code right before the keyboard opens */
+  document.addEventListener('focusin',e=>{if(e.target&&e.target.nodeType===1)off(e.target);},true);
+
   const vv=window.visualViewport,root=document.documentElement;
+  let base=innerHeight,lastW=innerWidth;
   function sync(){
+    if(innerWidth!==lastW){lastW=innerWidth;base=innerHeight;}
+    base=Math.max(base,innerHeight);
     const zoomed=vv&&vv.scale>1.01;
     const h=(vv&&!zoomed)?vv.height:innerHeight,top=(vv&&!zoomed)?vv.offsetTop:0;
     root.style.setProperty('--vvh',h+'px');root.style.setProperty('--vvt',top+'px');
-    const kb=innerHeight-h-top>80||(screen.height&&h<innerHeight*.75);
+    /* Keyboard height as seen by position:fixed elements (0 when the browser already resized the layout) */
+    const kbPx=Math.max(0,Math.round(innerHeight-h-top));
+    root.style.setProperty('--kb',kbPx+'px');
+    const kb=kbPx>80||(base-h-top)>120;
     root.classList.toggle('kb-open',!!kb);
-    const a=document.activeElement;
-    if(kb&&a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.closest('.editor,.profile-name-modal'))
-      setTimeout(()=>a.scrollIntoView({block:'center',behavior:'smooth'}),60);
+    if(kb)reveal(document.activeElement);
+  }
+  /* Scroll the focused field into the visible area only when the keyboard would cover it */
+  let rt=0;
+  function reveal(a){
+    if(!a||!FIELD.test(a.tagName)||SKIP.includes((a.type||'').toLowerCase()))return;
+    clearTimeout(rt);
+    rt=setTimeout(()=>{
+      const h=vv?vv.height:innerHeight,top=vv?vv.offsetTop:0,r=a.getBoundingClientRect();
+      if(r.bottom>top+h-14||r.top<top+8)a.scrollIntoView({block:'center',behavior:'smooth'});
+    },80);
   }
   if(vv){vv.addEventListener('resize',sync);vv.addEventListener('scroll',sync);}
-  addEventListener('resize',sync);addEventListener('orientationchange',sync);
-  document.addEventListener('focusin',()=>setTimeout(sync,350));
+  addEventListener('resize',sync);
+  addEventListener('orientationchange',()=>{base=0;setTimeout(()=>{base=innerHeight;sync();},300);});
+  document.addEventListener('focusin',e=>{setTimeout(sync,120);setTimeout(()=>{sync();reveal(e.target);},400);setTimeout(()=>reveal(e.target),800);});
+  document.addEventListener('focusout',()=>setTimeout(sync,200));
   sync();
 })();
 </script>
@@ -9929,15 +10041,6 @@ window.addEventListener('popstate',e=>{
   }
   function narrow(){ return wrap.clientWidth>0 && wrap.clientWidth<560; }
 
-  var dots=document.createElement('div'); dots.className='qn-dots'; dots.setAttribute('aria-label','Quick actions');
-  real.forEach(function(c,i){
-    var d=document.createElement('button'); d.type='button'; d.className='qn-dot'+(i===0?' active':'');
-    d.setAttribute('aria-label','Go to '+(c.getAttribute('aria-label')||('card '+(i+1))));
-    d.addEventListener('click',function(){ userTouched(); goTo(i+1,true); });
-    dots.append(d);
-  });
-  wrap.append(dots);
-
   function active(){ return !!headClone && row.scrollWidth>row.clientWidth+4; }
   function posFor(el){ return el.offsetLeft-(row.clientWidth-el.offsetWidth)/2; }
   function nearest(){
@@ -9945,28 +10048,37 @@ window.addEventListener('popstate',e=>{
     all.forEach(function(c,i){ var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid); if(d<bd){ bd=d; best=i; } });
     return best;
   }
+  /* Clone and real card are pixel-identical and both are snap points, so an instant jump between them is invisible.
+     Snap stays enabled the whole time (toggling it is what made the card flicker). */
   function jump(el){
-    row.style.scrollSnapType='none'; row.style.scrollBehavior='auto';
-    row.scrollLeft=posFor(el);
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ row.style.scrollSnapType=''; row.style.scrollBehavior=''; }); });
+    row.style.scrollBehavior='auto';
+    row.scrollLeft=Math.round(posFor(el));
   }
   function goTo(i,smooth){ row.scrollTo({left:posFor(all[i]),behavior:smooth?'smooth':'auto'}); }
   function markCurrent(){
-    var i=nearest(), r=i===0?n-1:(i===n+1?0:i-1);
-    [].forEach.call(dots.children,function(d,k){ d.classList.toggle('active',k===r); });
+    var i=nearest();
     all.forEach(function(c,k){ c.classList.toggle('qn-current',k===i); });
   }
-  var settle=0, raf=0;
+  var settle=0, raf=0, down=false;
+  function settleNow(){
+    if(down||!active()) return;
+    var i=nearest(), target=row.scrollLeft;
+    /* only jump once the clone is really at rest on its snap point */
+    if(i===0||i===n+1){
+      if(Math.abs(target-posFor(all[i]))>2){ settleSoon(90); return; }
+      jump(i===0?real[n-1]:real[0]);
+    }
+    markCurrent();
+  }
+  function settleSoon(ms){ clearTimeout(settle); settle=setTimeout(settleNow,ms||140); }
   row.addEventListener('scroll',function(){
     if(!raf) raf=requestAnimationFrame(function(){ raf=0; if(active()) markCurrent(); });
-    clearTimeout(settle);
-    settle=setTimeout(function(){
-      if(!active()) return;
-      var i=nearest();
-      if(i===0) jump(real[n-1]); else if(i===n+1) jump(real[0]);
-      markCurrent();
-    },110);
+    if(!('onscrollend' in window)) settleSoon(140);
   },{passive:true});
+  row.addEventListener('scrollend',function(){ settleSoon(30); });
+  row.addEventListener('touchstart',function(){ down=true; clearTimeout(settle); },{passive:true});
+  row.addEventListener('touchend',function(){ down=false; settleSoon(180); },{passive:true});
+  row.addEventListener('touchcancel',function(){ down=false; settleSoon(180); },{passive:true});
 
   /* start on the first real card (Notice) */
   function init(){
@@ -9974,7 +10086,8 @@ window.addEventListener('popstate',e=>{
     if(active() && !wasOn){ jump(real[0]); markCurrent(); }
   }
   init(); window.addEventListener('resize',function(){ setTimeout(init,60); });
-  new MutationObserver(function(){ setTimeout(init,60); }).observe(document.getElementById('view-overview')||document.body,{attributes:true,attributeFilter:['hidden']});
+  /* every time the Overview is shown again, start back on "Add a notice" */
+  new MutationObserver(function(){ setTimeout(function(){ init(); if(active()&&row.offsetParent!==null){ jump(real[0]); markCurrent(); } },60); }).observe(document.getElementById('view-overview')||document.body,{attributes:true,attributeFilter:['hidden']});
   if('ResizeObserver' in window) new ResizeObserver(function(){ init(); }).observe(wrap);
 
   /* gentle auto-slide: one card after another, pauses while the person interacts */

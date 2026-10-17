@@ -5027,6 +5027,26 @@ body.dark .hero-copy-card {
                             </div>
                         </div>
                     </div>
+                    <div class="about-features about-features-wide">
+                        <div class="feature"><span aria-hidden="true">⭐</span>
+                            <div>
+                                <h4>Quality Education</h4>
+                                <p>Learning with excellence.</p>
+                            </div>
+                        </div>
+                        <div class="feature"><span aria-hidden="true">👨‍🏫</span>
+                            <div>
+                                <h4>Dedicated Faculty</h4>
+                                <p>Supporting every individual learner.</p>
+                            </div>
+                        </div>
+                        <div class="feature"><span aria-hidden="true">🏛️</span>
+                            <div>
+                                <h4>Modern Infrastructure</h4>
+                                <p>State-of-the-art facilities.</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mvv-grid">
                         <article class="mvv-card">
                             <span class="mvv-icon" aria-hidden="true">🎯</span>
@@ -9306,18 +9326,18 @@ body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
 
 /* ===== Two-column heroes: wider info card, smaller logo ===== */
 @media (min-width: 769px) {
-  #hero .hero-inner { grid-template-columns: 1.3fr .7fr !important; gap: 32px !important; }
-  #hero .hero-visual { max-width: 250px !important; }
-  #hero .hv-frame { width: 76% !important; max-width: 190px !important; }
-  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 190px !important; padding: 12px !important; }
+  #hero .hero-inner { grid-template-columns: 1.2fr .8fr !important; gap: 32px !important; }
+  #hero .hero-visual { max-width: 300px !important; }
+  #hero .hv-frame { width: 80% !important; max-width: 230px !important; }
+  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 230px !important; padding: 12px !important; }
   #hero .hv-corner.hv-c1 { left: -8% !important; top: -5% !important; } #hero .hv-corner.hv-c2 { right: -10% !important; } #hero .hv-corner.hv-c3 { left: -4% !important; bottom: -8% !important; }
   #hero .hero-copy-card { width: 100% !important; max-width: none !important; left: 0 !important; transform: none !important; }
 }
 @media (min-width: 1025px) {
-  #hero .hero-inner { grid-template-columns: 1.4fr .6fr !important; gap: 40px !important; }
-  #hero .hero-visual { max-width: 280px !important; }
-  #hero .hv-frame { width: 72% !important; max-width: 210px !important; }
-  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 210px !important; }
+  #hero .hero-inner { grid-template-columns: 1.15fr .85fr !important; gap: 48px !important; }
+  #hero .hero-visual { max-width: 380px !important; }
+  #hero .hv-frame { width: 80% !important; max-width: 290px !important; }
+  #hero .hv-frame img.hv-logo, #hero img.hv-logo { max-width: 290px !important; }
 }
 /* Description block centred inside the hero card */
 #hero .hero-copy-card .hero-description { margin-left: auto !important; margin-right: auto !important; text-align: center !important; }
@@ -9575,4 +9595,30 @@ body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
 }
 </style>
 
-
+<style id="about-features-row-desktop">
+/* Two-column screens (tablets, laptops, PCs; 768px and up): the three feature tiles sit in one row,
+   just above Mission / Vision / Values. Phones keep the stacked list inside the About text column. */
+.about-features-wide { display: none; }
+@media (min-width: 768px) {
+  #about .about-content .about-features { display: none !important; }
+  #about .about-features-wide {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 32px 0 0 !important;
+  }
+  #about .about-features-wide + .mvv-grid { margin-top: 16px !important; }
+  #about .about-features-wide .feature { align-items: center; gap: 10px; padding: 12px 12px !important; }
+  #about .about-features-wide .feature span { width: 38px !important; height: 38px !important; font-size: 1.05rem !important; flex-shrink: 0; }
+  #about .about-features-wide .feature h4 { font-size: 0.85rem; }
+  #about .about-features-wide .feature p { font-size: 0.75rem; line-height: 1.35; }
+  #about .about-features-wide .feature:hover { transform: translateY(-2px); }
+}
+@media (min-width: 1024px) {
+  #about .about-features-wide { gap: 16px; margin-top: 36px !important; }
+  #about .about-features-wide .feature { gap: 12px; padding: 14px 14px !important; }
+  #about .about-features-wide .feature span { width: 42px !important; height: 42px !important; font-size: 1.2rem !important; }
+  #about .about-features-wide .feature h4 { font-size: 0.9rem; }
+  #about .about-features-wide .feature p { font-size: 0.8125rem; line-height: 1.5; }
+}
+</style>

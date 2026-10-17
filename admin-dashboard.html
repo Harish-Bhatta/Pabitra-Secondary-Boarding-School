@@ -9361,7 +9361,7 @@ async function exitFlow(){
 }
 window.psbsExitFlow=exitFlow;
 window.psbsDialog=psbsDialog;
-let leaving=false, lastTap=0;
+let leaving=false, lastTap=0, restoring=false;
 const GUARD_DEPTH=3;
 /* Browsers skip history entries that a page leaves/creates WITHOUT a tap. So guards are only ever pushed during a real
    tap/key press (while the browser reports active user activation), 3 deep, and are topped up on every tap. */
@@ -9371,7 +9371,7 @@ function canPush(){
   return true;
 }
 function topUp(){
-  if(leaving || !canPush()) return;
+  if(leaving || restoring || !canPush()) return;
   let n=(history.state&&history.state.i)||0, guard=0;
   while(n<GUARD_DEPTH && guard++<GUARD_DEPTH){
     try{ history.pushState({psbsAdminGuard:true,i:n+1},'',window.location.href); n++; }catch(e){ break; }
@@ -9397,7 +9397,15 @@ try{
 window.addEventListener('popstate',e=>{
   e.stopImmediatePropagation();
   if(leaving) return;
-  topUp();   /* every Back consumes one guard — put it back so the next Back is also caught */
+  /* Restoring guards by walking FORWARD over the entries we already own (pushing new ones here, without a tap, makes
+     the browser mark them skippable — that is what let a later Back escape). */
+  if(restoring){ restoring=false; return; }   /* this popstate is just our own forward step */
+  { const k=(history.state&&history.state.i)||0;
+    if(k<GUARD_DEPTH){
+      restoring=true;
+      try{ history.go(GUARD_DEPTH-k); }catch(err){ restoring=false; }
+      setTimeout(()=>{ restoring=false; },700);   /* safety: never stay stuck if no forward entry existed */
+    } }
   /* 1) close whatever is really open — flags can go stale, so look at the real elements */
   if(dlg.classList.contains('open')){closeDlg(false);return;}
   { const pk=document.querySelector('.pk-sheet-ov'); if(pk){ pk.click(); return; } }

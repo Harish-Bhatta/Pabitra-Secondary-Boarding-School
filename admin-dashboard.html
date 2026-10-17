@@ -8129,6 +8129,8 @@ const DOC_MAX=25*1024*1024, IMG_MAX=10*1024*1024;
 const DOC_EXT=['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','csv','png','jpg','jpeg','webp','gif'];
 const DOC_TYPE_MAP={pdf:'PDF',doc:'DOC',docx:'DOCX',xls:'XLS',xlsx:'XLSX',ppt:'PPT',pptx:'PPT',png:'Image',jpg:'Image',jpeg:'Image',webp:'Image',gif:'Image',txt:'Other',csv:'Other'};
 let pickBusy=false;
+const MIME_BY_EXT={pdf:'application/pdf',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xls:'application/vnd.ms-excel',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',ppt:'application/vnd.ms-powerpoint',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',txt:'text/plain',csv:'text/csv',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',webp:'image/webp',gif:'image/gif'};
+function pkMime(file,name){ const t=file.type; if(t&&t!=='application/octet-stream') return t; return MIME_BY_EXT[pkExt(name||file.name)]||t||'application/octet-stream'; }
 const pkEl=(tag,cls,html)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; };
 const pkExt=n=>{ const m=String(n||'').toLowerCase().match(/\.([a-z0-9]+)(?:\?.*)?$/); return m?m[1]:''; };
 const pkBase=p=>String(p||'').split('/').pop();
@@ -8150,7 +8152,8 @@ async function pkUpload(bucket,folder,file,name){
   let n=name;
   for(let i=0;i<2;i++){
     const path=(folder?folder+'/':'')+n;
-    const {error}=await db.storage.from(bucket).upload(path,file,{upsert:false,contentType:file.type||undefined,cacheControl:'31536000'});
+    const mime=pkMime(file,n), body=(file.type===mime&&file.name===n)?file:new File([file],n,{type:mime});
+    const {error}=await db.storage.from(bucket).upload(path,body,{upsert:false,contentType:mime,cacheControl:'31536000'});
     if(!error) return path;
     if(/exist|duplicate|409/i.test(String(error.message||'')+String(error.statusCode||''))){ n=n.replace(/(\.[^.]*)?$/,'-'+Date.now().toString(36)+'$1'); continue; }
     throw error;
@@ -8163,7 +8166,7 @@ function pkErr(err){
   if(/bucket.*not found|404/i.test(m)) return 'Storage bucket not found — run supabase_storage_setup.sql in Supabase.';
   if(/mime|type/i.test(m)) return 'That file type is not allowed by the storage bucket.';
   if(/size|exceed|413/i.test(m)) return 'File is too large for the storage bucket.';
-  return m||'Upload failed';
+  return 'Upload failed: '+(m||'unknown error');
 }
 function pkCompress(file,max=1600,q=.85){
   return new Promise(res=>{
@@ -8243,10 +8246,10 @@ function mountDocPicker(){
    '<button type="button" class="pk-drop" id="pkDrop"><span class="pk-drop-ico"><i class="ri-upload-cloud-2-fill"></i></span><span class="pk-drop-text"><b>Choose from file manager</b><small>PDF, Word, Excel, PowerPoint, images · up to 25 MB</small></span></button>'+
    '<button type="button" class="pk-link" id="pkBrowse"><i class="ri-folder-open-line"></i> Browse existing files</button>'+
    '<div class="pk-bar" hidden><span></span><small>Uploading…</small></div>'+
-   '<div class="pk-chip" hidden><span class="pk-ico"></span><span class="pk-chip-text"><b></b><small></small></span><button type="button" class="pk-icon" id="pkClear" aria-label="Remove file"><i class="ri-close-line"></i></button></div>';
+   '<div class="pk-chip" hidden><span class="pk-ico"></span><span class="pk-chip-text"><b></b><small></small></span><a class="pk-icon" id="pkOpen" target="_blank" rel="noopener" aria-label="Open file"><i class="ri-external-link-line"></i></a><button type="button" class="pk-icon" id="pkClear" aria-label="Remove file"><i class="ri-close-line"></i></button></div>';
   wrap.insertBefore(panel,fu);
   const fileIn=pkEl('input'); fileIn.type='file'; fileIn.hidden=true;
-  fileIn.accept=DOC_EXT.map(e=>'.'+e).join(',')+',image/*'; panel.append(fileIn);
+  panel.append(fileIn);
   const sel=panel.querySelector('#pkFolder'), chip=panel.querySelector('.pk-chip');
   const nf=panel.querySelector('.pk-newfolder'), nfi=panel.querySelector('#pkNewFolderInput');
   fu.classList.add('pk-path'); fu.placeholder='folder/example.pdf';
@@ -8259,6 +8262,7 @@ function mountDocPicker(){
     const p=fu.value.trim(); if(!p){ chip.hidden=true; return; }
     const ext=pkExt(p), ic=chip.querySelector('.pk-ico'); ic.dataset.k=ext; ic.textContent=(ext||'file').slice(0,4);
     chip.querySelector('b').textContent=pkBase(p); chip.querySelector('small').textContent=pkDir(p)?'Folder: '+pkDir(p):'Main documents folder'; chip.hidden=false;
+    const o=chip.querySelector('#pkOpen'); if(o) o.href=Helpers.safeUrl(docUrlFromInput(p))||'#';
   }
   function syncFromPath(){ const d=pkDir(fu.value.trim()); if(/^https?:/i.test(fu.value)) return; if(d) addOpt(d,true); else sel.value=''; showChip(); }
   function setPath(p,size){
@@ -8860,7 +8864,9 @@ psbsPushBackGuard();
    and the leave card shows only when Back is pressed on Overview itself. */
 // Explicit overview back button does not depend on browser history state.
 document.getElementById('overviewBackBtn')?.addEventListener('click', function(){
-  window.location.href = new URL('index.html', window.location.href).href;
+  if(currentView!=='overview'){ navigate('overview'); return; }
+  if(typeof window.psbsExitFlow==='function') window.psbsExitFlow();
+  else window.location.href = new URL('index.html', window.location.href).href;
 });
 
 // Match index.html: hide header when scrolling down and reveal it when scrolling up.
@@ -9324,14 +9330,20 @@ function exitTarget(){
 }
 async function exitFlow(){
   const t=exitTarget();
-  const ok=await psbsDialog({tone:'exit',icon:'ri-logout-circle-r-line',title:'Leave the admin dashboard?',message:'You will stay signed in. Leaving takes you to the '+t.label+'.',okText:'Leave',okIcon:'ri-logout-box-r-line',cancelText:'Stay',cancelIcon:'ri-check-line'});
+  const ok=await psbsDialog({tone:'exit',icon:'ri-logout-circle-r-line',title:'Exit or stay?',message:'You will stay signed in. Exiting takes you to the '+t.label+'.',okText:'Exit',okIcon:'ri-logout-box-r-line',cancelText:'Stay',cancelIcon:'ri-check-line'});
   if(ok) location.href=t.href;
 }
-document.addEventListener('pointerdown',()=>psbsPushBackGuard(),{once:true,passive:true});
+window.psbsExitFlow=exitFlow;
+let guardFresh=false;
+function freshGuard(){ if(guardFresh) return; guardFresh=true; psbsPushBackGuard(); }
+['pointerdown','touchstart','keydown','click'].forEach(ev=>document.addEventListener(ev,freshGuard,{passive:true,capture:true}));
+window.addEventListener('pageshow',ev=>{ guardFresh=false; if(ev.persisted||!(history.state&&history.state.psbsAdminGuard)) psbsPushBackGuard(); });
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&!(history.state&&history.state.psbsAdminGuard)){ guardFresh=false; psbsPushBackGuard(); } });
 window.addEventListener('popstate',e=>{
   e.stopImmediatePropagation();
-  psbsPushBackGuard();
+  psbsPushBackGuard(); guardFresh=false;
   if(dlg.classList.contains('open')){closeDlg(false);return;}
+  if(document.body.classList.contains('rp-open')){ $('rightPanelClose')?.click(); return; }
   if(menu.classList.contains('open')){closeMenu2();return;}
   if(v_open()){closeViewer();return;}
   const sidebarOpen=DOM.sidebar&&DOM.sidebar.classList.contains('active');
@@ -10548,7 +10560,7 @@ document.addEventListener('click',function(e){
 .pk-chip-text{flex:1;min-width:0;display:flex;flex-direction:column}
 .pk-chip-text b{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pk-chip-text small{font-size:11.5px;color:var(--text-light)}
-.pk-icon{flex:none;width:38px;height:38px;border-radius:12px;border:0;background:var(--surface-hover);color:var(--text-light);font-size:19px;display:grid;place-items:center;cursor:pointer}
+.pk-icon{text-decoration:none;flex:none;width:38px;height:38px;border-radius:12px;border:0;background:var(--surface-hover);color:var(--text-light);font-size:19px;display:grid;place-items:center;cursor:pointer}
 .pk-ico{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font:800 10.5px var(--font-family);letter-spacing:.04em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#94a3b8,#64748b)}
 .pk-ico.lg{width:100%;height:100%;border-radius:inherit;font-size:12px}
 .pk-ico[data-k=pdf]{background:linear-gradient(135deg,#ef4444,#f87171)}

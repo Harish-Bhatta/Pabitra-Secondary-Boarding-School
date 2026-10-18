@@ -5226,7 +5226,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                                         <button class="doc-filter active" data-filter="all" type="button"><i class="ri-apps-2-line" aria-hidden="true"></i><span>All</span></button>
                                         <button class="doc-filter" data-filter="pdf" type="button"><i class="ri-file-pdf-2-line" aria-hidden="true"></i><span>PDF</span></button>
                                         <button class="doc-filter" data-filter="doc" type="button"><i class="ri-file-word-2-line" aria-hidden="true"></i><span>DOC</span></button>
-                                        <button class="doc-filter" data-filter="xls" type="button"><i class="ri-file-excel-2-line" aria-hidden="true"></i><span>XLS</span></button>
                                         <button class="doc-filter" data-filter="other" type="button"><i class="ri-file-3-line" aria-hidden="true"></i><span>Other</span></button>
                                     </div>
                                 </div>
@@ -6309,8 +6308,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         function getFilterBucket(ext) {
             if (ext === 'pdf') return 'pdf';
             if (ext === 'doc' || ext === 'docx') return 'doc';
-            // PPT/PPTX files are grouped under "Other".
-            if (ext === 'xls' || ext === 'xlsx' || ext === 'csv') return 'xls';
+            // PPT/PPTX, XLS/XLSX/CSV and all other files are grouped under "Other".
             return 'other';
         }
 

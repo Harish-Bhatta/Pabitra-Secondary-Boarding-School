@@ -22,12 +22,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="preconnect" href="https://ikeexzsjsksyhdfflwqe.supabase.co" crossorigin />
-    <link rel="dns-prefetch" href="https://unpkg.com" />
-    <link rel="preload" as="image" href="banner.jpg" fetchpriority="high" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Mukta:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
+    <!-- Fonts + icon CSS load without blocking first paint (media=print trick); system fonts show until they arrive.
+         One merged Google Fonts request (was two), unused Mukta 300 dropped. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Mukta:wght@400;600;700;800&family=Yatra+One&family=Orbitron:wght@600;700&display=swap" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Mukta:wght@400;600;700;800&family=Yatra+One&family=Orbitron:wght@600;700&display=swap" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    </noscript>
     <link rel="icon" type="image/png" href="school.jpg" />
     <link rel="apple-touch-icon" href="school.jpg" />
     <title>Calendar | Pabitra Secondary Boarding School</title>
@@ -149,7 +153,6 @@
         body.sidebar-active,
         body.right-panel-active,
         body.dropdown-active,
-        body.welcome-active,
         body.lightbox-open { overflow: hidden !important; }
 
         /* ===== NEBULA ===== */
@@ -242,7 +245,6 @@
             opacity: 0; pointer-events: none;
             width: 88%; min-width: 260px; max-width: 480px; word-break: break-word;
             background: var(--surface); border-left: 4px solid var(--primary);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         }
         .toast.active { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; pointer-events: auto; }
         .toast-success { border-left-color: #10B981; }
@@ -254,7 +256,7 @@
         .toast .toast-close {
             width: 28px; height: 28px; border-radius: var(--radius-full);
             background: rgba(0, 0, 0, 0.04); display: grid; place-items: center;
-            font-size: 0.8rem; color: var(--text-light); transition: all 0.3s ease;
+            font-size: 0.8rem; color: var(--text-light); transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
             flex-shrink: 0; cursor: pointer; border: none;
         }
         .toast .toast-close:hover { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
@@ -265,20 +267,16 @@
         .modal-overlay {
             position: fixed; inset: 0;
             background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
             display: flex; align-items: center; justify-content: center;
             z-index: var(--z-modal); padding: 20px;
             opacity: 0; visibility: hidden;
-            transition: all 0.4s var(--snap);
+            transition: background-color 0.4s var(--snap), color 0.4s var(--snap), border-color 0.4s var(--snap), box-shadow 0.4s var(--snap), opacity 0.4s var(--snap), transform 0.4s var(--snap), visibility 0.4s var(--snap);
             overflow-y: auto;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
 
         .modal-card {
             background: var(--surface);
-            backdrop-filter: blur(32px) saturate(180%);
-            -webkit-backdrop-filter: blur(32px) saturate(180%);
             width: 100%; max-width: 420px;
             border-radius: var(--radius-xl); padding: 32px 28px;
             box-shadow: var(--shadow-xl); border: 1px solid var(--glass-border);
@@ -300,7 +298,7 @@
             width: 36px; height: 36px; border-radius: var(--radius-full);
             display: grid; place-items: center;
             background: var(--glass-bg); border: 1px solid var(--glass-border);
-            color: var(--text); transition: all 0.3s var(--snap);
+            color: var(--text); transition: background-color 0.3s var(--snap), color 0.3s var(--snap), border-color 0.3s var(--snap), box-shadow 0.3s var(--snap), opacity 0.3s var(--snap), transform 0.3s var(--snap), visibility 0.3s var(--snap);
             font-size: 1.1rem; cursor: pointer;
         }
         .modal-card .modal-close-btn:active { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
@@ -310,14 +308,14 @@
             flex: 1; padding: 10px; border-radius: var(--radius-sm);
             border: 1px solid var(--border); background: transparent;
             color: var(--text); font-weight: 600; font-size: 0.9rem;
-            transition: all 0.3s ease; cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease; cursor: pointer;
         }
         .edit-modal-card .modal-actions .cancel-btn:hover { background: var(--border); }
         .edit-modal-card .modal-actions .save-btn {
             flex: 2; padding: 10px; border-radius: var(--radius-sm);
             background: var(--primary-gradient); color: #fff;
             font-weight: 700; font-size: 0.9rem;
-            transition: all 0.3s var(--snap);
+            transition: background-color 0.3s var(--snap), color 0.3s var(--snap), border-color 0.3s var(--snap), box-shadow 0.3s var(--snap), opacity 0.3s var(--snap), transform 0.3s var(--snap), visibility 0.3s var(--snap);
             box-shadow: 0 4px 16px rgba(243, 156, 18, 0.25);
             display: flex; align-items: center; justify-content: center; gap: 6px;
             cursor: pointer; border: none;
@@ -335,48 +333,6 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* ===== WELCOME CARD ===== */
-        .welcome-card-overlay {
-            position: fixed; inset: 0;
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 9999; padding: 20px;
-            opacity: 0; visibility: hidden;
-            transition: all 0.4s var(--snap);
-            overflow-y: auto;
-        }
-        .welcome-card-overlay.active { opacity: 1; visibility: visible; }
-        .welcome-card {
-            background: var(--surface);
-            backdrop-filter: blur(32px) saturate(180%);
-            -webkit-backdrop-filter: blur(32px) saturate(180%);
-            width: 100%; max-width: 380px; border-radius: var(--radius-xl);
-            padding: 36px 28px; box-shadow: var(--shadow-xl);
-            border: 1px solid var(--glass-border); text-align: center;
-            transform: scale(0.85) translateY(24px);
-            transition: transform 0.5s var(--spring), opacity 0.4s var(--snap);
-            opacity: 0; position: relative; margin: 0;
-        }
-        .welcome-card-overlay.active .welcome-card { transform: scale(1) translateY(0); opacity: 1; }
-        .welcome-card .welcome-avatar {
-            width: 80px; height: 80px; border-radius: var(--radius-full);
-            margin: 0 auto 14px; display: flex; align-items: center; justify-content: center;
-            font-size: 2.5rem; background: var(--primary-gradient); color: #fff;
-            box-shadow: 0 8px 32px rgba(243, 156, 18, 0.3);
-            animation: popIn 0.6s var(--spring);
-        }
-        .welcome-card h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; animation: slideUp 0.5s 0.1s both; }
-        .welcome-card p { font-size: 0.9375rem; color: var(--text-light); margin-bottom: 20px; animation: slideUp 0.5s 0.2s both; }
-        .welcome-card .welcome-btn {
-            padding: 10px 28px; background: var(--accent-gradient); color: #fff;
-            border-radius: 999px; font-weight: 700; font-size: 0.9375rem;
-            transition: all 0.3s var(--snap);
-            box-shadow: 0 4px 16px rgba(243, 156, 18, 0.3);
-            animation: slideUp 0.5s 0.3s both; border: none; cursor: pointer;
-        }
-        .welcome-card .welcome-btn:active { transform: scale(0.96); }
 
         /* ===== KEYFRAMES ===== */
         @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -439,8 +395,6 @@
         .section {
             padding: 32px 0; margin: 8px 0;
             background: var(--surface);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
             border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
             border: 1px solid var(--glass-border);
             transition: background var(--transition), box-shadow var(--transition),
@@ -458,7 +412,7 @@
             width: 100%; padding: 12px 14px 12px 42px;
             border: 2px solid var(--border); border-radius: var(--radius-sm);
             background: var(--background); color: var(--text);
-            font-size: 1rem; outline: none; transition: all 0.3s ease;
+            font-size: 1rem; outline: none; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
         }
         .input-wrapper input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.08); }
         .input-wrapper input[aria-invalid="true"] { border-color: #EF4444; }
@@ -469,7 +423,7 @@
             background: var(--primary-gradient); color: #fff;
             border-radius: 999px; font-weight: 700; font-size: 1rem;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: all 0.35s var(--spring);
+            transition: background-color 0.35s var(--spring), color 0.35s var(--spring), border-color 0.35s var(--spring), box-shadow 0.35s var(--spring), opacity 0.35s var(--spring), transform 0.35s var(--spring), visibility 0.35s var(--spring);
             box-shadow:
                 0 6px 20px rgba(243, 156, 18, 0.28),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -490,8 +444,6 @@
             position: fixed; top: 0; left: 0; right: 0;
             z-index: var(--z-header);
             background: var(--surface);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-bottom: 1px solid var(--glass-border);
             box-shadow: 0 2px 30px rgba(0, 0, 0, 0.02);
             transition: transform 0.4s var(--snap);
@@ -539,8 +491,6 @@
             box-shadow:
                 0 4px 12px rgba(15, 23, 42, 0.08),
                 inset 0 1px 0 rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px) saturate(160%);
-            -webkit-backdrop-filter: blur(10px) saturate(160%);
             transition: transform 0.35s var(--spring), box-shadow 0.35s var(--snap), background 0.3s ease, color 0.3s ease;
         }
         body.dark .header-theme-presets-btn,
@@ -587,7 +537,7 @@
             border-radius: var(--radius-md);
             box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18), 0 2px 6px rgba(15, 23, 42, 0.06);
             transform: translateY(8px) scale(0.96); opacity: 0; visibility: hidden;
-            transition: all 0.35s var(--spring);
+            transition: background-color 0.35s var(--spring), color 0.35s var(--spring), border-color 0.35s var(--spring), box-shadow 0.35s var(--spring), opacity 0.35s var(--spring), transform 0.35s var(--spring), visibility 0.35s var(--spring);
             z-index: var(--z-dropdown); padding: 6px 0;
             border: 1px solid var(--glass-border);
             max-height: 90vh; overflow-y: auto;
@@ -624,7 +574,7 @@
         }
         .dropdown-user-meta .name-row .edit-name-icon {
             font-size: 0.8rem; color: #fff; background: var(--primary);
-            cursor: pointer; transition: all 0.3s var(--spring); padding: 2px;
+            cursor: pointer; transition: background-color 0.3s var(--spring), color 0.3s var(--spring), border-color 0.3s var(--spring), box-shadow 0.3s var(--spring), opacity 0.3s var(--spring), transform 0.3s var(--spring), visibility 0.3s var(--spring); padding: 2px;
             border-radius: var(--radius-full);
             display: inline-flex; align-items: center; justify-content: center;
             width: 20px; height: 20px;
@@ -670,8 +620,6 @@
             display: flex; flex-direction: column;
             z-index: var(--z-sidebar);
             background: var(--surface);
-            backdrop-filter: blur(32px) saturate(180%);
-            -webkit-backdrop-filter: blur(32px) saturate(180%);
             transition: transform 0.5s var(--snap), background var(--transition);
             will-change: transform;
             border: 1px solid var(--glass-border);
@@ -684,7 +632,6 @@
         .sidebar-overlay {
             position: fixed; inset: 0;
             background: rgba(15, 23, 42, 0.25);
-            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             opacity: 0; visibility: hidden;
             transition: opacity 0.4s var(--snap), visibility 0.4s var(--snap);
             z-index: 1999;
@@ -726,8 +673,7 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.12));
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            transition: all 0.35s var(--spring);
+            transition: background-color 0.35s var(--spring), color 0.35s var(--spring), border-color 0.35s var(--spring), box-shadow 0.35s var(--spring), opacity 0.35s var(--spring), transform 0.35s var(--spring), visibility 0.35s var(--spring);
         }
         body.dark .sidebar-close,
         body.dark .notice-close,
@@ -765,7 +711,7 @@
             padding: 10px 10px; border-radius: var(--radius-sm);
             color: var(--text); background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            transition: all 0.35s var(--spring);
+            transition: background-color 0.35s var(--spring), color 0.35s var(--spring), border-color 0.35s var(--spring), box-shadow 0.35s var(--spring), opacity 0.35s var(--spring), transform 0.35s var(--spring), visibility 0.35s var(--spring);
             position: relative; overflow: hidden; width: 100%;
             text-align: left; font-size: 0.875rem; font-weight: 500;
         }
@@ -779,7 +725,7 @@
             background: var(--glass-bg); border: 1px solid var(--glass-border);
             display: flex; align-items: center; justify-content: center;
             font-size: 1rem; color: var(--text); flex-shrink: 0;
-            transition: all 0.4s var(--spring);
+            transition: background-color 0.4s var(--spring), color 0.4s var(--spring), border-color 0.4s var(--spring), box-shadow 0.4s var(--spring), opacity 0.4s var(--spring), transform 0.4s var(--spring), visibility 0.4s var(--spring);
         }
         .sidebar-links a .nav-title, .sidebar-link-btn .nav-title { font-size: 0.875rem; font-weight: 500; color: var(--text); }
 
@@ -799,8 +745,6 @@
             border: 1px solid rgba(255,255,255,0.28);
             background: linear-gradient(180deg, rgba(255,255,255,0.48) 0%, rgba(255,255,255,0.14) 48%, rgba(255,255,255,0.05) 100%);
             box-shadow: 0 5px 14px rgba(15,23,42,0.07), inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(15,23,42,0.04);
-            backdrop-filter: blur(12px) saturate(160%);
-            -webkit-backdrop-filter: blur(12px) saturate(160%);
         }
         .sidebar-links .sidebar-link-btn::before {
             content: ''; position: absolute; left: 7%; right: 7%; top: 5%; height: 38%;
@@ -881,8 +825,6 @@
             display: flex; flex-direction: column;
             z-index: var(--z-sidebar);
             background: var(--surface);
-            backdrop-filter: blur(32px) saturate(180%);
-            -webkit-backdrop-filter: blur(32px) saturate(180%);
             transition: transform 0.5s var(--snap), background var(--transition), box-shadow 0.3s ease;
             will-change: transform, opacity;
             transform: translateX(102%);
@@ -971,8 +913,6 @@
                 0 1px 2px rgba(15, 23, 42, 0.05),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
                 inset 0 -1px 0 rgba(15, 23, 42, 0.04);
-            backdrop-filter: blur(10px) saturate(160%);
-            -webkit-backdrop-filter: blur(10px) saturate(160%);
             transition: transform 0.4s var(--spring), box-shadow 0.35s var(--snap), background 0.35s ease, color 0.3s ease;
         }
         .panel-tab::before {
@@ -1122,9 +1062,7 @@
             box-shadow:
                 0 4px 12px rgba(15, 23, 42, 0.07),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
-            transition: all 0.35s var(--snap);
-            backdrop-filter: blur(10px) saturate(160%);
-            -webkit-backdrop-filter: blur(10px) saturate(160%);
+            transition: background-color 0.35s var(--snap), color 0.35s var(--snap), border-color 0.35s var(--snap), box-shadow 0.35s var(--snap), opacity 0.35s var(--snap), transform 0.35s var(--snap), visibility 0.35s var(--snap);
         }
         body.dark .doc-search-wrap input {
             border-color: rgba(255,255,255,0.08);
@@ -1157,8 +1095,6 @@
                 0 4px 12px rgba(15, 23, 42, 0.08),
                 inset 0 1px 0 rgba(255, 255, 255, 0.9),
                 inset 0 -1px 0 rgba(15, 23, 42, 0.04);
-            backdrop-filter: blur(8px) saturate(150%);
-            -webkit-backdrop-filter: blur(8px) saturate(150%);
             transition: transform 0.35s var(--spring), box-shadow 0.35s var(--snap), background 0.35s ease, color 0.3s ease, border-color 0.3s ease;
         }
         .doc-filter::before {
@@ -1244,7 +1180,7 @@
         .doc-menu-btn {
             width: 34px; height: 34px; border-radius: 50%;
             display: grid; place-items: center; font-size: 1.05rem;
-            transition: all 0.35s var(--spring);
+            transition: background-color 0.35s var(--spring), color 0.35s var(--spring), border-color 0.35s var(--spring), box-shadow 0.35s var(--spring), opacity 0.35s var(--spring), transform 0.35s var(--spring), visibility 0.35s var(--spring);
             cursor: pointer; flex-shrink: 0;
             position: relative; overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -1333,18 +1269,14 @@
         .search-overlay {
             position: fixed; inset: 0;
             background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(28px) saturate(180%);
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
             z-index: 10001; display: flex; align-items: center; justify-content: center;
             padding: 20px; opacity: 0; visibility: hidden;
-            transition: all 0.4s var(--snap);
+            transition: background-color 0.4s var(--snap), color 0.4s var(--snap), border-color 0.4s var(--snap), box-shadow 0.4s var(--snap), opacity 0.4s var(--snap), transform 0.4s var(--snap), visibility 0.4s var(--snap);
         }
         .search-overlay.active { opacity: 1; visibility: visible; }
         .search-box {
             max-width: 600px; width: 100%;
             background: var(--surface);
-            backdrop-filter: blur(32px) saturate(180%);
-            -webkit-backdrop-filter: blur(32px) saturate(180%);
             border-radius: var(--radius-lg); padding: 20px 24px;
             box-shadow: var(--shadow-xl); border: 1px solid var(--glass-border);
             transform: scale(0.92) translateY(-20px);
@@ -1356,7 +1288,7 @@
             display: flex; align-items: center; gap: 10px;
             border: 2px solid var(--border); border-radius: 999px;
             padding: 0 14px; background: var(--background);
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
         }
         .search-box .search-input-wrap:focus-within {
             border-color: transparent !important;
@@ -1399,7 +1331,6 @@
         @media (min-width: 1024px) { .theme-presets-grid { grid-template-columns: repeat(4, 1fr); } }
         .theme-option {
             background: var(--surface);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border: 2px solid var(--border); border-radius: var(--radius-md);
             padding: 12px 10px; text-align: center; cursor: pointer;
             transition: transform 0.4s var(--spring), box-shadow 0.4s var(--snap), border-color 0.3s ease;
@@ -1580,9 +1511,8 @@
         .glossy-btn, .panel-tab,
         .header-theme-presets-btn, .header-theme-toggle-btn, .menu-btn, .notice-btn, .profile-btn,
         .sidebar-close, .notice-close, .doc-close {
-            -webkit-backdrop-filter: none; backdrop-filter: none;
         }
-        .header { -webkit-backdrop-filter: blur(16px) saturate(170%); backdrop-filter: blur(16px) saturate(170%); }
+        .header { }
 
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -1727,7 +1657,6 @@
             .sidebar {
                 width: var(--rail); max-width: none; transform: none !important; transition: none;
                 background: var(--surface-solid); box-shadow: none;
-                -webkit-backdrop-filter: none; backdrop-filter: none;
                 border: 0; border-right: 1px solid var(--border);
             }
             .sidebar-close, .menu-btn, .sidebar-overlay { display: none !important; }
@@ -1785,8 +1714,6 @@
             color: #fff !important;
             border: 1px solid transparent !important;
             box-shadow: 0 8px 20px rgba(243, 156, 18, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
             transition: transform 0.35s var(--spring), box-shadow 0.35s var(--snap), background 0.35s ease !important;
         }
         .sidebar-action-footer .call-active-filter::before { display: none !important; content: none !important; }
@@ -1830,12 +1757,9 @@
         body.dark.theme-teal  {--today-bg:rgba(39,174,158,.10);}
         body.dark.theme-yellow{--today-bg:rgba(241,196,15,.10);}
 
-        body.body-scroll-locked {
-            overflow: hidden !important;
-            position: fixed !important;
-            width: 100% !important;
-            top: var(--scroll-lock-top, 0px) !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
-        }
+        /* PERF: the old lock set body{position:fixed} - that re-laid-out the whole page twice (open + close) and
+           needed a scrollTo() to restore the position. overflow:hidden keeps the scroll offset by itself. */
+        html.scroll-locked, body.body-scroll-locked { overflow: hidden !important; overscroll-behavior: none; }
 
         #main-content { font-family: 'Poppins', 'Mukta', sans-serif; }
         .app-container {
@@ -1865,8 +1789,7 @@
         .school-contacts {
             font-size: .7rem; color: #E2E8F0; background: rgba(255,255,255,.08);
             padding: 6px 12px; border-radius: var(--radius-sm);
-            display: flex; flex-wrap: wrap; gap: 12px;
-            backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,.06);
+            display: flex; flex-wrap: wrap; gap: 12px; border: 1px solid rgba(255,255,255,.06);
         }
         .school-contacts i { margin-right: 4px; color: #FCD34D; }
 
@@ -1917,8 +1840,6 @@
             border-radius: var(--radius-md);
             box-shadow: 0 14px 32px -18px rgba(15,23,42,.35), inset 0 2px 0 #fff;
             border: 1px solid rgba(255,255,255,.85);
-            backdrop-filter: blur(14px) saturate(160%);
-            -webkit-backdrop-filter: blur(14px) saturate(160%);
         }
         body.dark .controls-card, body.dark .detail-panel, body.dark .programs-card {
             background: linear-gradient(180deg, rgba(51,65,85,.72), rgba(30,41,59,.6));
@@ -1939,7 +1860,7 @@
             border: 1px solid rgba(255,255,255,.9);
             color: var(--text); width: 38px; height: 38px;
             border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: .9rem; transition: all var(--transition); flex-shrink: 0;
+            cursor: pointer; font-size: .9rem; transition: background-color var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition), transform var(--transition), visibility var(--transition); flex-shrink: 0;
         }
         .month-btn:hover { background: var(--primary-gradient); color: #fff; border-color: transparent; transform: scale(1.05); }
         .month-btn:active { transform: scale(.92); }
@@ -1978,7 +1899,6 @@
             box-shadow: 0 20px 48px rgba(15,23,42,.18), inset 0 1px 0 #fff;
             border: 1px solid rgba(255,255,255,.9); padding: 8px;
             max-height: 260px; overflow-y: auto; width: 220px; display: none;
-            backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%);
             min-width: 180px;
         }
         .month-dropdown-panel-portal.open { display: block; animation: calDropDown .2s ease; }
@@ -1991,7 +1911,7 @@
         .month-dropdown-panel-portal .month-option {
             margin: 2px 0; padding: 8px 12px; border-radius: 10px;
             cursor: pointer; font-size: .82rem; font-weight: 500;
-            color: var(--text); transition: all var(--transition);
+            color: var(--text); transition: background-color var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition), transform var(--transition), visibility var(--transition);
             display: flex; justify-content: space-between; align-items: center;
             border: 1px solid transparent;
         }
@@ -2009,7 +1929,6 @@
         .dropdown-backdrop {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,.15); z-index: 10001; display: none;
-            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
             transition: opacity .25s ease;
         }
         body.dark .dropdown-backdrop { background: rgba(0,0,0,.35); }
@@ -2031,7 +1950,7 @@
             padding: 8px 14px; border-radius: var(--radius-sm);
             font-size: .75rem; font-weight: 700; cursor: pointer; border: none;
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            min-height: 38px; transition: all var(--transition); font-family: inherit;
+            min-height: 38px; transition: background-color var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition), transform var(--transition), visibility var(--transition); font-family: inherit;
         }
         .btn-today {
             background: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,0) 55%), var(--primary-gradient);
@@ -2085,7 +2004,7 @@
             border-radius: var(--radius-sm);
             padding: 4px 5px 3px;
             display: flex; flex-direction: column; justify-content: space-between;
-            cursor: pointer; position: relative; transition: all var(--transition);
+            cursor: pointer; position: relative; transition: background-color var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition), transform var(--transition), visibility var(--transition);
         }
         body.dark .calendar-cell {
             background: linear-gradient(180deg, rgba(71,85,105,.55), rgba(30,41,59,.6));
@@ -2158,7 +2077,7 @@
             border-top: 1px solid var(--border);
             font-size: .65rem; color: var(--text-muted); font-weight: 600;
         }
-        .legend-item { display: flex; align-items: center; gap: 5px; transition: all .2s ease; }
+        .legend-item { display: flex; align-items: center; gap: 5px; transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, opacity .2s ease, transform .2s ease, visibility .2s ease; }
         .legend-item:hover { color: var(--text); }
         .legend-item .dot { width: 8px; height: 8px; }
 
@@ -2216,7 +2135,7 @@
             background: #FFFBEB; border-left: 3px solid var(--accent);
             padding: 6px 12px; border-radius: 4px; font-size: .8rem; font-weight: 600;
             display: flex; align-items: center; gap: 8px; color: var(--text);
-            transition: all .2s ease;
+            transition: background-color .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, opacity .2s ease, transform .2s ease, visibility .2s ease;
         }
         body.dark .program-item { background: rgba(243,156,18,.06); }
         .program-item:hover { transform: translateX(4px); background: rgba(243,156,18,.08); }
@@ -2336,7 +2255,6 @@
             border: 1px solid rgba(255,255,255,.62) !important;
             background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.24)) !important;
             box-shadow: 0 8px 22px -10px rgba(15,23,42,.38), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(15,23,42,.05) !important;
-            backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%);
         }
         .header-search-btn::before {
             content:''; position:absolute; left:8%; right:8%; top:5%; height:42%; border-radius:999px;
@@ -2352,7 +2270,6 @@
             border:1px solid rgba(255,255,255,.72) !important;
             background:linear-gradient(155deg,rgba(255,255,255,.82),rgba(255,255,255,.52)) !important;
             box-shadow:0 30px 70px -28px rgba(15,23,42,.42), inset 0 2px 0 rgba(255,255,255,.95) !important;
-            backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%);
         }
         body.dark .search-box {
             background:linear-gradient(155deg,rgba(30,41,59,.88),rgba(15,23,42,.76)) !important;
@@ -2443,8 +2360,6 @@
             border: none;
             box-shadow: none;
             padding: 0;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
             font-size: .72rem;
             gap: 10px;
         }
@@ -2474,8 +2389,6 @@
             box-shadow: none;
             padding: 4px 2px 6px;
             margin-bottom: 12px;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
         }
         .controls-card::before { content: none !important; display: none !important; }
         body.dark .controls-card {
@@ -2552,8 +2465,6 @@
             border-left: 4px solid var(--primary);
             border-radius: var(--radius-lg);
             box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
         }
         .detail-panel::before { content: none !important; display: none !important; }
         body.dark .detail-panel {
@@ -2568,8 +2479,6 @@
             border-top: 4px solid var(--primary);
             border-radius: var(--radius-lg);
             box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
         }
         .programs-card::before { content: none !important; display: none !important; }
         body.dark .programs-card {
@@ -2706,7 +2615,7 @@
 
         body .cal-top .school-contacts {
             display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0;
-            background: transparent; border: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+            background: transparent; border: 0; box-shadow: none;
         }
         body .cal-top .school-contacts span {
             display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
@@ -2738,8 +2647,7 @@
             display: flex; flex-direction: column; gap: 12px;
             padding: 14px var(--pm-pad-x); margin: 0;
             border: 1px solid var(--pm-border); border-radius: var(--radius-lg);
-            background: var(--pm-glass); box-shadow: var(--pm-shadow);
-            backdrop-filter: none; -webkit-backdrop-filter: none; overflow: visible;
+            background: var(--pm-glass); box-shadow: var(--pm-shadow); overflow: visible;
         }
         body.dark .cal-top .controls-card { background: var(--pm-glass); border-color: var(--pm-border); box-shadow: var(--pm-shadow); }
         body .cal-top .nav-row { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: clamp(8px, 2vw, 16px); }
@@ -2882,8 +2790,6 @@
             border-radius: 0 !important;
             background: transparent !important;
             box-shadow: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
             overflow: hidden;
         }
         .calendar-wrapper::before { display: none !important; }
@@ -2939,7 +2845,6 @@
     <style id="primary-action-button-fix">
         /* Match Continue, Continue to Dashboard, and Apply Theme to the sidebar Call button. */
         #nameForm button[type="submit"],
-        #welcomeCard #welcomeCloseBtn,
         #themePresetsModal #themePresetsApplyBtn {
             appearance: none !important;
             -webkit-appearance: none !important;
@@ -2965,8 +2870,6 @@
             text-shadow: none !important;
             box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.38),
                         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
             position: relative !important;
             overflow: hidden !important;
             cursor: pointer !important;
@@ -2975,23 +2878,19 @@
                         background 0.35s ease !important;
         }
         #nameForm button[type="submit"]::before,
-        #welcomeCard #welcomeCloseBtn::before,
         #themePresetsModal #themePresetsApplyBtn::before {
             display: none !important;
             content: none !important;
         }
         #nameForm button[type="submit"]:hover,
-        #welcomeCard #welcomeCloseBtn:hover,
         #themePresetsModal #themePresetsApplyBtn:hover {
             filter: brightness(1.04) !important;
         }
         #nameForm button[type="submit"]:active,
-        #welcomeCard #welcomeCloseBtn:active,
         #themePresetsModal #themePresetsApplyBtn:active {
             transform: scale(0.97) !important;
         }
         body.dark #nameForm button[type="submit"],
-        body.dark #welcomeCard #welcomeCloseBtn,
         body.dark #themePresetsModal #themePresetsApplyBtn {
             background: var(--primary-gradient) !important;
             color: #fff !important;
@@ -3100,7 +2999,6 @@
                 border: 1px solid var(--dk-line);
                 border-radius: var(--dk-radius);
                 box-shadow: var(--dk-shadow);
-                backdrop-filter: none; -webkit-backdrop-filter: none;
                 margin: 0; min-width: 0;
             }
             body .app-container .detail-panel::before,
@@ -3441,7 +3339,7 @@
         body .app-container .cal-top .btn-today:hover::after { left: 130%; }
 
         /* ---------- Dropdown panel ---------- */
-        .dropdown-backdrop { background: rgba(15, 23, 42, .28); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+        .dropdown-backdrop { background: rgba(15, 23, 42, .28); }
 
         body .month-dropdown-panel-portal {
             counter-reset: mo;
@@ -3451,7 +3349,6 @@
                 linear-gradient(180deg, #fff, #fffdf8);
             border: 1px solid rgba(var(--primary-rgb), .22);
             box-shadow: 0 30px 60px -18px rgba(15, 23, 42, .35), 0 0 0 1px rgba(255, 255, 255, .6) inset;
-            backdrop-filter: none; -webkit-backdrop-filter: none;
             transform-origin: center; overscroll-behavior: contain;
             scrollbar-width: none; -ms-overflow-style: none;
         }
@@ -3561,8 +3458,7 @@
             border-radius: 28px;
             background: linear-gradient(180deg, color-mix(in srgb, var(--c) 13%, var(--surface-solid)), var(--surface-solid) 190px);
             border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
-            box-shadow: 0 40px 90px -30px rgba(15, 23, 42, .6), inset 0 1px 0 rgba(255, 255, 255, .5);
-            backdrop-filter: none; -webkit-backdrop-filter: none; touch-action: pan-y;
+            box-shadow: 0 40px 90px -30px rgba(15, 23, 42, .6), inset 0 1px 0 rgba(255, 255, 255, .5); touch-action: pan-y;
         }
         body.dark #monthDropdownPortal { box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .06); }
         body #monthDropdownPortal::before { content: none; display: none; }
@@ -3962,7 +3858,7 @@
         /* Detail sheet (bottom sheet on phones, centred card on larger screens) */
         .ss-overlay {
             position: fixed; inset: 0; z-index: 10000; display: flex; align-items: flex-end; justify-content: center;
-            background: rgba(15, 23, 42, .46); backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%);
+            background: rgba(15, 23, 42, .46);
             opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s linear .35s;
         }
         .ss-overlay.active { opacity: 1; visibility: visible; transition-delay: 0s; }
@@ -4109,7 +4005,6 @@
         body .search-overlay {
             align-items: flex-start; padding: 14px; padding-top: clamp(14px, 9vh, 96px);
             background: radial-gradient(70% 55% at 50% 0%, rgba(var(--primary-rgb), .30), transparent 70%), rgba(15, 23, 42, .58);
-            backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%);
         }
         body .search-overlay .search-box {
             position: relative; overflow: hidden; max-width: 640px; padding: 0;
@@ -4405,8 +4300,7 @@
         @media (min-width: 1024px) { body .app-container .school-logo-wrap { width: 46px; height: 46px; } }
 
         /* Smooth summary-card sheet: no blur repaint, GPU-only motion, no staggered entrance work */
-        .ss-overlay {
-            backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(15, 23, 42, .55);
+        .ss-overlay { background: rgba(15, 23, 42, .55);
             transition: opacity .32s ease, visibility 0s linear .48s; will-change: opacity; contain: layout paint;
         }
         .ss-overlay.active { transition: opacity .28s ease, visibility 0s linear 0s; }
@@ -4724,7 +4618,6 @@
 .right-panel .panel-tab {
   pointer-events: auto; --tab-base: rgba(255,255,255,.82);
   background: color-mix(in srgb, #fff calc(var(--swipe-p) * 100%), var(--tab-base)) !important;
-  backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%);
   box-shadow: 0 10px 24px -8px rgba(15,23,42,calc(.22 + var(--swipe-p) * .12)), 0 2px 6px rgba(15,23,42,.08) !important;
 }
 body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
@@ -4742,7 +4635,6 @@ body.dark .right-panel .panel-tab { --tab-base: rgba(30,41,59,.86); }
   background: linear-gradient(to bottom,
     color-mix(in srgb, var(--surface-solid) 94%, transparent) 0%,
     color-mix(in srgb, var(--surface-solid) 72%, transparent) 55%, transparent 100%);
-  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
 }
@@ -4762,7 +4654,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
     left: var(--rail); padding: 12px 32px !important;
     align-items: flex-start; justify-content: flex-start;
     background: rgba(15,23,42,.10) !important;
-    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
   }
   body .search-overlay .search-box {
     width: min(560px, 60vw); max-width: none !important; padding: 0; border-radius: 24px !important;
@@ -4795,7 +4686,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
     background:
       radial-gradient(90% 40% at 15% 0%, rgba(var(--primary-rgb), .14), transparent 65%),
       linear-gradient(180deg, rgba(255,255,255,.26) 0%, rgba(241,245,249,.18) 55%, rgba(15,23,42,.14) 100%) !important;
-    -webkit-backdrop-filter: blur(5px) saturate(150%) !important; backdrop-filter: blur(5px) saturate(150%) !important;
     overscroll-behavior: contain; touch-action: none;
   }
   body.dark .search-overlay {
@@ -4819,7 +4709,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
     padding: env(safe-area-inset-top, 0px) var(--container-padding) 0 !important;
     border: 0 !important; border-bottom: 1px solid var(--glass-border) !important; border-radius: 0 0 24px 24px !important;
     background: var(--surface) !important;
-    -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
     box-shadow: 0 14px 34px -22px rgba(15,23,42,.5), 0 2px 30px rgba(0,0,0,.03) !important;
     transform: none; opacity: 0; transition: opacity .25s ease;
   }
@@ -4942,16 +4831,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                 </div>
                 <button type="submit" class="submit-btn ripple-host">Continue <i class="ri-arrow-right-line" aria-hidden="true"></i></button>
             </form>
-        </div>
-    </div>
-
-    <!-- ===== WELCOME CARD ===== -->
-    <div id="welcomeCard" class="welcome-card-overlay" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
-        <div class="welcome-card">
-            <div class="welcome-avatar" id="welcomeAvatar" aria-hidden="true">👤</div>
-            <h2 id="welcomeTitle">Welcome!</h2>
-            <p id="welcomeMessage">We're glad to have you here at PSBS Portal.</p>
-            <button class="welcome-btn ripple-host" id="welcomeCloseBtn">Continue to Dashboard</button>
         </div>
     </div>
 
@@ -5661,7 +5540,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         // ===== STATE =====
         const State = {
             isSidebarOpen: false, isNoticeOpen: false, isDocumentsOpen: false,
-            isDropdownOpen: false, isNameModalOpen: false, isWelcomeOpen: false,
+            isDropdownOpen: false, isNameModalOpen: false,
             isEditModalOpen: false, isSearchOpen: false, isThemePresetsOpen: false,
             panelOpen: false,
             touchStartX: 0, touchStartY: 0, touchCurrentX: 0, touchCurrentY: 0,
@@ -5683,9 +5562,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         const DOM = {
             nameModal: $('#nameModal'), nameForm: $('#nameForm'),
             userNameInput: $('#userNameInput'), nameError: $('#nameError'),
-            welcomeCard: $('#welcomeCard'), welcomeAvatar: $('#welcomeAvatar'),
-            welcomeTitle: $('#welcomeTitle'), welcomeMessage: $('#welcomeMessage'),
-            welcomeCloseBtn: $('#welcomeCloseBtn'),
             editNameModal: $('#editNameModal'), editNameForm: $('#editNameForm'),
             editNameInput: $('#editNameInput'), editNameError: $('#editNameError'),
             editNameCloseBtn: $('#editNameCloseBtn'), editNameCancelBtn: $('#editNameCancelBtn'),
@@ -5731,7 +5607,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         // ============================================================
         function syncPanelState() {
             const open = (State.isSidebarOpen ? 1 : 0) + (RightPanel._isOpen ? 1 : 0) + (State.isDropdownOpen ? 1 : 0) +
-                (State.isNameModalOpen ? 1 : 0) + (State.isWelcomeOpen ? 1 : 0) + (State.isEditModalOpen ? 1 : 0) +
+                (State.isNameModalOpen ? 1 : 0) + (State.isEditModalOpen ? 1 : 0) +
                 (State.isSearchOpen ? 1 : 0) + (State.isThemePresetsOpen ? 1 : 0);
             State.openCount = open;
             State.panelOpen = open > 0;
@@ -5741,7 +5617,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             cl.toggle('search-open', !!State.isSearchOpen);
             cl.toggle('right-panel-active', !!RightPanel._isOpen);
             cl.toggle('dropdown-active', !!State.isDropdownOpen);
-            cl.toggle('welcome-active', !!State.isWelcomeOpen);
             document.body.style.overflow = (State.isSidebarOpen || RightPanel._isOpen || State.isDropdownOpen) ? 'hidden' : '';
         }
         function closeCalendarDropdown() {
@@ -6806,48 +6681,12 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             DOM.userNameInput.setAttribute('aria-invalid', 'false');
             Profile.save(name);
             closeNameModal();
-            setTimeout(function () { showWelcomeCard(name); }, 300);
         });
 
         if (DOM.userNameInput) DOM.userNameInput.addEventListener('input', function () {
             DOM.nameError.textContent = '';
             DOM.userNameInput.setAttribute('aria-invalid', 'false');
         });
-
-        // ===== WELCOME CARD =====
-        let welcomeTimer = null;
-        function showWelcomeCard(name) {
-            const greeting = Helpers.getGreeting();
-            DOM.welcomeTitle.textContent = greeting + ', ' + name + '! 👋';
-            DOM.welcomeAvatar.textContent = Helpers.initials(name);
-            DOM.welcomeAvatar.style.backgroundColor = Helpers.colorFromName(name);
-            const messages = [
-                "We're thrilled to have you at PSBS Portal! 🎉",
-                "Your journey to excellence starts here! 🌟",
-                "Together we learn, grow, and achieve! 📚",
-                "Welcome to the PSBS family! 💙",
-                "Great things await you at PSBS! 🏆",
-                "🌸 Radhe Radhe! May you shine bright! 💝",
-                "Every day is a new opportunity to learn! 🌈",
-                "You are now part of something extraordinary! ✨",
-                "The future belongs to those who prepare today. 💪",
-                "Stay curious, stay inspired! 🔥"
-            ];
-            DOM.welcomeMessage.textContent = messages[Math.floor(Math.random() * messages.length)];
-            DOM.welcomeCard.classList.add('active');
-            State.isWelcomeOpen = true;
-            syncPanelState();
-            clearTimeout(welcomeTimer);   // a stale timer from an earlier card must not close this one
-            welcomeTimer = setTimeout(function () { if (State.isWelcomeOpen) closeWelcomeCard(); }, 6000);
-        }
-
-        function closeWelcomeCard() {
-            clearTimeout(welcomeTimer);
-            DOM.welcomeCard.classList.remove('active');
-            State.isWelcomeOpen = false;
-            syncPanelState();
-        }
-        if (DOM.welcomeCloseBtn) DOM.welcomeCloseBtn.addEventListener('click', closeWelcomeCard);
 
         // ===== EDIT NAME MODAL =====
         function openEditNameModal() {
@@ -6907,7 +6746,9 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         // ===== SEARCH (portal-wide overlay) =====
         function syncSearchViewport() {
             const vv = window.visualViewport, h = vv ? vv.height : window.innerHeight, top = vv ? vv.offsetTop : 0;
-            const root = document.documentElement.style;
+            // PERF: custom properties on <html> invalidate style for the WHOLE document, and visualViewport fires continuously
+            // while the Android URL bar collapses during a page scroll. Scoped to the overlay that actually uses them.
+            const root = (document.getElementById('searchOverlay') || document.documentElement).style;
             root.setProperty('--vvh', Math.round(h) + 'px');
             root.setProperty('--vvt', Math.round(top) + 'px');
             // centre the card in the visible area; with the keyboard open the area shrinks, so the card rises
@@ -6919,8 +6760,13 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             root.setProperty('--sb-pt', Math.max(8, Math.round((h - bh) / 2)) + 'px');
         }
         if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', syncSearchViewport);
-            window.visualViewport.addEventListener('scroll', syncSearchViewport);
+            let vvTick = false;
+            const onVV = function () {
+                if (!State.isSearchOpen || vvTick) return;        // nothing to keep in sync while the search card is closed
+                vvTick = true; requestAnimationFrame(function () { vvTick = false; syncSearchViewport(); });
+            };
+            window.visualViewport.addEventListener('resize', onVV, { passive: true });
+            window.visualViewport.addEventListener('scroll', onVV, { passive: true });
         }
         syncSearchViewport();
         // ===== DOCUMENTS TOOLBAR: same delayed hide/show as the header =====
@@ -7325,24 +7171,31 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         });
 
         // ===== HEADER SCROLL =====
-        let headerScrollTimer = null;
         let headerLastScrollTop = 0;
 
+        // PERF: was a 120 ms trailing debounce (clearTimeout/setTimeout on every scroll event, and the header only reacted
+        // after scrolling STOPPED). Now one rAF per frame at most, reacts while scrolling, and touches the DOM only when
+        // the state actually changes. It tracks the scroll extreme so a reversal is detected relative to where it began.
+        let headerTicking = false, headerHidden = false, headerScrolled = false;
         const handleHeaderScroll = function () {
-            const current = window.pageYOffset || document.documentElement.scrollTop;
-            clearTimeout(headerScrollTimer);
-            headerScrollTimer = setTimeout(function () {
-                if (current <= 0) {
-                    DOM.header.classList.remove('header-hidden');
-                } else if (current > 80) {
-                    if (current > headerLastScrollTop + 10) DOM.header.classList.add('header-hidden');
-                    else if (current < headerLastScrollTop - 10) DOM.header.classList.remove('header-hidden');
+            if (headerTicking) return;
+            headerTicking = true;
+            requestAnimationFrame(function () {
+                headerTicking = false;
+                const current = window.pageYOffset || document.documentElement.scrollTop || 0;
+                let hide = headerHidden;
+                if (current <= 80) { hide = false; headerLastScrollTop = current; }
+                else if (headerHidden) {
+                    if (current > headerLastScrollTop) headerLastScrollTop = current;
+                    else if (current < headerLastScrollTop - 10) { hide = false; headerLastScrollTop = current; }
                 } else {
-                    DOM.header.classList.remove('header-hidden');
+                    if (current < headerLastScrollTop) headerLastScrollTop = current;
+                    else if (current > headerLastScrollTop + 10) { hide = true; headerLastScrollTop = current; }
                 }
-                headerLastScrollTop = current;
-                DOM.header.classList.toggle('is-scrolled', current > 8);
-            }, 120);
+                if (hide !== headerHidden) { headerHidden = hide; DOM.header.classList.toggle('header-hidden', hide); }
+                const sc = current > 8;
+                if (sc !== headerScrolled) { headerScrolled = sc; DOM.header.classList.toggle('is-scrolled', sc); }
+            });
         };
 
         window.addEventListener('scroll', handleHeaderScroll, { passive: true });
@@ -7384,7 +7237,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             }
             if (State.isThemePresetsOpen) { closeThemePresets(); history.pushState({ psbs: true }, ''); return; }
             if (State.isSearchOpen) { closeSearch(); history.pushState({ psbs: true }, ''); return; }
-            if (State.isWelcomeOpen) { closeWelcomeCard(); history.pushState({ psbs: true }, ''); return; }
             if (State.isEditModalOpen) { closeEditNameModal(); history.pushState({ psbs: true }, ''); return; }
             if (State.isNameModalOpen) { closeNameModal(); history.pushState({ psbs: true }, ''); return; }
             if (RightPanel._isOpen) { RightPanel.close(); history.pushState({ psbs: true }, ''); return; }
@@ -7400,7 +7252,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         const Gestures = {
             init: function () {
                 document.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: true });
-                document.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
+                document.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: true });   // PERF: a non-passive document touchmove makes the browser wait for JS before every scroll frame
                 document.addEventListener('touchend', this.onTouchEnd.bind(this), { passive: true });
                 document.addEventListener('touchcancel', this.onTouchEnd.bind(this), { passive: true });
             },
@@ -7453,25 +7305,25 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                     else if (isSidebarOpen && deltaX < 0) State.isDraggingSidebar = true;
                     else if (isRightOpen && deltaX > 0) State.isDraggingRightPanel = true;
                     else return;
+                    // measure ONCE when the drag starts (it used to read offsetWidth on every touchmove, after style writes = forced layout each time)
+                    State._sbW = DOM.sidebar.offsetWidth || 300; State._rpW = DOM.rightPanel.offsetWidth || 300;
+                    document.body.classList.add('panel-peek');   // closed panels are visibility:hidden; show them while being dragged
                 }
 
                 if (State.isDraggingSidebar && DOM.sidebar) {
-                    e.preventDefault();
-                    const W = DOM.sidebar.offsetWidth || 300;
+                    const W = State._sbW || 300;
                     const base = isSidebarOpen ? 0 : -W;
                     const tx = Helpers.clamp(base + deltaX, -W, 0);
                     const p = 1 - (Math.abs(tx) / W);
                     DOM.sidebar.style.transition = 'none';
                     DOM.sidebar.style.transform = 'translateX(' + tx + 'px) scale(' + (0.96 + 0.04 * p).toFixed(4) + ')';
                     DOM.sidebar.style.opacity = String(0.4 + 0.6 * p);
-                    DOM.sidebar.style.borderRadius = '0 ' + (18 * p).toFixed(2) + 'px ' + (18 * p).toFixed(2) + 'px 0';
                     DOM.sidebarOverlay.style.opacity = String(0.85 * p);
                     DOM.sidebarOverlay.style.visibility = 'visible';
                 }
 
                 if (State.isDraggingRightPanel && DOM.rightPanel) {
-                    e.preventDefault();
-                    const W = DOM.rightPanel.offsetWidth || 300;
+                    const W = State._rpW || 300;
                     const base = isRightOpen ? 0 : W;
                     const tx = Helpers.clamp(base + deltaX, 0, W);
                     const p = 1 - (tx / W);
@@ -7515,6 +7367,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                     DOM.sidebarOverlay.style.visibility = '';
                 }
                 DragTrail.hide();
+                document.body.classList.remove('panel-peek');
 
                 State.isDragging = false;
                 State.isDraggingSidebar = false;
@@ -7572,7 +7425,6 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             if (e.key === 'Escape') {
                 if (document.querySelector('.doc-menu')) { closeAllDocMenus(); return; }
                 if (State.isEditModalOpen) closeEditNameModal();
-                else if (State.isWelcomeOpen) closeWelcomeCard();
                 else if (State.isDropdownOpen) closeProfileDropdown();
                 else if (RightPanel._isOpen) RightPanel.close();
                 else if (State.isSidebarOpen) closeSidebar();
@@ -7640,21 +7492,16 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             DOM.panelSlider.style.transform = '';
             lockPanelViewport();
 
+            // First-run name prompt first: it must not wait on two network requests. No welcome card / toast on later visits.
+            const profile = Profile.get();
+            if (!profile || !profile.name) setTimeout(openNameModal, 600);
+
             await Promise.all([
                 fetchNotices(),
                 fetchDocuments()
             ]);
 
             updateDocTabBadge();
-
-            const profile = Profile.get();
-            if (!profile || !profile.name) {
-                setTimeout(openNameModal, 600);
-            } else {
-                setTimeout(function () {
-                    Toast.info('👋 Welcome back, ' + profile.name + '!');
-                }, 1000);
-            }
 
             setupRealtime();
             NoticeManager.updateBadge();
@@ -7750,22 +7597,18 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         // ended up detached from its button. The offset now travels through a CSS variable the stylesheet honours.
         const ScrollLock = {
             _y: 0, _locked: false,
+            // PERF: overflow:hidden on <html>/<body> keeps the scroll offset by itself, so opening/closing a card no
+            // longer re-lays-out the page (body was position:fixed) and the position needs no manual restore.
             lock() {
                 if (this._locked) return;
-                this._y = window.pageYOffset || document.documentElement.scrollTop || 0;
-                document.body.style.setProperty('--scroll-lock-top', '-' + this._y + 'px');
+                document.documentElement.classList.add('scroll-locked');
                 document.body.classList.add('body-scroll-locked');
                 this._locked = true;
             },
             unlock() {
                 if (!this._locked) return;
+                document.documentElement.classList.remove('scroll-locked');
                 document.body.classList.remove('body-scroll-locked');
-                document.body.style.removeProperty('--scroll-lock-top');
-                // html { scroll-behavior: smooth } would animate the restore; make it instant.
-                const root = document.documentElement, prev = root.style.scrollBehavior;
-                root.style.scrollBehavior = 'auto';
-                window.scrollTo(0, this._y);
-                root.style.scrollBehavior = prev;
                 this._locked = false;
             },
             isLocked() { return this._locked; }
@@ -7931,7 +7774,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             if (dropdownOpen || !MONTHS.length) return;
             dropdownOpen = true;
             dropdownPortal.style.transform = ''; dropdownPortal.style.transition = '';
-            placeDropdown(dropdownBtn.getBoundingClientRect());   // measured before the scroll lock, which no longer moves the page
+            placeDropdown();                                      // viewport-centred: needs no element measurement (was a wasted forced layout)
             dropdownBackdrop.classList.add('show');
             dropdownPortal.classList.add('open');
             dropdownBtn.setAttribute('aria-expanded', 'true');
@@ -8010,7 +7853,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             if (!dropdownOpen) return;
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () {
-                if (dropdownOpen) placeDropdown(dropdownBtn.getBoundingClientRect());
+                if (dropdownOpen) placeDropdown();
             }, 150);
         }, { passive: true });
 
@@ -8112,9 +7955,26 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         let dotsBuiltFor = null;
 
         function setX(x) { curX = x; track.style.transform = 'translate3d(' + x + 'px,0,0)'; }
-        function measure() { W = gridBox.clientWidth; STEP = W + (parseFloat(getComputedStyle(track).getPropertyValue('--swipe-gap')) || 0); for (let i = 0; i < 3; i++) H[i] = track.children[i] ? track.children[i].offsetHeight : 0; }
-        function fitTo(i) { gridBox.style.height = (H[i] || H[1]) + 'px'; }
+        // Measurements are cached: `measured` is cleared whenever the DOM or size changes, and nothing re-measures during a drag.
+        let measured = false, GAP = 0, gapW = -1, HMAX = 0, lastW = -1;
+        function measure() {
+            W = gridBox.clientWidth;
+            if (W !== gapW) { GAP = parseFloat(getComputedStyle(track).getPropertyValue('--swipe-gap')) || 0; gapW = W; }   // style read only when the width (breakpoint) changed
+            STEP = W + GAP;
+            if (W !== lastW) { HMAX = 0; lastW = W; }
+            for (let i = 0; i < 3; i++) { H[i] = track.children[i] ? track.children[i].offsetHeight : 0; if (H[i] > HMAX) HMAX = H[i]; }
+            measured = true;
+        }
+        let paneRO = null;
+        // One layout read per render, AFTER every DOM write of that render (it used to sit in the middle, forcing a second layout).
+        function layoutPanes() {
+            measure(); setX(-STEP); fitTo(1);
+            if (paneRO) { paneRO.disconnect(); paneRO.observe(track); for (let i = 0; i < track.children.length; i++) paneRO.observe(track.children[i]); }
+        }
+        // Height only ever grows to the tallest pane seen at this width (panes are equal now, so in practice it is set once).
+        function fitTo(i) { const h = Math.max(HMAX, H[i] || H[1] || 0); if (h) gridBox.style.height = h + 'px'; }
 
+        const SPACER = '<div class="calendar-cell empty spacer" aria-hidden="true"></div>';
         function paneHTML(mi, interactive) {
             if (mi < 0 || mi >= MONTH_COUNT) return '';
             const md = MONTHS[mi], pi = (mi + 11) % 12, ni = (mi + 1) % 12, pm = MONTHS[pi], nm = MONTHS[ni];
@@ -8140,6 +8000,10 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             }
             const rem = (se + md.daysCount) % 7, ee = rem ? 7 - rem : 0;
             for (let i = 0; i < ee; i++) h += mi === MONTH_COUNT - 1 ? blank : ghost(nm, ni, i + 1);
+            // PERF / no layout shift: months have 4-6 week rows. Padding every pane to 6 rows with invisible spacers makes all
+            // panes the same height, so the grid box never animates its height (that was a layout pass on every frame of
+            // every month change) and nothing below the calendar jumps when you move between a 5- and a 6-row month.
+            for (let c = se + md.daysCount + ee; c < 42; c++) h += SPACER;
             return h + '</div>';
         }
 
@@ -8188,7 +8052,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                 track.innerHTML = [c - 1, c, c + 1].map(i => paneSection(i, c)).join('');
                 panesFor = MONTHS;
             }
-            measure(); setX(-STEP); fitTo(1);
+            measured = false;                               // layout is read once, at the end of renderCalendar (layoutPanes)
             if (dotsBuiltFor !== MONTHS) {                 // dots only change when the data does
                 dotsEl.innerHTML = MONTHS.map((m, i) => '<button class="mdot" role="tab" data-i="' + i + '" aria-label="' + esc(m.nameBS) + '"></button>').join('');
                 dotsBuiltFor = MONTHS;
@@ -8199,7 +8063,15 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                 dots[i].setAttribute('aria-selected', i === c ? 'true' : 'false');
             }
         }
-        function popIn(el) { if (!el) return; el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+        // PERF: the old popIn removed a class, read offsetWidth (a forced synchronous layout, twice per tap) and re-added
+        // it to restart a CSS animation. Element.animate() restarts without touching layout and only moves opacity/transform.
+        const REDUCED = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+        function popIn(el) {
+            if (!el || !el.animate || (REDUCED && REDUCED.matches)) return;
+            if (el._pop) el._pop.cancel();
+            el._pop = el.animate([{ opacity: .6, transform: 'translate3d(0,6px,0)' }, { opacity: 1, transform: 'none' }],
+                                 { duration: 170, easing: 'cubic-bezier(.22,1,.36,1)' });
+        }
 
         function selectedCellEl() {
             const pane = track.children[1];
@@ -8220,6 +8092,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             updateDaysDifference();
             popIn(detailPanelEl);
             popIn(programsCardEl);
+            layoutPanes();
             builtMonthIdx = monthIdx; builtData = MONTHS;
             if (hadFocus) { const c = selectedCellEl(); if (c) c.focus({ preventScroll: true }); }
         }
@@ -8227,6 +8100,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         // While the finger is down the ONLY thing that changes is the track's transform (compositor-only):
         // no layout, no opacity, no height work per frame.
         function follow(dx) { setX(-STEP + dx); }
+        function applyDrag() { raf = 0; if (drag && drag.on) follow(drag.dx); }   // rAF-batched: one write per frame however many events arrive
         function settle(dir, vx, day) {
             if (settling) return;
             const target = -STEP - dir * STEP, dist = Math.abs(target - curX);
@@ -8262,7 +8136,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             if (drag && drag.on) return;                       // a real drag is in progress
             drag = null;                                       // …but a stale, never-started press must not freeze navigation
             closeDropdown();
-            measure();
+            if (!measured) measure();
             const diff = newIdx - currentMonthIdx;
             if (Math.abs(diff) === 1) { settle(diff, 0, day); return; }
             isAnimatingSwipe = true;
@@ -8286,7 +8160,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         gridBox.addEventListener('pointerdown', function (e) {
             if (!e.isPrimary || (e.pointerType === 'mouse' && e.button !== 0) || dropdownOpen || ScrollLock.isLocked() || !MONTHS.length) return;
             if (settling) finalize();
-            measure();
+            if (!measured) measure();
             drag = { id: e.pointerId, x0: e.clientX, y0: e.clientY, lx: e.clientX, lt: e.timeStamp, vx: 0, dx: 0, on: false };
         });
         gridBox.addEventListener('pointermove', function (e) {
@@ -8314,12 +8188,12 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             const dx = e.clientX - drag.x0;
             const edge = (dx > 0 && currentMonthIdx === 0) || (dx < 0 && currentMonthIdx === MONTH_COUNT - 1);
             drag.dx = edge ? dx * 0.3 : Math.max(-STEP, Math.min(STEP, dx));
-            follow(drag.dx);                                   // straight into the transform: input-to-pixel in one frame
+            if (!raf) raf = requestAnimationFrame(applyDrag);  // handler stays tiny: math + one scheduled transform write
         });
         function endDrag(e) {
             if (!drag || e.pointerId !== drag.id) return;
             const d = drag; drag = null;
-            cancelAnimationFrame(raf); raf = 0;
+            if (raf) { cancelAnimationFrame(raf); raf = 0; if (d.on) setX(-STEP + d.dx); }   // flush the last pending frame so the settle starts from the finger
             document.body.classList.remove('is-dragging');
             if (!d.on) return;
             clickBlock = performance.now() + 60;
@@ -8360,7 +8234,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         function anyOverlayOpen() {
             const c = document.body.classList;
             return dropdownOpen || ScrollLock.isLocked() || c.contains('modal-active') || c.contains('sidebar-active') ||
-                c.contains('right-panel-active') || c.contains('dropdown-active') || c.contains('welcome-active');
+                c.contains('right-panel-active') || c.contains('dropdown-active');
         }
         document.addEventListener('keydown', function (e) {
             if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
@@ -8371,12 +8245,15 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         });
 
         if (window.ResizeObserver) {
-            new ResizeObserver(function () {
-                if (drag || settling || !MONTHS.length || track.children.length !== 3) return;
+            // Observes the track AND its panes (fonts arriving late can change a row height without changing the track).
+            paneRO = new ResizeObserver(function () {
+                if (!MONTHS.length || track.children.length !== 3) return;
+                if (drag || settling) { measured = false; return; }           // re-measure on the next press instead of mid-gesture
                 const oldW = W, oldH = H[1];
                 measure();
                 if (W !== oldW || H[1] !== oldH) { setX(-STEP); fitTo(1); }   // skip the write when nothing moved
-            }).observe(track);
+            });
+            paneRO.observe(track);
         }
 
         // ---------------------------------------------------------------
@@ -8393,7 +8270,14 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             daysDiffEl.textContent = diffDays === 0 ? 'आज' : (diffDays > 0 ? toNepaliDigits(diffDays) + ' दिन पछि' : toNepaliDigits(Math.abs(diffDays)) + ' दिन अगाडि');
         }
 
+        // Per-month cache (month objects are rebuilt whenever Supabase data changes, so the cache can never go stale).
         function getDateInfo(monthIdx, dayBS) {
+            const md = MONTHS && MONTHS[monthIdx];
+            if (!md) return computeDateInfo(monthIdx, dayBS);
+            const c = md._info || (md._info = []);
+            return c[dayBS] || (c[dayBS] = computeDateInfo(monthIdx, dayBS));
+        }
+        function computeDateInfo(monthIdx, dayBS) {
             if (!MONTHS || MONTHS.length === 0) return { isHoliday: false, eventTitle: null, isSunOrSat: false, dayOfWeekIdx: 0 };
             const md = MONTHS[monthIdx];
             const dayOfWeekIdx = (md.startDayOfWeek + dayBS - 1) % 7;
@@ -8412,12 +8296,17 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             const elH = $id('statHolidays'), elS = $id('statSchoolDays'), elP = $id('statPrograms'), elE = $id('statEvents');
             if (mi < 0 || !elH) return;
             statsMonthIdx = mi;
-            let hol = 0, special = 0;
-            for (let d = 1; d <= md.daysCount; d++) {
-                const info = getDateInfo(mi, d), ev = md.events[d];
-                if (info.isHoliday) hol++;
-                if (ev && !ev.isHoliday && !info.isSunOrSat) special++;   // same rule as the blue calendar dot
+            let st = md._stats;
+            if (!st) {
+                st = { hol: 0, special: 0 };
+                for (let d = 1; d <= md.daysCount; d++) {
+                    const info = getDateInfo(mi, d), ev = md.events[d];
+                    if (info.isHoliday) st.hol++;
+                    if (ev && !ev.isHoliday && !info.isSunOrSat) st.special++;   // same rule as the blue calendar dot
+                }
+                md._stats = st;
             }
+            const hol = st.hol, special = st.special;
             elH.textContent = toNepaliDigits(hol);
             elS.textContent = toNepaliDigits(md.daysCount - hol);
             elP.textContent = toNepaliDigits(md.programs ? md.programs.length : 0);
@@ -8583,11 +8472,11 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             ssOpen = true;
             ScrollLock.lock();                                   // do the layout-heavy work first...
             ssEl.setAttribute('aria-hidden', 'false');
-            void ssPanel.offsetHeight;                           // ...settle layout at the closed position...
-            requestAnimationFrame(function () {                  // ...then start the slide on a clean frame
-                requestAnimationFrame(function () { if (ssOpen) ssEl.classList.add('active'); });
+            requestAnimationFrame(function () {                  // start the slide on the next frame; focus goes in at once
+                if (!ssOpen) return;
+                ssEl.classList.add('active');
+                ssCloseBtn.focus({ preventScroll: true });
             });
-            setTimeout(function () { if (ssOpen) ssCloseBtn.focus({ preventScroll: true }); }, 420);
         }
         function closeStatSheet(skipFocus) {
             if (!ssOpen) return;
@@ -8688,9 +8577,9 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             const tithi = md.tithis[dayBS - 1] || '—';
             const progInfo = md.progByDay[dayBS];
 
-            $id('detailDateBS').innerText = toNepaliDigits(YEAR_BS) + ' ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[dayOfWeekIdx];
-            $id('detailDateAD').innerText = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
-            $id('detailTithi').innerText = tithi;
+            $id('detailDateBS').textContent = toNepaliDigits(YEAR_BS) + ' ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[dayOfWeekIdx];
+            $id('detailDateAD').textContent = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
+            $id('detailTithi').textContent = tithi;
 
             let evtTxt = '—', evtClass = 'empty-text';
             if (eventTitle) { evtTxt = eventTitle; evtClass = isHoliday ? 'holiday-text' : 'event-text'; }
@@ -8713,8 +8602,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                 if (old && old !== cell) { old.classList.remove('selected'); old.setAttribute('tabindex', '-1'); }
                 if (cell) { cell.classList.add('selected'); cell.setAttribute('tabindex', '0'); }
                 updateDaysDifference();
-                popIn(detailPanelEl);
-                popIn(programsCardEl);
+                popIn(detailPanelEl);            // the programs card does not depend on the selected day: leave it alone
             } else {
                 renderCalendar(monthIdx);
             }
@@ -8762,6 +8650,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         // Timers can be late after sleep / background throttling: re-check the date when the tab returns.
         document.addEventListener('visibilitychange', function () {
             if (document.hidden || !MONTHS.length) return;
+            if (rtPending) { rtPending = false; runRealtimeRefresh(); }
             updateClock();
             const prev = TODAY;
             calculateTodayBS();
@@ -8830,7 +8719,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         }
 
         // Returns true (loaded), false (failed) or null (a newer request superseded this one: ignore it).
-        let fetchSeq = 0;
+        let fetchSeq = 0, lastSig = '', lastFetchChanged = true;
         async function fetchAllMonths(quiet) {
             const seq = ++fetchSeq;
             try {
@@ -8840,6 +8729,10 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                 if (seq !== fetchSeq) return null;            // an older response must never overwrite newer data
                 if (error) throw error;
                 if (!data || data.length === 0) { if (!quiet) CalHelpers.showToast('⚠️ क्यालेन्डर डाटा भेटिएन।', 'warning'); return false; }
+                // Same rows as last time (e.g. a realtime event for an unrelated edit): keep the existing month objects,
+                // caches and DOM - nothing to rebuild.
+                const sig = JSON.stringify(data.map(r => [r.month_idx, r.data]));
+                if (MONTHS.length && sig === lastSig) { lastFetchChanged = false; return true; }
                 const byIdx = new Map(data.map(r => [Number(r.month_idx), r]));
                 const months = [];
                 for (let i = 0; i < MONTH_COUNT; i++) {
@@ -8849,6 +8742,7 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                     months.push(m || placeholderMonth(i, months[i - 1]));
                 }
                 MONTHS = months;
+                lastSig = sig; lastFetchChanged = true;
                 return true;
             } catch (err) {
                 if (seq !== fetchSeq) return null;
@@ -8858,21 +8752,33 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             }
         }
 
-        let realtimeChannel = null, realtimeTimer = 0;
+        let realtimeChannel = null, realtimeTimer = 0, rtBusy = false, rtAgain = false, rtPending = false;
+        // One refresh at a time (a burst arriving mid-fetch queues exactly one more), nothing while the tab is hidden
+        // (it runs when the tab returns), and no re-render when the rows did not actually change.
+        async function runRealtimeRefresh() {
+            if (document.hidden) { rtPending = true; return; }
+            if (rtBusy) { rtAgain = true; return; }
+            rtBusy = true;
+            try {
+                const prev = TODAY;
+                const ok = await fetchAllMonths(true);
+                if (ok && MONTHS.length && lastFetchChanged) {     // failed / superseded / unchanged: keep what is on screen
+                    calculateTodayBS();
+                    refreshView(prev);
+                    CalHelpers.showToast('📅 क्यालेन्डर अपडेट भयो', 'info');
+                }
+            } finally {
+                rtBusy = false;
+                if (rtAgain) { rtAgain = false; runRealtimeRefresh(); }
+            }
+        }
         function setupCalendarRealtime() {
             if (realtimeChannel || !window.db || typeof window.db.channel !== 'function') return;
             realtimeChannel = window.db.channel('calendar_changes')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'calendar_data' }, function () {
                     // An admin edit touches several rows: coalesce the burst into one refetch.
                     clearTimeout(realtimeTimer);
-                    realtimeTimer = setTimeout(async function () {
-                        const prev = TODAY;
-                        const ok = await fetchAllMonths(true);
-                        if (!ok || !MONTHS.length) return;      // failed or superseded: keep what is on screen
-                        calculateTodayBS();
-                        refreshView(prev);
-                        CalHelpers.showToast('📅 क्यालेन्डर अपडेट भयो', 'info');
-                    }, 400);
+                    realtimeTimer = setTimeout(runRealtimeRefresh, 400);
                 })
                 .subscribe();
         }
@@ -8915,7 +8821,18 @@ body .search-overlay .search-box .sb-head { display: none !important; }
             setupCalendarRealtime();
             scheduleMidnightRefresh();
         }
-        window.addEventListener('online', function () { if (!calendarReady) initCalendar(); });
+        // Back online: load if we never managed to, otherwise catch up on edits missed while offline.
+        window.addEventListener('online', function () { if (!calendarReady) initCalendar(); else runRealtimeRefresh(); });
+        // Leaving the page: drop timers and the realtime channel (bfcache restore re-creates them).
+        window.addEventListener('pagehide', function () {
+            clearTimeout(realtimeTimer); clearTimeout(retryTimer); clearTimeout(midnightTimer);
+            if (realtimeChannel && window.db && typeof window.db.removeChannel === 'function') { try { window.db.removeChannel(realtimeChannel); } catch (_) { } }
+            realtimeChannel = null;
+        });
+        window.addEventListener('pageshow', function (e) {
+            if (!e.persisted || !calendarReady) return;
+            setupCalendarRealtime(); scheduleMidnightRefresh(); runRealtimeRefresh();
+        });
 
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initCalendar);
         else initCalendar();
@@ -8930,8 +8847,8 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         if (!window.MutationObserver || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
         ids.forEach(function (id) {
             var el = document.getElementById(id); if (!el) return;
-            var last = null, raf = 0;
-            new MutationObserver(function () {
+            var last = null, raf = 0, mo;
+            mo = new MutationObserver(function () {
                 var t = el.textContent.trim();
                 if (t === last || !/^[0-9\u0966-\u096F]+$/.test(t)) return;
                 var nep = /[\u0966-\u096F]/.test(t);
@@ -8942,8 +8859,10 @@ body .search-overlay .search-box .sb-head { display: none !important; }
                     last = nep ? String(v).replace(/\d/g, function (d) { return String.fromCharCode(2406 + +d); }) : String(v);
                     el.textContent = last;
                     if (k < 1) raf = requestAnimationFrame(step);
+                    else mo.disconnect();     // PERF: count-up is a one-time intro; later month changes update the numbers instantly
                 })(t0);
-            }).observe(el, { childList: true, characterData: true, subtree: true });
+            });
+            mo.observe(el, { childList: true, characterData: true, subtree: true });
         });
     })();
     </script>
@@ -8985,6 +8904,9 @@ body .search-overlay .search-box .sb-head { display: none !important; }
         if (window.MutationObserver) {
             new MutationObserver(function (list) {
                 for (var i = 0; i < list.length; i++) {
+                    // PERF: calendar panes/lists are re-rendered constantly and never contain inputs: skip them
+                    var tg = list[i].target;
+                    if (tg && tg.closest && tg.closest('#monthTrack, #programList, #ssBody, #monthDropdownPortal, #muhurtaBox, #monthDots')) continue;
                     var added = list[i].addedNodes;
                     for (var j = 0; j < added.length; j++) sweep(added[j]);
                 }
@@ -8996,15 +8918,22 @@ body .search-overlay .search-box .sb-head { display: none !important; }
     </script>
     <script id="kb-aware-overlays-js">
     (function () {
-        var vv = window.visualViewport, root = document.documentElement, raf = 0;
+        var vv = window.visualViewport, raf = 0, lastH = -1, lastT = -1;
+        // PERF: the variables are only consumed by the modal / search overlays, so they are set on those elements
+        // (not on <html>, which re-styled the whole document on every URL-bar change) and only when the value changed.
+        var targets = document.querySelectorAll('.modal-overlay, .search-overlay');
         function sync() {
             raf = 0;
-            var h = vv ? vv.height : window.innerHeight, t = vv ? vv.offsetTop : 0;
-            root.style.setProperty('--vv-h', Math.round(h) + 'px');
-            root.style.setProperty('--vv-top', Math.round(t) + 'px');
+            var h = Math.round(vv ? vv.height : window.innerHeight), t = Math.round(vv ? vv.offsetTop : 0);
+            if (h === lastH && t === lastT) return;
+            lastH = h; lastT = t;
+            for (var i = 0; i < targets.length; i++) {
+                targets[i].style.setProperty('--vv-h', h + 'px');
+                targets[i].style.setProperty('--vv-top', t + 'px');
+            }
         }
         function req() { if (!raf) raf = requestAnimationFrame(sync); }
-        if (vv) { vv.addEventListener('resize', req); vv.addEventListener('scroll', req); }
+        if (vv) { vv.addEventListener('resize', req, { passive: true }); vv.addEventListener('scroll', req, { passive: true }); }
         window.addEventListener('resize', req);
         window.addEventListener('orientationchange', req);
         // some browsers report the keyboard a moment late, so re-check a few times after focus changes
@@ -9054,7 +8983,6 @@ button:disabled, [aria-disabled="true"] { opacity: .55; cursor: not-allowed; box
         linear-gradient(160deg, rgba(255,255,255,.94), rgba(255,255,255,.68)) padding-box,
         linear-gradient(140deg, rgba(var(--primary-rgb, 245,158,11), .55), rgba(255,255,255,.9) 45%, rgba(var(--primary-rgb, 245,158,11), .22)) border-box;
     box-shadow: 0 24px 32px -20px rgba(var(--primary-rgb, 245,158,11), .32), 0 10px 24px -14px rgba(15,23,42,.12), inset 0 1px 0 rgba(255,255,255,.95);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
 }
 body.dark .doc-toolbar-inner {
     background:
@@ -9118,7 +9046,7 @@ body.dark .doc-toolbar-inner .doc-filter.active { background: linear-gradient(18
 .doc-toolbar-inner .doc-search-wrap input {
     height: 48px; padding: 0 16px 0 48px; border-radius: 999px;
     background: var(--surface-hover); border: 1px solid var(--border);
-    box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+    box-shadow: none;
     outline: none; transition: background-color .2s var(--fs-ease);
 }
 .doc-toolbar-inner .doc-search-wrap input:focus,
@@ -9171,7 +9099,6 @@ body.dark .doc-toolbar-inner .doc-search-wrap input:focus-visible {
     background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
     border: 1px solid rgba(255,255,255,.75);
     box-shadow: 0 10px 24px -8px rgba(15,23,42,.22), 0 2px 6px rgba(15,23,42,.08), inset 0 1px 0 rgba(255,255,255,.95);
-    -webkit-backdrop-filter: blur(14px) saturate(170%); backdrop-filter: blur(14px) saturate(170%);
 }
 body.dark .sidebar-footer-wrap .spiritual-branding {
     background: linear-gradient(180deg, rgba(51,65,85,.86), rgba(30,41,59,.7));
@@ -9182,13 +9109,96 @@ body.dark .sidebar-footer-wrap .spiritual-branding {
 /* --- Low-power + hidden-tab safeguards ------------------------------------ */
 html.psbs-idle .orb, html.psbs-idle .aurora-blob, html.psbs-idle .nt-move { animation-play-state: paused !important; }
 @media (pointer: coarse), (max-width: 768px) {
-    .nebula-bg .orb, .aurora-blob { animation: none !important; filter: blur(48px) !important; }
+    .nebula-bg .orb, .aurora-blob { animation: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: .001ms !important; animation-iteration-count: 1 !important;
         transition-duration: .001ms !important; scroll-behavior: auto !important;
     }
+}
+</style>
+
+<style id="psbs-perf">
+/* ==========================================================================
+   PSBS PERFORMANCE LAYER (last in the cascade)
+   Every rule here is backed by something measured in the audit, see the report.
+   Principles: no backdrop-filter on anything that sits over scrolling content, compositor-only
+   animation (transform/opacity), nothing animates while it is off-screen or the tab is hidden,
+   closed panels are visibility:hidden so they cost nothing.
+   ========================================================================== */
+
+/* -- Scrolling ---------------------------------------------------------- */
+/* smooth-scroll on <html> delayed every programmatic/user jump; explicit scrollIntoView({behavior}) still works */
+html { scroll-behavior: auto !important; }
+/* The page only scrolls vertically. Declaring it lets the browser run the scroll on the compositor thread and
+   lets the portal's touch listeners be passive (they never need preventDefault to stop horizontal panning). */
+html, body { touch-action: pan-y; }
+.calendar-cell, .stat-card, .month-btn, .btn, .mdot { touch-action: manipulation; }
+.grid-swipe-container { touch-action: pan-y; }
+
+/* -- Glass, lighter ------------------------------------------------------ */
+/* Surfaces that used backdrop-filter get a solid backing colour UNDER their existing translucent gradients:
+   the look (gloss, tint, borders) is unchanged, but nothing has to re-blur what is behind it every frame. */
+.header, .sidebar, .right-panel, .modal-card, .search-box, .month-dropdown-panel-portal, .ss-panel,
+.profile-dropdown, .toast, .doc-toolbar-inner, .panel-tab, .sidebar-link-btn { background-color: var(--surface-solid); }
+.header { background-color: color-mix(in srgb, var(--surface-solid) 94%, transparent); }
+/* Real glass is kept only where it is cheap and in the foreground: fine pointers (desktop), one card at a time. */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+    .modal-card, .search-box { -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
+    .modal-card, .search-box { background-color: color-mix(in srgb, var(--surface-solid) 82%, transparent); }
+}
+/* Orbs already are radial gradients that fade to transparent: the extra blur(48px) on 600px layers added nothing visible. */
+.nebula-bg .orb { filter: none !important; animation: none !important; will-change: auto !important; }
+
+/* -- Closed panels cost nothing ------------------------------------------ */
+.right-panel:not(.active):not(.dragging),
+body:not(.panel-peek) .sidebar:not(.active) { visibility: hidden; }
+@media (min-width: 1200px) { body:not(.panel-peek) .sidebar:not(.active) { visibility: visible; } }   /* docked on desktop */
+.right-panel {
+    transition-property: transform, background, box-shadow, visibility;
+    transition-duration: .5s, .3s, .3s, 0s; transition-delay: 0s, 0s, 0s, .5s;
+    transition-timing-function: cubic-bezier(.16,1,.3,1), cubic-bezier(.4,0,.2,1), ease, linear;
+}
+.right-panel.active, .right-panel.dragging { transition-delay: 0s; }
+.sidebar {
+    transition-property: transform, background, visibility;
+    transition-duration: .5s, .3s, 0s; transition-delay: 0s, 0s, .5s;
+    transition-timing-function: cubic-bezier(.16,1,.3,1), cubic-bezier(.4,0,.2,1), linear;
+}
+.sidebar.active, body.panel-peek .sidebar { transition-delay: 0s; }
+/* Layers are promoted by the transform transition itself; permanent will-change on 340x740 panels only costs memory. */
+.sidebar, .right-panel, .panel-slider, .right-panel .doc-toolbar, .ss-overlay, .ss-panel, .month-pane .calendar-grid { will-change: auto !important; }
+
+/* -- Decorative animation: only compositor-friendly, only when it can be seen ---- */
+.heart-pulse-icon, .gradient-signature-text { animation: none !important; }
+.gradient-signature-text { background-position: 50% 50%; }                 /* was animating background-position (paint every frame) */
+.update-card.notice-unread::before { animation: none !important; }          /* 12 infinite pulses living inside a closed panel */
+.sh-deco::after { animation: none !important; display: none; }             /* animated `left` = layout every frame */
+body .app-container .cal-top .school-logo-wrap::before { animation: none !important; --sh-angle: 135deg; }  /* animated registered property = repaint every frame */
+body .search-overlay.active .search-box { animation: none !important; --sb-angle: 135deg; }
+.search-box::before { animation: none !important; filter: none !important; }
+.modal-overlay:not(.active) .modal-icon { animation: none !important; }
+.calendar-cell.today::after { animation-iteration-count: 2 !important; }   /* attention ring: twice, then rest (was infinite) */
+.doc-skeleton { animation: psbsSkel 1.4s ease-in-out infinite !important; background: var(--surface-hover) !important; }
+@keyframes psbsSkel { 50% { opacity: .55; } }
+.pop .detail-box, .pop .program-item, .detail-panel.pop, .programs-card.pop { animation: none !important; }
+
+/* -- Containment: a text change inside a card must not re-lay-out the page ----- */
+.detail-panel, .programs-card, .month-stats .stat-card { contain: layout style; }
+.legend-bar, .month-dots { contain: layout style; }
+
+/* -- Month dots: animating `width` re-laid-out the whole dot row on EVERY frame of a 400 ms spring (measured:
+      layouts per month change 87 -> 14 with the row removed). Width now snaps; the grow-in is a transform (compositor). */
+.mdot { transition: background-color .3s ease, transform .2s ease !important; }
+.mdot.on { animation: psbsDotOn .32s cubic-bezier(.34,1.2,.64,1); }
+@keyframes psbsDotOn { from { transform: scaleX(.3); } to { transform: none; } }
+
+/* -- Cheaper interaction feedback --------------------------------------------- */
+body.is-dragging .calendar-cell, body.is-dragging .stat-card { transition: none !important; }
+@media (pointer: coarse) { .calendar-cell:hover, .stat-card:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+    .nebula-bg .orb, .calendar-cell.today::after { animation: none !important; }
 }
 </style>
 <script id="psbs-final-system-js">

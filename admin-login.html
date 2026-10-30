@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+<meta name="theme-color" content="#0a1224" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Secure administrator sign in for Pabitra Secondary Boarding School. Manage notices, documents, gallery, faculty and calendar." />
+<meta name="robots" content="noindex, nofollow" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Pabitra Secondary Boarding School" />
+<meta property="og:url" content="https://psbs.edu.np/admin-login.html" />
+<meta property="og:title" content="Admin Login · Pabitra Secondary Boarding School" />
+<meta property="og:description" content="Secure administrator sign in for Pabitra Secondary Boarding School." />
+<meta property="og:image" content="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/school" />
+<meta property="og:image:alt" content="Pabitra Secondary Boarding School" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Admin Login · Pabitra Secondary Boarding School" />
+<meta name="twitter:description" content="Secure administrator sign in for Pabitra Secondary Boarding School." />
+<meta name="twitter:image" content="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/school" />
+<link rel="canonical" href="https://psbs.edu.np/admin-login.html" />
+<link rel="preconnect" href="https://ikeexzsjsksyhdfflwqe.supabase.co" crossorigin />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<title>Admin Login · PSBS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+<link rel="icon" href="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" />
+<link rel="apple-touch-icon" href="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" />
+<style>
+/* =====================================================================
+   PSBS Admin Login — redesigned
+   Desktop: dark "control room" brand panel with a live workspace preview + glass sign-in card.
+   Mobile: compact hero with the card floating over it.
+   Theme presets (gold, cyan, coral, indigo, red, rose, teal, yellow) and light/dark are preserved.
+   ===================================================================== */
+:root{
+  --p:#f39c12; --p-dark:#d68910; --p-light:#f5b041; --p-rgb:243,156,18; --on-p:#2a1b00;
+  --bg:#eef2f9; --card:#ffffff; --field:#f5f7fc; --line:#e0e6f0;
+  --text:#0f172a; --muted:#64748b; --link:#b86e00;
+  --dot:rgba(15,23,42,.08);
+  --display:'Plus Jakarta Sans','Poppins',system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+body.dark{
+  --bg:#070c19; --card:#0f192e; --field:rgba(255,255,255,.04); --line:rgba(255,255,255,.1);
+  --text:#e9eef8; --muted:#97a6bf; --link:var(--p-light); --dot:rgba(255,255,255,.07);
+}
+body.theme-cyan  {--p:#06b6d4;--p-dark:#0891b2;--p-light:#67e8f9;--p-rgb:6,182,212;--on-p:#042f3a;--link:#0e7490}
+body.theme-coral {--p:#e85d75;--p-dark:#c0394b;--p-light:#f1948a;--p-rgb:232,93,117;--on-p:#fff;--link:#c0394b}
+body.theme-indigo{--p:#4f46e5;--p-dark:#4338ca;--p-light:#818cf8;--p-rgb:79,70,229;--on-p:#fff;--link:#4338ca}
+body.theme-red   {--p:#e74c3c;--p-dark:#c0392b;--p-light:#f1948a;--p-rgb:231,76,60;--on-p:#fff;--link:#c0392b}
+body.theme-rose  {--p:#e11d48;--p-dark:#be123c;--p-light:#fb7185;--p-rgb:225,29,72;--on-p:#fff;--link:#be123c}
+body.theme-teal  {--p:#27ae9e;--p-dark:#1f8a7a;--p-light:#48c9b0;--p-rgb:39,174,158;--on-p:#04231f;--link:#1f8a7a}
+body.theme-yellow{--p:#f1c40f;--p-dark:#d4ac0d;--p-light:#f7dc6f;--p-rgb:241,196,15;--on-p:#2e2500;--link:#946f00}
+body.theme-gold  {--p:#f39c12;--p-dark:#d68910;--p-light:#f5b041;--p-rgb:243,156,18;--on-p:#2a1b00;--link:#b86e00}
+body.dark.theme-cyan,body.dark.theme-coral,body.dark.theme-indigo,body.dark.theme-red,body.dark.theme-rose,
+body.dark.theme-teal,body.dark.theme-yellow,body.dark.theme-gold{--link:var(--p-light)}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .3s,color .3s}
+button,input{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p);outline-offset:3px}
+kbd{font:600 11px/1 'Poppins',system-ui,sans-serif;padding:3px 6px;border-radius:6px;background:var(--field);border:1px solid var(--line);border-bottom-width:2px;color:var(--muted)}
+
+/* ---------- shell ---------- */
+.shell{position:relative;min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr)}
+@media(min-width:980px){.shell{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)}}
+
+/* ---------- brand panel (always dark: the "control room") ---------- */
+.brand-side{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;gap:22px;color:#e8edf7;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 22px 88px;
+  background:
+    radial-gradient(70% 55% at 88% 0%,rgba(var(--p-rgb),.18),transparent 62%),
+    linear-gradient(160deg,#060e1e 0%,#0d1a36 55%,#14264d 100%)}
+.fx{position:absolute;inset:0;z-index:-1;pointer-events:none;transition:transform .4s ease-out}
+.fx::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(85% 75% at 25% 25%,#000,transparent);mask-image:radial-gradient(85% 75% at 25% 25%,#000,transparent)}
+.glow{position:absolute;border-radius:50%;animation:drift 16s ease-in-out infinite alternate}
+.g1{width:440px;height:440px;top:-180px;right:-120px;background:radial-gradient(circle,rgba(var(--p-rgb),.5),transparent 68%)}
+.g2{width:380px;height:380px;bottom:-150px;left:-120px;background:radial-gradient(circle,rgba(70,100,255,.4),transparent 68%);animation-delay:-7s}
+.g3{display:none;width:300px;height:300px;top:42%;left:38%;background:radial-gradient(circle,rgba(168,85,247,.18),transparent 68%);animation-delay:-3s}
+.watermark{position:absolute;right:-34px;bottom:-40px;font-size:280px;line-height:1;color:rgba(255,255,255,.035)}
+.orbit{display:none;position:absolute;right:-220px;bottom:-220px;width:620px;height:620px;border-radius:50%;border:1px solid rgba(255,255,255,.07);animation:spin 60s linear infinite}
+.orbit::before{content:"";position:absolute;inset:70px;border-radius:50%;border:1px dashed rgba(255,255,255,.07)}
+.orbit::after{content:"";position:absolute;top:46px;left:50%;width:9px;height:9px;margin-left:-4px;border-radius:50%;background:var(--p-light);box-shadow:0 0 0 5px rgba(var(--p-rgb),.18),0 0 24px 4px rgba(var(--p-rgb),.7)}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(26px,18px,0) scale(1.08)}}
+
+.brand-inner{display:flex;flex-direction:column;gap:22px;flex:1;min-width:0}
+.brand{display:inline-flex;align-items:center;gap:14px;width:fit-content;text-decoration:none;color:#fff}
+.logo-wrap{--logo:54px;position:relative;flex:none;width:var(--logo);height:var(--logo);display:grid;place-items:center;font-size:calc(var(--logo)*.72);color:var(--p-light);filter:drop-shadow(0 8px 18px rgba(var(--p-rgb),.4))}
+.logo-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.brand-txt{display:flex;flex-direction:column;line-height:1.2}
+.brand-txt b{font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:-.015em;line-height:1.15;background:linear-gradient(90deg,#fff 0%,var(--p-light) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-txt small{display:inline-flex;align-items:center;gap:8px;margin-top:5px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--p-light)}
+
+.brand-body{display:flex;flex-direction:column;gap:16px;margin:auto 0}
+.eyebrow{display:none;align-items:center;gap:8px;width:fit-content;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--p-light);background:rgba(var(--p-rgb),.12);border:1px solid rgba(var(--p-rgb),.3)}
+.live{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+.brand-body h2{font-family:var(--display);font-size:clamp(25px,6.4vw,31px);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:#fff}
+.brand-body h2 em{font-style:normal;background:linear-gradient(90deg,var(--p-light),#fff 135%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead,.stage,.points,.brand-foot{display:none}
+
+/* ---------- form side ---------- */
+.form-side{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin-top:-62px;padding:0 14px calc(26px + env(safe-area-inset-bottom,0px))}
+.theme-toggle{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;z-index:20;width:42px;height:42px;display:grid;place-items:center;border-radius:14px;cursor:pointer;font-size:19px;
+  color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .25s var(--ease),background .2s}
+.theme-toggle:hover{transform:rotate(18deg) scale(1.06)}
+
+.card-wrap{width:100%;max-width:440px;animation:cardIn .7s var(--ease) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+.login-card{--mx:50%;--my:0%;position:relative;width:100%;padding:28px 22px 22px;border-radius:28px;
+  background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(160deg,rgba(var(--p-rgb),.6),var(--line) 32%,var(--line) 68%,rgba(var(--p-rgb),.28)) border-box;
+  border:1px solid transparent;
+  box-shadow:0 40px 70px -34px rgba(8,16,40,.5),0 12px 26px -18px rgba(var(--p-rgb),.35);transition:background .3s,box-shadow .3s}
+.login-card::before{content:"";position:absolute;top:-1px;left:38px;right:38px;height:3px;border-radius:0 0 6px 6px;background:linear-gradient(90deg,transparent,var(--p),transparent)}
+.login-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(280px circle at var(--mx) var(--my),rgba(var(--p-rgb),.09),transparent 70%)}
+.login-card:hover::after{opacity:1}
+
+.card-head{text-align:center;margin-bottom:4px}
+.shield{position:relative;width:66px;height:66px;margin:0 auto 14px;display:grid;place-items:center;border-radius:21px;font-size:31px;color:var(--on-p);
+  background:linear-gradient(135deg,var(--p),var(--p-light));box-shadow:0 18px 32px -12px rgba(var(--p-rgb),.85),inset 0 1px 0 rgba(255,255,255,.5)}
+.shield i{position:absolute;transition:transform .4s var(--ease),opacity .25s}
+.shield .s-b{opacity:0;transform:scale(.4) rotate(-35deg)}
+.shield.locked .s-a{opacity:0;transform:scale(.4) rotate(35deg)}
+.shield.locked .s-b{opacity:1;transform:none}
+.shield::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(150deg,rgba(255,255,255,.35),transparent 45%);pointer-events:none}
+.shield::after{content:"";position:absolute;inset:-7px;border-radius:27px;border:1.5px solid rgba(var(--p-rgb),.35);animation:ring 3s ease-out infinite}
+@keyframes ring{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.22);opacity:0}}
+.card-head h1{font-family:var(--display);font-size:25px;font-weight:800;letter-spacing:-.025em;line-height:1.2}
+.card-sub{margin-top:3px;font-size:13px;color:var(--muted)}
+.card-head h1,.card-sub{animation:fadeUp .35s var(--ease) both}
+.greet{display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;font-size:12px;color:var(--muted);background:var(--field);border:1px solid var(--line)}
+.greet:empty{display:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* tabs: segmented control with a sliding thumb */
+.tab-bar{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;margin:18px 0 20px;border-radius:17px;background:var(--field);border:1px solid var(--line)}
+.tab-bar::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:13px;background:var(--card);border:1px solid var(--line);box-shadow:0 8px 16px -10px rgba(15,23,42,.5);transition:transform .34s var(--ease)}
+body.dark .tab-bar::before{background:rgba(255,255,255,.09)}
+.tab-bar[data-active="signup"]::before{transform:translateX(100%)}
+.tab-bar button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:0;padding:10px 6px;border:0;border-radius:13px;background:none;font-size:13.5px;font-weight:600;white-space:nowrap;color:var(--muted);cursor:pointer;transition:color .2s}
+.tab-bar button i{flex:none;font-size:16px}
+@media(max-width:360px){.tab-bar button{font-size:12.5px;gap:4px}.tab-bar button i{font-size:15px}}
+.tab-bar button.active-tab{color:var(--text)}
+.tab-bar button.active-tab i{color:var(--p)}
+
+.tab-panel{display:none}
+.tab-panel.active-panel{display:block;animation:panelIn .38s var(--ease) both}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* fields */
+.input-group{margin-bottom:14px}
+.input-group>label{display:block;margin:0 0 6px 2px;font-size:12.5px;font-weight:600;letter-spacing:.01em}
+.field{position:relative}
+.field input[type="text"],.field input[type="email"],.field input[type="password"]{width:100%;height:52px;padding:0 48px;border-radius:15px;border:1.5px solid var(--line);background:var(--field);color:var(--text);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.field input::placeholder{color:var(--muted);opacity:.6}
+.field input:hover{border-color:rgba(var(--p-rgb),.4)}
+.field input:focus{border-color:var(--p);background:var(--card);box-shadow:0 0 0 4px rgba(var(--p-rgb),.16),0 10px 22px -16px rgba(var(--p-rgb),.9)}
+.field input[aria-invalid="true"]{border-color:#ef4444;box-shadow:0 0 0 4px rgba(239,68,68,.12)}
+.input-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:grid;place-items:center;border-radius:11px;font-size:18px;color:var(--muted);pointer-events:none;transition:color .2s,background .2s}
+.input-group.focus-in .input-icon{color:var(--p);background:rgba(var(--p-rgb),.12)}
+.pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:11px;background:none;color:var(--muted);font-size:18px;cursor:pointer;transition:background .2s,color .2s}
+.pw-toggle:hover{background:rgba(var(--p-rgb),.12);color:var(--link)}
+.input-error{margin:6px 0 0 2px;font-size:12px;font-weight:500;color:#ef4444;animation:fadeUp .25s var(--ease) both}
+.input-error:empty{display:none}
+.caps-hint{display:none;align-items:center;gap:6px;margin:-6px 0 12px 2px;font-size:12px;font-weight:500;color:#b45309}
+body.dark .caps-hint{color:#fbbf24}
+.caps-hint.show{display:flex}
+.hint{display:flex;gap:9px;align-items:flex-start;margin:2px 0 16px;padding:11px 13px;border-radius:14px;font-size:12px;color:var(--muted);background:rgba(var(--p-rgb),.08);border:1px solid rgba(var(--p-rgb),.2)}
+.hint i{color:var(--p);font-size:16px;margin-top:0}
+
+/* request-access flow */
+.flow{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);margin:0 0 16px;padding:12px 6px;border-radius:16px;background:var(--field);border:1px solid var(--line)}
+.flow li{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:11.5px;font-weight:600;color:var(--muted)}
+.flow li i{position:relative;z-index:1;width:34px;height:34px;display:grid;place-items:center;border-radius:12px;font-size:17px;color:var(--p);background:var(--card);border:1px solid rgba(var(--p-rgb),.35);box-shadow:0 8px 14px -10px rgba(var(--p-rgb),.9)}
+.flow li:not(:last-child)::after{content:"";position:absolute;top:17px;left:calc(50% + 24px);right:calc(-50% + 24px);height:0;border-top:2px dotted rgba(var(--p-rgb),.45)}
+
+.strength{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:5px;align-items:center;margin:-6px 0 14px}
+.strength i{height:4px;border-radius:4px;background:var(--line);transition:background .25s}
+.strength span{min-width:46px;text-align:right;font-size:11px;font-weight:600;color:var(--muted)}
+.strength[data-l="1"] i:nth-child(-n+1){background:#ef4444}
+.strength[data-l="2"] i:nth-child(-n+2){background:#f59e0b}
+.strength[data-l="3"] i:nth-child(-n+3){background:#84cc16}
+.strength[data-l="4"] i:nth-child(-n+4){background:#22c55e}
+
+.form-options{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 18px;font-size:13px}
+.form-options label{display:inline-flex;align-items:center;gap:9px;color:var(--muted);cursor:pointer;user-select:none}
+.form-options input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:20px;height:20px;border-radius:7px;border:1.5px solid var(--line);background:var(--field);display:grid;place-items:center;cursor:pointer;transition:all .2s}
+.form-options input[type="checkbox"]::after{content:"";width:9px;height:5px;border:2px solid var(--on-p);border-top:0;border-right:0;transform:rotate(-45deg) scale(0);margin-top:-2px;transition:transform .18s var(--ease)}
+.form-options input[type="checkbox"]:checked{background:linear-gradient(135deg,var(--p),var(--p-light));border-color:var(--p)}
+.form-options input[type="checkbox"]:checked::after{transform:rotate(-45deg) scale(1)}
+.form-options a{font-weight:600;color:var(--link);text-decoration:none}
+.form-options a:hover{text-decoration:underline}
+
+.login-btn{position:relative;overflow:hidden;width:100%;height:54px;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:16px;cursor:pointer;font-size:15.5px;font-weight:700;letter-spacing:.01em;color:var(--on-p);
+  background:linear-gradient(135deg,var(--p),var(--p-light));box-shadow:0 20px 32px -14px rgba(var(--p-rgb),.95),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.08);transition:transform .2s var(--ease),box-shadow .2s,filter .2s}
+.login-btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);transition:left .65s ease}
+.login-btn:hover::after{left:130%}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 26px 38px -14px rgba(var(--p-rgb),1),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.08)}
+.login-btn:active{transform:scale(.985)}
+.login-btn:disabled{cursor:progress;filter:saturate(.8)}
+.btn-text{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn-text i{font-size:19px}
+.btn-text .arr{transition:transform .25s var(--ease)}
+.login-btn:hover .arr{transform:translateX(4px)}
+.spinner{display:none;width:21px;height:21px;border-radius:50%;border:2.5px solid rgba(0,0,0,.18);border-top-color:currentColor;animation:spin .7s linear infinite}
+.login-btn.loading .spinner{display:block}
+.login-btn.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.kbd-hint{display:none;margin-top:12px;text-align:center;font-size:12px;color:var(--muted)}
+.switch-note{margin-top:16px;text-align:center;font-size:13px;color:var(--muted)}
+.switch-note button{border:0;background:none;font-weight:700;color:var(--link);cursor:pointer}
+.switch-note button:hover{text-decoration:underline}
+
+.assure{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.assure span{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line)}
+.assure i{color:#22c55e;font-size:15px}
+.form-foot{text-align:center;font-size:12.5px;color:var(--muted)}
+.form-foot a{text-decoration:none;font-weight:600;color:var(--link)}
+.form-foot a:hover{text-decoration:underline}
+
+/* states */
+.shake{animation:shake .45s cubic-bezier(.36,.07,.19,.97)}
+@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+.login-card.is-success{animation:okpulse .9s ease}
+@keyframes okpulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}100%{box-shadow:0 0 0 22px rgba(34,197,94,0)}}
+.confetti{position:fixed;z-index:99998;font-size:18px;pointer-events:none;animation:confetti 1s ease-out forwards}
+@keyframes confetti{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+
+/* toast */
+.toast{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;z-index:99999;display:flex;align-items:center;gap:10px;width:max-content;min-width:min(92vw,300px);max-width:min(92vw,420px);padding:13px 14px 13px 20px;
+  border-radius:18px;background:var(--card);color:var(--text);border:1px solid var(--line);box-shadow:0 28px 50px -20px rgba(0,0,0,.55);
+  opacity:0;visibility:hidden;transform:translate(-50%,-130%);transition:transform .4s cubic-bezier(.2,.9,.3,1.15),opacity .25s,visibility .25s}
+.toast.active{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.toast::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:4px;border-radius:0 4px 4px 0;background:var(--p)}
+.toast-success::before{background:#22c55e}.toast-error::before{background:#ef4444}.toast-warning::before{background:#f59e0b}.toast-info::before{background:#3b82f6}
+.toast-icon{font-size:18px;flex:none}
+.toast-message{flex:1;font-size:13.5px;font-weight:500;line-height:1.4}
+.toast-close{flex:none;border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:2px 4px;cursor:pointer}
+
+/* keyboard open on phones: give the form the room */
+.kb-open .assure{display:none}
+.kb-open .shell{padding-bottom:var(--kb,0px)}
+html{scroll-padding:80px 0 120px}
+
+/* ---------- tablet ---------- */
+@media(min-width:640px){
+  .brand-side{padding:calc(26px + env(safe-area-inset-top,0px)) 40px 98px}
+  .brand-body h2{font-size:34px}
+  .brand-txt b{font-size:22px;white-space:nowrap}
+  .login-card{padding:34px 32px 28px}
+}
+
+/* ---------- desktop: split screen ---------- */
+@media(min-width:980px){
+  .brand-side{padding:0;gap:0}
+  .brand-inner{gap:0;min-height:0;height:100%;padding:44px 56px 36px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}
+  .brand-inner::-webkit-scrollbar{width:8px}
+  .brand-inner::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px}
+  .brand{gap:16px}
+  .logo-wrap{--logo:clamp(56px,6vw,72px)}
+  .brand-txt b{font-size:clamp(14px,1.6vw,25px);white-space:nowrap}
+  .brand-txt small{font-size:12px}
+  .brand-body{gap:18px;max-width:560px}
+  .eyebrow{display:inline-flex}
+  .brand-body h2{font-size:clamp(34px,3vw,44px)}
+  .lead{display:block;max-width:480px;font-size:15px;line-height:1.65;color:#a9b7d0}
+  .g3,.orbit{display:block}
+  @keyframes orbitSpin{to{transform:rotate(360deg)}}
+  .orbit{animation:orbitSpin 60s linear infinite}
+
+  /* live workspace preview */
+  .stage{display:block;position:relative;margin:6px 0 4px;max-width:520px;padding:4px 18px 0 0}
+  .pv{border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.13);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 40px 80px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.14);overflow:hidden;
+    transform:perspective(1300px) rotateX(3deg) rotateY(-5deg);transform-origin:left center}
+  .pv-bar{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.14)}
+  .pv-bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.22)}
+  .pv-bar i:nth-child(1){background:#ff6b6b}.pv-bar i:nth-child(2){background:#ffd166}.pv-bar i:nth-child(3){background:#34d399}
+  .pv-bar span{margin-left:10px;flex:1;max-width:210px;padding:3px 12px;border-radius:999px;font-size:10.5px;color:#9fb0cc;background:rgba(255,255,255,.07);display:flex;align-items:center;gap:6px}
+  .pv-body{display:grid;grid-template-columns:122px 1fr;min-height:196px}
+  .pv-nav{padding:12px 10px;display:grid;align-content:start;gap:4px;border-right:1px solid rgba(255,255,255,.07)}
+  .pv-nav div{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:10px;font-size:11.5px;font-weight:500;color:#9fb0cc}
+  .pv-nav i{font-size:14px}
+  .pv-nav .on{color:#fff;background:rgba(var(--p-rgb),.2);box-shadow:inset 0 0 0 1px rgba(var(--p-rgb),.35)}
+  .pv-nav .on i{color:var(--p-light)}
+  .pv-main{padding:14px;display:grid;gap:11px;align-content:start}
+  .pv-title{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;color:#fff}
+  .pv-title small{font-weight:500;font-size:10px;color:#34d399;display:inline-flex;align-items:center;gap:5px}
+  .pv-title small::before{content:"";width:6px;height:6px;border-radius:50%;background:#34d399}
+  .pv-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .pv-tile{padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+  .pv-tile i{font-size:15px;color:var(--p-light)}
+  .pv-tile u{display:block;height:6px;margin-top:8px;border-radius:4px;background:rgba(255,255,255,.16);text-decoration:none}
+  .pv-tile u+u{width:55%;margin-top:5px;background:rgba(255,255,255,.08)}
+  .pv-chart{position:relative;height:74px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);overflow:hidden}
+  .pv-chart svg{position:absolute;inset:0;width:100%;height:100%}
+  .pv-chart .ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.2s .5s var(--ease) forwards}
+  .pv-chart .area{opacity:0;animation:fadeIn 1.4s 1.4s ease forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fadeIn{to{opacity:1}}
+
+  .pv-float{position:absolute;display:flex;align-items:center;gap:9px;padding:9px 14px 9px 10px;border-radius:14px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;
+    background:rgba(13,24,50,.82);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.8);animation:floaty 6s ease-in-out infinite}
+  .pv-float i{width:26px;height:26px;display:grid;place-items:center;border-radius:9px;font-size:15px}
+  .pv-float.f1{right:-6px;top:-14px}
+  .pv-float.f1 i{color:#34d399;background:rgba(52,211,153,.16)}
+  .pv-float.f2{left:-26px;bottom:-16px;animation-delay:-3s}
+  .pv-float.f2 i{color:var(--p-light);background:rgba(var(--p-rgb),.16)}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  .points{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;list-style:none;margin-top:16px}
+  .points li{display:flex;flex-direction:column;gap:8px;padding:13px 14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);transition:transform .25s var(--ease),border-color .25s,background .25s}
+  .points li:hover{transform:translateY(-3px);border-color:rgba(var(--p-rgb),.45);background:rgba(255,255,255,.07)}
+  .points i{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;font-size:18px;color:var(--p-light);background:rgba(var(--p-rgb),.14)}
+  .points b{display:block;font-size:12.5px;line-height:1.3;color:#fff}
+  .points span{display:block;margin-top:2px;font-size:11px;line-height:1.45;color:#9fb0cc}
+  .brand-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:26px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#7d8dab}
+  .brand-foot b{font-weight:600;color:#b8c5de;display:inline-flex;align-items:center;gap:7px}
+  #clock{font-variant-numeric:tabular-nums;min-width:15ch;text-align:left;white-space:nowrap}
+
+  .form-side{margin-top:0;padding:56px 40px;
+    background:radial-gradient(60% 50% at 100% 0%,rgba(var(--p-rgb),.12),transparent 70%),radial-gradient(var(--dot) 1px,transparent 1.2px) 0 0/22px 22px,var(--bg)}
+  .card-wrap{max-width:460px}
+  .kbd-hint{display:block}
+  .theme-toggle{top:24px;right:28px;color:var(--text);background:var(--card);border-color:var(--line);-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 10px 22px -12px rgba(15,23,42,.45)}
+  .kb-open .brand-body{display:flex}
+
+  /* Fixed split screen: the brand panel stays put, only the sign-in side scrolls */
+  html,body{height:100%;overflow:hidden}
+  .shell{height:100dvh;min-height:0;overflow:hidden}
+  .brand-side{height:100dvh;min-height:0;overflow:hidden}
+  .form-side{height:100dvh;min-height:0;overflow-y:auto;overscroll-behavior:contain;justify-content:flex-start;scrollbar-width:thin;scrollbar-color:rgba(var(--p-rgb),.35) transparent}
+  .form-side>.card-wrap{margin-top:auto;flex:none}
+  .form-side>.assure{flex:none}
+  .form-side>.form-foot{margin-bottom:auto;flex:none}
+  .form-side::-webkit-scrollbar{width:8px}
+  .form-side::-webkit-scrollbar-thumb{background:rgba(var(--p-rgb),.3);border-radius:8px}
+  .theme-toggle{position:fixed}
+}
+/* shorter laptop screens: drop the preview so nothing gets cramped */
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.pv-chart .ln{stroke-dashoffset:0}.pv-chart .area{opacity:1}}
+</style>
+<style id="login-refresh">
+/* ===== Refresh layer: richer card, glowing button, livelier brand panel. Logic and IDs are untouched. ===== */
+
+/* --- brand panel --- */
+.brand-body h2 em{background:linear-gradient(100deg,var(--p-light) 0%,#fff 48%,var(--p-light) 96%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:lrShine 7s linear infinite}
+@keyframes lrShine{from{background-position:0 50%}to{background-position:-220% 50%}}
+.eyebrow{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 10px 24px -14px rgba(var(--p-rgb),.8)}
+.points li{position:relative;overflow:hidden}
+.points li::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--p-light),transparent);opacity:0;transition:opacity .25s}
+.points li:hover::after{opacity:1}
+.points i{background:linear-gradient(135deg,rgba(var(--p-rgb),.3),rgba(var(--p-rgb),.08));box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 16px -10px rgba(var(--p-rgb),.9)}
+.pv{position:relative}
+.pv::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.09) 50%,transparent 65%);transform:translateX(-120%);animation:lrSheen 7s ease-in-out infinite}
+@keyframes lrSheen{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.pv-float.f3{right:34px;bottom:-24px;animation-delay:-1.6s}
+.pv-float.f3 i{color:#93c5fd;background:rgba(147,197,253,.16)}
+@media(max-width:979px){.brand-side{border-radius:0 0 36px 36px}}
+/* phones/tablets: keep the school name clear of the theme toggle (it sits in the top-right corner) */
+@media(max-width:979px){
+  .brand{max-width:calc(100% - 58px)}
+  .brand-txt{min-width:0}
+  .brand-txt b{white-space:normal;overflow-wrap:anywhere}
+}
+@media(max-width:380px){.brand{gap:10px}.logo-wrap{--logo:46px}.brand-txt b{font-size:16.5px}.brand-txt small{font-size:10px;letter-spacing:.1em}}
+
+/* --- sign-in card --- */
+.card-wrap{position:relative}
+.card-wrap::before{content:"";position:absolute;inset:6% -4% -4%;z-index:-1;border-radius:44px;background:radial-gradient(60% 60% at 50% 45%,rgba(var(--p-rgb),.38),transparent 72%);filter:blur(34px);opacity:.5;pointer-events:none}
+.login-card{border-radius:30px;box-shadow:0 44px 80px -38px rgba(8,16,40,.6),0 14px 30px -18px rgba(var(--p-rgb),.5),inset 0 1px 0 rgba(255,255,255,.75)}
+body.dark .login-card{box-shadow:0 44px 80px -38px rgba(0,0,0,.85),0 14px 30px -18px rgba(var(--p-rgb),.4),inset 0 1px 0 rgba(255,255,255,.07)}
+.login-card::before{left:30px;right:30px;height:3px;background:linear-gradient(90deg,transparent,var(--p-light),var(--p),var(--p-light),transparent);box-shadow:0 6px 18px rgba(var(--p-rgb),.55)}
+
+.shield{width:72px;height:72px;margin-bottom:20px;border-radius:24px;font-size:34px;animation:lrBob 5s ease-in-out infinite;
+  box-shadow:0 18px 32px -12px rgba(var(--p-rgb),.85),inset 0 1px 0 rgba(255,255,255,.55),0 0 0 8px rgba(var(--p-rgb),.1),0 0 0 17px rgba(var(--p-rgb),.05)}
+@keyframes lrBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.card-head h1{font-size:26px;background:linear-gradient(100deg,var(--text) 52%,var(--p) 135%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.greet{background:linear-gradient(180deg,var(--field),transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+
+.tab-bar{border-radius:19px;margin:20px 0 22px}
+.tab-bar::before{border-radius:15px;border-color:rgba(var(--p-rgb),.38);box-shadow:0 10px 20px -10px rgba(var(--p-rgb),.75)}
+.tab-bar button.active-tab{font-weight:700}
+
+.input-group>label{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.input-group.focus-in>label{color:var(--link)}
+.field input[type="text"],.field input[type="email"],.field input[type="password"]{height:54px;border-radius:17px}
+
+.login-btn{height:56px;border-radius:18px;background:linear-gradient(135deg,var(--p-dark) -25%,var(--p) 38%,var(--p-light) 115%);background-size:170% 100%;animation:lrFlow 7s ease-in-out infinite alternate}
+@keyframes lrFlow{to{background-position:100% 0}}
+.login-btn::before{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:skewX(-20deg);animation:lrBtnSheen 5.5s ease-in-out infinite;pointer-events:none}
+@keyframes lrBtnSheen{0%,62%{left:-40%}100%{left:140%}}
+.login-btn:disabled::before,.login-btn.loading::before{animation:none;opacity:0}
+.btn-text .arr{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;font-size:16px;background:rgba(0,0,0,.12)}
+
+.switch-note{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)}
+.flow{border-radius:18px;background:linear-gradient(180deg,rgba(var(--p-rgb),.07),var(--field))}
+.hint{border-radius:16px;background:linear-gradient(135deg,rgba(var(--p-rgb),.12),rgba(var(--p-rgb),.04))}
+
+/* --- below the card --- */
+.assure span{padding:5px 13px 5px 6px;font-weight:500;box-shadow:0 8px 18px -14px rgba(15,23,42,.4)}
+.assure i{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;font-size:13px;background:rgba(34,197,94,.14)}
+.assure,.form-foot{animation:fadeUp .6s .25s var(--ease) both}
+
+/* --- desktop: soft glows behind the sign-in side --- */
+@media(min-width:980px){
+  .form-side::before,.form-side::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;animation:drift 18s ease-in-out infinite alternate}
+  .form-side::before{width:340px;height:340px;top:0;right:0;background:radial-gradient(circle,rgba(var(--p-rgb),.2),transparent 68%)}
+  .form-side::after{width:300px;height:300px;bottom:0;left:0;background:radial-gradient(circle,rgba(99,102,241,.14),transparent 68%);animation-delay:-8s}
+}
+@media(prefers-reduced-motion:reduce){.shield,.login-btn,.login-btn::before,.pv::after,.brand-body h2 em{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast" role="alert" aria-live="polite">
+  <span class="toast-icon" aria-hidden="true">✅</span>
+  <span class="toast-message"></span>
+  <button type="button" class="toast-close" aria-label="Close notification">✕</button>
+</div>
+
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="ri-moon-line" id="themeIcon" aria-hidden="true"></i></button>
+
+<main class="shell" id="main">
+
+  <!-- ===== BRAND PANEL ===== -->
+  <section class="brand-side">
+    <div class="fx" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="glow g3"></span><span class="orbit"></span><i class="ri-shield-keyhole-fill watermark"></i></div>
+
+    <div class="brand-inner">
+    <a class="brand" href="index.html" aria-label="School home" data-si-aria="home">
+      <span class="logo-wrap"><i class="ri-graduation-cap-fill" aria-hidden="true"></i><img src="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" data-local="logo.png" alt="School logo" data-si-alt="logo" width="64" height="64" /></span>
+      <span class="brand-txt"><b data-si="school_name">Pabitra Secondary Boarding School</b><small><span class="live" aria-hidden="true"></span> Secure admin access</small></span>
+    </a>
+
+    <div class="brand-body">
+      <span class="eyebrow"><span class="live" aria-hidden="true"></span> Administrator console</span>
+      <h2>Welcome back,<br /><em>administrator.</em></h2>
+      <p class="lead">One calm workspace to keep the school's notices, documents, gallery, faculty and calendar up to date.</p>
+
+      <!-- decorative preview of the console (illustrative only) -->
+      <div class="stage" aria-hidden="true">
+        <div class="pv">
+          <div class="pv-bar"><i></i><i></i><i></i><span><i class="ri-lock-fill" style="background:none;width:auto;height:auto;font-size:10px;color:#34d399"></i> <span data-si="host">psbs.edu.np</span> / admin</span></div>
+          <div class="pv-body">
+            <div class="pv-nav">
+              <div class="on"><i class="ri-dashboard-line"></i> Overview</div>
+              <div><i class="ri-megaphone-line"></i> Notices</div>
+              <div><i class="ri-file-text-line"></i> Documents</div>
+              <div><i class="ri-image-line"></i> Gallery</div>
+              <div><i class="ri-graduation-cap-line"></i> Faculty</div>
+              <div><i class="ri-calendar-event-line"></i> Calendar</div>
+            </div>
+            <div class="pv-main">
+              <div class="pv-title">Overview <small>Live</small></div>
+              <div class="pv-tiles">
+                <div class="pv-tile"><i class="ri-megaphone-fill"></i><u></u><u></u></div>
+                <div class="pv-tile"><i class="ri-file-text-fill"></i><u></u><u></u></div>
+                <div class="pv-tile"><i class="ri-image-fill"></i><u></u><u></u></div>
+              </div>
+              <div class="pv-chart">
+                <svg viewBox="0 0 300 90" preserveAspectRatio="none">
+                  <defs><linearGradient id="pvg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" style="stop-color:var(--p-light);stop-opacity:.45"/><stop offset="1" style="stop-color:var(--p-light);stop-opacity:0"/></linearGradient></defs>
+                  <path class="area" d="M0 72 C30 62 50 68 80 50 S130 54 160 36 S220 42 250 20 S285 26 300 12 L300 90 L0 90Z" fill="url(#pvg)"/>
+                  <path class="ln" pathLength="1" d="M0 72 C30 62 50 68 80 50 S130 54 160 36 S220 42 250 20 S285 26 300 12" fill="none" style="stroke:var(--p-light)" stroke-width="2.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pv-float f1"><i class="ri-checkbox-circle-fill"></i> Notice published</div>
+        <div class="pv-float f2"><i class="ri-image-add-fill"></i> Gallery updated</div>
+        <div class="pv-float f3"><i class="ri-user-follow-fill"></i> Access approved</div>
+      </div>
+
+      <ul class="points">
+        <li><i class="ri-shield-check-line" aria-hidden="true"></i><div><b>Server-verified sessions</b><span>Every action is checked on the server.</span></div></li>
+        <li><i class="ri-user-follow-line" aria-hidden="true"></i><div><b>Approval-based access</b><span>New admins are approved by a senior admin.</span></div></li>
+        <li><i class="ri-layout-grid-line" aria-hidden="true"></i><div><b>Everything in one place</b><span>Publish and edit the website in a few taps.</span></div></li>
+      </ul>
+    </div>
+
+    <div class="brand-foot"><span>Quality education, thoughtfully connected.</span><b><i class="ri-time-line" aria-hidden="true"></i><span id="clock"></span></b></div>
+    </div>
+  </section>
+
+  <!-- ===== SIGN-IN SIDE ===== -->
+  <section class="form-side">
+    <div class="card-wrap">
+    <div class="login-card">
+
+      <div class="card-head">
+        <div class="shield" id="shield" aria-hidden="true"><i class="ri-shield-user-fill s-a"></i><i class="ri-shield-keyhole-fill s-b"></i></div>
+        <h1 id="cardTitle">Admin sign in</h1>
+        <p class="card-sub" id="cardSub">Secure access to the <span data-si="acronym">PSBS</span> dashboard</p>
+        <p class="greet" id="greet"></p>
+      </div>
+
+      <div class="tab-bar" role="tablist" data-active="signin">
+        <button class="active-tab" data-tab="signin" role="tab" aria-selected="true"><i class="ri-login-circle-line" aria-hidden="true"></i> Sign In</button>
+        <button data-tab="signup" role="tab" aria-selected="false"><i class="ri-user-add-line" aria-hidden="true"></i> Request Access</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div class="tab-panel active-panel" id="panel-signin" role="tabpanel">
+        <form id="loginForm" novalidate autocomplete="off">
+          <div class="input-group">
+            <label for="emailInput">Admin email</label>
+            <div class="field">
+              <input type="email" id="emailInput" placeholder="admin@psbs.edu.np" data-si-ph="admin_email" required autofocus aria-required="true" autocomplete="off" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+            </div>
+            <div class="input-error" id="emailError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="passwordInput">Password</label>
+            <div class="field">
+              <input type="password" id="passwordInput" placeholder="Enter your password" required aria-required="true" autocomplete="new-password" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-lock-password-line"></i></span>
+            </div>
+            <div class="input-error" id="passwordError" role="alert"></div>
+          </div>
+
+          <div class="form-options">
+            <label><input type="checkbox" id="rememberMe" checked /> Remember me</label>
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text"><i class="ri-shield-keyhole-line" aria-hidden="true"></i> Sign In <i class="ri-arrow-right-line arr" aria-hidden="true"></i></span>
+          </button>
+          <p class="kbd-hint">Tip: press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to sign in</p>
+        </form>
+        <p class="switch-note">Need an account? <button type="button" id="goSignup">Request access</button></p>
+      </div>
+
+      <!-- REQUEST ACCESS -->
+      <div class="tab-panel" id="panel-signup" role="tabpanel">
+        <ol class="flow" aria-label="How access works">
+          <li><i class="ri-send-plane-2-line" aria-hidden="true"></i>Request</li>
+          <li><i class="ri-user-follow-line" aria-hidden="true"></i>Approval</li>
+          <li><i class="ri-login-circle-line" aria-hidden="true"></i>Sign in</li>
+        </ol>
+        <form id="signupForm" novalidate autocomplete="off">
+          <div class="input-group">
+            <label for="signupName">Full name</label>
+            <div class="field">
+              <input type="text" id="signupName" placeholder="Your full name" required aria-required="true" autocomplete="off" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-user-3-line"></i></span>
+            </div>
+            <div class="input-error" id="signupNameError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupEmail">Email address</label>
+            <div class="field">
+              <input type="email" id="signupEmail" placeholder="admin@psbs.edu.np" data-si-ph="admin_email" required aria-required="true" autocomplete="off" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+            </div>
+            <div class="input-error" id="signupEmailError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupPassword">Create a password</label>
+            <div class="field">
+              <input type="password" id="signupPassword" placeholder="Create a password (min 8 chars)" required aria-required="true" autocomplete="new-password" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
+            </div>
+            <div class="input-error" id="signupPasswordError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupConfirm">Confirm password</label>
+            <div class="field">
+              <input type="password" id="signupConfirm" placeholder="Confirm password" required aria-required="true" autocomplete="new-password" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-check-double-line"></i></span>
+            </div>
+            <div class="input-error" id="signupConfirmError" role="alert"></div>
+          </div>
+
+          <p class="hint"><i class="ri-information-line" aria-hidden="true"></i><span>Your request will be sent to senior admins for approval.</span></p>
+
+          <button type="submit" class="login-btn" id="signupBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text"><i class="ri-send-plane-2-line" aria-hidden="true"></i> Request Access <i class="ri-arrow-right-line arr" aria-hidden="true"></i></span>
+          </button>
+        </form>
+        <p class="switch-note">Already approved? <button type="button" id="goSignin">Sign in</button></p>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="assure"><span><i class="ri-shield-check-fill" aria-hidden="true"></i> Protected admin access</span><span><i class="ri-server-line" aria-hidden="true"></i> Server-checked sessions</span><span><i class="ri-lock-2-fill" aria-hidden="true"></i> Encrypted connection</span></div>
+    <div class="form-foot">
+      <p>🌸 Radhe Radhe · <a href="index.html"><i class="ri-arrow-left-line" aria-hidden="true"></i> Back to website</a></p>
+    </div>
+  </section>
+</main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Your actual keys
+        const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
+
+        // Create the client
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Make it globally accessible (and keep the same name 'supabase')
+        // Keep the library namespace intact; use the explicit client variable below.
+    </script>
+
+    <script>
+    /* SCHOOL INFO — same Supabase source as the main site (school_info row); cached for instant repeat visits. */
+    (function () {
+        'use strict';
+        var KEY = 'psbs_school_info_v1', cur = null;
+        var STOP = { of: 1, and: 1, the: 1, for: 1, in: 1, at: 1 };
+        function str(v) { return v == null ? '' : String(v).trim(); }
+        function derive(d) {
+            var name = str(d.school_name), words = name.split(/\s+/).filter(Boolean);
+            var acr = words.filter(function (w) { return !STOP[w.toLowerCase()]; }).map(function (w) { return w.charAt(0); }).join('').toUpperCase();
+            if (words.length < 2) acr = name.toUpperCase();
+            var email = str(d.email), domain = email.indexOf('@') > 0 ? email.split('@').pop() : '';
+            var host = ''; try { if (/^https?:$/.test(location.protocol)) host = location.host; } catch (e) { }
+            return { school_name: name, name: name, acronym: acr || name, motto: str(d.motto), email: email,
+                     host: host || domain, admin_email: domain ? 'admin@' + domain : '' };
+        }
+        function setMeta(sel, val) { var t = document.querySelector(sel); if (t && val) t.setAttribute('content', val); }
+        function apply(d) {
+            var v = derive(d), list, i, el, k, val;
+            list = document.querySelectorAll('[data-si]');
+            for (i = 0; i < list.length; i++) { el = list[i]; k = el.getAttribute('data-si'); val = v[k]; if (val) el.textContent = val; }
+            list = document.querySelectorAll('[data-si-alt]');
+            for (i = 0; i < list.length; i++) if (v.name) list[i].setAttribute('alt', v.name + ' Logo');
+            list = document.querySelectorAll('[data-si-aria="home"]');
+            for (i = 0; i < list.length; i++) if (v.name) list[i].setAttribute('aria-label', v.name + ' home');
+            list = document.querySelectorAll('[data-si-ph]');
+            for (i = 0; i < list.length; i++) if (v.admin_email) list[i].setAttribute('placeholder', v.admin_email);
+            if (v.name) {
+                var desc = 'Secure administrator sign in for ' + v.name + (v.motto ? ' — ' + v.motto : '') + '. Manage notices, documents, gallery, faculty and calendar.';
+                document.title = 'Admin Login · ' + v.acronym;
+                setMeta('meta[name="description"]', desc);
+                setMeta('meta[property="og:site_name"]', v.name);
+                setMeta('meta[property="og:title"]', 'Admin Login · ' + v.name);
+                setMeta('meta[property="og:description"]', desc);
+                setMeta('meta[property="og:image:alt"]', v.name);
+                setMeta('meta[name="twitter:title"]', 'Admin Login · ' + v.name);
+                setMeta('meta[name="twitter:description"]', desc);
+            }
+        }
+        window.SchoolInfo = {
+            set: function (d) { if (!d) return; cur = d; try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) { } apply(d); },
+            get: function () { return cur; },
+            acr: function () { return cur ? derive(cur).acronym : 'PSBS'; }
+        };
+        try { var c = JSON.parse(localStorage.getItem(KEY) || 'null'); if (c && c.school_name) { cur = c; apply(c); } } catch (e) { }
+        async function fetchSchoolInfo() {
+            try {
+                var r = await supabaseClient.from('school_info').select('*').eq('id', 1).maybeSingle();
+                if (!r.error && r.data) window.SchoolInfo.set(r.data);
+            } catch (e) { console.warn('school_info fetch failed', e); }
+        }
+        fetchSchoolInfo();
+        try {
+            supabaseClient.channel('school_info_changes_admin_login')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'school_info' }, fetchSchoolInfo)
+                .subscribe();
+        } catch (e) { }
+        /* Supabase image -> retry once -> local file -> hide (the icon behind it stays visible). */
+        function fix(img) {
+            if (!img || img.tagName !== 'IMG' || img.getAttribute('data-psbs-fb')) return;
+            if (!img.getAttribute('data-retry') && /\/storage\/v1\/object\/public\//.test(img.src)) { img.setAttribute('data-retry', '1'); img.src = img.src.split('?')[0] + '?r=' + Date.now(); return; }
+            var loc = img.getAttribute('data-local');
+            if (loc && !img.getAttribute('data-local-tried')) { img.setAttribute('data-local-tried', '1'); img.src = loc; return; }
+            img.setAttribute('data-psbs-fb', '1'); img.style.display = 'none';
+        }
+        document.addEventListener('error', function (e) { fix(e.target); }, true);
+        window.addEventListener('load', function () { var l = document.images; for (var i = 0; i < l.length; i++) if (l[i].complete && l[i].naturalWidth === 0 && l[i].getAttribute('src')) fix(l[i]); });
+    })();
+    </script>
+    <script>
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        const Helpers = {
+            getTheme: function () { return localStorage.getItem('psbs_theme') || 'light'; },
+            getThemePreset: function () { return localStorage.getItem('psbs_theme_preset') || 'gold'; },
+            applyTheme: function () {
+                const theme = this.getTheme();
+                const preset = this.getThemePreset();
+                const body = document.body;
+                const icon = document.getElementById('themeIcon');
+                if (theme === 'dark') {
+                    body.classList.add('dark');
+                    if (icon) icon.className = 'ri-sun-line';
+                } else {
+                    body.classList.remove('dark');
+                    if (icon) icon.className = 'ri-moon-line';
+                }
+                body.className = body.className.split(' ').filter(function (c) {
+                    return !c.startsWith('theme-');
+                }).join(' ');
+                if (preset !== 'default') body.classList.add('theme-' + preset);
+            },
+            toggleTheme: function () {
+                const isDark = document.body.classList.contains('dark');
+                const icon = document.getElementById('themeIcon');
+                if (isDark) {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('psbs_theme', 'light');
+                    if (icon) icon.className = 'ri-moon-line';
+                } else {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('psbs_theme', 'dark');
+                    if (icon) icon.className = 'ri-sun-line';
+                }
+                const preset = this.getThemePreset();
+                document.body.className = document.body.className.split(' ').filter(function (c) {
+                    return !c.startsWith('theme-');
+                }).join(' ');
+                if (preset !== 'default') document.body.classList.add('theme-' + preset);
+            },
+            showToast: function (message, type) {
+                const el = document.getElementById('toast');
+                const msgEl = el.querySelector('.toast-message');
+                const iconEl = el.querySelector('.toast-icon');
+                const closeBtn = el.querySelector('.toast-close');
+                const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+                msgEl.textContent = message;
+                el.className = 'toast toast-' + (type || 'info');
+                if (iconEl) iconEl.textContent = icons[type] || icons.info;
+                el.classList.add('active');
+                clearTimeout(el._timeout);
+                closeBtn.onclick = function () { el.classList.remove('active'); };
+                el._timeout = setTimeout(function () { el.classList.remove('active'); }, 4000);
+            },
+            sanitize: function (input) {
+                const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' };
+                return String(input).replace(/[&<>"'/]/g, function (s) { return map[s] || s; });
+            }
+        };
+
+        function showToast(msg, type) { Helpers.showToast(msg, type); }
+
+        // THEME
+        document.getElementById('themeToggle').addEventListener('click', function () { Helpers.toggleTheme(); });
+        Helpers.applyTheme();
+
+        const tabs = document.querySelectorAll('.tab-bar button');
+        const panels = { signin: document.getElementById('panel-signin'), signup: document.getElementById('panel-signup') };
+        tabs.forEach(btn => btn.addEventListener('click', function () {
+            const tab = this.getAttribute('data-tab');
+            this.parentNode.setAttribute('data-active', tab);
+            tabs.forEach(b => { b.classList.remove('active-tab'); b.setAttribute('aria-selected','false'); });
+            this.classList.add('active-tab'); this.setAttribute('aria-selected','true');
+            Object.values(panels).forEach(p => p.classList.remove('active-panel'));
+            panels[tab].classList.add('active-panel');
+            document.querySelectorAll('.input-error').forEach(el => el.textContent='');
+        }));
+
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const loginBtn = document.getElementById('loginBtn');
+        const rememberMe = document.getElementById('rememberMe');
+        const savedEmail = localStorage.getItem('psbs_admin_email');
+        if (savedEmail) { emailInput.value = savedEmail; rememberMe.checked = true; }
+        emailInput.type='email'; passwordInput.autocomplete='new-password';
+
+        loginForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const email=emailInput.value.trim().toLowerCase(), password=passwordInput.value;
+            emailError.textContent=''; passwordError.textContent='';
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailError.textContent='Enter a valid admin email.'; return; }
+            if (!password) { passwordError.textContent='Password is required.'; return; }
+            loginBtn.disabled=true; loginBtn.classList.add('loading');
+            try {
+                const {data,error}=await supabaseClient.rpc('admin_login',{p_email:email,p_password:password});
+                if(error) throw error;
+                const admin=Array.isArray(data)?data[0]:data;
+                if(!admin || admin.success!==true || !admin.session_token) { showToast('Invalid email or password, or the admin account is disabled.','error'); return; }
+                // Remember-me stores the session token persistently on this device; the server still validates expiry/revocation.
+                if(rememberMe.checked) {
+                    localStorage.setItem('psbs_admin_session_token',admin.session_token);
+                    localStorage.setItem('psbs_admin_name',admin.name||'Admin');
+                    sessionStorage.removeItem('psbs_admin_session_token');
+                    sessionStorage.removeItem('psbs_admin_name');
+                    localStorage.setItem('psbs_admin_email',email);
+                } else {
+                    sessionStorage.setItem('psbs_admin_session_token',admin.session_token);
+                    sessionStorage.setItem('psbs_admin_name',admin.name||'Admin');
+                    localStorage.removeItem('psbs_admin_session_token');
+                    localStorage.removeItem('psbs_admin_name');
+                    localStorage.removeItem('psbs_admin_email');
+                }
+                showToast('Welcome! Redirecting…','success');
+                setTimeout(()=>window.location.replace('admin-dashboard.html'),600);
+            } catch(err) { console.error(err); showToast('Login error: '+(err.message||'Check SQL setup.'),'error'); }
+            finally { loginBtn.disabled=false; loginBtn.classList.remove('loading'); }
+        });
+
+        // Request Access uses a custom SQL RPC, never Supabase Auth signUp.
+        const signupForm=document.getElementById('signupForm');
+        const signupName=document.getElementById('signupName');
+        const signupEmail=document.getElementById('signupEmail');
+        const signupPassword=document.getElementById('signupPassword');
+        const signupConfirm=document.getElementById('signupConfirm');
+        const signupBtn=document.getElementById('signupBtn');
+        signupForm.addEventListener('submit', async e=>{
+            e.preventDefault();
+            const name=signupName.value.trim(), email=signupEmail.value.trim().toLowerCase();
+            const password=signupPassword.value;
+            document.querySelectorAll('#panel-signup .input-error').forEach(el=>el.textContent='');
+            let valid=true;
+            if(name.length<2){document.getElementById('signupNameError').textContent='Enter your full name.';valid=false;}
+            if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){document.getElementById('signupEmailError').textContent='Enter a valid email.';valid=false;}
+            if(password.length<8){document.getElementById('signupPasswordError').textContent='Use at least 8 characters.';valid=false;}
+            if(password!==signupConfirm.value){document.getElementById('signupConfirmError').textContent='Passwords do not match.';valid=false;}
+            if(!valid) return;
+            signupBtn.disabled=true; signupBtn.classList.add('loading');
+            try {
+                const {data,error}=await supabaseClient.rpc('submit_admin_request',{p_name:name,p_email:email,p_password:password});
+                if(error) throw error;
+                const result=Array.isArray(data)?data[0]:data;
+                if(!result || result.success!==true) { showToast(result?.message||'Could not submit request.','error'); return; }
+                showToast('Request submitted. An administrator must approve it before you can sign in.','success');
+                signupForm.reset();
+                setTimeout(()=>{tabs[0]?.click(); emailInput.value=email;},1200);
+            } catch(err) { console.error('Request access error:',err); showToast('Request failed: '+(err.message||'Check SQL setup.'),'error'); }
+            finally {signupBtn.disabled=false; signupBtn.classList.remove('loading');}
+        });
+        document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){const active=document.querySelector('.tab-panel.active-panel');if(active?.id==='panel-signin')loginForm.requestSubmit();else if(active?.id==='panel-signup')signupForm.requestSubmit();}});
+        // Custom sessions are checked server-side by protected RPCs; do not trust a local flag.
+    </script>
+
+<script>
+/* ===== Login experience layer (does not touch the sign-in / request-access logic) ===== */
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+
+  /* 2) Keyboard: lift the form above the on-screen keyboard in every environment.
+        - Acode WebView: layout does not resize, visualViewport does.
+        - Chrome/Firefox (resizes-content): the layout viewport itself shrinks, so visualViewport.height === innerHeight.
+        - iOS Safari: keyboard overlays; only visualViewport shrinks.
+     We remember the full height while no field is focused and compare against it, so all three are detected. */
+  var vv=window.visualViewport,root=document.documentElement;
+  var isField=function(el){return !!(el&&el.matches&&el.matches('input,textarea,select'));};
+  var base=Math.max(innerHeight,vv?vv.height:0),scrollT=0;
+  function ensureVisible(){
+    var a=document.activeElement;if(!isField(a))return;
+    var vh=(vv&&vv.scale<=1.01)?vv.height:innerHeight,r=a.getBoundingClientRect();
+    if(r.bottom>vh-24||r.top<72)a.scrollIntoView({block:'center',behavior:'smooth'});
+  }
+  function sync(){
+    var zoomed=vv&&vv.scale>1.01,vh=(vv&&!zoomed)?vv.height:innerHeight,vt=(vv&&!zoomed)?vv.offsetTop:0;
+    var focused=isField(document.activeElement);
+    if(!focused)base=Math.max(innerHeight,vh);
+    var shrunk=(base-vh-vt>120)||(base-innerHeight>120);
+    var kb=shrunk||(focused&&matchMedia('(pointer:coarse)').matches&&innerWidth<980);
+    root.style.setProperty('--vvh',vh+'px');root.style.setProperty('--vvt',vt+'px');
+    root.style.setProperty('--kb',Math.max(0,innerHeight-vh-vt)+'px');
+    root.classList.toggle('kb-open',!!kb);
+    if(kb){clearTimeout(scrollT);scrollT=setTimeout(ensureVisible,120);}
+  }
+  if(vv){vv.addEventListener('resize',sync);vv.addEventListener('scroll',sync);}
+  addEventListener('resize',sync);
+  addEventListener('orientationchange',function(){base=0;setTimeout(sync,350);});
+  document.addEventListener('focusin',function(){sync();setTimeout(sync,350);});
+  document.addEventListener('focusout',function(){setTimeout(sync,320);});
+  sync();
+
+  /* 3) Friendly greeting */
+  var h=new Date().getHours(),g=h<5?['Still up?','🌙']:h<12?['Good morning','🌅']:h<17?['Good afternoon','☀️']:h<21?['Good evening','🌆']:['Good night','🌙'];
+  var gr=$('#greet'); if(gr) gr.textContent='Namaste 🙏 '+g[0]+' '+g[1]+' · welcome back!';
+
+  /* 4) Eye buttons, caps-lock hint, focus state, clear errors while typing */
+  $$('.input-group').forEach(function(gp){
+    var inp=$('input',gp);if(!inp)return;
+    inp.addEventListener('focus',function(){gp.classList.add('focus-in');});
+    inp.addEventListener('blur',function(){gp.classList.remove('focus-in');});
+    inp.addEventListener('input',function(){inp.removeAttribute('aria-invalid');var er=$('.input-error',gp);if(er&&er.textContent)er.textContent='';});
+    if(inp.type!=='password')return;
+    var field=$('.field',gp)||gp;
+    var b=document.createElement('button');b.type='button';b.className='pw-toggle';b.setAttribute('aria-label','Show password');b.innerHTML='<i class="ri-eye-line" aria-hidden="true"></i>';
+    b.addEventListener('click',function(){var s=inp.type==='password';inp.type=s?'text':'password';b.firstChild.className=s?'ri-eye-off-line':'ri-eye-line';b.setAttribute('aria-label',s?'Hide password':'Show password');inp.focus({preventScroll:true});});
+    field.appendChild(b);
+    var cap=document.createElement('div');cap.className='caps-hint';cap.innerHTML='<i class="ri-arrow-up-circle-line" aria-hidden="true"></i> Caps Lock is on';gp.after(cap);
+    var chk=function(e){if(e.getModifierState)cap.classList.toggle('show',e.getModifierState('CapsLock'));};
+    inp.addEventListener('keydown',chk);inp.addEventListener('keyup',chk);inp.addEventListener('blur',function(){cap.classList.remove('show');});
+  });
+
+  /* 5) Password strength (request access) */
+  var sp=document.getElementById('signupPassword');
+  if(sp){
+    var m=document.createElement('div');m.className='strength';m.dataset.l='0';m.setAttribute('aria-live','polite');m.innerHTML='<i></i><i></i><i></i><i></i><span></span>';
+    sp.closest('.input-group').after(m);
+    sp.addEventListener('input',function(){
+      var v=sp.value,s=0;if(v.length>=8)s++;if(/[a-z]/.test(v)&&/[A-Z]/.test(v))s++;if(/\d/.test(v))s++;if(/[^A-Za-z0-9]/.test(v)||v.length>=12)s++;
+      if(!v)s=0;m.dataset.l=s;m.lastChild.textContent=['','Weak','Okay','Good','Strong'][s];
+    });
+  }
+
+  /* 6) Shake the field on validation errors */
+  $$('.input-error').forEach(function(er){
+    new MutationObserver(function(){
+      if(!er.textContent)return;var gp=er.closest('.input-group'),inp=$('input',gp);
+      if(inp)inp.setAttribute('aria-invalid','true');gp.classList.remove('shake');void gp.offsetWidth;gp.classList.add('shake');
+    }).observe(er,{childList:true,characterData:true,subtree:true});
+  });
+
+  /* 7) Celebrate success, nudge on error (watches the existing toast) */
+  var card=$('.login-card'),toast=$('#toast');
+  function burst(){
+    var host=$('.login-btn.loading')||$('.login-btn:not(:disabled)')||card,r=host.getBoundingClientRect(),em=['🎉','✨','🌸','⭐','🎓'];
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    for(var i=0;i<18;i++){var s=document.createElement('span');s.className='confetti';s.textContent=em[i%em.length];
+      s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';
+      s.style.setProperty('--dx',((Math.random()-.5)*320)+'px');s.style.setProperty('--dy',(-60-Math.random()*220)+'px');s.style.setProperty('--r',((Math.random()-.5)*540)+'deg');
+      document.body.appendChild(s);setTimeout(function(x){x.remove();},1100,s);}
+  }
+  if(toast)new MutationObserver(function(){
+    if(!toast.classList.contains('active'))return;
+    if(toast.classList.contains('toast-success')){card.classList.add('is-success');burst();setTimeout(function(){card.classList.remove('is-success');},900);}
+    else if(toast.classList.contains('toast-error')){card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');}
+  }).observe(toast,{attributes:true,attributeFilter:['class']});
+
+  /* 8) Forgot password: there is no automated reset flow, so say so clearly */
+  var fl=document.getElementById('forgotLink');
+  if(fl)fl.addEventListener('click',function(e){e.preventDefault();showToast('Password resets are handled by a senior administrator. Please contact one.','info');});
+
+  /* 9) Tab switch links inside the card */
+  function goTab(t){var b=$('.tab-bar button[data-tab="'+t+'"]');if(b)b.click();}
+  var gs=document.getElementById('goSignup'),gi=document.getElementById('goSignin');
+  if(gs)gs.addEventListener('click',function(){goTab('signup');});
+  if(gi)gi.addEventListener('click',function(){goTab('signin');});
+
+  /* 10) Gentle parallax on the background glow (desktop pointers only) */
+  var fx=$('.fx');
+  if(fx&&matchMedia('(pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches)
+    addEventListener('pointermove',function(e){fx.style.transform='translate3d('+((e.clientX/innerWidth-.5)*-22)+'px,'+((e.clientY/innerHeight-.5)*-22)+'px,0)';},{passive:true});
+})();
+</script>
+
+<script>
+/* ===== Visual polish layer (purely cosmetic; never touches sign-in / request-access logic) ===== */
+(function(){
+  var reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* live clock in the brand panel: no seconds, but it flips exactly when the real minute changes */
+  var clock=document.getElementById('clock'),clockT=0;
+  function tick(){
+    if(!clock)return;
+    var d=new Date();
+    clock.textContent=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · '+d.toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'});
+    clearTimeout(clockT);clockT=setTimeout(tick,60000-(d.getSeconds()*1000+d.getMilliseconds())+50);
+  }
+  tick();
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)tick();});
+
+  /* soft spotlight that follows the pointer across the card (desktop only) */
+  var card=document.querySelector('.login-card');
+  if(card&&!reduced&&matchMedia('(pointer:fine)').matches){
+    var raf=0;
+    card.addEventListener('pointermove',function(e){
+      if(raf)return;
+      raf=requestAnimationFrame(function(){
+        raf=0;var r=card.getBoundingClientRect();
+        card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+        card.style.setProperty('--my',(e.clientY-r.top)+'px');
+      });
+    },{passive:true});
+  }
+
+  /* the shield swaps to a keyhole while a password field is focused */
+  var shield=document.getElementById('shield'),pw=['passwordInput','signupPassword','signupConfirm'];
+  document.addEventListener('focusin',function(e){if(shield&&pw.indexOf(e.target.id)>-1)shield.classList.add('locked');});
+  document.addEventListener('focusout',function(e){if(shield&&pw.indexOf(e.target.id)>-1)shield.classList.remove('locked');});
+
+  /* heading follows the active tab */
+  var title=document.getElementById('cardTitle'),sub=document.getElementById('cardSub');
+  var copy={signin:['Admin sign in','Secure access to the <span data-si="acronym">'+(window.SchoolInfo?SchoolInfo.acr():'PSBS')+'</span> dashboard'],signup:['Request admin access','Send your details for senior admin approval']};
+  document.querySelectorAll('.tab-bar button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var c=copy[b.getAttribute('data-tab')];if(!c||!title)return;
+      title.textContent=c[0];sub.innerHTML=c[1];
+      [title,sub].forEach(function(el){el.style.animation='none';void el.offsetWidth;el.style.animation='';});
+    });
+  });
+
+  /* Enter moves to the next field; Enter in the last field submits (Sign In / Request Access) */
+  ['loginForm','signupForm'].forEach(function(id){
+    var f=document.getElementById(id);if(!f)return;
+    var items=Array.prototype.slice.call(f.querySelectorAll('.field input'));
+    items.forEach(function(inp,i){
+      inp.setAttribute('enterkeyhint',i<items.length-1?'next':(id==='loginForm'?'go':'send'));
+      inp.addEventListener('keydown',function(e){
+        if(e.key!=='Enter'||e.isComposing||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+        if(i<items.length-1){e.preventDefault();var n=items[i+1];n.focus();if(n.select)n.select();}
+        else{e.preventDefault();f.requestSubmit();}
+      });
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>

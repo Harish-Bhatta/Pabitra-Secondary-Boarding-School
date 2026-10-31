@@ -156,6 +156,98 @@ html body .ss-overlay.active .ss-panel{
 }
 html body .ss-overlay{will-change:opacity; transform:translateZ(0); overscroll-behavior:contain}
 </style>
+<style id="psbs-stat-cards-polish">
+/* Four summary cards + their sheet: one stable layout, consistent Devanagari font, no hover jitter. */
+html body .app-container .month-stats{gap:12px; align-items:stretch}
+html body .app-container .stat-card{
+  position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:12px;
+  min-height:68px; padding:12px 14px; border-radius:20px; overflow:hidden; isolation:isolate;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--c) 13%,var(--surface-solid)) 0%,var(--surface-solid) 64%) !important;
+  border:1px solid color-mix(in srgb,var(--c) 24%,var(--border-light)) !important;
+  box-shadow:0 1px 2px rgba(15,23,42,.05),0 12px 22px -18px color-mix(in srgb,var(--c) 70%,transparent) !important;
+  transform:none; cursor:pointer; -webkit-user-select:none; user-select:none;
+  transition:box-shadow .25s ease,border-color .25s ease,transform .18s cubic-bezier(.22,1,.36,1);
+}
+html body .app-container .stat-card::after{display:none}
+html body .app-container .stat-card::before{
+  content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; z-index:-1;
+  border-radius:0 4px 4px 0; background:var(--c); opacity:.9;
+}
+html body .app-container .stat-icon{
+  width:42px; height:42px; border-radius:14px; font-size:1rem; color:#fff;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 72%,#fff),var(--c)) !important;
+  box-shadow:0 8px 14px -8px var(--c),inset 0 1px 0 rgba(255,255,255,.45) !important;
+  transition:transform .35s cubic-bezier(.34,1.3,.64,1);
+}
+html body .app-container .stat-body{min-width:0; padding:0}
+html body .app-container .stat-label{
+  font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif;
+  font-size:.78rem; font-weight:700; letter-spacing:0; line-height:1.2; color:var(--text-light); margin-bottom:2px;
+}
+html body .app-container .stat-value{
+  font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif;   /* Fraunces has no Devanagari digits → font swap jitter */
+  font-weight:800; font-size:1.55rem; line-height:1.1; letter-spacing:0;
+  min-height:1.1em; min-width:2ch; font-variant-numeric:tabular-nums; color:var(--text);
+  will-change:opacity,transform;
+}
+html body .app-container .stat-go{
+  position:static; width:26px; height:26px; border-radius:50%; font-size:.6rem; display:grid; place-items:center;
+  color:var(--c); background:color-mix(in srgb,var(--c) 14%,transparent);
+  transition:background-color .2s ease,color .2s ease,transform .25s cubic-bezier(.22,1,.36,1);
+}
+@media (hover:hover) and (pointer:fine){
+  html body .app-container .stat-card:hover{
+    transform:none;                                   /* no lift: the card never moves out from under the cursor */
+    border-color:color-mix(in srgb,var(--c) 50%,transparent) !important;
+    box-shadow:0 1px 2px rgba(15,23,42,.06),0 16px 26px -16px var(--c) !important;
+  }
+  html body .app-container .stat-card:hover .stat-icon{transform:scale(1.07) rotate(-4deg)}
+  html body .app-container .stat-card:hover .stat-go{background:var(--c); color:#fff; transform:translateX(2px)}
+}
+html body .app-container .stat-card:active{transform:scale(.97); transition-duration:.08s}
+html body .app-container .stat-card:focus-visible{outline:none; box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 45%,transparent) !important}
+html body .app-container .stat-card[aria-expanded="true"]{border-color:color-mix(in srgb,var(--c) 65%,transparent) !important}
+
+@media (max-width:359px){html body .app-container .stat-icon{display:none} html body .app-container .stat-card{grid-template-columns:minmax(0,1fr) auto}}
+@media (min-width:1024px){
+  html body .app-container .stat-card{grid-template-columns:auto minmax(0,1fr); border-radius:16px}
+  html body .app-container .stat-card::before{top:10px; bottom:10px}
+  html body .app-container .stat-value{font-size:1.25rem}
+  html body .app-container .stat-go{display:none}
+}
+
+/* ---- the sheet that a card opens ---- */
+html body .ss-panel{border-radius:30px 30px 0 0}
+html body .ss-grab{display:block; width:40px; height:4px; margin:10px auto 0}
+html body .ss-head{padding:14px 16px 12px 18px}
+html body .ss-ico{
+  width:50px; height:50px; border-radius:16px; font-size:1.15rem;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 72%,#fff),var(--c)) !important;
+  box-shadow:0 10px 16px -10px var(--c),inset 0 1px 0 rgba(255,255,255,.45) !important;
+}
+html body .ss-titles h2{font-family:'Yatra One','Mukta','Noto Sans Devanagari',sans-serif; font-weight:400; font-size:1.35rem; letter-spacing:.01em}
+html body .ss-titles p{font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif; font-weight:600}
+html body .ss-row{
+  gap:12px; padding:10px 12px; border-radius:18px; margin:0 0 8px;
+  transition:background-color .2s ease,border-color .2s ease,transform .12s ease;
+}
+@media (hover:hover){
+  html body .ss-row:not(.static):hover{
+    transform:none; box-shadow:none;                  /* was translateX(3px): jittery near the edge */
+    background:color-mix(in srgb,var(--c) 11%,var(--surface-solid));
+    border-color:color-mix(in srgb,var(--c) 45%,transparent);
+  }
+}
+html body .ss-row:not(.static):active{transform:scale(.98)}
+html body .ss-date{width:50px; height:54px; border-radius:15px}
+html body .ss-date b{font-family:'Mukta','Noto Sans Devanagari',sans-serif; font-weight:800; font-size:1.3rem}
+html body .ss-t{font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif; font-weight:700; font-size:.95rem}
+html body .ss-kpi b{font-family:'Mukta','Noto Sans Devanagari',sans-serif; font-weight:800}
+html body .ss-ring b{font-family:'Mukta','Noto Sans Devanagari',sans-serif; font-weight:800}
+html body .ss-body{padding:4px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){html body .ss-panel{border-radius:28px} html body .ss-grab{display:none}}
+@media (prefers-reduced-motion:reduce){html body .app-container .stat-card,html body .app-container .stat-icon,html body .ss-row{transition:none}}
+</style>
 </head>
 
 <body>
@@ -164,7 +256,7 @@ html body .ss-overlay{will-change:opacity; transform:translateZ(0); overscroll-b
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-    <input type="file" id="avatarUploader" accept="image/*" style="display:none;" aria-hidden="true" />
+    <input type="file" id="avatarUploader" accept="image/*" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none;" tabindex="-1" />
 
     <div class="drag-trail" id="dragTrail" aria-hidden="true"></div>
 
@@ -2764,8 +2856,8 @@ DOM.ddAvatarWrap.addEventListener('click', function (e) {
 DOM.avatarUploader.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-        Toast.error('Image must be less than 2MB');
+    if (file.size > 15 * 1024 * 1024) {
+        Toast.error('Image must be less than 15MB');
         DOM.avatarUploader.value = '';
         return;
     }
@@ -3557,7 +3649,9 @@ try {
         var n=$('ddName'),r=$('ddRole'),a=$('ddAvatar');
         if(n&&$('sbName'))$('sbName').textContent=n.textContent;
         if(r&&$('sbRole'))$('sbRole').textContent=r.textContent;
-        if(a&&$('sbAvatar')){ $('sbAvatar').innerHTML=a.innerHTML; }
+        if(a&&$('sbAvatar')){ var sa=$('sbAvatar'), bi=a.style.backgroundImage, im=a.querySelector('img'), u=(bi&&bi!=='none')?bi:((im&&im.src)?'url("'+im.src+'")':'');
+          if(u){ sa.textContent=''; sa.style.setProperty('background-image',u,'important'); sa.style.setProperty('background-size','cover','important'); sa.style.setProperty('background-position','center','important'); }
+          else { ['background-image','background-size','background-position'].forEach(function(p){sa.style.removeProperty(p);}); sa.innerHTML=a.innerHTML; } }
         var dark=document.body.classList.contains('dark'), sw=$('sbDarkBtn');
         if(sw)sw.setAttribute('aria-checked',dark?'true':'false');
       }
@@ -3568,7 +3662,7 @@ try {
       document.addEventListener('DOMContentLoaded',function(){
         sync();
         var mo=new MutationObserver(sync);
-        ['ddName','ddRole','ddAvatar'].forEach(function(i){var e=$(i);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true});});
+        ['ddName','ddRole','ddAvatar'].forEach(function(i){var e=$(i);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['style']});});
         var wasDark=document.body.classList.contains('dark');
         new MutationObserver(function(){ var d=document.body.classList.contains('dark'); if(d!==wasDark){ wasDark=d; sync(); } }).observe(document.body,{attributes:true,attributeFilter:['class']});
         /* profile card now opens the in-menu popover (section 23) */
@@ -3903,8 +3997,8 @@ try {
         // ---------------------------------------------------------------
         // Constants & small helpers
         // ---------------------------------------------------------------
-        const YEAR_BS = 2083;      // year served by the `calendar_data` table (was hard-coded in several places)
-        const MONTH_COUNT = 12;
+        const YEAR_BS = 2083;      // fallback year only: every year found in `calendar_data` is loaded now
+        let MONTH_COUNT = 12;      // = number of months loaded (any number of years)
 
         // Anything that originates in the database is escaped before it reaches innerHTML.
         const ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
@@ -4045,15 +4139,15 @@ try {
                 if (!MONTHS[m].adStartDate) continue;
                 const offset = Math.round((todayAD - MONTHS[m].adStartDate) / 86400000);
                 if (offset >= 0 && offset < MONTHS[m].daysCount) {
-                    TODAY = { monthIdx: m, dayBS: offset + 1, yearBS: YEAR_BS };
+                    TODAY = { monthIdx: m, dayBS: offset + 1, yearBS: MONTHS[m].yearBS };
                     return;
                 }
             }
             // Today lies outside the loaded year: clamp to the nearest edge (was a hard-coded Shrawan 8).
             const first = MONTHS[0].adStartDate;
             TODAY = (first && todayAD < first)
-                ? { monthIdx: 0, dayBS: 1, yearBS: YEAR_BS }
-                : { monthIdx: MONTH_COUNT - 1, dayBS: MONTHS[MONTH_COUNT - 1].daysCount, yearBS: YEAR_BS };
+                ? { monthIdx: 0, dayBS: 1, yearBS: MONTHS[0].yearBS }
+                : { monthIdx: MONTH_COUNT - 1, dayBS: MONTHS[MONTH_COUNT - 1].daysCount, yearBS: MONTHS[MONTH_COUNT - 1].yearBS };
         }
 
         // ---------------------------------------------------------------
@@ -4115,7 +4209,7 @@ try {
                 opts[i].setAttribute('aria-selected', on ? 'true' : 'false');
             }
             const sub = $id('mdSub');
-            if (sub && MONTHS[idx]) sub.textContent = 'वि.सं. ' + toNepaliDigits(YEAR_BS) + ' · ' + MONTHS[idx].nameBS + ' (' + MONTHS[idx].nameAD + ')';
+            if (sub && MONTHS[idx]) sub.textContent = 'वि.सं. ' + toNepaliDigits(MONTHS[idx].yearBS) + ' · ' + MONTHS[idx].nameBS + ' (' + MONTHS[idx].nameAD + ')';
         }
         // One delegated listener instead of one per option per render
         dropdownPortal.addEventListener('click', function (e) {
@@ -4374,7 +4468,7 @@ try {
         const SPACER = '<div class="calendar-cell empty spacer" aria-hidden="true"></div>';
         function paneHTML(mi, interactive) {
             if (mi < 0 || mi >= MONTH_COUNT) return '';
-            const md = MONTHS[mi], pi = (mi + 11) % 12, ni = (mi + 1) % 12, pm = MONTHS[pi], nm = MONTHS[ni];
+            const md = MONTHS[mi], pi = mi - 1, ni = mi + 1, pm = MONTHS[pi], nm = MONTHS[ni];
             const ghost = (m, idx, d) =>
                 '<div class="calendar-cell empty ghost" data-m="' + idx + '" data-d="' + d + '"><div class="cell-top"><span class="bs-day">' +
                 toNepaliDigits(d) + '</span><span class="ad-day">' + adDay(m, d) + '</span></div><div class="tithi-text">' + esc(m.tithis[d - 1] || '') +
@@ -4680,10 +4774,12 @@ try {
             const dayOfWeekIdx = (md.startDayOfWeek + dayBS - 1) % 7;
             const eventData = md.events[dayBS];
             const isSunOrSat = (dayOfWeekIdx === 0 || dayOfWeekIdx === 6);
-            if (monthIdx === 5 && dayBS === 18) return { isHoliday: false, eventTitle: eventData ? eventData.title : null, isSunOrSat, dayOfWeekIdx };
-            if ((monthIdx === 5 && dayBS >= 28) || (monthIdx === 6 && dayBS <= 9)) return { isHoliday: true, eventTitle: eventData ? eventData.title : "दशैं बिदा", isSunOrSat, dayOfWeekIdx };
-            if (monthIdx === 6 && dayBS >= 10 && dayBS <= 27) return { isHoliday: true, eventTitle: eventData ? eventData.title : "तिहार बिदा", isSunOrSat, dayOfWeekIdx };
-            const isHoliday = !!(isSunOrSat || (eventData && eventData.isHoliday));
+            // School vacation ranges below are for B.S. 2083 only, matched on the real month (not its list position).
+            const bi = md.yearBS === 2083 ? md.bsIdx : -1;
+            if ((bi === 5 && dayBS >= 28) || (bi === 6 && dayBS <= 9)) return { isHoliday: true, eventTitle: eventData ? eventData.title : "दशैं बिदा", isSunOrSat, dayOfWeekIdx };
+            if (bi === 6 && dayBS >= 10 && dayBS <= 27) return { isHoliday: true, eventTitle: eventData ? eventData.title : "तिहार बिदा", isSunOrSat, dayOfWeekIdx };
+            // An event decides by its own Holiday tick (even on Sat/Sun); days without an event follow the weekly holiday.
+            const isHoliday = eventData ? !!eventData.isHoliday : isSunOrSat;
             return { isHoliday, eventTitle: eventData ? eventData.title : null, isSunOrSat, dayOfWeekIdx };
         }
 
@@ -4704,10 +4800,19 @@ try {
                 md._stats = st;
             }
             const hol = st.hol, special = st.special;
-            elH.textContent = toNepaliDigits(hol);
-            elS.textContent = toNepaliDigits(md.daysCount - hol);
-            elP.textContent = toNepaliDigits(md.programs ? md.programs.length : 0);
-            elE.textContent = toNepaliDigits(special);
+            // Only touch a number when it really changed, and fade it in (no layout shift: the slot has a fixed size)
+            const setStat = function (el, v) {
+                if (el.textContent === v) return;
+                el.textContent = v;
+                if (el.animate && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+                    el.animate([{ opacity: 0, transform: 'translate3d(0,6px,0)' }, { opacity: 1, transform: 'none' }],
+                               { duration: 320, easing: 'cubic-bezier(.22,1,.36,1)' });
+                }
+            };
+            setStat(elH, toNepaliDigits(hol));
+            setStat(elS, toNepaliDigits(md.daysCount - hol));
+            setStat(elP, toNepaliDigits(md.programs ? md.programs.length : 0));
+            setStat(elE, toNepaliDigits(special));
         }
 
         function renderPrograms(md) {
@@ -4722,7 +4827,14 @@ try {
                 list.innerHTML = '<li class="program-item"><i class="fa-regular fa-circle"></i> <span>यस महिना विशेष कार्यक्रम तोकिएको छैन।</span></li>';
             }
             const mBox = $id('muhurtaBox');
-            if (md.muhurta) { mBox.style.display = 'flex'; mBox.innerHTML = '<strong><i class="fa-solid fa-heart"></i> साइत / मुहूर्तः:</strong> ' + safeRich(md.muhurta); }
+            const mhItems = [['पास्नी', md.pasni], ['विवाह', md.bibah], ['व्रतबन्ध', md.bratabandha]].filter(x => x[1]);
+            if (mhItems.length) {
+                mBox.style.display = 'flex'; mBox.style.flexDirection = 'column'; mBox.style.alignItems = 'flex-start'; mBox.style.gap = '6px';
+                mBox.innerHTML = '<strong><i class="fa-solid fa-heart"></i> साइत / मुहूर्तः</strong>' +
+                    mhItems.map(x => '<span><strong>' + x[0] + ' :</strong> ' + safeRich(x[1]) + '</span>').join('') +
+                    (md.muhurta ? '<span>' + safeRich(md.muhurta) + '</span>' : '');
+            }
+            else if (md.muhurta) { mBox.style.display = 'flex'; mBox.style.flexDirection = ''; mBox.style.alignItems = ''; mBox.style.gap = ''; mBox.innerHTML = '<strong><i class="fa-solid fa-heart"></i> साइत / मुहूर्तः:</strong> ' + safeRich(md.muhurta); }
             else { mBox.style.display = 'none'; }
         }
 
@@ -4862,7 +4974,7 @@ try {
             ssPanel.style.setProperty('--c', k.color);
             ssIco.innerHTML = '<i class="fa-solid ' + k.icon + '"></i>';
             ssTitleEl.textContent = k.title;
-            ssSubEl.textContent = md.nameBS + ' ' + toNepaliDigits(YEAR_BS) + ' · ' + built.sub;
+            ssSubEl.textContent = md.nameBS + ' ' + toNepaliDigits(md.yearBS) + ' · ' + built.sub;
             ssBody.innerHTML = built.html; ssBody.scrollTop = 0;
             ssOpener = opener || null;
             if (ssOpener) ssOpener.setAttribute('aria-expanded', 'true');
@@ -5038,7 +5150,7 @@ try {
             const tithi = md.tithis[dayBS - 1] || '—';
             const progInfo = md.progByDay[dayBS];
 
-            $id('detailDateBS').textContent = toNepaliDigits(YEAR_BS) + ' ' + monthNamesBS[monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[dayOfWeekIdx];
+            $id('detailDateBS').textContent = toNepaliDigits(md.yearBS) + ' ' + monthNamesBS[md.bsIdx != null ? md.bsIdx : monthIdx] + ' ' + toNepaliDigits(dayBS) + ' गते, ' + dayNamesFullBS[dayOfWeekIdx];
             $id('detailDateAD').textContent = adFull + ' (' + dayHeaders[dayOfWeekIdx].en + ')';
             $id('detailTithi').textContent = tithi;
 
@@ -5134,7 +5246,7 @@ try {
             11: { 30: ['Ram Navami / राम नवमी', true] }
         };
 
-        function normalizeEvents(rawEvents, monthIdx) {
+        function normalizeEvents(rawEvents, monthIdx, yearBS) {
             const out = {};
             const put = (day, title, isHoliday) => { const n = Number(day); if (Number.isFinite(n) && title) out[n] = { title: String(title), isHoliday: !!isHoliday }; };
             if (Array.isArray(rawEvents)) {
@@ -5146,7 +5258,7 @@ try {
                     else if (typeof ev === 'string') put(day, ev, false);
                 });
             }
-            const fallback = BUILTIN_EVENTS_2083[monthIdx] || {};
+            const fallback = (yearBS === 2083 && BUILTIN_EVENTS_2083[monthIdx]) || {};
             Object.keys(fallback).forEach(function (day) {
                 if (!out[Number(day)]) out[Number(day)] = { title: fallback[day][0], isHoliday: fallback[day][1] };
             });
@@ -5154,7 +5266,7 @@ try {
         }
 
         // Turns one DB row into a month object; returns null when the row is unusable.
-        function normalizeMonth(raw, idx) {
+        function normalizeMonth(raw, idx, yearBS) {
             if (typeof raw === 'string') { try { raw = JSON.parse(raw); } catch (e) { return null; } }
             if (!raw || typeof raw !== 'object') return null;
             const start = toLocalMidnight(raw.adStartDate);
@@ -5163,20 +5275,20 @@ try {
             let sdow = parseInt(raw.startDayOfWeek, 10);
             if (!(sdow >= 0 && sdow <= 6)) sdow = start.getDay();
             return finishMonth({
-                nameBS: String(raw.nameBS || monthNamesBS[idx]), nameAD: String(raw.nameAD || ''), daysCount: daysCount, startDayOfWeek: sdow,
+                yearBS: yearBS, bsIdx: idx, nameBS: String(raw.nameBS || (monthNamesBS[idx] + ' ' + toNepaliDigits(yearBS))), nameAD: String(raw.nameAD || ''), daysCount: daysCount, startDayOfWeek: sdow,
                 adStartDate: start, quote: String(raw.quote || ''),
                 programs: (Array.isArray(raw.programs) ? raw.programs : []).filter(p => p && p.title).map(p => Object.assign({}, p, { day: Number(p.day), title: String(p.title) })),
-                muhurta: String(raw.muhurta || ''),
+                muhurta: String(raw.muhurta || ''), pasni: String(raw.pasni || ''), bibah: String(raw.bibah || ''), bratabandha: String(raw.bratabandha || ''),
                 tithis: Array.isArray(raw.tithis) ? raw.tithis.map(t => (t == null ? '' : String(t))) : [],
-                events: normalizeEvents(raw.events, idx)
+                events: normalizeEvents(raw.events, idx, yearBS)
             });
         }
         // Month with missing/invalid data: keeps the grid contiguous (start date follows the previous month) instead of
         // using "now" as its start, which made today resolve into the wrong month.
-        function placeholderMonth(idx, prev) {
+        function placeholderMonth(idx, prev, yearBS) {
             const start = prev && prev.adStartDate
                 ? new Date(prev.adStartDate.getFullYear(), prev.adStartDate.getMonth(), prev.adStartDate.getDate() + prev.daysCount) : null;
-            return finishMonth({ nameBS: 'अज्ञात', nameAD: 'Unknown', daysCount: 30, startDayOfWeek: start ? start.getDay() : 0, adStartDate: start, quote: '', programs: [], muhurta: '', tithis: [], events: normalizeEvents({}, idx) });
+            return finishMonth({ yearBS: yearBS, bsIdx: idx, nameBS: 'अज्ञात', nameAD: 'Unknown', daysCount: 30, startDayOfWeek: start ? start.getDay() : 0, adStartDate: start, quote: '', programs: [], muhurta: '', tithis: [], events: normalizeEvents({}, idx) });
         }
 
         // Returns true (loaded), false (failed) or null (a newer request superseded this one: ignore it).
@@ -5186,22 +5298,32 @@ try {
             try {
                 if (!window.db) throw new Error('Supabase client is not available');
                 const { data, error } = await withTimeout(
-                    window.db.from('calendar_data').select('*').eq('year_bs', YEAR_BS).order('month_idx', { ascending: true }), 15000);
+                    window.db.from('calendar_data').select('*').order('year_bs', { ascending: true }).order('month_idx', { ascending: true }), 15000);
                 if (seq !== fetchSeq) return null;            // an older response must never overwrite newer data
                 if (error) throw error;
                 if (!data || data.length === 0) { if (!quiet) CalHelpers.showToast('⚠️ क्यालेन्डर डाटा भेटिएन।', 'warning'); return false; }
                 // Same rows as last time (e.g. a realtime event for an unrelated edit): keep the existing month objects,
                 // caches and DOM - nothing to rebuild.
-                const sig = JSON.stringify(data.map(r => [r.month_idx, r.data]));
+                const sig = JSON.stringify(data.map(r => [r.year_bs, r.month_idx, r.data]));
                 if (MONTHS.length && sig === lastSig) { lastFetchChanged = false; return true; }
-                const byIdx = new Map(data.map(r => [Number(r.month_idx), r]));
+                const keyOf = (y, i) => y * 12 + i;
+                const byKey = new Map();
+                data.forEach(r => {
+                    const y = Number(r.year_bs) || YEAR_BS, i = Number(r.month_idx);
+                    if (Number.isInteger(i) && i >= 0 && i <= 11) byKey.set(keyOf(y, i), { row: r, y: y, i: i });
+                });
+                const keys = Array.from(byKey.keys()).sort((x, z) => x - z);
+                if (!keys.length) { if (!quiet) CalHelpers.showToast('⚠️ क्यालेन्डर डाटा भेटिएन।', 'warning'); return false; }
+                // Walk from the first to the last stored month; short gaps become placeholders so the grid stays contiguous.
                 const months = [];
-                for (let i = 0; i < MONTH_COUNT; i++) {
-                    const row = byIdx.get(i);
-                    const m = row ? normalizeMonth(row.data, i) : null;
-                    if (row && !m) console.warn('[Calendar] month ' + i + ' has invalid data; showing placeholder');
-                    months.push(m || placeholderMonth(i, months[i - 1]));
+                for (let k = keys[0]; k <= keys[keys.length - 1]; k++) {
+                    const hit = byKey.get(k), y = Math.floor(k / 12), i = k % 12;
+                    if (!hit && keys[keys.length - 1] - keys[0] > 400) continue;
+                    const m = hit ? normalizeMonth(hit.row.data, i, y) : null;
+                    if (hit && !m) console.warn('[Calendar] ' + y + ' month ' + i + ' has invalid data; showing placeholder');
+                    months.push(m || placeholderMonth(i, months[months.length - 1], y));
                 }
+                MONTH_COUNT = months.length;
                 MONTHS = months;
                 lastSig = sig; lastFetchChanged = true;
                 return true;
@@ -5418,6 +5540,81 @@ try {
     console.warn('[psbs] section 23 failed:', err);
 }
     </script>
+<style id="psbs-editname-cancel">
+html body #editNameModal #editNameCancelBtn{ position:relative; isolation:isolate; overflow:hidden; cursor:pointer; -webkit-tap-highlight-color:transparent; flex:1; height:50px; min-height:50px; padding:0 18px !important; border-radius:16px !important; display:inline-flex !important; align-items:center; justify-content:center; gap:8px; font-size:.95rem !important; font-weight:700 !important; line-height:1; color:var(--primary-dark,#d68910) !important; border:1.5px solid transparent !important; background:linear-gradient(180deg,rgba(var(--primary-rgb),.15),rgba(var(--primary-rgb),.07)) padding-box,linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box !important; box-shadow:0 3px 10px rgba(var(--primary-rgb),.22) !important; text-shadow:none !important; filter:none !important; transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease !important }
+html body #editNameModal #editNameCancelBtn::before{ content:"" !important; display:block !important; position:absolute; inset:0 0 50% 0; z-index:-1; border-radius:inherit; pointer-events:none; background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0)) }
+html body #editNameModal #editNameCancelBtn::after{ content:"" !important; display:block !important; position:absolute; top:0; bottom:0; left:-60%; width:40%; z-index:-1; pointer-events:none; background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0)); transform:skewX(-20deg); transition:left .6s ease }
+body.dark html body #editNameModal #editNameCancelBtn::before{ background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0)) }
+body.dark html body #editNameModal #editNameCancelBtn::after{ background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.2),rgba(255,255,255,0)) }
+@media (hover:hover) and (pointer:fine){ html body #editNameModal #editNameCancelBtn:hover{ transform:translateY(-2px); box-shadow:0 9px 20px rgba(var(--primary-rgb),.32) !important; background:linear-gradient(180deg,rgba(var(--primary-rgb),.15),rgba(var(--primary-rgb),.07)) padding-box,linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box !important } html body #editNameModal #editNameCancelBtn:hover::after{ left:120% } }
+html body #editNameModal #editNameCancelBtn:active{ transform:scale(.96) }
+@media (prefers-reduced-motion:reduce){ html body #editNameModal #editNameCancelBtn::after{ display:none !important } }
+</style>
+<script id="psbs-photo-picker-fix">
+/* Profile photo: one capture-phase handler so the picker opens on every page */
+(function(){
+  function pick(e){
+    var w=e.target&&e.target.closest&&e.target.closest('#ddAvatarWrap'); if(!w) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    var u=document.getElementById('avatarUploader'); if(u) u.click();
+  }
+  /* The input's synthetic click must not reach the dropdown's outside-tap handlers (they preventDefault it, which cancels the file chooser) */
+  window.addEventListener('click',function(e){ var t=e.target; if(t&&(t.id==='avatarUploader'||t.id==='avatarFileInputDirect')) e.stopImmediatePropagation(); },true);
+  document.addEventListener('click',pick,true);
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.id==='ddAvatarWrap') pick(e); },true);
+})();
+</script>
+<style id="psbs-nav-unify">
+/* ---- Notices / Docs bar = same look as the All / PDF / DOC / Other pill group ---- */
+html body .right-panel .panel-tabbar{
+  padding:5px !important;gap:0 !important;border-radius:999px !important;
+  border:1px solid var(--gl-edge,rgba(15,23,42,.07)) !important;
+  background:linear-gradient(180deg,var(--gl-top,rgba(255,255,255,.9)),var(--gl-bot,rgba(240,240,244,.8))),var(--pm-card,#fff) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 12px 28px -14px rgba(10,14,24,.4) !important;
+}
+html body.dark .right-panel .panel-tabbar{
+  border-color:var(--gl-edge,rgba(255,255,255,.08)) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04)),#171d2c !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px -14px rgba(0,0,0,.75) !important;
+}
+html body .right-panel .panel-tabbar .tab-glider{
+  top:5px !important;bottom:5px !important;border-radius:999px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(240,241,245,.94) 50%,rgba(224,226,232,.96) 100%) !important;
+  box-shadow:0 1px 0 #fff inset,0 -1px 0 rgba(15,23,42,.06) inset,0 6px 14px -6px rgba(15,23,42,.3),0 0 0 1px rgba(15,23,42,.05) !important;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1) !important;
+}
+html body.dark .right-panel .panel-tabbar .tab-glider,
+html body.dark .right-panel .panel-tabbar.is-dragging .tab-glider{
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.07)) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.3) inset,0 6px 14px -6px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08) !important;
+}
+html body .right-panel .panel-tabbar.is-dragging .tab-glider,html body .right-panel.tabs-dragging .tab-glider{transition:none !important}
+html body .right-panel .panel-tabbar .panel-tab{
+  height:44px !important;min-height:44px !important;padding:0 18px !important;gap:6px !important;
+  font-size:.8rem !important;font-weight:600 !important;border-radius:999px !important;
+  background:transparent !important;border:0 !important;box-shadow:none !important;
+  color:color-mix(in srgb,var(--primary-dark,#d68910) calc(var(--swipe-p,0) * 100%),var(--pm-text,var(--text))) !important;
+  transition:color .35s cubic-bezier(.22,1,.36,1) !important;
+}
+html body .right-panel .panel-tabbar .panel-tab>span:not(.ripple):not(.panel-tab-badge){font-size:.8rem !important;font-weight:600 !important;color:inherit !important}
+html body .right-panel .panel-tabbar .panel-tab i{font-size:1.02rem !important;color:inherit !important}
+html body .right-panel .panel-tabbar .panel-tab.active,html body .right-panel .panel-tabbar .panel-tab[aria-selected="true"]{--swipe-p:1;background:transparent !important;box-shadow:none !important}
+html body .right-panel .panel-tabbar.is-dragging .panel-tab:not(.active){color:var(--pm-text,var(--text)) !important}
+@media (max-width:359px){html body .right-panel .panel-tabbar .panel-tab{padding:0 12px !important}}
+
+/* ---- smooth menu / panel open + close: GPU-only transforms, no blur layers ---- */
+html body .sidebar{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transition:transform .46s cubic-bezier(.22,1,.36,1) !important;transform:translate3d(-104%,0,0);will-change:transform;backface-visibility:hidden;contain:layout paint}
+html body .sidebar.active{transform:translate3d(0,0,0)}
+@media (min-width:1200px){html body .sidebar,html body .sidebar.active{transform:none !important;transition:none !important}}
+html body .sidebar-overlay{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transition:opacity .4s cubic-bezier(.22,1,.36,1),visibility 0s linear .4s !important;will-change:opacity}
+html body .sidebar-overlay.active{transition:opacity .4s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s !important}
+html body .right-panel{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transform:translate3d(102%,0,0);transition:transform .46s cubic-bezier(.22,1,.36,1),visibility 0s linear .46s !important;will-change:transform;backface-visibility:hidden}
+html body .right-panel.active{transform:translate3d(0,0,0);transition:transform .46s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s !important}
+/* gallery: stop the page behind from doing work while the menu slides */
+html body.sidebar-active .gx-card,html body.sidebar-active .gx-card *{animation-play-state:paused !important}
+.gx-card img,.gx-feat-img img{transform:none !important;backface-visibility:visible !important;-webkit-backface-visibility:visible !important}
+</style>
+
 </body>
 
 </html>

@@ -2663,7 +2663,7 @@ button, input, select, textarea { font: inherit; }
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-    <input type="file" id="avatarUploader" accept="image/*" style="display:none;" aria-hidden="true" />
+    <input type="file" id="avatarUploader" accept="image/*" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none;" tabindex="-1" />
 
     <div class="drag-trail" id="dragTrail" aria-hidden="true"></div>
     <div class="edge-hint right" id="edgeHintRight" aria-hidden="true"></div>
@@ -4183,7 +4183,7 @@ function renderNotices(notices) {
 // ===== GALLERY: data, grid, featured, filters =====
 // Existing query is unchanged (gallery table, ordered by `order`). Optional columns
 // (title/caption/category/date/thumbnail) are used only when a record actually has them.
-const BATCH_SIZE = CONFIG.GALLERY_BATCH_SIZE;
+const BATCH_SIZE = Infinity; /* show every photo at once - no paging */
 const GX = { all: [], list: [], page: 0, q: '', cat: 'all', status: 'loading', req: 0 };
 const gxEl = function (id) { return document.getElementById(id); };
 const gxEsc = function (t) { return Helpers.sanitize(t == null ? '' : String(t)); };
@@ -4306,7 +4306,7 @@ function renderGalleryPage(page) {
             : gxState('ri-image-add-line', 'Memories are on their way', 'New photographs will appear here as soon as they are added.');
         return;
     }
-    const s = page * BATCH_SIZE, e = Math.min(s + BATCH_SIZE, l.length); let h = '';
+    const s = 0, e = l.length; let h = '';
     for (let i = s; i < e; i++) {
         const it = l[i], sub = [it.cat, it.date].filter(Boolean).join(' • ');
         h += '<button type="button" class="gx-card is-load" data-i="' + i + '" aria-label="Open photo ' + (i + 1) + ' of ' + l.length + (it.title ? ': ' + gxEsc(it.title) : '') + '">' +
@@ -5007,7 +5007,7 @@ const GXV = (function () {
         const app = gxEl('app'); if (app && 'inert' in app) app.inert = false;
         if (S.pushed) { S.pushed = false; if (!fromPop) { ignorePop = true; history.back(); } }
         // Restore the gallery exactly as it was; only follow the photo if it lives on another page.
-        const page = Math.floor(S.idx / BATCH_SIZE), moved = page !== GX.page && GX.status === 'ready';
+        const page = 0, moved = page !== GX.page && GX.status === 'ready';
         if (moved) renderGalleryPage(page);
         else window.scrollTo({ top: S.scrollY, left: 0, behavior: 'instant' });
         const card = DOM.galleryGrid && DOM.galleryGrid.querySelector('[data-i="' + S.idx + '"]');
@@ -5855,12 +5855,9 @@ function openSidebar() {
     State.isSidebarOpen = true;
     State.panelOpen = true;
     State.openCount++;
-    // let the slide start on its own frame; scroll-lock and background pause follow right after
-    requestAnimationFrame(function () {
-        if (!State.isSidebarOpen) return;
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add('sidebar-active');
-    });
+    // keep the slide free of layout work: lock page scroll only once the slide has finished
+    document.body.classList.add('sidebar-active');
+    setTimeout(function () { if (State.isSidebarOpen) document.body.style.overflow = 'hidden'; }, 480);
 }
 
 function closeSidebar() {
@@ -5979,8 +5976,8 @@ DOM.ddAvatarWrap.addEventListener('click', function (e) {
 DOM.avatarUploader.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-        Toast.error('Image must be less than 2MB');
+    if (file.size > 15 * 1024 * 1024) {
+        Toast.error('Image must be less than 15MB');
         DOM.avatarUploader.value = '';
         return;
     }
@@ -6780,7 +6777,9 @@ try {
         var n=$('ddName'),r=$('ddRole'),a=$('ddAvatar');
         if(n&&$('sbName'))$('sbName').textContent=n.textContent;
         if(r&&$('sbRole'))$('sbRole').textContent=r.textContent;
-        if(a&&$('sbAvatar')){ $('sbAvatar').innerHTML=a.innerHTML; }
+        if(a&&$('sbAvatar')){ var sa=$('sbAvatar'), bi=a.style.backgroundImage, im=a.querySelector('img'), u=(bi&&bi!=='none')?bi:((im&&im.src)?'url("'+im.src+'")':'');
+          if(u){ sa.textContent=''; sa.style.setProperty('background-image',u,'important'); sa.style.setProperty('background-size','cover','important'); sa.style.setProperty('background-position','center','important'); }
+          else { ['background-image','background-size','background-position'].forEach(function(p){sa.style.removeProperty(p);}); sa.innerHTML=a.innerHTML; } }
         var dark=document.body.classList.contains('dark'), sw=$('sbDarkBtn');
         if(sw)sw.setAttribute('aria-checked',dark?'true':'false');
       }
@@ -6791,7 +6790,7 @@ try {
       document.addEventListener('DOMContentLoaded',function(){
         sync();
         var mo=new MutationObserver(sync);
-        ['ddName','ddRole','ddAvatar'].forEach(function(i){var e=$(i);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true});});
+        ['ddName','ddRole','ddAvatar'].forEach(function(i){var e=$(i);if(e)mo.observe(e,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['style']});});
         mo.observe(document.body,{attributes:true,attributeFilter:['class']});
         /* profile card now opens the in-menu popover (section 23) */
         var t=$('sbThemesBtn'); if(t)t.addEventListener('click',function(){closeThen(function(){var e=$('headerThemePresetsBtn'); if(e)e.click();});});
@@ -7237,6 +7236,83 @@ try {
     console.warn('[psbs] section 23 failed:', err);
 }
 </script>
+<style id="psbs-editname-cancel">
+html body #editNameModal #editNameCancelBtn{ position:relative; isolation:isolate; overflow:hidden; cursor:pointer; -webkit-tap-highlight-color:transparent; flex:1; height:50px; min-height:50px; padding:0 18px !important; border-radius:16px !important; display:inline-flex !important; align-items:center; justify-content:center; gap:8px; font-size:.95rem !important; font-weight:700 !important; line-height:1; color:var(--primary-dark,#d68910) !important; border:1.5px solid transparent !important; background:linear-gradient(180deg,rgba(var(--primary-rgb),.15),rgba(var(--primary-rgb),.07)) padding-box,linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box !important; box-shadow:0 3px 10px rgba(var(--primary-rgb),.22) !important; text-shadow:none !important; filter:none !important; transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease !important }
+html body #editNameModal #editNameCancelBtn::before{ content:"" !important; display:block !important; position:absolute; inset:0 0 50% 0; z-index:-1; border-radius:inherit; pointer-events:none; background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0)) }
+html body #editNameModal #editNameCancelBtn::after{ content:"" !important; display:block !important; position:absolute; top:0; bottom:0; left:-60%; width:40%; z-index:-1; pointer-events:none; background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.6),rgba(255,255,255,0)); transform:skewX(-20deg); transition:left .6s ease }
+body.dark html body #editNameModal #editNameCancelBtn::before{ background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0)) }
+body.dark html body #editNameModal #editNameCancelBtn::after{ background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.2),rgba(255,255,255,0)) }
+@media (hover:hover) and (pointer:fine){ html body #editNameModal #editNameCancelBtn:hover{ transform:translateY(-2px); box-shadow:0 9px 20px rgba(var(--primary-rgb),.32) !important; background:linear-gradient(180deg,rgba(var(--primary-rgb),.15),rgba(var(--primary-rgb),.07)) padding-box,linear-gradient(var(--surface-solid),var(--surface-solid)) padding-box,linear-gradient(135deg,var(--primary-light),var(--primary-dark,#d68910)) border-box !important } html body #editNameModal #editNameCancelBtn:hover::after{ left:120% } }
+html body #editNameModal #editNameCancelBtn:active{ transform:scale(.96) }
+@media (prefers-reduced-motion:reduce){ html body #editNameModal #editNameCancelBtn::after{ display:none !important } }
+</style>
+<script id="psbs-photo-picker-fix">
+/* Profile photo: one capture-phase handler so the picker opens on every page */
+(function(){
+  function pick(e){
+    var w=e.target&&e.target.closest&&e.target.closest('#ddAvatarWrap'); if(!w) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    var u=document.getElementById('avatarUploader'); if(u) u.click();
+  }
+  /* The input's synthetic click must not reach the dropdown's outside-tap handlers (they preventDefault it, which cancels the file chooser) */
+  window.addEventListener('click',function(e){ var t=e.target; if(t&&(t.id==='avatarUploader'||t.id==='avatarFileInputDirect')) e.stopImmediatePropagation(); },true);
+  document.addEventListener('click',pick,true);
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.id==='ddAvatarWrap') pick(e); },true);
+})();
+</script>
+<style id="psbs-nav-unify">
+/* ---- Notices / Docs bar = same look as the All / PDF / DOC / Other pill group ---- */
+html body .right-panel .panel-tabbar{
+  padding:5px !important;gap:0 !important;border-radius:999px !important;
+  border:1px solid var(--gl-edge,rgba(15,23,42,.07)) !important;
+  background:linear-gradient(180deg,var(--gl-top,rgba(255,255,255,.9)),var(--gl-bot,rgba(240,240,244,.8))),var(--pm-card,#fff) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 12px 28px -14px rgba(10,14,24,.4) !important;
+}
+html body.dark .right-panel .panel-tabbar{
+  border-color:var(--gl-edge,rgba(255,255,255,.08)) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04)),#171d2c !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px -14px rgba(0,0,0,.75) !important;
+}
+html body .right-panel .panel-tabbar .tab-glider{
+  top:5px !important;bottom:5px !important;border-radius:999px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(240,241,245,.94) 50%,rgba(224,226,232,.96) 100%) !important;
+  box-shadow:0 1px 0 #fff inset,0 -1px 0 rgba(15,23,42,.06) inset,0 6px 14px -6px rgba(15,23,42,.3),0 0 0 1px rgba(15,23,42,.05) !important;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1) !important;
+}
+html body.dark .right-panel .panel-tabbar .tab-glider,
+html body.dark .right-panel .panel-tabbar.is-dragging .tab-glider{
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.07)) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.3) inset,0 6px 14px -6px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08) !important;
+}
+html body .right-panel .panel-tabbar.is-dragging .tab-glider,html body .right-panel.tabs-dragging .tab-glider{transition:none !important}
+html body .right-panel .panel-tabbar .panel-tab{
+  height:44px !important;min-height:44px !important;padding:0 18px !important;gap:6px !important;
+  font-size:.8rem !important;font-weight:600 !important;border-radius:999px !important;
+  background:transparent !important;border:0 !important;box-shadow:none !important;
+  color:color-mix(in srgb,var(--primary-dark,#d68910) calc(var(--swipe-p,0) * 100%),var(--pm-text,var(--text))) !important;
+  transition:color .35s cubic-bezier(.22,1,.36,1) !important;
+}
+html body .right-panel .panel-tabbar .panel-tab>span:not(.ripple):not(.panel-tab-badge){font-size:.8rem !important;font-weight:600 !important;color:inherit !important}
+html body .right-panel .panel-tabbar .panel-tab i{font-size:1.02rem !important;color:inherit !important}
+html body .right-panel .panel-tabbar .panel-tab.active,html body .right-panel .panel-tabbar .panel-tab[aria-selected="true"]{--swipe-p:1;background:transparent !important;box-shadow:none !important}
+html body .right-panel .panel-tabbar.is-dragging .panel-tab:not(.active){color:var(--pm-text,var(--text)) !important}
+@media (max-width:359px){html body .right-panel .panel-tabbar .panel-tab{padding:0 12px !important}}
+
+/* ---- smooth menu / panel open + close: GPU-only transforms, no blur layers ---- */
+html body .sidebar{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transition:transform .46s cubic-bezier(.22,1,.36,1) !important;transform:translate3d(-104%,0,0);will-change:transform;backface-visibility:hidden;contain:layout paint}
+html body .sidebar.active{transform:translate3d(0,0,0)}
+@media (min-width:1200px){html body .sidebar,html body .sidebar.active{transform:none !important;transition:none !important}}
+html body .sidebar-overlay{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transition:opacity .4s cubic-bezier(.22,1,.36,1),visibility 0s linear .4s !important;will-change:opacity}
+html body .sidebar-overlay.active{transition:opacity .4s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s !important}
+html body .right-panel{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transform:translate3d(102%,0,0);transition:transform .46s cubic-bezier(.22,1,.36,1),visibility 0s linear .46s !important;will-change:transform;backface-visibility:hidden}
+html body .right-panel.active{transform:translate3d(0,0,0);transition:transform .46s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s !important}
+/* gallery: stop the page behind from doing work while the menu slides */
+html body.sidebar-active .gx-card,html body.sidebar-active .gx-card *{animation-play-state:paused !important}
+.gx-card img,.gx-feat-img img{transform:none !important;backface-visibility:visible !important;-webkit-backface-visibility:visible !important}
+html body .sidebar-overlay{touch-action:none}
+html body .gx-pager{display:none !important}
+</style>
+
 </body>
 
 </html>

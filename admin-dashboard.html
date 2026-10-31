@@ -4548,15 +4548,15 @@ if(!document.getElementById('ce-styles')){
   '.ce-card{border:1px solid var(--pm-line,rgba(15,23,42,.1));background:var(--pm-card,var(--surface-solid,#fff));border-radius:18px;padding:14px 14px 12px;box-shadow:0 6px 18px -14px rgba(15,23,42,.35)}'+
   '.ce-card>h4{margin:0 0 10px;display:flex;align-items:center;gap:8px;font-size:.95rem;font-weight:800;color:var(--pm-text,var(--text,#0f172a))}'+
   '.ce-card>h4 i{color:var(--primary,#f39c12);font-size:1.15rem}'+
-  '.ce-card>h4 small{margin-left:auto;font-weight:600;font-size:.72rem;opacity:.65}'+
+  '.ce-card>h4{flex-wrap:wrap}.ce-card>h4 small{margin-left:auto;font-weight:600;font-size:.72rem;opacity:.65;flex-basis:100%;margin-left:0}'+
   '.ce-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ce-grid .full{grid-column:1/-1}'+
   '.ce-wrap .form-field{margin:0}.ce-wrap label{font-size:.78rem}'+
   '.ce-wrap textarea{min-height:76px;resize:vertical;width:100%;box-sizing:border-box}'+
   '.ce-wrap textarea.ce-tithi{min-height:120px;line-height:1.7}'+
   '.ce-row{display:grid;grid-template-columns:64px 1fr 34px;gap:8px;align-items:center;margin-bottom:8px}'+
-  '.ce-row.ev{grid-template-columns:64px 1fr auto 34px}'+
+  '.ce-row.ev{grid-template-columns:64px minmax(0,1fr) 34px;padding-bottom:10px;border-bottom:1px dashed var(--pm-line,rgba(15,23,42,.12))}.ce-row.ev .ce-tick{grid-column:1/-1;grid-row:2;flex-direction:row;flex-wrap:wrap;gap:6px 18px}.ce-row.ev .ce-x{grid-column:3;grid-row:1}'+
   '.ce-row .field{min-width:0;width:100%;box-sizing:border-box}'+
-  '.ce-hol{display:flex;align-items:center;gap:5px;font-size:.74rem;font-weight:700;white-space:nowrap}'+
+  '.ce-tick{display:flex;flex-direction:column;gap:4px}.ce-hol{display:flex;align-items:center;gap:5px;font-size:.74rem;font-weight:700;white-space:nowrap}'+
   '.ce-hol input{width:18px;height:18px;accent-color:var(--primary,#f39c12)}'+
   '.ce-x{width:34px;height:34px;border-radius:50%;border:1px solid var(--pm-line,rgba(15,23,42,.12));background:transparent;color:#ef4444;font-size:1rem;cursor:pointer;display:grid;place-items:center}'+
   '.ce-btn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 14px;border-radius:999px;border:1px dashed var(--primary,#f39c12);background:rgba(243,156,18,.08);color:var(--primary-dark,#b9770e);font:700 .8rem inherit;cursor:pointer}'+
@@ -4566,7 +4566,7 @@ if(!document.getElementById('ce-styles')){
   '.ce-count{font-size:.76rem;font-weight:800;padding:3px 10px;border-radius:999px;background:rgba(34,197,94,.14);color:#15803d}.ce-count.bad{background:rgba(239,68,68,.14);color:#b91c1c}'+
   '.ce-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.ce-chip{font-size:.72rem;padding:3px 9px;border-radius:999px;border:1px solid var(--pm-line,rgba(15,23,42,.1));background:rgba(243,156,18,.07)}.ce-chip b{color:var(--primary-dark,#b9770e);margin-right:4px}'+
   '.ce-adv{grid-column:1/-1;border:1px dashed var(--pm-line,rgba(15,23,42,.18));border-radius:16px;padding:8px 12px;margin-top:6px}.ce-adv>summary{cursor:pointer;font-weight:800;font-size:.85rem;padding:6px 0}'+
-  '@media(max-width:420px){.ce-grid{grid-template-columns:1fr}.ce-row.ev{grid-template-columns:56px 1fr 34px}.ce-row.ev .ce-hol{grid-column:1/-1;order:5}}';
+  '@media(max-width:420px){.ce-grid{grid-template-columns:1fr}.ce-row.ev,.ce-row{grid-template-columns:56px minmax(0,1fr) 34px}}';
   document.head.appendChild(st);
 }
 
@@ -4602,11 +4602,11 @@ function mount(row){
     if(S.pasni||S.bibah||S.bratabandha) S.muhurta='';
   })();
   ensure();
-  var evRows=Object.keys(S.events).map(function(d){ return {day:d,title:S.events[d].title||'',isHoliday:!!S.events[d].isHoliday}; });
+  var evRows=Object.keys(S.events).map(function(d){ return {day:d,title:S.events[d].title||'',isHoliday:!!S.events[d].isHoliday,workday:!!S.events[d].workday}; });
   var pgRows=S.programs.map(function(p){ return Object.assign({},p); });
 
   function commit(){
-    var ev={}; evRows.slice().sort(function(a,b){return (+a.day||0)-(+b.day||0);}).forEach(function(r){ var d=parseInt(r.day,10); if(d>=1&&d<=32&&String(r.title).trim()) ev[String(d)]={title:String(r.title).trim(),isHoliday:!!r.isHoliday}; });
+    var ev={}; evRows.slice().sort(function(a,b){return (+a.day||0)-(+b.day||0);}).forEach(function(r){ var d=parseInt(r.day,10); if(d>=1&&d<=32&&String(r.title).trim()) ev[String(d)]=r.workday&&!r.isHoliday?{title:String(r.title).trim(),isHoliday:false,workday:true}:{title:String(r.title).trim(),isHoliday:!!r.isHoliday}; });
     var pg=pgRows.filter(function(p){ return parseInt(p.day,10)>=1&&String(p.title||'').trim(); }).map(function(p){ return Object.assign({},p,{day:parseInt(p.day,10),title:String(p.title).trim()}); }).sort(function(a,b){return a.day-b.day;});
     var order=['quote','events','nameAD','nameBS','tithis','pasni','bibah','bratabandha','muhurta','programs','daysCount','adStartDate','startDayOfWeek'];
     var out={}, src=Object.assign({},S,{events:ev,programs:pg});
@@ -4646,8 +4646,8 @@ function mount(row){
     h+='<div class="ce-card"><h4><i class="ri-flag-line"></i>School programs / कार्यक्रम</h4>'+
       pgRows.map(function(p,i){ return '<div class="ce-row"><input class="field" type="number" min="1" max="32" placeholder="Day" data-pg="'+i+'" data-f="day" value="'+esc(p.day==null?'':p.day)+'"><input class="field" placeholder="Program title" data-pg="'+i+'" data-f="title" value="'+esc(p.title||'')+'"><button type="button" class="ce-x" data-act="delpg" data-i="'+i+'" aria-label="Remove"><i class="ri-close-line"></i></button></div>'; }).join('')+
       '<div class="ce-bar"><button type="button" class="ce-btn" data-act="addpg"><i class="ri-add-line"></i> Add program</button></div></div>';
-    h+='<div class="ce-card"><h4><i class="ri-star-line"></i>Events &amp; holidays / पर्व<small>tick = public holiday</small></h4>'+
-      evRows.map(function(e,i){ return '<div class="ce-row ev"><input class="field" type="number" min="1" max="32" placeholder="Day" data-ev="'+i+'" data-f="day" value="'+esc(e.day)+'"><input class="field" placeholder="Event / festival name" data-ev="'+i+'" data-f="title" value="'+esc(e.title)+'"><label class="ce-hol"><input type="checkbox" data-ev="'+i+'" data-f="isHoliday"'+(e.isHoliday?' checked':'')+'> Holiday</label><button type="button" class="ce-x" data-act="delev" data-i="'+i+'" aria-label="Remove"><i class="ri-close-line"></i></button></div>'; }).join('')+
+    h+='<div class="ce-card"><h4><i class="ri-star-line"></i>Events &amp; holidays / पर्व<small>Sat/Sun stay red unless "Working day" is ticked</small></h4>'+
+      evRows.map(function(e,i){ return '<div class="ce-row ev"><input class="field" type="number" min="1" max="32" placeholder="Day" data-ev="'+i+'" data-f="day" value="'+esc(e.day)+'"><input class="field" placeholder="Event / festival name" data-ev="'+i+'" data-f="title" value="'+esc(e.title)+'"><span class="ce-tick"><label class="ce-hol"><input type="checkbox" data-ev="'+i+'" data-f="isHoliday"'+(e.isHoliday?' checked':'')+'> Holiday</label><label class="ce-hol"><input type="checkbox" data-ev="'+i+'" data-f="workday"'+(e.workday?' checked':'')+'> Working day</label></span><button type="button" class="ce-x" data-act="delev" data-i="'+i+'" aria-label="Remove"><i class="ri-close-line"></i></button></div>'; }).join('')+
       '<div class="ce-bar"><button type="button" class="ce-btn" data-act="addev"><i class="ri-add-line"></i> Add event</button>'+(lastYearData?'<button type="button" class="ce-btn" data-act="copyly"><i class="ri-file-copy-line"></i> Copy from last year</button>':'')+'</div></div>';
     h+='<div class="ce-card"><h4><i class="ri-heart-line"></i>Auspicious dates / साइत-मुहूर्त<small>all optional</small></h4><div class="ce-grid">'+
       '<div class="form-field full"><label>पास्नी (Pasni) — days</label><input class="field" data-k="pasni" value="'+esc(S.pasni||'')+'" placeholder="e.g. २, ३, १०, १८"></div>'+
@@ -4670,7 +4670,7 @@ function mount(row){
       S[k]=t.value; commit(); return;
     }
     var ev=t.getAttribute('data-ev'), pg=t.getAttribute('data-pg'), f=t.getAttribute('data-f');
-    if(ev!=null){ evRows[+ev][f]=(f==='isHoliday')?t.checked:t.value; commit(); }
+    if(ev!=null){ evRows[+ev][f]=(f==='isHoliday'||f==='workday')?t.checked:t.value; commit(); }
     else if(pg!=null){ pgRows[+pg][f]=t.value; commit(); }
   });
   wrap.addEventListener('change',function(e){ if(e.target.getAttribute('data-k')==='tithis') render(); });
@@ -4684,7 +4684,7 @@ function mount(row){
     else if(a==='autot'){ var ms=startMs(); if(ms==null){ Toast.show('Pick the first day (AD date) first','info'); return; } autoT=true; recompute(); commit(); render(); Toast.show('Tithis filled automatically — check and edit if your panchang differs','success'); }
     else if(a==='copyly'&&lastYearData){
       var d=lastYearData; if(d.quote&&!S.quote) S.quote=d.quote;
-      var ev=d.events&&typeof d.events==='object'?d.events:{}; Object.keys(ev).forEach(function(k){ if(!evRows.some(function(r){return String(r.day)===k;})) evRows.push({day:k,title:(ev[k]||{}).title||'',isHoliday:!!(ev[k]||{}).isHoliday}); });
+      var ev=d.events&&typeof d.events==='object'?d.events:{}; Object.keys(ev).forEach(function(k){ if(!evRows.some(function(r){return String(r.day)===k;})) evRows.push({day:k,title:(ev[k]||{}).title||'',isHoliday:!!(ev[k]||{}).isHoliday,workday:!!(ev[k]||{}).workday}); });
       (d.programs||[]).forEach(function(p){ pgRows.push(Object.assign({},p)); });
       commit(); render(); Toast.show('Copied — the dates are last year\'s, so fix the days that moved','info');
     }
@@ -4722,6 +4722,67 @@ function mount(row){
 }
 })();
 
+</script>
+<script id="psbs-gallery-name">
+/* ===== Gallery editor: hide the image link, add an editable "Photo name" (renames the stored file) ===== */
+(function(){
+'use strict';
+var prev=mountGalleryPicker;
+mountGalleryPicker=function(){
+  prev.apply(this,arguments);
+  try{ enhance(); }catch(e){ console.error('[gallery name]',e); }
+};
+var cur=null, wired=false, busy=false;
+function parseStorage(u){ var m=String(u||'').match(/\/storage\/v1\/object\/public\/([^/]+)\/([^?#]+)/); return m?{bucket:m[1],path:decodeURIComponent(m[2])}:null; }
+function enhance(){
+  var iu=$('f_image_url'); if(!iu) return;
+  var wrap=iu.closest('.form-field'), form=$('recordForm');
+  /* 1. the image link is automatic: hide it */
+  iu.type='hidden'; iu.removeAttribute('required');
+  var hint=wrap.querySelector('.hint'); if(hint) hint.textContent='Choose a photo from your phone gallery or take a new one. Large photos are resized automatically.';
+  /* 2. photo name field */
+  var nf=document.createElement('div'); nf.className='form-field full'; nf.id='gnField';
+  nf.innerHTML='<label for="f_photo_name">Photo name</label><div style="display:flex;align-items:center;gap:8px"><input id="f_photo_name" class="field" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. annual-day-2083" style="flex:1;min-width:0"><span id="gnExt" style="font-weight:700;opacity:.7"></span></div><span class="hint">The name of the photo file. Change it and save to rename the photo.</span>';
+  wrap.after(nf);
+  var inp=nf.querySelector('input'), ext=nf.querySelector('#gnExt'), orig=null;
+  function sync(){
+    var loc=parseStorage(iu.value);
+    if(!loc){ nf.hidden=true; orig=null; return; }
+    nf.hidden=false;
+    var file=loc.path.split('/').pop(), i=file.lastIndexOf('.');
+    var base=i>0?file.slice(0,i):file, e=i>0?file.slice(i):'';
+    orig={loc:loc,base:base,ext:e,dir:loc.path.slice(0,loc.path.length-file.length)};
+    inp.value=base; ext.textContent=e;
+  }
+  iu.addEventListener('input',sync);
+  new MutationObserver(sync).observe(iu,{attributes:true,attributeFilter:['value']});
+  /* uploads set iu.value from script (no event): poll cheaply while the editor is open */
+  var last=iu.value, t=setInterval(function(){ if(!iu.isConnected){ clearInterval(t); return; } if(iu.value!==last){ last=iu.value; sync(); } },400);
+  sync();
+  cur={iu:iu,inp:inp,get orig(){return orig;},set orig(v){orig=v;},sync:function(){sync();},setLast:function(v){last=v;}};
+  if(!wired){ wired=true; form.addEventListener('submit',onSubmit,true); }
+}
+
+async function onSubmit(e){
+  var form=$('recordForm');
+  if(currentTable!=='gallery'||!cur||!cur.iu.isConnected) return;
+  if(form.dataset.gnDone==='1'){ form.dataset.gnDone=''; return; }
+  if(busy){ e.preventDefault(); e.stopImmediatePropagation(); return; }
+  var iu=cur.iu, inp=cur.inp, orig=cur.orig;
+  if(!iu.value.trim()){ e.preventDefault(); e.stopImmediatePropagation(); Toast.show('Please choose a photo first','error'); return; }
+  var nn=pkSafeName((inp.value||'').trim()+(orig?orig.ext:'')).replace(/\.[^.]+$/,'');
+  if(!orig||!inp.value.trim()||nn===orig.base) return;       /* name unchanged: normal save */
+  e.preventDefault(); e.stopImmediatePropagation(); busy=true;
+  try{
+    var newPath=orig.dir+nn+orig.ext;
+    var res=await db.storage.from(orig.loc.bucket).move(orig.loc.path,newPath);
+    if(res.error) throw res.error;
+    iu.value=db.storage.from(orig.loc.bucket).getPublicUrl(newPath).data.publicUrl; cur.setLast(iu.value); cur.sync();
+    Toast.show('Photo renamed','success');
+    busy=false; form.dataset.gnDone='1'; form.requestSubmit();
+  }catch(err){ busy=false; console.error('[rename photo]',err); Toast.show('Could not rename the photo: '+(err&&err.message||err),'error'); }
+}
+})();
 </script>
 </body>
 </html>

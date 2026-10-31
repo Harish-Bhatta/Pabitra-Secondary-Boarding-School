@@ -103,10 +103,11 @@ button, input, select, textarea { font: inherit; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-/* Fix: the today cell had both its normal border and an extra ::after ring. */
-body #calendarWrapper .calendar-cell.today::after {
-    content: none !important;
-}
+/* Header: same frosted glass as the other pages (index / gallery / admin). */
+html body .header{background:color-mix(in srgb, var(--surface-solid) 78%, transparent);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--hair, var(--border));box-shadow:none}
+html.psbs-lite .header{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+/* Today's cell: one outer border only (no second inner ring) while another day is selected. */
+body #calendarWrapper .calendar-cell.today:not(.selected)::after{content:none !important;display:none !important}
 
 </style>
 <style id="psbs-stat-sheet-motion">
@@ -4778,8 +4779,9 @@ try {
             const bi = md.yearBS === 2083 ? md.bsIdx : -1;
             if ((bi === 5 && dayBS >= 28) || (bi === 6 && dayBS <= 9)) return { isHoliday: true, eventTitle: eventData ? eventData.title : "दशैं बिदा", isSunOrSat, dayOfWeekIdx };
             if (bi === 6 && dayBS >= 10 && dayBS <= 27) return { isHoliday: true, eventTitle: eventData ? eventData.title : "तिहार बिदा", isSunOrSat, dayOfWeekIdx };
-            // An event decides by its own Holiday tick (even on Sat/Sun); days without an event follow the weekly holiday.
-            const isHoliday = eventData ? !!eventData.isHoliday : isSunOrSat;
+            // Weekends are red by default; an event turns a weekend into a normal day only when its "Working day" box is ticked.
+            // On weekdays the event's Holiday tick decides.
+            const isHoliday = eventData ? (isSunOrSat ? (!!eventData.isHoliday || !eventData.workday) : !!eventData.isHoliday) : isSunOrSat;
             return { isHoliday, eventTitle: eventData ? eventData.title : null, isSunOrSat, dayOfWeekIdx };
         }
 
@@ -5248,13 +5250,13 @@ try {
 
         function normalizeEvents(rawEvents, monthIdx, yearBS) {
             const out = {};
-            const put = (day, title, isHoliday) => { const n = Number(day); if (Number.isFinite(n) && title) out[n] = { title: String(title), isHoliday: !!isHoliday }; };
+            const put = (day, title, isHoliday, workday) => { const n = Number(day); if (Number.isFinite(n) && title) out[n] = { title: String(title), isHoliday: !!isHoliday, workday: !!workday }; };
             if (Array.isArray(rawEvents)) {
-                rawEvents.forEach(function (ev) { if (ev && ev.day != null && ev.title) put(ev.day, ev.title, ev.isHoliday); });
+                rawEvents.forEach(function (ev) { if (ev && ev.day != null && ev.title) put(ev.day, ev.title, ev.isHoliday, ev.workday); });
             } else if (rawEvents && typeof rawEvents === 'object') {
                 Object.keys(rawEvents).forEach(function (day) {
                     const ev = rawEvents[day];
-                    if (ev && typeof ev === 'object' && ev.title) put(day, ev.title, ev.isHoliday);
+                    if (ev && typeof ev === 'object' && ev.title) put(day, ev.title, ev.isHoliday, ev.workday);
                     else if (typeof ev === 'string') put(day, ev, false);
                 });
             }

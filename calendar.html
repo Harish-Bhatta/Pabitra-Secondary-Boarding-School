@@ -419,10 +419,10 @@ html body .ss-body{padding:4px 16px calc(20px + env(safe-area-inset-bottom,0px))
                                 <i class="ri-share-line" aria-hidden="true"></i> Share Page
                             </button>
                             <div class="dropdown-divider" role="separator"></div>
-                            <button type="button" class="dropdown-item" id="ddAdminLogin" role="menuitem">
+                            <a href="admin-login.html" class="dropdown-item" id="ddAdminLogin" role="menuitem">
                                 <i class="ri-shield-user-line" aria-hidden="true"></i> Admin Login
                                 <span class="login-role-tag admin">Admin</span>
-                            </button>
+                            </a>
                             <div class="dropdown-divider" role="separator"></div>
                             <button type="button" class="dropdown-item danger" id="ddLogoutBtn" role="menuitem">
                                 <i class="ri-logout-box-line" aria-hidden="true"></i> Logout
@@ -2908,11 +2908,12 @@ DOM.ddLogoutBtn.addEventListener('click', function () {
     setTimeout(openNameModal, 500);
 });
 DOM.ddAdminLogin.addEventListener('click', function (e) {
-    e.preventDefault();
-    closeProfileDropdown();
+    // Native link: the browser itself opens the page, so nothing else can swallow the tap.
+    try { closeProfileDropdown(); } catch (err) { /* never let the menu stop the navigation */ }
     // A stored token is only a convenience; admin-dashboard.html validates it with Supabase.
-    const adminToken = localStorage.getItem('psbs_admin_session_token') || sessionStorage.getItem('psbs_admin_session_token');
-    window.location.href = adminToken ? 'admin-dashboard.html' : CONFIG.LOGIN_ADMIN;
+    let adminToken = null;
+    try { adminToken = localStorage.getItem('psbs_admin_session_token') || sessionStorage.getItem('psbs_admin_session_token'); } catch (err) { }
+    DOM.ddAdminLogin.setAttribute('href', adminToken ? 'admin-dashboard.html' : CONFIG.LOGIN_ADMIN);
 });
 (function () {
     var qcAdmin = document.getElementById('qcAdminCard');

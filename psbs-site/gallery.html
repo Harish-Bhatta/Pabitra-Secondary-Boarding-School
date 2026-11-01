@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script src="assets/shared/no-autofill.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-visual" />
+    <meta name="description"
+        content="Pabitra Secondary Boarding School - Quality Education since 2040 B.S. Official school photo gallery." />
+    <meta name="theme-color" content="#f39c12" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords"
+        content="School Website, Pabitra Secondary School, Pabitra Boarding School, Doti, Nepal, education, PSBS, portal, documents" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://psbs.edu.np/gallery.html" />
+    <meta property="og:title" content="Gallery | Pabitra Secondary Boarding School" />
+    <meta property="og:description"
+        content="Quality Education since 2040 B.S. - School photo gallery." />
+    <meta property="og:image" content="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/school" />
+    <meta property="og:image:alt" content="Gallery | Pabitra Secondary Boarding School" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gallery | Pabitra Secondary Boarding School" />
+    <meta name="twitter:description" content="Pabitra Secondary Boarding School - Quality Education since 2040 B.S. Official school photo gallery." />
+    <meta name="twitter:image" content="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/school" />
+    <link rel="canonical" href="https://psbs.edu.np/gallery.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://ikeexzsjsksyhdfflwqe.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+    <link rel="icon" href="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" />
+    <link rel="apple-touch-icon" href="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" />
+    <title>Gallery | Pabitra Secondary Boarding School</title>
+    <script>
+        /* Boot veil: the page is revealed once (fonts + school data ready) so nothing flickers on refresh. */
+        (function () {
+            var h = document.documentElement; h.classList.add('is-booting');
+            var done = false;
+            function reveal() {
+                if (done) return; done = true;
+                requestAnimationFrame(function () { requestAnimationFrame(function () { h.classList.remove('is-booting'); }); });
+            }
+            window.__psbsReveal = function () {
+                var f = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+                Promise.race([f, new Promise(function (r) { setTimeout(r, 700); })]).then(reveal);
+            };
+            setTimeout(reveal, 2200);
+        })();
+    </script>
+    <style id="boot-veil">
+        html.is-booting body { opacity: 0; }
+        html.is-booting *, html.is-booting *::before, html.is-booting *::after { animation-play-state: paused !important; }
+        html:not(.is-booting) body { animation: bootIn .32s ease; }
+        @keyframes bootIn { from { opacity: 0; } to { opacity: 1; } }
+        /* school-info placeholders (shown only on a first visit, before data arrives) */
+        .si-hide { display: none !important; }
+        [data-si]:empty:not([data-si-done])::before { content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0"; display: inline-block; min-width: 7ch; border-radius: 8px; background: linear-gradient(90deg, rgba(148,163,184,.16), rgba(148,163,184,.34), rgba(148,163,184,.16)); background-size: 200% 100%; animation: siShimmer 1.2s linear infinite; }
+        html.si-failed [data-si]:empty { display: none; }
+        @keyframes siShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+        @media (prefers-reduced-motion: reduce) { html:not(.is-booting) body { animation: none; } }
+    </style>
+    <noscript><style>html.is-booting body { opacity: 1 !important; }</style></noscript>
+        <link id="site-styles" rel="stylesheet" href="assets/css/gallery-site-styles.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"School","name":"Pabitra Secondary Boarding School","url":"https://psbs.edu.np/","logo":"https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo","foundingDate":"1983","address":{"@type":"PostalAddress","addressRegion":"Doti","addressCountry":"NP"}}</script>
+
+<!-- PSBS shared polish layer: consistent motion, focus, rendering and responsive safety. -->
+<link id="psbs-shared-polish" rel="stylesheet" href="assets/shared/psbs-shared-polish.css">
+</head>
+
+<body>
+<div id="gxViewer" class="gxv" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+        <div class="gxv-backdrop" id="gxvBackdrop" aria-hidden="true"></div>
+        <div class="gxv-prog" id="gxvProg" aria-hidden="true"><i></i></div>
+        <div class="gxv-bar" id="gxvBar">
+            <div class="gxv-cluster">
+                <button type="button" class="gxv-b" id="gxvClose" aria-label="Back to gallery"><i class="ri-arrow-left-line" aria-hidden="true"></i></button>
+                <span class="gxv-pos" id="gxvPos"></span>
+            </div>
+            <div class="gxv-cluster">
+                <div class="gxv-desk">
+                    <button type="button" class="gxv-b sm" id="gxvOut" aria-label="Zoom out"><i class="ri-zoom-out-line" aria-hidden="true"></i></button>
+                    <button type="button" class="gxv-b sm" id="gxvIn" aria-label="Zoom in"><i class="ri-zoom-in-line" aria-hidden="true"></i></button>
+                    <button type="button" class="gxv-b sm" id="gxvFull" aria-label="Toggle fullscreen" hidden><i class="ri-fullscreen-line" aria-hidden="true"></i></button>
+                </div>
+                <button type="button" class="gxv-b gxv-play" id="gxvPlay" aria-label="Start slideshow" aria-pressed="false"><i class="ri-play-fill" aria-hidden="true"></i></button>
+                <button type="button" class="gxv-b gxv-fav" id="gxvFav" aria-label="Add to favorites" aria-pressed="false"><i class="ri-heart-line" aria-hidden="true"></i></button>
+                <div class="gxv-menu-wrap">
+                    <button type="button" class="gxv-b" id="gxvMore" aria-label="More options" aria-haspopup="menu" aria-expanded="false" aria-controls="gxvMenu"><i class="ri-more-2-fill" aria-hidden="true"></i></button>
+                    <div class="gxv-pop gxv-menu" id="gxvMenu" role="menu" aria-label="Image options" inert>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="save"><i class="ri-download-2-line" aria-hidden="true"></i><span>Save Image</span></button>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="share"><i class="ri-share-forward-line" aria-hidden="true"></i><span>Share Image</span></button>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="copy"><i class="ri-link" aria-hidden="true"></i><span>Copy Link</span></button>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="open"><i class="ri-external-link-line" aria-hidden="true"></i><span>Open Original</span></button>
+                        <button type="button" class="gxv-mi" role="menuitem" data-act="details"><i class="ri-information-line" aria-hidden="true"></i><span>Image Details</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gxv-stage" id="gxvStage">
+            <div class="gxv-track" id="gxvTrack"></div>
+        </div>
+        <div class="gxv-info" id="gxvInfo" hidden></div>
+        <div class="gxv-strip" id="gxvStrip" role="group" aria-label="Photo thumbnails"></div>
+        <section class="gxv-pop gxv-details" id="gxvDetails" role="dialog" aria-labelledby="gxvDTitle" inert>
+            <div class="gxv-d-grab" id="gxvDGrab">
+                <span class="gxv-handle" aria-hidden="true"></span>
+                <div class="gxv-d-head">
+                    <h3 id="gxvDTitle">Image details</h3>
+                    <button type="button" class="gxv-b sm" id="gxvDClose" aria-label="Close details"><i class="ri-close-line" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <dl class="gxv-d-body" id="gxvDBody"></dl>
+        </section>
+        <p class="gx-sr" id="gxvLive" aria-live="polite"></p>
+    </div>
+<script>(function(){try{var b=document.body,t=localStorage.getItem('psbs_theme'),p=localStorage.getItem('psbs_theme_preset')||'gold';if(t==='dark')b.classList.add('dark');if(p&&p!=='default')b.classList.add('theme-'+p);}catch(e){}})();
+</script>
+<!-- ===== NEBULA ===== -->
+    <div class="nebula-bg" aria-hidden="true">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+    <input type="file" id="avatarUploader" accept="image/*" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none;" tabindex="-1" />
+
+    <div class="drag-trail" id="dragTrail" aria-hidden="true"></div>
+    <div class="edge-hint right" id="edgeHintRight" aria-hidden="true"></div>
+    <div class="edge-hint left" id="edgeHintLeft" aria-hidden="true"></div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+        <span class="toast-icon" aria-hidden="true">✅</span>
+        <span class="toast-message"></span>
+        <button type="button" class="toast-close" aria-label="Close notification"><i class="ri-close-line" aria-hidden="true"></i></button>
+    </div>
+
+    <!-- ===== NAME MODAL ===== -->
+    <div id="nameModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+        <div class="modal-card name-modal-card">
+            <span class="modal-icon" aria-hidden="true"><i class="ri-user-smile-line"></i></span>
+            <h2 id="nameModalTitle">Welcome to <span data-si="acronym"></span> Portal</h2>
+            <p>Please enter your name to personalize your experience</p>
+            <form autocomplete="off" id="nameForm" novalidate data-autofill="off">
+                <div class="input-wrapper">
+                    <i class="ri-user-3-line" aria-hidden="true"></i>
+                    <label for="userNameInput" class="sr-only">Enter your name</label>
+                    <input autocomplete="off" type="text" id="userNameInput" name="user_name" placeholder="Enter your name" required autofocus aria-required="true" maxlength="50" pattern="^[a-zA-Z\s\-']+$" title="Please enter a valid name (letters, spaces, hyphens, and apostrophes only)" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
+                    <div class="input-error" id="nameError" role="alert"></div>
+                </div>
+                <button type="submit" class="submit-btn ripple-host">Continue <i class="ri-arrow-right-line" aria-hidden="true"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== WELCOME CARD ===== -->
+    <div id="welcomeCard" class="welcome-card-overlay" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+        <div class="welcome-card">
+            <div class="welcome-avatar" id="welcomeAvatar" aria-hidden="true"><i class="ri-user-smile-fill"></i></div>
+            <h2 id="welcomeTitle">Welcome!</h2>
+            <p id="welcomeMessage">We're glad to have you here at <span data-si="acronym"></span> Portal.</p>
+            <button type="button" class="welcome-btn ripple-host" id="welcomeCloseBtn">Continue to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- ===== EDIT NAME MODAL ===== -->
+    <div id="editNameModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="editNameTitle">
+        <div class="modal-card edit-modal-card">
+            <button type="button" class="modal-close-btn" id="editNameCloseBtn" aria-label="Close edit name dialog">
+                <i class="ri-close-large-line" aria-hidden="true"></i>
+            </button>
+            <div class="en-avatar" id="enAvatar" aria-hidden="true">G</div>
+            <h2 id="editNameTitle">Edit your name</h2>
+            <p class="en-sub">This is how we greet you across the portal.</p>
+            <form autocomplete="off" id="editNameForm" novalidate data-autofill="off">
+                <div class="input-wrapper">
+                    <i class="ri-user-3-line" aria-hidden="true"></i>
+                    <label for="editNameInput" class="sr-only">Enter your name</label>
+                    <input autocomplete="off" type="text" id="editNameInput" name="edit_name" placeholder="Your name" required maxlength="50" pattern="^[a-zA-Z\s\-']+$" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
+                    <span class="en-count" id="enCount" aria-hidden="true">0/50</span>
+                </div>
+                <div class="input-error" id="editNameError" role="alert"></div>
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" id="editNameCancelBtn">Cancel</button>
+                    <button type="submit" class="save-btn ripple-host" id="editNameSaveBtn">
+                        <i class="ri-check-line" aria-hidden="true"></i> Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== THEME PRESETS MODAL ===== -->
+    <div id="themePresetsModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="themePresetsTitle">
+        <div class="modal-card" style="max-width:440px;">
+            <div class="modal-header">
+                <h2 id="themePresetsTitle"><span class="modal-title-icon" aria-hidden="true"><i class="ri-palette-line"></i></span> Theme Presets</h2>
+                <button type="button" class="modal-close-btn" id="themePresetsCloseBtn" aria-label="Close theme presets">
+                    <i class="ri-close-large-line" aria-hidden="true"></i>
+                </button>
+            </div>
+            <p style="font-size:0.875rem;color:var(--text-light);margin-bottom:4px;">Choose a color theme that suits your style.</p>
+            <div class="theme-presets-grid" id="themePresetsGrid"></div>
+            <button type="button" class="submit-btn ripple-host" id="themePresetsApplyBtn" style="margin-top:8px;">Apply Theme</button>
+        </div>
+    </div><!-- ===== SEARCH OVERLAY ===== -->
+    <div id="searchOverlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search">
+        <div class="search-box sx-card">
+            <div class="sx-head">
+                <span class="sx-badge" aria-hidden="true"><i class="ri-gallery-line"></i></span>
+                <div class="sx-titles"><h2>Search memories</h2><p>Find school photos by their captions</p></div>
+            </div>
+            <div class="search-input-wrap">
+                <i class="ri-search-2-line" style="color:var(--text-light);"></i>
+                <input autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="none" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="searchInput" placeholder="Search photos by caption…" aria-label="Search photos by caption"
+                    name="psbs-q-nofill" inputmode="search" enterkeyhint="search" role="searchbox">
+                <button type="button" class="search-clear" id="searchClearBtn" aria-label="Close search" title="Close"><i class="ri-close-line" aria-hidden="true"></i></button>
+            </div>
+            <div class="search-results" id="searchResults">
+                <div class="sx-skel" aria-hidden="true"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header" role="banner">
+            <nav class="navbar" role="navigation" aria-label="Main navigation">
+                <div class="nav-left">
+                    <button type="button" class="menu-btn ripple-host" aria-label="Open menu" aria-expanded="false">
+                        <i class="ri-menu-3-line" aria-hidden="true"></i>
+                    </button>
+                    <img src="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" data-local="logo.png" alt="School logo" data-si-alt="logo" class="logo" width="42" height="42">
+                    <div class="brand-text" aria-hidden="true"><strong data-si="short_title"></strong><span data-si="brand_sub"></span></div>
+                    <button type="button" class="header-theme-presets-btn ripple-host" id="headerThemePresetsBtn" aria-label="Theme presets">
+                        <i class="ri-palette-line" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="nav-right">
+                    <button type="button" class="header-search-btn ripple-host" id="headerSearchBtn" aria-label="Search the site" title="Search (Ctrl K)">
+                        <i class="ri-search-2-line" aria-hidden="true"></i>
+                        <span class="hs-label">Search photos…</span>
+                        <kbd class="hs-kbd" aria-hidden="true">Ctrl K</kbd>
+                    </button>
+                    <button type="button" class="header-theme-toggle-btn ripple-host" id="headerThemeToggleBtn" aria-label="Toggle theme">
+                        <i class="ri-moon-line" aria-hidden="true"></i>
+                    </button>
+                    <div class="notice-wrap">
+                        <button type="button" class="notice-btn ripple-host" aria-label="Open notices" aria-expanded="false">
+                            <i class="ri-notification-3-line" aria-hidden="true"></i>
+                        </button>
+                        <span class="notice-badge hidden-badge" id="noticeBadge">0</span>
+                    </div>
+                    <div class="profile-container">
+                        <button type="button" class="profile-btn ripple-host" id="headerProfileBtn" aria-label="Open profile menu" aria-expanded="false">
+                            <i class="ri-user-3-line" aria-hidden="true"></i>
+                        </button>
+                        <div class="profile-dropdown" id="profileDropdown" role="menu">
+                            <div class="dropdown-profile-header">
+                                <div class="dropdown-avatar-wrap" id="ddAvatarWrap" role="button" tabindex="0"
+                                    aria-label="Change profile photo">
+                                    <div class="dropdown-avatar" id="ddAvatar" aria-hidden="true">G</div>
+                                    <div class="avatar-edit-badge" aria-hidden="true">
+                                        <i class="ri-camera-line"></i>
+                                    </div>
+                                </div>
+                                <div class="dropdown-user-meta">
+                                    <div class="name-row">
+                                        <h4 id="ddName">Guest</h4>
+                                        <span class="edit-name-icon" id="ddEditNameIcon" role="button" tabindex="0"
+                                            aria-label="Edit name" title="Edit name">
+                                            <i class="ri-pencil-line"></i>
+                                        </span>
+                                    </div>
+                                    <span id="ddRole">Viewer</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <a class="dropdown-item" href="gallery.html" role="menuitem" id="ddGalleryLink">
+                                <i class="ri-gallery-line" aria-hidden="true"></i> Gallery
+                            </a>
+                            <button type="button" class="dropdown-item" id="ddCalendarBtn" role="menuitem">
+                                <i class="ri-calendar-2-line" aria-hidden="true"></i> Calendar
+                            </button>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <button type="button" class="dropdown-item" id="ddShareBtn" role="menuitem">
+                                <i class="ri-share-line" aria-hidden="true"></i> Share Page
+                            </button>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <a href="admin-login.html" class="dropdown-item" id="ddAdminLogin" role="menuitem">
+                                <i class="ri-shield-user-line" aria-hidden="true"></i> Admin Login
+                                <span class="login-role-tag admin">Admin</span>
+                            </a>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <button type="button" class="dropdown-item danger" id="ddLogoutBtn" role="menuitem">
+                                <i class="ri-logout-box-line" aria-hidden="true"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="sidebar-overlay" aria-hidden="true"></div>
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="mainSidebar" role="navigation" aria-label="Sidebar navigation">
+            <div class="sidebar-scroll">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <img src="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" data-local="logo.png" alt="School logo" data-si-alt="logo" class="sidebar-logo" width="42" height="42">
+                    <div class="sidebar-text">
+                        <h2 data-si="short_name"></h2>
+                        <p>🌸 Radhe Radhe</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-body">
+                <button type="button" class="sb-search" data-sq="search" aria-label="Search the school"><i class="ri-search-2-line" aria-hidden="true"></i><span>Search the school…</span><kbd aria-hidden="true">Ctrl K</kbd></button>
+
+                <nav class="sidebar-group" aria-label="Main sections">
+                    <div class="sidebar-group-title"><span>Main Menu</span></div>
+                    <div class="sidebar-links">
+                        <a href="index.html" class="nav-link" data-section="hero"><span class="nav-icon-wrapper ic-orange" aria-hidden="true"><i class="ri-home-5-fill"></i></span><span class="nav-title">Home</span></a>
+                    </div>
+                </nav>
+
+                <nav class="sidebar-group" aria-label="Resources">
+                    <div class="sidebar-group-title"><span>Resources</span></div>
+                    <div class="sidebar-links">
+                        <a class="sidebar-link-btn" href="calendar.html">
+                            <span class="nav-icon-wrapper ic-green" aria-hidden="true"><i class="ri-calendar-2-fill"></i></span>
+                            <span class="nav-title">Calendar</span>
+                        </a>
+                        <a class="nav-link sidebar-link-btn active" href="gallery.html" aria-current="page">
+                            <span class="nav-icon-wrapper ic-purple" aria-hidden="true"><i class="ri-gallery-fill"></i></span>
+                            <span class="nav-title">Gallery</span>
+                        </a>
+                        <button class="sidebar-link-btn" id="sidebarDocumentsBtn" type="button">
+                            <span class="nav-icon-wrapper ic-orange" aria-hidden="true"><i class="ri-folder-3-fill"></i></span>
+                            <span class="nav-title">Documents</span>
+                        </button>
+                        <button class="sidebar-link-btn" id="sidebarSearchBtn" type="button" data-sq="search">
+                            <span class="nav-icon-wrapper ic-blue" aria-hidden="true"><i class="ri-search-2-fill"></i></span>
+                            <span class="nav-title">Search</span><span class="nav-kbd" aria-hidden="true">Ctrl K</span>
+                        </button>
+                    </div>
+                </nav>
+
+                <nav class="sidebar-group" aria-label="Connect">
+                    <div class="sidebar-group-title"><span>Connect</span></div>
+                    <div class="sidebar-links">
+                        <a href="https://www.facebook.com/share/18GjZUzYQm/" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <span class="nav-icon-wrapper ic-blue" aria-hidden="true"><i class="ri-facebook-fill"></i></span>
+                            <span class="nav-title">Facebook</span>
+                        </a>
+                        <a href="#" data-si-href="tel" data-si-hide-empty class="sidebar-link-btn">
+                            <span class="nav-icon-wrapper ic-green" aria-hidden="true"><i class="ri-phone-fill"></i></span>
+                            <span class="nav-title">Call</span>
+                        </a>
+                        <a href="#" data-si-href="mailto" data-si-hide-empty class="sidebar-link-btn">
+                            <span class="nav-icon-wrapper ic-red" aria-hidden="true"><i class="ri-mail-fill"></i></span>
+                            <span class="nav-title">Email</span>
+                        </a>
+                    </div>
+                </nav>
+
+                <nav class="sidebar-group" aria-label="Settings">
+                    <div class="sidebar-group-title"><span>Settings</span></div>
+                    <div class="sidebar-links">
+                        <button class="sidebar-link-btn" id="sbThemesBtn" type="button">
+                            <span class="nav-icon-wrapper ic-pink" aria-hidden="true"><i class="ri-palette-fill"></i></span>
+                            <span class="nav-title">Theme Colors</span>
+                        </button>
+                        <button class="sidebar-link-btn" id="sbDarkBtn" type="button" role="switch" aria-checked="false">
+                            <span class="nav-icon-wrapper ic-slate" aria-hidden="true"><i class="ri-moon-fill"></i></span>
+                            <span class="nav-title">Dark Mode</span>
+                            <span class="sb-switch" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </nav>
+                <div class="sb-profile-wrap">
+                    <div class="sb-pmenu" id="sbProfileMenu" role="menu" aria-label="Profile options" hidden>
+                        <div class="sb-pmenu-head">
+                            <span class="sb-pmenu-avatar" id="sbpAvatar" aria-hidden="true">G</span>
+                            <span class="sb-pmenu-meta"><strong id="sbpName">Guest</strong><small id="sbpRole">Viewer</small></span>
+                        </div>
+                        <div class="dropdown-divider" role="separator"></div>
+                        <div class="sb-pmenu-list">
+                            <button type="button" role="menuitem" data-pm="photo"><span class="pm-ic ic-blue"><i class="ri-camera-fill" aria-hidden="true"></i></span>Change photo</button>
+                            <button type="button" role="menuitem" data-pm="name"><span class="pm-ic ic-orange"><i class="ri-pencil-fill" aria-hidden="true"></i></span>Edit name</button>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <button type="button" role="menuitem" data-pm="admin"><span class="pm-ic ic-purple"><i class="ri-shield-user-fill" aria-hidden="true"></i></span>Admin login<em>Admin</em></button>
+                            <div class="dropdown-divider" role="separator"></div>
+                            <button type="button" role="menuitem" data-pm="logout" class="danger"><span class="pm-ic ic-red"><i class="ri-logout-box-r-fill" aria-hidden="true"></i></span>Logout</button>
+                        </div>
+                    </div>
+                    <button type="button" class="sb-profile" id="sbProfileCard" aria-label="Open profile menu" aria-haspopup="menu" aria-expanded="false" aria-controls="sbProfileMenu">
+                    <span class="sb-avatar" id="sbAvatar" aria-hidden="true">G</span>
+                    <span class="sb-profile-meta"><strong id="sbName">Guest</strong><small id="sbRole">Welcome</small></span>
+                    <i class="ri-more-2-fill sb-chev" aria-hidden="true"></i>
+                </button>
+                </div>
+            </div>
+            </div>
+            <button type="button" class="sidebar-close" aria-label="Close sidebar">
+                    <i class="ri-close-large-line" aria-hidden="true"></i>
+                </button>
+            <div class="sidebar-footer-wrap">
+                <div class="footer-meta-flex">
+                    <div class="spiritual-branding">
+                        <span class="gradient-signature-text">🌸 Radhe Radhe 💝</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ===== RIGHT PANEL (Notices + Documents) — Tabs at bottom ===== -->
+        <aside class="right-panel" id="rightPanel" role="dialog" aria-label="Information panel" aria-modal="true">
+            <div class="sidebar-header panel-header-source" hidden>
+                <div class="sidebar-brand">
+                    <div class="doc-brand-icon" id="rightPanelIcon" aria-hidden="true">
+                        <i class="ri-notification-3-line"></i>
+                    </div>
+                    <div class="sidebar-text">
+                        <h2 id="rightPanelTitle">Notice Board</h2>
+                        <p id="rightPanelSubtitle">Stay updated</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="notice-close" id="rightPanelClose" aria-label="Close panel">
+                    <i class="ri-close-large-line" aria-hidden="true"></i>
+                </button>
+            <div class="panel-viewport">
+                <div class="panel-slider" id="panelSlider" data-active="notice">
+                    <section class="panel-pane" data-pane="notice" aria-label="Notices">
+                        <div class="sidebar-header panel-scroll-header">
+                <div class="sidebar-brand">
+                    <div class="doc-brand-icon" aria-hidden="true"><i class="ri-notification-3-line"></i></div>
+                    <div class="sidebar-text"><h2>Notice Board</h2><p>Stay updated</p></div>
+                </div>
+            </div>
+                        <div class="panel-pane-body" id="noticeContainer">
+                            <div class="doc-skeleton"></div>
+                            <div class="doc-skeleton"></div>
+                            <div class="doc-skeleton"></div>
+                        </div>
+                    </section>
+
+                    <section class="panel-pane" data-pane="documents" aria-label="Documents">
+                        <div class="sidebar-header panel-scroll-header">
+                        <div class="sidebar-brand">
+                            <div class="doc-brand-icon" aria-hidden="true"><i class="ri-folder-open-line"></i></div>
+                            <div class="sidebar-text"><h2 data-docs-title>Documents</h2><p data-docs-sub>Notes • PDFs • Slides</p></div>
+                        </div>
+                    </div>
+                        <div class="doc-toolbar" id="docToolbar">
+                            <div class="doc-toolbar-scroll" id="docToolbarScroll">
+                                <div class="doc-toolbar-inner">
+                                    <div class="doc-search-wrap">
+                                        <i class="ri-search-2-line" aria-hidden="true"></i>
+                                        <label for="docSearchInput" class="sr-only">Search documents</label>
+                                        <input autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" aria-autocomplete="chrome-off" data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other" data-gramm="false" data-gramm_editor="false" data-enable-grammarly="false" type="search" id="docSearchInput" placeholder="Search..."
+
+                                            name="psbs-doc-search" inputmode="search" enterkeyhint="search" role="searchbox">
+                                    </div>
+                                    <div class="doc-filters" id="docFilters" role="group" aria-label="Filter documents by type">
+                                        <button class="doc-filter active" data-filter="all" type="button"><i class="ri-apps-2-line" aria-hidden="true"></i><span>All</span></button>
+                                        <button class="doc-filter" data-filter="pdf" type="button"><i class="ri-file-pdf-2-line" aria-hidden="true"></i><span>PDF</span></button>
+                                        <button class="doc-filter" data-filter="doc" type="button"><i class="ri-file-word-2-line" aria-hidden="true"></i><span>DOC</span></button>
+                                        <button class="doc-filter" data-filter="other" type="button"><i class="ri-file-3-line" aria-hidden="true"></i><span>Other</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-pane-body" id="documentsContainer">
+                            <div class="doc-skeleton"></div>
+                            <div class="doc-skeleton"></div>
+                            <div class="doc-skeleton"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- TABS AT BOTTOM (floating pills only) -->
+            <div class="panel-tabbar" role="tablist" aria-label="Panel switcher">
+                <button class="panel-tab active ripple-host" type="button" role="tab" data-panel-tab="notice" aria-selected="true">
+                    <i class="ri-notification-3-line" aria-hidden="true"></i>
+                    <span>Notices</span>
+                    <span class="panel-tab-badge hidden-badge" id="noticeTabBadge">0</span>
+                </button>
+                <button class="panel-tab ripple-host" type="button" role="tab" data-panel-tab="documents" aria-selected="false" aria-label="Documents">
+                    <i class="ri-folder-3-line" aria-hidden="true"></i>
+                    <span>Docs</span>
+                    <span class="panel-tab-badge hidden-badge" id="docTabBadge">0</span>
+                </button>
+            </div>
+        </aside>
+
+        <main id="main-content" role="main">
+
+            <!-- ===== GALLERY PAGE ===== -->
+            <section id="gallery" class="gx" aria-labelledby="gxTitle">
+                <header class="gx-hero">
+                    <p class="gx-eyebrow">PSBS • School Life</p>
+                    <h1 class="gx-title" id="gxTitle">Our School, Our Memories</h1>
+                    <p class="gx-lead">Celebrating the moments, achievements, and experiences that bring our school community together.</p>
+                    <p class="gx-count" id="gxCount" aria-live="polite"></p>
+                </header>
+                <div class="gx-featured" id="gxFeatured" hidden></div>
+                <div class="gx-tools" id="gxTools">
+                    <div class="gx-active" id="gxActive" hidden></div>
+                    <div class="gx-chips" id="gxChips" role="group" aria-label="Filter by category" hidden></div>
+                </div>
+                <div class="gx-grid" id="galleryGrid" aria-busy="true"></div>
+                <div class="gx-pager" hidden>
+                    <button id="galleryPrev" class="ripple-host" type="button" aria-label="Previous page">‹ Prev</button>
+                    <span class="page-indicator" id="galleryPageIndicator">1 / 1</span>
+                    <button id="galleryNext" class="ripple-host" type="button" aria-label="Next page">Next ›</button>
+                </div>
+            </section>
+
+            <section id="more" class="gx-more" aria-labelledby="gxMoreTitle">
+                <h2 id="gxMoreTitle" class="gx-rv">More Than Memories</h2>
+                <p class="gx-rv">Every photograph tells a story of learning, teamwork, discovery, and growth. These moments are part of the journey that makes our school community special.</p>
+                <div class="gx-pillars">
+                    <article class="gx-pillar gx-rv"><i class="ri-book-open-line" aria-hidden="true"></i><h3>Learning Together</h3><p>Classroom experiences and shared discovery.</p></article>
+                    <article class="gx-pillar gx-rv"><i class="ri-team-line" aria-hidden="true"></i><h3>Growing Together</h3><p>Teamwork, friendships, and participation.</p></article>
+                    <article class="gx-pillar gx-rv"><i class="ri-medal-line" aria-hidden="true"></i><h3>Achieving Together</h3><p>Effort, progress, and school accomplishments.</p></article>
+                </div>
+                <div class="gx-close gx-rv">
+                    <h2>Every Moment Matters. Every Memory Belongs.</h2>
+                    <p>Celebrating the experiences that shape our school journey.</p>
+                    <button type="button" class="gx-btn" id="gxBack"><i class="ri-arrow-up-line" aria-hidden="true"></i> Back to Gallery</button>
+                </div>
+            </section>
+
+        </main>
+
+
+        <div class="fab-container">
+            <button type="button" class="fab-btn ripple-host" id="fabTop" aria-label="Back to top"><span class="fab-progress" aria-hidden="true"></span>
+                <i class="ri-arrow-up-line" aria-hidden="true"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script id="site-script" src="assets/js/gallery-site-script.js"></script>
+<link id="psbs-editname-cancel" rel="stylesheet" href="assets/shared/psbs-editname-cancel.css">
+<script id="psbs-photo-picker-fix">
+/* Profile photo: one capture-phase handler so the picker opens on every page */
+(function(){
+  function pick(e){
+    var w=e.target&&e.target.closest&&e.target.closest('#ddAvatarWrap'); if(!w) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    var u=document.getElementById('avatarUploader'); if(u) u.click();
+  }
+  /* The input's synthetic click must not reach the dropdown's outside-tap handlers (they preventDefault it, which cancels the file chooser) */
+  window.addEventListener('click',function(e){ var t=e.target; if(t&&(t.id==='avatarUploader'||t.id==='avatarFileInputDirect')) e.stopImmediatePropagation(); },true);
+  document.addEventListener('click',pick,true);
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.id==='ddAvatarWrap') pick(e); },true);
+})();
+</script>
+<link id="psbs-nav-unify" rel="stylesheet" href="assets/css/gallery-psbs-nav-unify.css">
+
+</body>
+
+</html>

@@ -4784,5 +4784,12 @@ async function onSubmit(e){
 }
 })();
 </script>
+<style id="psbs-dialog-focus-fix">
+/* Stay / Exit dialog buttons: no extra outer focus ring, keep the single border */
+html body #psbsDialog .dlg-actions .btn,
+html body #psbsDialog .dlg-actions .btn:focus,
+html body #psbsDialog .dlg-actions .btn:focus-visible,
+html body #psbsDialog .dlg-actions .btn:active{outline:0 !important;outline-offset:0 !important}
+</style>
 </body>
 </html>

@@ -1,0 +1,177 @@
+/* ===== psbs-shared-polish ===== */
+:root {
+  --psbs-motion-fast: 160ms;
+  --psbs-motion: 220ms;
+  --psbs-ease: cubic-bezier(.2,.7,.2,1);
+  --psbs-focus: 0 0 0 3px color-mix(in srgb, var(--primary, #f39c12) 28%, transparent);
+}
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+img, picture, video, canvas, svg { max-width: 100%; }
+img { height: auto; }
+button, input, select, textarea { font: inherit; }
+:where(a, button, [role="button"], input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary, #f39c12); outline-offset: 3px;
+  box-shadow: var(--psbs-focus);
+}
+:where(button, a, [role="button"], .card, .stat-card, .calendar-cell, .gallery-item) {
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) and (pointer: fine) {
+  :where(button, a, [role="button"]) { transition: color var(--psbs-motion-fast) var(--psbs-ease), background-color var(--psbs-motion-fast) var(--psbs-ease), border-color var(--psbs-motion-fast) var(--psbs-ease), box-shadow var(--psbs-motion) var(--psbs-ease), transform var(--psbs-motion) var(--psbs-ease); }
+}
+:where(img, video, iframe) { border-radius: inherit; }
+:where(.calendar-grid, .calendar-container, .gallery-grid, .gallery-container, main) { min-width: 0; }
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text-light, #64748b) 35%, transparent) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text-light, #64748b) 32%, transparent); border-radius: 999px; }
+*::-webkit-scrollbar-track { background: transparent; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Header: same frosted glass as the other pages (index / gallery / admin). */
+html body .header{background:color-mix(in srgb, var(--surface-solid) 78%, transparent);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border-bottom:1px solid var(--hair, var(--border));box-shadow:none}
+html.psbs-lite .header{-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+/* Today's cell: one outer border only (no second inner ring) while another day is selected. */
+body #calendarWrapper .calendar-cell.today:not(.selected)::after{content:none !important;display:none !important}
+
+/* ===== psbs-stat-sheet-motion ===== */
+/* Smooth open/close for the four stat cards (बिदा दिन, पढाइ दिन, कार्यक्रम, विशेष दिन).
+   Single source of truth: overrides the older stacked .ss-overlay / .ss-panel rules. */
+html body .ss-overlay{
+  background:rgba(15,23,42,.5);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .3s cubic-bezier(.4,0,.2,1), visibility 0s linear .34s;
+}
+html body .ss-overlay.active{
+  opacity:1; visibility:visible; pointer-events:auto;
+  transition:opacity .4s cubic-bezier(.22,1,.36,1), visibility 0s linear 0s;
+}
+html body .ss-overlay.pre:not(.active){visibility:visible; opacity:.01; pointer-events:none; transition:none}
+
+/* phones: bottom sheet slides up / down */
+html body .ss-panel{
+  transform:translate3d(0,100%,0); opacity:1;
+  transition:transform .32s cubic-bezier(.4,0,.2,1);
+  will-change:transform; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+}
+html body .ss-overlay.active .ss-panel{
+  transform:translate3d(0,0,0);
+  transition:transform .55s cubic-bezier(.22,1,.36,1);
+}
+
+/* tablets / desktop: centered card eases in with a soft scale + fade */
+@media (min-width:700px){
+  html body .ss-panel{
+    transform:translate3d(0,22px,0) scale(.97); opacity:0;
+    transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .22s cubic-bezier(.4,0,.2,1);
+  }
+  html body .ss-overlay.active .ss-panel{
+    transform:translate3d(0,0,0) scale(1); opacity:1;
+    transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .3s cubic-bezier(.22,1,.36,1);
+  }
+}
+
+/* list content settles in right after the panel starts moving */
+@keyframes ssItemIn{from{opacity:0; transform:translate3d(0,12px,0)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  html body .ss-overlay.active :is(.ss-row,.ss-kpi,.ss-chip,.ss-empty,.ss-ring-row,.ss-map){
+    animation:ssItemIn .46s cubic-bezier(.22,1,.36,1) backwards;
+    animation-delay:calc(.1s + var(--i,0) * 38ms);
+  }
+}
+html body .ss-overlay{will-change:opacity; transform:translateZ(0); overscroll-behavior:contain}
+
+/* ===== psbs-stat-cards-polish ===== */
+/* Four summary cards + their sheet: one stable layout, consistent Devanagari font, no hover jitter. */
+html body .app-container .month-stats{gap:12px; align-items:stretch}
+html body .app-container .stat-card{
+  position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:12px;
+  min-height:68px; padding:12px 14px; border-radius:20px; overflow:hidden; isolation:isolate;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--c) 13%,var(--surface-solid)) 0%,var(--surface-solid) 64%) !important;
+  border:1px solid color-mix(in srgb,var(--c) 24%,var(--border-light)) !important;
+  box-shadow:0 1px 2px rgba(15,23,42,.05),0 12px 22px -18px color-mix(in srgb,var(--c) 70%,transparent) !important;
+  transform:none; cursor:pointer; -webkit-user-select:none; user-select:none;
+  transition:box-shadow .25s ease,border-color .25s ease,transform .18s cubic-bezier(.22,1,.36,1);
+}
+html body .app-container .stat-card::after{display:none}
+html body .app-container .stat-card::before{
+  content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; z-index:-1;
+  border-radius:0 4px 4px 0; background:var(--c); opacity:.9;
+}
+html body .app-container .stat-icon{
+  width:42px; height:42px; border-radius:14px; font-size:1rem; color:#fff;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 72%,#fff),var(--c)) !important;
+  box-shadow:0 8px 14px -8px var(--c),inset 0 1px 0 rgba(255,255,255,.45) !important;
+  transition:transform .35s cubic-bezier(.34,1.3,.64,1);
+}
+html body .app-container .stat-body{min-width:0; padding:0}
+html body .app-container .stat-label{
+  font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif;
+  font-size:.78rem; font-weight:700; letter-spacing:0; line-height:1.2; color:var(--text-light); margin-bottom:2px;
+}
+html body .app-container .stat-value{
+  font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif;   /* Fraunces has no Devanagari digits → font swap jitter */
+  font-weight:800; font-size:1.55rem; line-height:1.1; letter-spacing:0;
+  min-height:1.1em; min-width:2ch; font-variant-numeric:tabular-nums; color:var(--text);
+  will-change:opacity,transform;
+}
+html body .app-container .stat-go{
+  position:static; width:26px; height:26px; border-radius:50%; font-size:.6rem; display:grid; place-items:center;
+  color:var(--c); background:color-mix(in srgb,var(--c) 14%,transparent);
+  transition:background-color .2s ease,color .2s ease,transform .25s cubic-bezier(.22,1,.36,1);
+}
+@media (hover:hover) and (pointer:fine){
+  html body .app-container .stat-card:hover{
+    transform:none;                                   /* no lift: the card never moves out from under the cursor */
+    border-color:color-mix(in srgb,var(--c) 50%,transparent) !important;
+    box-shadow:0 1px 2px rgba(15,23,42,.06),0 16px 26px -16px var(--c) !important;
+  }
+  html body .app-container .stat-card:hover .stat-icon{transform:scale(1.07) rotate(-4deg)}
+  html body .app-container .stat-card:hover .stat-go{background:var(--c); color:#fff; transform:translateX(2px)}
+}
+html body .app-container .stat-card:active{transform:scale(.97); transition-duration:.08s}
+html body .app-container .stat-card:focus-visible{outline:none; box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 45%,transparent) !important}
+html body .app-container .stat-card[aria-expanded="true"]{border-color:color-mix(in srgb,var(--c) 65%,transparent) !important}
+
+@media (max-width:359px){html body .app-container .stat-icon{display:none} html body .app-container .stat-card{grid-template-columns:minmax(0,1fr) auto}}
+@media (min-width:1024px){
+  html body .app-container .stat-card{grid-template-columns:auto minmax(0,1fr); border-radius:16px}
+  html body .app-container .stat-card::before{top:10px; bottom:10px}
+  html body .app-container .stat-value{font-size:1.25rem}
+  html body .app-container .stat-go{display:none}
+}
+
+/* ---- the sheet that a card opens ---- */
+html body .ss-panel{border-radius:30px 30px 0 0}
+html body .ss-grab{display:block; width:40px; height:4px; margin:10px auto 0}
+html body .ss-head{padding:14px 16px 12px 18px}
+html body .ss-ico{
+  width:50px; height:50px; border-radius:16px; font-size:1.15rem;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--c) 72%,#fff),var(--c)) !important;
+  box-shadow:0 10px 16px -10px var(--c),inset 0 1px 0 rgba(255,255,255,.45) !important;
+}
+html body .ss-titles h2{font-family:'Yatra One','Mukta','Noto Sans Devanagari',sans-serif; font-weight:400; font-size:1.35rem; letter-spacing:.01em}
+html body .ss-titles p{font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif; font-weight:600}
+html body .ss-row{
+  gap:12px; padding:10px 12px; border-radius:18px; margin:0 0 8px;
+  transition:background-color .2s ease,border-color .2s ease,transform .12s ease;
+}
+@media (hover:hover){
+  html body .ss-row:not(.static):hover{
+    transform:none; box-shadow:none;                  /* was translateX(3px): jittery near the edge */
+    background:color-mix(in srgb,var(--c) 11%,var(--surface-solid));
+    border-color:color-mix(in srgb,var(--c) 45%,transparent);
+  }
+}
+html body .ss-row:not(.static):active{transform:scale(.98)}
+html body .ss-date{width:50px; height:54px; border-radius:15px}
+html body .ss-date b{font-family:'Mukta','Noto Sans Devanagari',sans-serif; font-weight:800; font-size:1.3rem}
+html body .ss-t{font-family:'Mukta','Noto Sans Devanagari',var(--font-family),sans-serif; font-weight:700; font-size:.95rem}
+html body .ss-kpi b{font-family:'Mukta','Noto Sans Devanagari',sans-serif; font-weight:800}
+html body .ss-ring b{font-family:'Mukta','Noto Sans Devanagari',sans-serif; font-weight:800}
+html body .ss-body{padding:4px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+@media (min-width:700px){html body .ss-panel{border-radius:28px} html body .ss-grab{display:none}}
+@media (prefers-reduced-motion:reduce){html body .app-container .stat-card,html body .app-container .stat-icon,html body .ss-row{transition:none}}

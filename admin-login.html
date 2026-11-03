@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="assets/shared/no-autofill.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+<meta name="theme-color" content="#0a1224" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Secure administrator sign in for Pabitra Secondary Boarding School. Manage notices, documents, gallery, faculty and calendar." />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Pabitra Secondary Boarding School" />
+<meta property="og:url" content="https://psbs.edu.np/admin-login.html" />
+<meta property="og:title" content="Admin Login · Pabitra Secondary Boarding School" />
+<meta property="og:description" content="Secure administrator sign in for Pabitra Secondary Boarding School." />
+<meta property="og:image" content="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/school" />
+<meta property="og:image:alt" content="Pabitra Secondary Boarding School" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Admin Login · Pabitra Secondary Boarding School" />
+<meta name="twitter:description" content="Secure administrator sign in for Pabitra Secondary Boarding School." />
+<meta name="twitter:image" content="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/school" />
+<link rel="canonical" href="https://psbs.edu.np/admin-login.html" />
+<link rel="preconnect" href="https://ikeexzsjsksyhdfflwqe.supabase.co" crossorigin />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<title>Admin Login · PSBS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" />
+<link rel="icon" href="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" />
+<link rel="apple-touch-icon" href="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" />
+<link rel="stylesheet" href="assets/css/admin-login-bundle-1.css">
+</head>
+<body>
+<a class="skip-link" href="#loginForm">Skip to sign in</a>
+
+<div class="toast" id="toast" role="alert" aria-live="polite">
+  <span class="toast-icon" aria-hidden="true">✅</span>
+  <span class="toast-message"></span>
+  <button type="button" class="toast-close" aria-label="Close notification">✕</button>
+</div>
+
+<button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="ri-moon-line" id="themeIcon" aria-hidden="true"></i></button>
+
+<main class="shell" id="main">
+
+  <!-- ===== BRAND PANEL ===== -->
+  <section class="brand-side">
+    <div class="fx" aria-hidden="true"><span class="glow g1"></span><span class="glow g2"></span><span class="glow g3"></span><span class="orbit"></span><i class="ri-shield-keyhole-fill watermark"></i></div>
+
+    <div class="brand-inner">
+    <a class="brand" href="index.html" aria-label="School home" data-si-aria="home">
+      <span class="logo-wrap"><i class="ri-graduation-cap-fill" aria-hidden="true"></i><img src="https://ikeexzsjsksyhdfflwqe.supabase.co/storage/v1/object/public/images/site/logo" data-local="logo.png" alt="School logo" data-si-alt="logo" width="64" height="64" /></span>
+      <span class="brand-txt"><b data-si="school_name">Pabitra Secondary Boarding School</b><small><span class="live" aria-hidden="true"></span> Secure admin access</small></span>
+    </a>
+
+    <div class="brand-body">
+      <span class="eyebrow"><span class="live" aria-hidden="true"></span> Administrator console</span>
+      <h2>Welcome back,<br /><em>administrator.</em></h2>
+      <p class="lead">One calm workspace to keep the school's notices, documents, gallery, faculty and calendar up to date.</p>
+
+      <!-- decorative preview of the console (illustrative only) -->
+      <div class="stage" aria-hidden="true">
+        <div class="pv">
+          <div class="pv-bar"><i></i><i></i><i></i><span><i class="ri-lock-fill" style="background:none;width:auto;height:auto;font-size:10px;color:#34d399"></i> <span data-si="host">psbs.edu.np</span> / admin</span></div>
+          <div class="pv-body">
+            <div class="pv-nav">
+              <div class="on"><i class="ri-dashboard-line"></i> Overview</div>
+              <div><i class="ri-megaphone-line"></i> Notices</div>
+              <div><i class="ri-file-text-line"></i> Documents</div>
+              <div><i class="ri-image-line"></i> Gallery</div>
+              <div><i class="ri-graduation-cap-line"></i> Faculty</div>
+              <div><i class="ri-calendar-event-line"></i> Calendar</div>
+            </div>
+            <div class="pv-main">
+              <div class="pv-title">Overview <small>Live</small></div>
+              <div class="pv-tiles">
+                <div class="pv-tile"><i class="ri-megaphone-fill"></i><u></u><u></u></div>
+                <div class="pv-tile"><i class="ri-file-text-fill"></i><u></u><u></u></div>
+                <div class="pv-tile"><i class="ri-image-fill"></i><u></u><u></u></div>
+              </div>
+              <div class="pv-chart">
+                <svg viewBox="0 0 300 90" preserveAspectRatio="none">
+                  <defs><linearGradient id="pvg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" style="stop-color:var(--p-light);stop-opacity:.45"/><stop offset="1" style="stop-color:var(--p-light);stop-opacity:0"/></linearGradient></defs>
+                  <path class="area" d="M0 72 C30 62 50 68 80 50 S130 54 160 36 S220 42 250 20 S285 26 300 12 L300 90 L0 90Z" fill="url(#pvg)"/>
+                  <path class="ln" pathLength="1" d="M0 72 C30 62 50 68 80 50 S130 54 160 36 S220 42 250 20 S285 26 300 12" fill="none" style="stroke:var(--p-light)" stroke-width="2.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pv-float f1"><i class="ri-checkbox-circle-fill"></i> Notice published</div>
+        <div class="pv-float f2"><i class="ri-image-add-fill"></i> Gallery updated</div>
+        <div class="pv-float f3"><i class="ri-user-follow-fill"></i> Access approved</div>
+      </div>
+
+      <ul class="points">
+        <li><i class="ri-shield-check-line" aria-hidden="true"></i><div><b>Server-verified sessions</b><span>Every action is checked on the server.</span></div></li>
+        <li><i class="ri-user-follow-line" aria-hidden="true"></i><div><b>Approval-based access</b><span>New admins are approved by a senior admin.</span></div></li>
+        <li><i class="ri-layout-grid-line" aria-hidden="true"></i><div><b>Everything in one place</b><span>Publish and edit the website in a few taps.</span></div></li>
+      </ul>
+    </div>
+
+    <div class="brand-foot"><span>Quality education, thoughtfully connected.</span><b><i class="ri-time-line" aria-hidden="true"></i><span id="clock"></span></b></div>
+    </div>
+  </section>
+
+  <!-- ===== SIGN-IN SIDE ===== -->
+  <section class="form-side">
+    <div class="card-wrap">
+    <div class="login-card">
+
+      <div class="card-head">
+        <div class="shield" id="shield" aria-hidden="true"><i class="ri-shield-user-fill s-a"></i><i class="ri-shield-keyhole-fill s-b"></i></div>
+        <h1 id="cardTitle">Admin sign in</h1>
+        <p class="card-sub" id="cardSub">Secure access to the <span data-si="acronym">PSBS</span> dashboard</p>
+        <p class="greet" id="greet"></p>
+      </div>
+
+      <div class="tab-bar" role="tablist" data-active="signin">
+        <button class="active-tab" data-tab="signin" role="tab" aria-selected="true"><i class="ri-login-circle-line" aria-hidden="true"></i> Sign In</button>
+        <button data-tab="signup" role="tab" aria-selected="false"><i class="ri-user-add-line" aria-hidden="true"></i> Request Access</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div class="tab-panel active-panel" id="panel-signin" role="tabpanel">
+        <form autocomplete="off" id="loginForm" novalidate>
+          <div class="input-group">
+            <label for="emailInput">Admin email</label>
+            <div class="field">
+              <input autocomplete="off" type="email" id="emailInput" placeholder="admin@psbs.edu.np" data-si-ph="admin_email" required autofocus aria-required="true" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+            </div>
+            <div class="input-error" id="emailError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="passwordInput">Password</label>
+            <div class="field">
+              <input autocomplete="new-password" type="password" id="passwordInput" placeholder="Enter your password" required aria-required="true" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-lock-password-line"></i></span>
+            </div>
+            <div class="input-error" id="passwordError" role="alert"></div>
+          </div>
+
+          <div class="form-options">
+            <label><input type="checkbox" id="rememberMe" checked /> Remember me</label>
+            <a href="#" id="forgotLink">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text"><i class="ri-shield-keyhole-line" aria-hidden="true"></i> Sign In <i class="ri-arrow-right-line arr" aria-hidden="true"></i></span>
+          </button>
+          <p class="kbd-hint">Tip: press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to sign in</p>
+        </form>
+        <p class="switch-note">Need an account? <button type="button" id="goSignup">Request access</button></p>
+      </div>
+
+      <!-- REQUEST ACCESS -->
+      <div class="tab-panel" id="panel-signup" role="tabpanel">
+        <ol class="flow" aria-label="How access works">
+          <li><i class="ri-send-plane-2-line" aria-hidden="true"></i>Request</li>
+          <li><i class="ri-user-follow-line" aria-hidden="true"></i>Approval</li>
+          <li><i class="ri-login-circle-line" aria-hidden="true"></i>Sign in</li>
+        </ol>
+        <form autocomplete="off" id="signupForm" novalidate>
+          <div class="input-group">
+            <label for="signupName">Full name</label>
+            <div class="field">
+              <input autocomplete="off" type="text" id="signupName" placeholder="Your full name" required aria-required="true" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-user-3-line"></i></span>
+            </div>
+            <div class="input-error" id="signupNameError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupEmail">Email address</label>
+            <div class="field">
+              <input autocomplete="off" type="email" id="signupEmail" placeholder="admin@psbs.edu.np" data-si-ph="admin_email" required aria-required="true" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-mail-line"></i></span>
+            </div>
+            <div class="input-error" id="signupEmailError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupPassword">Create a password</label>
+            <div class="field">
+              <input autocomplete="new-password" type="password" id="signupPassword" placeholder="Create a password (min 8 chars)" required aria-required="true" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-lock-line"></i></span>
+            </div>
+            <div class="input-error" id="signupPasswordError" role="alert"></div>
+          </div>
+
+          <div class="input-group">
+            <label for="signupConfirm">Confirm password</label>
+            <div class="field">
+              <input autocomplete="new-password" type="password" id="signupConfirm" placeholder="Confirm password" required aria-required="true" />
+              <span class="input-icon" aria-hidden="true"><i class="ri-check-double-line"></i></span>
+            </div>
+            <div class="input-error" id="signupConfirmError" role="alert"></div>
+          </div>
+
+          <p class="hint"><i class="ri-information-line" aria-hidden="true"></i><span>Your request will be sent to senior admins for approval.</span></p>
+
+          <button type="submit" class="login-btn" id="signupBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-text"><i class="ri-send-plane-2-line" aria-hidden="true"></i> Request Access <i class="ri-arrow-right-line arr" aria-hidden="true"></i></span>
+          </button>
+        </form>
+        <p class="switch-note">Already approved? <button type="button" id="goSignin">Sign in</button></p>
+      </div>
+
+    </div>
+    </div>
+
+    <div class="assure"><span><i class="ri-shield-check-fill" aria-hidden="true"></i> Protected admin access</span><span><i class="ri-server-line" aria-hidden="true"></i> Server-checked sessions</span><span><i class="ri-lock-2-fill" aria-hidden="true"></i> Encrypted connection</span></div>
+    <div class="form-foot">
+      <p>🌸 Radhe Radhe · <a href="index.html"><i class="ri-arrow-left-line" aria-hidden="true"></i> Back to website</a></p>
+    </div>
+  </section>
+</main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Your actual keys
+        const SUPABASE_URL = 'https://ikeexzsjsksyhdfflwqe.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZWV4enNqc2tzeWhkZmZsd3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNzM0MDAsImV4cCI6MjEwMDY0OTQwMH0.t4AWEhlEiSyxqdtSuDK_5gA6zRv-45UNpFm86WpViWY';
+
+        // Create the client
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Make it globally accessible (and keep the same name 'supabase')
+        // Keep the library namespace intact; use the explicit client variable below.
+    </script>
+
+    <script src="assets/js/admin-login-script-3.js"></script>
+    <script src="assets/js/admin-login-script-4.js"></script>
+
+<script src="assets/js/admin-login-script-5.js"></script>
+
+<script src="assets/js/admin-login-script-6.js"></script>
+
+</body>
+</html>

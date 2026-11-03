@@ -1,0 +1,262 @@
+/* PSBS gallery viewer – "Sunrise Paper": bright, quiet, minimal. Loaded after the base styles. */
+html body #gxViewer{
+  --paper:#fffaf1; --paper-2:#fdf1dc; --ink:#2a2118; --ink-soft:#7a6a58; --card:#ffffff; --line:rgba(42,33,24,.10);
+  --gxv-fill:var(--card); --gxv-fill-strong:var(--card); --gxv-gloss:none; --gxv-sheen:none;
+  --gxv-border:var(--line); --gxv-hair:var(--line);
+  --gxv-shadow:0 1px 2px rgba(42,33,24,.08),0 6px 18px rgba(42,33,24,.08);
+  --gxv-pop-shadow:0 2px 6px rgba(42,33,24,.10),0 18px 40px rgba(42,33,24,.16);
+  --gxv-blur:0px; --gxv-blur-ui:0px; --gxv-btn:44px;
+  color:var(--ink);
+}
+html body.dark #gxViewer{
+  --paper:#1b1713; --paper-2:#251e17; --ink:#f6ecde; --ink-soft:#b9a994; --card:#2a231b; --line:rgba(255,240,220,.12);
+  --gxv-shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+  --gxv-pop-shadow:0 2px 6px rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.5);
+}
+
+/* canvas: warm paper, a soft sunrise glow, and a fine grain – no blur anywhere */
+html body #gxViewer .gxv-backdrop{
+  background:
+    radial-gradient(90% 55% at 50% -8%,rgba(var(--primary-rgb,243,156,18),.20),transparent 68%),
+    linear-gradient(180deg,var(--paper),var(--paper-2)) !important;
+  -webkit-backdrop-filter:none !important; backdrop-filter:none !important;
+}
+html body #gxViewer .gxv-backdrop::after{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.55; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .27  0 0 0 0 .18  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+html body.dark #gxViewer .gxv-backdrop::after{ mix-blend-mode:screen; opacity:.35; }
+
+/* buttons: flat white discs with a hairline – calm, no gloss, no blur */
+html body #gxViewer .gxv-b,
+html body #gxViewer .gxv-pos,
+html body #gxViewer .gxv-chip,
+html body #gxViewer .gxv-dock{
+  background:var(--card) !important; border:1px solid var(--line) !important; box-shadow:var(--gxv-shadow) !important;
+  -webkit-backdrop-filter:none !important; backdrop-filter:none !important; color:var(--ink) !important;
+}
+html body #gxViewer .gxv-b::before,html body #gxViewer .gxv-b::after,
+html body #gxViewer .gxv-pos::before,html body #gxViewer .gxv-pos::after{display:none !important}
+html body #gxViewer .gxv-b{transition:transform .18s var(--gxv-ease),background .18s}
+html body #gxViewer .gxv-b:hover{background:var(--paper-2) !important}
+html body #gxViewer .gxv-b:active{transform:scale(.92)}
+html body #gxViewer .gxv-b:disabled{opacity:.35}
+html body #gxViewer .gxv-pos{padding:0 14px;border-radius:999px;font-weight:600;font-size:.86rem;letter-spacing:.02em;color:var(--ink-soft) !important}
+html body #gxViewer .gxv-fav.is-fav{color:#e8553d !important}
+html body #gxViewer .gxv-play[aria-pressed="true"]{background:rgba(var(--primary-rgb,243,156,18),.16) !important;color:var(--primary,#f39c12) !important}
+
+/* photo: a quiet print – rounded, softly lifted; flat and edge-to-edge when zoomed */
+html body #gxViewer .gxv-slide img{border-radius:16px; box-shadow:0 2px 6px rgba(42,33,24,.12),0 22px 48px rgba(42,33,24,.18)}
+html body.dark #gxViewer .gxv-slide img{box-shadow:0 2px 6px rgba(0,0,0,.5),0 22px 48px rgba(0,0,0,.55)}
+html body #gxViewer .gxv-stage.zoomed .gxv-slide img{border-radius:0; box-shadow:none}
+
+/* focus mode: while zoomed, thumbnails and caption step aside so the photo gets the screen */
+html body #gxViewer.is-zoomed .gxv-strip,
+html body #gxViewer.is-zoomed .gxv-info{opacity:0 !important;pointer-events:none !important;transform:translate3d(0,12px,0)}
+
+/* thumbnails + menus in the same flat language */
+html body #gxViewer .gxv-strip button{border-radius:10px;border:2px solid transparent;box-shadow:none}
+html body #gxViewer .gxv-strip button[aria-current="true"],html body #gxViewer .gxv-strip button.on{border-color:var(--primary,#f39c12)}
+html body #gxViewer .gxv-pop{
+  background:var(--card) !important; border:1px solid var(--line) !important; box-shadow:var(--gxv-pop-shadow) !important;
+  -webkit-backdrop-filter:none !important; backdrop-filter:none !important; color:var(--ink) !important; border-radius:18px;
+}
+html body #gxViewer .gxv-mi{border-radius:12px;color:var(--ink)}
+html body #gxViewer .gxv-mi:hover,html body #gxViewer .gxv-mi:focus-visible{background:var(--paper-2)}
+html body #gxViewer .gxv-prog i{background:var(--primary,#f39c12)}
+html body #gxViewer .gxv-info{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){html body #gxViewer .gxv-dock,html body #gxViewer .gxv-b{transition:none}}
+
+/* slideshow: only the photo – every button and the caption step away; touch the screen to stop and bring them back */
+html body #gxViewer .gxv-bar,html body #gxViewer .gxv-info,html body #gxViewer .gxv-strip{transition:opacity .4s ease,transform .45s cubic-bezier(.25,.8,.3,1)}
+html body #gxViewer.is-playing .gxv-bar,
+html body #gxViewer.is-playing .gxv-info,
+html body #gxViewer.is-playing .gxv-strip{opacity:0 !important;pointer-events:none !important}
+html body #gxViewer.is-playing .gxv-bar{transform:translate3d(0,-10px,0)}
+
+/* ---- opening: a soft, unhurried glide out of the thumbnail ---- */
+html body #gxViewer .gxv-stage.pop .gxv-slide:nth-child(2) img{
+  animation:gxGlide .5s cubic-bezier(.25,.8,.3,1) both !important;
+}
+@keyframes gxGlide{
+  0%{opacity:0;transform:scale(.76)}
+  38%{opacity:1}
+  100%{opacity:1;transform:none}
+}
+html body #gxViewer .gxv-backdrop{transition:opacity .42s ease !important}
+html body #gxViewer.is-open .gxv-bar,html body #gxViewer.is-open .gxv-info,html body #gxViewer.is-open .gxv-strip{transition:opacity .4s ease .08s,transform .45s cubic-bezier(.25,.8,.3,1) .08s}
+
+/* ---- closing: a short slide down while zooming out and fading – quick and smooth ---- */
+html body #gxViewer.is-closing .gxv-stage{transition:transform .28s cubic-bezier(.45,.05,.25,1),opacity .24s cubic-bezier(.4,0,.6,1) .02s !important}
+html body #gxViewer.is-closing .gxv-backdrop{transition:opacity .26s ease !important}
+html body #gxViewer.is-closing .gxv-bar,html body #gxViewer.is-closing .gxv-info,html body #gxViewer.is-closing .gxv-strip{opacity:0 !important;transition:opacity .14s ease !important}
+
+/* ---- buttons: a soft press that springs back, calm colour changes ---- */
+html body #gxViewer .gxv-b,html body #gxViewer .gxv-mi{
+  transition:transform .32s cubic-bezier(.34,1.5,.64,1),background-color .22s ease,color .22s ease,box-shadow .22s ease,opacity .2s ease !important;
+  -webkit-tap-highlight-color:transparent; will-change:transform;
+}
+html body #gxViewer .gxv-b:active,html body #gxViewer .gxv-mi:active{
+  transform:scale(.88); background-color:var(--paper-2) !important; transition-duration:.09s,.09s,.09s,.09s,.09s !important;
+}
+html body #gxViewer .gxv-fav.is-fav{animation:gxvBeat .5s cubic-bezier(.34,1.5,.64,1)}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2){transition:box-shadow .25s ease}
+html body #gxViewer .gxv-pos{transition:opacity .25s ease,transform .25s ease}
+
+/* ---- buttons: back + counter on the left; play, favourite and more share one quiet pill ---- */
+html body #gxViewer{--gxv-btn:40px}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2){
+  gap:0; padding:3px; border-radius:999px; background:var(--card); border:1px solid var(--line); box-shadow:var(--gxv-shadow);
+}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b{
+  width:38px; height:38px; font-size:1.12rem; border:0 !important; box-shadow:none !important; background:transparent !important;
+}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b:hover{background:var(--paper-2) !important}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-play[aria-pressed="true"]{background:rgba(var(--primary-rgb,243,156,18),.18) !important}
+html body #gxViewer .gxv-bar .gxv-cluster:first-child .gxv-b{width:40px;height:40px;font-size:1.2rem}
+html body #gxViewer .gxv-pos{height:34px;display:inline-flex;align-items:center}
+
+/* ================= Buttons v2 – soft tiles =================
+   Rounded tiles with a gentle tint, bold icons, no outlines or shadows. Toggles fill with colour when on. */
+html body #gxViewer{--tile:rgba(42,33,24,.07);--tile-hover:rgba(42,33,24,.12);--tile-press:rgba(42,33,24,.18)}
+html body.dark #gxViewer{--tile:rgba(255,240,220,.12);--tile-hover:rgba(255,240,220,.18);--tile-press:rgba(255,240,220,.26)}
+
+html body #gxViewer .gxv-bar .gxv-b,
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b,
+html body #gxViewer .gxv-bar .gxv-cluster:first-child .gxv-b{
+  width:42px; height:42px; border-radius:14px !important; border:0 !important; box-shadow:none !important;
+  background:var(--tile) !important; color:var(--ink) !important; font-size:1.22rem; display:inline-grid; place-items:center;
+}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2){gap:8px; padding:0; background:none !important; border:0 !important; box-shadow:none !important}
+html body #gxViewer .gxv-bar .gxv-b:hover{background:var(--tile-hover) !important}
+html body #gxViewer .gxv-bar .gxv-b:active{background:var(--tile-press) !important; transform:scale(.9)}
+html body #gxViewer .gxv-bar .gxv-play[aria-pressed="true"]{background:var(--primary,#f39c12) !important; color:#fff !important}
+html body #gxViewer .gxv-bar .gxv-fav.is-fav{background:rgba(232,85,61,.16) !important; color:#e8553d !important}
+html body #gxViewer .gxv-bar .gxv-b:disabled{opacity:.35}
+
+/* counter: plain figures, no pill */
+html body #gxViewer .gxv-pos{
+  background:none !important; border:0 !important; box-shadow:none !important; padding:0 8px; height:42px;
+  font-weight:700; font-size:.92rem; letter-spacing:.04em; font-variant-numeric:tabular-nums; color:var(--ink-soft) !important;
+}
+
+/* menu rows: icon tile + label */
+html body #gxViewer .gxv-mi{display:flex; align-items:center; gap:12px; min-height:48px; padding:0 12px; border-radius:14px; font-weight:600; color:var(--ink)}
+html body #gxViewer .gxv-mi i{width:32px; height:32px; display:inline-grid; place-items:center; border-radius:10px; background:var(--tile); font-size:1.05rem; flex:none}
+html body #gxViewer .gxv-mi:hover,html body #gxViewer .gxv-mi:focus-visible{background:var(--tile)}
+html body #gxViewer .gxv-mi:active{background:var(--tile-hover)}
+
+/* swipe-to-close: carry on in the swipe direction – no return to the centre */
+html body #gxViewer.is-closing.swipe-out .gxv-stage{transition:none !important}
+html body #gxViewer.is-closing.swipe-out .gxv-backdrop{transition:opacity .3s ease-out !important}
+
+/* ================= Colour refresh – warm, bright, positive ================= */
+html body #gxViewer{
+  --paper:#fffaf0; --paper-2:#ffeccc; --ink:#3b2410; --ink-soft:#8a6b45;
+  --tile:rgba(243,156,18,.14); --tile-hover:rgba(243,156,18,.22); --tile-press:rgba(243,156,18,.32);
+}
+html body.dark #gxViewer{
+  --paper:#1c150e; --paper-2:#2a1e12; --ink:#ffe9c9; --ink-soft:#d3b184;
+  --tile:rgba(255,190,90,.15); --tile-hover:rgba(255,190,90,.23); --tile-press:rgba(255,190,90,.33);
+}
+html body #gxViewer .gxv-backdrop{
+  background:
+    radial-gradient(75% 46% at 12% -6%,rgba(255,176,46,.30),transparent 70%),
+    radial-gradient(65% 42% at 104% 104%,rgba(255,112,80,.17),transparent 70%),
+    linear-gradient(180deg,var(--paper),var(--paper-2)) !important;
+}
+html body.dark #gxViewer .gxv-backdrop{
+  background:
+    radial-gradient(75% 46% at 12% -6%,rgba(255,150,30,.22),transparent 70%),
+    radial-gradient(65% 42% at 104% 104%,rgba(255,90,70,.14),transparent 70%),
+    linear-gradient(180deg,var(--paper),var(--paper-2)) !important;
+}
+html body #gxViewer .gxv-bar .gxv-play[aria-pressed="true"]{background:linear-gradient(135deg,#ffb02e,#f08a00) !important;color:#fff !important}
+html body #gxViewer .gxv-bar .gxv-fav.is-fav{background:linear-gradient(135deg,#ff7a59,#e8453c) !important;color:#fff !important}
+
+/* counter: the same tile as the buttons */
+html body #gxViewer .gxv-pos{
+  background:var(--tile) !important; border-radius:14px !important; height:42px; padding:0 16px !important;
+  display:inline-flex; align-items:center; font-weight:800; font-size:.95rem; letter-spacing:.05em; color:var(--ink) !important;
+}
+html body #gxViewer .gxv-slide img{box-shadow:0 2px 6px rgba(120,70,10,.14),0 22px 48px rgba(120,70,10,.22)}
+
+/* ================= Buttons v3 – jewel tiles =================
+   Solid, tactile and warm: raised white tiles with a lit top edge and a soft coloured shadow,
+   an espresso back button, a glowing amber play button and a coral favourite. */
+html body #gxViewer{
+  --tile-bg:linear-gradient(180deg,#ffffff 0%,#fff3dc 100%);
+  --tile-ink:#4a2c0e;
+  --tile-sh:0 10px 18px -8px rgba(160,90,10,.55),0 2px 5px rgba(160,90,10,.14),inset 0 1px 0 #fff,inset 0 -2px 0 rgba(243,156,18,.20);
+  --tile-sh-press:0 3px 7px -3px rgba(160,90,10,.5),inset 0 2px 4px rgba(160,90,10,.18);
+}
+html body.dark #gxViewer{
+  --tile-bg:linear-gradient(180deg,#46341f 0%,#33261a 100%);
+  --tile-ink:#ffe6bd;
+  --tile-sh:0 10px 18px -8px rgba(0,0,0,.7),0 2px 5px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,236,200,.16),inset 0 -2px 0 rgba(0,0,0,.25);
+  --tile-sh-press:0 3px 7px -3px rgba(0,0,0,.7),inset 0 2px 4px rgba(0,0,0,.35);
+}
+html body #gxViewer .gxv-bar .gxv-b,
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b,
+html body #gxViewer .gxv-bar .gxv-cluster:first-child .gxv-b,
+html body #gxViewer .gxv-pos{
+  background:var(--tile-bg) !important; color:var(--tile-ink) !important; box-shadow:var(--tile-sh) !important;
+  border:0 !important; border-radius:15px !important; width:44px; height:44px; font-size:1.25rem;
+}
+html body #gxViewer .gxv-pos{width:auto; height:44px; padding:0 17px !important; font-weight:800; letter-spacing:.06em; font-size:.98rem}
+html body #gxViewer .gxv-bar .gxv-b:hover{filter:brightness(1.03)}
+html body #gxViewer .gxv-bar .gxv-b:active{transform:translateY(1px) scale(.92) !important; box-shadow:var(--tile-sh-press) !important; background:var(--tile-bg) !important; filter:brightness(.97)}
+
+/* back: espresso */
+html body #gxViewer .gxv-bar .gxv-cluster:first-child .gxv-b{
+  background:linear-gradient(180deg,#6a4220 0%,#3a230f 100%) !important; color:#ffeccd !important;
+  box-shadow:0 10px 18px -8px rgba(58,35,15,.75),0 2px 5px rgba(58,35,15,.25),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -2px 0 rgba(0,0,0,.25) !important;
+}
+html body.dark #gxViewer .gxv-bar .gxv-cluster:first-child .gxv-b{
+  background:linear-gradient(180deg,#ffe3b3 0%,#f4c377 100%) !important; color:#3a230f !important;
+  box-shadow:0 10px 18px -8px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -2px 0 rgba(160,90,10,.25) !important;
+}
+/* play: glowing amber (deeper while playing) */
+html body #gxViewer .gxv-bar .gxv-play{
+  background:linear-gradient(180deg,#ffc94f 0%,#f39c12 100%) !important; color:#fff !important;
+  box-shadow:0 12px 22px -8px rgba(243,156,18,.85),0 2px 5px rgba(200,110,0,.25),inset 0 1px 0 rgba(255,255,255,.65),inset 0 -2px 0 rgba(180,90,0,.25) !important;
+}
+html body #gxViewer .gxv-bar .gxv-play[aria-pressed="true"]{background:linear-gradient(180deg,#ff9f45 0%,#e8700c 100%) !important}
+/* favourite: coral heart; filled coral when saved */
+html body #gxViewer .gxv-bar .gxv-fav{color:#e8453c !important}
+html body #gxViewer .gxv-bar .gxv-fav.is-fav{
+  background:linear-gradient(180deg,#ff8e6e 0%,#e8453c 100%) !important; color:#fff !important;
+  box-shadow:0 12px 22px -8px rgba(232,69,60,.8),0 2px 5px rgba(180,40,30,.25),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 0 rgba(150,30,20,.25) !important;
+}
+/* menu rows: small raised icon tiles */
+html body #gxViewer .gxv-mi i{
+  background:linear-gradient(180deg,#fffaf0,#ffe6b8) !important; color:#6b3d0c !important; width:34px; height:34px; border-radius:11px;
+  box-shadow:0 4px 8px -4px rgba(160,90,10,.5),inset 0 1px 0 #fff;
+}
+html body.dark #gxViewer .gxv-mi i{background:linear-gradient(180deg,#4a3722,#35281a) !important;color:#ffe0ad !important;box-shadow:0 4px 8px -4px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,236,200,.14)}
+
+/* colour buttons need the same specificity as the generic tile rule above */
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b.gxv-play{
+  background:linear-gradient(180deg,#ffc94f 0%,#f39c12 100%) !important; color:#fff !important;
+  box-shadow:0 12px 22px -8px rgba(243,156,18,.85),0 2px 5px rgba(200,110,0,.25),inset 0 1px 0 rgba(255,255,255,.65),inset 0 -2px 0 rgba(180,90,0,.25) !important;
+}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b.gxv-play[aria-pressed="true"]{background:linear-gradient(180deg,#ff9f45 0%,#e8700c 100%) !important}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b.gxv-fav{color:#e8453c !important}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b.gxv-fav.is-fav{
+  background:linear-gradient(180deg,#ff8e6e 0%,#e8453c 100%) !important; color:#fff !important;
+  box-shadow:0 12px 22px -8px rgba(232,69,60,.8),0 2px 5px rgba(180,40,30,.25),inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 0 rgba(150,30,20,.25) !important;
+}
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b.gxv-play:active,
+html body #gxViewer .gxv-bar .gxv-cluster:nth-child(2) .gxv-b.gxv-fav.is-fav:active{box-shadow:var(--tile-sh-press) !important}
+
+/* ================= Floating caption =================
+   Same family as the buttons: a small raised card that floats above the thumbnails – no bar or panel behind it. */
+html body #gxViewer .gxv-info{
+  width:fit-content; max-width:min(92%,520px); margin:0 auto 10px; padding:10px 20px 11px;
+  border-radius:18px; background:var(--tile-bg) !important; box-shadow:var(--tile-sh); border:0;
+}
+html body #gxViewer .gxv-info h2{color:var(--tile-ink); font-size:.98rem; font-weight:700; letter-spacing:.01em}
+html body #gxViewer .gxv-info p{color:var(--ink-soft)}
+html body #gxViewer .gxv-info p.m{color:#c77a0a; font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase}
+html body.dark #gxViewer .gxv-info p.m{color:#ffc766}
+html body #gxViewer .gxv-info h2 + p.m{margin-top:2px}

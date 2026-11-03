@@ -1,0 +1,50 @@
+/* ---- Notices / Docs bar = same look as the All / PDF / DOC / Other pill group ---- */
+html body .right-panel .panel-tabbar{
+  padding:5px !important;gap:0 !important;border-radius:999px !important;
+  border:1px solid var(--gl-edge,rgba(15,23,42,.07)) !important;
+  background:linear-gradient(180deg,var(--gl-top,rgba(255,255,255,.9)),var(--gl-bot,rgba(240,240,244,.8))),var(--pm-card,#fff) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 12px 28px -14px rgba(10,14,24,.4) !important;
+}
+html body.dark .right-panel .panel-tabbar{
+  border-color:var(--gl-edge,rgba(255,255,255,.08)) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04)),#171d2c !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px -14px rgba(0,0,0,.75) !important;
+}
+html body .right-panel .panel-tabbar .tab-glider{
+  top:5px !important;bottom:5px !important;border-radius:999px !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.98) 0%,rgba(240,241,245,.94) 50%,rgba(224,226,232,.96) 100%) !important;
+  box-shadow:0 1px 0 #fff inset,0 -1px 0 rgba(15,23,42,.06) inset,0 6px 14px -6px rgba(15,23,42,.3),0 0 0 1px rgba(15,23,42,.05) !important;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1) !important;
+}
+html body.dark .right-panel .panel-tabbar .tab-glider,
+html body.dark .right-panel .panel-tabbar.is-dragging .tab-glider{
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.07)) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.3) inset,0 6px 14px -6px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08) !important;
+}
+html body .right-panel .panel-tabbar.is-dragging .tab-glider,html body .right-panel.tabs-dragging .tab-glider{transition:none !important}
+html body .right-panel .panel-tabbar .panel-tab{
+  height:44px !important;min-height:44px !important;padding:0 18px !important;gap:6px !important;
+  font-size:.8rem !important;font-weight:600 !important;border-radius:999px !important;
+  background:transparent !important;border:0 !important;box-shadow:none !important;
+  color:color-mix(in srgb,var(--primary-dark,#d68910) calc(var(--swipe-p,0) * 100%),var(--pm-text,var(--text))) !important;
+  transition:color .35s cubic-bezier(.22,1,.36,1) !important;
+}
+html body .right-panel .panel-tabbar .panel-tab>span:not(.ripple):not(.panel-tab-badge){font-size:.8rem !important;font-weight:600 !important;color:inherit !important}
+html body .right-panel .panel-tabbar .panel-tab i{font-size:1.02rem !important;color:inherit !important}
+html body .right-panel .panel-tabbar .panel-tab.active,html body .right-panel .panel-tabbar .panel-tab[aria-selected="true"]{--swipe-p:1;background:transparent !important;box-shadow:none !important}
+html body .right-panel .panel-tabbar.is-dragging .panel-tab:not(.active){color:var(--pm-text,var(--text)) !important}
+@media (max-width:359px){html body .right-panel .panel-tabbar .panel-tab{padding:0 12px !important}}
+
+/* ---- smooth menu / panel open + close: GPU-only transforms, no blur layers ---- */
+html body .sidebar{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transition:transform .46s cubic-bezier(.22,1,.36,1) !important;transform:translate3d(-104%,0,0);will-change:transform;backface-visibility:hidden;contain:layout paint}
+html body .sidebar.active{transform:translate3d(0,0,0)}
+@media (min-width:1200px){html body .sidebar,html body .sidebar.active{transform:none !important;transition:none !important}}
+html body .sidebar-overlay{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transition:opacity .4s cubic-bezier(.22,1,.36,1),visibility 0s linear .4s !important;will-change:opacity}
+html body .sidebar-overlay.active{transition:opacity .4s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s !important}
+html body .right-panel{-webkit-backdrop-filter:none !important;backdrop-filter:none !important;transform:translate3d(102%,0,0);transition:transform .46s cubic-bezier(.22,1,.36,1),visibility 0s linear .46s !important;will-change:transform;backface-visibility:hidden}
+html body .right-panel.active{transform:translate3d(0,0,0);transition:transform .46s cubic-bezier(.22,1,.36,1),visibility 0s linear 0s !important}
+/* gallery: stop the page behind from doing work while the menu slides */
+html body.sidebar-active .gx-card,html body.sidebar-active .gx-card *{animation-play-state:paused !important}
+.gx-card img,.gx-feat-img img{transform:none !important;backface-visibility:visible !important;-webkit-backface-visibility:visible !important}
+html body .sidebar-overlay{touch-action:none}
+html body .gx-pager{display:none !important}

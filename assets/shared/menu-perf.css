@@ -1,0 +1,31 @@
+/* PSBS – menu performance. Loaded last on every page.
+   Removes work the browser did on every menu open without changing how anything looks. */
+
+/* 1. The profile dropdown and action menu have a solid background, so blurring what is behind them
+      was invisible but still re-computed on every frame while they opened. */
+html body .profile-dropdown,
+html body #profileDropdown,
+html body #actionMenu {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  /* animate only what actually changes (was "all", which also animates shadows/colours/size) */
+  transition: transform .3s var(--spring, cubic-bezier(.22, 1, .36, 1)), opacity .22s ease, visibility .22s ease !important;
+  will-change: transform, opacity;
+}
+
+/* 2. Full-screen blurred dialogs: no blur while they are closed (it only matters when they are open) */
+html body .modal-overlay:not(.active):not(.open):not(.show):not(.is-open),
+html body .welcome-card-overlay:not(.active):not(.open):not(.show):not(.is-open) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 3. The fixed header re-blurs the page scrolling under it; a lighter blur looks the same and is much cheaper */
+html body header.header {
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+/* 4. Menu layers get their own compositor layer so opening them does not repaint the page behind */
+html body .sidebar-overlay,
+html body #sidebarOverlay { will-change: opacity; }

@@ -1,0 +1,15 @@
+/* Calendar day actions: add to phone calendar, share, next holiday */
+.detail-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.detail-actions button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .2s cubic-bezier(.34,1.5,.64,1),background-color .2s ease,box-shadow .2s ease}
+.detail-actions .da-btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:13px;border:0;font-weight:700;font-size:.8rem;
+  color:#4a2c0e;background:linear-gradient(180deg,#fff,#fff3dc);box-shadow:0 8px 16px -9px rgba(160,90,10,.6),inset 0 1px 0 #fff,inset 0 -2px 0 rgba(243,156,18,.2)}
+.detail-actions .da-btn i{color:#e8920c;font-size:.95rem}
+.detail-actions .da-btn:active{transform:translateY(1px) scale(.95)}
+.detail-actions .da-next{flex:1 1 100%;display:flex;align-items:center;gap:10px;text-align:left;min-height:44px;padding:8px 14px;border-radius:14px;border:0;
+  color:#4a2c0e;font-size:.82rem;background:linear-gradient(180deg,#ffe9bf,#ffdba1);box-shadow:0 10px 18px -10px rgba(200,110,0,.7),inset 0 1px 0 rgba(255,255,255,.7)}
+.detail-actions .da-next i{font-size:1.05rem;color:#d46b00}
+.detail-actions .da-next em{opacity:.7;font-style:normal;font-size:.76rem}
+.detail-actions .da-next:active{transform:scale(.98)}
+body.dark .detail-actions .da-btn{color:#ffe6bd;background:linear-gradient(180deg,#46341f,#33261a);box-shadow:0 8px 16px -9px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,236,200,.14)}
+body.dark .detail-actions .da-next{color:#ffe6bd;background:linear-gradient(180deg,#5b3f1c,#46310f);box-shadow:0 10px 18px -10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,236,200,.14)}
+.detail-actions button[hidden]{display:none}
